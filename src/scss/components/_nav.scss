@@ -1,0 +1,46 @@
+#tl-nav {
+    padding: 20px 0;
+}
+
+.tl-logo {
+    padding: 10px 0;
+
+    img {
+        max-width: 200px;
+    }
+}
+
+.tl-nav-bar {
+    font-family: 'LL Circular Black Italic Web', Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    font-style: italic;
+    font-stretch: normal;
+    font-size: 14px;
+    float: right;
+    display: flex;
+
+    li {
+        list-style: none;
+        padding: 10px 15px;
+
+        &.tl-nav-special {
+            background-color: black;
+            color: white;
+            margin-left: 10px;
+
+            a {
+                color: white;
+            }
+        }
+    }
+
+    a {
+        color: black;
+        text-transform: uppercase;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

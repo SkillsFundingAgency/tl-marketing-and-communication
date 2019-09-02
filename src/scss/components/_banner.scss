@@ -1,0 +1,25 @@
+#tl-banner {
+    background-color: black;
+    color: white;
+
+}
+
+.tl-nextlevel {
+    background-image: url("../files/images/nextlevel1200.svg");
+    max-height: 40vw;
+
+    @media (max-width: 1000px) {
+        background-image: url("../files/images/nextlevel1000.svg");
+        max-height: 45vw;
+    }
+
+    @media (max-width: 600px) {
+        background-image: url("../files/images/nextlevel600.svg");
+        max-height: 92vw;
+    }
+
+    background-position: center;
+    background-size: 100%;
+    width: 100%;
+    height: 503px;
+}

@@ -1,0 +1,19 @@
+{
+  "src": {
+    "default": "src/",
+    "HTML": "src/html/*.html",
+    "SCSS": "src/scss/**/*.scss",
+    "JS": "src/js/*.js",
+    "Assets": "src/assets/**/*"
+
+  },
+
+  "dist": {
+    "default": "frontend",
+    "HTML": "frontend",
+    "CSS": "frontend/css",
+    "JS": "frontend/js",
+    "Assets": "frontend/files",
+    "Bootstrap": "frontend/bootstrap"
+  }
+}
