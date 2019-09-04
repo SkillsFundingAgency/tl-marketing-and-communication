@@ -1,0 +1,26 @@
+.tl-box {
+    height: 100%;
+    padding: 40px;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+    p {
+        margin-bottom: 2rem;
+
+        @media (max-width: 1000px) {
+            font-size: 14px;
+        }
+    }
+
+    h2 {
+        margin: 0 0 1rem 0;
+    }
+}
+
+.tl-box--orange {
+    background-color: #fc4421;
+    color: white;
+}
