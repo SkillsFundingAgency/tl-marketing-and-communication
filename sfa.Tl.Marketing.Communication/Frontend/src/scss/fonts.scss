@@ -1,0 +1,84 @@
+/*
+        This font software is the property of Commercial Type.
+
+        You may not modify the font software, use it on another website, or install it on a computer.
+
+        License information is available at http://commercialtype.com/eula
+        For more information please visit Commercial Type at http://commercialtype.com or email us at info[at]commercialtype.com
+
+        Copyright (C) 2019 Schwartzco Inc.
+        License: 1908-PPQMOJ     
+*/
+
+
+@font-face {
+    font-family: 'Atlas Typewriter Web';
+    src: url('../files/fonts/AtlasTypewriter-Bold-Web.woff2') format('woff2'), url('../files/fonts/AtlasTypewriter-Bold-Web.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+}
+
+.AtlasTypewriter-Bold-Web {
+    font-family: 'Atlas Typewriter Web';
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+}
+
+
+@font-face {
+    font-family: 'Atlas Typewriter Web';
+    src: url('../files/fonts/AtlasTypewriter-Regular-Web.woff2') format('woff2'), url('../files/fonts/AtlasTypewriter-Regular-Web.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+}
+
+.AtlasTypewriter-Regular-Web {
+    font-family: 'Atlas Typewriter Web';
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+}
+
+
+/*
+ * Legal Disclaimer
+ *
+ * These Fonts are licensed only for use on these domains and their subdomains:
+ * nextlevel.gov.uk
+ *
+ * It is illegal to download or use them on other websites.
+ *
+ * While the @font-face statements below may be modified by the client, this
+ * disclaimer may not be removed.
+ *
+ * Lineto.com, 2019
+ */
+
+
+/*
+ *
+ * INSTRUCTIONS
+ *
+ * Copy the Legal Disclaimer and the @font-faces statements to your regular CSS file.
+ * The fonts folder(s) should be placed relative to the regular CSS file.
+ *
+ * You can use either the complete or subsetted fonts:
+ * If you don’t require the entire range of characters, you can use the smaller, subsetted webfonts instead.
+ * See "Glyphs & Languages" for an overview of the characters in the corresponding html file in the root directory of this package.
+ *
+ */
+
+
+/* Complete */
+
+@font-face {
+    font-family: "LL Circular Black Italic Web";
+    src: url("../files/fonts/lineto-circular-blackitalic.eot");
+    src: url("../files/fonts/lineto-circular-blackitalic.eot?#iefix") format("embedded-opentype"), url("../files/fonts/lineto-circular-blackitalic.woff2") format("woff2"), url("fonts/lineto-circular-blackitalic.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+

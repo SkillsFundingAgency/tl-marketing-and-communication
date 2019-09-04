@@ -1,0 +1,83 @@
+#tl-banner {
+    color: white;
+
+}
+
+.tl-banner--video {
+    position: relative;
+    padding: 10px !important;
+    background-color: black;
+
+
+    &:before {
+        content: "";
+        background-image: url("../files/images/arrow1.svg");
+        background-size: 200px;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        margin-left: -100px;
+        display: block;
+        height: 180px;
+        width: 200px;
+
+        @media(max-width: 1200px) {
+            background-size: 20vw;
+            margin-left: -10vw;
+            height: 17vw;
+            width: 20vw;
+        }
+    }
+}
+
+.tl-banner--video-image {
+    width: 100%;
+}
+
+.tl-banner--video-link {
+    background: url("../files/images/videoicon.svg") center;
+    display: block;
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -60px;
+    margin-top: -60px;
+    background-size: 120px;
+
+    @media (max-width: 600px) {
+        width: 80px;
+        height: 80px;
+        margin-left: -40px;
+        margin-top: -40px;
+        background-size: 80px;
+    }
+
+    &:hover {
+        filter: drop-shadow(0px 0px 4px rgba(0,0,0,0.4));
+        -webkit-filter: drop-shadow(0px 0px 4px rgba(0,0,0,0.4));
+        -moz-filter: drop-shadow(0px 0px 4px rgba(0,0,0,0.4));
+    }
+}
+.tl-banner--nextlevel {
+    background-image: url("../files/images/nextlevel1200.svg");
+    max-height: 40vw;
+
+    @media (max-width: 1000px) {
+        background-image: url("../files/images/nextlevel1000.svg");
+        max-height: 45vw;
+    }
+
+    @media (max-width: 600px) {
+        background-image: url("../files/images/nextlevel600.svg");
+        max-height: 92vw;
+    }
+
+    background-position: center;
+    background-size: 100%;
+    background-color: black;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 503px;
+}
