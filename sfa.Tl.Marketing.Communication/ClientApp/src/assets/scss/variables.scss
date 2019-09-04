@@ -1,0 +1,18 @@
+// Colours
+$black: #000;
+$white: #fff;
+$red: #fc4421;
+$salmon: #ff9567;
+$purple: #765ab0;
+$grey: #D8D8D8;
+$blue: #0065eb;
+
+$breakpoints: (
+  mobile-s: 320px,
+  mobile-m: 375px,
+  mobile-l: 425px,
+  tablet: 768px,
+  laptop: 1024px,
+  laptop-l: 1440px
+);
+// @include media(map-get($breakpoints, tablet)) {

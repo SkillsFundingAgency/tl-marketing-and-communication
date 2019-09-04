@@ -1,6 +1,13 @@
-<body>
-  <app-nav-menu></app-nav-menu>
-  <div class="container">
-    <router-outlet></router-outlet>
+<div class="container-fluid main-border {{ pageTitle }}" >
+
+  <app-header id="app-header"></app-header>
+
+  <div id="app-main">
+    <main id="main-content" role="main">
+      <router-outlet></router-outlet>
+    </main>
   </div>
-</body>
+
+  <app-footer id="app-footer"></app-footer>
+
+</div>

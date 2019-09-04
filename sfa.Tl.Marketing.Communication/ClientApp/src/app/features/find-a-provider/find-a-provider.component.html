@@ -1,0 +1,84 @@
+<div class="text-center">
+  <h2 class="title"> Google Maps trial for ESFA Marketing Campaign </h2>
+</div>
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-4">
+      <label for="subject" class="control-label">Select subject</label>
+      <!-- {{subjectSectors}} -->
+      <select name="subject" class="form-control" id="subject" (change)="subjectChange($event.target.value)">
+        <option value="all">{{subjectDisplayNames["all"]}}</option>
+        <option value="digital">{{subjectDisplayNames["digital"]}}</option>
+        <option value="construction">{{subjectDisplayNames["construction"]}}</option>
+        <option value="educationChildcare">{{subjectDisplayNames["educationChildcare"]}}</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label for="postcode" class="control-label">Enter postcode</label>
+      <div class="input-group mb-3">
+        <input name="postcode" type="text" class="form-control" id="postcode"
+          (keyup.enter)="searchPostcode(postcodeInput.value)" #postcodeInput>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button"
+            (click)="searchPostcode(postcodeInput.value)">Search</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <label for="distance" class="control-label">Select distance</label>
+      <select name="distance" class="form-control" id="distance" (change)="distanceChange($event.target.value)">
+        <option value="">Any Distance</option>
+        <option *ngFor="let dist of distanceArray" [value]="dist">{{dist}} km</option>
+      </select>
+    </div>
+  </div>
+  <div class="row mb-5">
+    <div class="col-md-12">
+      <agm-map [latitude]="mapLatitude" [longitude]="mapLongitude" [fitBounds]="true" [zoom]="map?.zoom"
+        (mapReady)="onMapReady($event)">
+        <agm-circle #circle [latitude]="curLatitude" [longitude]="curLongitude" [radius]="curDistance * 1000"
+          [fillColor]="'#4daebd'" [strokeWeight]="1" [strokeColor]="'#0f4c4d'">
+        </agm-circle>
+        <agm-marker (markerClick)="markerClick(curLatitude, curLongitude)" [latitude]="curLatitude"
+          [longitude]="curLongitude"
+          [iconUrl]="{url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', scaledSize: {height: 40,width: 40}}"
+          [agmFitBounds]="true">
+          <agm-snazzy-info-window [maxWidth]="200" [closeWhenOthersOpen]="true">
+            <ng-template>
+              My Current Location
+            </ng-template>
+          </agm-snazzy-info-window>
+        </agm-marker>
+        <agm-marker *ngFor="let provider of providers"
+          (markerClick)="markerClick(provider.location.latitude, provider.location.longitude)"
+          [iconUrl]="provider.isWithinDistance ? '' : 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_grey.png' "
+          [latitude]="provider.location.latitude" [longitude]="provider.location.longitude" [agmFitBounds]="true">
+          <agm-snazzy-info-window [maxWidth]="400" [maxHeight]="800" [closeWhenOthersOpen]="true">
+            <ng-template>
+              <div class="info-title">
+                <strong> {{provider.name}} </strong>
+              </div>
+              <div class="pt-3">
+                <strong>Address: </strong>{{provider.location.fullAddress}}
+              </div>
+              <div class="pt-3">
+                <strong>Subjects: </strong>
+                <ul>
+                  <li *ngFor="let subject of provider.subjects">{{subjectDisplayNames[subject]}}</li>
+                </ul>
+              </div>
+              <div>
+                <strong>Phone: </strong>{{provider.phoneNumber}}
+              </div>
+              <div class="pt-3">
+                <a [href]="provider.website" target="_blank"><strong>Go to their website</strong></a>
+              </div>
+            </ng-template>
+          </agm-snazzy-info-window>
+        </agm-marker>
+      </agm-map>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import './node_modules/govuk-frontend/govuk/all';
+
+@import './assets/scss/variables';
+@import './assets/scss/mixins.scss';
+
+@import './assets/scss/customfont.scss';
+
+@import './assets/scss/type.scss';
+@import './assets/scss/main.scss';
+@import './assets/scss/layout.scss';
+@import './assets/scss/header.scss';
+@import './assets/scss/footer.scss';
+@import './assets/scss/button.scss';

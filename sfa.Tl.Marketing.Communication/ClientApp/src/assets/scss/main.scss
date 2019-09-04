@@ -1,0 +1,329 @@
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: arial, courier, sans-serif;
+  font-weight: 300;
+  margin: 0;
+  padding: 0;
+
+  @media (max-width: map-get($breakpoints, laptop)) {
+    margin: 0;
+  }
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+
+  li {
+    list-style: none;
+
+    a {
+      display: inline-block;
+      text-decoration: underline;
+
+      @include rem(font-size, 19px);
+      @include rem(padding, 6px 0);
+    }
+  }
+}
+
+.container-fluid {
+  max-width: 1200px;
+}
+
+.main-border {
+
+  // @media (max-width: map-get($breakpoints, laptop)) {
+  //   margin: 0;
+  // }
+}
+
+.salmon-bg {
+  background: $salmon;
+}
+
+.white-bg {
+  background: $white;
+}
+
+.purple-bg {
+  background: $purple;
+
+  h1, h2 {
+    color: $white;
+  }
+
+  p {
+    color: $white;
+    text-align: center;
+  }
+}
+
+.red-bg {
+  background: $red;
+
+  h2 {
+    color: $white;
+  }
+
+  p {
+    color: $white;
+  }
+}
+
+.black-bg {
+  background: $black;
+
+  h3 {
+    color: $purple;
+  }
+
+  p {
+    color: $white;
+  }
+
+  a {
+    color: $blue;
+  }
+}
+
+// Page specific styling -----------------------------------------------------------
+
+.home,
+.map {
+
+  .govuk-footer {
+    background: $red;
+  }
+
+  .btn-primary-black {
+
+    &:hover {
+      background: $red;
+    }
+  }
+}
+
+.introduction,
+.subjects {
+
+  .govuk-footer {
+    background: $purple;
+  }
+
+  .btn-primary-black {
+
+    &:hover {
+      background: $purple;
+    }
+  }
+}
+
+.benefits {
+
+  .govuk-footer {
+    background: $salmon;
+  }
+
+  .btn-primary-black {
+
+    &:hover {
+      background: $salmon;
+    }
+  }
+}
+
+// End Page specific styling -------------------------------------------------------
+
+
+
+// Full container ---------------------
+
+.govuk-width-container {
+  //margin: 0;
+}
+
+// Main Hero ---------------------------
+
+.main-hero {
+  width: 100%;
+
+   img {
+     width: 100%;
+     border: 20px solid $black;
+   }
+}
+
+// Main content ----------------------------
+
+// .main-content {
+//   margin: -3px auto 0;
+// }
+
+// Type --------------------------------------
+
+h1 {
+  font-size: 38px;
+  text-align: center;
+  font-style: italic;
+  text-transform: uppercase;
+
+  &.welcome-h1 {
+    margin: 0;
+
+    .text {
+      text-indent: -9999px;
+      height: 0;
+      width: 0;
+      display: block;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+    }
+  }
+}
+
+h2 {
+  font-family: 'circular-black-italic', arial;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 40px;
+  text-transform: uppercase;
+  text-align: center;
+
+  @media (min-width: map-get($breakpoints, laptop)) {
+    font-size: 30px;
+  }
+
+  @media (min-width: map-get($breakpoints, tablet)) {
+    font-size: 26px;
+  }
+}
+
+h3 {
+  font-family:  Arial, Helvetica, sans-serif;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 23px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+h4 {
+  font-family:  Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 36px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+main {
+
+  .employer-logo-list {
+    height: 178px;
+  }
+
+  .border-image-container,
+  .image-container {
+    img {
+      width: 100%;
+    }
+  }
+}
+
+
+
+// Footer ----------------------
+
+.govuk-footer__logotype {
+  img {
+    width: 65px;
+    color: $white;
+  }
+}
+
+// Find a postcode ----------------
+
+.find-postcode {
+  //width: 100%;
+  padding: 60px 0 80px;
+  //margin: -3px 0 0 0;
+
+  h3 {
+    color:  $red;
+    font-size: 36px;
+    padding: 0 20px;
+  }
+
+  .input-group {
+    max-width: 600px;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+
+    .form-control {
+      width: 70%;
+      height: 44px;
+    }
+    button {
+      width: 29%;
+      height: 50px;
+    }
+  }
+}
+
+// Introduction page ---------------
+
+.introduction-page {
+
+  main {
+
+    .govuk-grid-column-one-half {
+
+      .text-container {
+        padding: 80px 62px;
+      }
+    }
+  }
+
+  .find-postcode {
+    h3 {
+      color: $purple;
+    }
+  }
+}
+
+// Tile col 2 --------------------------------
+
+.tile-col-2 {
+
+  .text-container {
+    padding: 50px 36px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+
+    .btn-primary-black {
+
+      &:hover {
+        background: $white;
+      }
+    }
+
+  }
+}
+
+
+
+
+
+
+
