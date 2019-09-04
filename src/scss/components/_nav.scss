@@ -27,10 +27,6 @@
         list-style: none;
         padding: 10px 15px;
 
-        &:hover {
-            background-color: darken(white, 10%);
-        }
-
         &.tl-nav--bar-special {
             background-color: black;
             color: white;
@@ -40,18 +36,21 @@
                 color: white;
             }
         }
-    }
 
-    a {
-        color: black;
-        text-transform: uppercase;
-        text-decoration: none;
+        a {
+            color: black;
+            text-transform: uppercase;
+            text-decoration: none;
 
-        &:hover {
-            text-decoration: underline;
+            &:hover {
+                text-decoration: underline;
+            }
+
+            &.active {
+                color: #fc4421;
+            }
         }
     }
-
 }
 .tl-nav--hamburger {
     margin: 20px;
@@ -121,14 +120,9 @@
 
 
 @media (max-width: 992px) {
-
-
-
     .tl-nav--hamburger {
         display: block;
     }
-
-
 
     .tl-nav--bar {
         width: 100%;
@@ -152,6 +146,10 @@
             list-style: none;
             padding: 0;
 
+            &:hover {
+                background-color: darken(white, 10%);
+            }
+
 
             a {
                 width: 100%;
@@ -161,24 +159,15 @@
             }
 
             &.tl-nav--bar-special {
-                background-color: black;
-                color: white;
                 margin-left: 0;
 
                 a {
-                    color: white;
-                    padding: 20pxx;
+                    padding: 20px;
                 }
-            }
-        }
 
-        a {
-            color: black;
-            text-transform: uppercase;
-            text-decoration: none;
-
-            &:hover {
-                text-decoration: underline;
+                &:hover {
+                    background-color: black;
+                }
             }
         }
     }
