@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-
-  apiKey: "AIzaSyDPgWVEkv4FN-wQGUMIvmSLWaFXPc9aNZA",
+  apiKey: "",
   apiPostcodeConvertEndpoint: "https://maps.googleapis.com/maps/api/geocode/json"
 };
 
