@@ -21,6 +21,7 @@
 .tl-image--responsive {
     width: 100%;
     height: auto;
+    display: block;
 }
 
 .text-center {
@@ -51,7 +52,11 @@
 }
 
 .text-orange {
-    color: #fc4421;
+    color: $orange;
+}
+
+.text-purple {
+    color: $purple;
 }
 
 .tl-input {

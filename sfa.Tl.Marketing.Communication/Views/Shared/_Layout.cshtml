@@ -2,12 +2,12 @@
 <html>
 <partial name="_Head" />
 
-<body>
+<body id="@ViewData["PageID"]">
     <partial name="_Header" />
     <partial name="_Nav" />
-
-    @RenderBody()
-
+    <main>
+        @RenderBody()
+    </main>
     <partial name="_Footer"  />
     <partial name="_Scripts"  />
 

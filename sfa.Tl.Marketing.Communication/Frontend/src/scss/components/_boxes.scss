@@ -21,6 +21,16 @@
 }
 
 .tl-box--orange {
-    background-color: #fc4421;
+    background-color: $orange;
     color: white;
+}
+
+.tl-box--purple {
+    background-color: $purple;
+    color: white;
+}
+
+.tl-box--white {
+    background-color: white;
+    color: black;
 }

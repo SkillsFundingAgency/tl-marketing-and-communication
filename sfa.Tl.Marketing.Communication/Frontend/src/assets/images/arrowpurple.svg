@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="174px" height="148px" viewBox="0 0 174 148" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>Footer Arrow </title>
+    <desc>Created with Sketch.</desc>
+    <g id="Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Web-Build-Assets" transform="translate(-43.000000, -454.000000)" fill="#765ab0">
+            <g id="Footer-Arrow-" transform="translate(43.000000, 454.000000)">
+                <path d="M125,99 L125,148 L50,148 L50,99 L0,99 L87,-2.84217094e-14 L174,99 L125,99 Z" id="Footer-Arrow"></path>
+            </g>
+        </g>
+    </g>
+</svg>

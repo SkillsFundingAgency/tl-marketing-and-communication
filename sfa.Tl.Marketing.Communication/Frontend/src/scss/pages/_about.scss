@@ -1,0 +1,13 @@
+#tl-about {
+    #tl-footer {
+        background-color: $purple;
+
+        &:before {
+            background-image: url(../files/images/arrowpurple.svg);
+        }
+    }
+}
+
+#tl-nav--bar-about {
+    color: $orange;
+}
