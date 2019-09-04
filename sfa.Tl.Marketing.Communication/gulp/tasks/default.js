@@ -23,12 +23,6 @@ gulp.task('assets', () => {
         .pipe(gulp.dest(paths.dist.Assets));
 });
 
-gulp.task('html', () => {
-    gulp.src(paths.src.HTML)
-        .pipe(gulp.dest(paths.dist.HTML));
-});
-
-
 gulp.task('js', () => {
     return gulp.src([
         'node_modules/jquery/dist/jquery.min.js',
@@ -50,9 +44,6 @@ gulp.task('sass', () => gulp
     .pipe(gulp.dest(paths.dist.CSS))
 );
 
-gulp.task('html:watch', function () {
-    gulp.watch((paths.src.HTML), ['html']);
-});
 
 gulp.task('sass:watch', function () {
     gulp.watch((paths.src.SCSS), ['sass']);

@@ -1,19 +1,17 @@
 {
   "src": {
-    "default": "src/",
-    "HTML": "src/html/*.html",
-    "SCSS": "src/scss/**/*.scss",
-    "JS": "src/js/*.js",
-    "Assets": "src/assets/**/*"
+    "default": "Frontend/Frontend/src/",
+    "SCSS": "Frontend/src/scss/**/*.scss",
+    "JS": "Frontend/src/js/*.js",
+    "Assets": "Frontend/src/assets/**/*"
 
   },
 
   "dist": {
-    "default": "frontend",
-    "HTML": "frontend",
-    "CSS": "frontend/css",
-    "JS": "frontend/js",
-    "Assets": "frontend/files",
-    "Bootstrap": "frontend/bootstrap"
+    "default": "wwwroot",
+    "CSS": "wwwroot/css",
+    "JS": "wwwroot/js",
+    "Assets": "wwwroot/files",
+    "Bootstrap": "wwwroot/bootstrap"
   }
 }
