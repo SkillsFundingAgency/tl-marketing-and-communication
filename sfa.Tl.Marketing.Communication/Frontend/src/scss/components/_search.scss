@@ -18,18 +18,50 @@
     .tl-input {
         min-width: 25%;
         margin-bottom: 10px;
+        min-height: 60px;
 
-        @media (max-width: 600px) {
-            min-width: 100%;
+        @media (max-width: 800px) {
+            width: 100%;
         }
     }
 
     .tl-button {
         margin: 0 0 10px 10px;
+        min-height: 60px;
+        cursor: pointer;
 
-        @media (max-width: 600px) {
+        @media (max-width: 800px) {
             min-width: 100%;
             margin: 10px 0 0 0;
+        }
+    }
+}
+
+#tl-results {
+    background-color: #f8f8f8;
+    color: black;
+
+    .tl-results-box {
+        background-color: white;
+        padding: 20px;
+        margin: 20px 0;
+        float: left;
+
+        h3 {
+            font-size: 24px;
+        }
+
+        .tl-results-box--distance {
+            font-family: 'Atlas Typewriter Web', 'Times New Roman', Arial;
+            font-weight: 400;
+            font-size: 16px;
+            float: right;
+            background-color: black;
+            position: relative;
+            top: -20px;
+            right: -20px;
+            padding: 10px 20px;
+            color: white;
         }
     }
 }

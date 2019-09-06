@@ -48,3 +48,8 @@ gulp.task('sass', () => gulp
 gulp.task('sass:watch', function () {
     gulp.watch((paths.src.SCSS), ['sass']);
 });
+
+
+gulp.task('js:watch', function () {
+    gulp.watch((paths.src.JS), ['js']);
+});

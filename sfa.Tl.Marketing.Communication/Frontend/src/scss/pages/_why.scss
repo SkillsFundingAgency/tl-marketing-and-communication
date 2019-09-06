@@ -1,0 +1,23 @@
+#tl-why {
+    #tl-footer {
+        background-color: $salmon;
+        color: black;
+
+        &:before {
+            background-image: url(../files/images/arrowsalmon.svg);
+        }
+
+        svg, g {
+            fill: black;
+        }
+
+        a {
+            color: black;
+        }
+    }
+
+
+    #tl-nav--bar-why {
+        color: $orange;
+    }
+}

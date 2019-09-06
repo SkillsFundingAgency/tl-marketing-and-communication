@@ -11,3 +11,16 @@ $(".tl-nav--hamburger").click(function () {
 
     }
 });
+
+
+
+
+$(".tl-link--modal").click(function () {
+    event.preventDefault();
+    $(this).next('.tl-modal').addClass('active');
+});
+
+$(".tl-modal--close").click(function () {
+    event.preventDefault();
+    $(this).closest('.tl-modal').removeClass('active');
+});

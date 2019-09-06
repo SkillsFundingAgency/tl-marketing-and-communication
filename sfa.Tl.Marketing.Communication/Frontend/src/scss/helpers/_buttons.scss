@@ -6,6 +6,7 @@
     max-width: 80%;
     text-transform: uppercase;
     border: none;
+    text-decoration: none;
 
     @media (max-width: 1000px) {
         font-size: 14px;
@@ -40,4 +41,8 @@
 
 .tl-button--purple {
     background-color: $purple;
+}
+
+.tl-button--salmon {
+    background-color: $salmon;
 }

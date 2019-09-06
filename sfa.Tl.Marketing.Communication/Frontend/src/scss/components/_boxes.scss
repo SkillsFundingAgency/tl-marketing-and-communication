@@ -20,6 +20,10 @@
     }
 }
 
+.tl-box--wide {
+    padding: 20px;
+}
+
 .tl-box--orange {
     background-color: $orange;
     color: white;
@@ -32,5 +36,10 @@
 
 .tl-box--white {
     background-color: white;
+    color: black;
+}
+
+.tl-box--salmon {
+    background-color: $salmon;
     color: black;
 }

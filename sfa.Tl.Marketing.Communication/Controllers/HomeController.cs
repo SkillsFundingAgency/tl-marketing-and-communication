@@ -16,6 +16,21 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
+        public IActionResult Why()
+        {
+            return View();
+        }
+
+        public IActionResult Subjects()
+        {
+            return View();
+        }
+
+        public IActionResult Find()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

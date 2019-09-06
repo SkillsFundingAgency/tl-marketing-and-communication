@@ -59,8 +59,49 @@
     color: $purple;
 }
 
+.text-salmon {
+    color: $salmon;
+}
+
+.tl-link {
+    color: black;
+}
+
+.tl-link--white {
+    color: white;
+}
+
+
+
 .tl-input {
     padding: 20px;
     border: none;
+}
+
+.tl-list {
+    list-style: none;
+    padding: 0;
+    margin:0 0 2rem 0;
+
+    li {
+        padding: 5px 0;
+    }
+}
+
+.tl-list-bullet {
+    list-style: disc;
+    padding-left: 20px;
+}
+
+.tl-text-big {
+    font-size: 20px;
+}
+
+.tl-margin-0 {
+    margin: 0 !important;
+}
+
+.tl-uppercase {
+    text-transform: uppercase;
 }
 

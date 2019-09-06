@@ -19,11 +19,16 @@
         width: 200px;
     }
 
+    svg, g {
+        fill: white;
+    }
+
 
     .tl-footer--social {
 
-        img {
-            max-height: 20px;
+        svg {
+            max-height: 30px;
+            max-width: 30px;
         }
     }
 
