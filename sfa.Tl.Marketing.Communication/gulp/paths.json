@@ -3,7 +3,9 @@
     "default": "Frontend/Frontend/src/",
     "SCSS": "Frontend/src/scss/**/*.scss",
     "JS": "Frontend/src/js/*.js",
-    "Assets": "Frontend/src/assets/**/*"
+    "Assets": "Frontend/src/assets/**/*",
+    "Json": "Frontend/src/json/**/*"
+
 
   },
 
@@ -12,6 +14,7 @@
     "CSS": "wwwroot/css",
     "JS": "wwwroot/js",
     "Assets": "wwwroot/files",
+    "Json": "wwwroot/js",
     "Bootstrap": "wwwroot/bootstrap"
   }
 }
