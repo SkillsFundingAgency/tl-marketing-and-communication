@@ -8,8 +8,9 @@
     <main>
         @RenderBody()
     </main>
-    <partial name="_Footer"  />
-    <partial name="_Scripts"  />
+    <partial name="_Footer" />
+    <partial name="_Scripts" />
+    @RenderSection("jsfiles", false)
 
 </body>
 </html>

@@ -114,8 +114,7 @@ $(document).on('click', function () {
             function showNoSearchResults() {
                 var searchResults = `<div class="tl-results-box">
                                         <h3><span class="tl-results-box--distance">0 results found</span></h3>
-                                    </div>
-                                    <br/>`;
+                                    </div>`;
 
                 $("#tl-search-results").empty();
                 $(`#tl-search-results`).append(searchResults);
