@@ -19,8 +19,8 @@
     <div class="row no-gutters">
         <div class="col">
             <div class="tl-map">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d2281640.439430019!2d-2.0652969128646212!3d52.61732872099277!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2suk!4v1567777135248!5m2!1sen!2suk" width="100%" height="600" frameborder="0" style="border:0;" allowfullscreen=""></iframe>            </div>
-
+                <div id="map" style="height: 400px; width: 1200px"></div>
+            </div>
         </div>
     </div>
         </div>
@@ -31,8 +31,8 @@
         <div class="col-12">
             <div class="tl-search--content">
                 <h2 class="text-center text-outline--white">Search</h2>
-                <form class="tl-search--input text-center">
-                    <input class="tl-input" type="text" placeholder="Enter your postcode" />
+                <div class="tl-search--input text-center">
+                    <input id="Postcode" class="tl-input" type="text" placeholder="Enter your postcode" />
                     <select class="tl-input">
                         <option>All 2020 courses</option>
                         <option>Building services engineering</option>
@@ -54,51 +54,109 @@
         </div>
 </section>
 <section id="tl-results" class="tl-container">
-    <div class="row no-gutters justify-content-md-center">
-        <div class="col-md-8">
-            <div class="tl-results-box">
-                <h3><span class="tl-results-box--distance">42 miles</span> City college Norwich of further and higher education </h3>
-                <p>City college Norwich, 5 Ipswich Road, Norwich, Norfolk, NR2 2LJ</p>
-                <p class="text-center tl-uppercase"><a class="tl-link" href="#">See courses available at this site</a></p>
-            </div>
-
-            <div class="tl-results-box">
-                <h3><span class="tl-results-box--distance">42 miles</span> City college Norwich of further and higher education </h3>
-                <p>City college Norwich, 5 Ipswich Road, Norwich, Norfolk, NR2 2LJ</p>
-                <p class="text-center tl-uppercase"><a class="tl-link" href="#">See courses available at this site</a></p>
-            </div>
-
-            <div class="tl-results-box">
-                <h3><span class="tl-results-box--distance">42 miles</span> City college Norwich of further and higher education </h3>
-                <p>City college Norwich, 5 Ipswich Road, Norwich, Norfolk, NR2 2LJ</p>
-                <p class="text-center tl-uppercase"><a class="tl-link" href="#">See courses available at this site</a></p>
-            </div>
-
-            <div class="tl-results-box">
-                <h3><span class="tl-results-box--distance">42 miles</span> City college Norwich of further and higher education </h3>
-                <p>City college Norwich, 5 Ipswich Road, Norwich, Norfolk, NR2 2LJ</p>
-                <p class="text-center tl-uppercase"><a class="tl-link" href="#">See courses available at this site</a></p>
-            </div>
-
-            <div class="tl-results-box">
-                <h3><span class="tl-results-box--distance">42 miles</span> City college Norwich of further and higher education </h3>
-                <p>City college Norwich, 5 Ipswich Road, Norwich, Norfolk, NR2 2LJ</p>
-                <p class="text-center tl-uppercase"><a class="tl-link" href="#">See courses available at this site</a></p>
-            </div>
-
-            <div class="tl-results-box">
-                <h3><span class="tl-results-box--distance">42 miles</span> City college Norwich of further and higher education </h3>
-                <p>City college Norwich, 5 Ipswich Road, Norwich, Norfolk, NR2 2LJ</p>
-                <p class="text-center tl-uppercase"><a class="tl-link" href="#">See courses available at this site</a></p>
-            </div>
-
-            <div class="tl-results-box">
-                <h3><span class="tl-results-box--distance">42 miles</span> City college Norwich of further and higher education </h3>
-                <p>City college Norwich, 5 Ipswich Road, Norwich, Norfolk, NR2 2LJ</p>
-                <p class="text-center tl-uppercase"><a class="tl-link" href="#">See courses available at this site</a></p>
-            </div>
+    <div class="row justify-content-md-center">
+        <div id="tl-search-results" class="col-md-8">
         </div>
     </div>
 </section>
 
+<script type="text/javascript">
 
+    var searchedProviders = [];
+
+    function initMap() {
+        $.getJSON("/js/providers.json", function (providersData) {
+
+            map = new google.maps.Map(document.getElementById('map'),
+                {
+                    center: { lat: 52.4862, lng: 1.8904 },
+                    zoom: 6
+                });
+
+            for (let i = 0; i < providersData.Providers.length; i++) {
+                const providerPosition = {
+                    lat: providersData.Providers[i].location.latitude,
+                    lng: providersData.Providers[i].location.longitude
+                };
+
+                const marker = new google.maps.Marker({
+                    position: providerPosition,
+                    map: map,
+                    title: providersData.Providers[i].name
+                });
+            }
+
+            var geocoder = new google.maps.Geocoder();
+
+            document.getElementById('tl-find').addEventListener('click', function () {
+                geocodeAddress(geocoder, map);
+            });
+
+            function geocodeAddress(geocoder, resultsMap) {
+                const searchedPostcode = document.getElementById('Postcode').value;
+                if (searchedPostcode === '')
+                    return;
+
+                geocoder.geocode({ 'address': searchedPostcode }, function (results, status) {
+                    if (status === 'OK') {
+                        resultsMap.setCenter(results[0].geometry.location, 1);
+                        resultsMap.setZoom(10);
+
+                        const searchedProviders = [];
+
+                        for (let i = 0; i < providersData.Providers.length; i++) {
+                            const providerPosition = new google.maps.LatLng(providersData.Providers[i].location.latitude,
+                                providersData.Providers[i].location.longitude);
+
+                            const postcodePosition = new google.maps.LatLng(results[0].geometry.location.lat(),
+                                results[0].geometry.location.lng());
+
+                            const distancedInMetres = google.maps.geometry.spherical.computeDistanceBetween(postcodePosition, providerPosition);
+                            const distanceInMiles = distancedInMetres / 1609.344;
+
+                            providersData.Providers[i].distanceInMiles = distanceInMiles.toFixed();
+                            searchedProviders.push(providersData.Providers[i]);
+                        }
+
+                        searchedProviders.sort((a, b) => a.distanceInMiles - b.distanceInMiles);
+
+                        showSearchResults(searchedProviders);
+                    } else {
+                        showNoSearchResults();
+                    }
+                });
+            }
+
+            function showNoSearchResults() {
+                var searchResults = `<div class="tl-results-box">
+                                        <h3><span class="tl-results-box--distance">0 results found</span></h3>
+                                    </div>
+                                    <br/>`;
+
+                $("#tl-search-results").empty();
+                $(`#tl-search-results`).append(searchResults);
+            }
+
+            function showSearchResults(searchedProviders) {
+                var searchResults = "";
+                for (let i = 0; i < searchedProviders.length; i++) {
+                    searchResults += `<div class="tl-results-box">
+                                    <h3><span class="tl-results-box--distance">${searchedProviders[i].distanceInMiles} miles </span>${searchedProviders[i].name}</h3>
+                                    <p>${searchedProviders[i].name}, ${searchedProviders[i].location.fullAddress}</p>
+                                    <p class="text-center tl-uppercase"><a class="tl-link" href="#">See courses available at this site</a></p>
+                                 </div>
+                                 <br/>`;
+                }
+
+                $("#tl-search-results").empty();
+                $(`#tl-search-results`).append(searchResults);
+            }
+        });
+
+
+    }
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMFi2LnT3kjYPmtXcyVWD9Eq8FgZcRJp4&callback=initMap&libraries=geometry"
+        async defer></script>
