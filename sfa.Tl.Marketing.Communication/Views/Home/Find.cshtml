@@ -18,9 +18,8 @@
     <div class="row no-gutters">
         <div class="col">
             <div class="tl-map">
-                <img class="tl-image--responsive" src="/files/images/MapTemp.png" />            
+                <div id="map" style="height: 400px; width: 500px"></div>
             </div>
-
         </div>
     </div>
 </section>
@@ -98,4 +97,17 @@
     </div>
 </section>
 
+<script type="text/javascript">
 
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'),
+            {
+                center: { lat: 52.4862, lng: 1.8904 },
+                zoom: 6
+            });
+    }
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMFi2LnT3kjYPmtXcyVWD9Eq8FgZcRJp4&callback=initMap&libraries=geometry" 
+        async defer></script>
