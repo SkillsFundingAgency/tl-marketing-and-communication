@@ -5,12 +5,15 @@
     justify-content: space-between;
 }
 
-.tl-nav--logo {
+.tl-nav--logo a {
     padding: 10px 0;
     float: left;
+    background: url("../files/images/logo.svg") no-repeat left center;
+    min-width: 200px;
+    height: 100%;
 
-    img {
-        max-width: 200px;
+    @media(max-width: 992px) {
+        background: url("../files/images/logomedium.svg") no-repeat left center;
     }
 }
 
@@ -124,11 +127,21 @@
         display: block;
     }
 
+    #tl-nav {
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 999;
+        padding: 10px;
+        overflow: visible;
+        border-bottom: 1px solid black;
+    }
+
     .tl-nav--bar {
         width: 100%;
         display: block;
         position: absolute;
-        top: 150px;
+        top: 80px;
         background-color: white;
         padding: 0;
         margin: 0;
@@ -136,6 +149,8 @@
         z-index: 900;
         height: 100%;
         display: none;
+
+
 
         &.active {
             display: block;
@@ -145,6 +160,7 @@
             float: none;
             list-style: none;
             padding: 0;
+            background-color: white;
 
             &:hover {
                 background-color: darken(white, 10%);
@@ -160,13 +176,26 @@
 
             &.tl-nav--bar-special {
                 margin-left: 0;
+                color: black;
+                background-color: white;
 
                 a {
                     padding: 20px;
+                    color: black;
+
+                    &:after {
+                        display: none;
+                    }
                 }
 
                 &:hover {
-                    background-color: black;
+                    background-color: darken(white, 10%);
+                }
+            }
+
+            &:last-child {
+                a {
+                    border-bottom: 1px solid black;
                 }
             }
         }

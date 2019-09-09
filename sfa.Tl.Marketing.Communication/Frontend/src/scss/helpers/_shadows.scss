@@ -1,0 +1,26 @@
+$colours: 
+    "black" black,
+    "purple" $purple, 
+    "salmon" $salmon,
+    "orange" $orange;
+
+@each $name, $colour in $colours {
+    .tl-shadow-left--#{$name} {
+        -webkit-box-shadow: -500px 0px 0px 0px $colour;
+        -moz-box-shadow: -500px 0px 0px 0px $colour;
+        box-shadow: -500px 0px 0px 0px $colour;
+    }
+
+    .tl-shadow-right--#{$name} {
+        -webkit-box-shadow: 500px 0px 0px 0px $colour;
+        -moz-box-shadow: 500px 0px 0px 0px $colour;
+        box-shadow: 500px 0px 0px 0px $colour;
+    }
+
+    .tl-background--#{$name} {
+        background-color: $colour;
+    }
+}
+
+
+
