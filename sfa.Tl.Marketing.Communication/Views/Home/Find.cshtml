@@ -61,7 +61,7 @@
 
     function initMap() {
         $.getJSON("/js/providers.json", function (providersData) {
-            
+
             map = new google.maps.Map(document.getElementById('map'),
                 {
                     center: { lat: 52.4862, lng: 1.8904 },
@@ -97,7 +97,6 @@
                         resultsMap.setCenter(results[0].geometry.location, 1);
                         resultsMap.setZoom(10);
 
-                        debugger;
                         const searchedProviders = [];
 
                         for (let i = 0; i < providersData.Providers.length; i++) {
@@ -118,9 +117,19 @@
 
                         showSearchResults(searchedProviders);
                     } else {
-                        alert(`Geocode failed: ${status}`);
+                        showNoSearchResults();
                     }
                 });
+            }
+
+            function showNoSearchResults() {
+                var searchResults = `<div class="tl-results-box">
+                                        <h3><span class="tl-results-box--distance">0 results found</span></h3>
+                                    </div>
+                                    <br/>`;
+
+                $("#tl-search-results").empty();
+                $(`#tl-search-results`).append(searchResults);
             }
 
             function showSearchResults(searchedProviders) {
