@@ -1,18 +1,9 @@
 {
-  "Qualifications": [
-    {
-      "id": 1,
-      "subject": "Digital production, design and development"
-    },
-    {
-      "id": 2,
-      "subject": "Design, surveying and planning"
-    },
-    {
-      "id": 3,
-      "subject": "Education"
-    }
-  ],
+  "Qualifications": {
+    "1": "Digital production, design and development",
+    "2": "Design, surveying and planning",
+    "3": "Education"
+  },
   "Providers": [
     {
       "id": 1,
@@ -22,7 +13,7 @@
         "postcode": "B9 4AR",
         "latitude": 52.4769665,
         "longitude": -1.882333,
-        "2020-qualification": [ 1 ]
+        "qualification2020": [ 1 ]
       },
       "phoneNumber": "03301 233155",
       "website": "https://www.accesscreative.ac.uk/locations/birmingham-college/"
@@ -34,11 +25,11 @@
         "fullAddress": "Old Mill Lane, Barnsley, S70 2LA",
         "postcode": "S70 2LA",
         "latitude": 53.5577154,
-        "longitude": -1.4824051
+        "longitude": -1.4824051,
+        "qualification2020": [ 1, 2, 3 ]
       },
       "phoneNumber": "01226 216123",
-      "website": "https://www.barnsley.ac.uk/",
-      "2020-qualification": [ 1, 2, 3 ]
+      "website": "https://www.barnsley.ac.uk/"
     },
     {
       "id": 3,
@@ -47,11 +38,11 @@
         "fullAddress": "Trust House, Unit 5, Trust Industrial Estate, Wilbury Way, Hitchin, Herts, SG4 0UZ",
         "postcode": "SG4 0UZ",
         "latitude": 51.963504,
-        "longitude": -0.266138
+        "longitude": -0.266138,
+        "qualification2020": [ 1 ]
       },
       "phoneNumber": "01462 510117",
-      "website": "http://www.developebp.co.uk/locations/hitchin/",
-      "2020-qualification": [ 1 ]
+      "website": "http://www.developebp.co.uk/locations/hitchin/"
     },
     {
       "id": 4,
@@ -60,12 +51,11 @@
         "fullAddress": "York Road, Bishop Burton, HU17 8QG",
         "postcode": "HU17 8QG",
         "latitude": 53.846419,
-        "longitude": -0.509006
+        "longitude": -0.509006,
+        "qualification2020": [ 3 ]
       },
       "phoneNumber": "01964 553000",
-      "website": "https://www.bishopburton.ac.uk",
-      "subjects": [ "educationChildcare" ],
-      "2020-qualification": [ 3 ]
+      "website": "https://www.bishopburton.ac.uk"
     },
     {
       "id": 5,
@@ -74,11 +64,11 @@
         "fullAddress": "Park Road, Blackpool, FY1 4ES",
         "postcode": "FY1 4ES",
         "latitude": 53.812887,
-        "longitude": -3.042857
+        "longitude": -3.042857,
+        "qualification2020": [ 1, 2, 3 ]
       },
       "phoneNumber": "012533 52352",
-      "website": "https://www.blackpool.ac.uk/",
-      "2020-qualification": [ 1, 2, 3 ]
+      "website": "https://www.blackpool.ac.uk/"
     },
     {
       "id": 6,
@@ -87,11 +77,11 @@
         "fullAddress": "Bath Road, Bridgwater, Somerset, TA6 4PZ",
         "postcode": "TA6 4PZ",
         "latitude": 51.131582,
-        "longitude": -2.98756
+        "longitude": -2.98756,
+        "qualification2020": [ 1, 2, 3 ]
       },
       "phoneNumber": "01278 455464",
-      "website": "https://www.btc.ac.uk/",
-      "2020-qualification": [ 1, 2, 3 ]
+      "website": "https://www.btc.ac.uk/"
     },
     {
       "id": 7,
@@ -100,11 +90,11 @@
         "fullAddress": "Lark Hill Road, Preston, Lancashire, PR1 4HD",
         "postcode": "PR1 4HD",
         "latitude": 53.756497,
-        "longitude": -2.688952
+        "longitude": -2.688952,
+        "qualification2020": [ 1, 3 ]
       },
       "phoneNumber": "01772 460181",
-      "website": "https://www.cardinalnewman.ac.uk/",
-      "2020-qualification": [ 1, 3 ]
+      "website": "https://www.cardinalnewman.ac.uk/"
     },
     {
       "id": 8,
@@ -113,11 +103,11 @@
         "fullAddress": "Westgate Fields, Chichester, West Sussex, PO19 1SB",
         "postcode": "PO19 1SB",
         "latitude": 50.834834,
-        "longitude": -0.790433
+        "longitude": -0.790433,
+        "qualification2020": [ 1, 2, 3 ]
       },
       "phoneNumber": "01243 786 321",
-      "website": "https://chichestercollegegroup.ac.uk/",
-      "2020-qualification": [ 1, 2, 3 ]
+      "website": "https://chichestercollegegroup.ac.uk/"
     },
     {
       "id": 9,
@@ -126,11 +116,11 @@
         "fullAddress": "Stroud Road, Cirencester, Gloucestershire, GL7 1XA",
         "postcode": "GL7 1XA",
         "latitude": 51.713138,
-        "longitude": -1.986228
+        "longitude": -1.986228,
+        "qualification2020": [ 1, 2, 3 ]
       },
       "phoneNumber": "01285 640994",
-      "website": "https://www.cirencester.ac.uk",
-      "2020-qualification": [ 1, 2, 3 ]
+      "website": "https://www.cirencester.ac.uk"
     },
     {
       "id": 10,
@@ -139,11 +129,11 @@
         "fullAddress": "City College Norwich, Ipswich Road, Norwich, NR2 2LJ",
         "postcode": "NR2 2LJ",
         "latitude": 52.618145,
-        "longitude": 1.286295
+        "longitude": 1.286295,
+        "qualification2020": [ 1, 2, 3 ]
       },
       "phoneNumber": "01603 773311",
-      "website": "https://www.ccn.ac.uk/",
-      "2020-qualification": [ 1, 2, 3 ]
+      "website": "https://www.ccn.ac.uk/"
     },
     {
       "id": 11,
@@ -152,11 +142,11 @@
         "fullAddress": "Leek Road, Stoke, Staffordshire, ST4 2RU",
         "postcode": "ST4 2RU",
         "latitude": 53.006841,
-        "longitude": -2.178748
+        "longitude": -2.178748,
+        "qualification2020": [ 1 ]
       },
       "phoneNumber": "01782 848736",
-      "website": "https://www.stokesfc.ac.uk",
-      "2020-qualification": [ 1 ]
+      "website": "https://www.stokesfc.ac.uk"
     },
     {
       "id": 12,
@@ -165,11 +155,11 @@
         "fullAddress": "High Street, Cranford, Hounslow, Middlesex, TW5 9PD",
         "postcode": "TW5 9PD",
         "latitude": 51.487365,
-        "longitude": -0.408208
+        "longitude": -0.408208,
+        "qualification2020": [ 1, 3 ]
       },
       "phoneNumber": "020 8897 2001",
-      "website": "www.cranford.hounslow.sch.uk",
-      "2020-qualification": [ 1, 3 ]
+      "website": "www.cranford.hounslow.sch.uk"
     },
     {
       "id": 13,
@@ -178,11 +168,11 @@
         "fullAddress": "The Joseph Wright Centre, Cathedral Rd, Derby, DE1 3PA",
         "postcode": "DE1 3PA",
         "latitude": 52.925453,
-        "longitude": -1.479668
+        "longitude": -1.479668,
+        "qualification2020": [ 1, 2, 3 ]
       },
       "phoneNumber": "01332 387473",
-      "website": "https://www.derby-college.ac.uk/",
-      "2020-qualification": [ 1, 2, 3 ]
+      "website": "https://www.derby-college.ac.uk/"
     },
     {
       "id": 14,
@@ -191,11 +181,11 @@
         "fullAddress": "The Broadway, Dudley, West Midlands, DY1 4AS",
         "postcode": "DY1 4AS",
         "latitude": 52.515265,
-        "longitude": -2.081658
+        "longitude": -2.081658,
+        "qualification2020": [ 1, 2, 3 ]
       },
       "phoneNumber": "01384 363 000",
-      "website": "https://www.dudleycol.ac.uk/",
-      "2020-qualification": [ 1, 2, 3 ]
+      "website": "https://www.dudleycol.ac.uk/"
     },
     {
       "id": 15,
@@ -204,11 +194,11 @@
         "fullAddress": "Providence Row, The Sands, Durham City, DH1 1SG",
         "postcode": "DH1 1SG",
         "latitude": 54.780295,
-        "longitude": -1.573583
+        "longitude": -1.573583,
+        "qualification2020": [ 1 ]
       },
       "phoneNumber": "0191 383 0708",
-      "website": "www.durhamsixthformcentre.org.uk/",
-      "2020-qualification": [ 1 ]
+      "website": "www.durhamsixthformcentre.org.uk/"
     },
     {
       "id": 16,
@@ -217,11 +207,11 @@
         "fullAddress": "Cross Levels Way, Eastbourne, East Sussex, BN21 2UF",
         "postcode": "BN21 2UF",
         "latitude": 50.78844,
-        "longitude": 0.272597
+        "longitude": 0.272597,
+        "qualification2020": [ 1, 2, 3 ]
       },
       "phoneNumber": "030 300 39699",
-      "website": "www.escg.ac.uk",
-      "2020-qualification": [ 1, 2, 3 ]
+      "website": "www.escg.ac.uk"
     },
     {
       "id": 17,
@@ -230,11 +220,11 @@
         "fullAddress": "Hele Road, Exeter, EX4 4JS",
         "postcode": "EX4 4JS",
         "latitude": 50.728216,
-        "longitude": -3.538138
+        "longitude": -3.538138,
+        "qualification2020": [ 1, 2, 3 ]
       },
       "phoneNumber": "01392 400500",
-      "website": "https://www.exe-coll.ac.uk/",
-      "2020-qualification": [ 1, 2, 3 ]
+      "website": "https://www.exe-coll.ac.uk/"
     },
     {
       "id": 18,
@@ -243,11 +233,11 @@
         "fullAddress": "Bishopsfield Road, Fareham, Hampshire, PO14 1NH",
         "postcode": "PO14 1NH",
         "latitude": 50.851515,
-        "longitude": -1.199578
+        "longitude": -1.199578,
+        "qualification2020": [ 1, 3 ]
       },
       "phoneNumber": "01329 815 200",
-      "website": "https://www.fareham.ac.uk/",
-      "2020-qualification": [ 1, 3 ]
+      "website": "https://www.fareham.ac.uk/"
     },
     {
       "id": 19,
@@ -256,11 +246,11 @@
         "fullAddress": "Boundary Road, Farnborough, Hants, GU14 6SB",
         "postcode": "GU14 6SB",
         "latitude": 51.285753,
-        "longitude": -0.750885
+        "longitude": -0.750885,
+        "qualification2020": [ 1, 3 ]
       },
       "phoneNumber": "01252 407040",
-      "website": "https://www.farn-ct.ac.uk/",
-      "2020-qualification": [ 1, 3 ]
+      "website": "https://www.farn-ct.ac.uk/"
     },
     {
       "id": 20,
@@ -269,11 +259,11 @@
         "fullAddress": "Quarryfield Road, Baltic Business Quarter, Gateshead, NE8 3BE",
         "postcode": "NE8 3BE",
         "latitude": 54.966187,
-        "longitude": -1.598803
+        "longitude": -1.598803,
+        "qualification2020": [ 1, 3 ]
       },
       "phoneNumber": "0191 490 0300",
-      "website": "www.gateshead.ac.uk/",
-      "2020-qualification": [ 1, 3 ]
+      "website": "www.gateshead.ac.uk/"
     },
     {
       "id": 21,
@@ -282,11 +272,11 @@
         "fullAddress": "Nuns Corner, Grimsby, North East Lincolnshire, DN34 5BQ",
         "postcode": "DN34 5BQ",
         "latitude": 53.553721,
-        "longitude": -0.092816
+        "longitude": -0.092816,
+        "qualification2020": [ 3 ]
       },
       "phoneNumber": "0800 315 002",
-      "website": "https://grimsby.ac.uk/",
-      "2020-qualification": [ 3 ]
+      "website": "https://grimsby.ac.uk/"
     },
     {
       "id": 22,
@@ -295,11 +285,11 @@
         "fullAddress": "Havant Campus, New Road, Havant, Hampshire, PO9 1QL",
         "postcode": "PO9 1QL",
         "latitude": 50.858058,
-        "longitude": -0.986631
+        "longitude": -0.986631,
+        "qualification2020": [ 1, 2, 3 ]
       },
       "phoneNumber": "023 9387 9999",
-      "website": "https://www.hsdc.ac.uk/",
-      "2020-qualification": [ 1, 2, 3 ]
+      "website": "https://www.hsdc.ac.uk/"
     },
     {
       "id": 23,
@@ -308,11 +298,11 @@
         "fullAddress": "Lowlands Road, Harrow, Middlesex, HA1 3AQ",
         "postcode": "HA1 3AQ",
         "latitude": 51.577965,
-        "longitude": -0.335859
+        "longitude": -0.335859,
+        "qualification2020": [ 1, 3 ]
       },
       "phoneNumber": "020 8909 6000",
-      "website": "https://www.hcuc.ac.uk/",
-      "2020-qualification": [ 1, 3 ]
+      "website": "https://www.hcuc.ac.uk/"
     },
     {
       "id": 24,
@@ -321,11 +311,11 @@
         "fullAddress": "Atkins Road, Clapham Park, London, SW12 0AB",
         "postcode": "SW12 0AB",
         "latitude": 51.44777,
-        "longitude": -0.143745
+        "longitude": -0.143745,
+        "qualification2020": [ 1, 3 ]
       },
       "phoneNumber": "020 8673 5644",
-      "website": "https://www.laretraite.lambeth.sch.uk/",
-      "2020-qualification": [ 1, 3 ]
+      "website": "https://www.laretraite.lambeth.sch.uk/"
     },
     {
       "id": 25,
@@ -334,11 +324,11 @@
         "fullAddress": "Knightlow Road, Harborne, Birmingham, B17 8QB",
         "postcode": "B17 8QB",
         "latitude": 52.468613,
-        "longitude": -1.962894
+        "longitude": -1.962894,
+        "qualification2020": [ 1, 3 ]
       },
       "phoneNumber": "0121 429 2838",
-      "website": "www.lordswoodgirls.co.uk/",
-      "2020-qualification": [ 1, 3 ]
+      "website": "www.lordswoodgirls.co.uk/"
     }
   ]
 }
