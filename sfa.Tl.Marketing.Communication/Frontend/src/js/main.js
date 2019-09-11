@@ -12,11 +12,18 @@ $(".tl-nav--hamburger").click(function () {
     }
 });
 
-
 var searchedProviders = [];
 
 function initMap() {
     $.getJSON("/js/providers.json", function (providersData) {
+
+        var dropdown = $("#tl-qualifications");
+        dropdown.append($('<option></option>').attr('value', 0).text("All 2020 courses"));
+
+        $.each(providersData.Qualifications,
+            function (key, entry) {
+                dropdown.append($('<option></option>').attr('value', key).text(entry));
+            });
 
         map = new google.maps.Map(document.getElementById('map'),
             {
@@ -53,9 +60,17 @@ function initMap() {
                     resultsMap.setCenter(results[0].geometry.location, 1);
                     resultsMap.setZoom(10);
 
+                    var selectedQualification = parseInt($("#tl-qualifications").children("option:selected").val());
+
                     const searchedProviders = [];
 
                     for (let i = 0; i < providersData.Providers.length; i++) {
+                        if (selectedQualification !== 0) {
+                            if (!providersData.Providers[i].location.qualification2020.includes(selectedQualification)) {
+                                continue;
+                            }
+                        }
+
                         const providerPosition = new google.maps.LatLng(providersData.Providers[i].location.latitude,
                             providersData.Providers[i].location.longitude);
 
@@ -108,7 +123,6 @@ function initMap() {
         }
     });
 }
-
 
 $(".tl-modal--close").click(function () {
     event.preventDefault();
