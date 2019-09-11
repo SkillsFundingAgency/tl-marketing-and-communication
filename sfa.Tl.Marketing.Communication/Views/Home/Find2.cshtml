@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Find a T Level";
+}
+
+<div class="tl-map">
+    <div id="map" style="height: 400px; width: 1200px"></div>
+</div>
+<input id="Postcode" class="tl-input" placeholder="Enter your postcode" />
+
+<button id="tl-find" class="tl-button tl-button--orange">Search</button>
+
+<div id="tl-search-results" class="col-md-8">
+
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMFi2LnT3kjYPmtXcyVWD9Eq8FgZcRJp4&callback=initMap&libraries=geometry" async defer></script>
+
+<script type="text/javascript">
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'),
+            {
+                center: { lat: 52.4862, lng: 1.8904 },
+                zoom: 6
+            });
+
+        var geocoder = new google.maps.Geocoder();
+
+        document.getElementById('tl-find').addEventListener('click', function () {
+            geocodeAddress(geocoder, map);
+        });
+
+        $(".tl-modal--close").click(function () {
+            event.preventDefault();
+            $(this).closest('.tl-modal').removeClass('active');
+            $("body").removeClass('modal-open');
+
+        });
+
+        $(".tl-modal--content").click(function (e) {
+            e.stopPropagation();
+        });
+
+        $(document).on('click', function (e) {
+            if ($(e.target).is(".tl-link--modal")) {
+                event.preventDefault();
+                $(e.target).next(".tl-modal").addClass('active');
+                $("body").addClass('modal-open');
+                event.stopImmediatePropagation();
+            }
+            else {
+                if ($("body").hasClass("modal-open")) {
+                    e.preventDefault();
+                    $('.tl-modal').removeClass('active');
+                    $("body").removeClass('modal-open');
+                }
+            }
+        });
+
+
+        function geocodeAddress(geocoder, resultsMap) {
+            const searchedPostcode = document.getElementById('Postcode').value;
+
+            geocoder.geocode({ 'address': searchedPostcode },
+                function (results, status) {
+                    if (status === 'OK') {
+                        resultsMap.setCenter(results[0].geometry.location, 1);
+                        resultsMap.setZoom(10);
+
+                        var searchResults = "";
+                        searchResults += `<div class="tl-results-box">
+                                        <h3><span class="tl-results-box--distance">10 miles </span>Name</h3>
+                                        <p>$Name, Full Address</p>
+                                            <a class="text-center tl-uppercase tl-link tl-link--modal" href="#">See courses available at this site</a>
+                                            <div class="tl-modal">
+                                                <div class="tl-modal--content">
+                                                    <p>Test</p>
+                                                </div>
+                                            </div>
+                                     </div>
+
+                                     <br/>`;
+
+                        $("#tl-search-results").empty();
+                        $(`#tl-search-results`).append(searchResults);
+                    }
+                });
+        }
+    }
+
+</script>

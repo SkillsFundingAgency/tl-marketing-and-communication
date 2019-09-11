@@ -31,6 +31,13 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View(viewModel);
         }
 
+        public IActionResult Find2() //(FindViewModel viewModel)
+        {
+            return View();
+
+            //return View(viewModel);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
