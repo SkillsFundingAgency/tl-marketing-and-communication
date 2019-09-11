@@ -1,21 +1,22 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model FindViewModel
 
-<section id="tl-banner" >
+<section id="tl-banner">
     <div class="tl-container">
-    <div class="row no-gutters">
-        <div class="col tl-banner--video">
-            <img class="tl-banner--video-image" src="/files/images/videobanner.jpg" />
-            <a class="tl-banner--video-link" href="#"><span class="hidden">Play icon</span></a>
+        <div class="row no-gutters">
+            <div class="col tl-banner--video">
+                <img class="tl-banner--video-image" src="/files/images/videobanner.jpg" />
+                <a class="tl-banner--video-link" href="#"><span class="hidden">Play icon</span></a>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <div class="col">
+                <h3 class="tl-banner--nextlevel"><span class="hidden">Welcome to the next level</span></h3>
+            </div>
         </div>
     </div>
-    <div class="row no-gutters">
-        <div class="col">
-            <h3 class="tl-banner--nextlevel"><span class="hidden">Welcome to the next level</span></h3>
-        </div>
-    </div>
-        </div>
 </section>
 
 <section id="tl-boxes" class="tl-container">
@@ -48,15 +49,15 @@
 </section>
 <section id="tl-search">
     <div class="tl-container">
-    <div class="row no-gutters">
-        <div class="col-12">
-            <div class="tl-search--content">
-                <h2 class="text-center"><span class="text-outline--white">Find a T Level</span><br /><span class="text-orange"> near you</span></h2>
-                <form class="tl-search--input text-center">
-                    <input class="tl-input" type="text" placeholder="Enter your postcode" /><button class="tl-button tl-button--orange">Search</button>
-                </form>
+        <div class="row no-gutters">
+            <div class="col-12">
+                <div class="tl-search--content">
+                    <h2 class="text-center"><span class="text-outline--white">Find a T Level</span><br /><span class="text-orange"> near you</span></h2>
+                    <form class="tl-search--input text-center" asp-action="Find" method="get">
+                        <input asp-for="Postcode" class="tl-input" placeholder="Enter your postcode" /><button class="tl-button tl-button--orange">Search</button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 </section>

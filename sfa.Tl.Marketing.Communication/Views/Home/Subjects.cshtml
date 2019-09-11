@@ -2,36 +2,36 @@
     ViewData["Title"] = "T Level Subjects";
     ViewData["PageID"] = "tl-subjects";
 }
-
+@model FindViewModel
 
 <section id="tl-boxes" class="tl-background--purple">
     <div class="tl-container">
-    <div class="row no-gutters">
-        <div class="col-md-6">
-            <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets11.png" />
-        </div>
-        <div class="col-md-6">
-            <div class="tl-box tl-box--purple">
-                <h2 class="text-center">T Level subjects</h2>
-                <p>The first 3 T Levels start in September 2020 at selected schools and colleges in England. </p>
-                <p>More T Levels will be available in following years. In total, there will be 25 T Levels covering everything from agriculture to catering and engineering to science.</p>
+        <div class="row no-gutters">
+            <div class="col-md-6">
+                <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets11.png" />
+            </div>
+            <div class="col-md-6">
+                <div class="tl-box tl-box--purple">
+                    <h2 class="text-center">T Level subjects</h2>
+                    <p>The first 3 T Levels start in September 2020 at selected schools and colleges in England. </p>
+                    <p>More T Levels will be available in following years. In total, there will be 25 T Levels covering everything from agriculture to catering and engineering to science.</p>
+                </div>
             </div>
         </div>
     </div>
-        </div>
 </section>
 <section id="tl-search">
     <div class="tl-container">
-    <div class="row no-gutters">
-        <div class="col-12">
-            <div class="tl-search--content">
-                <h2 class="text-center tl-desktop-only"><span class="text-outline--white">Find a T Level</span><br /><span class="text-purple"> near you</span></h2>
-                <h2 class="text-center tl-tablet-down"><a href="/home/Find" class="tl-underline-none"><span class="text-outline--white">Find a </span><span class="text-purple">course near you</span></a></h2>
-                <form class="tl-search--input text-center tl-desktop-only">
-                    <input class="tl-input" type="text" placeholder="Enter your postcode" /><button class="tl-button tl-button--purple">Search</button>
-                </form>
+        <div class="row no-gutters">
+            <div class="col-12">
+                <div class="tl-search--content">
+                    <h2 class="text-center tl-desktop-only"><span class="text-outline--white">Find a T Level</span><br /><span class="text-purple"> near you</span></h2>
+                    <h2 class="text-center tl-tablet-down"><a href="/home/Find" class="tl-underline-none"><span class="text-outline--white">Find a </span><span class="text-purple">course near you</span></a></h2>
+                    <form class="tl-search--input text-center tl-desktop-only" asp-action="Find" method="get">
+                        <input asp-for="Postcode" class="tl-input" placeholder="Enter your postcode" /><button class="tl-button tl-button--purple">Search</button>
+                    </form>
+                </div>
             </div>
-        </div>
         </div>
     </div>
 </section>
@@ -213,7 +213,7 @@
                         </div>
                     </li>
                     <li>
-                        <a href="#" class="tl-link tl-link--modal" >Science</a>
+                        <a href="#" class="tl-link tl-link--modal">Science</a>
                         <div class="tl-modal">
                             <div class="tl-modal--content">
                                 <a href="#closemodal" class="tl-modal--close">&times;</a>

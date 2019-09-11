@@ -1,4 +1,18 @@
 {
+  "Qualifications": [
+    {
+      "id": 1,
+      "subject": "Digital production, design and development"
+    },
+    {
+      "id": 2,
+      "subject": "Design, surveying and planning"
+    },
+    {
+      "id": 3,
+      "subject": "Education"
+    }
+  ],
   "Providers": [
     {
       "id": 1,
@@ -7,11 +21,11 @@
         "fullAddress": "68 Heath Mill Lane, Digbeth, Birmingham, B9 4AR",
         "postcode": "B9 4AR",
         "latitude": 52.4769665,
-        "longitude": -1.882333
+        "longitude": -1.882333,
+        "2020-qualification": [ 1 ]
       },
       "phoneNumber": "03301 233155",
-      "website": "https://www.accesscreative.ac.uk/locations/birmingham-college/",
-      "subjects": [ "digital" ]
+      "website": "https://www.accesscreative.ac.uk/locations/birmingham-college/"
     },
     {
       "id": 2,
@@ -24,7 +38,7 @@
       },
       "phoneNumber": "01226 216123",
       "website": "https://www.barnsley.ac.uk/",
-      "subjects": [ "digital", "construction", "educationChildcare" ]
+      "2020-qualification": [ 1, 2, 3 ]
     },
     {
       "id": 3,
@@ -37,7 +51,7 @@
       },
       "phoneNumber": "01462 510117",
       "website": "http://www.developebp.co.uk/locations/hitchin/",
-      "subjects": [ "digital" ]
+      "2020-qualification": [ 1 ]
     },
     {
       "id": 4,
@@ -50,7 +64,8 @@
       },
       "phoneNumber": "01964 553000",
       "website": "https://www.bishopburton.ac.uk",
-      "subjects": [ "educationChildcare" ]
+      "subjects": [ "educationChildcare" ],
+      "2020-qualification": [ 3 ]
     },
     {
       "id": 5,
@@ -63,7 +78,7 @@
       },
       "phoneNumber": "012533 52352",
       "website": "https://www.blackpool.ac.uk/",
-      "subjects": [ "digital", "construction", "educationChildcare" ]
+      "2020-qualification": [ 1, 2, 3 ]
     },
     {
       "id": 6,
@@ -76,7 +91,7 @@
       },
       "phoneNumber": "01278 455464",
       "website": "https://www.btc.ac.uk/",
-      "subjects": [ "digital", "construction", "educationChildcare" ]
+      "2020-qualification": [ 1, 2, 3 ]
     },
     {
       "id": 7,
@@ -89,7 +104,7 @@
       },
       "phoneNumber": "01772 460181",
       "website": "https://www.cardinalnewman.ac.uk/",
-      "subjects": [ "digital", "educationChildcare" ]
+      "2020-qualification": [ 1, 3 ]
     },
     {
       "id": 8,
@@ -102,7 +117,7 @@
       },
       "phoneNumber": "01243 786 321",
       "website": "https://chichestercollegegroup.ac.uk/",
-      "subjects": [ "digital", "construction", "educationChildcare" ]
+      "2020-qualification": [ 1, 2, 3 ]
     },
     {
       "id": 9,
@@ -115,7 +130,7 @@
       },
       "phoneNumber": "01285 640994",
       "website": "https://www.cirencester.ac.uk",
-      "subjects": [ "digital", "construction", "educationChildcare" ]
+      "2020-qualification": [ 1, 2, 3 ]
     },
     {
       "id": 10,
@@ -128,7 +143,7 @@
       },
       "phoneNumber": "01603 773311",
       "website": "https://www.ccn.ac.uk/",
-      "subjects": [ "digital", "construction", "educationChildcare" ]
+      "2020-qualification": [ 1, 2, 3 ]
     },
     {
       "id": 11,
@@ -141,7 +156,7 @@
       },
       "phoneNumber": "01782 848736",
       "website": "https://www.stokesfc.ac.uk",
-      "subjects": [ "digital" ]
+      "2020-qualification": [ 1 ]
     },
     {
       "id": 12,
@@ -154,7 +169,7 @@
       },
       "phoneNumber": "020 8897 2001",
       "website": "www.cranford.hounslow.sch.uk",
-      "subjects": [ "digital", "educationChildcare" ]
+      "2020-qualification": [ 1, 3 ]
     },
     {
       "id": 13,
@@ -167,7 +182,7 @@
       },
       "phoneNumber": "01332 387473",
       "website": "https://www.derby-college.ac.uk/",
-      "subjects": [ "digital", "construction", "educationChildcare" ]
+      "2020-qualification": [ 1, 2, 3 ]
     },
     {
       "id": 14,
@@ -180,7 +195,7 @@
       },
       "phoneNumber": "01384 363 000",
       "website": "https://www.dudleycol.ac.uk/",
-      "subjects": [ "digital", "construction", "educationChildcare" ]
+      "2020-qualification": [ 1, 2, 3 ]
     },
     {
       "id": 15,
@@ -193,7 +208,7 @@
       },
       "phoneNumber": "0191 383 0708",
       "website": "www.durhamsixthformcentre.org.uk/",
-      "subjects": [ "digital" ]
+      "2020-qualification": [ 1 ]
     },
     {
       "id": 16,
@@ -206,7 +221,7 @@
       },
       "phoneNumber": "030 300 39699",
       "website": "www.escg.ac.uk",
-      "subjects": [ "digital", "construction", "educationChildcare" ]
+      "2020-qualification": [ 1, 2, 3 ]
     },
     {
       "id": 17,
@@ -219,7 +234,7 @@
       },
       "phoneNumber": "01392 400500",
       "website": "https://www.exe-coll.ac.uk/",
-      "subjects": [ "digital", "construction", "educationChildcare" ]
+      "2020-qualification": [ 1, 2, 3 ]
     },
     {
       "id": 18,
@@ -232,7 +247,7 @@
       },
       "phoneNumber": "01329 815 200",
       "website": "https://www.fareham.ac.uk/",
-      "subjects": [ "digital", "educationChildcare" ]
+      "2020-qualification": [ 1, 3 ]
     },
     {
       "id": 19,
@@ -245,7 +260,7 @@
       },
       "phoneNumber": "01252 407040",
       "website": "https://www.farn-ct.ac.uk/",
-      "subjects": [ "digital", "educationChildcare" ]
+      "2020-qualification": [ 1, 3 ]
     },
     {
       "id": 20,
@@ -258,7 +273,7 @@
       },
       "phoneNumber": "0191 490 0300",
       "website": "www.gateshead.ac.uk/",
-      "subjects": [ "digital", "educationChildcare" ]
+      "2020-qualification": [ 1, 3 ]
     },
     {
       "id": 21,
@@ -271,7 +286,7 @@
       },
       "phoneNumber": "0800 315 002",
       "website": "https://grimsby.ac.uk/",
-      "subjects": [ "educationChildcare" ]
+      "2020-qualification": [ 3 ]
     },
     {
       "id": 22,
@@ -284,7 +299,7 @@
       },
       "phoneNumber": "023 9387 9999",
       "website": "https://www.hsdc.ac.uk/",
-      "subjects": [ "digital", "construction", "educationChildcare" ]
+      "2020-qualification": [ 1, 2, 3 ]
     },
     {
       "id": 23,
@@ -297,7 +312,7 @@
       },
       "phoneNumber": "020 8909 6000",
       "website": "https://www.hcuc.ac.uk/",
-      "subjects": [ "digital", "educationChildcare" ]
+      "2020-qualification": [ 1, 3 ]
     },
     {
       "id": 24,
@@ -310,7 +325,7 @@
       },
       "phoneNumber": "020 8673 5644",
       "website": "https://www.laretraite.lambeth.sch.uk/",
-      "subjects": [ "digital", "educationChildcare" ]
+      "2020-qualification": [ 1, 3 ]
     },
     {
       "id": 25,
@@ -323,6 +338,7 @@
       },
       "phoneNumber": "0121 429 2838",
       "website": "www.lordswoodgirls.co.uk/",
-      "subjects": [ "digital", "educationChildcare" ]
-    }]
+      "2020-qualification": [ 1, 3 ]
+    }
+  ]
 }

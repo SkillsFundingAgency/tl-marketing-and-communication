@@ -1,5 +1,3 @@
-using System;
-
 namespace sfa.Tl.Marketing.Communication.Models
 {
     public class ErrorViewModel
