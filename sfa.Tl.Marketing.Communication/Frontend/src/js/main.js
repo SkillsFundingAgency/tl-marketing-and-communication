@@ -93,13 +93,14 @@ function initMap() {
                 searchResults += `<div class="tl-results-box">
                                     <h3><span class="tl-results-box--distance">${searchedProviders[i].distanceInMiles} miles </span>${searchedProviders[i].name}</h3>
                                     <p>${searchedProviders[i].name}, ${searchedProviders[i].location.fullAddress}</p>
-                                    <p class="text-center tl-uppercase"><a class="tl-link tl-link--modal" href="#">See courses available at this site</a></p>
+                                        <a class="text-center tl-uppercase tl-link tl-link--modal" href="#">See courses available at this site</a>
+                                        <div class="tl-modal">
+                                            <div class="tl-modal--content">
+                                                <p>Test</p>                                    
+                                            </div>
+                                        </div>
                                  </div>
-                                <div class="tl-modal">
-                                    <div class="tl-modal--content">
-                                        <p>Test</p>                                    
-                                    </div>
-                                </div>
+
                                  <br/>`;
             }
 
@@ -121,19 +122,19 @@ $(".tl-modal--content").click(function (e) {
     e.stopPropagation();
 });
 
-$(".tl-link--modal").click(function () {
-    console.log("test");
-    event.preventDefault();
-    $(this).next('.tl-modal').addClass('active');
-    $("body").addClass('modal-open');
-    event.stopImmediatePropagation()
-});
-
-
-$(document).on('click', function () {
-    if ($("body").hasClass("modal-open")) {
+$(document).on('click', function (e) {
+    if ($(e.target).is(".tl-link--modal")) {
         event.preventDefault();
-        $('.tl-modal').removeClass('active');
-        $("body").removeClass('modal-open');
+        $(e.target).next(".tl-modal").addClass('active');
+        $("body").addClass('modal-open');
+        event.stopImmediatePropagation()
+    }
+    else {
+        if ($("body").hasClass("modal-open")) {
+            e.preventDefault();
+            $('.tl-modal').removeClass('active');
+            $("body").removeClass('modal-open');
+        }
     }
 });
+
