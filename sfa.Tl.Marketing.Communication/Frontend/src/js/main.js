@@ -137,7 +137,12 @@ var maps = (function () {
                                         <a class="text-center tl-uppercase tl-link tl-link--modal" href="#">See courses available at this site</a>
                                         <div class="tl-modal">
                                             <div class="tl-modal--content">
-                                                <p>Test</p>                                    
+                                                <a href="#closemodal" class="tl-modal--close">&times;</a>
+                                                <h2>${searchedProviders[i].name}</h2>
+                                                <p>${searchedProviders[i].location.fullAddress}, ${searchedProviders[i].location.postcode}</p>
+                                                <p><strong>Courses starting September 2020</strong></p>
+                                                <p>Course areas here</p>
+                                                <a href="${searchedProviders[i].website}" class="tl-button tl-button--orange">Go to provider website</a>                               
                                             </div>
                                         </div>
                                  </div>
