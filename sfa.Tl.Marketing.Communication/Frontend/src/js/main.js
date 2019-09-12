@@ -73,7 +73,7 @@ function initMap() {
 
         var geocoder = new google.maps.Geocoder();
 
-        document.getElementById('tl-find').addEventListener('click', function () {
+        $("#tl-find-button").click(function () {
             geocodeAddress(geocoder, map);
         });
 
