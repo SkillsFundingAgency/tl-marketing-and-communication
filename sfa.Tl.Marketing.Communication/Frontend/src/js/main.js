@@ -60,13 +60,11 @@ var maps = (function () {
                 });
 
             for (let i = 0; i < providersData.Providers.length; i++) {
-                const providerPosition = {
-                    lat: providersData.Providers[i].location.latitude,
-                    lng: providersData.Providers[i].location.longitude
-                };
-
                 const marker = new google.maps.Marker({
-                    position: providerPosition,
+                    position: {
+                        lat: providersData.Providers[i].location.latitude,
+                        lng: providersData.Providers[i].location.longitude
+                    },
                     map: map,
                     title: providersData.Providers[i].name
                 });
@@ -120,8 +118,8 @@ var maps = (function () {
                 const postcodePosition = new google.maps.LatLng(postcodeLocation.lat(),
                     postcodeLocation.lng());
 
-                const distancedInMetres = google.maps.geometry.spherical.computeDistanceBetween(postcodePosition, providerPosition);
-                const distanceInMiles = distancedInMetres / 1609.344;
+                const distanceInMetres = google.maps.geometry.spherical.computeDistanceBetween(postcodePosition, providerPosition);
+                const distanceInMiles = distanceInMetres / 1609.344;
 
                 return distanceInMiles.toFixed();
             }
