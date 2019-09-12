@@ -41,17 +41,17 @@ $(document).on('click', function () {
 
 var maps = (function () {
     function initMap() {
-        $.getJSON("/js/providers.json", function (providersData) {
+        $.getJSON(`/js/providers.json`, function (providersData) {
 
             var dropdown = $("#tl-qualifications");
-            dropdown.append($('<option></option>').attr('value', 0).text("All 2020 courses"));
+            dropdown.append($(`<option></option>`).attr(`value`, 0).text(`All 2020 courses`));
 
             $.each(providersData.Qualifications,
                 function (key, entry) {
-                    dropdown.append($('<option></option>').attr('value', key).text(entry));
+                    dropdown.append($(`<option></option>`).attr(`value`, key).text(entry));
                 });
 
-            map = new google.maps.Map(document.getElementById('map'),
+            var map = new google.maps.Map(document.getElementById(`map`),
                 {
                     center: { lat: 52.4862, lng: 1.8904 },
                     zoom: 6
@@ -77,16 +77,16 @@ var maps = (function () {
             });
 
             function geocodeAddress(geocoder, resultsMap) {
-                const searchedPostcode = document.getElementById('Postcode').value;
-                if (searchedPostcode === '')
+                const searchedPostcode = document.getElementById(`Postcode`).value;
+                if (searchedPostcode === ``)
                     return;
 
                 geocoder.geocode({ 'address': searchedPostcode }, function (results, status) {
-                    if (status === 'OK') {
+                    if (status === `OK`) {
                         resultsMap.setCenter(results[0].geometry.location, 1);
                         resultsMap.setZoom(10);
 
-                        var selectedQualification = parseInt($("#tl-qualifications").children("option:selected").val());
+                        const selectedQualification = parseInt($("#tl-qualifications").children("option:selected").val());
 
                         const searchedProviders = [];
 
@@ -120,16 +120,16 @@ var maps = (function () {
             }
 
             function showNoSearchResults() {
-                var searchResults = `<div class="tl-results-box">
+                const searchResults = `<div class="tl-results-box">
                                         <h3><span class="tl-results-box--distance">0 results found</span></h3>
                                     </div>`;
 
-                $("#tl-search-results").empty();
+                $(`#tl-search-results`).empty();
                 $(`#tl-search-results`).append(searchResults);
             }
 
             function showSearchResults(searchedProviders) {
-                var searchResults = "";
+                var searchResults = ``;
                 for (let i = 0; i < searchedProviders.length; i++) {
                     searchResults += `<div class="tl-results-box">
                                     <h3><span class="tl-results-box--distance">${searchedProviders[i].distanceInMiles} miles </span>${searchedProviders[i].name}</h3>
@@ -145,7 +145,7 @@ var maps = (function () {
                                  <br/>`;
                 }
 
-                $("#tl-search-results").empty();
+                $(`#tl-search-results`).empty();
                 $(`#tl-search-results`).append(searchResults);
             }
         });
