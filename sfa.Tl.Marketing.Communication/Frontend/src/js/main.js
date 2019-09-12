@@ -8,7 +8,6 @@ $(".tl-nav--hamburger").click(function () {
     else {
         $("#tl-nav").addClass("active");
         $("body").addClass("navopen");
-
     }
 });
 
@@ -99,16 +98,8 @@ var maps = (function () {
                                 continue;
                             }
 
-                            const providerPosition = new google.maps.LatLng(providersData.Providers[i].location.latitude,
-                                providersData.Providers[i].location.longitude);
-
-                            const postcodePosition = new google.maps.LatLng(results[0].geometry.location.lat(),
-                                results[0].geometry.location.lng());
-
-                            const distancedInMetres = google.maps.geometry.spherical.computeDistanceBetween(postcodePosition, providerPosition);
-                            const distanceInMiles = distancedInMetres / 1609.344;
-
-                            providersData.Providers[i].distanceInMiles = distanceInMiles.toFixed();
+                            providersData.Providers[i].distanceInMiles = getDistanceInMiles(providersData.Providers[i].location,
+                                results[0].geometry.location);
                             searchedProviders.push(providersData.Providers[i]);
                         }
 
@@ -119,6 +110,20 @@ var maps = (function () {
                         showNoSearchResults();
                     }
                 });
+            }
+
+            function getDistanceInMiles(providerLocation, postcodeLocation) {
+
+                const providerPosition = new google.maps.LatLng(providerLocation.latitude,
+                    providerLocation.longitude);
+
+                const postcodePosition = new google.maps.LatLng(postcodeLocation.lat(),
+                    postcodeLocation.lng());
+
+                const distancedInMetres = google.maps.geometry.spherical.computeDistanceBetween(postcodePosition, providerPosition);
+                const distanceInMiles = distancedInMetres / 1609.344;
+
+                return distanceInMiles.toFixed();
             }
 
             function showNoSearchResults() {
