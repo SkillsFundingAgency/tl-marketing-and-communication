@@ -49,6 +49,9 @@ var maps = (function () {
             $.each(providersData.Qualifications,
                 function (key, entry) {
                     dropdown.append($(`<option></option>`).attr(`value`, key).text(entry));
+                    if ($(`#Qualification`).val() === entry) {
+                        dropdown.val(key);
+                    }
                 });
 
             var map = new google.maps.Map(document.getElementById(`map`),
