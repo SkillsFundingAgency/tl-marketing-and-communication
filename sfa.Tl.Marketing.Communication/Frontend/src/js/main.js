@@ -112,7 +112,7 @@ var maps = (function () {
 
                         searchedProviders.sort((a, b) => a.distanceInMiles - b.distanceInMiles);
 
-                        showSearchResults(searchedProviders);
+                        showSearchResults(searchedProviders, providersData.Qualifications);
                     } else {
                         showNoSearchResults();
                     }
@@ -128,9 +128,14 @@ var maps = (function () {
                 $(`#tl-search-results`).append(searchResults);
             }
 
-            function showSearchResults(searchedProviders) {
+            function showSearchResults(searchedProviders, qualifications) {
                 var searchResults = ``;
                 for (let i = 0; i < searchedProviders.length; i++) {
+                    let qualificationsResults = ``;
+                    for (let j = 0; j < searchedProviders[i].location.qualification2020.length; j++) {
+                        qualificationsResults += `<p>${qualifications[searchedProviders[i].location.qualification2020[j]]}</p>`;
+                    }
+
                     searchResults += `<div class="tl-results-box">
                                     <h3><span class="tl-results-box--distance">${searchedProviders[i].distanceInMiles} miles </span>${searchedProviders[i].name}</h3>
                                     <p>${searchedProviders[i].name}, ${searchedProviders[i].location.fullAddress}</p>
@@ -141,7 +146,7 @@ var maps = (function () {
                                                 <h2>${searchedProviders[i].name}</h2>
                                                 <p>${searchedProviders[i].location.fullAddress}, ${searchedProviders[i].location.postcode}</p>
                                                 <p><strong>Courses starting September 2020</strong></p>
-                                                <p>Course areas here</p>
+                                                ${qualificationsResults}
                                                 <a href="${searchedProviders[i].website}" class="tl-button tl-button--orange">Go to provider website</a>                               
                                             </div>
                                         </div>
