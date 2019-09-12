@@ -94,10 +94,9 @@ var maps = (function () {
                         const searchedProviders = [];
 
                         for (let i = 0; i < providersData.Providers.length; i++) {
-                            if (selectedQualification !== 0) {
-                                if (!providersData.Providers[i].location.qualification2020.includes(selectedQualification)) {
-                                    continue;
-                                }
+                            if (selectedQualification !== 0 &&
+                                !providersData.Providers[i].location.qualification2020.includes(selectedQualification)) {
+                                continue;
                             }
 
                             const providerPosition = new google.maps.LatLng(providersData.Providers[i].location.latitude,
