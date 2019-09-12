@@ -39,7 +39,6 @@ $(document).on('click', function () {
     }
 });
 
-var searchedProviders = [];
 
 function initMap() {
     $.getJSON("/js/providers.json", function (providersData) {
