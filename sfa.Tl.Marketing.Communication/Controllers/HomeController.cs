@@ -11,21 +11,25 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
+        [Route("about", Name = "About")]
         public IActionResult About()
         {
             return View();
         }
 
+        [Route("why", Name = "Why")]
         public IActionResult Why()
         {
             return View();
         }
 
+        [Route("subjects", Name = "Subjects")]
         public IActionResult Subjects()
         {
             return View();
         }
 
+        [Route("find", Name = "Find")]
         public IActionResult Find(FindViewModel viewModel)
         {
             return View(viewModel);
