@@ -5,6 +5,7 @@ var minify = require('gulp-minify');
 var sass = require('gulp-sass');
 var cleanCSS = require('gulp-clean-css');
 var concatCss = require('gulp-concat-css');
+var wait = require('gulp-wait');
 
 const paths = require('../paths.json');
 const sassOptions = require('../sassOptions.js');
@@ -58,6 +59,7 @@ gulp.task('plyrscss', () => {
 
 gulp.task('sass', ['plyrscss'], () => gulp
     .src(paths.src.SCSS)
+    .pipe(wait(200))
     .pipe(sass(sassOptions))
     .pipe(gulp.dest(paths.dist.CSS))
 );

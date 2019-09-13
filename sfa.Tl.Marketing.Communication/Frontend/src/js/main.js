@@ -31,8 +31,6 @@ $(document).on('click', function () {
 
 });
 
-
-
 var maps = (function () {
     function initMap() {
         $.getJSON("/js/providers.json", function (providersData) {
@@ -133,7 +131,7 @@ var maps = (function () {
                 for (let i = 0; i < searchedProviders.length; i++) {
                     let qualificationsResults = "";
                     for (let j = 0; j < searchedProviders[i].location.qualification2020.length; j++) {
-                        qualificationsResults += "<p>" + qualifications[searchedProviders[i].location.qualification2020[j]] + "</p>";
+                        qualificationsResults += "<li>" + qualifications[searchedProviders[i].location.qualification2020[j]] + "</li>";
                     }
 
                     searchResults += "<div class='tl-results-box'> \
@@ -146,7 +144,9 @@ var maps = (function () {
                                                 <h2>" + searchedProviders[i].name + "</h2> \
                                                 <p>" + searchedProviders[i].location.fullAddress + ", " + searchedProviders[i].location.postcode + "</p> \
                                                 <p><strong>Courses starting September 2020</strong></p> \
+                                                <ul class='tl-list'> \
                                                 " + qualificationsResults + " \
+                                                </ul> \
                                                 <a href='" + searchedProviders[i].website + "' class='tl-button tl-button--orange'>Go to provider website</a> \
                                             </div> \
                                         </div> \
