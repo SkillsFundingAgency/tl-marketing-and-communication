@@ -138,26 +138,25 @@ var maps = (function () {
                 for (let i = 0; i < searchedProviders.length; i++) {
                     let qualificationsResults = "";
                     for (let j = 0; j < searchedProviders[i].location.qualification2020.length; j++) {
-                        qualificationsResults += `<p>${qualifications[searchedProviders[i].location.qualification2020[j]]}</p>`;
+                        qualificationsResults += "<p>" + qualifications[searchedProviders[i].location.qualification2020[j]] + "</p>";
                     }
 
-                    searchResults += `<div class='tl-results-box'>
-                                    <h3><span class='tl-results-box--distance'>${searchedProviders[i].distanceInMiles} miles </span>${searchedProviders[i].name}</h3>
-                                    <p>${searchedProviders[i].name}, ${searchedProviders[i].location.fullAddress}</p>
-                                        <a class='text-center tl-uppercase tl-link tl-link--modal' href='#'>See courses available at this site</a>
-                                        <div class='tl-modal'>
-                                            <div class='tl-modal--content'>
-                                                <a href='#closemodal' class='tl-modal--close'>&times;</a>
-                                                <h2>${searchedProviders[i].name}</h2>
-                                                <p>${searchedProviders[i].location.fullAddress}, ${searchedProviders[i].location.postcode}</p>
-                                                <p><strong>Courses starting September 2020</strong></p>
-                                                ${qualificationsResults}
-                                                <a href='${searchedProviders[i].website}' class='tl-button tl-button--orange'>Go to provider website</a>                               
-                                            </div>
-                                        </div>
-                                 </div>
-
-                                 <br/>`;
+                    searchResults += "<div class='tl-results-box'> \
+                                    <h3><span class='tl-results-box--distance'>" + searchedProviders[i].distanceInMiles + " miles </span>" + searchedProviders[i].name + "</h3> \
+                                    <p>" + searchedProviders[i].name + ", " + searchedProviders[i].location.fullAddress + "</p> \
+                                        <a class='text-center tl-uppercase tl-link tl-link--modal' href='#'>See courses available at this site</a> \
+                                        <div class='tl-modal'> \
+                                            <div class='tl-modal--content'> \
+                                                <a href='#closemodal' class='tl-modal--close'>&times;</a> \
+                                                <h2>" + searchedProviders[i].name + "</h2> \
+                                                <p>" + searchedProviders[i].location.fullAddress + ", " + searchedProviders[i].location.postcode + "</p> \
+                                                <p><strong>Courses starting September 2020</strong></p> \
+                                                " + qualificationsResults + " \
+                                                <a href='" + searchedProviders[i].website + "' class='tl-button tl-button--orange'>Go to provider website</a> \
+                                            </div> \
+                                        </div> \
+                                 </div> \
+                                 <br/>";
                 }
 
                 $("#tl-search-results").empty();
