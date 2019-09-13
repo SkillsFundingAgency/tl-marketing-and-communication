@@ -40,20 +40,20 @@ $(document).on('click', function () {
 
 var maps = (function () {
     function initMap() {
-        $.getJSON(`/js/providers.json`, function (providersData) {
+        $.getJSON("/js/providers.json", function (providersData) {
 
             var dropdown = $("#tl-qualifications");
-            dropdown.append($(`<option></option>`).attr(`value`, 0).text(`All 2020 courses`));
+            dropdown.append($("<option></option>").attr("value", 0).text("All 2020 courses"));
 
             $.each(providersData.Qualifications,
                 function (key, entry) {
-                    dropdown.append($(`<option></option>`).attr(`value`, key).text(entry));
-                    if ($(`#Qualification`).val() === entry) {
+                    dropdown.append($("<option></option>").attr("value", key).text(entry));
+                    if ($("#Qualification").val() === entry) {
                         dropdown.val(key);
                     }
                 });
 
-            var map = new google.maps.Map(document.getElementById(`map`),
+            var map = new google.maps.Map(document.getElementById("map"),
                 {
                     center: { lat: 52.4774169, lng: -1.9336707 },
                     zoom: 6
@@ -77,12 +77,12 @@ var maps = (function () {
             });
 
             function geocodeAddress(geocoder, resultsMap) {
-                const searchedPostcode = document.getElementById(`Postcode`).value;
-                if (searchedPostcode === ``)
+                const searchedPostcode = document.getElementById("Postcode").value;
+                if (searchedPostcode === "")
                     return;
 
                 geocoder.geocode({ 'address': searchedPostcode }, function (results, status) {
-                    if (status === `OK`) {
+                    if (status === "OK") {
                         resultsMap.setCenter(results[0].geometry.location, 1);
                         resultsMap.setZoom(10);
 
@@ -125,34 +125,34 @@ var maps = (function () {
             }
 
             function showNoSearchResults() {
-                const searchResults = `<div class="tl-results-box">
-                                        <h3><span class="tl-results-box--distance">0 results found</span></h3>
-                                    </div>`;
+                const searchResults = "<div class='tl-results-box'> \
+                                        <h3><span class='tl-results-box--distance'>0 results found</span></h3> \
+                                    </div>";
 
-                $(`#tl-search-results`).empty();
-                $(`#tl-search-results`).append(searchResults);
+                $("#tl-search-results").empty();
+                $("#tl-search-results").append(searchResults);
             }
 
             function showSearchResults(searchedProviders, qualifications) {
-                var searchResults = ``;
+                var searchResults = "";
                 for (let i = 0; i < searchedProviders.length; i++) {
-                    let qualificationsResults = ``;
+                    let qualificationsResults = "";
                     for (let j = 0; j < searchedProviders[i].location.qualification2020.length; j++) {
                         qualificationsResults += `<p>${qualifications[searchedProviders[i].location.qualification2020[j]]}</p>`;
                     }
 
-                    searchResults += `<div class="tl-results-box">
-                                    <h3><span class="tl-results-box--distance">${searchedProviders[i].distanceInMiles} miles </span>${searchedProviders[i].name}</h3>
+                    searchResults += `<div class='tl-results-box'>
+                                    <h3><span class='tl-results-box--distance'>${searchedProviders[i].distanceInMiles} miles </span>${searchedProviders[i].name}</h3>
                                     <p>${searchedProviders[i].name}, ${searchedProviders[i].location.fullAddress}</p>
-                                        <a class="text-center tl-uppercase tl-link tl-link--modal" href="#">See courses available at this site</a>
-                                        <div class="tl-modal">
-                                            <div class="tl-modal--content">
-                                                <a href="#closemodal" class="tl-modal--close">&times;</a>
+                                        <a class='text-center tl-uppercase tl-link tl-link--modal' href='#'>See courses available at this site</a>
+                                        <div class='tl-modal'>
+                                            <div class='tl-modal--content'>
+                                                <a href='#closemodal' class='tl-modal--close'>&times;</a>
                                                 <h2>${searchedProviders[i].name}</h2>
                                                 <p>${searchedProviders[i].location.fullAddress}, ${searchedProviders[i].location.postcode}</p>
                                                 <p><strong>Courses starting September 2020</strong></p>
                                                 ${qualificationsResults}
-                                                <a href="${searchedProviders[i].website}" class="tl-button tl-button--orange">Go to provider website</a>                               
+                                                <a href='${searchedProviders[i].website}' class='tl-button tl-button--orange'>Go to provider website</a>                               
                                             </div>
                                         </div>
                                  </div>
@@ -160,8 +160,8 @@ var maps = (function () {
                                  <br/>`;
                 }
 
-                $(`#tl-search-results`).empty();
-                $(`#tl-search-results`).append(searchResults);
+                $("#tl-search-results").empty();
+                $("#tl-search-results").append(searchResults);
             }
         });
     }
