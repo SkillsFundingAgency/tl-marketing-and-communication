@@ -101,7 +101,7 @@ var maps = (function () {
                             searchedProviders.push(providersData.Providers[i]);
                         }
 
-                        searchedProviders.sort((a, b) => a.distanceInMiles - b.distanceInMiles);
+                        searchedProviders.sort(compare);
 
                         showSearchResults(searchedProviders, providersData.Qualifications);
                     } else {
@@ -109,6 +109,13 @@ var maps = (function () {
                     }
                 });
             }
+
+            function compare(a, b) {
+                if (parseInt(a.distanceInMiles) > parseInt(b.distanceInMiles)) return 1;
+                if (parseInt(b.distanceInMiles) > parseInt(a.distanceInMiles)) return -1;
+
+                return 0;
+    }
 
             function getDistanceInMiles(providerLocation, postcodeLocation) {
 
