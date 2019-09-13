@@ -13,6 +13,7 @@
 
 
   <ItemGroup>
+    <Folder Include="Frontend\src\scss\plyr\sass\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

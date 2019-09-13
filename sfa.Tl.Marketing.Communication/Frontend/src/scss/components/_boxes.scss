@@ -8,6 +8,7 @@
     display: flex;
 
     p {
+        width: 100%;
 
         @media (max-width: 1000px) {
             font-size: 14px;
@@ -16,6 +17,7 @@
 
     h2 {
         margin: 0 0 1rem 0;
+        width: 100%;
     }
 }
 

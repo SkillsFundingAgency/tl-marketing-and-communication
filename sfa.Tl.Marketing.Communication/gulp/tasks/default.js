@@ -28,7 +28,15 @@ gulp.task('json', () => {
         .pipe(gulp.dest(paths.dist.Json));
 });
 
-gulp.task('js', () => {
+
+gulp.task('plyr', () => {
+    return gulp.src([
+        'node_modules/plyr/dist/plyr.min.js',
+    ])
+        .pipe(gulp.dest(paths.dist.plyr));
+});
+
+gulp.task('js', ['plyr'], () => {
     return gulp.src([
         'node_modules/jquery/dist/jquery.min.js',
         (paths.src.JS)
@@ -43,18 +51,17 @@ gulp.task('js', () => {
         .pipe(gulp.dest(paths.dist.JS));
 });
 
-gulp.task('sass', () => gulp
+gulp.task('plyrscss', () => {
+    gulp.src(paths.src.plyr)
+        .pipe(gulp.dest(paths.dist.SCSS + "/plyr"));
+});
+
+gulp.task('sass', ['plyrscss'], () => gulp
     .src(paths.src.SCSS)
     .pipe(sass(sassOptions))
     .pipe(gulp.dest(paths.dist.CSS))
 );
 
 
-gulp.task('sass:watch', function () {
-    gulp.watch((paths.src.SCSS), ['sass']);
-});
 
 
-gulp.task('js:watch', function () {
-    gulp.watch((paths.src.JS), ['js']);
-});

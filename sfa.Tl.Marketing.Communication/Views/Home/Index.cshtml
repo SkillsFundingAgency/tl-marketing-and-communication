@@ -9,8 +9,14 @@
     <div class="tl-container">
         <div class="row no-gutters">
             <div class="col tl-banner--video">
-                <img class="tl-banner--video-image" src="/files/images/videobanner.jpg" />
-                <a class="tl-banner--video-link" href="#"><span class="hidden">Play icon</span></a>
+                <div class="tl-banner--video-image plyr__video-embed" id="player">
+                    <iframe src="https://www.youtube.com/embed/ZkxeiB_LuJY?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
+                            allowfullscreen
+                            allowtransparency></iframe>
+                </div>
+                @*<a class="tl-banner--video-link" href="#"><span class="hidden">Play icon</span></a>*@
+
+
             </div>
         </div>
         <div class="row no-gutters">
@@ -31,7 +37,7 @@
                 <h2 class="text-center">A new qualification</h2>
                 <p>T Levels are a brand new, 2-year qualification that will give you a head start towards the future you want.</p>
                 <p>The Government has developed T Levels to deliver world class technical education and give you a new choice after GCSEs.</p>
-                <a href="#" class="tl-button tl-button--arrow tl-tablet-hidden">Discover the benefits of <span class="no-break">T Levels</span></a>
+                <a href="/home/why" class="tl-button tl-button--arrow tl-tablet-hidden">Discover the benefits of <span class="no-break">T Levels</span></a>
             </div>
         </div>
     </div>
@@ -63,3 +69,18 @@
         </div>
     </div>
 </section>
+
+@section jsfiles{
+    <script src="~/plyr/plyr.min.js"></script>
+    <script>
+        const player = new Plyr('#player', { hideControls: false, captions: { active: true } });
+        player.toggleControls(false);
+
+        player.on('play', event => {
+            player.toggleControls(true);
+        });
+
+        // Expose player so it can be used from the console
+        window.player = player;
+    </script>
+}

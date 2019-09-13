@@ -12,32 +12,27 @@ $(".tl-nav--hamburger").click(function () {
     }
 });
 
-$(".tl-modal--close").click(function () {
-    event.preventDefault();
-    $(this).closest('.tl-modal').removeClass('active');
-    $("body").removeClass('modal-open');
-
-});
-
-$(".tl-modal--content").click(function (e) {
-    e.stopPropagation();
-});
 
 $(document).on('click', function () {
-    if ($(event.target).is(".tl-link--modal")) {
+    var target = event.target;
+    var parent = target.parentElement;
+    var modalcontent = $(".tl-modal--content")
+
+    if ($(target).is(".tl-link--modal")) {
         event.preventDefault();
-        $(event.target).next(".tl-modal").addClass('active');
+        $(target).next(".tl-modal").addClass('active');
         $("body").addClass('modal-open');
         event.stopImmediatePropagation()
     }
-    else {
-        if ($("body").hasClass("modal-open")) {
-            event.preventDefault();
-            $('.tl-modal').removeClass('active');
-            $("body").removeClass('modal-open');
-        }
+    else if ($("body").hasClass("modal-open") && !$(target).is(modalcontent) && !modalcontent.has(target).length > 0 || $(target).is(".tl-modal--close")) {
+        event.preventDefault();
+        $('.tl-modal').removeClass('active');
+        $("body").removeClass('modal-open');
     }
+
 });
+
+
 
 var maps = (function () {
     function initMap() {
@@ -133,7 +128,7 @@ var maps = (function () {
                 for (let i = 0; i < searchedProviders.length; i++) {
                     let qualificationsResults = ``;
                     for (let j = 0; j < searchedProviders[i].location.qualification2020.length; j++) {
-                        qualificationsResults += `<p>${qualifications[searchedProviders[i].location.qualification2020[j]]}</p>`;
+                        qualificationsResults += `<li>${qualifications[searchedProviders[i].location.qualification2020[j]]}</li>`;
                     }
 
                     searchResults += `<div class="tl-results-box">
@@ -145,14 +140,15 @@ var maps = (function () {
                                                 <a href="#closemodal" class="tl-modal--close">&times;</a>
                                                 <h2>${searchedProviders[i].name}</h2>
                                                 <p>${searchedProviders[i].location.fullAddress}, ${searchedProviders[i].location.postcode}</p>
+                                                <br />
                                                 <p><strong>Courses starting September 2020</strong></p>
-                                                ${qualificationsResults}
+                                                <ul class="tl-list">
+                                                    ${qualificationsResults}
+                                                </ul>
                                                 <a href="${searchedProviders[i].website}" class="tl-button tl-button--orange">Go to provider website</a>                               
                                             </div>
                                         </div>
-                                 </div>
-
-                                 <br/>`;
+                                 </div>`;
                 }
 
                 $(`#tl-search-results`).empty();

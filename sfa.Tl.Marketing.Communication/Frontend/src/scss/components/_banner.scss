@@ -9,8 +9,11 @@
     padding: 10px !important;
     background-color: black;
 
-
-    &:before {
+    .plyr--playing {
+        z-index: 100;
+    }
+        
+        &:before {
         content: "";
         background-image: url("../files/images/arrow1.svg");
         background-size: 200px;
@@ -21,6 +24,7 @@
         display: block;
         height: 180px;
         width: 200px;
+        z-index: 50;
 
         @media(max-width: 1200px) {
             background-size: 20vw;
