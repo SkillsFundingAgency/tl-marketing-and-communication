@@ -149,7 +149,7 @@ var maps = (function () {
                                             <div class='tl-modal--content'> \
                                                 <a href='#closemodal' class='tl-modal--close'>&times;</a> \
                                                 <h2>" + searchedProviders[i].name + "</h2> \
-                                                <p>" + searchedProviders[i].location.fullAddress + ", " + searchedProviders[i].location.postcode + "</p> \
+                                                <p>" + searchedProviders[i].location.fullAddress + "</p> \
                                                 <p><strong>Courses starting September 2020</strong></p> \
                                                 <ul class='tl-list'> \
                                                 " + qualificationsResults + " \
