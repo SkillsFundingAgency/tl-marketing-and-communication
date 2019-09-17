@@ -31,6 +31,27 @@ $(document).on('click', function () {
 
 });
 
+function tlsearchsubmit() {
+    event.preventDefault;
+    var postcode = document.getElementById('Postcode').value;
+    var postcodeRGEX = /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/;
+    var postcodeResult = postcodeRGEX.test(postcode);
+
+    if (postcodeResult == true) {
+        $(".tl-search--form").removeClass("tl-validation--error");
+    }
+    else {
+        $(".tl-search--form").addClass("tl-validation--error");
+    }
+    return false;
+}
+
+
+//function tlsearchsubmit() {
+//    event.preventDefault;
+    
+//};
+
 var maps = (function () {
     function initMap() {
         $.getJSON("/js/providers.json", function (providersData) {
@@ -83,6 +104,8 @@ var maps = (function () {
             $("#tl-find-button").click(function () {
                 geocodeAddress(geocoder, map);
             });
+
+
 
             function geocodeAddress(geocoder, resultsMap) {
                 const searchedPostcode = document.getElementById("Postcode").value;

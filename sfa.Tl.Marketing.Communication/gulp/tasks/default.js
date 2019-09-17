@@ -32,7 +32,7 @@ gulp.task('json', () => {
 
 gulp.task('plyr', () => {
     return gulp.src([
-        'node_modules/plyr/dist/plyr.min.js',
+        'node_modules/plyr/dist/plyr.polyfilled.min.js',
     ])
         .pipe(gulp.dest(paths.dist.plyr));
 });

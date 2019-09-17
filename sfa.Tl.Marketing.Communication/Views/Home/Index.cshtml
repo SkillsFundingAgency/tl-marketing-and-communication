@@ -14,9 +14,6 @@
                             allowfullscreen
                             allowtransparency></iframe>
                 </div>
-                @*<a class="tl-banner--video-link" href="#"><span class="hidden">Play icon</span></a>*@
-
-
             </div>
         </div>
         <div class="row no-gutters">
@@ -71,12 +68,12 @@
 </section>
 
 @section jsfiles{
-    <script src="~/plyr/plyr.min.js"></script>
+    <script src="~/plyr/plyr.polyfilled.min.js"></script>
     <script>
         const player = new Plyr('#player', { hideControls: false, captions: { active: true } });
         player.toggleControls(false);
 
-        player.on('play', event => {
+        player.on('play', function (event) {
             player.toggleControls(true);
         });
 
