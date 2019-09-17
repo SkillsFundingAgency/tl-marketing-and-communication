@@ -4,11 +4,11 @@
 }
 @model FindViewModel
 
-<section id="tl-boxes" class="tl-background--purple">
+<section id="tl-subjects-content-1" class="tl-background--purple">
     <div class="tl-container">
         <div class="row no-gutters">
             <div class="col-md-6">
-                <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets11.png" />
+                <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets11.png" alt="T Level subjects image" />
             </div>
             <div class="col-md-6">
                 <div class="tl-box tl-box--purple">
@@ -28,7 +28,7 @@
                     <h2 class="text-center tl-desktop-only"><span class="text-outline--white">Find a T Level</span><br /><span class="text-purple"> near you</span></h2>
                     <h2 class="text-center tl-tablet-down"><a href="/find" class="tl-underline-none"><span class="text-outline--white">Find a </span><span class="text-purple tl-arrow--big">course near you</span></a></h2>
                     <form class="tl-search--input text-center tl-desktop-only" asp-action="Find" method="get">
-                        <input asp-for="Postcode" class="tl-input" placeholder="Enter your postcode" /><button class="tl-button tl-button--purple">Search</button>
+                        <label for="Postcode" class="hidden">Postcode</label><input asp-for="Postcode" class="tl-input" placeholder="Enter your postcode" /><button class="tl-button tl-button--purple">Search</button>
                     </form>
                 </div>
             </div>
@@ -36,7 +36,7 @@
     </div>
 </section>
 
-<section id="tl-boxes" class="tl-container">
+<section id="tl-subjects-content-2" class="tl-container">
     <div class="row no-gutters">
         <div class="col-md-6 order-2">
             <div class="tl-box tl-box--wide tl-box--white">
@@ -92,14 +92,14 @@
             </div>
         </div>
         <div class="col-md-6 order-1 order-md-12">
-            <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets12.png" />
+            <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets12.png" alt="Starting 2020 image" />
         </div>
     </div>
 
 
     <div class="row no-gutters">
         <div class="col-md-6">
-            <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets4.png" />
+            <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets4.png" alt="Starting 2021 image"  />
         </div>
 
         <div class="col-md-6">
@@ -253,13 +253,13 @@
             </div>
         </div>
         <div class="col-md-6 order-1 order-md-12">
-            <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets14.png" />
+            <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets14.png"  alt="Starting 2022 image" />
         </div>
     </div>
 
     <div class="row no-gutters">
         <div class="col-md-6">
-            <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets15.png" />
+            <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets15.png"  alt="Starting 2023 image" />
         </div>
 
         <div class="col-md-6">

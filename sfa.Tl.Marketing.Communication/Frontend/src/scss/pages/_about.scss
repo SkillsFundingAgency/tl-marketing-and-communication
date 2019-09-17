@@ -1,6 +1,15 @@
 #tl-about {
     #tl-footer {
         background-color: $purple;
+        color: white;
+
+        a {
+            color: white;
+        }
+
+        svg, g {
+            fill: white;
+        }
 
         &:before {
             background-image: url(../files/images/arrowpurple.svg);

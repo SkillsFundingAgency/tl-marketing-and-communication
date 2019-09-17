@@ -21,7 +21,7 @@
         </div>
         <div class="row no-gutters">
             <div class="col">
-                <h3 class="tl-banner--nextlevel"><span class="hidden">Welcome to the next level</span></h3>
+                <h2 class="tl-banner--nextlevel"><span class="hidden">Welcome to the next level</span></h2>
             </div>
         </div>
     </div>
@@ -30,7 +30,7 @@
 <section id="tl-boxes" class="tl-container">
     <div class="row no-gutters">
         <div class="col-md-6">
-            <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets1.png" />
+            <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets1.png"  alt="A new qualification image" />
         </div>
         <div class="col-md-6">
             <div class="tl-box tl-box--orange">
@@ -51,7 +51,7 @@
 
         </div>
         <div class="col-md-6 order-1 order-md-12">
-            <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets2.png" />
+            <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets2.png" alt="Created with business image" />
         </div>
     </div>
 </section>
@@ -62,7 +62,7 @@
                 <div class="tl-search--content">
                     <h2 class="text-center"><span class="text-outline--white">Find a T Level</span><br /><span class="text-orange"> near you</span></h2>
                     <form class="tl-search--input text-center" asp-action="Find" method="get">
-                        <input asp-for="Postcode" class="tl-input" placeholder="Enter your postcode" /><button class="tl-button tl-button--orange">Search</button>
+                        <label for="Postcode" class="hidden">Postcode</label><input asp-for="Postcode" class="tl-input" placeholder="Enter your postcode" /><button class="tl-button tl-button--orange">Search</button>
                     </form>
                 </div>
             </div>

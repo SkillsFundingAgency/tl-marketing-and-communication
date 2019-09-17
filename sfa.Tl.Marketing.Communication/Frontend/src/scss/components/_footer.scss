@@ -1,7 +1,7 @@
 #tl-footer {
     background-color: $orange;
     padding: 20px 40px;
-    color: white;
+    color: black;
     font-size: 14px;
     position: relative;
     margin-top: 220px;
@@ -20,7 +20,7 @@
     }
 
     svg, g {
-        fill: white;
+        fill: black;
     }
 
 
@@ -33,8 +33,7 @@
     }
 
     a {
-        color: white;
-        word-break: break-all;
+        color: black;
     }
 
     .tl-footer--logo {
