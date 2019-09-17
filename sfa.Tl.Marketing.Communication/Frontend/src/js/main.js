@@ -52,6 +52,8 @@ var maps = (function () {
                     zoom: 6
                 });
 
+            var infowindow = new google.maps.InfoWindow();
+
             for (let i = 0; i < providersData.Providers.length; i++) {
                 const marker = new google.maps.Marker({
                     position: {
@@ -61,6 +63,19 @@ var maps = (function () {
                     map: map,
                     title: providersData.Providers[i].name
                 });
+
+                var infoWindowContent = '<h1>' + providersData.Providers[i].name + '</h1>' +
+                    '<p><b>' + providersData.Providers[i].location.fullAddress + '</b></p>';
+
+                attachInfoWindow(marker, map, infowindow, infoWindowContent);
+            }
+
+            function attachInfoWindow(marker, map, infowindow, infoWindowContent) {
+                google.maps.event.addListener(marker,
+                    'click', function () {
+                        infowindow.setContent(infoWindowContent);
+                        infowindow.open(map, marker);
+                    });
             }
 
             var geocoder = new google.maps.Geocoder();
@@ -108,7 +123,7 @@ var maps = (function () {
                 if (parseInt(b.distanceInMiles) > parseInt(a.distanceInMiles)) return -1;
 
                 return 0;
-    }
+            }
 
             function getDistanceInMiles(providerLocation, postcodeLocation) {
 
@@ -149,7 +164,7 @@ var maps = (function () {
                                             <div class='tl-modal--content'> \
                                                 <a href='#closemodal' class='tl-modal--close'>&times;</a> \
                                                 <h2>" + searchedProviders[i].name + "</h2> \
-                                                <p>" + searchedProviders[i].location.fullAddress + ", " + searchedProviders[i].location.postcode + "</p> \
+                                                <p>" + searchedProviders[i].location.fullAddress + "</p> \
                                                 <p><strong>Courses starting September 2020</strong></p> \
                                                 <ul class='tl-list'> \
                                                 " + qualificationsResults + " \
