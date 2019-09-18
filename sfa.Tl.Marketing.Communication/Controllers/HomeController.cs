@@ -32,6 +32,9 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         [Route("find", Name = "Find")]
         public IActionResult Find(FindViewModel viewModel)
         {
+            if (!string.IsNullOrEmpty(viewModel.Postcode))
+                viewModel.ShouldSearch = true;
+
             return View(viewModel);
         }
 

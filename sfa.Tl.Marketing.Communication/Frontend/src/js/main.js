@@ -44,7 +44,7 @@ var maps = (function () {
                         dropdown.val(key);
                     }
                 });
-
+            
             var map = new google.maps.Map(document.getElementById("map"),
                 {
                     center: { lat: 52.4774169, lng: -1.9336707 },
@@ -85,11 +85,20 @@ var maps = (function () {
 
             var geocoder = new google.maps.Geocoder();
 
+            const shouldSearch = document.getElementById('ShouldSearch').value;
+            if (shouldSearch === "True") {
+                return search();
+            }
+
             $("#tl-find-button").click(function () {
+                return search();
+            });
+
+            function search() {
                 event.preventDefault();
-                var postcode = document.getElementById('Postcode').value;
-                var postcodeRGEX = /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/;
-                var postcodeResult = postcodeRGEX.test(postcode);
+                const postcode = document.getElementById('Postcode').value;
+                const postcodeRegex = /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/;
+                const postcodeResult = postcodeRegex.test(postcode);
 
                 if (postcode == "") {
                     $(".tl-validation--message").text("You must enter a postcode");
@@ -109,7 +118,7 @@ var maps = (function () {
                     $("#tl-search-results").empty();
                 }
                 return false;
-            });
+            }
 
             function geocodeAddress(geocoder, resultsMap) {
                 const searchedPostcode = document.getElementById("Postcode").value;
