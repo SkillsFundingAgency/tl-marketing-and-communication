@@ -37,7 +37,7 @@ var maps = (function () {
             var dropdown = $("#tl-qualifications");
             dropdown.append($("<option></option>").attr("value", 0).text("All 2020 courses"));
 
-            $.each(providersData.Qualifications,
+            $.each(providersData.qualifications,
                 function (key, entry) {
                     dropdown.append($("<option></option>").attr("value", key).text(entry));
                     if ($("#Qualification").val() === entry) {
@@ -53,20 +53,26 @@ var maps = (function () {
 
             var infowindow = new google.maps.InfoWindow();
 
-            for (let i = 0; i < providersData.Providers.length; i++) {
-                const marker = new google.maps.Marker({
-                    position: {
-                        lat: providersData.Providers[i].location.latitude,
-                        lng: providersData.Providers[i].location.longitude
-                    },
-                    map: map,
-                    title: providersData.Providers[i].name
-                });
+            for (let i = 0; i < providersData.providers.length; i++) {
+                for (let j = 0; j < providersData.providers[i].locations.length; j++) {
+                    const marker = new google.maps.Marker({
+                        position: {
+                            lat: providersData.providers[i].locations[j].latitude,
+                            lng: providersData.providers[i].locations[j].longitude
+                        },
+                        map: map,
+                        title: providersData.providers[i].name
+                    });
 
-                var infoWindowContent = '<h1>' + providersData.Providers[i].name + '</h1>' +
-                    '<p><b>' + providersData.Providers[i].location.fullAddress + '</b></p>';
+                    var infoWindowContent = '<h1>' +
+                        providersData.providers[i].name +
+                        '</h1>' +
+                        '<p><b>' +
+                        providersData.providers[i].locations[j].fullAddress +
+                        '</b></p>';
 
-                attachInfoWindow(marker, map, infowindow, infoWindowContent);
+                    attachInfoWindow(marker, map, infowindow, infoWindowContent);
+                }
             }
 
             function attachInfoWindow(marker, map, infowindow, infoWindowContent) {
@@ -105,8 +111,6 @@ var maps = (function () {
                 return false;
             });
 
-
-
             function geocodeAddress(geocoder, resultsMap) {
                 const searchedPostcode = document.getElementById("Postcode").value;
                 if (searchedPostcode === "")
@@ -119,22 +123,32 @@ var maps = (function () {
 
                         const selectedQualification = parseInt($("#tl-qualifications").children("option:selected").val());
 
-                        const searchedProviders = [];
+                        const searchedProvidersLocations = [];
 
-                        for (let i = 0; i < providersData.Providers.length; i++) {
-                            if (selectedQualification !== 0 &&
-                                !providersData.Providers[i].location.qualification2020.includes(selectedQualification)) {
-                                continue;
+                        for (let i = 0; i < providersData.providers.length; i++) {
+                            for (let j = 0; j < providersData.providers[i].locations.length; j++) {
+
+                                if (selectedQualification !== 0 &&
+                                    !providersData.providers[i].locations[j].qualification2020.includes(
+                                        selectedQualification)) {
+                                    continue;
+                                }
+
+                                providersData.providers[i].locations[j].distanceInMiles = getDistanceInMiles(
+                                    providersData.providers[i].locations[j],
+                                    results[0].geometry.location);
+
+
+                                providersData.providers[i].locations[j].name = providersData.providers[i].name;
+                                providersData.providers[i].locations[j].website = providersData.providers[i].website;
+
+                                searchedProvidersLocations.push(providersData.providers[i].locations[j]);
                             }
-
-                            providersData.Providers[i].distanceInMiles = getDistanceInMiles(providersData.Providers[i].location,
-                                results[0].geometry.location);
-                            searchedProviders.push(providersData.Providers[i]);
                         }
 
-                        searchedProviders.sort(compare);
+                        searchedProvidersLocations.sort(compare);
 
-                        showSearchResults(searchedProviders, providersData.Qualifications);
+                        showSearchResults(searchedProvidersLocations, providersData.qualifications);
                     } else {
                         showNoSearchResults();
                     }
@@ -171,28 +185,28 @@ var maps = (function () {
                 $("#tl-search-results").append(searchResults);
             }
 
-            function showSearchResults(searchedProviders, qualifications) {
+            function showSearchResults(searchedProviderLocations, qualifications) {
                 var searchResults = "";
-                for (let i = 0; i < searchedProviders.length; i++) {
+                for (let i = 0; i < searchedProviderLocations.length; i++) {
                     let qualificationsResults = "";
-                    for (let j = 0; j < searchedProviders[i].location.qualification2020.length; j++) {
-                        qualificationsResults += "<li>" + qualifications[searchedProviders[i].location.qualification2020[j]] + "</li>";
+                    for (let j = 0; j < searchedProviderLocations[i].qualification2020.length; j++) {
+                        qualificationsResults += "<li>" + qualifications[searchedProviderLocations[i].qualification2020[j]] + "</li>";
                     }
 
                     searchResults += "<div class='tl-results-box'> \
-                                    <h3><span class='tl-results-box--distance'>" + searchedProviders[i].distanceInMiles + " miles </span>" + searchedProviders[i].name + "</h3> \
-                                    <p>" + searchedProviders[i].name + ", " + searchedProviders[i].location.fullAddress + "</p> \
+                                    <h3><span class='tl-results-box--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles </span>" + searchedProviderLocations[i].name + "</h3> \
+                                    <p>" + searchedProviderLocations[i].name + ", " + searchedProviderLocations[i].fullAddress + "</p> \
                                         <a class='text-center tl-uppercase tl-link tl-link--modal' href='#'>See courses available at this site</a> \
                                         <div class='tl-modal'> \
                                             <div class='tl-modal--content'> \
                                                 <a href='#closemodal' class='tl-modal--close'>&times;</a> \
-                                                <h2>" + searchedProviders[i].name + "</h2> \
-                                                <p>" + searchedProviders[i].location.fullAddress + "</p> \
+                                                <h2>" + searchedProviderLocations[i].name + "</h2> \
+                                                <p>" + searchedProviderLocations[i].fullAddress + "</p> \
                                                 <p><strong>Courses starting September 2020</strong></p> \
                                                 <ul class='tl-list'> \
                                                 " + qualificationsResults + " \
                                                 </ul> \
-                                                <a href='" + searchedProviders[i].website + "' class='tl-button tl-button--orange'>Go to provider website</a> \
+                                                <a href='" + searchedProviderLocations[i].website + "' class='tl-button tl-button--orange'>Go to provider website</a> \
                                             </div> \
                                         </div> \
                                  </div> \
