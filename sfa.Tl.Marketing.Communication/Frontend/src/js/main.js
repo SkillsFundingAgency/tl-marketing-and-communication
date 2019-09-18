@@ -37,10 +37,15 @@ function tlsearchsubmit() {
     var postcodeRGEX = /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/;
     var postcodeResult = postcodeRGEX.test(postcode);
 
-    if (postcodeResult == true) {
+    if (postcode == "") {
+        $(".tl-validation--message").text("You must enter a postcode");
+        $(".tl-search--form").addClass("tl-validation--error");
+    }
+    else if (postcodeResult == true) {
         $(".tl-search--form").removeClass("tl-validation--error");
     }
     else {
+        $(".tl-validation--message").text("You must enter a real postcode");
         $(".tl-search--form").addClass("tl-validation--error");
     }
     return false;
