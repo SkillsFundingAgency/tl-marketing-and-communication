@@ -58,8 +58,9 @@
             <div class="col-12">
                 <div class="tl-search--content">
                     <h2 class="text-center"><span class="text-outline--white">Find a T Level</span><br /><span class="text-orange"> near you</span></h2>
-                    <form class="tl-search--input text-center" asp-action="Find" method="get">
-                        <label for="Postcode" class="hidden">Postcode</label><input asp-for="Postcode" class="tl-input" placeholder="Enter your postcode" /><button class="tl-button tl-button--orange">Search</button>
+                    <form class="tl-search--form text-center" asp-action="Find" method="get">
+                        <label for="Postcode" class="hidden">Postcode</label><input asp-for="Postcode" class="tl-input" placeholder="Enter your postcode" />
+                        <input id="tl-find-button" type="submit" class="tl-button tl-button--orange" value="Search" />
                     </form>
                 </div>
             </div>
