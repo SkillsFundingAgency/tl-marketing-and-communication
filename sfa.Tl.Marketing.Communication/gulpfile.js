@@ -5,9 +5,8 @@ var gulp = require('gulp');
 require('./gulp/tasks/default');
 require('./gulp/tasks/dev');
 
-gulp.task('default', ['bootstrap', 'assets', 'sass', 'js', 'json' ]);
+gulp.task('default', ['assets', 'sass', 'js', 'json' ]);
 
 
-gulp.task('dev', ['bootstrap', 'assets', 'sass', 'dev.js', 'json']);
+gulp.task('dev', ['assets', 'sass', 'dev.js', 'json']);
 
-//gulp.task('Dev', ['bootstrap', 'assets', 'sass', 'js', 'json']);

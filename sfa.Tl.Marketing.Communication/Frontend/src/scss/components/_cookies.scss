@@ -1,0 +1,35 @@
+/* Global cookie message */
+.js-enabled #global-cookie-message {
+    display: none;
+    /* shown with JS, always on for non-JS */
+}
+
+#global-cookie-message {
+    width: 100%;
+    background-color: $orange;
+    color: black;
+    padding: 10px;
+
+
+     p {
+        font-family: "nta", Arial, sans-serif;
+        font-weight: 400;
+        text-transform: none;
+        font-size: 14px;
+        line-height: 1.14286;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 0 10px;
+     }
+
+     a {
+         color: black;
+     }
+}
+
+@media (min-width: 641px) {
+    #global-cookie-message p {
+        font-size: 16px;
+        line-height: 1.25;
+    }
+}

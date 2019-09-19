@@ -10,14 +10,6 @@ var wait = require('gulp-wait');
 const paths = require('../paths.json');
 const sassOptions = require('../sassOptions.js');
 
-gulp.task('bootstrap', () => {
-    gulp.src([
-        'node_modules/bootstrap/dist/css/bootstrap-grid.min.css',
-        'node_modules/bootstrap/dist/js/bootstrap.min.js',
-    ])
-        .pipe(gulp.dest((paths.dist.default) + '/bootstrap'));
-});
-
 
 gulp.task('assets', () => {
     gulp.src(paths.src.Assets)
@@ -30,16 +22,11 @@ gulp.task('json', () => {
 });
 
 
-gulp.task('plyr', () => {
-    return gulp.src([
-        'node_modules/plyr/dist/plyr.polyfilled.min.js',
-    ])
-        .pipe(gulp.dest(paths.dist.plyr));
-});
-
-gulp.task('js', ['plyr'], () => {
+gulp.task('js', () => {
     return gulp.src([
         'node_modules/jquery/dist/jquery.min.js',
+        'node_modules/bootstrap/dist/js/bootstrap.min.js',
+        'node_modules/plyr/dist/plyr.polyfilled.min.js',
         (paths.src.JS)
     ])
         .pipe(concat('all.js'))
@@ -52,12 +39,7 @@ gulp.task('js', ['plyr'], () => {
         .pipe(gulp.dest(paths.dist.JS));
 });
 
-gulp.task('plyrscss', () => {
-    gulp.src(paths.src.plyr)
-        .pipe(gulp.dest(paths.dist.SCSS + "/plyr"));
-});
-
-gulp.task('sass', ['plyrscss'], () => gulp
+gulp.task('sass', () => gulp
     .src(paths.src.SCSS)
     .pipe(wait(200))
     .pipe(sass(sassOptions))
