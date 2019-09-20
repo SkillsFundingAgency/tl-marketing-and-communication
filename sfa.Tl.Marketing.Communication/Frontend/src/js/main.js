@@ -1,8 +1,3 @@
-$(document).ready(function () {
-    $("body").addClass("js-enabled");
-});
-
-
 $(".tl-nav--hamburger").click(function () {
     event.stopPropagation();
     if ($("#tl-nav").hasClass("active")) {

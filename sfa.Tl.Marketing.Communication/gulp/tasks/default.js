@@ -21,12 +21,10 @@ gulp.task('json', () => {
         .pipe(gulp.dest(paths.dist.Json));
 });
 
-
 gulp.task('js', () => {
     return gulp.src([
         'node_modules/jquery/dist/jquery.min.js',
         'node_modules/bootstrap/dist/js/bootstrap.min.js',
-        'node_modules/plyr/dist/plyr.polyfilled.min.js',
         (paths.src.JS)
     ])
         .pipe(concat('all.js'))
@@ -36,6 +34,13 @@ gulp.task('js', () => {
                 min: '.min.js'
             }
         }))
+        .pipe(gulp.dest(paths.dist.JS));
+});
+
+gulp.task('plyrjs', () => {
+    return gulp.src([
+        'node_modules/plyr/dist/plyr.polyfilled.min.js',
+    ])
         .pipe(gulp.dest(paths.dist.JS));
 });
 
