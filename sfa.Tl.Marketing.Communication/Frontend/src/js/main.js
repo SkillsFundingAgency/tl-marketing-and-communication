@@ -206,19 +206,11 @@ var maps = (function () {
                     searchResults += "<div class='tl-results-box'> \
                                     <h3><span class='tl-results-box--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles </span>" + searchedProviderLocations[i].name + "</h3> \
                                     <p>" + searchedProviderLocations[i].name + ", " + searchedProviderLocations[i].fullAddress + "</p> \
-                                        <a class='text-center tl-uppercase tl-link tl-link--modal' href='#'>See courses available at this site</a> \
-                                        <div class='tl-modal'> \
-                                            <div class='tl-modal--content'> \
-                                                <a href='#closemodal' class='tl-modal--close'>&times;</a> \
-                                                <h2>" + searchedProviderLocations[i].name + "</h2> \
-                                                <p>" + searchedProviderLocations[i].fullAddress + "</p> \
                                                 <p><strong>Courses starting September 2020</strong></p> \
-                                                <ul class='tl-list'> \
+                                                <ul class='tl-list tl-list-small'> \
                                                 " + qualificationsResults + " \
                                                 </ul> \
-                                                <a href='" + searchedProviderLocations[i].website + "' class='tl-button tl-button--orange'>Go to provider website</a> \
-                                            </div> \
-                                        </div> \
+                                                <a href='" + searchedProviderLocations[i].website + "' class='tl-link tl-link--external'>Go to provider website</a> \
                                  </div> \
                                  <br/>";
                 }

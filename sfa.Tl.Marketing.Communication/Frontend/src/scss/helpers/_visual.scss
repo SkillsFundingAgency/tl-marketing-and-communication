@@ -71,6 +71,24 @@
     color: white;
 }
 
+.tl-link--external {
+
+    &:after {
+        content: "";
+        background-image: url(../files/images/arrowexternal.svg);
+        display: inline-block;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: bottom;
+        display: inline-block;
+        margin-left: 10px;
+        height: 20px;
+        width: 20px;
+        top: 3px;
+        position: relative;
+    }
+}
+
 
 
 .tl-input {
@@ -86,6 +104,10 @@
     li {
         padding: 4px 0;
     }
+}
+
+.tl-list-small {
+    margin: 0 0 1rem 0;
 }
 
 .tl-list-bullet {
