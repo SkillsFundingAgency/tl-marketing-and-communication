@@ -87,6 +87,7 @@ var maps = (function () {
             }
 
             $("#tl-find-button").click(function () {
+                document.getElementById("MaxResultCount").value = 5;
                 return search();
             });
 
@@ -195,7 +196,12 @@ var maps = (function () {
 
             function showSearchResults(searchedProviderLocations, qualifications) {
                 var searchResults = "";
-                const maxResultCount = document.getElementById("MaxResultCount").value;
+                let maxResultCount = document.getElementById("MaxResultCount").value;
+
+                if (searchedProviderLocations.length <= maxResultCount) {
+                    maxResultCount = searchedProviderLocations.length;
+                    $("#tl-next").hide();
+                }
 
                 for (let i = 0; i < maxResultCount; i++) {
                     let qualificationsResults = "";
