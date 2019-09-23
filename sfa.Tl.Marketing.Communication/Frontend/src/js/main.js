@@ -51,7 +51,7 @@ var maps = (function () {
                     zoom: 6
                 });
 
-            var infowindow = new google.maps.InfoWindow();
+            const infoWindow = new google.maps.InfoWindow();
 
             for (let i = 0; i < providersData.providers.length; i++) {
                 for (let j = 0; j < providersData.providers[i].locations.length; j++) {
@@ -64,28 +64,24 @@ var maps = (function () {
                         title: providersData.providers[i].name
                     });
 
-                    var infoWindowContent = '<h1>' +
-                        providersData.providers[i].name +
-                        '</h1>' +
-                        '<p><b>' +
-                        providersData.providers[i].locations[j].fullAddress +
-                        '</b></p>';
+                    const infoWindowContent = "<h1>" + providersData.providers[i].name + "</h1>" +
+                        "<p><b>" + providersData.providers[i].locations[j].fullAddress + "</b></p>";
 
-                    attachInfoWindow(marker, map, infowindow, infoWindowContent);
+                    attachInfoWindow(marker, map, infoWindow, infoWindowContent);
                 }
             }
 
-            function attachInfoWindow(marker, map, infowindow, infoWindowContent) {
+            function attachInfoWindow(marker, map, infoWindow, infoWindowContent) {
                 google.maps.event.addListener(marker,
-                    'click', function () {
-                        infowindow.setContent(infoWindowContent);
-                        infowindow.open(map, marker);
+                    "click", function () {
+                        infoWindow.setContent(infoWindowContent);
+                        infoWindow.open(map, marker);
                     });
             }
 
             var geocoder = new google.maps.Geocoder();
 
-            const shouldSearch = document.getElementById('ShouldSearch').value;
+            const shouldSearch = document.getElementById("ShouldSearch").value;
             if (shouldSearch === "True") {
                 return search();
             }
@@ -94,9 +90,15 @@ var maps = (function () {
                 return search();
             });
 
+            $("#tl-next").click(function () {
+                const currentResultCount = parseInt(document.getElementById("MaxResultCount").value);
+                document.getElementById("MaxResultCount").value = currentResultCount + 5;
+                return search();
+            });
+
             function search() {
                 event.preventDefault();
-                const postcode = document.getElementById('Postcode').value;
+                const postcode = document.getElementById("Postcode").value;
                 const postcodeRegex = /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/;
                 const postcodeResult = postcodeRegex.test(postcode);
 
@@ -104,14 +106,11 @@ var maps = (function () {
                     $(".tl-validation--message").text("You must enter a postcode");
                     $(".tl-search--form").addClass("tl-validation--error");
                     $("#tl-search-results").empty();
-
                 }
-
                 else if (postcodeResult == true) {
                     $(".tl-search--form").removeClass("tl-validation--error");
                     geocodeAddress(geocoder, map);
                 }
-
                 else {
                     $(".tl-validation--message").text("You must enter a real postcode");
                     $(".tl-search--form").addClass("tl-validation--error");
@@ -196,7 +195,9 @@ var maps = (function () {
 
             function showSearchResults(searchedProviderLocations, qualifications) {
                 var searchResults = "";
-                for (let i = 0; i < searchedProviderLocations.length; i++) {
+                const maxResultCount = document.getElementById("MaxResultCount").value;
+
+                for (let i = 0; i < maxResultCount; i++) {
                     let qualificationsResults = "";
                     for (let j = 0; j < searchedProviderLocations[i].qualification2020.length; j++) {
                         qualificationsResults += "<li>" + qualifications[searchedProviderLocations[i].qualification2020[j]] + "</li>";
