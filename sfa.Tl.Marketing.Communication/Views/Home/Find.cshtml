@@ -31,7 +31,7 @@
             <div class="col-12">
                 <div class="tl-search--content">
                     <h2 class="text-center text-outline--white">Search</h2>
-                    <form class="tl-search--form text-center" onsubmit="return tlsearchsubmit(event)">
+                    <form class="tl-search--form text-center">
                         <label for="Postcode" class="hidden">Postcode</label>
                         <input asp-for="Postcode" class="tl-input" placeholder="Enter your postcode" />
                         <label for="tl-qualifications" class="hidden">Select a qualification</label>
@@ -40,6 +40,7 @@
                         <input id="MaxResultCount" value="5" type="hidden" />
                         <select class="tl-input" id="tl-qualifications"></select>
                         <input id="tl-find-button" type="submit" class="tl-button tl-button--orange" value="Search" />
+                        <button id="tl-next" class="tl-button tl-button--orange">Load 5 more</button>
                         <br />
                         <span class="tl-validation--message field-validation-error">You must enter a real postcode</span>
 
@@ -53,8 +54,6 @@
 <section id="tl-results" class="tl-container">
     <div class="row no-gutters justify-content-md-center">
         <div id="tl-search-results" class="col-md-8">
-            <button id="tl-next" class="tl-button tl-button--orange">Load 5 more</button>
-
         </div>
     </div>
 </section>
