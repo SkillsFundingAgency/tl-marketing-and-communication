@@ -34,6 +34,8 @@ var maps = (function () {
     function initMap() {
         $.getJSON("/js/providers.json", function (providersData) {
 
+            $("#tl-next").hide();
+
             var dropdown = $("#tl-qualifications");
             dropdown.append($("<option></option>").attr("value", 0).text("All 2020 courses"));
 
@@ -87,7 +89,6 @@ var maps = (function () {
             }
 
             $("#tl-find-button").click(function () {
-                $("#tl-next").show();
                 $("#MaxResultCount").val(5);
                 return search();
             });
@@ -104,10 +105,13 @@ var maps = (function () {
                 const postcodeRegex = /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/;
                 const postcodeResult = postcodeRegex.test(postcode);
 
+                $("#tl-next").show();
+
                 if (postcode == "") {
                     $(".tl-validation--message").text("You must enter a postcode");
                     $(".tl-search--form").addClass("tl-validation--error");
                     $("#tl-search-results").empty();
+                    $("#tl-next").hide();
                 }
                 else if (postcodeResult == true) {
                     $(".tl-search--form").removeClass("tl-validation--error");
@@ -117,6 +121,7 @@ var maps = (function () {
                     $(".tl-validation--message").text("You must enter a real postcode");
                     $(".tl-search--form").addClass("tl-validation--error");
                     $("#tl-search-results").empty();
+                    $("#tl-next").hide();
                 }
                 return false;
             }
