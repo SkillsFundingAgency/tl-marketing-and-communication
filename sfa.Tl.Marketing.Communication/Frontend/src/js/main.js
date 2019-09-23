@@ -81,19 +81,20 @@ var maps = (function () {
 
             var geocoder = new google.maps.Geocoder();
 
-            const shouldSearch = document.getElementById("ShouldSearch").value;
+            const shouldSearch = $("#ShouldSearch").val();
             if (shouldSearch === "True") {
                 return search();
             }
 
             $("#tl-find-button").click(function () {
-                document.getElementById("MaxResultCount").value = 5;
+                $("#tl-next").show();
+                $("#MaxResultCount").val(5);
                 return search();
             });
 
             $("#tl-next").click(function () {
-                const currentResultCount = parseInt(document.getElementById("MaxResultCount").value);
-                document.getElementById("MaxResultCount").value = currentResultCount + 5;
+                const currentResultCount = parseInt($("#MaxResultCount").val());
+                $("#MaxResultCount").val(currentResultCount + 5);
                 return search();
             });
 
@@ -196,7 +197,7 @@ var maps = (function () {
 
             function showSearchResults(searchedProviderLocations, qualifications) {
                 var searchResults = "";
-                let maxResultCount = document.getElementById("MaxResultCount").value;
+                let maxResultCount = $("#MaxResultCount").val();
 
                 if (searchedProviderLocations.length <= maxResultCount) {
                     maxResultCount = searchedProviderLocations.length;
