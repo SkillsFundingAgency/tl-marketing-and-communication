@@ -27,7 +27,6 @@ $(document).on('click', function () {
         $('.tl-modal').removeClass('active');
         $("body").removeClass('modal-open');
     }
-
 });
 
 var maps = (function () {
@@ -85,6 +84,11 @@ var maps = (function () {
 
             const shouldSearch = $("#ShouldSearch").val();
             if (shouldSearch === "True") {
+                $("#tl-next").click(function () {
+                    const currentResultCount = parseInt($("#MaxResultCount").val());
+                    $("#MaxResultCount").val(currentResultCount + 5);
+                    return search();
+                });
                 return search();
             }
 
