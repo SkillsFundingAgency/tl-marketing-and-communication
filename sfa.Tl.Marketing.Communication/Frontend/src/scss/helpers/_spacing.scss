@@ -14,3 +14,32 @@
         margin-top: $width + px;
     }
 }
+
+@media (min-width: 768px) {
+    @for $i from 0 through 10 {
+        $width: 10 * $i;
+
+        .tl-margin-bottom-#{$width}-desktop {
+            margin-bottom: $width + px;
+        }
+
+        .tl-margin-top-#{$width}-desktop {
+            margin-top: $width + px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    @for $i from 0 through 10 {
+        $width: 10 * $i;
+
+        .tl-margin-bottom-#{$width}-mobile {
+            margin-bottom: $width + px;
+        }
+
+        .tl-margin-top-#{$width}-mobile {
+            margin-top: $width + px;
+        }
+    }
+}
+

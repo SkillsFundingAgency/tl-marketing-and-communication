@@ -3,6 +3,10 @@
     margin: 0 auto;
 }
 
+.tl-content {
+    padding: 20px;
+}
+
 .hidden {
     position: absolute !important;
     width: 1px !important;
@@ -34,6 +38,26 @@
 
 .text-right {
     text-align: right;
+}
+
+@media (max-width: 767px) {
+    .text-right-mobile {
+        text-align: right;
+    }
+
+    .text-left-mobile {
+        text-align: left;
+    }
+}
+
+@media (min-width: 768px) {
+    .text-right-desktop {
+        text-align: right;
+    }
+
+    .text-left-desktop {
+        text-align: left;
+    }
 }
 
 .tl-middle {

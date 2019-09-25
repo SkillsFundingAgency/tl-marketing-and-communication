@@ -15,6 +15,10 @@
         &:before {
             background-image: url(../files/images/arrowpurple.svg);
         }
+
+        .tl-footer--bottom {
+            @extend .tl-border-top--white;
+        }
     }
 
     #tl-nav--bar-subjects {

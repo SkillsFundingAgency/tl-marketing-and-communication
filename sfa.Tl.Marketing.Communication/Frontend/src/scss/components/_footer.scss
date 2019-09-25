@@ -39,5 +39,30 @@
     .tl-footer--logo {
         max-height: 50px;
         margin-top: 10px;
+
+        @media (max-width: 767px) {
+            max-height: 30px;
+            margin-top: 0px;
+        }
+    }
+
+    .tl-footer--gov {
+        margin: 20px 0;
+    }
+
+    .tl-footer--links {
+        @media(min-width: 768px) {
+            float: right;
+            text-align: right;
+
+            li {
+                float: left;
+                padding: 0 0 0 20px;
+            }
+        }
+    }
+
+    .tl-footer--bottom {
+        @extend .tl-border-top--black; 
     }
 }

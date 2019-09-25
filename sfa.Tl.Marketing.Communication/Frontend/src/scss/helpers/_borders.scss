@@ -1,0 +1,21 @@
+$colours: 
+    "black" black,
+    "purple" $purple, 
+    "salmon" $salmon,
+    "orange" $orange,
+    "white" white;
+
+
+@each $name, $colour in $colours {
+    .tl-border-top--#{$name} {
+        border-top: 1px solid $colour;
+
+    }
+
+    .tl-border-bottom--#{$name} {
+        border-bottom: 1px solid $colour;
+    }
+}
+
+
+
