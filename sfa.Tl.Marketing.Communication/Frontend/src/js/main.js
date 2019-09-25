@@ -159,7 +159,7 @@ var maps = (function () {
 
 
                                 providersData.providers[i].locations[j].name = providersData.providers[i].name;
-                                providersData.providers[i].locations[j].website = providersData.providers[i].website;
+                                providersData.providers[i].locations[j].website = providersData.providers[i].locations[j].website;
 
                                 searchedProvidersLocations.push(providersData.providers[i].locations[j]);
                             }
