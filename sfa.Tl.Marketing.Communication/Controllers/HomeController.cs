@@ -6,6 +6,7 @@ namespace sfa.Tl.Marketing.Communication.Controllers
 {
     public class HomeController : Controller
     {
+        [Route("/", Name = "Home")]
         public IActionResult Index()
         {
             return View();
