@@ -120,6 +120,9 @@ var maps = (function () {
                 else if (postcodeResult == true) {
                     $(".tl-search--form").removeClass("tl-validation--error");
                     geocodeAddress(geocoder, map);
+
+                    var searchResultsAnchor = $("a[id='searchResults']");
+                    $("html, body").animate({ scrollTop: searchResultsAnchor.offset().top }, "slow");
                 }
                 else {
                     $(".tl-validation--message").text("You must enter a real postcode");
