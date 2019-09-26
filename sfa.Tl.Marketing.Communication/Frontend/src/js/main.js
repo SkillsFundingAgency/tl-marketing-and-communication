@@ -122,7 +122,7 @@ var maps = (function () {
                     geocodeAddress(geocoder, map);
 
                     if (goToSearchResults) {
-                        var searchResultsAnchor = $("a[id='searchResults']");
+                        var searchResultsAnchor = $("#tl-search");
                         $("html, body").animate({ scrollTop: searchResultsAnchor.offset().top }, "slow");
                     }
                 }
