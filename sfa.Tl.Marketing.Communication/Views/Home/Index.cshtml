@@ -71,11 +71,11 @@
 @section jsfiles{
 
     <script src="~/js/plyr.polyfilled.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+        <script>
+            const player = new Plyr('#player', {});
 
-    <script>
-        const player = new Plyr('#player', {});
-
-        // Expose player so it can be used from the console
-        window.player = player;
+            // Expose player so it can be used from the console
+            window.player = player;
     </script>
 }
