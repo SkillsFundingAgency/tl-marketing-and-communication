@@ -87,23 +87,23 @@ var maps = (function () {
                 $("#tl-next").click(function () {
                     const currentResultCount = parseInt($("#MaxResultCount").val());
                     $("#MaxResultCount").val(currentResultCount + 5);
-                    return search();
+                    return search(false);
                 });
-                return search();
+                return search(true);
             }
 
             $("#tl-find-button").click(function () {
                 $("#MaxResultCount").val(5);
-                return search();
+                return search(false);
             });
 
             $("#tl-next").click(function () {
                 const currentResultCount = parseInt($("#MaxResultCount").val());
                 $("#MaxResultCount").val(currentResultCount + 5);
-                return search();
+                return search(false);
             });
 
-            function search() {
+            function search(goToSearchResults) {
                 event.preventDefault();
                 const postcode = document.getElementById("Postcode").value;
                 const postcodeRegex = /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/;
@@ -121,8 +121,10 @@ var maps = (function () {
                     $(".tl-search--form").removeClass("tl-validation--error");
                     geocodeAddress(geocoder, map);
 
-                    var searchResultsAnchor = $("#tl-search");
-                    $("html, body").animate({ scrollTop: searchResultsAnchor.offset().top }, "slow");
+                    if (goToSearchResults) {
+                        var searchResultsAnchor = $("a[id='searchResults']");
+                        $("html, body").animate({ scrollTop: searchResultsAnchor.offset().top }, "slow");
+                    }
                 }
                 else {
                     $(".tl-validation--message").text("You must enter a real postcode");
@@ -225,11 +227,11 @@ var maps = (function () {
                     searchResults += "<div class='tl-results-box'> \
                                     <h3><span class='tl-results-box--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles </span>" + searchedProviderLocations[i].name + "</h3> \
                                     <p>" + searchedProviderLocations[i].name + ", " + searchedProviderLocations[i].fullAddress + "</p> \
-                                                <p class='tl-results-box--header'>Courses starting September 2020</p> \
+                                                <p><strong>Courses starting September 2020</strong></p> \
                                                 <ul class='tl-list tl-list-small'> \
                                                 " + qualificationsResults + " \
                                                 </ul> \
-                                                <a href='" + searchedProviderLocations[i].website + "' class='tl-link tl-link--external' id='tl-find--providersite'>Go to provider website</a> \
+                                                <a href='" + searchedProviderLocations[i].website + "' class='tl-link tl-link--external'>Go to provider website</a> \
                                  </div> \
                                  <br/>";
                 }
