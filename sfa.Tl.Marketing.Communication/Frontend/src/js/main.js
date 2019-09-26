@@ -87,23 +87,23 @@ var maps = (function () {
                 $("#tl-next").click(function () {
                     const currentResultCount = parseInt($("#MaxResultCount").val());
                     $("#MaxResultCount").val(currentResultCount + 5);
-                    return search();
+                    return search(false);
                 });
-                return search();
+                return search(true);
             }
 
             $("#tl-find-button").click(function () {
                 $("#MaxResultCount").val(5);
-                return search();
+                return search(false);
             });
 
             $("#tl-next").click(function () {
                 const currentResultCount = parseInt($("#MaxResultCount").val());
                 $("#MaxResultCount").val(currentResultCount + 5);
-                return search();
+                return search(false);
             });
 
-            function search() {
+            function search(goToSearchResults) {
                 event.preventDefault();
                 const postcode = document.getElementById("Postcode").value;
                 const postcodeRegex = /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/;
@@ -121,8 +121,10 @@ var maps = (function () {
                     $(".tl-search--form").removeClass("tl-validation--error");
                     geocodeAddress(geocoder, map);
 
-                    var searchResultsAnchor = $("a[id='searchResults']");
-                    $("html, body").animate({ scrollTop: searchResultsAnchor.offset().top }, "slow");
+                    if (goToSearchResults) {
+                        var searchResultsAnchor = $("a[id='searchResults']");
+                        $("html, body").animate({ scrollTop: searchResultsAnchor.offset().top }, "slow");
+                    }
                 }
                 else {
                     $(".tl-validation--message").text("You must enter a real postcode");
