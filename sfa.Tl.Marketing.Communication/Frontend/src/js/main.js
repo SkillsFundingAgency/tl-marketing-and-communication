@@ -231,7 +231,7 @@ var maps = (function () {
                                                 <ul class='tl-list tl-list-small'> \
                                                 " + qualificationsResults + " \
                                                 </ul> \
-                                                <a href='" + searchedProviderLocations[i].website + "' class='tl-link tl-link--external'>Go to provider website</a> \
+                                                <a href='" + searchedProviderLocations[i].website + "' class='tl-link tl-link--external' id='tl-find--providersite'>Go to provider website</a> \
                                  </div> \
                                  <br/>";
                 }
