@@ -121,7 +121,7 @@ var maps = (function () {
                     $(".tl-search--form").removeClass("tl-validation--error");
                     geocodeAddress(geocoder, map);
 
-                    var searchResultsAnchor = $("a[id='searchResults']");
+                    var searchResultsAnchor = $("#tl-search");
                     $("html, body").animate({ scrollTop: searchResultsAnchor.offset().top }, "slow");
                 }
                 else {
@@ -225,11 +225,11 @@ var maps = (function () {
                     searchResults += "<div class='tl-results-box'> \
                                     <h3><span class='tl-results-box--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles </span>" + searchedProviderLocations[i].name + "</h3> \
                                     <p>" + searchedProviderLocations[i].name + ", " + searchedProviderLocations[i].fullAddress + "</p> \
-                                                <p><strong>Courses starting September 2020</strong></p> \
+                                                <p class='tl-results-box--header'>Courses starting September 2020</p> \
                                                 <ul class='tl-list tl-list-small'> \
                                                 " + qualificationsResults + " \
                                                 </ul> \
-                                                <a href='" + searchedProviderLocations[i].website + "' class='tl-link tl-link--external'>Go to provider website</a> \
+                                                <a href='" + searchedProviderLocations[i].website + "' class='tl-link tl-link--external' id='tl-find--providersite'>Go to provider website</a> \
                                  </div> \
                                  <br/>";
                 }
