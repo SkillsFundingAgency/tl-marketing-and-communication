@@ -21,7 +21,7 @@ pool:
   - visualstudio
 
 steps:
-- task: gttools.gitversion.gitversion-task.GitVersion@5
+- task: gttools.gitversion.gitversion-task.GitVersion@4
   displayName: GitVersion
   inputs:
     updateAssemblyInfo: true
