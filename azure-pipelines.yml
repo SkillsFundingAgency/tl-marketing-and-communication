@@ -21,10 +21,9 @@ pool:
   - visualstudio
 
 steps:
-- task: gttools.gitversion.gitversion-task.GitVersion@4
+
+- task: gittools.gitversion.gitversion-task.GitVersion@5
   displayName: GitVersion
-  inputs:
-    updateAssemblyInfo: true
 
 - task: Npm@1
   displayName: 'npm install'
