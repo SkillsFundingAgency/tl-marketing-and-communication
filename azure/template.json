@@ -56,7 +56,7 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "worker-app-service-plan",
+            "name": "app-service-plan",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -102,7 +102,7 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "worker-function-app",
+            "name": "app-service",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -124,7 +124,7 @@
                         "value": [
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                "value": "[reference('worker-function-app-insights').outputs.InstrumentationKey.value]"
+                                "value": "[reference('app-insights').outputs.InstrumentationKey.value]"
                             }
                         ]
                     },
@@ -133,7 +133,9 @@
                     }
                 }
             },
-            "dependsOn": []
+            "dependsOn": [
+                "app-service-plan"
+            ]
         }
     ],
     "outputs": {
