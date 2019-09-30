@@ -1,4 +1,4 @@
-name: TL-Marketing-and-Communications
+name: tl-marketing-and-communications
 trigger:
   batch: true
   branches:
