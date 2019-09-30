@@ -15,10 +15,8 @@ variables:
   buildPlatform: 'anycpu'
 
 pool:
-  name: 'Continuous Integration 02 - SSD - 160ACU'
-  demands: 
-  - msbuild
-  - visualstudio
+  name: 'Azure Pipelines'
+  vmImage: 'ubuntu-16.04'
 
 steps:
 
