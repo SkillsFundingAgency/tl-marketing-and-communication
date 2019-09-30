@@ -3,13 +3,22 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "resourceEnvironmentName": {
-            "type": "string"
+            "type": "string",
+            "metadata": {
+                "description": "Enviroment Designation" 
+              }
         },
         "serviceName": {
-            "type": "string"
+            "type": "string",
+            "metadata": {
+                "description": "Service Designation" 
+              }
         },
         "resourceIdentifier": {
-            "type": "string"
+            "type": "string",
+            "metadata": {
+                "description": "4 Letter Service Reference to Identify service in same Resource Group" 
+              }
         },
         "workerAspSize": {
             "type": "string",
@@ -126,5 +135,11 @@
             },
             "dependsOn": []
         }
-    ]
+    ],
+    "outputs": {
+        "AppServiceName": {
+            "type": "string",
+            "value": "[variables('AppServiceName')]"
+        }
+    }
 }
