@@ -1,24 +1,24 @@
 {
-    "$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "resourceEnvironmentName": {
             "type": "string",
             "metadata": {
-                "description": "Enviroment Designation" 
-              }
+                "description": "Enviroment Designation"
+            }
         },
         "serviceName": {
             "type": "string",
             "metadata": {
-                "description": "Service Designation" 
-              }
+                "description": "Service Designation"
+            }
         },
         "resourceIdentifier": {
             "type": "string",
             "metadata": {
-                "description": "4 Letter Service Reference to Identify service in same Resource Group" 
-              }
+                "description": "4 Letter Service Reference to Identify service in same Resource Group"
+            }
         },
         "workerAspSize": {
             "type": "string",
@@ -27,6 +27,19 @@
         "workerAspInstances": {
             "type": "int",
             "defaultValue": 1
+        },
+        "customHostname": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "certificateName": {
+            "type": "string"
+        },
+        "keyVaultResourceGroupName": {
+            "type": "string"
+        },
+        "keyVaultName": {
+            "type": "string"
         }
     },
     "variables": {
@@ -34,7 +47,8 @@
         "resourceNamePrefix": "[toLower(concat(parameters('serviceName') , parameters('resourceEnvironmentName'), '-', parameters('resourceIdentifier')))]",
         "storageAccountName": "[toLower(concat('das', parameters('resourceEnvironmentName'), parameters('serviceName'), parameters('resourceIdentifier'), 'str'))]",
         "AppServicePlanName": "[concat(variables('resourceNamePrefix'), '-asp')]",
-        "AppServiceName": "[concat(variables('resourceNamePrefix'),'-as')]"
+        "AppServiceName": "[concat(variables('resourceNamePrefix'),'-as')]",
+        "ResourceGroup" : "[concat(variables('resourceNamePrefix'), '-rg')]"
     },
     "resources": [
         {
@@ -101,6 +115,31 @@
             }
         },
         {
+            "condition": "[greater(length(parameters('customHostName')), 0)]",
+            "apiVersion": "2017-05-10",
+            "name": "app-service-certificate",
+            "resourceGroup": "[variables('ResourceGroup')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/SkillsFundingAgency/das-platform-building-blocks/master/templates/app-service-certificate.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "keyVaultCertificateName": {
+                        "value": "[parameters('certificateName')]"
+                    },
+                    "keyVaultName": {
+                        "value": "[parameters('keyVaultName')]"
+                    },
+                    "keyVaultResourceGroup": {
+                        "value": "[parameters('keyVaultResourceGroupName')]"
+                    }
+                }
+            }
+        },
+        {
             "apiVersion": "2017-05-10",
             "name": "app-service",
             "type": "Microsoft.Resources/deployments",
@@ -129,12 +168,21 @@
                         ]
                     },
                     "appServiceConnectionStrings": {
-                        "value": []
+                        "value": [
+                        ]
+                    },
+                      "customHostName": {
+                        "value": "[parameters('customHostname')]"
+                    },
+                    "certificateThumbprint": {
+                        "value": "[if(greater(length(parameters('customHostname')), 0), reference('api-app-service-certificate', '2018-11-01').outputs.certificateThumbprint.value, '')]"
                     }
                 }
             },
             "dependsOn": [
-                "app-service-plan"
+                "app-service-plan",
+                "app-service-certificate",
+                "app-insights"
             ]
         }
     ],
