@@ -226,7 +226,7 @@ var maps = (function () {
 
                     searchResults += "<div class='tl-results-box'> \
                                     <h3><span class='tl-results-box--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles </span>" + searchedProviderLocations[i].name + "</h3> \
-                                    <p>" + searchedProviderLocations[i].name + ", " + searchedProviderLocations[i].fullAddress + "</p> \
+                                    <p>" + searchedProviderLocations[i].fullAddress + "</p> \
                                                 <p><strong>Courses starting September 2020</strong></p> \
                                                 <ul class='tl-list tl-list-small'> \
                                                 " + qualificationsResults + " \
