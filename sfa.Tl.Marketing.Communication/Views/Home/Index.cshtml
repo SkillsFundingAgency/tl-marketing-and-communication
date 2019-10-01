@@ -69,13 +69,21 @@
 </section>
 
 @section jsfiles{
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            'event': 'Pageview',
+            'pagePath': '/home',
+        });
+    </script>
 
     <script src="~/js/plyr.polyfilled.min.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
-        <script>
-            const player = new Plyr('#player', {});
+    <script>
+        const player = new Plyr('#player', {});
 
-            // Expose player so it can be used from the console
-            window.player = player;
+        // Expose player so it can be used from the console
+        window.player = player;
     </script>
+
 }
