@@ -43,7 +43,7 @@
         }
     },
     "variables": {
-        "deploymentUrlBase": "https://https://raw.githubusercontent.com/SkillsFundingAgency/tl-platform-building-blocks/master/templates/",
+        "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/tl-platform-building-blocks/master/templates/",
         "resourceNamePrefix": "[toLower(concat(parameters('serviceName') , parameters('resourceEnvironmentName'), '-', parameters('resourceIdentifier')))]",
         "storageAccountName": "[toLower(concat('das', parameters('resourceEnvironmentName'), parameters('serviceName'), parameters('resourceIdentifier'), 'str'))]",
         "AppServicePlanName": "[concat(variables('resourceNamePrefix'), '-asp')]",
@@ -123,7 +123,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/SkillsFundingAgency/das-platform-building-blocks/master/templates/app-service-certificate.json",
+                    "uri": "[concat(variables('deploymentUrlBase'), 'app-service-certificate.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
