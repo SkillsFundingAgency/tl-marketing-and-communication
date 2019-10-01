@@ -20,11 +20,11 @@
                 "description": "4 Letter Service Reference to Identify service in same Resource Group"
             }
         },
-        "workerAspSize": {
+        "aspSize": {
             "type": "string",
             "defaultValue": "1"
         },
-        "workerAspInstances": {
+        "aspInstances": {
             "type": "int",
             "defaultValue": 1
         },
@@ -83,13 +83,13 @@
                         "value": "[variables('AppServicePlanName')]"
                     },
                     "aspSize": {
-                        "value": "[parameters('workerAspSize')]"
+                        "value": "[parameters('aspSize')]"
                     },
                     "aspInstances": {
-                        "value": "[parameters('workerAspInstances')]"
+                        "value": "[parameters('aspInstances')]"
                     },
                     "nonASETier": {
-                        "value": "Basic"
+                        "value": "Standard"
                     }
                 }
             }
