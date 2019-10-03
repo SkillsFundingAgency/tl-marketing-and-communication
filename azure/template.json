@@ -175,7 +175,7 @@
                         "value": "[parameters('customHostname')]"
                     },
                     "certificateThumbprint": {
-                        "value": "[if(greater(length(parameters('customHostname')), 0), reference('api-app-service-certificate', '2018-11-01').outputs.certificateThumbprint.value, '')]"
+                        "value": "[if(greater(length(parameters('customHostname')), 0), reference('app-service-certificate', '2018-11-01').outputs.certificateThumbprint.value, '')]"
                     }
                 }
             },
