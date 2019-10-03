@@ -232,7 +232,7 @@
           "qualification2020": [
             3
           ],
-          "website": "https://www.nelson.ac.uk/16-18/t-levels/"
+          "website": "https://www.accross.ac.uk/school-leavers/t-levels/"
         }
       ]
     },
@@ -274,7 +274,7 @@
       "name": "La Retraite RC Girls School",
       "locations": [
         {
-          "fullAddress": "1-4 Atkins Rd, Clapham Park, London",
+          "fullAddress": "1-4 Atkins Road, Clapham Park, London",
           "postcode": "SW12 0AB",
           "latitude": 51.447913,
           "longitude": -0.14478,
@@ -376,7 +376,7 @@
           "qualification2020": [
             1
           ],
-          "website": "https://www.chichester.ac.uk"
+          "website": "https://www.crawley.ac.uk/study-courses/t-levels"
         }
       ]
     },
@@ -531,7 +531,7 @@
           "qualification2020": [
             1
           ],
-          "website": "http://www.painsley.co.uk/"
+          "website": "http://www.painsley.co.uk/sixth-form/t-levels/digital-t-level-starting-september-2020/"
         }
       ]
     },
@@ -624,7 +624,7 @@
       "name": "Thorpe St Andrew School and Sixth Form",
       "locations": [
         {
-          "fullAddress": "Laundry Lane, Thorpe St Andrew, norwich",
+          "fullAddress": "Laundry Lane, Thorpe St Andrew, Norwich",
           "postcode": "NR7 0XS",
           "latitude": 52.636136,
           "longitude": 1.355735,
@@ -683,7 +683,7 @@
           "website": "https://www.uxbridgecollege.ac.uk/tlevels"
         },
         {
-          "fullAddress": "College Way, Coldharbour Ln, Hayes",
+          "fullAddress": "College Way, Coldharbour Lane, Hayes",
           "postcode": "UB3 3BB",
           "latitude": 51.515631,
           "longitude": -0.412179,
@@ -890,7 +890,7 @@
             1,
             3
           ],
-          "website": "https://www.cardinalnewman.ac.uk/Tlevels"
+          "website": "https://www.cardinalnewman.ac.uk/school-leavers/t-levels/"
         }
       ]
     },
