@@ -23,10 +23,9 @@ steps:
   inputs:
     command: publish
     publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --no-restore'
     zipAfterPublish: True
     projects: '**/*.csproj'
-    arguments: '--no-restore'
 
 - task: AzureWebApp@1
   inputs:
