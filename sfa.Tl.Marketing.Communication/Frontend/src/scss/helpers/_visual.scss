@@ -190,3 +190,13 @@
         margin-left: 10px;
     }
 }
+
+.tl-breakword {
+    word-break: break-all;
+}
+
+input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
