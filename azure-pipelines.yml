@@ -27,8 +27,8 @@ steps:
     zipAfterPublish: True
     projects: '**/*.csproj'
 
-- task: AzureWebApp@1
-  inputs:
-    azureSubscription: Nlb-Test
-    appName: NLB-Test
-    package: $(System.ArtifactsDirectory)/**/*.zip  
+# - task: AzureWebApp@1
+#   inputs:
+#     azureSubscription: Nlb-Test
+#     appName: NLB-Test
+#     package: $(System.ArtifactsDirectory)/**/*.zip  
