@@ -25,9 +25,7 @@ steps:
     publishWebProjects: True
     arguments: '--configuration $(BuildConfiguration)'
     zipAfterPublish: True
-
-# - task: AzureWebApp@1
-#   inputs:
-#     azureSubscription: Nlb-Test
-#     appName: NLB-Test
-#     package: $(System.ArtifactsDirectory)/**/*.zip  
+   
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
