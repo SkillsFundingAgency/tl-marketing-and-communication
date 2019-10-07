@@ -207,6 +207,8 @@ var maps = (function () {
 
                 $("#tl-search-results").empty();
                 $("#tl-search-results").append(searchResults);
+
+                $("#tl-next").hide();
             }
 
             function showSearchResults(searchedProviderLocations, qualifications) {
