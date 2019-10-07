@@ -792,7 +792,20 @@
     {
       "id": 43,
       "name": "Barnsley College",
-      "locations": []
+      "locations": [
+        {
+          "fullAddress": "Church St, Barnsley",
+          "postcode": "S70 2YW",
+          "latitude": 53.551618,
+          "longitude": -1.482797,
+          "qualification2020": [
+            1,
+            2,
+            3
+          ],
+          "website": "https://www.barnsley.ac.uk/courses/all-about-t-levels/"
+        }
+      ]
     },
     {
       "id": 44,
