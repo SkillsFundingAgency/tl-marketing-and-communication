@@ -14,5 +14,10 @@
     td {
         border-bottom: 1px solid #cdcdcd;
         padding: 5px 10px;
+
+        @media(max-width: 500px) {
+            word-break: break-word;
+            min-width: 80px;
+        }
     }
 }
