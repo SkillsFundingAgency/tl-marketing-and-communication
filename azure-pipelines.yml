@@ -14,7 +14,7 @@ variables:
   WebAppName: 'tl-marketing-and-communication'
   Sku: 'F1'
   Location: 'northeurope'
-  ArtifactName: 'test'
+  ArtifactName: 'drop'
 
 stages:
 - stage: Build
