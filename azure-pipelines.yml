@@ -67,9 +67,10 @@ stages:
               templateLocation: 'Linked artifact'
               csmFile: '$(System.ArtifactsDirectory)/drop/azuredeploy.json'
               overrideParameters: '-webAppName "$(WebAppName)" -sku "$(Sku)" -location "$(Location)"'
-          -task: AzureRMWebAppDeployment@4
-            connectionType: 'AzureRM'
-            connectionServiceName: 'Nlb-Test'
-            webAppName: 'tl-marketing-and-communication-NLB-webapp'
-            webAppKind: 'Web App On Windows'
+          - task: AzureRMWebAppDeployment@4
+            inputs:
+              connectionType: 'AzureRM'
+              connectionServiceName: 'Nlb-Test'
+              webAppName: 'tl-marketing-and-communication-NLB-webapp'
+              webAppKind: 'Web App On Windows'
             
