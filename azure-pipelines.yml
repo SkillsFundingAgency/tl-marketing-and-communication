@@ -73,4 +73,5 @@ stages:
               connectedServiceName: 'Nlb-Test'
               webAppName: 'tl-marketing-and-communication-NLB-webapp'
               webAppKind: 'Web App On Windows'
+              package: '$(build.artifactstagingdirectory)'
             
