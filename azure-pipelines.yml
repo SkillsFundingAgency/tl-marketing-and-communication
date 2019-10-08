@@ -42,6 +42,7 @@ stages:
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(build.artifactstagingdirectory)'
+
 - stage: DeployArm
   jobs:
   - deployment: DeployArm
@@ -57,5 +58,5 @@ stages:
               resourceGroupName: 'NLB-Learning'
               location: 'UK West'
               templateLocation: 'Linked artifact'
-              csmFile: '$(System.DefaultWorkingDirectory)/_nbowes24.tl-marketing-and-communication/drop/azuredeploy.json'
+              csmFile: '$(System.ArtifactsDirectory)/drop/azuredeploy.json'
               overrideParameters: '-webAppName "$(WebAppName)" -sku "$(Sku)" -location "$(Location)"'
