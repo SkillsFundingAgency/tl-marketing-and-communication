@@ -70,7 +70,7 @@ stages:
           - task: AzureRMWebAppDeployment@4
             inputs:
               connectionType: 'AzureRM'
-              connectionServiceName: 'Nlb-Test'
+              connectedServiceName: 'Nlb-Test'
               webAppName: 'tl-marketing-and-communication-NLB-webapp'
               webAppKind: 'Web App On Windows'
             
