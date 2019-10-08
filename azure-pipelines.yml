@@ -14,6 +14,7 @@ variables:
   WebAppName: 'tl-marketing-and-communication'
   Sku: 'F1'
   Location: 'northeurope'
+  ArtifactName: 'test'
 
 stages:
 - stage: Build
@@ -52,11 +53,17 @@ stages:
       runOnce:
         deploy:
           steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              artifactName: $(ArtifactName)
+              buildType: 'current'
+              downloadType: 'single'
+              downloadPath: '$(System.ArtifactsDirectory)'
           - task: AzureResourceGroupDeployment@2
             inputs:
               azureSubscription: 'Nlb-Test'
               resourceGroupName: 'NLB-Learning'
               location: 'UK West'
               templateLocation: 'Linked artifact'
-              csmFile: '$(System.DefaultWorkingDirectory)/drop/azuredeploy.json'
+              csmFile: '$(System.ArtifactsDirectory)/drop/azuredeploy.json'
               overrideParameters: '-webAppName "$(WebAppName)" -sku "$(Sku)" -location "$(Location)"'
