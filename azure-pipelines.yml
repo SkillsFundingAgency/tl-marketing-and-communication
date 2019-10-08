@@ -68,7 +68,6 @@ stages:
               csmFile: '$(System.ArtifactsDirectory)/drop/azuredeploy.json'
               overrideParameters: '-webAppName "$(WebAppName)" -sku "$(Sku)" -location "$(Location)"'
           -task: AzureRMWebAppDeployment@4
-            displayName: 'Azure App Service Deploy: tl-marketing-and-communication-NLB-webapp'
             connectionType: 'AzureRM'
             connectionServiceName: 'Nlb-Test'
             webAppName: 'tl-marketing-and-communication-NLB-webapp'
