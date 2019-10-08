@@ -46,7 +46,7 @@ stages:
   jobs:
   - deployment: DeployArm
     displayName: 'Deploy to Test Env'
-    enviroment: 'tl-marketing-NLB-Test'
+    environment: 'tl-marketing-NLB-Test'
     strategy:
       -task: AzureResourceGroupDeployment@2
       inputs:
