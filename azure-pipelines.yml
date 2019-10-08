@@ -44,17 +44,15 @@ stages:
         PathtoPublish: '$(build.artifactstagingdirectory)'
 - stage: 'Deploy ARM'
   jobs:
-  - job: 'Deploy ARM' 
-    steps:
-    - deployment: DeployArm
-      displayName: 'Deploy to Test Env'
-      enviroment: 'tl-marketing-NLB-Test'
-      strategy:
-        -task: AzureResourceGroupDeployment@2
-        inputs:
-          azureSubscription: 'Nlb-Test'
-          resourceGroupName: 'NLB-Learning'
-          location: 'UK West'
-          templateLocation: 'Linked artifact'
-          csmFile: '$(System.DefaultWorkingDirectory)/_nbowes24.tl-marketing-and-communication/drop/azuredeploy.json'
-          overrideParameters: '-webAppName "$(WebAppName)" -sku "$(Sku)" -location "$(Location)"'
+  - deployment: DeployArm
+    displayName: 'Deploy to Test Env'
+    enviroment: 'tl-marketing-NLB-Test'
+    strategy:
+      -task: AzureResourceGroupDeployment@2
+      inputs:
+        azureSubscription: 'Nlb-Test'
+        resourceGroupName: 'NLB-Learning'
+        location: 'UK West'
+        templateLocation: 'Linked artifact'
+        csmFile: '$(System.DefaultWorkingDirectory)/_nbowes24.tl-marketing-and-communication/drop/azuredeploy.json'
+        overrideParameters: '-webAppName "$(WebAppName)" -sku "$(Sku)" -location "$(Location)"'
