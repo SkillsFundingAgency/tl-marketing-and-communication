@@ -58,5 +58,5 @@ stages:
               resourceGroupName: 'NLB-Learning'
               location: 'UK West'
               templateLocation: 'Linked artifact'
-              csmFile: '$(build.artifactstagingdirectory)/drop/azuredeploy.json'
+              csmFile: '/drop/azuredeploy.json'
               overrideParameters: '-webAppName "$(WebAppName)" -sku "$(Sku)" -location "$(Location)"'
