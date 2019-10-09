@@ -52,5 +52,10 @@ gulp.task('sass', () => gulp
 );
 
 
+gulp.task('sitemap', () => {
+    gulp.src(paths.src.Assets + "sitemap.xml")
+        .pipe(gulp.dest(paths.dist.default));
+});
+
 
 
