@@ -6,8 +6,6 @@
     "Assets": "Frontend/src/assets/**/*",
     "Json": "Frontend/src/json/**/*",
     "plyr": "node_modules/plyr/src/sass/**/*.scss"
-
-
   },
 
   "dist": {
