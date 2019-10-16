@@ -47,7 +47,7 @@ stages:
 - stage: Deploy
   jobs:
   - deployment: Deploy
-    displayName: 'Deploy to Test Env'
+    displayName: 'Deploy to Dev Env'
     environment: 'tl-marketing-NLB-Test'
     strategy:
       runOnce:
