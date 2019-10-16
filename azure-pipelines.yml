@@ -44,34 +44,34 @@ stages:
       inputs:
         PathtoPublish: '$(build.artifactstagingdirectory)'
 
-# - stage: Deploy
-#   jobs:
-#   - deployment: Deploy
-#     displayName: 'Deploy to Dev Env'
-#     environment: 'tl-marketing-NLB-Test'
-#     strategy:
-#       runOnce:
-#         deploy:
-#           steps:
-#           - task: DownloadBuildArtifacts@0
-#             inputs:
-#               artifactName: $(ArtifactName)
-#               buildType: 'current'
-#               downloadType: 'single'
-#               downloadPath: '$(System.ArtifactsDirectory)'
-#           - task: AzureResourceGroupDeployment@2
-#             inputs:
-#               azureSubscription: 'Nlb-Test'
-#               resourceGroupName: 'NLB-Learning'
-#               location: 'UK West'
-#               templateLocation: 'Linked artifact'
-#               csmFile: '$(System.ArtifactsDirectory)/drop/azuredeploy.json'
-#               overrideParameters: '-webAppName "$(WebAppName)" -sku "$(Sku)" -location "$(Location)"'
-#           - task: AzureRMWebAppDeployment@4
-#             inputs:
-#               connectionType: 'AzureRM'
-#               connectedServiceName: 'Nlb-Test'
-#               webAppName: 'tl-marketing-and-communication-NLB-webapp'
-#               webAppKind: 'Web App On Windows'
-#               package: '$(build.artifactstagingdirectory)'
+- stage: Deploy
+  jobs:
+  - deployment: Deploy
+    displayName: 'Deploy to Dev Env'
+    environment: 'tl-marketing-NLB-Test'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              artifactName: $(ArtifactName)
+              buildType: 'current'
+              downloadType: 'single'
+              downloadPath: '$(System.ArtifactsDirectory)'
+          - task: AzureResourceGroupDeployment@2
+            inputs:
+              azureSubscription: 'Nlb-Test'
+              resourceGroupName: 'NLB-Learning'
+              location: 'UK West'
+              templateLocation: 'Linked artifact'
+              csmFile: '$(System.ArtifactsDirectory)/drop/azuredeploy.json'
+              overrideParameters: '-webAppName "$(WebAppName)" -sku "$(Sku)" -location "$(Location)"'
+          - task: AzureRMWebAppDeployment@4
+            inputs:
+              connectionType: 'AzureRM'
+              connectedServiceName: 'Nlb-Test'
+              webAppName: 'tl-marketing-and-communication-NLB-webapp'
+              webAppKind: 'Web App On Windows'
+              package: '$(build.artifactstagingdirectory)'
             
