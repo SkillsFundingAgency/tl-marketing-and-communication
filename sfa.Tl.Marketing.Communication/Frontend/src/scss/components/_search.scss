@@ -29,6 +29,13 @@
         }
     }
 
+    .tl-input--select {
+        position: relative;
+        background: url(/files/images/arrow3.svg) 96% / 5% no-repeat #eee;
+        cursor: pointer;
+    }
+
+
     .tl-button {
         margin: 0;
         min-height: 60px;
@@ -40,8 +47,6 @@
             margin: 10px 0 0 0;
         }
     }
-
-
 }
 
 .tl-validation--message {
