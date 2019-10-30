@@ -28,7 +28,7 @@
                     <h2 class="text-center tl-tablet-down"><a href="/Find" class="tl-underline-none"><span class="text-outline--white">Find a </span><span class="text-salmon tl-arrow--big">course near you</span></a></h2>
                     <form class="tl-search--form text-center tl-desktop-only" asp-action="Find" method="get">
                         <label for="Postcode" class="hidden">Postcode</label>
-                        <input asp-for="Postcode" class="tl-input" placeholder="Enter your postcode" />
+                        <input asp-for="Postcode" class="tl-input" placeholder="Enter your postcode" aria-label="Enter a postcode to find a T-Level near you" />
                         <input id="tl-find-button" type="submit" class="tl-button tl-button--orange" value="Search" />
                     </form>
                 </div>
