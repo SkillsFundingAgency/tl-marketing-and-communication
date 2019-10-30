@@ -3,10 +3,11 @@ $(".tl-nav--hamburger").click(function () {
     if ($("#tl-nav").hasClass("active")) {
         $("#tl-nav").removeClass("active");
         $("body").removeClass("navopen");
-
+        $("#tl-nav--hamburger").attr("aria-expanded", "false");
     }
     else {
         $("#tl-nav").addClass("active");
+        $("#tl-nav--hamburger").attr("aria-expanded", "true");
         $("body").addClass("navopen");
     }
 });
@@ -233,7 +234,7 @@ var maps = (function () {
                                                 <ul class='tl-list tl-list-small'> \
                                                 " + qualificationsResults + " \
                                                 </ul> \
-                                                <a href='" + searchedProviderLocations[i].website + "' class='tl-link tl-link--external' id='tl-find--providersite'>Go to provider website</a> \
+                                                <a href='" + searchedProviderLocations[i].website + "' class='tl-link tl-link--external tl-find--providersite'>Go to provider website</a> \
                                  </div> \
                                  <br/>";
                 }
