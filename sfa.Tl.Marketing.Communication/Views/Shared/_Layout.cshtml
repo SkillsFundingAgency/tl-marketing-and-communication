@@ -17,9 +17,10 @@
         document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
     </script>
     <partial name="_CookieBanner" />
+    <a class="tl-skiplink" href="#main">Skip to main content</a>
     <partial name="_Header" />
     <partial name="_Nav" />
-    <main>
+    <main id="main" tabindex="-1">
         @RenderBody()
     </main>
     <partial name="_Footer" />

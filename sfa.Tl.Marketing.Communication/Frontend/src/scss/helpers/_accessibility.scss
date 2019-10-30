@@ -1,0 +1,15 @@
+.tl-skiplink {
+    position: absolute;
+    left: -9999em;
+    top: 0;
+    z-index: 100;
+    margin: 1em;
+
+
+    &:focus {
+        left: 0;
+        background-color: #ffbf47;
+        outline: 3px solid #ffbf47;
+        color: #005798;
+    }
+}
