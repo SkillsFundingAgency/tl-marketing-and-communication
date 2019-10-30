@@ -141,6 +141,10 @@
         padding: 10px;
         overflow: visible;
         border-bottom: 1px solid black;
+
+        @media screen and (max-height: 420px) {
+            position: unset;
+        }
     }
 
     .tl-nav--bar {
@@ -148,13 +152,16 @@
         display: block;
         position: absolute;
         top: 80px;
-        background-color: white;
         padding: 0;
         margin: 0;
         left: 0;
         z-index: 900;
         height: 100%;
         display: none;
+
+        @media screen and (max-height: 420px) {
+            top: 130px;
+        }
 
 
 
@@ -212,4 +219,8 @@
     overflow: hidden;
     height: 100%;
     margin: 0;
+
+    @media screen and (max-height: 420px) {
+        overflow: auto;
+    }
 }

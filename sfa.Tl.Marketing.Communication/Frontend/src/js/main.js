@@ -86,6 +86,7 @@ var maps = (function () {
             const shouldSearch = $("#ShouldSearch").val();
             if (shouldSearch === "True") {
                 $("#tl-next").click(function () {
+                    $(".tl-results-box:last-of-type .tl-find--providersite").focus();
                     const currentResultCount = parseInt($("#MaxResultCount").val());
                     $("#MaxResultCount").val(currentResultCount + 5);
                     return search(false);
@@ -99,6 +100,7 @@ var maps = (function () {
             });
 
             $("#tl-next").click(function () {
+                $(".tl-results-box:last-of-type .tl-find--providersite").focus();
                 const currentResultCount = parseInt($("#MaxResultCount").val());
                 $("#MaxResultCount").val(currentResultCount + 5);
                 return search(false);
