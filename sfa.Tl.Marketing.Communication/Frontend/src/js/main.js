@@ -130,7 +130,7 @@ var maps = (function () {
 
                     const searchResultLastPosition = parseInt($("#MaxResultCount").val());
                     if (searchResultLastPosition > defaultResultCount)
-                        $("#SearchResultLastPosition").val(searchResultLastPosition - defaultResultCount - 1);
+                        $("#SearchResultLastPosition").val(searchResultLastPosition - defaultResultCount);
                 }
                 else {
                     $(".tl-validation--message").text("You must enter a real postcode");
