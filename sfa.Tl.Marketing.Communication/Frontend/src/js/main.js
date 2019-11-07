@@ -34,6 +34,7 @@ var maps = (function () {
     function initMap() {
         $.getJSON("/js/providers.json", function (providersData) {
 
+            const defaultResultCount = 5;
             $("#tl-next").hide();
 
             var dropdown = $("#tl-qualifications");
@@ -86,23 +87,21 @@ var maps = (function () {
             const shouldSearch = $("#ShouldSearch").val();
             if (shouldSearch === "True") {
                 $("#tl-next").click(function () {
-                    $(".tl-results-box:last-of-type .tl-find--providersite").focus();
                     const currentResultCount = parseInt($("#MaxResultCount").val());
-                    $("#MaxResultCount").val(currentResultCount + 5);
+                    $("#MaxResultCount").val(currentResultCount + defaultResultCount);
                     return search(false);
                 });
                 return search(true);
             }
 
             $("#tl-find-button").click(function () {
-                $("#MaxResultCount").val(5);
+                $("#MaxResultCount").val(defaultResultCount);
                 return search(false);
             });
 
             $("#tl-next").click(function () {
-                $(".tl-results-box:last-of-type .tl-find--providersite").focus();
                 const currentResultCount = parseInt($("#MaxResultCount").val());
-                $("#MaxResultCount").val(currentResultCount + 5);
+                $("#MaxResultCount").val(currentResultCount + defaultResultCount);
                 return search(false);
             });
 
@@ -128,6 +127,10 @@ var maps = (function () {
                         var searchResultsAnchor = $("#tl-search");
                         $("html, body").animate({ scrollTop: searchResultsAnchor.offset().top }, "slow");
                     }
+
+                    const searchResultLastPosition = parseInt($("#MaxResultCount").val());
+                    if (searchResultLastPosition > defaultResultCount)
+                        $("#SearchResultLastPosition").val(searchResultLastPosition - defaultResultCount - 1);
                 }
                 else {
                     $(".tl-validation--message").text("You must enter a real postcode");
@@ -243,6 +246,8 @@ var maps = (function () {
 
                 $("#tl-search-results").empty();
                 $("#tl-search-results").append(searchResults);
+
+                $("#tl-search-results div:eq(" + $("#SearchResultLastPosition").val() + ") a").focus();
             }
         });
     }
