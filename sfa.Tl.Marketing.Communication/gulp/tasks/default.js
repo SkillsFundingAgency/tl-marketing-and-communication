@@ -1,28 +1,26 @@
-﻿
+﻿const { src } = require('gulp');
+
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var minify = require('gulp-minify');
 var sass = require('gulp-sass');
-var cleanCSS = require('gulp-clean-css');
-var concatCss = require('gulp-concat-css');
 var wait = require('gulp-wait');
 
 const paths = require('../paths.json');
 const sassOptions = require('../sassOptions.js');
 
-
 gulp.task('assets', () => {
-    gulp.src(paths.src.Assets)
+    return src(paths.src.Assets)
         .pipe(gulp.dest(paths.dist.Assets));
 });
 
 gulp.task('json', () => {
-    gulp.src(paths.src.Json)
+    return src(paths.src.Json)
         .pipe(gulp.dest(paths.dist.Json));
 });
 
 gulp.task('js', () => {
-    return gulp.src([
+    return src([
         'node_modules/jquery/dist/jquery.min.js',
         'node_modules/bootstrap/dist/js/bootstrap.min.js',
         (paths.src.JS)
@@ -38,24 +36,21 @@ gulp.task('js', () => {
 });
 
 gulp.task('plyrjs', () => {
-    return gulp.src([
+    return src([
         'node_modules/plyr/dist/plyr.polyfilled.min.js',
     ])
         .pipe(gulp.dest(paths.dist.JS));
 });
 
-gulp.task('sass', () => gulp
-    .src(paths.src.SCSS)
-    .pipe(wait(200))
-    .pipe(sass(sassOptions))
-    .pipe(gulp.dest(paths.dist.CSS))
+gulp.task('sass', () => {
+        return src(paths.src.SCSS)
+            .pipe(wait(200))
+            .pipe(sass(sassOptions))
+            .pipe(gulp.dest(paths.dist.CSS));
+    }
 );
 
-
 gulp.task('sitemap', () => {
-    gulp.src(paths.src.Assets + "sitemap.xml")
+    return src(paths.src.Assets + "sitemap.xml")
         .pipe(gulp.dest(paths.dist.default));
 });
-
-
-
