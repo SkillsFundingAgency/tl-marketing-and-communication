@@ -1,16 +1,12 @@
-﻿
+﻿const { src } = require('gulp');
+
 var gulp = require('gulp');
 var concat = require('gulp-concat');
-var minify = require('gulp-minify');
-var sass = require('gulp-sass');
-var cleanCSS = require('gulp-clean-css');
-var concatCss = require('gulp-concat-css');
 
 const paths = require('../paths.json');
-const sassOptions = require('../sassOptions.js');
 
 gulp.task('bootstrap', () => {
-    gulp.src([
+    return src([
         'node_modules/bootstrap/dist/css/bootstrap-grid.min.css',
         'node_modules/bootstrap/dist/js/bootstrap.min.js',
     ])
@@ -27,6 +23,6 @@ gulp.task('dev.js', () => {
         .pipe(gulp.dest(paths.dist.JS));
 });
 
-gulp.task('dev.js:watch', function () {
-    gulp.watch((paths.src.JS), ['dev.js']);
+gulp.task('dev.js:watch', () => {
+    return gulp.watch((paths.src.JS), ['dev.js']);
 });
