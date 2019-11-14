@@ -10,9 +10,16 @@
     <link rel="stylesheet" href="/css/ab.css">
 }
 
-<section id="tl-banner">
+
+<section id="tl-ab" class="tl-ab-banner tl-ab-banner--dark">
     <div class="tl-container">
         <div class="row no-gutters">
+            <div class="col-12 tl-ab-banner-content">
+                <h2><span>Welcome to <br />the nex</span><span class="text-orange">t level</span></h2>
+                <p class="tl-ab-banner--subheader">A new choice after GCSEs. Coming September 2020.</p>
+                <a href="/about" id="tl-ab-cta" class="tl-ab-button tl-button tl-button--orange">Find out more about T Levels</a>
+            </div>
+
             <div class="col tl-banner--video">
                 <div class="tl-banner--video-image plyr__video-embed" id="player">
                     <iframe src="https://www.youtube.com/embed/XYQw5rQrwwA?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;rel=0&amp;enablejsapi=1"
@@ -20,14 +27,11 @@
                             allowtransparency></iframe>
                 </div>
             </div>
-        </div>
-        <div class="row no-gutters">
-            <div class="col">
-                <h2 class="tl-banner--nextlevel"><span class="hidden">Welcome to the next level</span></h2>
-            </div>
+
         </div>
     </div>
 </section>
+
 
 <section id="tl-boxes" class="tl-container">
     <div class="row no-gutters">
@@ -57,21 +61,7 @@
         </div>
     </div>
 </section>
-<section id="tl-search">
-    <div class="tl-container">
-        <div class="row no-gutters">
-            <div class="col-12">
-                <div class="tl-search--content">
-                    <h2 class="text-center"><span class="text-outline--white">Find a T Level</span><br /><span class="text-orange"> near you</span></h2>
-                    <form class="tl-search--form text-center" asp-controller="Home" asp-action="Find" method="get">
-                        <label for="Postcode" class="hidden">Postcode</label><input asp-for="Postcode" class="tl-input" placeholder="Enter your postcode" aria-label="Enter a postcode to find a T-Level near you" />
-                        <input id="tl-find-button" type="submit" class="tl-button tl-button--orange" value="Search" />
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+
 
 @section jsfiles{
 
