@@ -1,0 +1,78 @@
+﻿@{
+
+    ViewData["PageID"] = "tl-home";
+    ViewData["PagePath"] = "home";
+
+}
+@model FindViewModel
+
+@section cssfiles{
+    <link rel="stylesheet" href="/css/ab.css">
+}
+
+
+<section id="tl-ab" class="tl-ab-banner tl-ab-banner--dark">
+    <div class="tl-container">
+        <div class="row no-gutters">
+            <div class="col-12 tl-ab-banner-content">
+                <h2><span>Welcome to <br />the nex</span><span class="text-orange">t level</span></h2>
+                <p class="tl-ab-banner--subheader">A new choice after GCSEs. Coming September 2020.</p>
+                <form class="tl-ab-banner--search" asp-controller="Home" asp-action="Find" method="get">
+                    <h3>Find a T Level near you</h3>
+                    <label for="Postcode" class="hidden">Postcode</label><input asp-for="Postcode" class="tl-input" placeholder="Enter your postcode" aria-label="Enter a postcode to find a T-Level near you" /><input id="tl-ab-cta" type="submit" class="tl-ab-search tl-button tl-button--orange" value="Search" />
+                </form>
+            </div>
+            <div class="col tl-banner--video">
+                <div class="tl-banner--video-image plyr__video-embed" id="player">
+                    <iframe src="https://www.youtube.com/embed/XYQw5rQrwwA?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;rel=0&amp;enablejsapi=1"
+                            allowfullscreen
+                            allowtransparency></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="tl-boxes" class="tl-container">
+    <div class="row no-gutters">
+        <div class="col-md-6">
+            <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets1.jpg" alt="" />
+        </div>
+        <div class="col-md-6">
+            <div class="tl-box tl-box--orange">
+                <h2 class="text-center">A new qualification</h2>
+                <p>T Levels are a brand new, 2-year qualification that will give you a head start towards the future you want.</p>
+                <p>The Government has developed T Levels to deliver world class technical education and give you a new choice after GCSEs.</p>
+                <a href="/why" id="tl-home--discover" class="tl-button tl-button--arrow tl-tablet-hidden">Discover the benefits of <span class="no-break">T Levels</span></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row no-gutters">
+        <div class="col-md-6 flex-center order-2 ">
+            <div class="tl-box tl-box--orange">
+                <h2 class="text-center">Created with business</h2>
+                <p>T Levels have been designed in partnership with businesses and employers to give students the knowledge and skills they need - so you can be confident that a T Level will help you move into the career you want. </p>
+            </div>
+
+        </div>
+        <div class="col-md-6 order-1 order-md-12">
+            <img class="tl-image--responsive" src="/files/images/TLevels_WebsiteAssets2.jpg" alt="" />
+        </div>
+    </div>
+</section>
+
+
+@section jsfiles{
+
+
+    <script src="~/js/plyr.polyfilled.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        const player = new Plyr('#player', {});
+
+        // Expose player so it can be used from the console
+        window.player = player;
+    </script>
+
+}

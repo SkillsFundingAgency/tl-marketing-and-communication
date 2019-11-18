@@ -1,0 +1,191 @@
+.tl-ab-banner {
+    padding: 80px 20px;
+
+    h2 {
+        font-size: 83px;
+        line-height: 75px;
+        z-index: 2;
+        position: relative;
+
+
+        @media (max-width: 1050px) {
+            font-size: 8vw;
+            line-height: 7vw;
+        }
+
+        @media (max-width: 800px) {
+            font-size: 60px;
+            line-height: 55px;
+        }
+    }
+}
+
+.tl-ab-banner--subheader {
+    font-size: 20px;
+    margin: 25px 0 0 10px;
+    z-index: 2;
+    position: relative;
+}
+
+.tl-ab-banner--search {
+    margin: 60px 0 0 10px;
+    z-index: 2;
+    position: relative;
+
+
+    h3 {
+        font-size: 25px;
+        margin: 20px 0;
+    }
+
+    .tl-input {
+        min-width: 300px;
+        padding: 30px 30px 30px 50px;
+        background: white url(../files/images/placemarker.svg) no-repeat;
+        background-position: 20px;
+        background-size: 16px;
+
+        @media (max-width: 600px) {
+            min-width: unset;
+            width: 60%;
+        }
+
+        @media (max-width: 450px) {
+            width: 100%;
+        }
+    }
+
+    .tl-ab-search {
+        color: white;
+        font-family: 'LL Circular Black Web', Arial, Helvetica, sans-serif;
+        padding: 27px;
+        font-size: 19px;
+        font-weight: bold;
+        margin-left: 20px;
+        background: rgb(252,68,33);
+        background-image: linear-gradient(180deg, rgba(252,68,33,1) 0%, rgba(252,68,33,1) 50%, #d83a1c 50%, #d83a1c 100%);
+        background-size: 100% 200%;
+        transition: background-position 0.2s;
+
+
+        &:hover {
+            background-position: 0 100%;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+
+        @media (max-width: 450px) {
+            width: 100%;
+            margin: 20px 0 0 0;
+            max-width: unset;
+        }
+    }
+}
+
+.tl-ab-button {
+    color: white;
+    font-family: 'LL Circular Black Web', Arial, Helvetica, sans-serif;
+    padding: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 40px;
+    text-align: center;
+    background: rgb(252,68,33);
+    background-image: linear-gradient(180deg, rgba(252,68,33,1) 0%, rgba(252,68,33,1) 50%, #d83a1c 50%, #d83a1c 100%);
+    background-size: 100% 200%;
+    transition: background-position 0.2s;
+    z-index: 2;
+    position: relative;
+
+
+    &:hover {
+        background-position: 0 100%;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    @media (max-width: 450px) {
+        width: 100%;
+        max-width: unset;
+    }
+}
+
+/*Light styles*/
+.tl-ab-banner--light {
+    background: #eaeaea url(../files/images/abbg1.png) no-repeat;
+    background-position: 100% 30%;
+    background-size: auto 160%;
+
+    @media (max-width: 1200px) {
+        background-size: auto 120%;
+    }
+
+    @media (max-width: 1050px) {
+        background-image: url(../files/images/abbg2.png);
+    }
+
+    @media (max-width: 600px) {
+        padding: 40px 20px;
+    }
+}
+
+/*Dark styles*/
+
+.tl-ab-banner--dark {
+    background: #000000 url(../files/images/abbg3.png) repeat;
+
+    @media (max-width: 600px) {
+        padding: 40px 20px;
+    }
+
+    .tl-ab-banner-content {
+        margin-bottom: 40px;
+    }
+
+    h2, h3, p {
+        color: white;
+    }
+}
+
+
+/*Orange styles*/
+
+.tl-ab-banner--orange {
+    background: #fc4421 url(../files/images/abbg4.png) repeat;
+
+
+    @media (max-width: 600px) {
+        padding: 40px 20px;
+    }
+
+    .tl-ab-banner-content {
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+    h2, h3, p {
+        color: white;
+    }
+
+    .tl-ab-button {
+        background: black;
+    }
+
+    .tl-ab-search {
+        background: black;
+    }
+}
+
+.tl-ab-banner--arrow {
+    position: absolute;
+    max-height: 400px;
+    right: 10%;
+    top: calc(100% - 240px);
+    z-index: 1;
+
+    @media (max-width: 1100px) {
+        display: none;
+    }
+}
+
