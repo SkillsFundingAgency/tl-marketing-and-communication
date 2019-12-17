@@ -1,5 +1,10 @@
-﻿<div id="global-cookie-message">
+﻿<div id="global-cookie-message" class="@ViewData["CookieBanner"]">
     <div class="tl-container">
-            <p>This website uses cookies to make the site simpler. <a class="govuk-link" href="/cookies">Find out more about cookies</a> or <a class="govuk-link" href="#" id="global-cookie-message-dismiss">hide this message</a></p>
+        <div class="tl-modal tl-modal--cookies" aria-modal="true">
+            <div class="tl-modal--content">
+                <p>We use cookies to improve user experience of our website, and also share information about use of our site with our social media, advertising and analytics partners. For information on how to opt out or change your cookie settings, please see our <a class="tl-cookie-link" href="/cookie-settings">Cookie policy</a>.</p>
+                <p><a class="tl-button--cookies" href="#" id="global-cookie-message-dismiss">Continue</a> <a class="tl-cookie-link" href="/cookie-settings" id="global-cookie-message-moreinfo">No take me to my settings</a></p>
+            </div>
+        </div>
     </div>
 </div>

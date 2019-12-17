@@ -13,6 +13,12 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
+        [Route("cookie-settings", Name = "Cookie settings")]
+        public IActionResult CookieSettings()
+        {
+            return View();
+        }
+
         [Route("accessibility", Name = "Accessibility")]
         public IActionResult Accessibility()
         {
