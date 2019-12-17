@@ -56,6 +56,12 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
+        [Route("/v8", Name = "Variant8")]
+        public IActionResult Variant8()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
