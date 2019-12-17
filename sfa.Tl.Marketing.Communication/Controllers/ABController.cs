@@ -13,49 +13,6 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
-
-        //[Route("/v1", Name = "Variant1")]
-        //public IActionResult Variant1()
-        //{
-        //    return View();
-        //}
-
-        //[Route("/v2", Name = "Variant2")]
-        //public IActionResult Variant2()
-        //{
-        //    return View();
-        //}
-
-        [Route("/v3", Name = "Variant3")]
-        public IActionResult Variant3()
-        {
-            return View();
-        }
-
-        [Route("/v4", Name = "Variant4")]
-        public IActionResult Variant4()
-        {
-            return View();
-        }
-
-        [Route("/v5", Name = "Variant5")]
-        public IActionResult Variant5()
-        {
-            return View();
-        }
-
-        [Route("/v6", Name = "Variant6")]
-        public IActionResult Variant6()
-        {
-            return View();
-        }
-
-        [Route("/v7", Name = "Variant7")]
-        public IActionResult Variant7()
-        {
-            return View();
-        }
-
         [Route("/v8", Name = "Variant8")]
         public IActionResult Variant8()
         {
