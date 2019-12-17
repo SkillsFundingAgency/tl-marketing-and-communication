@@ -83,6 +83,12 @@
                 GOVUK.cookie('seen_cookie_message', 'yes', { days: 28 });
                 message.style.display = 'none';
             });
+
+            $('#global-cookie-message-cookieslink').click(function (e) {
+                GOVUK.cookie('AnalyticsConsent', 'true', { days: 365 });
+                GOVUK.cookie('seen_cookie_message', 'yes', { days: 28 });
+                message.style.display = 'none';
+            });
         }
     };
 }).call(this);
