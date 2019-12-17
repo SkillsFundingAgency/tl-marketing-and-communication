@@ -72,9 +72,22 @@
             message.style.display = 'block';
 
             $('#global-cookie-message-dismiss').click(function (e) {
+                GOVUK.cookie('AnalyticsConsent', 'true', { days: 365 });
                 GOVUK.cookie('seen_cookie_message', 'yes', { days: 28 });
                 message.style.display = 'none';
                 e.preventDefault();
+            });
+
+            $('#global-cookie-message-moreinfo').click(function (e) {
+                GOVUK.cookie('AnalyticsConsent', 'true', { days: 365 });
+                GOVUK.cookie('seen_cookie_message', 'yes', { days: 28 });
+                message.style.display = 'none';
+            });
+
+            $('#global-cookie-message-cookieslink').click(function (e) {
+                GOVUK.cookie('AnalyticsConsent', 'true', { days: 365 });
+                GOVUK.cookie('seen_cookie_message', 'yes', { days: 28 });
+                message.style.display = 'none';
             });
         }
     };
@@ -87,3 +100,30 @@
         GOVUK.addCookieMessage();
     }
 }).call(this);
+
+/* Analytics cookies */
+$(document).ready(function () {
+
+    if (GOVUK.cookie('AnalyticsConsent') === 'true') {
+        $('#cbxAnalyticsConsent').prop('checked', true);
+    }
+
+    else {
+        $('#cbxAnalyticsConsent').prop('checked', false);
+
+    }
+
+    $('#cbxAnalyticsConsent').change(function () {
+        if (this.checked) {
+            GOVUK.cookie('AnalyticsConsent', 'true', { days: 365 });
+        }
+        else {
+            GOVUK.cookie('AnalyticsConsent', 'false', { days: 365 });
+        }
+    });
+});
+
+
+
+
+

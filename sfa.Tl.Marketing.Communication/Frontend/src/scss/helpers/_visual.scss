@@ -206,3 +206,16 @@ input, select {
     border-radius: 0;
     font-size: 16px;
 }
+
+.disabled {
+    display: none !important;
+}
+
+.tl-section-break {
+    width: 100%;
+    display: block;
+    border-bottom: 1px solid $grey;
+    margin: 40px 0;
+    border-top: none;
+}
+

@@ -5,11 +5,6 @@
 }
 
 #global-cookie-message {
-    width: 100%;
-    background-color: $orange;
-    color: black;
-    padding: 10px;
-
 
      p {
         font-family: "nta", Arial, sans-serif;
@@ -22,14 +17,31 @@
         padding: 0 10px;
      }
 
-     a {
-         color: black;
-     }
+}
+
+.tl-cookie-link {
+    color: black;
 }
 
 @media (min-width: 641px) {
     #global-cookie-message p {
         font-size: 16px;
         line-height: 1.25;
+    }
+}
+
+
+.tl-button--cookies {
+    @extend .tl-button;
+    color: white;
+    padding: 10px;
+    margin: 10px 10px 0 0;
+}
+
+.tl-modal--cookies {
+    display: block;
+
+    &.hidden {
+        display: none
     }
 }
