@@ -112,6 +112,11 @@
     color: $grey;
 }
 
-.toggleDisabled label  {
+.toggleDisabled label {
     cursor: default !important;
+    border: 3px $grey solid;
+
+    &:hover {
+        border: 3px $grey solid;
+    }
 }
