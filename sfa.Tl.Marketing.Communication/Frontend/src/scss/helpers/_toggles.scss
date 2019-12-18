@@ -99,3 +99,19 @@
 .toggleContainer input[type=checkbox]:checked + label:active:after {
     background: #fff;
 }
+
+
+.toggleDisabled label:after {
+    background: $grey !important;
+    border-color: $grey !important;
+}
+
+.toggleDisabled input[type=checkbox]:checked + label:before {
+    content: attr(data-on);
+    text-transform: capitalize;
+    color: $grey;
+}
+
+.toggleDisabled label  {
+    cursor: default !important;
+}
