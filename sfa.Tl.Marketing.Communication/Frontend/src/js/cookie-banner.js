@@ -97,7 +97,36 @@
 
     // add cookie message
     if (window.GOVUK && GOVUK.addCookieMessage) {
+
         GOVUK.addCookieMessage();
+        var firstTabStop;
+        var lastTabStop;
+
+        const elementsThatAreFocusable = $('.tl-modal a[href], area[href], select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]');
+
+        $(".tl-modal").on("keydown",
+            function (e) {
+                const keyTab = 9;
+
+                if (e.keyCode === keyTab) {
+                    if (e.shiftKey) {
+                        if (document.activeElement === firstTabStop) {
+                            e.preventDefault();
+                            lastTabStop.focus();
+                        }
+                    } else {
+                        if (document.activeElement === lastTabStop) {
+                            e.preventDefault();
+                            firstTabStop.focus();
+                        }
+                    }
+                }
+            });
+
+        firstTabStop = elementsThatAreFocusable[0];
+        lastTabStop = elementsThatAreFocusable[elementsThatAreFocusable.length - 1];
+
+        firstTabStop.focus();
     }
 }).call(this);
 
