@@ -44,8 +44,8 @@
     },
     "variables": {
         "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/tl-platform-building-blocks/master/templates/",
-        "resourceNamePrefix": "[toLower(concat(parameters('serviceName') , parameters('resourceEnvironmentName'), '-', parameters('resourceIdentifier')))]",
-        "storageAccountName": "[toLower(concat(parameters('serviceName'), parameters('resourceEnvironmentName'), parameters('resourceIdentifier'), 'str'))]",
+        "resourceNamePrefix": "[toLower(concat(parameters('resourceIdentifier') , parameters('resourceEnvironmentName'), '-', parameters('serviceName')))]",
+        "storageAccountName": "[toLower(concat(parameters('resourceIdentifier'), parameters('resourceEnvironmentName'), parameters('serviceName'), 'str'))]",
         "AppServicePlanName": "[concat(variables('resourceNamePrefix'), '-asp')]",
         "AppServiceName": "[concat(variables('resourceNamePrefix'),'-as')]",
         "ResourceGroup" : "[concat(variables('resourceNamePrefix'), '-rg')]"
