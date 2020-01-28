@@ -1,0 +1,43 @@
+@mixin link($linkprimary, $linksecondary) {
+    color: $linkprimary;
+    text-decoration: none;
+    border-bottom: 2px solid $linksecondary;
+    display: inline-block;
+    padding-bottom: 3px;
+    transition: 0.1s ease-in-out;
+
+    &:hover {
+        border-bottom: 2px solid $linkprimary;
+        @include rgba-background($linksecondary, 0.25);
+    }
+
+    &:focus {
+        @include rgba-background($linksecondary, 0.25);
+    }
+
+    &:active {
+        @include rgba-background($linksecondary, 0.55);
+    }
+}
+
+
+
+@mixin linkalt($linkprimary, $linksecondary) {
+    color: $linkprimary;
+    text-decoration: none;
+    display: inline-block;
+    padding-bottom: 3px;
+    transition: 0.1s ease-in-out;
+
+    &:hover {
+        border-bottom: 2px solid $linksecondary;
+    }
+
+    &:focus {
+        @include rgba-background($linksecondary, 0.25);
+    }
+
+    &:active {
+        @include rgba-background($linksecondary, 0.55);
+    }
+}

@@ -1,0 +1,25 @@
+$headingvariables :
+    xsmall 20,
+    small 35,
+    medium 50,
+    large 60,
+    xlarge 70;
+
+.tl-heading {
+    @each $headingname, $headingsize in $headingvariables {
+        &--#{$headingname}{
+            @include heading($headingsize);
+        }
+    }
+}
+
+
+.tl-body {
+    margin-bottom: 16px;
+    @include font(body, 16px, $lh: 20px)
+}
+
+.tl-lead {
+    margin-bottom: 20px;
+    @include font(body, 20px, $lh: 24px)
+}

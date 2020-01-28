@@ -1,0 +1,24 @@
+$sitewidth: 1200;
+$sitepadding: 20;
+
+@mixin align($align-position) {
+    @if $align-position == "center" {
+    margin-left: auto;
+    margin-right: auto;
+    }
+
+    @else if $align-position == "left" or $align-position == "right" {
+        float: $align-position;
+    }
+
+    @else {
+        float: inherit;
+    }
+}
+
+@mixin container($top: 0) {
+    max-width: ($sitewidth + ($sitepadding * 2)) + px;
+    padding: $top + px $sitepadding + px;
+    @include align(center);
+}
+

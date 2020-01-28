@@ -1,0 +1,17 @@
+@import "helpers/all";
+@import "components/all";
+@import "pages/all";
+$plyr-control-spacing: 20px;
+$plyr-color-main: $orange;
+$plyr-video-control-color-hover: #000000;
+@import "../../../node_modules/plyr/src/sass/plyr.scss";
+@import "../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
+
+
+
+body {
+    font-family: 'Atlas Typewriter Web', 'Times New Roman', Arial;
+    padding: 0;
+    margin: 0;
+}
+

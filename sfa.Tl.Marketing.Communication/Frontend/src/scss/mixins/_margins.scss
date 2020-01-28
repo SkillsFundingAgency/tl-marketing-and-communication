@@ -1,0 +1,3 @@
+@mixin margin($marginlocation, $marginsize) {
+    margin-#{$marginlocation}: $marginsize;
+}

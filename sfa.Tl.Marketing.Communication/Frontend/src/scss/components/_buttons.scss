@@ -1,0 +1,14 @@
+$buttonvariables:
+/*Button colour variables - variable name, background colour, text colour*/
+black $black "white", orange $orange "black", purple $purple "white", white $white "black";
+
+.tl-button {
+    @each $buttonname, $buttonbackground, $buttontext in $buttonvariables {
+        &--#{$buttonname} {
+            @include button($buttonbackground, $buttontext);
+        }
+    }
+}
+
+
+

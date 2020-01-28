@@ -2,7 +2,7 @@ let sassOptions;
 
 sassOptions = {
   errLogToConsole: true,
-  outputStyle: 'compressed',
+    outputStyle: 'compressed',
   includePaths: [
       'src/scss'
   ]
