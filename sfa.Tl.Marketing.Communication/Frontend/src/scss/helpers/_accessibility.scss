@@ -33,6 +33,6 @@ main:focus {
 
 input, select {
     &:focus {
-        outline: 3px solid #ffbf47;
+        outline: 3px solid rgba($orange, 0.5);
     }
 }

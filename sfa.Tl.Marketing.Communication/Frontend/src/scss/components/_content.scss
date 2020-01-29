@@ -10,8 +10,21 @@ $contentvariables:
 .tl-content {
     @each $contentname, $contentbackground, $contenttext in $contentvariables {
         &--#{$contentname} {
-            @include container(0);
+            @include container(0, 0);
             @include content($contentbackground, $contenttext);
+        }
+    }
+}
+
+.tl-content-normal {
+    @each $contentname, $contentbackground, $contenttext in $contentvariables {
+        &--#{$contentname} {
+            background-color: $contentbackground;
+            @include content($contentbackground, $contenttext);
+
+            .tl-container {
+                @include container(0, 20);
+            }
         }
     }
 }

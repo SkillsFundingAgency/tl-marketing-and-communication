@@ -28,3 +28,7 @@ $headingvariables :
     margin-bottom: 20px;
     @include font(body, 20px, $lh: 24px);
 }
+
+.tl-nobreak {
+    white-space:nowrap;
+}

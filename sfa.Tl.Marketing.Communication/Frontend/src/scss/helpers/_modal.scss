@@ -26,10 +26,10 @@
     animation-duration: 0.4s;
     text-align: left;
     max-width: 660px;
-}
 
-.tl-modal--button {
-    margin-top: 40px;
+    ul {
+        margin-bottom: 10px;
+    }
 }
 
 @keyframes animatetop {
@@ -51,14 +51,15 @@
     font-size: 28px;
     font-weight: bold;
     text-decoration: none;
+
+    &:hover, &:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
 }
 
-.tl-modal--close:hover,
-.tl-modal--close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
+
 
 .tl-modal--video {
     .tl-modal--content {

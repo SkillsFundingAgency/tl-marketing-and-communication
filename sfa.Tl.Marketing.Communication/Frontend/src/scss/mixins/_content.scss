@@ -25,6 +25,16 @@
         }
     }
 
+    .tl-container {
+        padding: 0;
+        max-width: 1200px;
+    }
+
+
+    h1 {
+        @extend .tl-heading--medium;
+    }
+
     h2 {
         @extend .tl-heading--medium;
     }
