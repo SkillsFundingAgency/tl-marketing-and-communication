@@ -1,7 +1,8 @@
 @mixin content($contentprimary, $contentsecondary) {
 
-    @include container(0);
-
+    @include media-max(small) {
+        padding: 0;
+    }
 
     img {
         width: 100%;
@@ -19,13 +20,28 @@
         height: 100%;
         display: flex;
 
-        h2 {
-            @extend .tl-heading--medium;
-            padding-top: 0;
+        @include media-max(small) {
+            padding: 30px;
         }
+    }
 
-        p {
-            @extend .tl-body;
-        }
+    h2 {
+        @extend .tl-heading--medium;
+    }
+
+    h3 {
+        @extend .tl-heading--small;
+    }
+
+    h4 {
+        @extend .tl-heading--xsmall;
+    }
+
+    p {
+        @extend .tl-body;
+    }
+
+    p.tl-lead {
+        @extend .tl-lead;
     }
 }

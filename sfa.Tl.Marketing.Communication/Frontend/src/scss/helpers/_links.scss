@@ -18,4 +18,13 @@ $linkvariables:
     }
 }
 
+.tl-link-inline {
+    @each $linktextname, $linkunderlinename, $linktextcolor, $linkunderlinecolor in $linkvariables {
+        &-#{$linktextname}--#{$linkunderlinename} {
+            @include link($linktextcolor, $linkunderlinecolor);
+            padding-bottom: 0px;
+        }
+    }
+}
+
 

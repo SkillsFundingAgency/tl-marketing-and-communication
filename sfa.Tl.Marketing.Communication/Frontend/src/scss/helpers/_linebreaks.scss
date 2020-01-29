@@ -1,0 +1,34 @@
+$linecolors: 
+    white $white,
+    black $black,
+    orange $orange,
+    purple $purple,
+    salmon $salmon,
+    grey $grey,
+    lightgrey $lightgrey,
+    darkgrey $darkgrey;
+
+     
+
+$linesizes:
+    large 40px,
+    medium 20px,
+    small 10px,
+    xsmall 5px;
+
+
+
+@each $linecolorname, $linecolor in $linecolors {
+    .tl-line-#{$linecolorname} {
+        @each $linesizename, $linesize in $linesizes {
+            &--#{$linesizename} {
+                @include line($linecolor, $linesize);
+            }
+        }
+    }
+    }
+
+
+
+
+

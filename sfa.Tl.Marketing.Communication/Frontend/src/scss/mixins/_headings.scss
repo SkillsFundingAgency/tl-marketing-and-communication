@@ -1,4 +1,12 @@
 @mixin heading($fontsize) {
     @include font(header, $fontsize + px, italic, bold, $fontsize + px);
-    padding: ($fontsize / 2) + px 0;
+    padding-bottom: ($fontsize / 2) + px;
+
+    @include media-max(medium) {
+        @include font(header, ($fontsize * 0.8) + px, italic, bold, ($fontsize * 0.8) + px);
+    }
+
+    @include media-max(small) {
+        @include font(header, ($fontsize * 0.6) + px, italic, bold, ($fontsize * 0.6) + px);
+    }
 }

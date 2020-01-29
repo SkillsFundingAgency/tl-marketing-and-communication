@@ -1,0 +1,97 @@
+#tl-search {
+    background: $black;
+    color: $white;
+    padding: 60px 0;
+
+
+    h1 {
+        @extend .tl-heading--medium;
+    }
+
+    h2 {
+        @extend .tl-heading--medium;
+        text-align: center;
+    }
+
+    input, select {
+        padding: 16px;
+        border: none;
+
+        @include media-max(small) {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    }
+
+    select {
+        @include media-min(small) {
+            max-width: 300px;
+        }
+    }
+
+    button {
+        @include media-max(small) {
+            width: 100%;
+            text-align: center;
+        }
+    }
+}
+
+.tl-find {
+    padding: 100px 0 !important;
+
+    @include media-max(small) {
+        padding: 60px 0 !important;
+
+        input, select {
+            text-align: left !important;
+        }
+    }
+}
+
+#tl-results {
+    padding: 40px 0;
+
+    .tl-results--block {
+        background: $white;
+        padding: 40px;
+        margin: 20px 0;
+        position: relative;
+
+
+        h4 {
+            @include font(header, 24px, $lh: 26px);
+            max-width: calc(100% - 100px);
+        }
+
+        h5 {
+            @extend .tl-body;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        @include media-max(small) {
+            padding: 30px;
+        }
+
+        ul {
+            @extend .tl-list--vertical;
+            @extend .tl-list--bullet;
+            padding: 0 0 15px 0;
+
+            @include media-max(small) {
+                @include font(body, 14px);
+            }
+        }
+
+        &--distance {
+            background: $black;
+            color: $white;
+            position: absolute;
+            padding: 15px 20px;
+            top: 0;
+            right: 0;
+        }
+    }
+}

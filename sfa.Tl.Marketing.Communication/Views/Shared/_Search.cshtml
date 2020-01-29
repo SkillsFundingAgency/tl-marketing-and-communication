@@ -1,0 +1,15 @@
+﻿@model FindViewModel
+<section id="tl-search">
+    <div class="tl-container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Find a T Level near you</h2>
+                <form asp-action="Find" method="get" class="tl-text--center">
+                    <label for="Postcode" class="tl-hidden">Postcode</label>
+                    <input asp-for="Postcode" class="tl-input" placeholder="Enter your postcode" aria-label="Enter a postcode to find a T-Level near you" />
+                    <button id="tl-find-button" type="submit" class="tl-button--orange" aria-label="Search for a T Level">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

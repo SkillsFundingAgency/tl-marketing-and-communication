@@ -5,7 +5,7 @@
     @RenderSection("cssfiles", false)
 
 </head>
-<body id="@ViewData["PageID"]" class="tl-body">
+<body id="@ViewData["PageID"]">
     <!-- Google Tag Manager (noscript) -->
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N98Q8VJ"
@@ -19,6 +19,8 @@
     <partial name="_CookieBanner" />
     <a class="tl-skiplink" href="#main">Skip to main content</a>
     <partial name="_Header" />
+    <partial name="_Nav" />
+
     <main id="main" tabindex="-1">
         @RenderBody()
     </main>

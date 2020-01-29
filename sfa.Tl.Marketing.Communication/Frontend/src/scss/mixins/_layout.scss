@@ -16,6 +16,11 @@ $sitepadding: 20;
     }
 }
 
+@mixin textalign($align-position) {
+        text-align: $align-position;
+}
+
+
 @mixin container($top: 0) {
     max-width: ($sitewidth + ($sitepadding * 2)) + px;
     padding: $top + px $sitepadding + px;

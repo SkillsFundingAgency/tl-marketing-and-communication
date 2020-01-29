@@ -9,6 +9,9 @@ $plyr-video-control-color-hover: #000000;
 @import "../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
 
 
+html {
+    overflow-x: hidden;
+}
 
 body {
     font-family: 'Atlas Typewriter Web', 'Times New Roman', Arial;

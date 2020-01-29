@@ -16,10 +16,15 @@ $headingvariables :
 
 .tl-body {
     margin-bottom: 16px;
-    @include font(body, 16px, $lh: 20px)
+    @include font(body, 16px, $lh: 20px);
+
+
+    @include media-max(medium) {
+        @include font(body, 14px, $lh: 18px);
+    }
 }
 
 .tl-lead {
     margin-bottom: 20px;
-    @include font(body, 20px, $lh: 24px)
+    @include font(body, 20px, $lh: 24px);
 }

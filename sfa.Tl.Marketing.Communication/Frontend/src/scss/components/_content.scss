@@ -1,12 +1,26 @@
 $contentvariables:
 /*content colour variables - variable name, background colour, text colour*/
 "orange" $orange $black,
-"purple" $purple $white;
+"purple" $purple $white,
+"white" $white $black,
+"black" $black $white,
+"grey" $lightgrey $black;
 
 
 .tl-content {
     @each $contentname, $contentbackground, $contenttext in $contentvariables {
         &--#{$contentname} {
+            @include container(0);
+            @include content($contentbackground, $contenttext);
+        }
+    }
+}
+
+
+.tl-content-wide {
+    @each $contentname, $contentbackground, $contenttext in $contentvariables {
+        &--#{$contentname} {
+            background-color: $contentbackground;
             @include content($contentbackground, $contenttext);
         }
     }

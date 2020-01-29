@@ -1,0 +1,157 @@
+﻿@{
+    ViewData["Title"] = "Find a T Level";
+    ViewData["PageID"] = "tl-find";
+}
+@model FindViewModel
+
+
+<section id="tl-search" class="tl-find tl-content-wide--black">
+    <div class="tl-container">
+
+        <div class="row">
+            <div class="col-12">
+                    <h1>Find your nearest T Level</h1>
+                    <p>Search for colleges and schools delivering T Levels in 2020 and 2021</p>
+                    <form asp-action="Find" method="get">
+                        <label for="Postcode" class="tl-hidden">Postcode</label>
+                        <input asp-for="Postcode" placeholder="Enter your postcode" aria-label="Enter a postcode to find a T-Level near you" />
+
+                        <select id="tl-qualifications">
+                            <option value="0">All T Level courses</option>
+                            <option value="1">Building services engineering</option>
+                            <option value="2">Design, surveying and planning (construction)</option>
+                            <option value="3">Digital business services</option>
+                            <option value="4">Digital production, design and development</option>
+                            <option value="5">Digital support and services</option>
+                            <option value="6">Education</option>
+                            <option value="7">Health</option>
+                            <option value="8">Healthcare science</option>
+                            <option value="9">Onsite construction</option>
+                            <option value="10">Science</option>
+                        </select>
+
+
+                        <button id="tl-find-button" type="submit" class="tl-button--orange" aria-label="Search for a T Level">Search</button>
+                    </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="tl-results" class="tl-content-wide--grey">
+    <div class="tl-container">
+        <div class="row no-gutters">
+            <div class="col-lg-8 col-12">
+                <h3>Results</h3>
+                <p>Use the search box above to find T Level courses near you.</p>
+
+                <div class="tl-results--block">
+                    <h4>STRODE COLLEGE</h4>
+                    <p>Gloucester | GL7 1XA</p>
+                    <span class="tl-results--block--distance">6 miles</span>
+                    <hr class="tl-line-lightgrey--small">
+                    <h5>Starting in September 2020</h5>
+                    <ul>
+                        <li>Design, surveying and planning (construction)</li>
+                        <li>Digital production, design and development</li>
+                        <li>Education</li>
+                    </ul>
+                    <h5>Starting in September 2021</h5>
+                    <ul>
+                        <li>Design, surveying and planning (construction)</li>
+                        <li>Digital production, design and development</li>
+                        <li>Education</li>
+                    </ul>
+                    <a href="#" class="tl-link-black--orange">Visit their website</a>
+                </div>
+
+                <div class="tl-results--block">
+                    <h4>STRODE COLLEGE</h4>
+                    <p>Gloucester | GL7 1XA</p>
+                    <span class="tl-results--block--distance">6 miles</span>
+                    <hr class="tl-line-lightgrey--small">
+                    <h5>Starting in September 2020</h5>
+                    <ul>
+                        <li>Design, surveying and planning (construction)</li>
+                        <li>Digital production, design and development</li>
+                        <li>Education</li>
+                    </ul>
+                    <h5>Starting in September 2021</h5>
+                    <ul>
+                        <li>Design, surveying and planning (construction)</li>
+                        <li>Digital production, design and development</li>
+                        <li>Education</li>
+                    </ul>
+                    <a href="#" class="tl-link-black--orange">Visit their website</a>
+                </div>
+
+                <div class="tl-results--block">
+                    <h4>STRODE COLLEGE</h4>
+                    <p>Gloucester | GL7 1XA</p>
+                    <span class="tl-results--block--distance">6 miles</span>
+                    <hr class="tl-line-lightgrey--small">
+                    <h5>Starting in September 2020</h5>
+                    <ul>
+                        <li>Design, surveying and planning (construction)</li>
+                        <li>Digital production, design and development</li>
+                        <li>Education</li>
+                    </ul>
+                    <h5>Starting in September 2021</h5>
+                    <ul>
+                        <li>Design, surveying and planning (construction)</li>
+                        <li>Digital production, design and development</li>
+                        <li>Education</li>
+                    </ul>
+                    <a href="#" class="tl-link-black--orange">Visit their website</a>
+                </div>
+
+                <div class="tl-results--block">
+                    <h4>STRODE COLLEGE</h4>
+                    <p>Gloucester | GL7 1XA</p>
+                    <span class="tl-results--block--distance">6 miles</span>
+                    <hr class="tl-line-lightgrey--small">
+                    <h5>Starting in September 2020</h5>
+                    <ul>
+                        <li>Design, surveying and planning (construction)</li>
+                        <li>Digital production, design and development</li>
+                        <li>Education</li>
+                    </ul>
+                    <h5>Starting in September 2021</h5>
+                    <ul>
+                        <li>Design, surveying and planning (construction)</li>
+                        <li>Digital production, design and development</li>
+                        <li>Education</li>
+                    </ul>
+                    <a href="#" class="tl-link-black--orange">Visit their website</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section jsfiles{
+}

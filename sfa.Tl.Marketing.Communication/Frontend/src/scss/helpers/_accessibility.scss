@@ -30,3 +30,9 @@ main:focus {
     border: 0 !important;
     white-space: nowrap !important;
 }
+
+input, select {
+    &:focus {
+        outline: 3px solid #ffbf47;
+    }
+}

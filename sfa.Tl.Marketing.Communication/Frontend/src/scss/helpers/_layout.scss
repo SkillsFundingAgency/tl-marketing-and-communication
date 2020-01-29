@@ -3,3 +3,14 @@
 }
 
 
+$textalignvariables: left, center, right;
+
+.tl-text {
+    @each $textalignvariable in $textalignvariables {
+        &--#{$textalignvariable} {
+            @include textalign($textalignvariable);
+        }
+    }
+}
+
+
