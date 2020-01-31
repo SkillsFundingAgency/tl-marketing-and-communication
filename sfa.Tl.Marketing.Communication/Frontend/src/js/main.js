@@ -101,26 +101,6 @@ var maps = (function () {
                     zoom: 6
                 });
 
-            //const infoWindow = new google.maps.InfoWindow();
-
-            for (let i = 0; i < providersData.providers.length; i++) {
-                for (let j = 0; j < providersData.providers[i].locations.length; j++) {
-                    //const marker = new google.maps.Marker({
-                    //    position: {
-                    //        lat: providersData.providers[i].locations[j].latitude,
-                    //        lng: providersData.providers[i].locations[j].longitude
-                    //    },
-                    //    map: map,
-                    //    title: providersData.providers[i].name
-                    //});
-
-                    //const infoWindowContent = "<h1>" + providersData.providers[i].name + "</h1>" +
-                    //    "<p><b>" + providersData.providers[i].locations[j].fullAddress + "</b></p>";
-
-                    //attachInfoWindow(marker, map, infoWindow, infoWindowContent);
-                }
-            }
-
             function attachInfoWindow(marker, map, infoWindow, infoWindowContent) {
                 google.maps.event.addListener(marker,
                     "click", function () {
@@ -167,7 +147,6 @@ var maps = (function () {
                     $("#tl-next").hide();
                 }
                 else if (postcodeResult == true) {
-                    //$(".tl-validation--message").text("");
                     $(".tl-search--form").removeClass("tl-validation--error");
                     geocodeAddress(geocoder, map);
 
@@ -208,7 +187,7 @@ var maps = (function () {
                                 if (selectedQualification !== 0 &&
                                     !providersData.providers[i].locations[j].qualification2020.includes(
                                         selectedQualification) &&
-                                    !providersData.providers[i].locations[j].qualification202.includes(
+                                    !providersData.providers[i].locations[j].qualification2021.includes(
                                         selectedQualification)) {
                                     continue;
                                 }
@@ -218,7 +197,6 @@ var maps = (function () {
                                     results[0].geometry.location);
 
                                 providersData.providers[i].locations[j].name = providersData.providers[i].name;
-                                //TODO: Does the next line do anything?
                                 providersData.providers[i].locations[j].website = providersData.providers[i].locations[j].website;
 
                                 searchedProvidersLocations.push(providersData.providers[i].locations[j]);
