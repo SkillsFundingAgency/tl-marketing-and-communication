@@ -37,6 +37,27 @@
           "website": "https://www.cirencester.ac.uk/courses/course-directory/t-levels/"
         }
       ]
+    },
+    {
+      "id": 30,
+      "name": "Strode College",
+      "locations": [
+        {
+          "fullAddress": "Church Road, Street, Somerset",
+          "postcode": "BA16 0AB",
+          "latitude": 51.130495,
+          "longitude": -2.734039,
+          "qualification2020": [
+            1,
+            3
+          ],
+          "qualification2021": [
+            8,
+            9
+          ],
+          "website": "http://www.strode-college.ac.uk/tlevels"
+        }
+      ]
     }
   ]
 }

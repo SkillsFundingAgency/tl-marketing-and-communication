@@ -256,12 +256,11 @@ var maps = (function () {
             }
 
             function showNoSearchResults() {
-                const searchResults = "<div class='tl-results-box'> \
-                                        <h3><span class='tl-results-box--distance'>0 results found</span></h3> \
-                                    </div>";
+                const searchResults = "<h3>0 Results</h3> \
+                                       <p> Use the search box above to find T Level courses near you.</p>";
 
-                $("#tl-search-results").empty();
-                $("#tl-search-results").append(searchResults);
+                $("#tl-results-summary").empty();
+                $("#tl-results-summary").append(searchResults);
 
                 $("#tl-next").hide();
             }
@@ -276,60 +275,34 @@ var maps = (function () {
                 }
 
                 for (let i = 0; i < maxResultCount; i++) {
-                    let qualificationsResults = "";
+                    let qualificationsResults2020 = "";
                     for (let j = 0; j < searchedProviderLocations[i].qualification2020.length; j++) {
-                        qualificationsResults += "<li>" + qualifications[searchedProviderLocations[i].qualification2020[j]] + "</li>";
+                        qualificationsResults2020 += "<li>" + qualifications[searchedProviderLocations[i].qualification2020[j]] + "</li>";
                     }
 
-                    /* OLD:
-                    searchResults += "<div class='tl-results-box'> \
-                                    <h3><span class='tl-results-box--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles </span>" + searchedProviderLocations[i].name + "</h3> \
-                                    <p>" + searchedProviderLocations[i].fullAddress + "</p> \
-                                                <p><strong>Courses starting September 2020</strong></p> \
-                                                <ul class='tl-list tl-list-small'> \
-                                                " + qualificationsResults + " \
-                                                </ul> \
-                                                <a href='" + searchedProviderLocations[i].website + "' class='tl-link-black--orange'>Visit their website</a> \
-                                 </div> \
-                                 <br/>";
-                    */
-                    searchResults += "<div class='tl-results-box'> \
-                                    <h4>" + searchedProviderLocations[i].name + "</h4> \
-                                    <p>" + searchedProviderLocations[i].town + " | " + searchedProviderLocations[i].postcode + "</p> \
-                        <span class='tl-results--block--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles</span> \
-                        <hr class='tl-line-lightgrey--small'> \
-                        <h5><strong>Starting in September 2020</strong></h5> \
-                                                <ul> \
-                                                " + qualificationsResults + " \
-                                                </ul> \
-                        <h5><strong>Courses in September 2021</strong></h5> \
-                                                <ul> \
-                                                " + "<li>TBC</li>" + " \
-                                                </ul> \
-                                                <a href='" + searchedProviderLocations[i].website + "' class='tl-link-black--orange'>Visit their website</a> \
+                    let qualificationsResults2021 = "";
+                    for (let j = 0; j < searchedProviderLocations[i].qualification2021.length; j++) {
+                        qualificationsResults2021 += "<li>" + qualifications[searchedProviderLocations[i].qualification2021[j]] + "</li>";
+                    }
+
+                    searchResults += "<div class='tl-results--block'> \
+                                        <h4>" + searchedProviderLocations[i].name + "</h4> \
+                                        <p>" + searchedProviderLocations[i].town + " | " + searchedProviderLocations[i].postcode + "</p> \
+                                        <span class='tl-results--block--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles</span> \
+                                        <hr class='tl-line-lightgrey--small'> \
+                                        <h5><strong>Starting in September 2020</strong></h5> \
+                                        <ul> \
+                                            " + qualificationsResults2020 + " \
+                                        </ul> \
+                                        <h5><strong>Courses in September 2021</strong></h5> \
+                                        <ul> \
+                                            " + qualificationsResults2021 + " \
+                                        </ul> \
+                                        <a href='" + searchedProviderLocations[i].website + "' class='tl-link-black--orange'>Visit their website</a> \
                                  </div>";
-                    /*
-                <div class="tl-results--block">
-                    <h4>STRODE COLLEGE</h4>
-                    <p>Gloucester | GL7 1XA</p>
-                    <span class="tl-results--block--distance">6 miles</span>
-                    <hr class="tl-line-lightgrey--small">
-                    <h5>Starting in September 2020</h5>
-                    <ul>
-                        <li>Design, surveying and planning (construction)</li>
-                        <li>Digital production, design and development</li>
-                        <li>Education</li>
-                    </ul>
-                    <h5>Starting in September 2021</h5>
-                    <ul>
-                        <li>Design, surveying and planning (construction)</li>
-                        <li>Digital production, design and development</li>
-                        <li>Education</li>
-                    </ul>
-                    <a href="#" class="tl-link-black--orange">Visit their website</a>
-                </div>                     */
                 }
 
+                $("#tl-results-summary").empty();
                 $("#tl-search-results").empty();
                 $("#tl-search-results").append(searchResults);
 
