@@ -50,6 +50,19 @@
     }
 }
 
+.tl-search--form {
+}
+
+.tl-validation--message {
+    display: none;
+}
+
+.tl-validation--error {
+    .tl-validation--message {
+        display: inline-block;
+    }
+}
+
 #tl-results {
     padding: 40px 0;
 
