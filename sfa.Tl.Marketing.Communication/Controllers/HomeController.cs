@@ -36,6 +36,14 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
+
+        [Route("landing", Name = "Landing")]
+        public IActionResult Landing()
+        {
+            return View();
+        }
+
+
         [Route("find", Name = "Find")]
         public IActionResult Find(FindViewModel viewModel)
         {
