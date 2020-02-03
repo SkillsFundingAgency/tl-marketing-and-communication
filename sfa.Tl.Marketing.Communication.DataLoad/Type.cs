@@ -2,8 +2,15 @@
 {
     public enum Type
     {
-        Digital = 1,
-        Construction = 2,
-        Education = 3
+        BuildingServicesEngineering = 1,
+        DesignSurveyingPlanning = 2,
+        DigitalBusiness = 3,
+        DigitalProductionDesignDevelopment = 4,
+        DigitalSupportServices = 5,
+        Education = 6,
+        Health = 7,
+        HealthCareScience = 8,
+        OnsiteConstruction = 9,
+        Science = 10
     }
 }
