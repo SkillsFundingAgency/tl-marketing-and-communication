@@ -293,5 +293,8 @@ __pycache__/
 # Ignore main.css created by gulp
 **/Frontend/src/stylesheets/css/main.css
 
-# Local development settings file - may contain secrets
+# Local development settings files - may contain secrets
 appsettings.Development.json
+
+# Data load app per-developer local settings
+**/*.DataLoad/appsettings.json

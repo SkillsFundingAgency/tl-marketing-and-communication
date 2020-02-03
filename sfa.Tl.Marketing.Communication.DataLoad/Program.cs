@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using sfa.Tl.Marketing.Communication.DataLoad.PostcodesIo;
@@ -20,8 +21,22 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
 
         static void Main(string[] args)
         {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true);
+
+            var configuration = builder.Build();
+
+            var inputFilePath = configuration.GetValue<string>("InputFilePath");
+            if (string.IsNullOrWhiteSpace(inputFilePath))
+                inputFilePath = CsvFilePath;
+
+            var outputFilePath = configuration.GetValue<string>("OutputFilePath");
+            if (string.IsNullOrWhiteSpace(outputFilePath))
+                outputFilePath = JsonOutputPath;
+
             var providerReader = new ProviderReader();
-            var providerLoadResult = providerReader.ReadData(CsvFilePath);
+            var providerLoadResult = providerReader.ReadData(inputFilePath);
 
             var providerWrite = new ProviderWrite();
             var providerWriteData = new List<ProviderWriteData>();
@@ -45,13 +60,15 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
 
             providerWrite.Providers = providerWriteData;
 
-            var jsonString = JsonConvert.SerializeObject(providerWrite, new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                Formatting = Formatting.Indented
-            });
+            WriteProvidersToFile(providerWrite, outputFilePath);
 
-            WriteData(jsonString);
+            //var jsonString = JsonConvert.SerializeObject(providerWrite, new JsonSerializerSettings
+            //{
+            //    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            //    Formatting = Formatting.Indented
+            //});
+
+            //WriteData(jsonString, outputFilePath);
         }
 
         private static List<LocationWriteData> GetLocationsWrite(IGrouping<string, ProviderReadData> providers)
@@ -103,7 +120,6 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                         throw new Exception($"Location cannot be found {location.Postcode}");
                     }
                 }
-
             }
 
             return locationWriteData;
@@ -142,8 +158,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
 
             if (providerReadData.IsScience && providerReadData.CourseYear == "2021")
                 qualifications2021.Add((int)Type.Science);
-
-
+            
             return qualifications2021.ToArray();
         }
 
@@ -180,15 +195,32 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
 
             if (providerReadData.IsScience && providerReadData.CourseYear == "2020")
                 qualifications2020.Add((int)Type.Science);
-
-
+            
             return qualifications2020.ToArray();
         }
 
-        private static void WriteData(string jsonString)
+        private static void WriteData(string jsonString, string path)
         {
-            using (var file = new StreamWriter(JsonOutputPath, false))
-                file.WriteLine(jsonString);
+            using (var file = new StreamWriter(path, false))
+                file.WriteLine(jsonString, path);
         }
+
+        private static void WriteProvidersToFile(ProviderWrite data, string path)
+        {
+            using (var fs = File.Open(path, FileMode.OpenOrCreate))
+            using (var sw = new StreamWriter(fs))
+            using (var jw = new JsonTextWriter(sw))
+            {
+                jw.Formatting = Formatting.Indented;
+                var serializer = new JsonSerializer
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    Formatting = Formatting.Indented
+                };
+
+                serializer.Serialize(jw, data);
+            }
+        }
+
     }
 }

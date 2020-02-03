@@ -28,3 +28,14 @@ The Google Maps API key is stored in the site appSettings.json file. To set the 
 }
 ```
 
+## Creating the providers data file
+
+The console application *sfa.Tl.Marketing.Communication.DataLoad* can be run to regenerate the `providers.json` file. 
+
+Default paths to input and output file paths are in constants in the code; if you want to set different paths add a file called `appsettings.json` with the content below. DO NOT CHECK THIS IN.
+
+{
+  "InputFilePath": "<path to file>",
+  "OutputFilePath": "<path to file>"
+}
+
