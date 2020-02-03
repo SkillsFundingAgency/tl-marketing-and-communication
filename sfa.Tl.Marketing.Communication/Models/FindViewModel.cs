@@ -5,5 +5,6 @@ namespace sfa.Tl.Marketing.Communication.Models
         public string Postcode { get; set; }
         public string Qualification { get; set; }
         public bool ShouldSearch { get; set; }
+        public string MapApiKey { get; set; }
     }
 }

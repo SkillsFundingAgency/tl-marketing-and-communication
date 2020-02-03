@@ -6,6 +6,13 @@ namespace sfa.Tl.Marketing.Communication.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ConfigurationOptions _configuration;
+
+        public HomeController(ConfigurationOptions configuration)
+        {
+            _configuration = configuration;
+        }
+
         [Route("/", Name = "Index")]
         public IActionResult Index()
         {
@@ -49,6 +56,8 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         {
             if (!string.IsNullOrEmpty(viewModel.Postcode))
                 viewModel.ShouldSearch = true;
+
+            viewModel.MapApiKey = _configuration.GoogleMapsApiKey;
 
             return View(viewModel);
         }
