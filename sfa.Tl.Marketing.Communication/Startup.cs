@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,15 +17,14 @@ namespace sfa.Tl.Marketing.Communication
         {
             Configuration = configuration;
         }
-        
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            SiteConfiguration = new ConfigurationOptions();
-            //Configuration.GetSection("Configuration").Bind(SiteConfiguration);
-            SiteConfiguration.GoogleMapsApiKey = Configuration["GoogleMapsApiKey"];
-            if(string.IsNullOrEmpty(SiteConfiguration.GoogleMapsApiKey))
-                SiteConfiguration.GoogleMapsApiKey = Environment.GetEnvironmentVariable("GoogleMapsApiKey") + "_ENV";
+            SiteConfiguration = new ConfigurationOptions
+            {
+                GoogleMapsApiKey = Configuration["GoogleMapsApiKey"]
+            };
 
             services.AddSingleton(SiteConfiguration);
 
@@ -36,7 +34,7 @@ namespace sfa.Tl.Marketing.Communication
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
