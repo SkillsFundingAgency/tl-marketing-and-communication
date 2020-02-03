@@ -14,7 +14,7 @@ cd to "root" directory
 | `npm install` | Installs all node packages |
 | `gulp` | Merges, compiles and moves all sass / js / assets. Creates all front end resources |
 
-If the above has worked you should see files being generated in frontend.If the above has worked you should see files being generated in frontend.
+If the above has worked you should see files being generated in frontend.
 
 ## Configuration
 
@@ -22,8 +22,13 @@ The Google Maps API key is stored in the site appSettings.json file. To set the 
 
 ```
 {
-  "Configuration": {
-    "GoogleMapsApiKey": "<value>"
+  "GoogleMapsApiKey": "<value>"
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug",
+      "System": "Information",
+      "Microsoft": "Information"
+    }
   }
 }
 ```
