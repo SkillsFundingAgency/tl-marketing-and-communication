@@ -260,16 +260,18 @@ var maps = (function () {
                                         <h4>" + searchedProviderLocations[i].name + "</h4> \
                                         <p>" + searchedProviderLocations[i].town + " | " + searchedProviderLocations[i].postcode + "</p> \
                                         <span class='tl-results--block--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles</span> \
-                                        <hr class='tl-line-lightgrey--small'> \
-                                        <h5><strong>Starting in September 2020</strong></h5> \
-                                        <ul> \
+                                        <hr class='tl-line-lightgrey--small'>";
+                    if (qualificationsResults2020 !== "")
+                        searchResults += "<h5><strong>Starting in September 2020</strong></h5> \
+                                          <ul> \
                                             " + qualificationsResults2020 + " \
-                                        </ul> \
-                                        <h5><strong>Courses in September 2021</strong></h5> \
-                                        <ul> \
+                                          </ul>";
+                    if (qualificationsResults2021 !== "")
+                        searchResults += "<h5><strong>Courses in September 2021</strong></h5> \
+                                          <ul> \
                                             " + qualificationsResults2021 + " \
-                                        </ul> \
-                                        <a href='" + searchedProviderLocations[i].website + "' class='tl-link-black--orange'>Visit their website</a> \
+                                          </ul>";
+                    searchResults += "<a href='" + searchedProviderLocations[i].website + "' class='tl-link-black--orange'>Visit their website</a> \
                                  </div>";
                 }
 
