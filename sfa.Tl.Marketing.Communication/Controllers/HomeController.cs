@@ -9,6 +9,5 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         {
             return View();
         }
-
     }
 }

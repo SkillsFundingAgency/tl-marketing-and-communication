@@ -6,7 +6,6 @@ namespace sfa.Tl.Marketing.Communication.Controllers
 {
     public class HelpController : Controller
     {
-
         [Route("cookies", Name = "Cookies")]
         public IActionResult Cookies()
         {
