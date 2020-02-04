@@ -101,14 +101,6 @@ var maps = (function () {
                     zoom: 6
                 });
 
-            function attachInfoWindow(marker, map, infoWindow, infoWindowContent) {
-                google.maps.event.addListener(marker,
-                    "click", function () {
-                        infoWindow.setContent(infoWindowContent);
-                        infoWindow.open(map, marker);
-                    });
-            }
-
             var geocoder = new google.maps.Geocoder();
 
             const shouldSearch = $("#ShouldSearch").val();
@@ -148,7 +140,7 @@ var maps = (function () {
                 }
                 else if (postcodeResult == true) {
                     $(".tl-search--form").removeClass("tl-validation--error");
-                    geocodeAddress(geocoder, map);
+                    geocodeAddress(geocoder);
 
                     if (goToSearchResults) {
                         var searchResultsAnchor = $("#tl-search");
@@ -168,15 +160,16 @@ var maps = (function () {
                 return false;
             }
 
-            function geocodeAddress(geocoder, resultsMap) {
+            function geocodeAddress(geocoder) {
                 const searchedPostcode = document.getElementById("Postcode").value;
                 if (searchedPostcode === "")
                     return;
 
-                geocoder.geocode({ 'address': searchedPostcode }, function (results, status) {
+                geocoder.geocode({
+                    'address': searchedPostcode,
+                    componentRestrictions: { country: 'GB' }
+                }, function (results, status) {
                     if (status === "OK") {
-                        resultsMap.setCenter(results[0].geometry.location, 1);
-                        resultsMap.setZoom(10);
 
                         const selectedQualification = parseInt($("#tl-qualifications").children("option:selected").val());
                         const searchedProvidersLocations = [];
