@@ -55,6 +55,23 @@
                 }
             }
         }
+
+        &--employer {
+            a {
+                @include linkalt($black, $purple);
+                text-decoration: none;
+                display: block;
+
+                @include media-max(medium) {
+                    padding: 20px;
+                    border-bottom: 1px solid $grey;
+
+                    &:hover {
+                        background-color: $lightgrey;
+                    }
+                }
+            }
+        }
     }
 
     .tl-nav--hamburger {

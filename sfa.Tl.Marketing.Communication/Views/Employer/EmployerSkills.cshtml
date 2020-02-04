@@ -1,0 +1,170 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutEmployer.cshtml";
+}
+
+@{
+
+    ViewData["PageID"] = "tl-employer-skills";
+
+}
+@model FindViewModel
+
+<section id="tl-employer-skills--banner" class="tl-content-wide--purple">
+    <div class="tl-container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="tl-content--box">
+                    <h1>What skills are available?</h1>
+                    <p class="tl-lead">Over the next few years, T Levels will scale to include 25 courses, covering 11 skill areas. To get ready, employers can trial industry placements now with students on related courses.</p>
+                </div>
+            </div>
+            <div class="col-md-4 tl-image--wide--right">
+                <img src="/files/images/TLevels_WebsiteAssets34.jpg" alt="" />
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="tl-employer-skills--intro" class="tl-content-normal--white tl-content-padded">
+    <div class="tl-container">
+        <div class="row no-gutters">
+            <div class="col-md-8">
+                <h2>11 skill areas</h2>
+                <p>If your organisation needs extra support in any of these areas, you can start offering industry placements now.  </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="tl-employer-skills--list" class="tl-content-normal--black tl-content-padded">
+    <div class="tl-container">
+        <div class="row">
+            <div class="col-md-4">
+                <h3 style="margin-top: 20px"><span>1.</span>Agriculture, environmental and animal care</h3>
+                <p>Includes students learning:</p>
+                <ul class="tl-list--vertical tl-list--bullet">
+                    <li>animal care and management</li>
+                    <li>agriculture, land management and production</li>
+                </ul>
+            </div>
+
+            <div class="col-md-4">
+                <h3 style="margin-top: 20px"><span>2.</span>Business and administration</h3>
+                <p>Includes students learning:</p>
+                <ul class="tl-list--vertical tl-list--bullet">
+                    <li>management and administration</li>
+                    <li>human resources (HR)</li>
+                </ul>
+            </div>
+
+            <div class="col-md-4">
+                <h3 style="margin-top: 20px"><span>3.</span>Catering and hospitality</h3>
+                <p>Includes students learning:</p>
+                <ul class="tl-list--vertical tl-list--bullet">
+                    <li>catering</li>
+                </ul>
+            </div>
+
+            <div class="col-md-4">
+                <h3><span>4.</span>Construction</h3>
+                <p>Includes students learning:</p>
+                <ul class="tl-list--vertical tl-list--bullet">
+                    <li>design, surveying and planning</li>
+                    <li>onsite construction</li>
+                    <li>building services engineering</li>
+                </ul>
+            </div>
+
+            <div class="col-md-4">
+                <h3><span>5.</span>Creative and design</h3>
+                <p>Includes students learning:</p>
+                <ul class="tl-list--vertical tl-list--bullet">
+                    <li>craft and design</li>
+                    <li>media, broadcast and production</li>
+                    <li>cultural heritage and visitor attractions</li>
+                </ul>
+            </div>
+
+            <div class="col-md-4">
+                <h3><span>6.</span>Digital and IT</h3>
+                <p>Includes students learning:</p>
+                <ul class="tl-list--vertical tl-list--bullet">
+                    <li>digital support and services</li>
+                    <li>digital production design and development</li>
+                    <li>digital business services</li>
+                </ul>
+            </div>
+
+            <div class="col-md-4">
+                <h3><span>7.</span>Education and childcare</h3>
+                <p>Includes students learning:</p>
+                <ul class="tl-list--vertical tl-list--bullet">
+                    <li>education</li>
+                </ul>
+            </div>
+
+            <div class="col-md-4">
+                <h3><span>8.</span>Engineering and manufacturing</h3>
+                <p>Includes students learning:</p>
+                <ul class="tl-list--vertical tl-list--bullet">
+                    <li>engineering design, development <br>and control</li>
+                    <li>engineering, manufacturing and <br>process</li>
+                    <li>maintenance, installation and <br>repair</li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h3><span>9.</span>Hair and beauty</h3>
+                <p>Includes students learning:</p>
+                <ul class="tl-list--vertical tl-list--bullet">
+                    <li>hair, beauty and aesthetics</li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h3><span>10.</span>Health and science</h3>
+                <p>Includes students learning:</p>
+                <ul class="tl-list--vertical tl-list--bullet">
+                    <li>health</li>
+                    <li>healthcare science</li>
+                    <li>science</li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h3><span>11.</span>Legal, financial and accounting</h3>
+                <p>Includes students learning:</p>
+                <ul class="tl-list--vertical tl-list--bullet">
+                    <li>legal</li>
+                    <li>financial services</li>
+                    <li>accountancy</li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<partial name="_CallToAction" />
+
+
+@section jsfiles{
+
+
+    <script src="~/js/plyr.polyfilled.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        const player = new Plyr('#player', {});
+
+        // Expose player so it can be used from the console
+        window.player = player;
+
+        setTimeout(() => {
+            player.poster = '/files/images/TLevels_WebsiteAssets30.jpg';
+        }, 500)</script>
+}
+

@@ -14,10 +14,9 @@ $listgutter: 30px;
 
     h2 {
         @extend .tl-heading--xsmall;
-        margin-bottom: 20px;
 
         @include media-max(medium) {
-            margin: 20px 0 10px 0;
+            margin: 20px 0 -10px 0;
         }
     }
 

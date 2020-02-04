@@ -1,5 +1,7 @@
 .tl-list {
+
     &--horizontal {
+        @extend .tl-body;
         display: flex;
         flex-direction: row;
 
@@ -9,6 +11,7 @@
     }
 
     &--vertical {
+        @extend .tl-body;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -20,6 +23,7 @@
     }
 
     &--bullet {
+        @extend .tl-body;
         list-style: disc;
         margin-left: 20px;
     }

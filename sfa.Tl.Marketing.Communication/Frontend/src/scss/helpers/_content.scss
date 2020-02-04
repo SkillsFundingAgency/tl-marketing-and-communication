@@ -3,6 +3,7 @@ $contentvariables:
 "orange" $orange $black,
 "purple" $purple $white,
 "white" $white $black,
+"salmon" $salmon $black,
 "black" $black $white,
 "grey" $lightgrey $black;
 
@@ -34,7 +35,15 @@ $contentvariables:
     @each $contentname, $contentbackground, $contenttext in $contentvariables {
         &--#{$contentname} {
             background-color: $contentbackground;
-            @include content($contentbackground, $contenttext);
+            @include content($contentbackground, $contenttext, wide);
         }
+    }
+}
+
+.tl-content-padded {
+    padding: 60px 0;
+
+    @include media-max(small) {
+        padding: 30px 0;
     }
 }

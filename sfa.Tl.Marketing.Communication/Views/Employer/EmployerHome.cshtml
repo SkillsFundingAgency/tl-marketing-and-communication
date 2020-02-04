@@ -1,0 +1,140 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutEmployer.cshtml";
+}
+
+@{
+
+    ViewData["PageID"] = "tl-employer-home";
+
+}
+@model FindViewModel
+
+<section id="tl-banner--employer">
+    <div class="tl-container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>Meet the workforce of the future</h1>
+                <p class="tl-lead">T Levels are new qualifications that have been designed with employers. One T level is equivalent to 3 A Levels and will give young people the skills, knowledge and attitude to thrive in the workplace. </p>
+                <p class="tl-lead">At the heart of each course, a 45-day industry placement will give you early access to the brightest talent entering your market.</p>
+                <a href="about" class="tl-button--purple">Find out more about T Levels</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="tl-employer-home--newqual" class="tl-content-wide--purple">
+    <div class="tl-container">
+        <div class="row">
+            <div class="col-md-6 tl-image--wide--left">
+                <img src="/files/images/TLevels_WebsiteAssets27.jpg" alt="" />
+            </div>
+            <div class="col-md-6">
+                <div class="tl-content--box">
+                    <h2>A new qualification</h2>
+                    <p>To prepare for T Levels, employers across England are trialling industry placements to spot and nurture young talent.</p>
+                    <p>You can join this vocational revolution right now. Students are ready to start placements in areas that include:</p>
+                    <ul class="tl-list--vertical tl-list--bullet">
+                        <li>construction</li>
+                        <li>digital</li>
+                        <li>education and childcare</li>
+                        <li>health and science</li>
+                    </ul>
+                    <a href="skills-available" class="tl-button--black">Check what skills are available</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="tl-employer-home--benefits" class="tl-content-wide--black">
+    <div class="tl-container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="tl-content--box">
+                    <h2>Business benefits of industry placements</h2>
+                    <p>Industry placements help your organisation:</p>
+                    <ul class="tl-list--vertical tl-list--bullet">
+                        <li>spot and nurture young talent</li>
+                        <li>develop an effective recruitment pipeline</li>
+                        <li>access new ideas and cutting-edge skills</li>
+                    </ul>
+                    <a href="business-benefits" class="tl-button--purple">View all the business benefits</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="tl-content--box">
+                    <img src="/files/images/TLevels_WebsiteAssets28.jpg" alt="" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="tl-employer-home--bottomline" class="tl-content-wide--purple">
+    <div class="tl-container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="tl-content--box">
+                    <h2>A new qualification</h2>
+                    <p>To prepare for T Levels, employers across England are trialling industry placements to spot and nurture young talent.</p>
+                    <p>You can join this vocational revolution right now. Students are ready to start placements in areas that include:</p>
+                    <ul class="tl-list--vertical tl-list--bullet">
+                        <li>construction</li>
+                        <li>digital</li>
+                        <li>education and childcare</li>
+                        <li>health and science</li>
+                    </ul>
+                    <a href="skills-available" class="tl-button--black">Check what skills are available</a>
+                </div>
+            </div>
+            <div class="col-md-6 tl-image--wide--right">
+                <img src="/files/images/TLevels_WebsiteAssets29.jpg" alt="" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="tl-employer-home--video" class="tl-content-wide--black">
+    <div class="tl-container">
+        <div class="row">
+            <div class="col-12">
+                <div class="tl-content--box">
+                    <h2>What employers say about industry placements</h2>
+                    <div class="tl-video">
+                        <div class="tl-video plyr__video-embed" id="player">
+                            <iframe src="https://www.youtube.com/embed/fWLUtLBc1rY?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;rel=0&amp;enablejsapi=1"
+                                    allowfullscreen
+                                    allowtransparency></iframe>
+                        </div>
+
+                    </div>
+                    <p class="tl-body"><a href="#" class="tl-link-white--purple">Read a transcript of this video</a></p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<partial name="_CallToAction" />
+
+
+@section jsfiles{
+
+
+    <script src="~/js/plyr.polyfilled.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        const player = new Plyr('#player', {});
+
+        // Expose player so it can be used from the console
+        window.player = player;
+
+        setTimeout(() => {
+            player.poster = '/files/images/TLevels_WebsiteAssets30.jpg';
+        }, 500)</script>
+}
+

@@ -10,6 +10,7 @@
     background-color: $buttonprimary;
     color: $buttontextcolor;
     border: none;
+    margin-bottom: 10px;
 
     @include media-max(xsmall) {
         width: 100%;

@@ -1,0 +1,31 @@
+/*SKILLS PAGE*/
+
+#tl-employer-skills--list {
+
+    h3 {
+        @include font(header, 20px, italic, bold, 24px);
+        margin-left: 35px;
+        position: relative;
+
+        span {
+            @include font(header, 26px, italic, bold, 20px);
+            color: $purple;
+            position: absolute;
+            left: -35px;
+            top: 0px;
+        }
+    }
+
+    p {
+        @include font(body, 14px, $lh: 18px);
+        margin-left: 35px;
+    }
+
+    ul {
+        margin: 0 0 40px 50px;
+        @include font(body, 14px, $lh: 18px);
+    }
+}
+
+/*BENEFITS PAGE*/
+

@@ -1,4 +1,5 @@
-@mixin content($contentprimary, $contentsecondary) {
+@mixin content($contentprimary, $contentsecondary, $contenttype: normal) {
+    color: $contentsecondary;
 
     @include media-max(small) {
         padding: 0;
@@ -20,14 +21,23 @@
         height: 100%;
         display: flex;
 
+        @if $contenttype == wide {
+            padding: 40px 0;
+        }
+
         @include media-max(small) {
-            padding: 30px;
+            padding: 30px 20px;
         }
     }
 
+
+
     .tl-container {
-        padding: 0;
-        max-width: 1200px;
+        @include media-max(small) {
+            padding: 0;
+        }
+
+        max-width: 1240px;
     }
 
 

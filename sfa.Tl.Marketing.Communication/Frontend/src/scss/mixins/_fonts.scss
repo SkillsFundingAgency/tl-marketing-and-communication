@@ -5,6 +5,10 @@
         text-transform: uppercase;
     }
 
+    @elseif $type == circular {
+        font-family: 'LL Circular Black', Arial, Helvetica, sans-serif;
+    }
+
     @else {
         font-family: 'Atlas Typewriter Web', 'Times New Roman', Arial;
     }

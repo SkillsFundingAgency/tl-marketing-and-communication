@@ -1,0 +1,37 @@
+.tl-image {
+
+    &--wide {
+        display: flex;
+
+        @include media-min(small) {
+            min-height: 450px;
+        }
+
+        img {
+            width: auto;
+            height: 100%;
+            max-height: -moz-available; /* WebKit-based browsers will ignore this. */
+            max-height: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+            max-height: fill-available;
+        }
+
+
+        &--right {
+            @extend .tl-image--wide;
+            justify-content: flex-start;
+        }
+
+        &--left {
+            @extend .tl-image--wide;
+            justify-content: flex-end;
+        }
+
+        @include media-max(small) {
+
+            img {
+                width: 100%;
+                max-height: unset;
+            }
+        }
+    }
+}

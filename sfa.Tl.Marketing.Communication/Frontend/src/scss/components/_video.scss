@@ -1,4 +1,16 @@
-#tl-video {
+#tl-video, #tl-employer-home--video {
     background: $black;
     z-index: z('video');
+    color: $white;
+
+    h2 {
+        padding-bottom: 0;
+        @include margin(bottom, 0);
+    }
+
+
+}
+
+.tl-video {
+    width: 100%;
 }

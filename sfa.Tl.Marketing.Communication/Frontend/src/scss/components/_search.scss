@@ -91,7 +91,6 @@
         ul {
             @extend .tl-list--vertical;
             @extend .tl-list--bullet;
-            padding: 0 0 15px 0;
 
             @include media-max(small) {
                 @include font(body, 14px);
