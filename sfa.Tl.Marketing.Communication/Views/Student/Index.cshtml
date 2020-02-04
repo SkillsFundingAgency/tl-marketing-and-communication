@@ -1,0 +1,74 @@
+﻿@{
+
+    ViewData["PageID"] = "tl-home";
+    ViewData["PagePath"] = "home";
+
+}
+@model FindViewModel
+
+<section id="tl-video">
+    <div class="tl-container">
+        <div class="row">
+            <div class="col">
+                <div class="tl-banner--video-image plyr__video-embed" id="player">
+                    <iframe src="https://www.youtube.com/embed/XYQw5rQrwwA?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;rel=0&amp;enablejsapi=1"
+                            allowfullscreen
+                            allowtransparency></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="tl-banner--student">
+    <div class="row">
+        <div class="col">
+            <h2 class="tl-hidden">Welcome to the next level</h2>
+        </div>
+    </div>
+</section>
+
+<section id="tl-maincontent" class="tl-content--orange">
+    <div class="row no-gutters">
+        <div class="col-md-6">
+            <img src="/files/images/TLevels_WebsiteAssets1.jpg" alt="" />
+        </div>
+        <div class="col-md-6">
+            <div class="tl-content--box">
+                <h2>A new qualification</h2>
+                <p>T Levels are a brand new, 2-year qualification that will give you a head start towards the future you want.</p>
+                <p>The Government has developed T Levels to deliver world class technical education and give you a new choice after GCSEs.</p>
+                <a href="/why" id="tl-home--discover" class="tl-button--black">Discover the benefits of <span class="no-break">T Levels</span></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row no-gutters">
+        <div class="col-md-6 order-2 order-md-1">
+            <div class="tl-content--box">
+                <h2>Created with business</h2>
+                <p>T Levels have been designed in partnership with businesses and employers to give you the skills and knowledge to succeed in the workplace.</p>
+                <p>Your course includes a 45-day industry placement with a local employer giving you real experience in your chosen area of work.</p>
+            </div>
+        </div>
+        <div class="col-md-6 order-1">
+            <img src="/files/images/TLevels_WebsiteAssets2.jpg" alt="" />
+        </div>
+    </div>
+</section>
+
+<partial name="_Search" />
+
+@section jsfiles{
+
+
+    <script src="~/js/plyr.polyfilled.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        const player = new Plyr('#player', {});
+
+        // Expose player so it can be used from the console
+        window.player = player;
+    </script>
+}
+
