@@ -19,6 +19,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
         private const string JsonOutputPath = @"C:\Dev\Esfa\T Level Provider Mapping Survey 2020 final071019 -- EIDTED.json";
         private const string PostcodesIoUrl = "https://postcodes.io";
 
+        // ReSharper disable once UnusedParameter.Local
         static void Main(string[] args)
         {
             var builder = new ConfigurationBuilder()
@@ -47,12 +48,13 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             foreach (var provider in groupedProviders)
             {
                 index++;
+
+                Console.WriteLine($"Processing provider {index} {provider.Key}");
+
                 var writeData = new ProviderWriteData
                 {
                     Id = index,
                     Name = provider.Key,
-                    //Website = provider.Website.Trim(),
-                    // TODO Work out what we're doing with locations
                     Locations = GetLocationsWrite(provider)
                 };
                 providerWriteData.Add(writeData);
@@ -61,148 +63,111 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             providerWrite.Providers = providerWriteData;
 
             WriteProvidersToFile(providerWrite, outputFilePath);
-
-            //var jsonString = JsonConvert.SerializeObject(providerWrite, new JsonSerializerSettings
-            //{
-            //    ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            //    Formatting = Formatting.Indented
-            //});
-
-            //WriteData(jsonString, outputFilePath);
         }
 
         private static List<LocationWriteData> GetLocationsWrite(IGrouping<string, ProviderReadData> providers)
         {
             var locationWriteData = new List<LocationWriteData>();
 
-            foreach (var p in providers)
+            var groupedProviderVenues = providers
+                .GroupBy(p => p.VenueName.Trim());
+            foreach (var venueGroup in groupedProviderVenues)
             {
+                var venue = venueGroup.First();
+                var postcode = venue.Postcode.Trim();
+                var latLong = GetLatLong(postcode);
+
+                Console.WriteLine($"  Adding location {venue.VenueName} {postcode}");
+
                 var location = new LocationWriteData
                 {
-                    Postcode = p.Postcode.Trim(),
-                    Town = p.Town.Trim(),
-                    Website = p.Website.Trim(),
-                    Qualification2020 = GetQualifications2020(p),
-                    Qualification2021 = GetQualifications2021(p)
+                    Name = venue.VenueName.Trim(),
+                    Postcode = postcode,
+                    Town = venue.Town.Trim(),
+                    Latitude = latLong.Item1,
+                    Longitude = latLong.Item2,
+                    Website = venue.Website.Trim(),
+                    Qualification2020 = new int[0],
+                    Qualification2021 = new int[0]
                 };
 
-                var postcodesIoUrl = $"{PostcodesIoUrl}/postcodes/{location.Postcode}";
-                var httpClient = new HttpClient();
-                var responseMessage = httpClient.GetAsync(postcodesIoUrl).GetAwaiter().GetResult();
-                if (responseMessage.StatusCode != HttpStatusCode.NotFound)
-                {
-                    responseMessage.EnsureSuccessStatusCode();
-                    var response = responseMessage.Content.ReadAsAsync<PostCodeLookupResponse>().GetAwaiter()
-                        .GetResult();
+                location.Qualification2020 = GetQualifications(venueGroup, 2020);
+                location.Qualification2021 = GetQualifications(venueGroup, 2021);
 
-                    location.Latitude = Convert.ToDouble(response.result.Latitude);
-                    location.Longitude = Convert.ToDouble(response.result.Longitude);
-
-                    locationWriteData.Add(location);
-                }
-                else
-                {
-                    postcodesIoUrl = $"{PostcodesIoUrl}/terminated_postcodes/{location.Postcode}";
-                    var terminatedResponseMessage = httpClient.GetAsync(postcodesIoUrl).GetAwaiter().GetResult();
-                    if (terminatedResponseMessage.StatusCode != HttpStatusCode.NotFound)
-                    {
-                        terminatedResponseMessage.EnsureSuccessStatusCode();
-                        var response = terminatedResponseMessage.Content.ReadAsAsync<PostCodeLookupResponse>().GetAwaiter()
-                            .GetResult();
-
-                        location.Latitude = Convert.ToDouble(response.result.Latitude);
-                        location.Longitude = Convert.ToDouble(response.result.Longitude);
-
-                        locationWriteData.Add(location);
-                    }
-                    else
-                    {
-                        throw new Exception($"Location cannot be found {location.Postcode}");
-                    }
-                }
+                locationWriteData.Add(location);
             }
 
             return locationWriteData;
         }
 
-        private static int[] GetQualifications2021(ProviderReadData providerReadData)
+        private static Tuple<double, double> GetLatLong(string postcode)
         {
-            var qualifications2021 = new List<int>();
+            var postcodesIoUrl = $"{PostcodesIoUrl}/postcodes/{postcode}";
+            var httpClient = new HttpClient();
+            var responseMessage = httpClient.GetAsync(postcodesIoUrl).GetAwaiter().GetResult();
+            if (responseMessage.StatusCode != HttpStatusCode.NotFound)
+            {
+                responseMessage.EnsureSuccessStatusCode();
+                var response = responseMessage.Content.ReadAsAsync<PostCodeLookupResponse>().GetAwaiter()
+                    .GetResult();
 
-            if (providerReadData.IsDigitalProduction && providerReadData.CourseYear == "2021")
-                qualifications2021.Add((int)Type.DigitalProductionDesignDevelopment);
+                return new Tuple<double, double>(
+                    Convert.ToDouble(response.result.Latitude),
+                    Convert.ToDouble(response.result.Longitude));
+            }
+            else
+            {
+                postcodesIoUrl = $"{PostcodesIoUrl}/terminated_postcodes/{postcode}";
+                var terminatedResponseMessage = httpClient.GetAsync(postcodesIoUrl).GetAwaiter().GetResult();
+                if (terminatedResponseMessage.StatusCode != HttpStatusCode.NotFound)
+                {
+                    terminatedResponseMessage.EnsureSuccessStatusCode();
+                    var response = terminatedResponseMessage.Content.ReadAsAsync<PostCodeLookupResponse>().GetAwaiter()
+                        .GetResult();
 
-            if (providerReadData.IsDigitalBusiness && providerReadData.CourseYear == "2021")
-                qualifications2021.Add((int)Type.DigitalBusiness);
-
-            if (providerReadData.IsDigitalSupport && providerReadData.CourseYear == "2021")
-                qualifications2021.Add((int)Type.DigitalSupportServices);
-
-            if (providerReadData.IsDesign && providerReadData.CourseYear == "2021")
-                qualifications2021.Add((int)Type.DesignSurveyingPlanning);
-
-            if (providerReadData.IsBuildingServices && providerReadData.CourseYear == "2021")
-                qualifications2021.Add((int)Type.BuildingServicesEngineering);
-
-            if (providerReadData.IsConstruction && providerReadData.CourseYear == "2021")
-                qualifications2021.Add((int)Type.OnsiteConstruction);
-
-            if (providerReadData.IsEducation && providerReadData.CourseYear == "2021")
-                qualifications2021.Add((int)Type.Education);
-
-            if (providerReadData.IsHealth && providerReadData.CourseYear == "2021")
-                qualifications2021.Add((int)Type.Health);
-
-            if (providerReadData.IsHealthCare && providerReadData.CourseYear == "2021")
-                qualifications2021.Add((int)Type.HealthCareScience);
-
-            if (providerReadData.IsScience && providerReadData.CourseYear == "2021")
-                qualifications2021.Add((int)Type.Science);
-            
-            return qualifications2021.ToArray();
+                    return new Tuple<double, double>(
+                        Convert.ToDouble(response.result.Latitude),
+                        Convert.ToDouble(response.result.Longitude));
+                }
+                else
+                {
+                    throw new Exception($"Location cannot be found {postcode}");
+                }
+            }
         }
 
-        private static int[] GetQualifications2020(ProviderReadData providerReadData)
+        private static int[] GetQualifications(IGrouping<string, ProviderReadData> venueGroup, int year)
         {
-            var qualifications2020 = new List<int>();
+            var qualifications = new List<int>();
 
-            if (providerReadData.IsDigitalProduction && providerReadData.CourseYear == "2020")
-                qualifications2020.Add((int)Type.DigitalProductionDesignDevelopment);
+            foreach (var venue in venueGroup)
+            {
+                if (venue.CourseYear == year.ToString())
+                {
+                    if (venue.IsDigitalProduction)
+                        qualifications.Add((int)Type.DigitalProductionDesignDevelopment);
+                    else if (venue.IsDigitalBusiness)
+                        qualifications.Add((int)Type.DigitalBusiness);
+                    else if (venue.IsDigitalSupport)
+                        qualifications.Add((int)Type.DigitalSupportServices);
+                    else if (venue.IsDesign)
+                        qualifications.Add((int)Type.DesignSurveyingPlanning);
+                    else if (venue.IsBuildingServices)
+                        qualifications.Add((int)Type.BuildingServicesEngineering);
+                    else if (venue.IsConstruction)
+                        qualifications.Add((int)Type.OnsiteConstruction);
+                    else if (venue.IsEducation)
+                        qualifications.Add((int)Type.Education);
+                    else if (venue.IsHealth)
+                        qualifications.Add((int)Type.Health);
+                    else if (venue.IsHealthCare)
+                        qualifications.Add((int)Type.HealthCareScience);
+                    else if (venue.IsScience)
+                        qualifications.Add((int)Type.Science);
+                }
+            }
 
-            if (providerReadData.IsDigitalBusiness && providerReadData.CourseYear == "2020")
-                qualifications2020.Add((int)Type.DigitalBusiness);
-
-            if (providerReadData.IsDigitalSupport && providerReadData.CourseYear == "2020")
-                qualifications2020.Add((int)Type.DigitalSupportServices);
-
-            if (providerReadData.IsDesign && providerReadData.CourseYear == "2020")
-                qualifications2020.Add((int)Type.DesignSurveyingPlanning);
-
-            if (providerReadData.IsBuildingServices && providerReadData.CourseYear == "2020")
-                qualifications2020.Add((int)Type.BuildingServicesEngineering);
-
-            if (providerReadData.IsConstruction && providerReadData.CourseYear == "2020")
-                qualifications2020.Add((int)Type.OnsiteConstruction);
-
-            if (providerReadData.IsEducation && providerReadData.CourseYear == "2020")
-                qualifications2020.Add((int)Type.Education);
-
-            if (providerReadData.IsHealth && providerReadData.CourseYear == "2020")
-                qualifications2020.Add((int)Type.Health);
-
-            if (providerReadData.IsHealthCare && providerReadData.CourseYear == "2020")
-                qualifications2020.Add((int)Type.HealthCareScience);
-
-            if (providerReadData.IsScience && providerReadData.CourseYear == "2020")
-                qualifications2020.Add((int)Type.Science);
-            
-            return qualifications2020.ToArray();
-        }
-
-        private static void WriteData(string jsonString, string path)
-        {
-            using (var file = new StreamWriter(path, false))
-                file.WriteLine(jsonString, path);
+            return qualifications.ToArray();
         }
 
         private static void WriteProvidersToFile(ProviderWrite data, string path)
@@ -211,7 +176,6 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             using (var sw = new StreamWriter(fs))
             using (var jw = new JsonTextWriter(sw))
             {
-                jw.Formatting = Formatting.Indented;
                 var serializer = new JsonSerializer
                 {
                     ContractResolver = new CamelCasePropertyNamesContractResolver(),

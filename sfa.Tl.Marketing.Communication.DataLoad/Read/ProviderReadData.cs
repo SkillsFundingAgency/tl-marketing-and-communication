@@ -19,5 +19,4 @@
         public string CourseYear { get; set; }
         public bool IsHealth { get; set; }
     }
-
 }

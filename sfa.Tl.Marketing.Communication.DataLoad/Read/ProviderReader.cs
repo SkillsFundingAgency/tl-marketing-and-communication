@@ -13,32 +13,27 @@ namespace sfa.Tl.Marketing.Communication.DataLoad.Read
         {
             var providerLoadResult = new ProviderReadResult();
 
-            using (var reader = new StreamReader(csvFilePath))
+            using (var fileStream = new FileStream(csvFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var reader = new StreamReader(fileStream))
+            using (var csv = new CsvReader(reader, CultureInfo.CurrentCulture))
             {
-                //reader.ReadLine();
-                //reader.ReadLine();
-                //reader.ReadLine();
-                using (var csv = new CsvReader(reader, CultureInfo.CurrentCulture))
+                try
                 {
-                    try
-                    {
-                        csv.Configuration.RegisterClassMap<ProviderReadDataMap>();
-                        var records = csv.GetRecords<ProviderReadData>().ToList();
-                        providerLoadResult.Providers = records;
-                    }
-                    catch (ReaderException re)
-                    {
-                        providerLoadResult.Error = $"{FailedToImportMessage} {re.Message} {re.InnerException?.Message}";
-                    }
-                    catch (ValidationException ve)
-                    {
-                        providerLoadResult.Error = $"{FailedToImportMessage} {ve.Message} {ve.InnerException?.Message}";
-                    }
-                    catch (BadDataException bde)
-                    {
-                        providerLoadResult.Error = $"{FailedToImportMessage} {bde.Message} {bde.InnerException?.Message}";
-                    }
-
+                    csv.Configuration.RegisterClassMap<ProviderReadDataMap>();
+                    var records = csv.GetRecords<ProviderReadData>().ToList();
+                    providerLoadResult.Providers = records;
+                }
+                catch (ReaderException re)
+                {
+                    providerLoadResult.Error = $"{FailedToImportMessage} {re.Message} {re.InnerException?.Message}";
+                }
+                catch (ValidationException ve)
+                {
+                    providerLoadResult.Error = $"{FailedToImportMessage} {ve.Message} {ve.InnerException?.Message}";
+                }
+                catch (BadDataException bde)
+                {
+                    providerLoadResult.Error = $"{FailedToImportMessage} {bde.Message} {bde.InnerException?.Message}";
                 }
             }
 
