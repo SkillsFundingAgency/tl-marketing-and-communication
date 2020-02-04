@@ -1,12 +1,9 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using sfa.Tl.Marketing.Communication.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace sfa.Tl.Marketing.Communication.Controllers
 {
     public class EmployerController : Controller
     {
-
         [Route("/employer", Name = "Employer")]
         public IActionResult EmployerHome()
         {
