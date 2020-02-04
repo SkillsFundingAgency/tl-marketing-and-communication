@@ -83,7 +83,8 @@ var maps = (function () {
 
             const defaultResultCount = 5;
             $("#tl-next").hide();
-
+            $("#tl-results").hide();
+            
             var dropdown = $("#tl-qualifications");
             dropdown.append($("<option></option>").attr("value", 0).text("All T Level courses"));
 
@@ -136,6 +137,7 @@ var maps = (function () {
                     $(".tl-validation--message").text("You must enter a postcode");
                     $(".tl-search--form").addClass("tl-validation--error");
                     $("#tl-search-results").empty();
+                    $("#tl-results").hide();
                     $("#tl-next").hide();
                 }
                 else if (postcodeResult === true) {
@@ -155,6 +157,7 @@ var maps = (function () {
                     $(".tl-validation--message").text("You must enter a real postcode");
                     $(".tl-search--form").addClass("tl-validation--error");
                     $("#tl-search-results").empty();
+                    $("#tl-results").hide();
                     $("#tl-next").hide();
                 }
                 return false;
@@ -227,13 +230,14 @@ var maps = (function () {
             }
 
             function showNoSearchResults() {
-                const searchResults = "<h3>0 Results</h3> \
+                const noResults = "<h3>0 Results</h3> \
                                        <p> Use the search box above to find T Level courses near you.</p>";
 
                 $("#tl-results-summary").empty();
-                $("#tl-results-summary").append(searchResults);
+                $("#tl-results-summary").append(noResults);
 
                 $("#tl-next").hide();
+                $("#tl-results").show();
             }
 
             function showSearchResults(searchedProviderLocations, qualifications) {
@@ -276,8 +280,11 @@ var maps = (function () {
                 }
 
                 $("#tl-results-summary").empty();
+                
                 $("#tl-search-results").empty();
                 $("#tl-search-results").append(searchResults);
+
+                $("#tl-results").show();
 
                 $("#tl-search-results div:eq(" + $("#SearchResultLastPosition").val() + ") a").focus();
             }
