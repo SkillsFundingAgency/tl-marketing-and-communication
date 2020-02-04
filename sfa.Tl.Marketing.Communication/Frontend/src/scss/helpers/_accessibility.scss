@@ -31,6 +31,10 @@ main:focus {
     white-space: nowrap !important;
 }
 
+.tl-none {
+    display: none;
+}
+
 input, select {
     &:focus {
         outline: 3px solid rgba($orange, 0.5);

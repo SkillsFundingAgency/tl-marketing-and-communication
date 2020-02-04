@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Find a T Level";
-    ViewData["PageID"] = "tl-find";
+    ViewData["PageID"] = "tl-student-find";
 }
 @model FindViewModel
 
@@ -13,19 +13,18 @@
                 <h1>Find your nearest T Level</h1>
                 <p>Search for colleges and schools delivering T Levels in 2020 and 2021</p>
                 <form class="tl-search--form text-center">
+                    <span class="tl-validation--message field-validation-error">You must enter a real postcode</span>
+
                     <label for="Postcode" class="tl-hidden">Postcode</label>
-                    <input asp-for="Postcode" placeholder="Enter your postcode" aria-label="Enter a postcode to find a T-Level near you" />
+                    <input asp-for="Postcode" placeholder="Enter your postcode" class="tl-search--form--postcode" aria-label="Enter a postcode to find a T-Level near you" />
                     <input type="hidden" asp-for="Qualification" />
                     <input type="hidden" asp-for="ShouldSearch" />
                     <input id="MaxResultCount" value="5" type="hidden" />
                     <input id="SearchResultLastPosition" type="hidden" />
 
-                    <select class="tl-input tl-input--select" id="tl-qualifications"></select>
+                    <select id="tl-qualifications"></select>
 
                     <button id="tl-find-button" type="submit" class="tl-button--orange" aria-label="Search for a T Level">Search</button>
-
-                    <br />
-                    <span class="tl-validation--message field-validation-error">You must enter a real postcode</span>
                 </form>
             </div>
         </div>

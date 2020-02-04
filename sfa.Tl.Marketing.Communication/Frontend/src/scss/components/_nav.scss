@@ -141,3 +141,27 @@
         }
     }
 }
+
+/* Active states */
+
+
+
+$employernavvariables: "home", "about", "skills", "benefits", "costs";
+
+@each $page in $employernavvariables {
+    #tl-employer-#{$page} {
+        #tl-nav--bar-employer--#{$page} {
+            @include navactive(employer)
+        }
+    }
+}
+
+$studentnavvariables: "home", "about", "why", "subjects", "find";
+
+@each $page in $studentnavvariables {
+    #tl-student-#{$page} {
+        #tl-nav--bar-student--#{$page} {
+            @include navactive(student)
+        }
+    }
+}

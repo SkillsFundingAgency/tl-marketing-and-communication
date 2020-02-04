@@ -1,0 +1,15 @@
+@mixin navactive($navtype) {
+        @if $navtype == employer {
+            border-bottom: 2px solid $purple;
+        }
+        @else {
+            border-bottom: 2px solid $orange;
+        }
+        top: 0px;
+        position: relative;
+        padding-bottom: 3px;
+
+        &:hover {
+            cursor: default;
+        }
+}

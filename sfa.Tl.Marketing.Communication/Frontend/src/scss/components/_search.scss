@@ -61,11 +61,19 @@
 
 .tl-validation--message {
     display: none;
+    @include margin(bottom, 10);
+    width: 100%;
+    @include font(circular, 16px, $lh: 20px);
+    color: red;
 }
 
 .tl-validation--error {
     .tl-validation--message {
-        display: inline-block;
+        display: block;
+    }
+
+    .tl-search--form--postcode {
+        border: 3px solid red !important;
     }
 }
 
