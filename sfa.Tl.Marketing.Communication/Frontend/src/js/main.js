@@ -90,7 +90,7 @@ var maps = (function () {
             $.each(providersData.qualifications,
                 function (key, entry) {
                     dropdown.append($("<option></option>").attr("value", key).text(entry));
-                    if ($("#Qualification").val() === entry) {
+                    if ($("#Qualification").val().toUpperCase() === entry.toUpperCase()) {
                         dropdown.val(key);
                     }
                 });
