@@ -132,13 +132,13 @@ var maps = (function () {
 
                 $("#tl-next").show();
 
-                if (postcode == "") {
+                if (postcode === "") {
                     $(".tl-validation--message").text("You must enter a postcode");
                     $(".tl-search--form").addClass("tl-validation--error");
                     $("#tl-search-results").empty();
                     $("#tl-next").hide();
                 }
-                else if (postcodeResult == true) {
+                else if (postcodeResult === true) {
                     $(".tl-search--form").removeClass("tl-validation--error");
                     geocodeAddress(geocoder);
 
