@@ -12,12 +12,11 @@
             <div class="col-12">
                 <h1>Find your nearest T Level</h1>
                 <p>Search for colleges and schools delivering T Levels in 2020 and 2021</p>
-                @*<form asp-action="Find" method="get">*@
                 <form class="tl-search--form text-center">
                     <label for="Postcode" class="tl-hidden">Postcode</label>
                     <input asp-for="Postcode" placeholder="Enter your postcode" aria-label="Enter a postcode to find a T-Level near you" />
-                    @*<input type="hidden" asp-for="Qualification" />*@
-                    @*<input type="hidden" asp-for="ShouldSearch" />*@
+                    <input type="hidden" asp-for="Qualification" />
+                    <input type="hidden" asp-for="ShouldSearch" />
                     <input id="MaxResultCount" value="5" type="hidden" />
                     <input id="SearchResultLastPosition" type="hidden" />
 
@@ -28,13 +27,11 @@
                     <br />
                     <span class="tl-validation--message field-validation-error">You must enter a real postcode</span>
                 </form>
-
             </div>
         </div>
     </div>
 </section>
 
-@* Need to remove or hide this *@
 <div class="tl-map" id="tl-find--map">
     <div id="map" class="tl-map--map" aria-hidden="true"></div>
 </div>
@@ -42,40 +39,13 @@
 <section id="tl-results" class="tl-content-normal--grey">
     <div class="tl-container">
         <div class="row no-gutters">
-                <div class="col-lg-8 col-12">
-<div class="tl-results--summary">
+            <div class="col-lg-8 col-12">
+                <div id="tl-results-summary" class="tl-results--summary">
                     <h3>0 Results</h3>
                     <p>Use the search box above to find T Level courses near you.</p>
                 </div>
-                <div id="tl-search-results" class="tl-results--block">
-                    @* TODO: script will add this if no results - need appropriate classes or change the script *@
-                    @*<div class='tl-results-box'>
-                            <h3><span class='tl-results-box--distance'>0 results found</span></h3> \
-                        </div>*@
-                </div>
 
-                <div class="tl-results--block">
-                    <h4>Below here is sample data to be deleted</h4>
-                </div>
-
-                <div class="tl-results--block">
-                    <h4>STRODE COLLEGE</h4>
-                    <p>Gloucester | GL7 1XA</p>
-                    <span class="tl-results--block--distance">6 miles</span>
-                    <hr class="tl-line-lightgrey--small">
-                    <h5>Starting in September 2020</h5>
-                    <ul>
-                        <li>Design, surveying and planning (construction)</li>
-                        <li>Digital production, design and development</li>
-                        <li>Education</li>
-                    </ul>
-                    <h5>Starting in September 2021</h5>
-                    <ul>
-                        <li>Design, surveying and planning (construction)</li>
-                        <li>Digital production, design and development</li>
-                        <li>Education</li>
-                    </ul>
-                    <a href="#" class="tl-link-black--orange">Visit their website</a>
+                <div id="tl-search-results">
                 </div>
 
                 <button id="tl-next" class="tl-button--black">Load next 5 providers</button>
@@ -85,5 +55,7 @@
 </section>
 
 @section jsfiles{
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHRm_JvlnxY0QF6vWvYnnDC1_qu1Ctuzk&callback=maps.initMap&libraries=geometry" async defer></script>
+
+    @{ var source = $"https://maps.googleapis.com/maps/api/js?key={Model.MapApiKey}&callback=maps.initMap&libraries=geometry"; }
+    <script src="@source" async defer></script>
 }

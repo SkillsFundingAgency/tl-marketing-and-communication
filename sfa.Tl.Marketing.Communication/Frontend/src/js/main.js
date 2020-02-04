@@ -90,7 +90,7 @@ var maps = (function () {
             $.each(providersData.qualifications,
                 function (key, entry) {
                     dropdown.append($("<option></option>").attr("value", key).text(entry));
-                    if ($("#Qualification").val() === entry) {
+                    if ($("#Qualification").val().toUpperCase() === entry.toUpperCase()) {
                         dropdown.val(key);
                     }
                 });
@@ -100,34 +100,6 @@ var maps = (function () {
                     center: { lat: 52.4774169, lng: -1.9336707 },
                     zoom: 6
                 });
-
-            //const infoWindow = new google.maps.InfoWindow();
-
-            for (let i = 0; i < providersData.providers.length; i++) {
-                for (let j = 0; j < providersData.providers[i].locations.length; j++) {
-                    //const marker = new google.maps.Marker({
-                    //    position: {
-                    //        lat: providersData.providers[i].locations[j].latitude,
-                    //        lng: providersData.providers[i].locations[j].longitude
-                    //    },
-                    //    map: map,
-                    //    title: providersData.providers[i].name
-                    //});
-
-                    //const infoWindowContent = "<h1>" + providersData.providers[i].name + "</h1>" +
-                    //    "<p><b>" + providersData.providers[i].locations[j].fullAddress + "</b></p>";
-
-                    //attachInfoWindow(marker, map, infoWindow, infoWindowContent);
-                }
-            }
-
-            function attachInfoWindow(marker, map, infoWindow, infoWindowContent) {
-                google.maps.event.addListener(marker,
-                    "click", function () {
-                        infoWindow.setContent(infoWindowContent);
-                        infoWindow.open(map, marker);
-                    });
-            }
 
             var geocoder = new google.maps.Geocoder();
 
@@ -167,9 +139,8 @@ var maps = (function () {
                     $("#tl-next").hide();
                 }
                 else if (postcodeResult == true) {
-                    //$(".tl-validation--message").text("");
                     $(".tl-search--form").removeClass("tl-validation--error");
-                    geocodeAddress(geocoder, map);
+                    geocodeAddress(geocoder);
 
                     if (goToSearchResults) {
                         var searchResultsAnchor = $("#tl-search");
@@ -189,15 +160,16 @@ var maps = (function () {
                 return false;
             }
 
-            function geocodeAddress(geocoder, resultsMap) {
+            function geocodeAddress(geocoder) {
                 const searchedPostcode = document.getElementById("Postcode").value;
                 if (searchedPostcode === "")
                     return;
 
-                geocoder.geocode({ 'address': searchedPostcode }, function (results, status) {
+                geocoder.geocode({
+                    'address': searchedPostcode,
+                    componentRestrictions: { country: 'GB' }
+                }, function (results, status) {
                     if (status === "OK") {
-                        resultsMap.setCenter(results[0].geometry.location, 1);
-                        resultsMap.setZoom(10);
 
                         const selectedQualification = parseInt($("#tl-qualifications").children("option:selected").val());
                         const searchedProvidersLocations = [];
@@ -208,7 +180,7 @@ var maps = (function () {
                                 if (selectedQualification !== 0 &&
                                     !providersData.providers[i].locations[j].qualification2020.includes(
                                         selectedQualification) &&
-                                    !providersData.providers[i].locations[j].qualification202.includes(
+                                    !providersData.providers[i].locations[j].qualification2021.includes(
                                         selectedQualification)) {
                                     continue;
                                 }
@@ -218,7 +190,6 @@ var maps = (function () {
                                     results[0].geometry.location);
 
                                 providersData.providers[i].locations[j].name = providersData.providers[i].name;
-                                //TODO: Does the next line do anything?
                                 providersData.providers[i].locations[j].website = providersData.providers[i].locations[j].website;
 
                                 searchedProvidersLocations.push(providersData.providers[i].locations[j]);
@@ -256,12 +227,11 @@ var maps = (function () {
             }
 
             function showNoSearchResults() {
-                const searchResults = "<div class='tl-results-box'> \
-                                        <h3><span class='tl-results-box--distance'>0 results found</span></h3> \
-                                    </div>";
+                const searchResults = "<h3>0 Results</h3> \
+                                       <p> Use the search box above to find T Level courses near you.</p>";
 
-                $("#tl-search-results").empty();
-                $("#tl-search-results").append(searchResults);
+                $("#tl-results-summary").empty();
+                $("#tl-results-summary").append(searchResults);
 
                 $("#tl-next").hide();
             }
@@ -276,60 +246,34 @@ var maps = (function () {
                 }
 
                 for (let i = 0; i < maxResultCount; i++) {
-                    let qualificationsResults = "";
+                    let qualificationsResults2020 = "";
                     for (let j = 0; j < searchedProviderLocations[i].qualification2020.length; j++) {
-                        qualificationsResults += "<li>" + qualifications[searchedProviderLocations[i].qualification2020[j]] + "</li>";
+                        qualificationsResults2020 += "<li>" + qualifications[searchedProviderLocations[i].qualification2020[j]] + "</li>";
                     }
 
-                    /* OLD:
-                    searchResults += "<div class='tl-results-box'> \
-                                    <h3><span class='tl-results-box--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles </span>" + searchedProviderLocations[i].name + "</h3> \
-                                    <p>" + searchedProviderLocations[i].fullAddress + "</p> \
-                                                <p><strong>Courses starting September 2020</strong></p> \
-                                                <ul class='tl-list tl-list-small'> \
-                                                " + qualificationsResults + " \
-                                                </ul> \
-                                                <a href='" + searchedProviderLocations[i].website + "' class='tl-link-black--orange'>Visit their website</a> \
-                                 </div> \
-                                 <br/>";
-                    */
-                    searchResults += "<div class='tl-results-box'> \
-                                    <h4>" + searchedProviderLocations[i].name + "</h4> \
-                                    <p>" + searchedProviderLocations[i].town + " | " + searchedProviderLocations[i].postcode + "</p> \
-                        <span class='tl-results--block--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles</span> \
-                        <hr class='tl-line-lightgrey--small'> \
-                        <h5><strong>Starting in September 2020</strong></h5> \
-                                                <ul> \
-                                                " + qualificationsResults + " \
-                                                </ul> \
-                        <h5><strong>Courses in September 2021</strong></h5> \
-                                                <ul> \
-                                                " + "<li>TBC</li>" + " \
-                                                </ul> \
-                                                <a href='" + searchedProviderLocations[i].website + "' class='tl-link-black--orange'>Visit their website</a> \
+                    let qualificationsResults2021 = "";
+                    for (let j = 0; j < searchedProviderLocations[i].qualification2021.length; j++) {
+                        qualificationsResults2021 += "<li>" + qualifications[searchedProviderLocations[i].qualification2021[j]] + "</li>";
+                    }
+
+                    searchResults += "<div class='tl-results--block'> \
+                                        <h4>" + searchedProviderLocations[i].name + "</h4> \
+                                        <p>" + searchedProviderLocations[i].town + " | " + searchedProviderLocations[i].postcode + "</p> \
+                                        <span class='tl-results--block--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles</span> \
+                                        <hr class='tl-line-lightgrey--small'> \
+                                        <h5><strong>Starting in September 2020</strong></h5> \
+                                        <ul> \
+                                            " + qualificationsResults2020 + " \
+                                        </ul> \
+                                        <h5><strong>Courses in September 2021</strong></h5> \
+                                        <ul> \
+                                            " + qualificationsResults2021 + " \
+                                        </ul> \
+                                        <a href='" + searchedProviderLocations[i].website + "' class='tl-link-black--orange'>Visit their website</a> \
                                  </div>";
-                    /*
-                <div class="tl-results--block">
-                    <h4>STRODE COLLEGE</h4>
-                    <p>Gloucester | GL7 1XA</p>
-                    <span class="tl-results--block--distance">6 miles</span>
-                    <hr class="tl-line-lightgrey--small">
-                    <h5>Starting in September 2020</h5>
-                    <ul>
-                        <li>Design, surveying and planning (construction)</li>
-                        <li>Digital production, design and development</li>
-                        <li>Education</li>
-                    </ul>
-                    <h5>Starting in September 2021</h5>
-                    <ul>
-                        <li>Design, surveying and planning (construction)</li>
-                        <li>Digital production, design and development</li>
-                        <li>Education</li>
-                    </ul>
-                    <a href="#" class="tl-link-black--orange">Visit their website</a>
-                </div>                     */
                 }
 
+                $("#tl-results-summary").empty();
                 $("#tl-search-results").empty();
                 $("#tl-search-results").append(searchResults);
 
