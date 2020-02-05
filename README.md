@@ -44,3 +44,5 @@ Default paths to input and output file paths are in constants in the code; if yo
   "OutputFilePath": "<path to file>"
 }
 
+After running the program, simply copy the `providers` section from the output file over the existing `providers` section in `\sfa.Tl.Marketing.Communication\Frontend\src\json\providers.json`.
+
