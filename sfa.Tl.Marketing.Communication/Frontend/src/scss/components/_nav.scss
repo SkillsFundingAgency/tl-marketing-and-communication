@@ -4,6 +4,7 @@
     display: flex;
     justify-content: space-between;
     @include container(($logowidth / 6));
+    overflow-x: visible !important;
     position: relative;
     z-index: z('nav');
     background-color: $white;
