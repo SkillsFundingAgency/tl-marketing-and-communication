@@ -13,32 +13,32 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             _configuration = configuration;
         }
 
-        [Route("/student", Name = "Index")]
+        [Route("/students", Name = "Index")]
         public IActionResult Index()
         {
             return View();
         }
 
-        [Route("/student/about", Name = "About")]
+        [Route("/students/about", Name = "About")]
         public IActionResult About()
         {
             return View();
         }
 
-        [Route("/student/why", Name = "Why")]
+        [Route("/students/why", Name = "Why")]
         public IActionResult Why()
         {
             return View();
         }
 
-        [Route("/student/subjects", Name = "Subjects")]
+        [Route("/students/subjects", Name = "Subjects")]
         public IActionResult Subjects()
         {
             return View();
         }
 
 
-        [Route("/student/find", Name = "Find")]
+        [Route("/students/find", Name = "Find")]
         public IActionResult Find(FindViewModel viewModel)
         {
             if (!string.IsNullOrEmpty(viewModel.Postcode))
