@@ -1,80 +1,101 @@
 ﻿@{
+    Layout = "~/Views/Shared/_LayoutHelp.cshtml";
+}
+
+@{
     ViewData["Title"] = "Cookies";
     ViewData["PageID"] = "tl-cookies";
 
 }
 @model FindViewModel
 
-<section class="tl-container tl-content">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h2 class="tl-margin-bottom-40">Cookies</h2>
-            <p>These are the specific cookies we use on this website.</p>
+<section id="tl-accessibility--header" class="tl-find tl-content-normal--black">
+    <div class="tl-container">
 
-            <h3 class="tl-margin-top-40">Measuring service usage</h3>
-            <table class="tl-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Purpose</th>
-                        <th>Expires</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="tl-table__row">
-                        <td>_ga</td>
-                        <td>This helps us count how many people visit this website by tracking if you've visited before</td>
-                        <td>When the browsing session ends </td>
-                    </tr>
-                    <tr class="tl-table__row">
-                        <td>_gid</td>
-                        <td>Stores and updates a unique value for each page you've visited to help us improve your experience</td>
-                        <td>1 Day</td>
-                    </tr>
-
-                    <tr class="tl-table__row">
-                        <td>ai_session</td>
-                        <td>Allows us to track how you’re using the service via Microsoft Application Insights</td>
-                        <td>30 mins</td>
-                    </tr>
-
-
-                    <tr class="tl-table__row">
-                        <td>ai_user</td>
-                        <td>Allows us to track how you’re using the service via Microsoft Application Insights</td>
-                        <td>1 Year</td>
-                    </tr>
-                </tbody>
-            </table>
-            <h3 class="tl-margin-top-40">
-                Essential cookies
-            </h3>
-
-            <table class="tl-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Purpose</th>
-                        <th>Expires</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="tl-table__row">
-                        <td>seen_cookie_message</td>
-                        <td>Allows us to remember when a user has dismissed the cookie banner so we do not show it to them again</td>
-                        <td>28 days</td>
-                    </tr>
-                    <tr class="tl-table__row">
-                        <td>AnalyticsConsent</td>
-                        <td>Allows us to remember whether you have opted out of Google Analytics</td>
-                        <td>365 days</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <p><a class="tl-button tl-margin-top-40" href="/cookie-settings">Back to cookie settings</a></p>
+        <div class="row">
+            <div class="col-12">
+                <h1>Cookies</h1>
+                <p class="tl-lead">These are the specific cookies we use on this website.</p>
+            </div>
         </div>
     </div>
 </section>
+
+<section id="tl-accessibility--content" class="tl-margin-top--30 tl-margin-bottom--60 tl-content-normal--white">
+    <div class="tl-container">
+
+        <div class="row">
+            <div class="col-md-8">
+                <h3 class="tl-margin-top--60">Measuring service usage</h3>
+                <table class="tl-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Purpose</th>
+                            <th>Expires</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="tl-table__row">
+                            <td>_ga</td>
+                            <td>This helps us count how many people visit this website by tracking if you've visited before</td>
+                            <td>When the browsing session ends </td>
+                        </tr>
+                        <tr class="tl-table__row">
+                            <td>_gid</td>
+                            <td>Stores and updates a unique value for each page you've visited to help us improve your experience</td>
+                            <td>1 Day</td>
+                        </tr>
+
+                        <tr class="tl-table__row">
+                            <td>ai_session</td>
+                            <td>Allows us to track how you’re using the service via Microsoft Application Insights</td>
+                            <td>30 mins</td>
+                        </tr>
+
+
+                        <tr class="tl-table__row">
+                            <td>ai_user</td>
+                            <td>Allows us to track how you’re using the service via Microsoft Application Insights</td>
+                            <td>1 Year</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="tl-margin-top--60">Essential cookies</h3>
+
+                <table class="tl-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Purpose</th>
+                            <th>Expires</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="tl-table__row">
+                            <td>seen_cookie_message</td>
+                            <td>Allows us to remember when a user has dismissed the cookie banner so we do not show it to them again</td>
+                            <td>28 days</td>
+                        </tr>
+                        <tr class="tl-table__row">
+                            <td>AnalyticsConsent</td>
+                            <td>Allows us to remember whether you have opted out of Google Analytics</td>
+                            <td>365 days</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p><a class="tl-button--black" href="/cookie-settings">Back to cookie settings</a></p>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
 
 

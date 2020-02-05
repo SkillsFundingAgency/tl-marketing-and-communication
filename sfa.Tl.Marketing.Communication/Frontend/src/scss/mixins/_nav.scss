@@ -1,15 +1,24 @@
 @mixin navactive($navtype) {
-        @if $navtype == employer {
-            border-bottom: 2px solid $purple;
-        }
-        @else {
-            border-bottom: 2px solid $orange;
-        }
-        top: 0px;
-        position: relative;
-        padding-bottom: 3px;
+    @if $navtype == employer {
+        border-bottom: 2px solid $purple;
+    }
+    @else {
+        border-bottom: 2px solid $orange;
+    }
 
-        &:hover {
-            cursor: default;
-        }
+    top: 0px;
+    position: relative;
+
+    @include media-min(medium) {
+        padding-bottom: 3px;
+    }
+
+
+    @include media-max(medium) {
+        background-color: $lightgrey;
+    }
+
+    &:hover {
+        cursor: default;
+    }
 }
