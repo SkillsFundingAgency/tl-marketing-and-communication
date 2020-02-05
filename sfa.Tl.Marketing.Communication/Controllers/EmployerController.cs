@@ -33,5 +33,13 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         {
             return View();
         }
+
+        [Route("/employer/video-transcript", Name = "EmployerVideoTranscript")]
+        public IActionResult EmployerVideoTranscript()
+        {
+            return View();
+        }
+
+        
     }
 }
