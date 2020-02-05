@@ -77,7 +77,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                 var postcode = venue.Postcode.Trim();
                 var latLong = GetLatLong(postcode);
 
-                Console.WriteLine($"  Adding location {venue.VenueName} {postcode}");
+                //Console.WriteLine($"  Adding location {venue.VenueName} {postcode}");
 
                 var location = new LocationWriteData
                 {
@@ -87,12 +87,9 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                     Latitude = latLong.Item1,
                     Longitude = latLong.Item2,
                     Website = venue.Website.Trim(),
-                    Qualification2020 = new int[0],
-                    Qualification2021 = new int[0]
+                    Qualification2020 = GetQualifications(venueGroup, 2020),
+                    Qualification2021 = GetQualifications(venueGroup, 2021)
                 };
-
-                location.Qualification2020 = GetQualifications(venueGroup, 2020);
-                location.Qualification2021 = GetQualifications(venueGroup, 2021);
 
                 locationWriteData.Add(location);
             }
@@ -145,34 +142,49 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                 if (venue.CourseYear == year.ToString())
                 {
                     if (venue.IsDigitalProduction)
-                        qualifications.Add((int)Type.DigitalProductionDesignDevelopment);
+                        AddQualification(qualifications, Type.DigitalProductionDesignDevelopment, year, venue);
                     else if (venue.IsDigitalBusiness)
-                        qualifications.Add((int)Type.DigitalBusiness);
+                        AddQualification(qualifications, Type.DigitalBusiness, year, venue);
                     else if (venue.IsDigitalSupport)
-                        qualifications.Add((int)Type.DigitalSupportServices);
+                        AddQualification(qualifications, Type.DigitalSupportServices, year, venue);
                     else if (venue.IsDesign)
-                        qualifications.Add((int)Type.DesignSurveyingPlanning);
+                        AddQualification(qualifications, Type.DesignSurveyingPlanning, year, venue);
                     else if (venue.IsBuildingServices)
-                        qualifications.Add((int)Type.BuildingServicesEngineering);
+                        AddQualification(qualifications, Type.BuildingServicesEngineering, year, venue);
                     else if (venue.IsConstruction)
-                        qualifications.Add((int)Type.OnsiteConstruction);
+                        AddQualification(qualifications, Type.OnsiteConstruction, year, venue);
                     else if (venue.IsEducation)
-                        qualifications.Add((int)Type.Education);
+                        AddQualification(qualifications, Type.Education, year, venue);
                     else if (venue.IsHealth)
-                        qualifications.Add((int)Type.Health);
+                        AddQualification(qualifications, Type.Health, year, venue);
                     else if (venue.IsHealthCare)
-                        qualifications.Add((int)Type.HealthCareScience);
+                        AddQualification(qualifications, Type.HealthCareScience, year, venue);
                     else if (venue.IsScience)
-                        qualifications.Add((int)Type.Science);
+                        AddQualification(qualifications, Type.Science, year, venue);
                 }
             }
 
             return qualifications.ToArray();
         }
 
+        private static void AddQualification(IList<int> qualificationList, Type qualificationType, int year, ProviderReadData venue)
+        {
+            if (qualificationList.Contains((int)qualificationType))
+            {
+                var originalColor = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Warning: Duplicate qualification {qualificationType} for provider {venue.ProviderName} postcode {venue.Postcode} year {year}");
+                Console.ForegroundColor = originalColor;
+            }
+            else
+            {
+                qualificationList.Add((int)qualificationType);
+            }
+        }
+
         private static void WriteProvidersToFile(ProviderWrite data, string path)
         {
-            using (var fs = File.Open(path, FileMode.OpenOrCreate))
+            using (var fs = File.Create(path))
             using (var sw = new StreamWriter(fs))
             using (var jw = new JsonTextWriter(sw))
             {
