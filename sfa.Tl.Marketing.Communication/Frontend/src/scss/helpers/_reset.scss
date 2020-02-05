@@ -359,3 +359,13 @@ textarea {
     color: #000;
     padding: 0.2em 0;
 }
+
+
+/*Remove border radius and display issues for safari drop downs and inputs*/
+
+input, select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+}

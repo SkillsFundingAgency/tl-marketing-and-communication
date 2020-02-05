@@ -25,6 +25,12 @@
     }
 
     select {
+        position: relative;
+        background: image("/arrows/arrow3.svg") 96%/5% no-repeat;
+        background-color: $white;
+        ;
+        cursor: pointer;
+
         @include media-min(small) {
             max-width: 300px;
         }
