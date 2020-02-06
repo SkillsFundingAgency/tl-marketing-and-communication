@@ -5,34 +5,6 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="Views\.old\AB\Baseline.cshtml" />
-    <Content Include="Views\.old\AB\Variant1.cshtml" />
-    <Content Include="Views\.old\AB\Variant2.cshtml" />
-    <Content Include="Views\.old\AB\Variant3.cshtml" />
-    <Content Include="Views\.old\AB\Variant4.cshtml" />
-    <Content Include="Views\.old\AB\Variant5.cshtml" />
-    <Content Include="Views\.old\AB\Variant6.cshtml" />
-    <Content Include="Views\.old\AB\Variant7.cshtml" />
-    <Content Include="Views\.old\AB\Variant8.cshtml" />
-    <Content Include="Views\.old\Help\Accessibility.cshtml" />
-    <Content Include="Views\.old\Help\Cookies.cshtml" />
-    <Content Include="Views\.old\Help\CookieSettings.cshtml" />
-    <Content Include="Views\.old\Home\About.cshtml" />
-    <Content Include="Views\.old\Home\Find.cshtml" />
-    <Content Include="Views\.old\Home\Index.cshtml" />
-    <Content Include="Views\.old\Home\Subjects.cshtml" />
-    <Content Include="Views\.old\Home\Why.cshtml" />
-    <Content Include="Views\.old\Shared\Error.cshtml" />
-    <Content Include="Views\.old\Shared\_CookieBanner.cshtml" />
-    <Content Include="Views\.old\Shared\_Footer.cshtml" />
-    <Content Include="Views\.old\Shared\_Head.cshtml" />
-    <Content Include="Views\.old\Shared\_Header.cshtml" />
-    <Content Include="Views\.old\Shared\_Layout.cshtml" />
-    <Content Include="Views\.old\Shared\_Nav.cshtml" />
-    <Content Include="Views\.old\Shared\_Scripts.cshtml" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -42,42 +14,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <None Include="Frontend\src\scss\.old\ab.scss" />
-    <None Include="Frontend\src\scss\.old\components\_all.scss" />
-    <None Include="Frontend\src\scss\.old\components\_banner.scss" />
-    <None Include="Frontend\src\scss\.old\components\_boxes.scss" />
-    <None Include="Frontend\src\scss\.old\components\_cookies.scss" />
-    <None Include="Frontend\src\scss\.old\components\_footer.scss" />
-    <None Include="Frontend\src\scss\.old\components\_header.scss" />
-    <None Include="Frontend\src\scss\.old\components\_modal.scss" />
-    <None Include="Frontend\src\scss\.old\components\_nav.scss" />
-    <None Include="Frontend\src\scss\.old\components\_search.scss" />
-    <None Include="Frontend\src\scss\.old\fonts.scss" />
-    <None Include="Frontend\src\scss\.old\helpers\_accessibility.scss" />
-    <None Include="Frontend\src\scss\.old\helpers\_all.scss" />
-    <None Include="Frontend\src\scss\.old\helpers\_borders.scss" />
-    <None Include="Frontend\src\scss\.old\helpers\_buttons.scss" />
-    <None Include="Frontend\src\scss\.old\helpers\_headings.scss" />
-    <None Include="Frontend\src\scss\.old\helpers\_mediaqueries.scss" />
-    <None Include="Frontend\src\scss\.old\helpers\_reset.scss" />
-    <None Include="Frontend\src\scss\.old\helpers\_shadows.scss" />
-    <None Include="Frontend\src\scss\.old\helpers\_showhide.scss" />
-    <None Include="Frontend\src\scss\.old\helpers\_spacing.scss" />
-    <None Include="Frontend\src\scss\.old\helpers\_table.scss" />
-    <None Include="Frontend\src\scss\.old\helpers\_toggles.scss" />
-    <None Include="Frontend\src\scss\.old\helpers\_variables.scss" />
-    <None Include="Frontend\src\scss\.old\helpers\_visual.scss" />
-    <None Include="Frontend\src\scss\.old\main.scss" />
-    <None Include="Frontend\src\scss\.old\pages\_about.scss" />
-    <None Include="Frontend\src\scss\.old\pages\_all.scss" />
-    <None Include="Frontend\src\scss\.old\pages\_find.scss" />
-    <None Include="Frontend\src\scss\.old\pages\_home.scss" />
-    <None Include="Frontend\src\scss\.old\pages\_subjects.scss" />
-    <None Include="Frontend\src\scss\.old\pages\_why.scss" />
   </ItemGroup>
 
 </Project>
