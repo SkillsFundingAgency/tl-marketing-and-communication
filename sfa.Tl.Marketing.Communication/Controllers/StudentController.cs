@@ -40,8 +40,7 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         [Route("/students/find", Name = "Find")]
         public IActionResult Find(FindViewModel viewModel)
         {
-            if (!string.IsNullOrEmpty(viewModel.Postcode) ||
-                !string.IsNullOrEmpty(viewModel.Qualification))
+            if (!string.IsNullOrEmpty(viewModel.Postcode))
                 viewModel.ShouldSearch = true;
 
             viewModel.MapApiKey = _configuration.GoogleMapsApiKey;
