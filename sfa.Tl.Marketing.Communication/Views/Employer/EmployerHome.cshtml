@@ -102,7 +102,7 @@
                     <h2>What employers say about industry placements</h2>
                     <div class="tl-video">
                         <div class="tl-video plyr__video-embed" id="player">
-                            <iframe src="https://www.youtube.com/embed/fWLUtLBc1rY?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;rel=0&amp;enablejsapi=1"
+                            <iframe src="https://www.youtube.com/embed/UPqOBA-C8Oo?cc_load_policy=1&origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;rel=0&amp;enablejsapi=1"
                                     allowfullscreen
                                     allowtransparency></iframe>
                         </div>
@@ -126,7 +126,9 @@
     <script src="~/js/plyr.polyfilled.min.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        const player = new Plyr('#player', {});
+        const player = new Plyr('#player', {
+            youtube: { cc_load_policy: 1 },
+        });
 
         // Expose player so it can be used from the console
         window.player = player;
