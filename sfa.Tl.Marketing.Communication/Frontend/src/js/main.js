@@ -124,7 +124,7 @@ var maps = (function () {
                 const postcodeRegex = /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/;
                 const postcodeResult = postcodeRegex.test(postcode);
 
-                $("#tl-next").removeClass("tl-non");
+                $("#tl-next").removeClass("tl-none");
 
                 if (postcode === "") {
                     $(".tl-validation--message").text("You must enter a postcode");
