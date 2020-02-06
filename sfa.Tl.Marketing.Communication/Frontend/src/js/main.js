@@ -96,12 +96,6 @@ var maps = (function () {
                     }
                 });
 
-            var map = new google.maps.Map(document.getElementById("map"),
-                {
-                    center: { lat: 52.4774169, lng: -1.9336707 },
-                    zoom: 6
-                });
-
             var geocoder = new google.maps.Geocoder();
 
             const shouldSearch = $("#ShouldSearch").val();
