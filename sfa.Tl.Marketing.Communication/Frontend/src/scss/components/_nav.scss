@@ -1,9 +1,9 @@
- $logowidth: 200;
+ $logowidth: 180;
 
 #tl-nav {
     display: flex;
     justify-content: space-between;
-    @include container(($logowidth / 6));
+    @include container(($logowidth / 5));
     overflow-x: visible !important;
     position: relative;
     z-index: z('nav');
