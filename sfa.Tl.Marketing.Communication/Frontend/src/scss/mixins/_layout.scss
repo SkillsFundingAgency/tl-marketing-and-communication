@@ -26,9 +26,9 @@ $sitepadding: 15;
     width: 100%;
     padding: $top + px $sides + px;
     @include align(center);
+    overflow-x: hidden;
 
     @media (max-width: 1250px) {
-        overflow-x: hidden;
     }
 }
 
