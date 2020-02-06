@@ -77,6 +77,18 @@ function processKeyboardEvents(e) {
     }
 }
 
+$("#tl-find-button").click(function () {
+    const postcode = document.getElementById("Postcode").value;
+    if (postcode === "") {
+        event.stopPropagation();
+        $(".tl-validation--message").text("You must enter a postcode");
+        $(".tl-search--form").addClass("tl-validation--error");
+        return false;
+    } else {
+        $(".tl-search--form").removeClass("tl-validation--error");
+    }
+});
+
 var maps = (function () {
     function initMap() {
         $.getJSON("/js/providers.json", function (providersData) {
@@ -255,12 +267,12 @@ var maps = (function () {
                                         <span class='tl-results--block--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles</span> \
                                         <hr class='tl-line-lightgrey--small'>";
                     if (qualificationsResults2020 !== "")
-                        searchResults += "<h5><strong>From September 2020 onwards</strong></h5> \
+                        searchResults += "<h5><strong>From September 2020 onwards:</strong></h5> \
                                           <ul> \
                                             " + qualificationsResults2020 + " \
                                           </ul>";
                     if (qualificationsResults2021 !== "")
-                        searchResults += "<h5><strong>From September 2021 onwards</strong></h5> \
+                        searchResults += "<h5><strong>From September 2021 onwards:</strong></h5> \
                                           <ul> \
                                             " + qualificationsResults2021 + " \
                                           </ul>";
