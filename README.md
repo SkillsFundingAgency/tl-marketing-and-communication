@@ -4,8 +4,6 @@
 
 #TESTING
 
-#ANOTHER TEST
-
 1. node - https://nodejs.org/en/
 2. npm - https://www.npmjs.com/package/npm
 3. Gulp - https://gulpjs.com/
