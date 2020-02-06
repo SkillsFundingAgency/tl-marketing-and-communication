@@ -255,12 +255,12 @@ var maps = (function () {
                                         <span class='tl-results--block--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles</span> \
                                         <hr class='tl-line-lightgrey--small'>";
                     if (qualificationsResults2020 !== "")
-                        searchResults += "<h5><strong>Starting in September 2020</strong></h5> \
+                        searchResults += "<h5><strong>From September 2020 onwards</strong></h5> \
                                           <ul> \
                                             " + qualificationsResults2020 + " \
                                           </ul>";
                     if (qualificationsResults2021 !== "")
-                        searchResults += "<h5><strong>Courses in September 2021</strong></h5> \
+                        searchResults += "<h5><strong>From September 2021 onwards</strong></h5> \
                                           <ul> \
                                             " + qualificationsResults2021 + " \
                                           </ul>";
