@@ -12,6 +12,10 @@ $listgutter: 30px;
         }
     }
 
+    .tl-container {
+        overflow-x: unset !important;
+    }
+
     h2 {
         @extend .tl-heading--xsmall;
 

@@ -82,8 +82,7 @@ var maps = (function () {
         $.getJSON("/js/providers.json", function (providersData) {
 
             const defaultResultCount = 5;
-            $("#tl-next").hide();
-            $("#tl-results").addClass("tl-none");
+            $("#tl-next").addClass("tl-none");
             
             var dropdown = $("#tl-qualifications");
             dropdown.append($("<option></option>").attr("value", 0).text("All T Level courses"));
@@ -125,17 +124,19 @@ var maps = (function () {
                 const postcodeRegex = /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/;
                 const postcodeResult = postcodeRegex.test(postcode);
 
-                $("#tl-next").show();
+                $("#tl-next").removeClass("tl-non");
 
                 if (postcode === "") {
                     $(".tl-validation--message").text("You must enter a postcode");
                     $(".tl-search--form").addClass("tl-validation--error");
                     $("#tl-search-results").empty();
-                    $("#tl-results").addClass("tl-none");
-                    $("#tl-next").hide();
+                    $("#tl-results-summary").removeClass("tl-none");
+                    $("#tl-next").addClass("tl-none");
                 }
                 else if (postcodeResult === true) {
                     $(".tl-search--form").removeClass("tl-validation--error");
+                    $("#tl-next").removeClass("tl-none");
+
                     geocodeAddress(geocoder);
 
                     if (goToSearchResults) {
@@ -151,8 +152,9 @@ var maps = (function () {
                     $(".tl-validation--message").text("You must enter a real postcode");
                     $(".tl-search--form").addClass("tl-validation--error");
                     $("#tl-search-results").empty();
-                    $("#tl-results").addClass("tl-none");
-                    $("#tl-next").hide();
+                    $("#tl-results-summary").removeClass("tl-none");
+                    $("#tl-next").addClass("tl-none");
+
                 }
                 return false;
             }
@@ -224,14 +226,7 @@ var maps = (function () {
             }
 
             function showNoSearchResults() {
-                const noResults = "<h3>0 Results</h3> \
-                                       <p> Use the search box above to find T Level courses near you.</p>";
-
-                $("#tl-results-summary").empty();
-                $("#tl-results-summary").append(noResults);
-
-                $("#tl-next").hide();
-                $("#tl-results").removeClass("tl-none");
+                $("#tl-results-summary").removeClass("tl-none");
             }
 
             function showSearchResults(searchedProviderLocations, qualifications) {
@@ -273,9 +268,10 @@ var maps = (function () {
                                  </div>";
                 }
 
-                $("#tl-results-summary").empty();
+                $("#tl-results-summary").addClass("tl-none");
                 $("#tl-search-results").empty();
                 $("#tl-search-results").append(searchResults);
+                $("#tl-next").removeClass("tl-none");
                 $("#tl-results").removeClass("tl-none");
 
                 $("#tl-search-results div:eq(" + $("#SearchResultLastPosition").val() + ") a").focus();
