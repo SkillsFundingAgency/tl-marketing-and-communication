@@ -1,5 +1,5 @@
 $sitewidth: 1200;
-$sitepadding: 20;
+$sitepadding: 15;
 
 @mixin align($align-position) {
     @if $align-position == "center" {

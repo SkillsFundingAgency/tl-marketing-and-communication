@@ -26,7 +26,9 @@
             justify-content: flex-end;
         }
 
-        @include media-max(small) {
+        @include media-max(medium) {
+
+            padding: 0;
 
             img {
                 width: 100%;
