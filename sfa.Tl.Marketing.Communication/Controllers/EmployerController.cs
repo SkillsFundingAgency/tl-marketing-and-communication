@@ -22,7 +22,7 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
-        [Route("/employers/benefits", Name = "EmployerBenefits")]
+        [Route("/employers/business-benefits", Name = "EmployerBenefits")]
         public IActionResult EmployerBenefits()
         {
             return View();

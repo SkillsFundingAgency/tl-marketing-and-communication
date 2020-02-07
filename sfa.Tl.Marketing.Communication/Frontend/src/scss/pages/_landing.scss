@@ -45,7 +45,7 @@
 
     &--content {
         width: 100%;
-        padding: 0 20px;
+        padding: 0 30px;
         color: $white;
         position: relative;
 
@@ -55,7 +55,7 @@
 
 
         h2 {
-            @extend .tl-heading--medium;
+            @extend .tl-heading--large;
 
             @include media-max(small) {
                 padding-bottom: 20px;

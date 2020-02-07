@@ -35,7 +35,7 @@ $(document).on('click', function () {
         $("body").addClass('modal-open');
         event.stopImmediatePropagation();
 
-        const elementsThatAreFocusable = $('.tl-modal.active a[href], area[href], select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]');
+        const elementsThatAreFocusable = $('.tl-modal.active a[href], area[href], select:not([disabled]), textarea:not([disabled]), [tabindex="0"]');
 
         firstTabStop = elementsThatAreFocusable[0];
         lastTabStop = elementsThatAreFocusable[elementsThatAreFocusable.length - 1];

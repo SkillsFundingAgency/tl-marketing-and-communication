@@ -23,6 +23,7 @@ $linkvariables:
         &-#{$linktextname}--#{$linkunderlinename} {
             @include link($linktextcolor, $linkunderlinecolor);
             padding-bottom: 0px;
+            line-height: 24px;
         }
     }
 }

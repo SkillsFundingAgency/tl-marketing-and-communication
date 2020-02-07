@@ -9,7 +9,7 @@
     .tl-content--box {
         background-color: $contentprimary;
         color: $contentsecondary;
-        padding: 40px;
+        padding: 60px 40px;
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
@@ -18,11 +18,15 @@
         display: flex;
 
         @if $contenttype == wide {
-            padding: 40px 0;
+            padding: 60px 0;
         }
 
         @include media-max(small) {
             padding: 30px 20px;
+        }
+
+        .tl-button--black, .tl-button--purple, .tl-button--orange, .tl-button--white {
+            margin-top: 15px;
         }
     }
 

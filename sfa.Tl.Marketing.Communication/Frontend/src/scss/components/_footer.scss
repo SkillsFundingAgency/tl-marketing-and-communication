@@ -2,7 +2,7 @@ $listgutter: 30px;
 
 #tl-footer {
     background: $black;
-    padding: 40px 0;
+    padding: 50px 0;
     border-top: 1px solid $darkgrey;
     color: $white;
 
@@ -75,10 +75,24 @@ $listgutter: 30px;
             @include media-max(medium) {
                 top: 0;
             }
+
+            &:hover {
+                svg {
+                    g {
+                        fill: $orange;
+                        transition: 0.2s ease-in-out;
+                    }
+                }
+            }
         }
 
         svg {
             max-width: 30px;
+
+            g {
+                fill: $white;
+                transition: 0.2s ease-in-out;
+            }
         }
     }
 }

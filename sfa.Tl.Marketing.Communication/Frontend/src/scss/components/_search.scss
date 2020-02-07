@@ -16,6 +16,8 @@
     input, select {
         padding: 16px;
         border: none;
+        @include font(body, 16px, $lh: 20px);
+
 
         @include media-max(small) {
             width: 100%;
@@ -26,12 +28,12 @@
 
     select {
         position: relative;
-        background: image("/arrows/arrow3.svg") 96%/5% no-repeat;
+        background: image("/arrows/arrow3.svg") 96% no-repeat;
+        background-size: 17px;
         background-color: $white;
-        ;
         cursor: pointer;
 
-        @include media-min(small) {
+        @include media-between(small, medium) {
             max-width: 300px;
         }
     }

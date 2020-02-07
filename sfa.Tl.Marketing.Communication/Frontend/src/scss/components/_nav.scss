@@ -12,6 +12,11 @@
     .tl-nav--logo a {
         @include align(left);
         background: image("logo" + "medium" + ".svg") no-repeat left center;
+        filter: none;
+        -webkit-filter: blur(0px);
+        -moz-filter: blur(0px);
+        -ms-filter: blur(0px);
+        filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='0');
         min-width: $logowidth + px;
         min-height: ($logowidth / 6) + px;
     }
