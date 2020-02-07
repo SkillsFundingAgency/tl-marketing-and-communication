@@ -94,8 +94,11 @@ var maps = (function () {
         $.getJSON("/js/providers.json", function (providersData) {
 
             const defaultResultCount = 5;
+
             $("#tl-next").addClass("tl-none");
-            
+
+            var geocoder = new google.maps.Geocoder();
+
             var dropdown = $("#tl-qualifications");
             dropdown.append($("<option></option>").attr("value", 0).text("All T Level courses"));
 
@@ -107,18 +110,6 @@ var maps = (function () {
                     }
                 });
 
-            var geocoder = new google.maps.Geocoder();
-
-            const shouldSearch = $("#ShouldSearch").val();
-            if (shouldSearch === "True") {
-                $("#tl-next").click(function () {
-                    const currentResultCount = parseInt($("#MaxResultCount").val());
-                    $("#MaxResultCount").val(currentResultCount + defaultResultCount);
-                    return search(false);
-                });
-                return search(true);
-            }
-
             $("#tl-find-button").click(function () {
                 $("#MaxResultCount").val(defaultResultCount);
                 return search(false);
@@ -129,6 +120,16 @@ var maps = (function () {
                 $("#MaxResultCount").val(currentResultCount + defaultResultCount);
                 return search(false);
             });
+            
+            const shouldSearch = $("#ShouldSearch").val();
+            if (shouldSearch === "True") {
+                $("#tl-next").click(function () {
+                    const currentResultCount = parseInt($("#MaxResultCount").val());
+                    $("#MaxResultCount").val(currentResultCount + defaultResultCount);
+                    return search(false);
+                });
+                return search(true);
+            }
 
             function search(goToSearchResults) {
                 event.preventDefault();
