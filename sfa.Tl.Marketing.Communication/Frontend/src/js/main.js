@@ -137,6 +137,8 @@ var maps = (function () {
                 const postcodeRegex = /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/;
                 const postcodeResult = postcodeRegex.test(postcode);
 
+                $("#tl-next").addClass("tl-none");
+
                 if (postcode === "") {
                     $(".tl-validation--message").text("You must enter a postcode");
                     $(".tl-search--form").addClass("tl-validation--error");
@@ -146,7 +148,6 @@ var maps = (function () {
                 }
                 else if (postcodeResult === true) {
                     $(".tl-search--form").removeClass("tl-validation--error");
-                    $("#tl-next").removeClass("tl-none");
 
                     geocodeAddress(geocoder);
 
@@ -237,8 +238,10 @@ var maps = (function () {
             }
 
             function showNoSearchResults() {
-                $("#tl-results-summary").removeClass("tl-none");
+                $("#tl-search-results").empty();
                 $("#tl-next").addClass("tl-none");
+                $("#tl-results").removeClass("tl-none");
+                $("#tl-results-summary").removeClass("tl-none");
             }
 
             function showSearchResults(searchedProviderLocations, qualifications) {
