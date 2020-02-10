@@ -64,6 +64,11 @@
             @include media-max(small) {
                 padding-bottom: 20px;
             }
+
+            @media (max-width: 1020px) and (min-width: 767px) {
+                font-size: 43px !important;
+                padding-bottom: 20px;
+            }
         }
 
         p {
