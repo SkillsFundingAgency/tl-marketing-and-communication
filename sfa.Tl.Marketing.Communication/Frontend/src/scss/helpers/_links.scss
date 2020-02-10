@@ -18,6 +18,17 @@ $linkvariables:
     }
 }
 
+
+.tl-link-block {
+    @each $linktextname, $linkunderlinename, $linktextcolor, $linkunderlinecolor in $linkvariables {
+        &-#{$linktextname}--#{$linkunderlinename} {
+            @include link($linktextcolor, $linkunderlinecolor);
+            display: inline-block;
+            line-height: 20px;
+        }
+    }
+}
+
 .tl-link-inline {
     @each $linktextname, $linkunderlinename, $linktextcolor, $linkunderlinecolor in $linkvariables {
         &-#{$linktextname}--#{$linkunderlinename} {
@@ -27,5 +38,6 @@ $linkvariables:
         }
     }
 }
+
 
 

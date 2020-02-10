@@ -1,3 +1,10 @@
+html {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+    font-weight: 400;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -368,4 +375,11 @@ input, select {
     -moz-appearance: none;
     appearance: none;
     border-radius: 0;
+}
+
+/*Firefox font weight fix*/
+@-moz-document url-prefix() {
+    body {
+        font-weight: lighter !important;
+    }
 }

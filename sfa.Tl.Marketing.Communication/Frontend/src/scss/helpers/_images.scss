@@ -1,7 +1,7 @@
 .tl-image {
 
     &--wide {
-        display: flex;
+        position: relative;
 
         @include media-min(small) {
             min-height: 450px;
@@ -10,30 +10,46 @@
         img {
             width: auto;
             height: 100%;
+            position: absolute;
             max-height: -moz-available; /* WebKit-based browsers will ignore this. */
             max-height: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
             max-height: stretch;
+
+            @include media-max(medium) {
+                position: relative;
+                right: 0;
+                left: 0;
+            }
         }
 
 
         &--right {
             @extend .tl-image--wide;
-            justify-content: flex-start;
+
+            img {
+                left: 20px;
+            }
         }
 
         &--left {
             @extend .tl-image--wide;
-            justify-content: flex-end;
+
+            img {
+                right: 20px;
+            }
         }
 
         @include media-max(medium) {
-
             padding: 0;
 
             img {
                 width: 100%;
                 max-height: unset;
             }
+        }
+
+        @include media-max(small) {
+            padding: 0 15px;
         }
     }
 }

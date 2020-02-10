@@ -12,10 +12,14 @@
         padding: 60px 40px;
         flex-direction: column;
         justify-content: center;
-        align-items: flex-start;
+        align-items: self-start;
         text-align: left;
         height: 100%;
         display: flex;
+
+        @include media-max(medium) {
+            padding: 40px 40px;
+        }
 
         @include media-max(small) {
             padding: 30px 10px;
@@ -25,7 +29,7 @@
             padding: 60px 0;
 
             @include media-max(small) {
-                padding: 30px 0;
+                padding: 30px 15px;
             }
         }
 
@@ -44,7 +48,7 @@
 
         @if $contenttype == wide {
             @include media-max(small) {
-                padding: 0 15px;
+                padding: 0;
             }
         }
 
@@ -57,7 +61,7 @@
 
 
     h1 {
-        @extend .tl-heading--medium;
+        @extend .tl-heading--large;
     }
 
     h2 {

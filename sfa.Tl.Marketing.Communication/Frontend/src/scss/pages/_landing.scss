@@ -2,6 +2,10 @@
     margin-top: 50px;
     margin-bottom: 50px;
 
+    @include media-max(small) {
+        margin-top: 0px;
+    }
+
     .row {
         padding: 10px 0;
     }

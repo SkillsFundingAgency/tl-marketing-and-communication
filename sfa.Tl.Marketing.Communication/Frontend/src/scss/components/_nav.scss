@@ -22,7 +22,7 @@
     }
 
     .tl-nav--bar {
-        @include font(header, 14px, italic, bold);
+        @include font(header, 14px, italic, 400);
         @include align(right);
         z-index: z('nav');
         align-items: flex-end;

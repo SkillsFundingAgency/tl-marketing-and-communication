@@ -1,47 +1,47 @@
 @mixin heading($fontsize) {
-    @include font(header, $fontsize + px, italic, bold, $fontsize + px);
+    @include font(header, $fontsize + px, italic, 400, $fontsize + px);
     padding-bottom: ($fontsize * 0.75) + px;
 
     @include media-max(medium) {
-        @include font(header, ($fontsize * 0.8) + px, italic, bold, ($fontsize * 0.8) + px);
+        @include font(header, ($fontsize * 0.8) + px, italic, 400, ($fontsize * 0.8) + px);
     }
 
     @if $fontsize > 21 {
         @include media-max(small) {
-            @include font(header, ($fontsize * 0.6) + px, italic, bold, ($fontsize * 0.6) + px);
+            @include font(header, ($fontsize * 0.6) + px, italic, 400, ($fontsize * 0.6) + px);
         }
     }
 }
 
 
 @mixin bigtext($fontsize) {
-    @include font(circular, $fontsize + px, normal, bold, $fontsize + px);
+    @include font(circular, $fontsize + px, normal, 400, $fontsize + px);
     padding-bottom: ($fontsize * 0.75) + px;
 
     @include media-max(medium) {
-        @include font(circular, ($fontsize * 0.8) + px, normal, bold, ($fontsize * 0.8) + px);
+        @include font(circular, ($fontsize * 0.8) + px, normal, 400, ($fontsize * 0.8) + px);
     }
 
     @if $fontsize > 21 {
         @include media-max(small) {
-            @include font(header, ($fontsize * 0.6) + px, italic, bold, ($fontsize * 0.6) + px);
+            @include font(header, ($fontsize * 0.6) + px, italic, 400, ($fontsize * 0.6) + px);
         }
     }
 }
 
 @mixin headingarrow($fontsize, $colour) {
 
-    @include font(header, $fontsize + px, italic, bold, $fontsize + px);
+    @include font(header, $fontsize + px, italic, 400, $fontsize + px);
     padding-bottom: ($fontsize * 0.75) + px;
     display: inline-flex;
 
     @include media-max(medium) {
-        @include font(header, ($fontsize * 0.8) + px, italic, bold, ($fontsize * 0.8) + px);
+        @include font(header, ($fontsize * 0.8) + px, italic, 400, ($fontsize * 0.8) + px);
     }
 
     @if $fontsize > 21 {
         @include media-max(small) {
-            @include font(header, ($fontsize * 0.6) + px, italic, bold, ($fontsize * 0.6) + px);
+            @include font(header, ($fontsize * 0.6) + px, italic, 400, ($fontsize * 0.6) + px);
         }
     }
 

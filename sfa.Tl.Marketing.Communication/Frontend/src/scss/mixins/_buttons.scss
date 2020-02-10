@@ -4,12 +4,14 @@
     padding: 15px 25px;
     font-family: 'LL Circular Black', Arial, Helvetica, sans-serif;
     text-decoration: none;
+    align-self: flex-start;
     font-size: 18px;
     position: relative;
     transition: 0.2s ease-in;
     background-color: $buttonprimary;
     color: $buttontextcolor;
     border: none;
+    top: -1px;
     margin-bottom: 10px;
 
     @include media-max(xsmall) {
