@@ -19,6 +19,8 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
         private const string JsonOutputPath = @"C:\Dev\Esfa\T Level Provider Mapping Survey 2020 final071019 -- EIDTED.json";
         private const string PostcodesIoUrl = "https://postcodes.io";
 
+        private static IList<string> _warningMessages;
+
         // ReSharper disable once UnusedParameter.Local
         static void Main(string[] args)
         {
@@ -45,6 +47,8 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
 
             var groupedProviders = providerLoadResult.Providers.GroupBy(p => p.ProviderName.Trim());
 
+            _warningMessages = new List<string>();
+
             foreach (var provider in groupedProviders)
             {
                 index++;
@@ -62,6 +66,10 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
 
             providerWrite.Providers = providerWriteData;
 
+            Console.WriteLine("");
+            Console.WriteLine($"Processed {providerWrite.Providers.Count} providers. {_warningMessages.Count} warnings.");
+            Console.WriteLine($"Saving providers to {outputFilePath}");
+
             WriteProvidersToFile(providerWrite, outputFilePath);
         }
 
@@ -70,14 +78,12 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             var locationWriteData = new List<LocationWriteData>();
 
             var groupedProviderVenues = providers
-                .GroupBy(p => p.VenueName.Trim());
+                .GroupBy(p => p.Postcode.Trim());
             foreach (var venueGroup in groupedProviderVenues)
             {
                 var venue = venueGroup.First();
                 var postcode = venue.Postcode.Trim();
                 var latLong = GetLatLong(postcode);
-
-                //Console.WriteLine($"  Adding location {venue.VenueName} {postcode}");
 
                 var location = new LocationWriteData
                 {
@@ -90,6 +96,10 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                     Qualification2020 = GetQualifications(venueGroup, 2020),
                     Qualification2021 = GetQualifications(venueGroup, 2021)
                 };
+
+                Console.WriteLine($"  Adding location {postcode} " +
+                                  $"{(string.IsNullOrWhiteSpace(venue.VenueName) ? "" : venue.VenueName + ' ')}" +
+                                  $"with {location.Qualification2020.Length} 2020 and {location.Qualification2021.Length} 2021 qualifications ");
 
                 locationWriteData.Add(location);
             }
@@ -137,31 +147,28 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
         {
             var qualifications = new List<int>();
 
-            foreach (var venue in venueGroup)
+            foreach (var venue in venueGroup.Where(venue => venue.CourseYear == year.ToString()))
             {
-                if (venue.CourseYear == year.ToString())
-                {
-                    if (venue.IsDigitalProduction)
-                        AddQualification(qualifications, Type.DigitalProductionDesignDevelopment, year, venue);
-                    else if (venue.IsDigitalBusiness)
-                        AddQualification(qualifications, Type.DigitalBusiness, year, venue);
-                    else if (venue.IsDigitalSupport)
-                        AddQualification(qualifications, Type.DigitalSupportServices, year, venue);
-                    else if (venue.IsDesign)
-                        AddQualification(qualifications, Type.DesignSurveyingPlanning, year, venue);
-                    else if (venue.IsBuildingServices)
-                        AddQualification(qualifications, Type.BuildingServicesEngineering, year, venue);
-                    else if (venue.IsConstruction)
-                        AddQualification(qualifications, Type.OnsiteConstruction, year, venue);
-                    else if (venue.IsEducation)
-                        AddQualification(qualifications, Type.Education, year, venue);
-                    else if (venue.IsHealth)
-                        AddQualification(qualifications, Type.Health, year, venue);
-                    else if (venue.IsHealthCare)
-                        AddQualification(qualifications, Type.HealthCareScience, year, venue);
-                    else if (venue.IsScience)
-                        AddQualification(qualifications, Type.Science, year, venue);
-                }
+                if (venue.IsDigitalProduction)
+                    AddQualification(qualifications, Type.DigitalProductionDesignDevelopment, year, venue);
+                else if (venue.IsDigitalBusiness)
+                    AddQualification(qualifications, Type.DigitalBusiness, year, venue);
+                else if (venue.IsDigitalSupport)
+                    AddQualification(qualifications, Type.DigitalSupportServices, year, venue);
+                else if (venue.IsDesign)
+                    AddQualification(qualifications, Type.DesignSurveyingPlanning, year, venue);
+                else if (venue.IsBuildingServices)
+                    AddQualification(qualifications, Type.BuildingServicesEngineering, year, venue);
+                else if (venue.IsConstruction)
+                    AddQualification(qualifications, Type.OnsiteConstruction, year, venue);
+                else if (venue.IsEducation)
+                    AddQualification(qualifications, Type.Education, year, venue);
+                else if (venue.IsHealth)
+                    AddQualification(qualifications, Type.Health, year, venue);
+                else if (venue.IsHealthCare)
+                    AddQualification(qualifications, Type.HealthCareScience, year, venue);
+                else if (venue.IsScience)
+                    AddQualification(qualifications, Type.Science, year, venue);
             }
 
             return qualifications.ToArray();
@@ -171,9 +178,13 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
         {
             if (qualificationList.Contains((int)qualificationType))
             {
+                var message =
+                    $"Warning: Duplicate qualification {qualificationType} for provider {venue.ProviderName} postcode {venue.Postcode} year {year}";
+                _warningMessages.Add(message);    
+                
                 var originalColor = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Warning: Duplicate qualification {qualificationType} for provider {venue.ProviderName} postcode {venue.Postcode} year {year}");
+                Console.WriteLine(message);
                 Console.ForegroundColor = originalColor;
             }
             else
