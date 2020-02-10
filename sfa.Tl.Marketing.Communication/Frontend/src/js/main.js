@@ -91,6 +91,12 @@ $("#tl-find-button").click(function () {
 
 var maps = (function () {
     function initMap() {
+
+        const shouldSearch = $("#ShouldSearch").val();
+        if (shouldSearch === "True") {
+          $("#tl-results-summary").addClass("tl-none");
+        }
+
         $.getJSON("/js/providers.json", function (providersData) {
 
             const defaultResultCount = 5;
@@ -121,13 +127,13 @@ var maps = (function () {
                 return search(false);
             });
             
-            const shouldSearch = $("#ShouldSearch").val();
             if (shouldSearch === "True") {
-                $("#tl-next").click(function () {
+                $("#tl-next").click(function() {
                     const currentResultCount = parseInt($("#MaxResultCount").val());
                     $("#MaxResultCount").val(currentResultCount + defaultResultCount);
                     return search(false);
                 });
+
                 return search(true);
             }
 
@@ -237,6 +243,17 @@ var maps = (function () {
                 return distanceInMiles.toFixed();
             }
 
+
+            function sortQualifications(qualifications, qualificationIds) {
+                const qualificationsResults = [];
+                for (let j = 0; j < qualificationIds.length; j++) {
+                    qualificationsResults.push(qualifications[qualificationIds[j]]);
+                }
+
+                qualificationsResults.sort();
+                return qualificationsResults;
+            }
+
             function showNoSearchResults() {
                 $("#tl-search-results").empty();
                 $("#tl-next").addClass("tl-none");
@@ -253,14 +270,19 @@ var maps = (function () {
                 }
 
                 for (let i = 0; i < maxResultCount; i++) {
+
+                    const sortedQualificationsResults2020 =
+                        sortQualifications(qualifications, searchedProviderLocations[i].qualification2020);
                     let qualificationsResults2020 = "";
-                    for (let j = 0; j < searchedProviderLocations[i].qualification2020.length; j++) {
-                        qualificationsResults2020 += "<li>" + qualifications[searchedProviderLocations[i].qualification2020[j]] + "</li>";
+                    for (let j = 0; j < sortedQualificationsResults2020.length; j++) {
+                        qualificationsResults2020 += "<li>" + sortedQualificationsResults2020[j] + "</li>";
                     }
 
+                    const sortedQualificationsResults2021 =
+                        sortQualifications(qualifications, searchedProviderLocations[i].qualification2021);
                     let qualificationsResults2021 = "";
-                    for (let j = 0; j < searchedProviderLocations[i].qualification2021.length; j++) {
-                        qualificationsResults2021 += "<li>" + qualifications[searchedProviderLocations[i].qualification2021[j]] + "</li>";
+                    for (let j = 0; j < sortedQualificationsResults2021.length; j++) {
+                        qualificationsResults2021 += "<li>" + sortedQualificationsResults2021[j] + "</li>";
                     }
 
                     searchResults += "<div class='tl-results--block'> \
