@@ -17,13 +17,19 @@
         height: 100%;
         display: flex;
 
-        @if $contenttype == wide {
-            padding: 60px 0;
+        @include media-max(small) {
+            padding: 30px 10px;
         }
 
-        @include media-max(small) {
-            padding: 30px 20px;
+        @if $contenttype == wide {
+            padding: 60px 0;
+
+            @include media-max(small) {
+                padding: 30px 0;
+            }
         }
+
+
 
         .tl-button--black, .tl-button--purple, .tl-button--orange, .tl-button--white {
             margin-top: 15px;
@@ -34,6 +40,19 @@
 
     .tl-container {
         max-width: 1240px;
+
+
+        @if $contenttype == wide {
+            @include media-max(small) {
+                padding: 0 15px;
+            }
+        }
+
+
+
+        @if $contenttype != wide {
+            padding: 0 20px;
+        }
     }
 
 

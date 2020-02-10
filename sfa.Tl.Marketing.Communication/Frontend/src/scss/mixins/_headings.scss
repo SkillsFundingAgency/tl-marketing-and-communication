@@ -51,12 +51,12 @@
         background-image: image("arrows/arrowup-" + $colour + ".svg");
         content: "";
         display: block;
-        background-size: contain;
+        background-size: 30px 50px;
+        min-width: ($fontsize * 1.5) + px;
         background-position: center;
         background-repeat: no-repeat;
         display: block;
         float: left;
-        width: ($fontsize * 1.75) + px;
         margin: 0 ($fontsize * 1) + px ($fontsize * 0.5) + px 0;
         transition: 0.3s ease-in;
         height: ($fontsize * 1.5) + px;

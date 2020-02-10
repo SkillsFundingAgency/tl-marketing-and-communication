@@ -40,3 +40,7 @@ input, select {
         outline: 3px solid rgba($orange, 0.5);
     }
 }
+
+.tl-breakword {
+    word-break: break-all;
+}
