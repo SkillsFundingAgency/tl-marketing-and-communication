@@ -24,6 +24,11 @@ $listgutter: 30px;
         }
     }
 
+    a {
+        @extend .tl-body;
+        padding: 5px 0;
+    }
+
     ul {
         @extend .tl-list--horizontal;
 

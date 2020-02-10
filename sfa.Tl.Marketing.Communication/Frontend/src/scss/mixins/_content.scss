@@ -31,6 +31,10 @@
             @include media-max(small) {
                 padding: 30px 15px;
             }
+
+            @include media-max(medium) {
+                padding: 40px 10px;
+            }
         }
 
 
