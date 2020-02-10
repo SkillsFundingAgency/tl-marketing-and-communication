@@ -94,8 +94,11 @@ var maps = (function () {
         $.getJSON("/js/providers.json", function (providersData) {
 
             const defaultResultCount = 5;
+
             $("#tl-next").addClass("tl-none");
-            
+
+            var geocoder = new google.maps.Geocoder();
+
             var dropdown = $("#tl-qualifications");
             dropdown.append($("<option></option>").attr("value", 0).text("All T Level courses"));
 
@@ -107,18 +110,6 @@ var maps = (function () {
                     }
                 });
 
-            var geocoder = new google.maps.Geocoder();
-
-            const shouldSearch = $("#ShouldSearch").val();
-            if (shouldSearch === "True") {
-                $("#tl-next").click(function () {
-                    const currentResultCount = parseInt($("#MaxResultCount").val());
-                    $("#MaxResultCount").val(currentResultCount + defaultResultCount);
-                    return search(false);
-                });
-                return search(true);
-            }
-
             $("#tl-find-button").click(function () {
                 $("#MaxResultCount").val(defaultResultCount);
                 return search(false);
@@ -129,6 +120,16 @@ var maps = (function () {
                 $("#MaxResultCount").val(currentResultCount + defaultResultCount);
                 return search(false);
             });
+            
+            const shouldSearch = $("#ShouldSearch").val();
+            if (shouldSearch === "True") {
+                $("#tl-next").click(function () {
+                    const currentResultCount = parseInt($("#MaxResultCount").val());
+                    $("#MaxResultCount").val(currentResultCount + defaultResultCount);
+                    return search(false);
+                });
+                return search(true);
+            }
 
             function search(goToSearchResults) {
                 event.preventDefault();
@@ -136,7 +137,7 @@ var maps = (function () {
                 const postcodeRegex = /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/;
                 const postcodeResult = postcodeRegex.test(postcode);
 
-                $("#tl-next").removeClass("tl-none");
+                $("#tl-next").addClass("tl-none");
 
                 if (postcode === "") {
                     $(".tl-validation--message").text("You must enter a postcode");
@@ -147,7 +148,6 @@ var maps = (function () {
                 }
                 else if (postcodeResult === true) {
                     $(".tl-search--form").removeClass("tl-validation--error");
-                    $("#tl-next").removeClass("tl-none");
 
                     geocodeAddress(geocoder);
 
@@ -166,8 +166,8 @@ var maps = (function () {
                     $("#tl-search-results").empty();
                     $("#tl-results-summary").removeClass("tl-none");
                     $("#tl-next").addClass("tl-none");
-
                 }
+
                 return false;
             }
 
@@ -238,6 +238,9 @@ var maps = (function () {
             }
 
             function showNoSearchResults() {
+                $("#tl-search-results").empty();
+                $("#tl-next").addClass("tl-none");
+                $("#tl-results").removeClass("tl-none");
                 $("#tl-results-summary").removeClass("tl-none");
             }
 
@@ -247,7 +250,6 @@ var maps = (function () {
 
                 if (searchedProviderLocations.length <= maxResultCount) {
                     maxResultCount = searchedProviderLocations.length;
-                    $("#tl-next").hide();
                 }
 
                 for (let i = 0; i < maxResultCount; i++) {
@@ -283,8 +285,13 @@ var maps = (function () {
                 $("#tl-results-summary").addClass("tl-none");
                 $("#tl-search-results").empty();
                 $("#tl-search-results").append(searchResults);
-                $("#tl-next").removeClass("tl-none");
                 $("#tl-results").removeClass("tl-none");
+
+                if (searchedProviderLocations.length <= maxResultCount) {
+                    $("#tl-next").addClass("tl-none");
+                } else {
+                    $("#tl-next").removeClass("tl-none");
+                }
 
                 $("#tl-search-results div:eq(" + $("#SearchResultLastPosition").val() + ") a").focus();
             }
