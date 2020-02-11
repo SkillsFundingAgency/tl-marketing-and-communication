@@ -383,3 +383,9 @@ input, select {
         font-weight: lighter !important;
     }
 }
+
+/* Overflow fix */
+
+.tl-overflow--fix {
+    overflow-x: auto;
+}
