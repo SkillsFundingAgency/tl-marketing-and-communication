@@ -24,6 +24,22 @@ $arrowcolours :
             }
         }
     }
+
+    &--employer {
+        $fontsize: 50;
+        h2 {
+        @include font(header, $fontsize + px, italic, 400, $fontsize + px);
+        padding-bottom: ($fontsize * 0.75) + px;
+
+        @include media-max(large) {
+            @include font(header, ($fontsize * 0.8) + px, italic, 400, ($fontsize * 0.8) + px);
+        }
+
+        @include media-max(medium) {
+            @include font(header, ($fontsize * 0.8) + px, italic, 400, ($fontsize * 0.8) + px);
+        }
+    }
+        }
 }
 
     .tl-bigtext {
