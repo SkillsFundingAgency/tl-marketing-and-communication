@@ -115,7 +115,7 @@ var maps = (function () {
                         dropdown.val(key);
                     }
                 });
-
+            
             $("#tl-find-button").click(function () {
                 $("#MaxResultCount").val(defaultResultCount);
                 return search(false);
@@ -141,7 +141,7 @@ var maps = (function () {
                 event.preventDefault();
                 const postcode = document.getElementById("Postcode").value;
                 const postcodeRegex = /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/;
-                const postcodeResult = postcodeRegex.test(postcode);
+                const postcodeResult = postcodeRegex.test(postcode.trim());
 
                 $("#tl-next").addClass("tl-none");
 
@@ -206,8 +206,7 @@ var maps = (function () {
                                     providersData.providers[i].locations[j],
                                     results[0].geometry.location);
 
-                                providersData.providers[i].locations[j].name = providersData.providers[i].name;
-                                providersData.providers[i].locations[j].website = providersData.providers[i].locations[j].website;
+                                providersData.providers[i].locations[j].providerName = providersData.providers[i].name;
 
                                 searchedProvidersLocations.push(providersData.providers[i].locations[j]);
                             }
@@ -242,8 +241,7 @@ var maps = (function () {
 
                 return distanceInMiles.toFixed();
             }
-
-
+            
             function sortQualifications(qualifications, qualificationIds) {
                 const qualificationsResults = [];
                 for (let j = 0; j < qualificationIds.length; j++) {
@@ -285,11 +283,18 @@ var maps = (function () {
                         qualificationsResults2021 += "<li>" + sortedQualificationsResults2021[j] + "</li>";
                     }
 
-                    searchResults += "<div class='tl-results--block'> \
-                                        <h4>" + searchedProviderLocations[i].name + "</h4> \
-                                        <p>" + searchedProviderLocations[i].town + " | " + searchedProviderLocations[i].postcode + "</p> \
-                                        <span class='tl-results--block--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles</span> \
-                                        <hr class='tl-line-lightgrey--small'>";
+                    let venueName = searchedProviderLocations[i].name;
+                    searchResults += "<div class='tl-results--block'>";
+                    if (venueName !== "") {
+                        searchResults += "<h4>" + venueName + "</h4> \
+                                          <p>Part of " + searchedProviderLocations[i].providerName + "<br />";
+                    } else {
+                        searchResults += "<h4>" + searchedProviderLocations[i].providerName + "</h4>";
+                    }
+
+                    searchResults += searchedProviderLocations[i].town + " | " + searchedProviderLocations[i].postcode + "</p> \
+                                          <span class='tl-results--block--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles</span> \
+                                          <hr class='tl-line-lightgrey--small'>";
                     if (qualificationsResults2020 !== "")
                         searchResults += "<h5><strong>From September 2020 onwards:</strong></h5> \
                                           <ul> \
