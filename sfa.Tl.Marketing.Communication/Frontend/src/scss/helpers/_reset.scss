@@ -387,5 +387,9 @@ input, select {
 /* Overflow fix */
 
 .tl-overflow--fix {
-    overflow-x: hidden;
+    overflow-x: visible;
+
+    @include media-max(large) {
+        overflow: hidden;
+    }
 }
