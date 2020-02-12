@@ -128,12 +128,6 @@ var maps = (function () {
             });
             
             if (shouldSearch === "True") {
-                $("#tl-next").click(function() {
-                    const currentResultCount = parseInt($("#MaxResultCount").val());
-                    $("#MaxResultCount").val(currentResultCount + defaultResultCount);
-                    return search(false);
-                });
-
                 return search(true);
             }
 
