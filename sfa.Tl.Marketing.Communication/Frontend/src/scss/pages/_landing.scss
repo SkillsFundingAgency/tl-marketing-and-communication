@@ -12,8 +12,29 @@
 }
 
 
-.tl-landing--banner {
+#tl-landing--banner {
+    position: relative; 
 
+    &:after {
+        content: "";
+        background: image("arrows/arrow-white.svg") no-repeat center;
+        background-size: 200px;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        margin-left: -100px;
+        display: block;
+        height: 170px;
+        width: 200px;
+        background-position: bottom;
+
+        @include media-max(small) {
+            display: none;
+        }
+    }
+}
+
+.tl-landing--banner {
 
     &--student, &--employer {
         display: flex;
