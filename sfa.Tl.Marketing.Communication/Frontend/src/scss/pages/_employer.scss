@@ -27,5 +27,13 @@
     }
 }
 
-/*BENEFITS PAGE*/
+/*HOME PAGE*/
+
+#tl-employer-home--video {
+    padding: 60px 0;
+
+    @include media-max(medium) {
+        padding: 30px 20px;
+    }
+}
 

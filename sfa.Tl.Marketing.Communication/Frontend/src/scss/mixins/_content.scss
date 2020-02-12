@@ -37,7 +37,17 @@
             }
         }
 
+        &--left {
+            padding-left: 0px;
 
+            @include media-max(small) {
+                padding-left: 15px;
+            }
+
+            @include media-max(medium) {
+                padding-left: 20px;
+            }
+        }
 
         .tl-button--black, .tl-button--purple, .tl-button--orange, .tl-button--white {
             margin-top: 15px;
