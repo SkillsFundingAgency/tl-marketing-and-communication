@@ -13,6 +13,7 @@
     border: none;
     top: -1px;
     margin-bottom: 10px;
+    cursor: pointer;
 
     @include media-max(xsmall) {
         width: 100%;

@@ -13,7 +13,8 @@
 
 
 #tl-landing--banner {
-    position: relative; 
+    position: relative;
+    background-color: $black;
 
     &:after {
         content: "";

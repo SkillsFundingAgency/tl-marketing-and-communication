@@ -6,6 +6,7 @@
     padding-bottom: 5px;
     transition: 0.1s ease-in-out;
     line-height: 28px;
+    cursor: pointer;
 
     &:hover {
         border-bottom: 1.5px solid $linkprimary;
@@ -28,6 +29,7 @@
     text-decoration: none;
     display: inline;
     padding-bottom: 5px;
+    cursor: pointer;
     transition: 0.1s ease-in-out;
 
     &:hover {
