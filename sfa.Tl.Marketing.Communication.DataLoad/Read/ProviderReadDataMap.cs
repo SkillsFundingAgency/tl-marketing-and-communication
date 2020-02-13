@@ -19,7 +19,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad.Read
                 .TypeConverterOption.BooleanValues(true, true, "yes")
                 .TypeConverterOption.BooleanValues(false, true, "no", "-");
 
-            Map(m => m.IsDigitalSupport).Name("Digital Support and Services")
+            Map(m => m.IsDigitalSupport).Name("Digital Support Services")
                 .TypeConverterOption.BooleanValues(true, true, "yes")
                 .TypeConverterOption.BooleanValues(false, true, "no", "-");
             
