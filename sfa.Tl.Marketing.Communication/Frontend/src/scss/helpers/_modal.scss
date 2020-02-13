@@ -1,0 +1,79 @@
+.tl-modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.8); 
+
+    &.active {
+        display: block;
+    }
+}
+
+.tl-modal--content {
+    background-color: #fefefe;
+    margin: 8% auto;
+    position: relative;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    text-align: left;
+    max-width: 660px;
+
+    ul {
+        margin-bottom: 10px;
+    }
+}
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+
+.tl-modal--close {
+    color: #949494;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    text-decoration: none;
+
+    &:hover, &:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+}
+
+
+
+.tl-modal--video {
+    .tl-modal--content {
+        padding: 0;
+    }
+
+    .tl-modal--close {
+        display: block;
+        position: absolute;
+        left: 100%;
+        padding: 10px 12px 13px 12px;
+        background-color: $orange;
+        color: white;
+        line-height: 20px;
+        top: -1px;
+    }
+}

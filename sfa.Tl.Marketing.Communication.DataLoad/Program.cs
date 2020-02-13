@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using sfa.Tl.Marketing.Communication.DataLoad.PostcodesIo;
@@ -14,30 +15,50 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
 {
     class Program
     {
-        private const string CsvFilePath = @"C:\Dev\Esfa\T Level Provider Mapping Survey 2020 final071019.csv";
+        private const string CsvFilePath = @"C:\users\nanda\documents\Full Provider Data 2020 - 2021.csv";
         private const string JsonOutputPath = @"C:\Dev\Esfa\T Level Provider Mapping Survey 2020 final071019 -- EIDTED.json";
         private const string PostcodesIoUrl = "https://postcodes.io";
 
+        private static IList<string> _warningMessages;
+
+        // ReSharper disable once UnusedParameter.Local
         static void Main(string[] args)
         {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true);
+
+            var configuration = builder.Build();
+
+            var inputFilePath = configuration.GetValue<string>("InputFilePath");
+            if (string.IsNullOrWhiteSpace(inputFilePath))
+                inputFilePath = CsvFilePath;
+
+            var outputFilePath = configuration.GetValue<string>("OutputFilePath");
+            if (string.IsNullOrWhiteSpace(outputFilePath))
+                outputFilePath = JsonOutputPath;
+
             var providerReader = new ProviderReader();
-            var providerLoadResult = providerReader.ReadData(CsvFilePath);
+            var providerLoadResult = providerReader.ReadData(inputFilePath);
 
             var providerWrite = new ProviderWrite();
             var providerWriteData = new List<ProviderWriteData>();
             var index = 0;
 
-            var groupedProviders = providerLoadResult.Providers.GroupBy(p => p.Name.Trim());
+            var groupedProviders = providerLoadResult.Providers.GroupBy(p => p.ProviderName.Trim());
+
+            _warningMessages = new List<string>();
 
             foreach (var provider in groupedProviders)
             {
                 index++;
+
+                Console.WriteLine($"Processing provider {index} {provider.Key}");
+
                 var writeData = new ProviderWriteData
                 {
                     Id = index,
                     Name = provider.Key,
-                    //Website = provider.Website.Trim(),
-                    // TODO Work out what we're doing with locations
                     Locations = GetLocationsWrite(provider)
                 };
                 providerWriteData.Add(writeData);
@@ -45,88 +66,148 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
 
             providerWrite.Providers = providerWriteData;
 
-            var jsonString = JsonConvert.SerializeObject(providerWrite, new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                Formatting = Formatting.Indented
-            });
+            Console.WriteLine("");
+            Console.WriteLine($"Processed {providerWrite.Providers.Count} providers. {_warningMessages.Count} warnings.");
+            Console.WriteLine($"Saving providers to {outputFilePath}");
 
-            WriteData(jsonString);
+            WriteProvidersToFile(providerWrite, outputFilePath);
         }
 
         private static List<LocationWriteData> GetLocationsWrite(IGrouping<string, ProviderReadData> providers)
         {
             var locationWriteData = new List<LocationWriteData>();
 
-            foreach (var p in providers)
+            var groupedProviderVenues = providers
+                .GroupBy(p => p.Postcode.Trim());
+            foreach (var venueGroup in groupedProviderVenues)
             {
+                var venue = venueGroup.First();
+                var postcode = venue.Postcode.Trim();
+                var latLong = GetLatLong(postcode);
+
                 var location = new LocationWriteData
                 {
-                    FullAddress = p.Address.Trim(),
-                    Postcode = p.Postcode.Trim(),
-                    Website = p.Website.Trim(),
-                    Qualification2020 = GetQualifications2020(p)
+                    Name = venue.VenueName.Trim(),
+                    Postcode = postcode,
+                    Town = venue.Town.Trim(),
+                    Latitude = latLong.Item1,
+                    Longitude = latLong.Item2,
+                    Website = venue.Website.Trim(),
+                    Qualification2020 = GetQualifications(venueGroup, 2020),
+                    Qualification2021 = GetQualifications(venueGroup, 2021)
                 };
 
-               var postcodesIoUrl = $"{PostcodesIoUrl}/postcodes/{location.Postcode}";
-                var httpClient = new HttpClient();
-                var responseMessage = httpClient.GetAsync(postcodesIoUrl).GetAwaiter().GetResult();
-                if (responseMessage.StatusCode != HttpStatusCode.NotFound)
-                {
-                    responseMessage.EnsureSuccessStatusCode();
-                    var response = responseMessage.Content.ReadAsAsync<PostCodeLookupResponse>().GetAwaiter()
-                        .GetResult();
+                Console.WriteLine($"  Adding location {postcode} " +
+                                  $"{(string.IsNullOrWhiteSpace(venue.VenueName) ? "" : venue.VenueName + ' ')}" +
+                                  $"with {location.Qualification2020.Length} 2020 and {location.Qualification2021.Length} 2021 qualifications ");
 
-                    location.Latitude = Convert.ToDouble(response.result.Latitude);
-                    location.Longitude = Convert.ToDouble(response.result.Longitude);
-
-                    locationWriteData.Add(location);
-                }
-                else
-                {
-                    postcodesIoUrl = $"{PostcodesIoUrl}/terminated_postcodes/{location.Postcode}";
-                    var terminatedResponseMessage = httpClient.GetAsync(postcodesIoUrl).GetAwaiter().GetResult();
-                    if (terminatedResponseMessage.StatusCode != HttpStatusCode.NotFound)
-                    {
-                        terminatedResponseMessage.EnsureSuccessStatusCode();
-                        var response = terminatedResponseMessage.Content.ReadAsAsync<PostCodeLookupResponse>().GetAwaiter()
-                            .GetResult();
-
-                        location.Latitude = Convert.ToDouble(response.result.Latitude);
-                        location.Longitude = Convert.ToDouble(response.result.Longitude);
-
-                        locationWriteData.Add(location);
-                    }
-                    else
-                    {
-                        throw new Exception($"Location cannot be found {location.Postcode}");
-                    }
-                }
-                
+                locationWriteData.Add(location);
             }
 
             return locationWriteData;
         }
 
-        private static int[] GetQualifications2020(ProviderReadData providerReadData)
+        private static Tuple<double, double> GetLatLong(string postcode)
         {
-            var qualifications2020 = new List<int>();
-            if (providerReadData.IsDigital)
-                qualifications2020.Add((int)Type.Digital);
+            var postcodesIoUrl = $"{PostcodesIoUrl}/postcodes/{postcode}";
+            var httpClient = new HttpClient();
+            var responseMessage = httpClient.GetAsync(postcodesIoUrl).GetAwaiter().GetResult();
+            if (responseMessage.StatusCode != HttpStatusCode.NotFound)
+            {
+                responseMessage.EnsureSuccessStatusCode();
+                var response = responseMessage.Content.ReadAsAsync<PostCodeLookupResponse>().GetAwaiter()
+                    .GetResult();
 
-            if (providerReadData.IsConstruction)
-                qualifications2020.Add((int)Type.Construction);
+                return new Tuple<double, double>(
+                    Convert.ToDouble(response.result.Latitude),
+                    Convert.ToDouble(response.result.Longitude));
+            }
+            else
+            {
+                postcodesIoUrl = $"{PostcodesIoUrl}/terminated_postcodes/{postcode}";
+                var terminatedResponseMessage = httpClient.GetAsync(postcodesIoUrl).GetAwaiter().GetResult();
+                if (terminatedResponseMessage.StatusCode != HttpStatusCode.NotFound)
+                {
+                    terminatedResponseMessage.EnsureSuccessStatusCode();
+                    var response = terminatedResponseMessage.Content.ReadAsAsync<PostCodeLookupResponse>().GetAwaiter()
+                        .GetResult();
 
-            if (providerReadData.IsEducation)
-                qualifications2020.Add((int)Type.Education);
-
-            return qualifications2020.ToArray();
+                    return new Tuple<double, double>(
+                        Convert.ToDouble(response.result.Latitude),
+                        Convert.ToDouble(response.result.Longitude));
+                }
+                else
+                {
+                    throw new Exception($"Location cannot be found {postcode}");
+                }
+            }
         }
 
-        private static void WriteData(string jsonString)
+        private static int[] GetQualifications(IGrouping<string, ProviderReadData> venueGroup, int year)
         {
-            using (var file = new StreamWriter(JsonOutputPath, false))
-                file.WriteLine(jsonString);
+            var qualifications = new List<int>();
+
+            foreach (var venue in venueGroup.Where(venue => venue.CourseYear == year.ToString()))
+            {
+                if (venue.IsDigitalProduction)
+                    AddQualification(qualifications, Type.DigitalProductionDesignDevelopment, year, venue);
+                else if (venue.IsDigitalBusiness)
+                    AddQualification(qualifications, Type.DigitalBusiness, year, venue);
+                else if (venue.IsDigitalSupport)
+                    AddQualification(qualifications, Type.DigitalSupportServices, year, venue);
+                else if (venue.IsDesign)
+                    AddQualification(qualifications, Type.DesignSurveyingPlanning, year, venue);
+                else if (venue.IsBuildingServices)
+                    AddQualification(qualifications, Type.BuildingServicesEngineering, year, venue);
+                else if (venue.IsConstruction)
+                    AddQualification(qualifications, Type.OnsiteConstruction, year, venue);
+                else if (venue.IsEducation)
+                    AddQualification(qualifications, Type.Education, year, venue);
+                else if (venue.IsHealth)
+                    AddQualification(qualifications, Type.Health, year, venue);
+                else if (venue.IsHealthCare)
+                    AddQualification(qualifications, Type.HealthCareScience, year, venue);
+                else if (venue.IsScience)
+                    AddQualification(qualifications, Type.Science, year, venue);
+            }
+
+            return qualifications.ToArray();
         }
+
+        private static void AddQualification(IList<int> qualificationList, Type qualificationType, int year, ProviderReadData venue)
+        {
+            if (qualificationList.Contains((int)qualificationType))
+            {
+                var message =
+                    $"Warning: Duplicate qualification {qualificationType} for provider {venue.ProviderName} postcode {venue.Postcode} year {year}";
+                _warningMessages.Add(message);    
+                
+                var originalColor = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(message);
+                Console.ForegroundColor = originalColor;
+            }
+            else
+            {
+                qualificationList.Add((int)qualificationType);
+            }
+        }
+
+        private static void WriteProvidersToFile(ProviderWrite data, string path)
+        {
+            using (var fs = File.Create(path))
+            using (var sw = new StreamWriter(fs))
+            using (var jw = new JsonTextWriter(sw))
+            {
+                var serializer = new JsonSerializer
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    Formatting = Formatting.Indented
+                };
+
+                serializer.Serialize(jw, data);
+            }
+        }
+
     }
 }

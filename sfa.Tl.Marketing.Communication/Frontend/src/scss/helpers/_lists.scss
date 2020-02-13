@@ -1,0 +1,30 @@
+.tl-list {
+
+    &--horizontal {
+        @extend .tl-body;
+        display: flex;
+        flex-direction: row;
+
+        &--right {
+            justify-content: flex-end;
+        }
+    }
+
+    &--vertical {
+        @extend .tl-body;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+
+        li {
+            width: 100%;
+            padding: 3px 0;
+        }
+    }
+
+    &--bullet {
+        @extend .tl-body;
+        list-style: disc;
+        margin-left: 20px;
+    }
+}

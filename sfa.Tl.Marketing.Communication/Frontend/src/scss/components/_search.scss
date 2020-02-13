@@ -1,95 +1,130 @@
 #tl-search {
-    background-color: black;
-    color: white;
-}
+    background: $black;
+    color: $white;
+    padding: 60px 0;
 
-.tl-search--content {
-    padding: 40px;
+
+    h1 {
+        @extend .tl-heading--medium;
+    }
 
     h2 {
-        margin-top: 1rem;
+        @extend .tl-heading--medium;
+        text-align: center;
+    }
 
-        a:hover > span {
-            text-decoration: underline;
+    input, select {
+        padding: 15px;
+        border: none;
+        @include font(body, 16px, $lh: 20px);
+
+
+        @include media-max(small) {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    }
+
+    select {
+        position: relative;
+        background: image("/arrows/arrow3.svg") 96% no-repeat;
+        background-size: 17px;
+        background-color: $white;
+        cursor: pointer;
+        padding: 15px 35px 15px 15px;
+
+        @include media-between(small, medium) {
+            max-width: 300px;
+        }
+    }
+
+    button {
+        @include media-max(small) {
+            width: 100%;
+            text-align: center;
+        }
+    }
+}
+
+.tl-find {
+    padding: 100px 0 !important;
+
+    @include media-max(small) {
+        padding: 60px 0 !important;
+
+        input, select {
+            text-align: left !important;
         }
     }
 }
 
 .tl-search--form {
-    padding: 20px;
-    font-size: 16px;
-
-    .tl-input {
-        min-width: 25%;
-        margin-bottom: 10px;
-        min-height: 60px;
-
-        @media (max-width: 850px) {
-            width: 100%;
-        }
-    }
-
-    .tl-input--select {
-        position: relative;
-        background: url(/files/images/arrow3.svg) 96% / 5% no-repeat #eee;
-        cursor: pointer;
-    }
-
-
-    .tl-button {
-        margin: 0;
-        min-height: 60px;
-        font-weight: bold;
-        cursor: pointer;
-
-        @media (max-width: 850px) {
-            min-width: 100%;
-            margin: 10px 0 0 0;
-        }
-    }
 }
 
 .tl-validation--message {
     display: none;
+    @include margin(bottom, 10);
+    width: 100%;
+    @include font(circular, 16px, $lh: 20px);
+    color: red;
 }
 
 .tl-validation--error {
     .tl-validation--message {
-        display: inline-block;
+        display: block;
+    }
+
+    .tl-search--form--postcode {
+        border: 3px solid red !important;
     }
 }
 
 #tl-results {
-    background-color: #f8f8f8;
-    color: black;
+    padding: 40px 0;
 
-    .tl-results-box {
-        background-color: white;
-        padding: 20px;
+    .tl-results--block {
+        background: $white;
+        padding: 40px;
         margin: 20px 0;
-        float: left;
-        width: 100%;
+        position: relative;
 
-        h3 {
-            font-size: 24px;
+
+        h4 {
+            @include font(header, 24px, $lh: 26px);
+            max-width: calc(100% - 100px);
         }
 
-        .tl-results-box--distance {
-            font-family: 'Atlas Typewriter Web', 'Times New Roman', Arial;
-            font-weight: 400;
-            font-size: 16px;
-            float: right;
-            background-color: black;
-            position: relative;
-            top: -20px;
-            right: -20px;
-            padding: 10px 20px;
-            color: white;
-        }
-
-        .tl-results-box--header {
+        h5 {
+            @extend .tl-body;
             font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        @include media-max(small) {
+            padding: 30px;
+        }
+
+        ul {
+            @extend .tl-list--vertical;
+            @extend .tl-list--bullet;
+
+            @include media-max(small) {
+                @include font(body, 14px);
+            }
+        }
+
+        &--distance {
+            background: $black;
+            color: $white;
+            position: absolute;
+            padding: 15px 20px;
+            top: 0;
+            right: 0;
+        }
+
+        a {
+            margin-top: 10px;
         }
     }
 }
-

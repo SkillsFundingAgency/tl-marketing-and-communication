@@ -1,0 +1,113 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutEmployer.cshtml";
+}
+
+@{
+    ViewData["Title"] = "About T Levels for employers";
+    ViewData["PageID"] = "tl-employer-about";
+
+}
+@model FindViewModel
+
+<section id="tl-employer-about--banner" class="tl-content-wide--purple">
+    <div class="tl-container tl-overflow--fix">
+        <div class="row no-gutters">
+            <div class="col-lg-8">
+                <div class="tl-content--box tl-content--box--left">
+                    <h1>About T Levels</h1>
+                    <p class="tl-lead">In September 2020, the government launches T Levels: a new qualification for students aged 16 to 19 who’ve finished GCSEs. They’ll be the biggest reform to vocational training in a generation, giving young people the skills, knowledge, and attitude to excel in their careers.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 d-none d-lg-flex tl-image--wide--right">
+                <img src="/files/images/TLevels_WebsiteAssets31.jpg" alt="" />
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="tl-employer-about--designed" class="tl-content-normal--white tl-content-padded">
+    <div class="tl-container">
+        <div class="row no-gutters">
+            <div class="col-md-8">
+                <h2>Designed by employers for employers</h2>
+                <p>Employers have told us that they face a skills shortage that could impact the future success of their businesses. In response, the government has worked alongside more than 220 employers to design T Level courses that deliver the skills your organisations need.</p>
+                <p>These employers span a range of industries, and include household names, such as Fujitsu, Skanska and GlaxoSmithKlein, as well as many smaller employers.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="tl-employer-about--approach" class="tl-content-wide--black ">
+    <div class="tl-container">
+        <div class="row no-gutters">
+            <div class="col-md-6 my-auto">
+                    <img class="tl-image--spacer" src="/files/images/TLevels_WebsiteAssets32.jpg" alt="" />
+            </div>
+
+            <div class="col-md-6">
+                <div class="tl-content--box">
+                    <h2>A simpler approach to vocational training</h2>
+                    <p>Employers tell us that the current range of vocational education courses is confusing and doesn’t always meet their needs.</p>
+                    <p>T Levels are part of the government’s plan to simplify vocational education and create a system that you can trust and understand. They’ll provide a clear and high-quality, technical alternative to the current range of post-16 education and training options.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<section id="tl-employer-home--bottomline" class="tl-content-wide--purple">
+    <div class="tl-container">
+        <div class="row no-gutters">
+            <div class="col-md-6">
+                <div class="tl-content--box tl-content--box--left">
+                    <h2>Introducing industry placements</h2>
+                    <p>Every T Level student completes an industry placement that lasts a minimum of 315 hours (approximately 45 days).</p>
+                    <p>Industry placements give you a unique opportunity to help develop new talent and get young people work ready. They also bring many <a href="/employers/business-benefits" id="tl-employer-about-businessbenefits" class="tl-link-inline-white--black">business benefits</a>.</p>                
+                </div>
+            </div>
+            <div class="col-md-6 my-auto">
+                    <img class="tl-image--spacer" src="/files/images/TLevels_WebsiteAssets33.jpg" alt="" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="tl-employer-about--start" class="tl-content-normal--white tl-content-padded">
+    <div class="tl-container">
+        <div class="row no-gutters">
+            <div class="col-md-8">
+                <h2>Start doing industry placements now</h2>
+                <p>In preparation for T Levels, more than 2000 employers are working with local colleges and schools to offer industry placements to students studying vocational courses.</p>
+                <p>From digital, creative and design to construction, engineering and manufacturing, industry placements can help your organisation find and develop new talent.</p>
+                <p><a class="tl-link-black--purple" id="tl-employer-about-skills" href="/employers/skills-available">Check what skills are available</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<partial name="_CallToAction" />
+
+
+@section jsfiles{
+
+
+    <script src="~/js/plyr.polyfilled.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        const player = new Plyr('#player', {});
+
+        // Expose player so it can be used from the console
+        window.player = player;
+
+        setTimeout(() => {
+            player.poster = '/files/images/TLevels_WebsiteAssets30.jpg';
+        }, 500)</script>
+}
+

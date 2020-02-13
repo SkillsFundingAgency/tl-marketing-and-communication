@@ -2,6 +2,7 @@
   "src": {
     "default": "Frontend/Frontend/src/",
     "SCSS": "Frontend/src/scss/*.scss",
+    "SCSSWATCH": "Frontend/src/scss/**/*.scss",
     "JS": "Frontend/src/js/*.js",
     "Assets": "Frontend/src/assets/**/*",
     "Json": "Frontend/src/json/**/*",

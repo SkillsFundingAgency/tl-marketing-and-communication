@@ -1,0 +1,100 @@
+@mixin content($contentprimary, $contentsecondary, $contenttype: normal) {
+    color: $contentsecondary;
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+    .tl-content--box {
+        background-color: $contentprimary;
+        color: $contentsecondary;
+        padding: 60px 40px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: self-start;
+        text-align: left;
+        height: 100%;
+        display: flex;
+
+        @include media-max(medium) {
+            padding: 40px 40px;
+        }
+
+        @include media-max(small) {
+            padding: 30px 10px;
+        }
+
+        @if $contenttype == wide {
+            padding: 60px 40px;
+
+            @include media-max(small) {
+                padding: 30px 15px;
+            }
+
+            @include media-max(medium) {
+                padding: 40px 20px;
+            }
+        }
+
+        &--left {
+            padding-left: 0px;
+
+            @include media-max(small) {
+                padding-left: 15px;
+            }
+
+            @include media-max(medium) {
+                padding-left: 20px;
+            }
+        }
+
+        .tl-button--black, .tl-button--purple, .tl-button--orange, .tl-button--white {
+            margin-top: 15px;
+        }
+    }
+
+
+
+    .tl-container {
+        max-width: 1240px;
+
+
+        @if $contenttype == wide {
+            @include media-max(medium) {
+                padding: 0;
+            }
+        }
+
+
+
+        @if $contenttype != wide {
+            padding: 0 20px;
+        }
+    }
+
+
+    h1 {
+        @extend .tl-heading--large;
+    }
+
+    h2 {
+        @extend .tl-heading--medium;
+    }
+
+    h3 {
+        @extend .tl-heading--small;
+    }
+
+    h4 {
+        @extend .tl-heading--xsmall;
+    }
+
+    p {
+        @extend .tl-body;
+    }
+
+    p.tl-lead {
+        @extend .tl-lead;
+    }
+}

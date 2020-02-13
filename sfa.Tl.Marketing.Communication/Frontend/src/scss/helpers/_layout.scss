@@ -1,0 +1,24 @@
+.tl-container {
+    @include container(0);
+}
+
+
+$alignvariables: left, center, right;
+
+.tl-text {
+    @each $alignvariable in $alignvariables {
+        &--#{$alignvariable} {
+            @include textalign($alignvariable);
+        }
+    }
+}
+
+
+
+.tl-align {
+    @each $alignvariable in $alignvariables {
+        &--#{$alignvariable} {
+            @include align($alignvariable);
+        }
+    }
+}

@@ -1,0 +1,45 @@
+$contentvariables:
+/*content colour variables - variable name, background colour, text colour*/
+"orange" $orange $black,
+"purple" $purple $white,
+"white" $white $black,
+"salmon" $salmon $black,
+"black" $black $white,
+"grey" $lightgrey $black;
+
+
+.tl-content {
+    @each $contentname, $contentbackground, $contenttext in $contentvariables {
+        &--#{$contentname} {
+            @include container(0, 0);
+            @include content($contentbackground, $contenttext);
+        }
+    }
+}
+
+.tl-content-normal {
+    @each $contentname, $contentbackground, $contenttext in $contentvariables {
+        &--#{$contentname} {
+            background-color: $contentbackground;
+            @include content($contentbackground, $contenttext);
+        }
+    }
+}
+
+
+.tl-content-wide {
+    @each $contentname, $contentbackground, $contenttext in $contentvariables {
+        &--#{$contentname} {
+            background-color: $contentbackground;
+            @include content($contentbackground, $contenttext, wide);
+        }
+    }
+}
+
+.tl-content-padded {
+    padding: 60px 0;
+
+    @include media-max(small) {
+        padding: 30px 0;
+    }
+}

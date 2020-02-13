@@ -1,0 +1,31 @@
+@mixin font($type, $size: false, $style: false, $weight: false, $lh: false) {
+
+    @if $type == header {
+        font-family: 'LL Circular Black', Arial, Helvetica, sans-serif;
+        text-transform: uppercase;
+    }
+
+    @elseif $type == circular {
+        font-family: 'LL Circular Black', Arial, Helvetica, sans-serif;
+    }
+
+    @else {
+        font-family: 'Atlas Typewriter Web', 'Times New Roman', Arial;
+    }
+
+    @if $size {
+        font-size: $size;
+    }
+
+    @if $style {
+        font-style: $style;
+    }
+
+    @if $weight {
+        font-weight: $weight;
+    }
+
+    @if $lh {
+        line-height: $lh;
+    }
+}

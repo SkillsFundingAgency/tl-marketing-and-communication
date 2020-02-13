@@ -1,0 +1,15 @@
+$marginvariables:
+    top, right, bottom, left;
+
+.tl-margin {
+    @each $marginvariable in $marginvariables {
+        @for $i from 0 through 10 {
+            $width: 10 * $i;
+            &-#{$marginvariable}--#{$width} {
+                @include margin($marginvariable, $width);
+                @include margin($marginvariable, $width);
+            }
+        }
+    }
+}
+

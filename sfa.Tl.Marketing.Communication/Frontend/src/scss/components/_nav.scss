@@ -1,226 +1,173 @@
+ $logowidth: 180;
+
 #tl-nav {
-    padding: 20px 10px;
-    overflow: auto;
     display: flex;
     justify-content: space-between;
-}
+    @include container(($logowidth / 5));
+    overflow-x: visible !important;
+    position: relative;
+    z-index: z('nav');
+    background-color: $white;
 
-.tl-nav--logo a {
-    padding: 10px 0;
-    float: left;
-    background: url("../files/images/logo.svg") no-repeat left center;
-    min-width: 200px;
-    height: 100%;
-
-    @media(max-width: 992px) {
-        background: url("../files/images/logomedium.svg") no-repeat left center;
+    .tl-nav--logo a {
+        @include align(left);
+        background: image("logo" + "medium" + ".svg") no-repeat left center;
+        filter: none;
+        -webkit-filter: blur(0px);
+        -moz-filter: blur(0px);
+        -ms-filter: blur(0px);
+        filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='0');
+        min-width: $logowidth + px;
+        min-height: ($logowidth / 6) + px;
     }
-}
 
-.tl-nav--bar {
-    font-family: 'LL Circular Black Italic Web', Arial, Helvetica, sans-serif;
-    font-weight: 700;
-    font-style: italic;
-    font-stretch: normal;
-    font-size: 14px;
-    float: right;
-    display: flex;
+    .tl-nav--bar {
+        @include font(header, 14px, italic, 400);
+        @include align(right);
+        z-index: z('nav');
+        align-items: flex-end;
+        display: flex;
+        background-color: $white;
 
-    li {
-        list-style: none;
-        padding: 10px 15px;
 
-        &.tl-nav--bar-special {
-            background-color: black;
-            color: white;
-            margin-left: 10px;
+        @include media-max(medium) {
+            display: none;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: ($logowidth / 2) + px;
+            border-top: 1px solid $black;
+        }
 
-            a {
-                color: white;
+        li {
+            padding: 0 12px;
+
+            @include media-max(medium) {
+                padding: 0;
             }
         }
 
         a {
-            color: black;
-            text-transform: uppercase;
+            @include linkalt($black, $orange);
             text-decoration: none;
-            font-weight: bold;
-
-
-            &:hover {
-                text-decoration: underline;
-            }
-
-            &.active {
-                color: $orange;
-            }
-        }
-    }
-}
-.tl-nav--hamburger {
-    margin: 20px;
-    padding: 10px 0;
-    display: none;
-
-
-    i {
-        font-size: 10px;
-        width: 35px;
-        height: 4px;
-        background-color: currentColor;
-        color: black;
-        display: block;
-        position: relative;
-        cursor: pointer;
-        margin: 0;
-
-
-        &:before {
-            position: absolute;
-            width: 35px;
-            height: 4px;
-            background-color: currentColor;
-            content: "";
-            top: -8px;
-            transition: 0.3s ease-in-out;
-            cursor: pointer;
-        }
-
-        &:after {
-            position: absolute;
-            width: 35px;
-            height: 4px;
-            background-color: currentColor;
-            content: "";
-            top: 8px;
-            transition: 0.3s ease-in-out;
-            cursor: pointer;
-        }
-    }
-}
-
-#tl-nav.active {
-    .tl-nav--hamburger {
-        i {
-            height: 0;
-
-            &:after {
-                transform: rotate(45deg);
-                top: 0px;
-                transition: 0.3s ease-in-out;
-            }
-
-            &:before {
-                transform: rotate(-45deg);
-                top: 0px;
-                transition: 0.3s ease-in-out;
-            }
-        }
-    }
-
-    .tl-nav--bar {
-        display: block;
-    }
-}
-
-
-@media (max-width: 992px) {
-    .tl-nav--hamburger {
-        display: block;
-    }
-
-    #tl-nav {
-        position: sticky;
-        position: -webkit-sticky;
-        position: -moz-sticky;
-        position: -ms-sticky;
-        position: -o-sticky;
-        top: 0;
-        background: white;
-        z-index: 999;
-        padding: 10px;
-        overflow: visible;
-        border-bottom: 1px solid black;
-
-        @media screen and (max-height: 420px) {
-            position: unset;
-        }
-    }
-
-    .tl-nav--bar {
-        width: 100%;
-        display: block;
-        position: absolute;
-        top: 80px;
-        padding: 0;
-        margin: 0;
-        left: 0;
-        z-index: 900;
-        height: 100%;
-        display: none;
-
-        @media screen and (max-height: 420px) {
-            top: 130px;
-        }
-
-
-
-        &.active {
             display: block;
-        }
 
-        li {
-            float: none;
-            list-style: none;
-            padding: 0;
-            background-color: white;
-
-            &:hover {
-                background-color: darken(white, 10%);
-            }
-
-
-            a {
-                width: 100%;
+            @include media-max(medium) {
                 padding: 20px;
-                display: block;
-                border-top: 1px solid black;
-            }
-
-            &.tl-nav--bar-special {
-                margin-left: 0;
-                color: black;
-                background-color: white;
-
-                a {
-                    padding: 20px;
-                    color: black;
-
-                    &:after {
-                        display: none;
-                    }
-                }
+                border-bottom: 1px solid $grey;
 
                 &:hover {
-                    background-color: darken(white, 10%);
+                    background-color: $lightgrey;
                 }
             }
+        }
 
-            &:last-child {
-                a {
-                    border-bottom: 1px solid black;
+        &--employer {
+            a {
+                @include linkalt($black, $purple);
+                text-decoration: none;
+                display: block;
+
+                @include media-max(medium) {
+                    padding: 20px;
+                    border-bottom: 1px solid $grey;
+
+                    &:hover {
+                        background-color: $lightgrey;
+                    }
                 }
+            }
+        }
+    }
+
+    .tl-nav--hamburger {
+        display: none;
+        align-items: center;
+        cursor: pointer;
+
+        @include media-max(medium) {
+            display: flex;
+        }
+
+        i {
+            font-size: 10px;
+            width: 35px;
+            height: 4px;
+            background-color: currentColor;
+            color: black;
+            display: block;
+            position: relative;
+            margin: 0;
+
+            &:before {
+                @include pseudo;
+                width: 35px;
+                height: 4px;
+                background-color: currentColor;
+                top: -8px;
+                transition: 0.3s ease-in-out;
+            }
+
+            &:after {
+                @include pseudo;
+                width: 35px;
+                height: 4px;
+                background-color: currentColor;
+                top: 8px;
+                transition: 0.3s ease-in-out;
+            }
+        }
+    }
+
+    &.active {
+        .tl-nav--hamburger {
+            i {
+                height: 0;
+
+                &:after {
+                    transform: rotate(45deg);
+                    top: 0px;
+                    transition: 0.3s ease-in-out;
+                }
+
+                &:before {
+                    transform: rotate(-45deg);
+                    top: 0px;
+                    transition: 0.3s ease-in-out;
+                }
+            }
+        }
+
+        .tl-nav--bar {
+            display: flex;
+
+            @include media-max(medium) {
+                display: block;
             }
         }
     }
 }
 
-.navopen {
-    overflow: hidden;
-    height: 100%;
-    margin: 0;
+/* Active states */
 
-    @media screen and (max-height: 420px) {
-        overflow: auto;
+
+
+$employernavvariables: "home", "about", "skills", "benefits", "costs";
+
+@each $page in $employernavvariables {
+    #tl-employer-#{$page} {
+        #tl-nav--bar-employer--#{$page} {
+            @include navactive(employer)
+        }
+    }
+}
+
+$studentnavvariables: "home", "about", "why", "subjects", "find";
+
+@each $page in $studentnavvariables {
+    #tl-student-#{$page} {
+        #tl-nav--bar-student--#{$page} {
+            @include navactive(student)
+        }
     }
 }

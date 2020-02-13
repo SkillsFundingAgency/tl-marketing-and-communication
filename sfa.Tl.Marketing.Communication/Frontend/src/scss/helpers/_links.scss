@@ -1,0 +1,43 @@
+$linkvariables: 
+/*Link colour variables - link text name, link underline name, link text colour, link underline colour */
+    white purple $white $purple,
+    white orange $white $orange,
+    white salmon $white $salmon,
+    white black $white $black,
+    black purple $black $purple,
+    black orange $black $orange,
+    black salmon $black $salmon,
+    black white $black $white;
+
+
+.tl-link {
+    @each $linktextname, $linkunderlinename, $linktextcolor, $linkunderlinecolor in $linkvariables {
+        &-#{$linktextname}--#{$linkunderlinename} {
+            @include link($linktextcolor, $linkunderlinecolor);
+        }
+    }
+}
+
+
+.tl-link-block {
+    @each $linktextname, $linkunderlinename, $linktextcolor, $linkunderlinecolor in $linkvariables {
+        &-#{$linktextname}--#{$linkunderlinename} {
+            @include link($linktextcolor, $linkunderlinecolor);
+            display: inline-block;
+            line-height: 20px;
+        }
+    }
+}
+
+.tl-link-inline {
+    @each $linktextname, $linkunderlinename, $linktextcolor, $linkunderlinecolor in $linkvariables {
+        &-#{$linktextname}--#{$linkunderlinename} {
+            @include link($linktextcolor, $linkunderlinecolor);
+            padding-bottom: 0px;
+            line-height: 24px;
+        }
+    }
+}
+
+
+

@@ -1,10 +1,11 @@
 ﻿const { src } = require('gulp');
 
-var gulp = require('gulp');
-var concat = require('gulp-concat');
-var minify = require('gulp-minify');
-var sass = require('gulp-sass');
-var wait = require('gulp-wait');
+var gulp = require('gulp'),
+    concat = require('gulp-concat'),
+    minify = require('gulp-minify'),
+    sass = require('gulp-sass'),
+    wait = require('gulp-wait'),
+    watch = require('gulp-watch');
 
 const paths = require('../paths.json');
 const sassOptions = require('../sassOptions.js');

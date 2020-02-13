@@ -1,0 +1,108 @@
+#tl-landing--content {
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+    @include media-max(small) {
+        margin-top: 0px;
+    }
+
+    .row {
+        padding: 10px 0;
+    }
+}
+
+
+#tl-landing--banner {
+    position: relative;
+    background-color: $black;
+
+    &:after {
+        content: "";
+        background: image("arrows/arrow-white.svg") no-repeat center;
+        background-size: 200px;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        margin-left: -100px;
+        display: block;
+        height: 170px;
+        width: 200px;
+        background-position: bottom;
+
+        @include media-max(small) {
+            display: none;
+        }
+    }
+}
+
+.tl-landing--banner {
+
+    &--student, &--employer {
+        display: flex;
+        padding: 100px 0 80px 0;
+
+        @include media-max(small) {
+            padding: 100px 0 40px 0;
+        }
+    }
+
+    &--student {
+        background: image("LandingBanner_Student.jpg") no-repeat center;
+
+        .tl-landing--banner--content {
+            margin-left: auto;
+            padding-left: 30px;
+        }
+    }
+
+    &--employer {
+        background: image("LandingBanner_Employer.jpg") no-repeat center;
+
+        @include media-max(small) {
+            padding: 40px 0;
+        }
+
+        .tl-landing--banner--content {
+            margin-right: auto;
+            text-align: right;
+            padding-right: 30px;
+        }
+    }
+
+    &--content {
+        width: 100%;
+        padding: 0 30px;
+        color: $white;
+        position: relative;
+
+        @include media-min(small) {
+            max-width: ((($sitewidth) / 2) + 30) + px;
+        }
+
+
+        h2 {
+            @extend .tl-heading--large;
+
+            @include media-max(small) {
+                padding-bottom: 20px;
+            }
+
+            @media (max-width: 1020px) and (min-width: 767px) {
+                font-size: 43px !important;
+                padding-bottom: 20px;
+            }
+        }
+
+        p {
+            margin: 10px 0 30px 0;
+        }
+    }
+
+    &--logo {
+        background: image("logomediumwhite.svg") no-repeat center;
+        width: 170px;
+        height: 50px;
+        position: absolute;
+        top: -70px;
+    }
+}

@@ -6,36 +6,32 @@
 
 #global-cookie-message {
 
-     p {
-        font-family: "nta", Arial, sans-serif;
+    p {
         font-weight: 400;
         text-transform: none;
         font-size: 14px;
         line-height: 1.14286;
-        margin-top: 0;
-        margin-bottom: 0;
+        @include margin(top, 0);
+        @include margin(bottom, 0);
         padding: 0 10px;
-     }
+    }
 
-}
-
-.tl-cookie-link {
-    color: black;
-}
-
-@media (min-width: 641px) {
-    #global-cookie-message p {
+    @include media-min(small) {
         font-size: 16px;
         line-height: 1.25;
     }
 }
 
-
 .tl-button--cookies {
-    @extend .tl-button;
-    color: white;
-    padding: 10px;
-    margin: 10px 10px 0 0;
+    @extend .tl-button--black;
+    margin: 10px 20px 0 0;
+}
+
+.tl-link--cookies {
+    @extend .tl-link-black--orange;
+    display: inline-block;
+    line-height: 20px;
+    margin-top: 20px;
 }
 
 .tl-modal--cookies {

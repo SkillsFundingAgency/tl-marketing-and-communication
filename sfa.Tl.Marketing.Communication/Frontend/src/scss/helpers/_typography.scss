@@ -1,0 +1,76 @@
+$headingvariables :
+    xsmall 20,
+    small 35,
+    medium 50,
+    large 60,
+    xlarge 70;
+
+$arrowcolours :
+    orange,
+    black,
+    white,
+    purple,
+    salmon;
+
+.tl-heading {
+    @each $headingname, $headingsize in $headingvariables {
+        &--#{$headingname} {
+            @include heading($headingsize);
+
+            @each $arrowcolour in $arrowcolours {
+                &--addarrow--#{$arrowcolour} {
+                    @include headingarrow($headingsize, $arrowcolour);
+                }
+            }
+        }
+    }
+
+    &--employer {
+        $fontsize: 50;
+        h2 {
+        @include font(header, $fontsize + px, italic, 400, $fontsize + px);
+        padding-bottom: ($fontsize * 0.75) + px;
+
+        @include media-max(large) {
+            @include font(header, ($fontsize * 0.8) + px, italic, 400, ($fontsize * 0.8) + px);
+        }
+
+        @include media-max(medium) {
+            @include font(header, ($fontsize * 0.8) + px, italic, 400, ($fontsize * 0.8) + px);
+        }
+    }
+        }
+}
+
+    .tl-bigtext {
+        @each $headingname, $headingsize in $headingvariables {
+            &--#{$headingname} {
+                @include bigtext($headingsize);
+            }
+        }
+    }
+
+
+    .tl-body {
+        margin-bottom: 16px;
+        @include font(body, 16px, $lh: 20px);
+
+
+        @include media-max(medium) {
+            @include font(body, 14px, $lh: 18px);
+        }
+    }
+
+    .tl-lead {
+        @include margin(bottom, 30);
+        @include font(body, 20px, $lh: 24px);
+
+        @include media-max(medium) {
+            @include margin(bottom, 20);
+            @include font(body, 16px, $lh: 20px);
+        }
+    }
+
+    .tl-nobreak {
+        white-space: nowrap;
+    }

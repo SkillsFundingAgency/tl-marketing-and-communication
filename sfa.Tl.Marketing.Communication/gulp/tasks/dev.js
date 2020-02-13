@@ -2,6 +2,8 @@
 
 var gulp = require('gulp');
 var concat = require('gulp-concat');
+var sass = require('gulp-sass');
+var wait = require('gulp-wait');
 
 const paths = require('../paths.json');
 
@@ -26,3 +28,23 @@ gulp.task('dev.js', () => {
 gulp.task('dev.js:watch', () => {
     return gulp.watch((paths.src.JS), ['dev.js']);
 });
+
+
+gulp.task('dev.sass', () => {
+    return src(paths.src.SCSS)
+        .pipe(wait(200))
+        .pipe(sass({
+            errLogToConsole: true,
+            outputStyle: 'expanded',
+            includePaths: [
+                'src/scss'
+            ]
+        }))
+        .pipe(gulp.dest(paths.dist.CSS));
+}
+);
+
+gulp.task('dev.sass:watch', () => {
+    gulp.watch((paths.src.SCSSWATCH), gulp.series('dev.sass'));
+});
+

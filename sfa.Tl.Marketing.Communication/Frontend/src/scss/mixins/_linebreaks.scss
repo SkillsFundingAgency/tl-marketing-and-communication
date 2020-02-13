@@ -1,0 +1,8 @@
+@mixin line($linecolor, $linesize) {
+        margin: $linesize 0;
+        border-bottom: 1px solid $linecolor;
+        border-top: none;
+        border-right: none;
+        border-left: none;
+}
+

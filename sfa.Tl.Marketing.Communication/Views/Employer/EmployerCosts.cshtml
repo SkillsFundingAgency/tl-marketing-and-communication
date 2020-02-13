@@ -1,0 +1,121 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutEmployer.cshtml";
+}
+
+@{
+    ViewData["Title"] = "What it costs";
+    ViewData["PageID"] = "tl-employer-costs";
+
+}
+@model FindViewModel
+
+<section id="tl-employer-costs--banner" class="tl-content-wide--purple">
+    <div class="tl-container tl-overflow--fix">
+        <div class="row no-gutters">
+            <div class="col-md-8">
+                <div class="tl-content--box tl-content--box--left">
+                    <h1>What an industry placement costs</h1>
+                    <p class="tl-lead">An industry placement is an efficient way to bring in new talent and develop the skills you need as an employer.</p>
+                </div>
+            </div>
+            <div class="col-md-4 d-none d-lg-flex tl-image--wide--right">
+                <img src="/files/images/TLevels_WebsiteAssets36.jpg" alt="" />
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="tl-employer-costs--intro" class="tl-content-normal--white tl-content-padded">
+    <div class="tl-container">
+        <div class="row no-gutters">
+            <div class="col-md-8">
+                <h2>How much money?</h2>
+                <p>Apart from the financial cost of managing a student, industry placements should cost you very little. There is no legal requirement or expectation that students will be paid, as it is part of a course. However, you can pay students if you wish.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="tl-employer-costs--effort" class="tl-content-wide--black ">
+    <div class="tl-container">
+        <div class="row no-gutters">
+            <div class="col-md-6 my-auto">
+                    <img class="tl-image--spacer" src="/files/images/TLevels_WebsiteAssets37.jpg" alt="" />
+            </div>
+
+            <div class="col-md-6">
+                <div class="tl-content--box">
+                    <h2>How much effort?</h2>
+                    <p>You’ll receive support at every stage of the process from your partner college, school or training provider. They'll help you:</p>
+                    <ul class="tl-list--vertical tl-list--bullet">
+                        <li>recruit the right student</li>
+                        <li>plan and set objectives for the industry placement</li>
+                        <li>deal with any necessary paperwork</li>
+                    </ul>
+                    <p>Before a student starts, you must:</p>
+                    <ul class="tl-list--vertical tl-list--bullet">
+                        <li>ensure that the work environment is safe</li>
+                        <li>have a line manager to support the student and provide an appraisal of their time on the placement</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="tl-employer-costs--time" class="tl-content-wide--purple ">
+    <div class="tl-container">
+        <div class="row no-gutters">
+            <div class="col-md-6 order-2 order-md-1">
+                <div class="tl-content--box tl-content--box--left">
+                    <h2>How much time?</h2>
+                    <p>An industry placement lasts for a minimum of 315 hours (approximately 45 days). Designed to be flexible, placements might be delivered as blocks of days or regular days each week, depending on the learning plan for the course.</p>
+                    <p>You can even choose to split a placement with another employer to reduce the time cost even further.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 my-auto order-1">
+                    <img class="tl-image--spacer" src="/files/images/TLevels_WebsiteAssets38.jpg" alt="" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="tl-employer-costs--support" class="tl-content-normal--white tl-content-padded">
+    <div class="tl-container">
+        <div class="row no-gutters">
+            <div class="col-md-8">
+                <h2>Other financial support</h2>
+                <p>Your college or school may be able to help with upfront costs, such as providing protective gear, DBS checks, specialist equipment etc. You should discuss whether this is possible with the college or school.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<partial name="_CallToAction" />
+
+
+@section jsfiles{
+
+
+    <script src="~/js/plyr.polyfilled.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        const player = new Plyr('#player', {});
+
+        // Expose player so it can be used from the console
+        window.player = player;
+
+        setTimeout(() => {
+            player.poster = '/files/images/TLevels_WebsiteAssets30.jpg';
+        }, 500)</script>
+}
+

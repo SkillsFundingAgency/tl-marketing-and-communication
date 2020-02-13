@@ -1,0 +1,62 @@
+.tl-image {
+
+    &--wide {
+        position: relative;
+
+        @include media-min(small) {
+            min-height: 450px;
+        }
+
+        img {
+            width: auto;
+            height: 100%;
+            position: absolute;
+            max-height: -moz-available; /* WebKit-based browsers will ignore this. */
+            max-height: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+            max-height: stretch;
+
+            @include media-max(medium) {
+                position: relative;
+                right: 0;
+                left: 0;
+            }
+        }
+
+
+        &--right {
+            @extend .tl-image--wide;
+
+            img {
+                left: 20px;
+            }
+        }
+
+        &--left {
+            @extend .tl-image--wide;
+
+            img {
+                right: 20px;
+            }
+        }
+
+        @include media-max(medium) {
+            padding: 0;
+
+            img {
+                width: 100%;
+                max-height: unset;
+            }
+        }
+
+        @include media-max(small) {
+            padding: 0 15px;
+        }
+    }
+
+    &--spacer {
+        @include media-min(medium) {
+            padding: 40px 0;
+
+        }
+    }
+}
