@@ -34,7 +34,8 @@
 <meta charset="utf-8">
 @{ var subtitle = ViewData["Title"];}
 <title>@(subtitle != null ? subtitle + " | T Levels" : "T Levels | The Next Level Qualification")</title>
-<meta name="description" content="T Levels">
+@{ var metadescription = ViewData["MetaDescription"];}
+<meta name="description" content="@(metadescription != null ? metadescription : "Future meta description here")">
 <meta name="viewport" content="width=device-width">
 
 <link rel="apple-touch-icon" sizes="57x57" href="/files/images/apple-icon-57x57.png">

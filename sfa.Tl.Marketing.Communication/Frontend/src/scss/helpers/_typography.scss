@@ -53,7 +53,7 @@ $arrowcolours :
 
     .tl-body {
         margin-bottom: 16px;
-        @include font(body, 16px, $lh: 20px);
+        @include font(body, 16px, $lh: 24px);
 
 
         @include media-max(medium) {
