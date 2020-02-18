@@ -10,6 +10,12 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
+        [Route("/employer")]
+        public IActionResult EmployerHomeRedirect()
+        {
+            return RedirectToAction(nameof(EmployerHome));
+        }
+
         [Route("/employers/skills-available", Name = "EmployerSkills")]
         public IActionResult EmployerSkills()
         {
