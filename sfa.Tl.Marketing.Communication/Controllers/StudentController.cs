@@ -49,6 +49,12 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View(viewModel);
         }
 
+        [Route("/student")]
+        public IActionResult IndexRedirect()
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
         [Route("/about", Name = "AboutOld")]
         public IActionResult AboutRedirect()
         {
