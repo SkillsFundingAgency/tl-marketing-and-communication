@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using sfa.Tl.Marketing.Communication.Models;
 
 namespace sfa.Tl.Marketing.Communication.Controllers
@@ -46,6 +47,36 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             viewModel.MapApiKey = _configuration.GoogleMapsApiKey;
 
             return View(viewModel);
+        }
+
+        [Route("/student")]
+        public IActionResult IndexRedirect()
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Route("/about", Name = "AboutOld")]
+        public IActionResult AboutRedirect()
+        {
+            return RedirectToAction(nameof(About));
+        }
+
+        [Route("/why", Name = "WhyOld")]
+        public IActionResult WhyRedirect()
+        {
+            return RedirectToAction(nameof(Why));
+        }
+
+        [Route("/subjects", Name = "SubjectsOld")]
+        public IActionResult SubjectsRedirect()
+        {
+            return RedirectToAction(nameof(Subjects));
+        }
+
+        [Route("/find", Name = "FindOld")]
+        public IActionResult FindRedirect(FindViewModel viewModel)
+        {
+            return RedirectToAction(nameof(Find), new RouteValueDictionary(viewModel));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
