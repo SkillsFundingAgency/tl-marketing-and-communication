@@ -4,45 +4,79 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-
-<url>
-  <loc>https://tlevels.gov.uk/</loc>
-  <lastmod>2019-10-09T14:54:30+00:00</lastmod>
-  <priority>1.00</priority>
-</url>
-<url>
-  <loc>https://tlevels.gov.uk/cookies</loc>
-  <lastmod>2019-10-09T14:54:30+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://tlevels.gov.uk/about</loc>
-  <lastmod>2019-10-09T14:54:30+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://tlevels.gov.uk/why</loc>
-  <lastmod>2019-10-09T14:54:30+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://tlevels.gov.uk/subjects</loc>
-  <lastmod>2019-10-09T14:54:30+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://tlevels.gov.uk/find</loc>
-  <lastmod>2019-10-09T14:54:30+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://tlevels.gov.uk/accessibility</loc>
-  <lastmod>2019-10-09T14:54:30+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://tlevels.gov.uk/Find</loc>
-  <lastmod>2019-10-09T14:54:30+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/</loc>
+    <lastmod>2020-02-19T10:47:27+00:00</lastmod>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/cookie-settings</loc>
+    <lastmod>2020-02-19T10:47:27+00:00</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/students</loc>
+    <lastmod>2020-02-19T10:47:27+00:00</lastmod>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/employers</loc>
+    <lastmod>2020-02-19T10:47:27+00:00</lastmod>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/accessibility</loc>
+    <lastmod>2020-02-19T10:47:27+00:00</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/cookies</loc>
+    <lastmod>2020-02-19T10:47:27+00:00</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/students/about</loc>
+    <lastmod>2020-02-19T10:47:27+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/students/why</loc>
+    <lastmod>2020-02-19T10:47:27+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/students/subjects</loc>
+    <lastmod>2020-02-19T10:47:27+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/students/find</loc>
+    <lastmod>2020-02-19T10:47:27+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/employers/about</loc>
+    <lastmod>2020-02-19T10:47:27+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/employers/skills-available</loc>
+    <lastmod>2020-02-19T10:47:27+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/employers/business-benefits</loc>
+    <lastmod>2020-02-19T10:47:27+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/employers/what-it-costs</loc>
+    <lastmod>2020-02-19T10:47:27+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/employers/video-transcript</loc>
+    <lastmod>2020-02-19T10:47:27+00:00</lastmod>
+    <priority>0.5</priority>
+  </url>
 </urlset>
