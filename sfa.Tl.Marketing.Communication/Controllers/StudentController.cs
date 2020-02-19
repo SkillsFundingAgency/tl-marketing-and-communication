@@ -74,9 +74,9 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         }
 
         [Route("/find", Name = "FindOld")]
-        public IActionResult FindRedirect(FindViewModel viewModel)
+        public IActionResult FindRedirect()
         {
-            return RedirectToAction(nameof(Find), new RouteValueDictionary(viewModel));
+            return RedirectToAction(nameof(Find));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
