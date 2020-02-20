@@ -299,7 +299,8 @@ var maps = (function () {
                         searchResults += "<h4>" + venueName + "</h4> \
                                           <p>Part of " + searchedProviderLocations[i].providerName + "<br />";
                     } else {
-                        searchResults += "<h4>" + searchedProviderLocations[i].providerName + "</h4>";
+                        searchResults += "<h4>" + searchedProviderLocations[i].providerName + "</h4> \
+                                         <p>";
                     }
 
                     searchResults += searchedProviderLocations[i].town + " | " + searchedProviderLocations[i].postcode + "</p> \
