@@ -10,5 +10,13 @@ black $black "white", orange $orange "black", purple $purple "white", white $whi
     }
 }
 
+.tl-button--search {
+    @each $buttonname, $buttonbackground, $buttontext in $buttonvariables {
+        &--#{$buttonname} {
+            @include button($buttonbackground, $buttontext, search);
+        }
+    }
+}
+
 
 

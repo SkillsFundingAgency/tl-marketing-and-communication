@@ -253,6 +253,22 @@ var maps = (function () {
                 $("#tl-results-summary").removeClass("tl-none");
             }
 
+            var entityMap = {
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': '&quot;',
+                "'": '&#39;',
+                '’': '&#8217',
+                "/": '&#x2F;'
+            };
+            function escapeHtml(string) {
+                return String(string).replace(/[&<>"'\/]/g, function (s) {
+                    return entityMap[s];
+                });
+            }
+
+
             function showSearchResults(searchedProviderLocations, qualifications) {
                 var searchResults = "";
                 let maxResultCount = $("#MaxResultCount").val();
@@ -283,7 +299,8 @@ var maps = (function () {
                         searchResults += "<h4>" + venueName + "</h4> \
                                           <p>Part of " + searchedProviderLocations[i].providerName + "<br />";
                     } else {
-                        searchResults += "<h4>" + searchedProviderLocations[i].providerName + "</h4>";
+                        searchResults += "<h4>" + searchedProviderLocations[i].providerName + "</h4> \
+                                         <p>";
                     }
 
                     searchResults += searchedProviderLocations[i].town + " | " + searchedProviderLocations[i].postcode + "</p> \
@@ -299,7 +316,7 @@ var maps = (function () {
                                           <ul> \
                                             " + qualificationsResults2021 + " \
                                           </ul>";
-                    searchResults += "<a href='" + searchedProviderLocations[i].website + "' class='tl-link-black--orange tl-results--block--link'>Visit their website</a> \
+                    searchResults += "<a href='" + searchedProviderLocations[i].website + "' class='tl-link-black--orange tl-results--block--link' aria-label='Visit " + escapeHtml(venueName !== "" ? venueName : searchedProviderLocations[i].providerName) + "&#8217;s website'>Visit their website</a> \
                                  </div>";
                 }
 

@@ -1,4 +1,4 @@
-@mixin button($buttonprimary, $buttonsecondary) {
+@mixin button($buttonprimary, $buttonsecondary, $buttontype: default) {
     $buttontextcolor: unquote($buttonsecondary);
     display: inline-block;
     padding: 15px 25px;
@@ -7,7 +7,6 @@
     align-self: flex-start;
     font-size: 18px;
     position: relative;
-    transition: 0.2s ease-in;
     background-color: $buttonprimary;
     color: $buttontextcolor;
     border: none;
@@ -31,6 +30,12 @@
         height: 16px;
         background-size: cover;
         background-repeat: no-repeat;
+
+        @if $buttontype == search {
+            background-image: image("searchicon-" + $buttonsecondary + ".svg");
+            top: 2px;
+            position: relative;
+        }
     }
 
     &:before {
@@ -50,6 +55,10 @@
             width: 20px;
             opacity: 1;
             transition: 0.2s ease-in;
+
+            @if $buttontype == search {
+                width: 16px;
+            }
         }
     }
 

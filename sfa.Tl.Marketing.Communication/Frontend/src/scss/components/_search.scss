@@ -93,6 +93,10 @@
         h4 {
             @include font(header, 24px, $lh: 26px);
             max-width: calc(100% - 100px);
+
+            @include media-max(small) {
+                    margin-top: 15px;
+            }
         }
 
         h5 {
@@ -121,6 +125,11 @@
             padding: 15px 20px;
             top: 0;
             right: 0;
+
+            @include media-max(small) {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
         }
 
         a {
