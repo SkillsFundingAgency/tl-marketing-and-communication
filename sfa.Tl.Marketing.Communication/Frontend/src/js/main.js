@@ -299,7 +299,7 @@ var maps = (function () {
                                           <ul> \
                                             " + qualificationsResults2021 + " \
                                           </ul>";
-                    searchResults += "<a href='" + searchedProviderLocations[i].website + "' class='tl-link-black--orange tl-results--block--link'>Visit their website</a> \
+                    searchResults += "<a href='" + searchedProviderLocations[i].website + "' class='tl-link-black--orange tl-results--block--link' aria-label='Visit " + (venueName !== "" ? venueName : searchedProviderLocations[i].providerName) + "&#8217;s website'>Visit their website</a> \
                                  </div>";
                 }
 
