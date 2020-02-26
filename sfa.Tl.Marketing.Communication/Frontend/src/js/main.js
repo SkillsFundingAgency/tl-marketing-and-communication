@@ -20,7 +20,6 @@ $(".tl-nav--hamburger").click(function () {
     }
 });
 
-
 var firstTabStop;
 var lastTabStop;
 
@@ -75,6 +74,22 @@ function processKeyboardEvents(e) {
     if (e.keyCode === keyEscape) {
         closeModal();
     }
+}
+
+var entityMap = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': '&quot;',
+    "'": '&#39;',
+    '’': '&#8217',
+    "/": '&#x2F;'
+};
+
+function escapeHtml(string) {
+    return String(string).replace(/[&<>"'\/]/g, function (s) {
+        return entityMap[s];
+    });
 }
 
 $("#tl-find-button").click(function () {
@@ -243,22 +258,6 @@ var maps = (function () {
                 if (parseInt(b.distanceInMiles) > parseInt(a.distanceInMiles)) return -1;
 
                 return 0;
-            }
-
-            const entityMap = {
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                '"': '&quot;',
-                "'": '&#39;',
-                '’': '&#8217',
-                "/": '&#x2F;'
-            };
-
-            function escapeHtml(string) {
-                return String(string).replace(/[&<>"'\/]/g, function (s) {
-                    return entityMap[s];
-                });
             }
 
             function getDistanceInMiles(providerLocation, postcodeLocation) {
