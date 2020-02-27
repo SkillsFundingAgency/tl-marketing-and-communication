@@ -79,6 +79,7 @@ function processKeyboardEvents(e) {
 
 $("#tl-find-button").click(function () {
     const postcode = document.getElementById("Postcode").value;
+      
     if (postcode === "") {
         event.stopPropagation();
         $(".tl-validation--message").text("You must enter a postcode");
@@ -93,6 +94,7 @@ var maps = (function () {
     function initMap() {
 
         const shouldSearch = $("#ShouldSearch").val();
+        
         if (shouldSearch === "True") {
           $("#tl-results-summary").addClass("tl-none");
         }
@@ -183,6 +185,7 @@ var maps = (function () {
                     if (status === "OK") {
 
                         const selectedQualification = parseInt($("#tl-qualifications").children("option:selected").val());
+                        $("#Qualification").val($("#tl-qualifications").children("option:selected").text());
                         const searchedProvidersLocations = [];
 
                         for (let i = 0; i < providersData.providers.length; i++) {
@@ -272,7 +275,9 @@ var maps = (function () {
             function showSearchResults(searchedProviderLocations, qualifications) {
                 var searchResults = "";
                 let maxResultCount = $("#MaxResultCount").val();
-
+                const qualification = $("#Qualification").val();
+                const postcode = document.getElementById("Postcode").value;
+                
                 if (searchedProviderLocations.length <= maxResultCount) {
                     maxResultCount = searchedProviderLocations.length;
                 }
@@ -316,7 +321,11 @@ var maps = (function () {
                                           <ul> \
                                             " + qualificationsResults2021 + " \
                                           </ul>";
-                    searchResults += "<a href='" + searchedProviderLocations[i].website + "' class='tl-link-black--orange tl-results--block--link' aria-label='Visit " + escapeHtml(venueName !== "" ? venueName : searchedProviderLocations[i].providerName) + "&#8217;s website'>Visit their website</a> \
+                    //searchResults += "<a href='" + searchedProviderLocations[i].website + "' class='tl-link-black--orange tl-results--block--link' aria-label='Visit " + escapeHtml(venueName !== "" ? venueName : searchedProviderLocations[i].providerName) + "&#8217;s website'>Visit their website</a> \
+                    //             </div>";
+
+                    
+                    searchResults += "<a href='/students/redirect?postcode=" + postcode + "&qualification=" + qualification + "&url=" + encodeURIComponent(searchedProviderLocations[i].website) + "' class='tl-link-black--orange tl-results--block--link' aria-label='Visit " + encodeURIComponent(venueName !== "" ? venueName : searchedProviderLocations[i].providerName) + "&#8217;s website'>Visit their website</a> \
                                  </div>";
                 }
 
@@ -340,6 +349,6 @@ var maps = (function () {
         initMap: initMap
     };
 
-})();
+    })();
 
 
