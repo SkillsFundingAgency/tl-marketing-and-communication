@@ -93,6 +93,8 @@ function escapeHtml(string) {
 }
 
 $("#tl-find-button").click(function () {
+
+    clearSearchInfo();
     const postcode = $("#Postcode").val().trim();
       
     if (postcode === "") {
@@ -107,12 +109,52 @@ $("#tl-find-button").click(function () {
     return true;
 });
 
+$("#tl-nav--bar-student--find").click(function () {
+    clearSearchInfo();
+});
+
+function persistSearchInfo() {
+    const qualification = $("#tl-qualifications").children("option:selected").text();
+    const postcode = $("#Postcode").val();
+
+    GOVUK.cookie('postcode', postcode, { days: 1 });
+    GOVUK.cookie('qualification', qualification, { days: 1 });
+}
+
+function loadSearchInfo() {
+
+    const shouldSearch = $("#ShouldSearch").val();
+
+    if (shouldSearch === "False") {
+
+        const postcodev = GOVUK.cookie('postcode');
+        const qualificationv = GOVUK.cookie('qualification');
+        if (postcodev) {
+            $("#Postcode").val(postcodev);
+            $("#Qualification").val(qualificationv);
+            $("#ShouldSearch").val("True");
+        }
+    }
+}
+
+function clearSearchInfo() {
+    GOVUK.cookie('postcode', null);
+    GOVUK.cookie('qualification', null);
+}
+
+function removeSearchStringFromFindUrl() {
+    var studentsFindUrl = window.location.origin + window.location.pathname;
+    window.history.replaceState({}, "students find", studentsFindUrl);
+}
+
 var maps = (function () {
     function initMap() {
+        loadSearchInfo();
 
         const shouldSearch = $("#ShouldSearch").val();
-        
+
         if (shouldSearch === "True") {
+            removeSearchStringFromFindUrl();
             $("#tl-results-summary").addClass("tl-none");
         }
 
@@ -224,6 +266,8 @@ var maps = (function () {
 
                         const selectedQualification = parseInt($("#tl-qualifications").children("option:selected").val());
                         $("#Qualification").val($("#tl-qualifications").children("option:selected").text());
+
+                        persistSearchInfo();
                         const searchedProvidersLocations = [];
 
                         for (let i = 0; i < providersData.providers.length; i++) {
@@ -305,9 +349,9 @@ var maps = (function () {
             function showSearchResults(searchedProviderLocations, qualifications) {
                 var searchResults = "";
                 let maxResultCount = $("#MaxResultCount").val();
-                const qualification = $("#Qualification").val();
+                const qualification = $("#tl-qualifications").children("option:selected").text();
                 const postcode = document.getElementById("Postcode").value;
-                
+
                 if (searchedProviderLocations.length <= maxResultCount) {
                     maxResultCount = searchedProviderLocations.length;
                 }
