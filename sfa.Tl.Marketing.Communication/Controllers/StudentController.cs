@@ -41,12 +41,17 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         [Route("/students/find", Name = "Find")]
         public IActionResult Find(FindViewModel viewModel)
         {
-            if (!string.IsNullOrEmpty(viewModel.Postcode))
-                viewModel.ShouldSearch = true;
+            viewModel.ShouldSearch = !string.IsNullOrEmpty(viewModel.Postcode);
 
             viewModel.MapApiKey = _configuration.GoogleMapsApiKey;
 
             return View(viewModel);
+        }
+
+        [Route("/students/redirect", Name = "Redirect")]
+        public void Redirect(RedirectViewModel viewModel)
+        {
+            Response.Redirect(viewModel.Url, false);
         }
 
         [Route("/student")]

@@ -20,7 +20,6 @@ $(".tl-nav--hamburger").click(function () {
     }
 });
 
-
 var firstTabStop;
 var lastTabStop;
 
@@ -77,8 +76,27 @@ function processKeyboardEvents(e) {
     }
 }
 
+var entityMap = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': '&quot;',
+    "'": '&#39;',
+    '’': '&#8217',
+    "/": '&#x2F;'
+};
+
+function escapeHtml(string) {
+    return String(string).replace(/[&<>"'\/]/g, function (s) {
+        return entityMap[s];
+    });
+}
+
 $("#tl-find-button").click(function () {
-    const postcode = document.getElementById("Postcode").value;
+
+    clearSearchInfo();
+    const postcode = $("#Postcode").val().trim();
+      
     if (postcode === "") {
         event.stopPropagation();
         $(".tl-validation--message").text("You must enter a postcode");
@@ -87,14 +105,57 @@ $("#tl-find-button").click(function () {
     } else {
         $(".tl-search--form").removeClass("tl-validation--error");
     }
+
+    return true;
 });
+
+$("#tl-nav--bar-student--find").click(function () {
+    clearSearchInfo();
+});
+
+function persistSearchInfo() {
+    const qualification = $("#tl-qualifications").children("option:selected").text();
+    const postcode = $("#Postcode").val();
+
+    GOVUK.cookie('postcode', postcode, { days: 1 });
+    GOVUK.cookie('qualification', qualification, { days: 1 });
+}
+
+function loadSearchInfo() {
+
+    const shouldSearch = $("#ShouldSearch").val();
+
+    if (shouldSearch === "False") {
+
+        const postcodev = GOVUK.cookie('postcode');
+        const qualificationv = GOVUK.cookie('qualification');
+        if (postcodev) {
+            $("#Postcode").val(postcodev);
+            $("#Qualification").val(qualificationv);
+            $("#ShouldSearch").val("True");
+        }
+    }
+}
+
+function clearSearchInfo() {
+    GOVUK.cookie('postcode', null);
+    GOVUK.cookie('qualification', null);
+}
+
+function removeSearchStringFromFindUrl() {
+    var studentsFindUrl = window.location.origin + window.location.pathname;
+    window.history.replaceState({}, "students find", studentsFindUrl);
+}
 
 var maps = (function () {
     function initMap() {
+        loadSearchInfo();
 
         const shouldSearch = $("#ShouldSearch").val();
+
         if (shouldSearch === "True") {
-          $("#tl-results-summary").addClass("tl-none");
+            removeSearchStringFromFindUrl();
+            $("#tl-results-summary").addClass("tl-none");
         }
 
         $.getJSON("/js/providers.json", function (providersData) {
@@ -115,7 +176,7 @@ var maps = (function () {
                         dropdown.val(key);
                     }
                 });
-            
+
             $("#tl-find-button").click(function () {
                 $("#MaxResultCount").val(defaultResultCount);
                 return search(false);
@@ -126,53 +187,74 @@ var maps = (function () {
                 $("#MaxResultCount").val(currentResultCount + defaultResultCount);
                 return search(false);
             });
-            
+
             if (shouldSearch === "True") {
                 return search(true);
             }
 
             function search(goToSearchResults) {
                 event.preventDefault();
-                const postcode = document.getElementById("Postcode").value;
-                const postcodeRegex = /([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/;
-                const postcodeResult = postcodeRegex.test(postcode.trim());
+
+                const postcode = $("#Postcode").val().replace(/\s/g, "");
 
                 $("#tl-next").addClass("tl-none");
 
                 if (postcode === "") {
-                    $(".tl-validation--message").text("You must enter a postcode");
-                    $(".tl-search--form").addClass("tl-validation--error");
-                    $("#tl-search-results").empty();
-                    $("#tl-results-summary").removeClass("tl-none");
-                    $("#tl-next").addClass("tl-none");
-                }
-                else if (postcodeResult === true) {
-                    $(".tl-search--form").removeClass("tl-validation--error");
-
-                    geocodeAddress(geocoder);
-
-                    if (goToSearchResults) {
-                        var searchResultsAnchor = $("#tl-search");
-                        $("html, body").animate({ scrollTop: searchResultsAnchor.offset().top }, "slow");
-                    }
-
-                    const searchResultLastPosition = parseInt($("#MaxResultCount").val());
-                    if (searchResultLastPosition > defaultResultCount)
-                        $("#SearchResultLastPosition").val(searchResultLastPosition - defaultResultCount);
+                    showPostcodeError("You must enter a postcode");
                 }
                 else {
-                    $(".tl-validation--message").text("You must enter a real postcode");
-                    $(".tl-search--form").addClass("tl-validation--error");
-                    $("#tl-search-results").empty();
-                    $("#tl-results-summary").removeClass("tl-none");
-                    $("#tl-next").addClass("tl-none");
+                    $.ajax({
+                        url: 'https://postcodes.io/postcodes/' + postcode,
+                        contentType: "application/json",
+                        success: function (postcodesResult) {
+                            const formattedPostcode = postcodesResult.result.postcode;
+                            $("#Postcode").val(formattedPostcode);
+                            searchForPostcode(formattedPostcode, goToSearchResults);
+                        },
+                        timeout: 5000,
+                        error: function (jqXhr, error) {
+                            if (jqXhr.status === 404) {
+                                $.ajax({
+                                    url: 'https://postcodes.io/terminated_postcodes/' + postcode,
+                                    contentType: "application/json",
+                                    success: function(postcodesResult) {
+                                        const formattedPostcode = postcodesResult.result.postcode;
+                                        $("#Postcode").val(formattedPostcode);
+                                        searchForPostcode(formattedPostcode, goToSearchResults);
+                                    },
+                                    timeout: 5000,
+                                    error: function() {
+                                        showPostcodeError("You must enter a real postcode");
+                                    }
+                                });
+                            } else {
+                                console.log("Other Error reading postcode: " + jqXhr.status + " - " + error);
+                                showPostcodeError("You must enter a real postcode");
+                            }
+                        }
+                    });
                 }
 
                 return false;
             }
 
-            function geocodeAddress(geocoder) {
-                const searchedPostcode = document.getElementById("Postcode").value;
+            function searchForPostcode(postcode, goToSearchResults)
+            {
+                $(".tl-search--form").removeClass("tl-validation--error");
+
+                geocodeAddress(geocoder, postcode);
+
+                if (goToSearchResults) {
+                    var searchResultsAnchor = $("#tl-search");
+                    $("html, body").animate({ scrollTop: searchResultsAnchor.offset().top }, "slow");
+                }
+
+                const searchResultLastPosition = parseInt($("#MaxResultCount").val());
+                if (searchResultLastPosition > defaultResultCount)
+                    $("#SearchResultLastPosition").val(searchResultLastPosition - defaultResultCount);
+            }
+
+            function geocodeAddress(geocoder, searchedPostcode) {
                 if (searchedPostcode === "")
                     return;
 
@@ -183,6 +265,9 @@ var maps = (function () {
                     if (status === "OK") {
 
                         const selectedQualification = parseInt($("#tl-qualifications").children("option:selected").val());
+                        $("#Qualification").val($("#tl-qualifications").children("option:selected").text());
+
+                        persistSearchInfo();
                         const searchedProvidersLocations = [];
 
                         for (let i = 0; i < providersData.providers.length; i++) {
@@ -235,7 +320,7 @@ var maps = (function () {
 
                 return distanceInMiles.toFixed();
             }
-            
+
             function sortQualifications(qualifications, qualificationIds) {
                 const qualificationsResults = [];
                 for (let j = 0; j < qualificationIds.length; j++) {
@@ -246,6 +331,14 @@ var maps = (function () {
                 return qualificationsResults;
             }
 
+            function showPostcodeError(message) {
+                $(".tl-validation--message").text(message);
+                $(".tl-search--form").addClass("tl-validation--error");
+                $("#tl-search-results").empty();
+                $("#tl-results-summary").removeClass("tl-none");
+                $("#tl-next").addClass("tl-none");
+            }
+
             function showNoSearchResults() {
                 $("#tl-search-results").empty();
                 $("#tl-next").addClass("tl-none");
@@ -253,25 +346,11 @@ var maps = (function () {
                 $("#tl-results-summary").removeClass("tl-none");
             }
 
-            var entityMap = {
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                '"': '&quot;',
-                "'": '&#39;',
-                '’': '&#8217',
-                "/": '&#x2F;'
-            };
-            function escapeHtml(string) {
-                return String(string).replace(/[&<>"'\/]/g, function (s) {
-                    return entityMap[s];
-                });
-            }
-
-
             function showSearchResults(searchedProviderLocations, qualifications) {
                 var searchResults = "";
                 let maxResultCount = $("#MaxResultCount").val();
+                const qualification = $("#tl-qualifications").children("option:selected").text();
+                const postcode = document.getElementById("Postcode").value;
 
                 if (searchedProviderLocations.length <= maxResultCount) {
                     maxResultCount = searchedProviderLocations.length;
@@ -316,7 +395,7 @@ var maps = (function () {
                                           <ul> \
                                             " + qualificationsResults2021 + " \
                                           </ul>";
-                    searchResults += "<a href='" + searchedProviderLocations[i].website + "' class='tl-link-black--orange tl-results--block--link' aria-label='Visit " + escapeHtml(venueName !== "" ? venueName : searchedProviderLocations[i].providerName) + "&#8217;s website'>Visit their website</a> \
+                    searchResults += "<a href='/students/redirect?postcode=" + postcode + "&qualification=" + qualification + "&url=" + encodeURIComponent(searchedProviderLocations[i].website) + "' class='tl-link-black--orange tl-results--block--link' aria-label='Visit " + encodeURIComponent(venueName !== "" ? venueName : searchedProviderLocations[i].providerName) + "&#8217;s website'>Visit their website</a> \
                                  </div>";
                 }
 
@@ -340,6 +419,6 @@ var maps = (function () {
         initMap: initMap
     };
 
-})();
+    })();
 
 
