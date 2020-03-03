@@ -382,8 +382,11 @@ var maps = (function () {
                                          <p>";
                     }
 
+                    let distanceString = searchedProviderLocations[i].distanceInMiles
+                        + (searchedProviderLocations[i].distanceInMiles === "1" ? " mile" : " miles");
+                    
                     searchResults += searchedProviderLocations[i].town + " | " + searchedProviderLocations[i].postcode + "</p> \
-                                          <span class='tl-results--block--distance'>" + searchedProviderLocations[i].distanceInMiles + " miles</span> \
+                                          <span class='tl-results--block--distance'>" + distanceString + "</span> \
                                           <hr class='tl-line-lightgrey--small'>";
                     if (qualificationsResults2020 !== "")
                         searchResults += "<h5><strong>From September 2020 onwards:</strong></h5> \
