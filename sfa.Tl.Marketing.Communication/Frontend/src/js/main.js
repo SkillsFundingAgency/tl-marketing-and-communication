@@ -4,10 +4,13 @@ $(".tl-nav--hamburger").click(function () {
         $("#tl-nav").removeClass("active");
         $("body").removeClass("navopen");
         $("#tl-nav--hamburger").attr("aria-expanded", "false");
+        $("#tl-nav--hamburger span").text("Main navigation");
+
     }
     else {
         $("#tl-nav").addClass("active");
         $("#tl-nav--hamburger").attr("aria-expanded", "true");
+        $("#tl-nav--hamburger span").text("Close Main navigation");
         $("body").addClass("navopen");
 
         $("#tl-nav")[0].addEventListener('keydown', processKeyboardEvents);
@@ -19,6 +22,15 @@ $(".tl-nav--hamburger").click(function () {
         firstTabStop.focus();
     }
 });
+
+$('.tl-nav--hamburger').keypress(function (e) {
+    var key = e.which;
+    if (key == 13) 
+    {
+        $(this).click();
+        return false;
+    }
+}); 
 
 var firstTabStop;
 var lastTabStop;

@@ -82,7 +82,7 @@ $listgutter: 30px;
                 top: 0;
             }
 
-            &:hover {
+            &:hover, &:focus {
                 svg {
                     g {
                         fill: $orange;
