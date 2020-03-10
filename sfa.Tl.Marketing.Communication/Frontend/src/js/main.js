@@ -14,9 +14,9 @@ $(".tl-nav--hamburger").click(function () {
         $("body").addClass("navopen");
 
         $("#tl-nav")[0].addEventListener('keydown', processKeyboardEvents);
-        const elementsThatAreFocusable = $("#tl-nav a[href]");
+        const elementsThatAreFocusable = $("#tl-nav a");
 
-        firstTabStop = elementsThatAreFocusable[0];
+        firstTabStop = elementsThatAreFocusable[1];
         lastTabStop = elementsThatAreFocusable[elementsThatAreFocusable.length - 1];
 
         firstTabStop.focus();
