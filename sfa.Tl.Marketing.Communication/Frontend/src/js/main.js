@@ -410,7 +410,7 @@ var maps = (function () {
                                           <ul> \
                                             " + qualificationsResults2021 + " \
                                           </ul>";
-                    searchResults += "<a href='/students/redirect?postcode=" + postcode + "&qualification=" + qualification + "&url=" + encodeURIComponent(searchedProviderLocations[i].website) + "' class='tl-link-black--orange tl-results--block--link' aria-label='Visit " + encodeURIComponent(venueName !== "" ? venueName : searchedProviderLocations[i].providerName) + "&#8217;s website'>Visit their website</a> \
+                    searchResults += "<a href='/students/redirect?postcode=" + postcode + "&qualification=" + qualification + "&url=" + encodeURIComponent(searchedProviderLocations[i].website) + "' class='tl-link-black--orange tl-results--block--link' aria-label='Visit " + (venueName !== "" ? venueName : searchedProviderLocations[i].providerName) + "&#8217;s website'>Visit their website</a> \
                                  </div>";
                 }
 
