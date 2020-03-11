@@ -95,10 +95,11 @@ $listgutter: 30px;
 
         &--employer {
             a {
-                &:hover {
+                &:hover, &:focus {
                     svg {
                         g {
                             fill: $purple;
+                            transition: 0.2s ease-in-out;
                         }
                     }
                 }
