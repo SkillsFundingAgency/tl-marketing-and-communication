@@ -4,21 +4,33 @@ $(".tl-nav--hamburger").click(function () {
         $("#tl-nav").removeClass("active");
         $("body").removeClass("navopen");
         $("#tl-nav--hamburger").attr("aria-expanded", "false");
+        $("#tl-nav--hamburger span").text("Main navigation");
+
     }
     else {
         $("#tl-nav").addClass("active");
         $("#tl-nav--hamburger").attr("aria-expanded", "true");
+        $("#tl-nav--hamburger span").text("Close Main navigation");
         $("body").addClass("navopen");
 
         $("#tl-nav")[0].addEventListener('keydown', processKeyboardEvents);
-        const elementsThatAreFocusable = $("#tl-nav a[href]");
+        const elementsThatAreFocusable = $("#tl-nav a");
 
-        firstTabStop = elementsThatAreFocusable[0];
+        firstTabStop = elementsThatAreFocusable[1];
         lastTabStop = elementsThatAreFocusable[elementsThatAreFocusable.length - 1];
 
         firstTabStop.focus();
     }
 });
+
+$('.tl-nav--hamburger').keypress(function (e) {
+    var key = e.which;
+    if (key == 13) 
+    {
+        $(this).click();
+        return false;
+    }
+}); 
 
 var firstTabStop;
 var lastTabStop;
@@ -398,7 +410,7 @@ var maps = (function () {
                                           <ul> \
                                             " + qualificationsResults2021 + " \
                                           </ul>";
-                    searchResults += "<a href='/students/redirect?postcode=" + postcode + "&qualification=" + qualification + "&url=" + encodeURIComponent(searchedProviderLocations[i].website) + "' class='tl-link-black--orange tl-results--block--link' aria-label='Visit " + encodeURIComponent(venueName !== "" ? venueName : searchedProviderLocations[i].providerName) + "&#8217;s website'>Visit their website</a> \
+                    searchResults += "<a href='/students/redirect?postcode=" + postcode + "&qualification=" + qualification + "&url=" + encodeURIComponent(searchedProviderLocations[i].website) + "' class='tl-link-black--orange tl-results--block--link' aria-label='Visit " + (venueName !== "" ? venueName : searchedProviderLocations[i].providerName) + "&#8217;s website'>Visit their website</a> \
                                  </div>";
                 }
 

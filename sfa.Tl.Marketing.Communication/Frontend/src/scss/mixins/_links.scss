@@ -8,16 +8,13 @@
     line-height: 28px;
     cursor: pointer;
 
-    &:hover {
+    &:hover, &:focus {
         border-bottom: 1.5px solid $linkprimary;
         @include rgba-background($linksecondary, 0.25);
     }
 
-    &:focus {
-        @include rgba-background($linksecondary, 0.25);
-    }
-
     &:active {
+        border-bottom: 1.5px solid $linkprimary;
         @include rgba-background($linksecondary, 0.55);
     }
 }
@@ -37,10 +34,12 @@
     }
 
     &:focus {
+        border-bottom: 2px solid $linksecondary;
         @include rgba-background($linksecondary, 0.25);
     }
 
     &:active {
+        border-bottom: 2px solid $linksecondary;
         @include rgba-background($linksecondary, 0.55);
     }
 }

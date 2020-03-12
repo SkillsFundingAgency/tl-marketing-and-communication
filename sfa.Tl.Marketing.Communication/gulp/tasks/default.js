@@ -36,13 +36,6 @@ gulp.task('js', () => {
         .pipe(gulp.dest(paths.dist.JS));
 });
 
-gulp.task('plyrjs', () => {
-    return src([
-        'node_modules/plyr/dist/plyr.polyfilled.min.js',
-    ])
-        .pipe(gulp.dest(paths.dist.JS));
-});
-
 gulp.task('sass', () => {
         return src(paths.src.SCSS)
             .pipe(wait(200))

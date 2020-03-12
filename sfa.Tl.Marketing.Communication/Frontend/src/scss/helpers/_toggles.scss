@@ -19,6 +19,10 @@
     -webkit-border-radius: 30px;
     border-radius: 30px;
 
+    &:focus {
+        outline: 1px dotted $black;
+    }
+
     @media (min-width: 768px) {
         left: 25%;
         margin-left: 0;
@@ -102,21 +106,21 @@
 
 
 .toggleDisabled label:after {
-    background: $grey !important;
-    border-color: $grey !important;
+    background: darken($grey, 20%) !important;
+    border-color: darken($grey, 20%) !important;
 }
 
 .toggleDisabled input[type=checkbox]:checked + label:before {
     content: attr(data-on);
     text-transform: capitalize;
-    color: $grey;
+    color: darken($grey, 20%);
 }
 
 .toggleDisabled label {
     cursor: default !important;
-    border: 3px $grey solid;
+    border: 3px darken($grey, 20%) solid;
 
     &:hover {
-        border: 3px $grey solid;
+        border: 3px darken($grey, 20%) solid;
     }
 }

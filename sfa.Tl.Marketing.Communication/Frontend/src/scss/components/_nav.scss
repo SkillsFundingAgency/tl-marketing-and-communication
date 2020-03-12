@@ -19,6 +19,11 @@
         filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='0');
         min-width: $logowidth + px;
         min-height: ($logowidth / 6) + px;
+
+
+        &:focus {
+            outline: 1px dotted $black;
+        }
     }
 
     .tl-nav--bar {

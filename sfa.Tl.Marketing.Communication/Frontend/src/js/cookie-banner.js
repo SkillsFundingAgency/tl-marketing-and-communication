@@ -150,6 +150,14 @@ $(document).ready(function () {
             GOVUK.cookie('AnalyticsConsent', 'false', { days: 365 });
         }
     });
+
+    $('#lblAnalyticsConsent').keypress(function (e) {
+        var key = e.which;
+        if (key == 13) {
+            $(this).click();
+            return false;
+        }
+    }); 
 });
 
 
