@@ -36,7 +36,7 @@ var firstTabStop;
 var lastTabStop;
 
 $(document).on('click', function () {
-    var target = event.target
+    var target = event.target;
     var modalContent = $(".tl-modal--content");
 
     if ($(target).is(".tl-link--modal")) {
@@ -205,8 +205,10 @@ var maps = (function () {
             }
 
             function search(goToSearchResults) {
-                event.preventDefault();
-
+                if (event !== undefined) {
+                    event.preventDefault();
+                }
+                
                 const postcode = $("#Postcode").val().replace(/\s/g, "");
 
                 $("#tl-next").addClass("tl-none");
