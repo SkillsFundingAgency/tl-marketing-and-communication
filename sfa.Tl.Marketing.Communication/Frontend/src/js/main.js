@@ -4,7 +4,7 @@ $(".tl-nav--hamburger").click(function () {
         $("#tl-nav").removeClass("active");
         $("body").removeClass("navopen");
         $("#tl-nav--hamburger").attr("aria-expanded", "false");
-        $("#tl-nav--hamburger span").text("Main navigation");
+        $("#tl-nav--hamburger span").text("Open main navigation");
 
     }
     else {

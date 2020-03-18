@@ -89,6 +89,8 @@
         display: none;
         align-items: center;
         cursor: pointer;
+        @include font(header, 18px, italic, 400);
+
 
         @include media-max(medium) {
             display: flex;
@@ -102,7 +104,7 @@
             color: black;
             display: block;
             position: relative;
-            margin: 0;
+            margin: 0 0 0 10px;
 
             &:before {
                 @include pseudo;
