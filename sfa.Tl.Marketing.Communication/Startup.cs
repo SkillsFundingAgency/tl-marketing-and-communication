@@ -11,6 +11,7 @@ namespace sfa.Tl.Marketing.Communication
 {
     public class Startup
     {
+
         public IConfiguration Configuration { get; }
         protected ConfigurationOptions SiteConfiguration;
 
@@ -22,6 +23,9 @@ namespace sfa.Tl.Marketing.Communication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRazorPages()
+                .AddRazorRuntimeCompilation();
+
             SiteConfiguration = new ConfigurationOptions
             {
                 GoogleMapsApiKey = Configuration["GoogleMapsApiKey"]
