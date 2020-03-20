@@ -11,6 +11,7 @@ namespace sfa.Tl.Marketing.Communication
 {
     public class Startup
     {
+
         public IConfiguration Configuration { get; }
         protected ConfigurationOptions SiteConfiguration;
 
@@ -37,7 +38,7 @@ namespace sfa.Tl.Marketing.Communication
             });
 
             services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
