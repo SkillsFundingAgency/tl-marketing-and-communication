@@ -44,3 +44,21 @@ input, select {
 .tl-breakword {
     word-break: break-all;
 }
+
+.js-enabled {
+    .tl-js--hidden {
+        display: none;
+    }
+
+    .tl-js--visible {
+        display: block;
+    }
+}
+
+.tl-js--hidden {
+    display: block;
+}
+
+.tl-js--visible {
+    display: none;
+}
