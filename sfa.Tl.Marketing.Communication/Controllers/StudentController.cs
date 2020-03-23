@@ -48,6 +48,16 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View(viewModel);
         }
 
+        [Route("/students/subjects/designsurveyingandplanning", Name = "DesignSurveyingPlanning")]
+        public IActionResult DesignSurveyingPlanning()
+        {
+            return View("~/Views/Student/Subjects/DesignSurveyingPlanning.cshtml");
+        }
+
+
+
+
+
         [Route("/students/redirect", Name = "Redirect")]
         public void Redirect(RedirectViewModel viewModel)
         {
