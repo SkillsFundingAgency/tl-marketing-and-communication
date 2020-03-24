@@ -45,6 +45,21 @@
             text-align: center;
         }
     }
+
+    &--alt {
+        @extend #tl-search;
+        background: $orange;
+        color: $black;
+        padding: 60px 0;
+
+        h3 {
+            text-align: left;
+
+            @include media-max(small) {
+                text-align: center;
+            }
+        }
+    }
 }
 
 .tl-find {

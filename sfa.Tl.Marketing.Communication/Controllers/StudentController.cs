@@ -48,15 +48,65 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View(viewModel);
         }
 
-        [Route("/students/subjects/designsurveyingandplanning", Name = "DesignSurveyingPlanning")]
+        [Route("/students/subjects/design-surveying-planning", Name = "DesignSurveyingPlanning")]
         public IActionResult DesignSurveyingPlanning()
         {
-            return View("~/Views/Student/Subjects/DesignSurveyingPlanning.cshtml");
+            return View("Subjects/DesignSurveyingPlanning");
         }
 
+        [Route("/students/subjects/digital-production-design-development", Name = "DigitalProductionDesignDevelopment")]
+        public IActionResult DigitalProductionDesignDevelopment()
+        {
+            return View("Subjects/DigitalProductionDesignDevelopment");
+        }
 
+        [Route("/students/subjects/education", Name = "Education")]
+        public IActionResult Education()
+        {
+            return View("Subjects/Education");
+        }
 
+        [Route("/students/subjects/building-services-engineering", Name = "BuildingServicesEngineering")]
+        public IActionResult BuildingServicesEngineering()
+        {
+            return View("Subjects/BuildingServicesEngineering");
+        }
 
+        [Route("/students/subjects/digital-business-services", Name = "DigitalBusinessServices")]
+        public IActionResult DigitalBusinessServices()
+        {
+            return View("Subjects/DigitalBusinessServices");
+        }
+
+        [Route("/students/subjects/digital-support-services", Name = "DigitalSupportServices")]
+        public IActionResult DigitalSupportServices()
+        {
+            return View("Subjects/DigitalSupportServices");
+        }
+
+        [Route("/students/subjects/health", Name = "Health")]
+        public IActionResult Health()
+        {
+            return View("Subjects/Health");
+        }
+
+        [Route("/students/subjects/healthcare-science", Name = "HealthcareScience")]
+        public IActionResult HealthcareScience()
+        {
+            return View("Subjects/HealthcareScience");
+        }
+
+        [Route("/students/subjects/onsite-construction", Name = "OnsiteConstruction")]
+        public IActionResult OnsiteConstruction()
+        {
+            return View("Subjects/OnsiteConstruction");
+        }
+
+        [Route("/students/subjects/science", Name = "Science")]
+        public IActionResult Science()
+        {
+            return View("Subjects/Science");
+        }
 
         [Route("/students/redirect", Name = "Redirect")]
         public void Redirect(RedirectViewModel viewModel)
