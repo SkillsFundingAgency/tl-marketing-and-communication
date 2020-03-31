@@ -1,0 +1,22 @@
+/*SUBJECT PAGES*/
+
+$subjects: 
+building-services-engineering,
+design-surveying-planning,
+digital-business-services,
+digital-production-design-development,
+digital-support-services,
+education, 
+health,
+healthcare-science,
+onsite-construction,
+science;
+
+@each $subject in $subjects {
+    #tl-student-subject--#{$subject} {
+        #tl-subject--header {
+            background: image("subjects/" + $subject + ".jpg") no-repeat center;
+            background-size: cover;
+        }
+    }
+}

@@ -45,6 +45,35 @@
             text-align: center;
         }
     }
+
+    &--alt {
+        @extend #tl-search;
+        background: $orange;
+        color: $black;
+        padding: 60px 0;
+
+        h3 {
+            text-align: left;
+
+            @include media-max(small) {
+                text-align: center;
+            }
+        }
+
+        .tl-validation--message {
+            color: black;
+        }
+
+        .tl-validation--error {
+            .tl-validation--message {
+                display: block;
+            }
+
+            .tl-search--form--postcode {
+                border: 3px solid black !important;
+            }
+        }
+    }
 }
 
 .tl-find {
