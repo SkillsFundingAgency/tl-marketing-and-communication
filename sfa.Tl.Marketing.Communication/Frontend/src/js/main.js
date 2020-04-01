@@ -348,6 +348,7 @@ var maps = (function () {
             function showPostcodeError(message) {
                 $(".tl-validation--message").text(message);
                 $(".tl-search--form").addClass("tl-validation--error");
+                $(".tl-results--google").addClass("tl-none");
                 $("#tl-search-results").empty();
                 $("#tl-results-summary").removeClass("tl-none");
                 $("#tl-next").addClass("tl-none");
@@ -356,6 +357,7 @@ var maps = (function () {
             function showNoSearchResults() {
                 $("#tl-search-results").empty();
                 $("#tl-next").addClass("tl-none");
+                $(".tl-results--google").addClass("tl-none");
                 $("#tl-results").removeClass("tl-none");
                 $("#tl-results-summary").removeClass("tl-none");
             }
@@ -420,6 +422,8 @@ var maps = (function () {
                 $("#tl-search-results").empty();
                 $("#tl-search-results").append(searchResults);
                 $("#tl-results").removeClass("tl-none");
+                $(".tl-results--google").removeClass("tl-none");
+
 
                 if (searchedProviderLocations.length <= maxResultCount) {
                     $("#tl-next").addClass("tl-none");

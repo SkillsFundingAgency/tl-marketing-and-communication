@@ -167,17 +167,16 @@
     }
 
     .tl-results--google {
-        display: inline-block;
         text-align: right;
         width: 100%;
-
-        @include media-max(xsmall) {
-            @include margin(bottom, 20);
-        }
 
 
         .tl-results--google--image {
             max-width: 144px;
+
+            @include media-max(xsmall) {
+                @include margin(bottom, 20);
+            }
         }
     }
 }
