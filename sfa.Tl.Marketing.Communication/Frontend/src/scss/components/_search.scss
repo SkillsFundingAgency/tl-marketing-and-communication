@@ -124,7 +124,7 @@
             max-width: calc(100% - 100px);
 
             @include media-max(small) {
-                    margin-top: 15px;
+                margin-top: 15px;
             }
         }
 
@@ -163,6 +163,21 @@
 
         a {
             margin-top: 10px;
+        }
+    }
+
+    .tl-results--google {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+
+        @include media-max(xsmall) {
+            @include margin(bottom, 20);
+        }
+
+
+        .tl-results--google--image {
+            max-width: 144px;
         }
     }
 }
