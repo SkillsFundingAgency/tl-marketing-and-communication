@@ -179,6 +179,12 @@
         }
     }
 }
+
+.tl-nav--minimal {
+    @include media-max(medium) {
+        margin-bottom: 0 !important;
+    }
+    }
     /* Active states */
 
 
