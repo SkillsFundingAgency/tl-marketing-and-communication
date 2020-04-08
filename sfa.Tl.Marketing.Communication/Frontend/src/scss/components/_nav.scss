@@ -9,6 +9,11 @@
     z-index: z('nav');
     background-color: $white;
 
+    @include media-max(medium) {
+        margin-bottom: 265px;
+    }
+
+
     .tl-nav--logo a {
         @include align(left);
         background: image("logo" + "medium" + ".svg") no-repeat left center;
@@ -36,7 +41,7 @@
 
 
         @include media-max(medium) {
-            display: none;
+            display: block;
             position: absolute;
             width: 100%;
             left: 0;
@@ -87,94 +92,119 @@
 
     .tl-nav--hamburger {
         display: none;
-        align-items: center;
-        cursor: pointer;
-        @include font(header, 18px, italic, 400);
-
-
-        @include media-max(medium) {
-            display: flex;
-        }
-
-        i {
-            font-size: 10px;
-            width: 35px;
-            height: 4px;
-            background-color: currentColor;
-            color: black;
-            display: block;
-            position: relative;
-            margin: 0 0 0 10px;
-
-            &:before {
-                @include pseudo;
-                width: 35px;
-                height: 4px;
-                background-color: currentColor;
-                top: -8px;
-                transition: 0.3s ease-in-out;
-            }
-
-            &:after {
-                @include pseudo;
-                width: 35px;
-                height: 4px;
-                background-color: currentColor;
-                top: 8px;
-                transition: 0.3s ease-in-out;
-            }
-        }
     }
+}
 
-    &.active {
+
+
+.js-enabled {
+    #tl-nav {
+        @include media-max(medium) {
+            margin-bottom: 0;
+        }
+
         .tl-nav--hamburger {
-            i {
-                height: 0;
+            display: none;
+            align-items: center;
+            cursor: pointer;
+            @include font(header, 18px, italic, 400);
 
-                &:after {
-                    transform: rotate(45deg);
-                    top: 0px;
+
+            @include media-max(medium) {
+                display: flex;
+            }
+
+            i {
+                font-size: 10px;
+                width: 35px;
+                height: 4px;
+                background-color: currentColor;
+                color: black;
+                display: block;
+                position: relative;
+                margin: 0 0 0 10px;
+
+                &:before {
+                    @include pseudo;
+                    width: 35px;
+                    height: 4px;
+                    background-color: currentColor;
+                    top: -8px;
                     transition: 0.3s ease-in-out;
                 }
 
-                &:before {
-                    transform: rotate(-45deg);
-                    top: 0px;
+                &:after {
+                    @include pseudo;
+                    width: 35px;
+                    height: 4px;
+                    background-color: currentColor;
+                    top: 8px;
                     transition: 0.3s ease-in-out;
                 }
             }
         }
 
         .tl-nav--bar {
-            display: flex;
-
             @include media-max(medium) {
-                display: block;
+                display: none;
+            }
+        }
+
+        &.active {
+            .tl-nav--hamburger {
+                i {
+                    height: 0;
+
+                    &:after {
+                        transform: rotate(45deg);
+                        top: 0px;
+                        transition: 0.3s ease-in-out;
+                    }
+
+                    &:before {
+                        transform: rotate(-45deg);
+                        top: 0px;
+                        transition: 0.3s ease-in-out;
+                    }
+                }
+            }
+
+            .tl-nav--bar {
+                display: flex;
+
+                @include media-max(medium) {
+                    display: block;
+                }
             }
         }
     }
 }
 
-/* Active states */
+.tl-nav--minimal {
+    @include media-max(medium) {
+        margin-bottom: 0 !important;
+    }
+    }
+    /* Active states */
 
 
 
-$employernavvariables: "home", "about", "skills", "benefits", "costs";
+    $employernavvariables: "home", "about", "skills", "benefits", "costs";
 
-@each $page in $employernavvariables {
-    #tl-employer-#{$page} {
-        #tl-nav--bar-employer--#{$page} {
-            @include navactive(employer)
+    @each $page in $employernavvariables {
+        #tl-employer-#{$page} {
+            #tl-nav--bar-employer--#{$page} {
+                @include navactive(employer)
+            }
         }
     }
-}
 
-$studentnavvariables: "home", "about", "why", "subjects", "find";
+    $studentnavvariables: "home", "about", "why", "subjects", "find";
 
-@each $page in $studentnavvariables {
-    #tl-student-#{$page} {
-        #tl-nav--bar-student--#{$page} {
-            @include navactive(student)
+    @each $page in $studentnavvariables {
+        #tl-student-#{$page} {
+            #tl-nav--bar-student--#{$page} {
+                @include navactive(student)
+            }
         }
     }
-}
