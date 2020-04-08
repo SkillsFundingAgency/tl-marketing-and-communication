@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using sfa.Tl.Marketing.Communication.Application.GeoLocations;
+using sfa.Tl.Marketing.Communication.Application.GoogleMaps;
 using sfa.Tl.Marketing.Communication.Models;
+using sfa.Tl.Marketing.Communication.Models.Configuration;
 
 namespace sfa.Tl.Marketing.Communication
 {
@@ -25,7 +28,9 @@ namespace sfa.Tl.Marketing.Communication
         {
             SiteConfiguration = new ConfigurationOptions
             {
-                GoogleMapsApiKey = Configuration["GoogleMapsApiKey"]
+                GoogleMapsApiKey = Configuration["GoogleMapsApiKey"],
+                PostCodeRetrieverBaseUrl = Configuration["PostcodesBaseUrl"],
+                GoogleMapsApiBaseUrl = Configuration["GoogleMapsApiBaseUrl"]
             };
 
             services.AddSingleton(SiteConfiguration);
@@ -36,6 +41,8 @@ namespace sfa.Tl.Marketing.Communication
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            RegisterHttpClients(services);
 
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -65,6 +72,12 @@ namespace sfa.Tl.Marketing.Communication
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });
+        }
+
+        protected virtual void RegisterHttpClients(IServiceCollection services)
+        {
+            services.AddHttpClient<ILocationApiClient, LocationApiClient>();
+            services.AddHttpClient<IGoogleMapApiClient, GoogleMapApiClient>();
         }
     }
 }
