@@ -16,6 +16,15 @@ cd to "root" directory
 
 If the above has worked you should see files being generated in frontend.
 
+Developers don't need to run gulp manually as it should be run by the task runner. If there are errors when running the gulp tasks, check that you have the latest version.
+If the node.js version is newer than the one used in Visual Studio, the task might not run properly and you might see a warning about bindings.
+To fix this, set the version that Visual Studio runs by following the following steps. See https://ryanhayes.net/synchronize-node-js-install-version-with-visual-studio/.
+* Open Tools > Options
+* In the dialog navigate to Projects and Solutions > Web Package Management > External Web Tools 
+* Add C:\Program Files\nodejs at the top of the locations list.
+* Alternatively, add the nodejs folder to Windows PATH.
+
+
 ## Configuration
 
 The Google Maps API key is stored in the site appSettings.json file. To set the value locally, you will need to add a file 'appsettings.Development.json' to the project with the content below. Add the actual key in place of `<value>`

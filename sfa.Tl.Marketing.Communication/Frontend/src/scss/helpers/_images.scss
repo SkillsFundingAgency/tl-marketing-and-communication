@@ -53,6 +53,11 @@
         }
     }
 
+    &--normal {
+        width: auto;
+        max-width: 100%;
+    }
+
     &--spacer {
         @include media-min(medium) {
             padding: 40px 0;
