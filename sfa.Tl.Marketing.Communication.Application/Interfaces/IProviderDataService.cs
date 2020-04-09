@@ -4,8 +4,10 @@ using System.Linq;
 
 namespace sfa.Tl.Marketing.Communication.Application.Interfaces
 {
-    public interface IProviderService
+    public interface IProviderDataService
     {
         IQueryable<Provider> GetProviders();
+        IEnumerable<Qualification> GetQualifications();
+        IEnumerable<Qualification> GetQualifications(int[] qualificationIds);
     }
 }

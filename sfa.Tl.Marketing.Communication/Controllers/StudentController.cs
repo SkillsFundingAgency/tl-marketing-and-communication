@@ -1,18 +1,27 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
+using sfa.Tl.Marketing.Communication.Models.Dto;
 
 namespace sfa.Tl.Marketing.Communication.Controllers
 {
     public class StudentController : Controller
     {
         private readonly ConfigurationOptions _configuration;
+        private readonly IProviderSearchService _providerSearchService;
+        private readonly IMapper _mapper;
 
-        public StudentController(ConfigurationOptions configuration)
+        public StudentController(ConfigurationOptions configuration, IProviderSearchService providerSearchService, IMapper mapper)
         {
             _configuration = configuration;
+            _providerSearchService = providerSearchService;
+            _mapper = mapper;
         }
 
         [Route("/students", Name = "Index")]
@@ -36,6 +45,15 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         [Route("/students/subjects", Name = "Subjects")]
         public IActionResult Subjects()
         {
+            return View();
+        }
+
+        [Route("/students/search", Name = "Search")]
+        public async Task<IActionResult> Search(SearchRequest searchRequest)
+        {
+            var searchResults = await _providerSearchService.Search(searchRequest);
+            var providerViewModels = _mapper.Map<IEnumerable<ProviderLocationViewModel>>(searchResults);
+            var searchViewModel = new SearchViewModel { ProviderLocations = providerViewModels };
             return View();
         }
 

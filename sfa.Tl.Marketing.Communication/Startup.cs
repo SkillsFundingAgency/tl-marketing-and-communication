@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -6,9 +7,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using sfa.Tl.Marketing.Communication.Application.GeoLocations;
-using sfa.Tl.Marketing.Communication.Application.GoogleMaps;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
+using System;
 
 namespace sfa.Tl.Marketing.Communication
 {
@@ -17,10 +20,12 @@ namespace sfa.Tl.Marketing.Communication
 
         public IConfiguration Configuration { get; }
         protected ConfigurationOptions SiteConfiguration;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             Configuration = configuration;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -29,8 +34,9 @@ namespace sfa.Tl.Marketing.Communication
             SiteConfiguration = new ConfigurationOptions
             {
                 GoogleMapsApiKey = Configuration["GoogleMapsApiKey"],
-                PostCodeRetrieverBaseUrl = Configuration["PostcodesBaseUrl"],
-                GoogleMapsApiBaseUrl = Configuration["GoogleMapsApiBaseUrl"]
+                PostCodeRetrieverBaseUrl = Configuration["PostCodeRetrieverBaseUrl"],
+                GoogleMapsApiBaseUrl = Configuration["GoogleMapsApiBaseUrl"],
+                DataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\providers.json"
             };
 
             services.AddSingleton(SiteConfiguration);
@@ -43,9 +49,11 @@ namespace sfa.Tl.Marketing.Communication
             });
 
             RegisterHttpClients(services);
+            RegisterServices(services);
 
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,7 +85,18 @@ namespace sfa.Tl.Marketing.Communication
         protected virtual void RegisterHttpClients(IServiceCollection services)
         {
             services.AddHttpClient<ILocationApiClient, LocationApiClient>();
-            services.AddHttpClient<IGoogleMapApiClient, GoogleMapApiClient>();
+        }
+
+        protected virtual void RegisterServices(IServiceCollection services)
+        {
+            services.AddTransient<IFileReader, FileReader>();
+            services.AddTransient<IJsonConvertor, JsonConvertor>();
+            services.AddSingleton<IProviderDataService, ProviderDataService>();
+            services.AddTransient<ILocationService, LocationService>();
+            services.AddTransient<IDistanceService, DistanceService>();
+            services.AddTransient<IDistanceCalculationService, DistanceCalculationService>();
+            services.AddTransient<IProviderLocationService, ProviderLocationService>();
+            services.AddTransient<IProviderSearchService, ProviderSearchService>();
         }
     }
 }

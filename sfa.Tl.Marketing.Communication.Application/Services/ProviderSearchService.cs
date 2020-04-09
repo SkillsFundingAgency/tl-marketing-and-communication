@@ -8,16 +8,14 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 {
     public class ProviderSearchService : IProviderSearchService
     {
-        private readonly IProviderService _providerService;
+        private readonly IProviderDataService _providerDataService;
         private readonly IProviderLocationService _providerLocationService;
         private readonly ILocationService _locationService;
         private readonly IDistanceCalculationService _distanceCalculationService;
 
-        private IQueryable<Provider> _providers;
-
-        public ProviderSearchService(IProviderService providerService, ILocationService locationService, IProviderLocationService providerLocationService, IDistanceCalculationService distanceCalculationService)
+        public ProviderSearchService(IProviderDataService providerDataService, ILocationService locationService, IProviderLocationService providerLocationService, IDistanceCalculationService distanceCalculationService)
         {
-            _providerService = providerService;
+            _providerDataService = providerDataService;
             _providerLocationService = providerLocationService;
             _locationService = locationService;
             _distanceCalculationService = distanceCalculationService;
@@ -25,28 +23,28 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public async Task<IEnumerable<ProviderLocation>> Search(SearchRequest searchRequest)
         {
-            _providers = _providerService.GetProviders();
+            var providers = _providerDataService.GetProviders();
 
             IQueryable<Location> locations = new List<Location>().AsQueryable();
-            IQueryable<ProviderLocation> providerLocations = new List<ProviderLocation>().AsQueryable();
+            var results = new List<ProviderLocation>();
 
-            if (_providers.Any())
+            if (providers.Any())
             {
                 if (searchRequest.QualificationId.HasValue && searchRequest.QualificationId.Value > 0)
                 {
-                    locations = _locationService.GetLocations(_providers, searchRequest.QualificationId.Value);
+                    locations = _locationService.GetLocations(providers, searchRequest.QualificationId.Value);
                 }
                 else
                 {
-                    locations = _locationService.GetLocations(_providers);
+                    locations = _locationService.GetLocations(providers);
                 }
 
-                providerLocations = _providerLocationService.GetProviderLocations(locations);
+                var providerLocations = _providerLocationService.GetProviderLocations(locations, providers);
 
-                await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(searchRequest.Postcode, providerLocations);
+                results = await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(searchRequest.Postcode, providerLocations);
             }
 
-            return providerLocations.OrderBy(pl => pl.DistanceInMiles).Take(searchRequest.NumberOfItems);
+            return results.OrderBy(pl => pl.DistanceInMiles).Take(searchRequest.NumberOfItems);
         }
     }
 }

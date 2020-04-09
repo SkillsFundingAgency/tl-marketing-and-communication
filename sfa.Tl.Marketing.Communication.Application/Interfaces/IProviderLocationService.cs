@@ -5,6 +5,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
 {
     public interface IProviderLocationService
     {
-        IQueryable<ProviderLocation> GetProviderLocations(IQueryable<Location> locations);
+        IQueryable<ProviderLocation> GetProviderLocations(IQueryable<Location> locations, IQueryable<Provider> providers);
     }
 }

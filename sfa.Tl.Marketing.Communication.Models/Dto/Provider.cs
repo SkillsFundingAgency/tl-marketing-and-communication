@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace sfa.Tl.Marketing.Communication.Models.Dto
 {
@@ -6,6 +7,6 @@ namespace sfa.Tl.Marketing.Communication.Models.Dto
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Location> Locations { get; set; } = new List<Location>();
+        public List<Location> Locations { get; set; }
     }
 }

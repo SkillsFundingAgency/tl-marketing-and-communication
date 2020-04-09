@@ -19,7 +19,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             var locations = providers.SelectMany(p => p.Locations)
                             .Where(l => l.Qualification2020.Contains(qualificationId)
-                                        && l.Qualification2021.Contains(qualificationId));
+                                        || l.Qualification2021.Contains(qualificationId));
 
             return locations;
         }

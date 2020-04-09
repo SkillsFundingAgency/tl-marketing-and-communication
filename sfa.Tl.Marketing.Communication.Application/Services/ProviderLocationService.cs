@@ -6,19 +6,15 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 {
     public class ProviderLocationService : IProviderLocationService
     {
-        private readonly IProviderService _providerService;
-        private readonly IQualificationService _qualificationService;
+        private readonly IProviderDataService _providerDataService;
 
-        public ProviderLocationService(IProviderService providerService, IQualificationService qualificationService)
+        public ProviderLocationService(IProviderDataService providerDataService)
         {
-            _providerService = providerService;
-            _qualificationService = qualificationService;
+            _providerDataService = providerDataService;
         }
 
-        public IQueryable<ProviderLocation> GetProviderLocations(IQueryable<Location> locations)
+        public IQueryable<ProviderLocation> GetProviderLocations(IQueryable<Location> locations, IQueryable<Provider> providers)
         {
-            var providers = _providerService.GetProviders();
-
             var providerlocations = locations.Select(l => new { Location = l, Provider = providers.Where(parent => parent.Locations.Contains(l)).Single() })
                         .Select(pl => new ProviderLocation
                         {
@@ -29,8 +25,9 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                             Postcode = pl.Location.Postcode,
                             Town = pl.Location.Town,
                             Website = pl.Location.Website,
-                            Qualification2020 = _qualificationService.GetQualifications(pl.Location.Qualification2020),
-                            Qualification2021 = _qualificationService.GetQualifications(pl.Location.Qualification2021)
+                            Qualification2020 = _providerDataService.GetQualifications(pl.Location.Qualification2020),
+                            Qualification2021 = _providerDataService.GetQualifications(pl.Location.Qualification2021),
+
                         });
 
             return providerlocations;
