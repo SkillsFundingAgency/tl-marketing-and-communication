@@ -40,6 +40,12 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
+        [Route("/employers/next-steps", Name = "EmployerNextSteps")]
+        public IActionResult EmployerNextSteps()
+        {
+            return View();
+        }
+
         [Route("/employers/video-transcript", Name = "EmployerVideoTranscript")]
         public IActionResult EmployerVideoTranscript()
         {
