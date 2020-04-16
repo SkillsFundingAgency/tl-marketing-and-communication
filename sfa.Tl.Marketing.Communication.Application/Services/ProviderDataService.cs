@@ -34,6 +34,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return qualifications.Where(q => qualificationIds.Contains(q.Id));
         }
 
+        public Qualification GetQualification(int qualificationId)
+        {
+            var qualifications = GetAllQualifications();
+            return qualifications.SingleOrDefault(q => q.Id == qualificationId);
+        }
+
         public IEnumerable<Qualification> GetQualifications()
         {
             var qualifications = GetAllQualifications();

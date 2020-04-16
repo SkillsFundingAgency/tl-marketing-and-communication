@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace sfa.Tl.Marketing.Communication.Models.Dto
+namespace sfa.Tl.Marketing.Communication.Models
 {
     public class ProviderLocationViewModel
     {
@@ -18,8 +18,40 @@ namespace sfa.Tl.Marketing.Communication.Models.Dto
                 return DistanceInMiles == 1 ? "mile" : "miles";
             }
         }
-        public IEnumerable<Qualification> Qualification2020 { get; set; }
-        public IEnumerable<Qualification> Qualification2021 { get; set; }
+        public IEnumerable<QualificationViewModel> Qualification2020 { get; set; }
+        public IEnumerable<QualificationViewModel> Qualification2021 { get; set; }
         public string Website { get; set; }
+        public string SelectedQualification { get; set; }
+        public string RedirectUrl
+        {
+            get
+            {
+                return $"/students/redirect?postcode={Postcode}&qualification={SelectedQualification}&url={Website}";
+            }
+        }
+
+        public string RedirectUrlLabel        
+        {
+            get
+            {
+                return $"Visit {VenueName}'s website";
+            }
+        }
+
+        public string VenueName
+        {
+            get
+            {
+                return string.IsNullOrEmpty(Name) ? ProviderName : Name;
+            }
+        }
+
+        public string AddressLabel
+        {
+            get
+            {
+                return string.IsNullOrEmpty(Name) ? $"Part of {ProviderName} \r\n {Town} | {Postcode}" : $"{Town} | {Postcode}";
+            }
+        }
     }
 }

@@ -7,5 +7,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
     public interface IProviderSearchService
     {
         Task<IEnumerable<ProviderLocation>> Search(SearchRequest searchRequest);
+        IEnumerable<Qualification> GetQualifications();
     }
 }

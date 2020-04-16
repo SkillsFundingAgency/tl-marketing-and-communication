@@ -14,17 +14,19 @@
             <div class="col-12">
                 <h1>Find your nearest T Level</h1>
                 <p>Search for colleges and schools who start delivering T Levels in 2020 and 2021</p>
-                <form class="tl-search--form text-center">
+                <form id="searchForm" class="tl-search--form text-center">
                     <span class="tl-validation--message">You must enter a real postcode</span>
                     <label asp-for="Postcode" class="tl-hidden">Postcode</label>
                     <input asp-for="Postcode" placeholder="Enter your postcode" class="tl-search--form--postcode" aria-label="Enter a postcode to find a T-Level near you" />
                     <input type="hidden" asp-for="Qualification" />
                     <input type="hidden" asp-for="ShouldSearch" />
+                    <input type="hidden" asp-for="NumberOfItems" value="@Model.NumberOfItems"/>
                     <input id="MaxResultCount" value="5" type="hidden" />
                     <input id="SearchResultLastPosition" type="hidden" />
                     <label for="tl-qualifications" class="tl-hidden">Select a course</label>
 
-                    <select id="tl-qualifications"></select>
+                    @Html.DropDownListFor(q => q.SelectedQualificationId, Model.Qualifications)
+                    @*<select id="tl-qualifications"></select>*@
 
                     <button id="tl-find-button" type="submit" class="tl-button--search--orange" aria-label="Search for a T Level">Search</button>
                 </form>
@@ -38,16 +40,26 @@
         <div class="row no-gutters">
             <div class="col-lg-8 col-12">
                 <div id="tl-results-summary" class="tl-results--summary">
-                    <h3>0 results</h3>
-                    <p>Enter a postcode to search for colleges and schools doing T Levels.</p>
+                    @if (Model.ProviderLocations.Count() == 0)
+                    {
+                        <h3>0 results</h3>
+                        <p>Enter a postcode to search for colleges and schools doing T Levels.</p>
+                    }
                 </div>
                 <div id="tl-search-results">
+                    @foreach (var providerLocation in Model.ProviderLocations)
+                    {
+                        @await Html.PartialAsync("_ProviderLocation", providerLocation);
+                    }
                 </div>
                 <div class="tl-results--google tl-none">
                     <img src="/files/images/poweredbygoogle.png" alt="Powered by Google" class="tl-results--google--image tl-align--right" />
                 </div>
 
-                <button id="tl-next" class="tl-button--black tl-none">Show 5 more results</button>
+                @if (Model.ShowNext)
+                {
+                    <button id="tl-next" type="submit" form="searchForm" class="tl-button--black">Show 5 more results</button>
+                }
 
             </div>
         </div>
@@ -56,6 +68,6 @@
 
 @section jsfiles{
 
-    @{ var source = $"https://maps.googleapis.com/maps/api/js?key={Model.MapApiKey}&callback=maps.initMap&libraries=geometry"; }
-    <script src="@source" async defer></script>
+    @*@{ var source = $"https://maps.googleapis.com/maps/api/js?key={Model.MapApiKey}&callback=maps.initMap&libraries=geometry"; }
+    <script src="@source" async defer></script>*@
 }

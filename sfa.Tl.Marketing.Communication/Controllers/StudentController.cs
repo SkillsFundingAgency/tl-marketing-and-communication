@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models;
@@ -48,21 +50,26 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
-        [Route("/students/search", Name = "Search")]
-        public async Task<IActionResult> Search(SearchRequest searchRequest)
-        {
-            var searchResults = await _providerSearchService.Search(searchRequest);
-            var providerViewModels = _mapper.Map<IEnumerable<ProviderLocationViewModel>>(searchResults);
-            var searchViewModel = new SearchViewModel { ProviderLocations = providerViewModels };
-            return View();
-        }
-
         [Route("/students/find", Name = "Find")]
-        public IActionResult Find(FindViewModel viewModel)
+        public async Task<IActionResult> Find(FindViewModel viewModel)
         {
             viewModel.ShouldSearch = !string.IsNullOrEmpty(viewModel.Postcode);
 
-            viewModel.MapApiKey = _configuration.GoogleMapsApiKey;
+            var qualifications = _providerSearchService.GetQualifications();
+            var qualificationId = viewModel.SelectedQualificationId ?? 0;
+            var qualificationSelectListItems = qualifications.Select(q => new SelectListItem { Text = q.Name, Value = q.Id.ToString(), Selected = (q.Id == qualificationId) });
+            viewModel.Qualifications = qualificationSelectListItems;
+
+            if (!string.IsNullOrEmpty(viewModel.Postcode))
+            {
+                var numberOfItems = viewModel.NumberOfItems.HasValue? viewModel.NumberOfItems.Value + 5 : 5;
+                viewModel.NumberOfItems = numberOfItems;
+
+                var searchRequest = new SearchRequest { Postcode = viewModel.Postcode, NumberOfItems = viewModel.NumberOfItems.Value, QualificationId = qualificationId };
+                var searchResults = await _providerSearchService.Search(searchRequest);
+                var providerViewModels = _mapper.Map<IEnumerable<ProviderLocationViewModel>>(searchResults);
+                viewModel.ProviderLocations = providerViewModels;
+            }
 
             return View(viewModel);
         }

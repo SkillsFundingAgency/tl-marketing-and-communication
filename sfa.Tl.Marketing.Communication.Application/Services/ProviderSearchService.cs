@@ -21,6 +21,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             _distanceCalculationService = distanceCalculationService;
         }
 
+        public IEnumerable<Qualification> GetQualifications()
+        {
+            var qualifications = _providerDataService.GetQualifications().ToList();
+            qualifications.Add(new Qualification { Id = 0, Name = "All T Level courses" });
+            return qualifications.OrderBy(q => q.Name);
+        }
+
         public async Task<IEnumerable<ProviderLocation>> Search(SearchRequest searchRequest)
         {
             var providers = _providerDataService.GetProviders();

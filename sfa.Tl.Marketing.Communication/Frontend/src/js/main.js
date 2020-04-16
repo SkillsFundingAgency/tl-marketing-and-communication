@@ -104,22 +104,22 @@ function escapeHtml(string) {
     });
 }
 
-$("#tl-find-button").click(function () {
+//$("#tl-find-button").click(function () {
 
-    clearSearchInfo();
-    const postcode = $("#Postcode").val().trim();
+//    clearSearchInfo();
+//    const postcode = $("#Postcode").val().trim();
       
-    if (postcode === "") {
-        event.stopPropagation();
-        $(".tl-validation--message").text("You must enter a postcode");
-        $(".tl-search--form").addClass("tl-validation--error");
-        return false;
-    } else {
-        $(".tl-search--form").removeClass("tl-validation--error");
-    }
+//    if (postcode === "") {
+//        event.stopPropagation();
+//        $(".tl-validation--message").text("You must enter a postcode");
+//        $(".tl-search--form").addClass("tl-validation--error");
+//        return false;
+//    } else {
+//        $(".tl-search--form").removeClass("tl-validation--error");
+//    }
 
-    return true;
-});
+//    return true;
+//});
 
 $("#tl-nav--bar-student--find").click(function () {
     clearSearchInfo();
@@ -194,11 +194,11 @@ var maps = (function () {
                 return search(false);
             });
 
-            $("#tl-next").click(function () {
-                const currentResultCount = parseInt($("#MaxResultCount").val());
-                $("#MaxResultCount").val(currentResultCount + defaultResultCount);
-                return search(false);
-            });
+            //$("#tl-next").click(function () {
+            //    const currentResultCount = parseInt($("#MaxResultCount").val());
+            //    $("#MaxResultCount").val(currentResultCount + defaultResultCount);
+            //    return search(false);
+            //});
 
             if (shouldSearch === "True") {
                 return search(true);
