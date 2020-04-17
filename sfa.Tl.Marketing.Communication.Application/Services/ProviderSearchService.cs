@@ -24,7 +24,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public IEnumerable<Qualification> GetQualifications()
         {
             var qualifications = _providerDataService.GetQualifications().ToList();
-            qualifications.Add(new Qualification { Id = 0, Name = "All T Level courses" });
             return qualifications.OrderBy(q => q.Name);
         }
 
@@ -52,6 +51,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             }
 
             return results.OrderBy(pl => pl.DistanceInMiles).Take(searchRequest.NumberOfItems);
+        }
+
+        public Qualification GetQualificationById(int id)
+        {
+            var qualification = _providerDataService.GetQualification(id);
+            return qualification;
         }
     }
 }

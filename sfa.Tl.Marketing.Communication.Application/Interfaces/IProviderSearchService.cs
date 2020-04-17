@@ -8,5 +8,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
     {
         Task<IEnumerable<ProviderLocation>> Search(SearchRequest searchRequest);
         IEnumerable<Qualification> GetQualifications();
+        Qualification GetQualificationById(int id);
     }
 }

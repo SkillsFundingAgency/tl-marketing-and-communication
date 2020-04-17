@@ -53,22 +53,39 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         [Route("/students/find", Name = "Find")]
         public async Task<IActionResult> Find(FindViewModel viewModel)
         {
-            viewModel.ShouldSearch = !string.IsNullOrEmpty(viewModel.Postcode);
-
             var qualifications = _providerSearchService.GetQualifications();
             var qualificationId = viewModel.SelectedQualificationId ?? 0;
             var qualificationSelectListItems = qualifications.Select(q => new SelectListItem { Text = q.Name, Value = q.Id.ToString(), Selected = (q.Id == qualificationId) });
             viewModel.Qualifications = qualificationSelectListItems;
 
+            if (!viewModel.ShouldSearch)
+            {
+                viewModel.ShouldSearch = true;
+                return View(viewModel);
+            }
+
+            if (string.IsNullOrEmpty(viewModel.Postcode))
+            {
+                viewModel.PostCodeValidationMessage = "You must enter a postcode";
+                viewModel.ValidationStyle = "tl-validation--error";
+                return View(viewModel);
+            }
+
             if (!string.IsNullOrEmpty(viewModel.Postcode))
             {
-                var numberOfItems = viewModel.NumberOfItems.HasValue? viewModel.NumberOfItems.Value + 5 : 5;
+                int numberOfItems = 5;
+                
+                if (viewModel.SearchedQualificationId == qualificationId)
+                {
+                    numberOfItems = viewModel.NumberOfItems.HasValue ? viewModel.NumberOfItems.Value + 5 : 5;
+                }
+                
                 viewModel.NumberOfItems = numberOfItems;
-
                 var searchRequest = new SearchRequest { Postcode = viewModel.Postcode, NumberOfItems = viewModel.NumberOfItems.Value, QualificationId = qualificationId };
                 var searchResults = await _providerSearchService.Search(searchRequest);
                 var providerViewModels = _mapper.Map<IEnumerable<ProviderLocationViewModel>>(searchResults);
                 viewModel.ProviderLocations = providerViewModels;
+                viewModel.SearchedQualificationId = qualificationId;
             }
 
             return View(viewModel);

@@ -7,15 +7,15 @@ namespace sfa.Tl.Marketing.Communication.Models
 {
     public class FindViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "You must enter a postcode")]
         public string Postcode { get; set; }
         public string Qualification { get; set; }
         public bool ShouldSearch { get; set; }
         public int? NumberOfItems { get; set; }
-        public string MapApiKey { get; set; }
         public IEnumerable<ProviderLocationViewModel> ProviderLocations { get; set; } = new List<ProviderLocationViewModel>();
         public IEnumerable<SelectListItem> Qualifications { get; set; } = new List<SelectListItem>();
         public int? SelectedQualificationId { get; set; }
+        public int SearchedQualificationId { get; set; }
         public bool ShowNext 
         {
             get
@@ -23,5 +23,8 @@ namespace sfa.Tl.Marketing.Communication.Models
                 return ProviderLocations.Count() >= 5;
             } 
         }
+
+        public string PostCodeValidationMessage { get; set; }
+        public string ValidationStyle { get; set; }
     }
 } 

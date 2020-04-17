@@ -14,20 +14,14 @@
             <div class="col-12">
                 <h1>Find your nearest T Level</h1>
                 <p>Search for colleges and schools who start delivering T Levels in 2020 and 2021</p>
-                <form id="searchForm" class="tl-search--form text-center">
-                    <span class="tl-validation--message">You must enter a real postcode</span>
-                    <label asp-for="Postcode" class="tl-hidden">Postcode</label>
+                <form id="searchForm" class="tl-search--form text-center @Model.ValidationStyle">
+                    <span class="tl-validation--message">@Model.PostCodeValidationMessage</span>
                     <input asp-for="Postcode" placeholder="Enter your postcode" class="tl-search--form--postcode" aria-label="Enter a postcode to find a T-Level near you" />
-                    <input type="hidden" asp-for="Qualification" />
-                    <input type="hidden" asp-for="ShouldSearch" />
-                    <input type="hidden" asp-for="NumberOfItems" value="@Model.NumberOfItems"/>
-                    <input id="MaxResultCount" value="5" type="hidden" />
-                    <input id="SearchResultLastPosition" type="hidden" />
+                    <input type="hidden" asp-for="NumberOfItems" value="@Model.NumberOfItems" />
+                    <input type="hidden" asp-for="ShouldSearch" value="@Model.ShouldSearch" />
+                    <input type="hidden" asp-for="SearchedQualificationId" value="@Model.SearchedQualificationId" />
                     <label for="tl-qualifications" class="tl-hidden">Select a course</label>
-
                     @Html.DropDownListFor(q => q.SelectedQualificationId, Model.Qualifications)
-                    @*<select id="tl-qualifications"></select>*@
-
                     <button id="tl-find-button" type="submit" class="tl-button--search--orange" aria-label="Search for a T Level">Search</button>
                 </form>
             </div>

@@ -42,7 +42,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public IEnumerable<Qualification> GetQualifications()
         {
-            var qualifications = GetAllQualifications();
+            var qualifications = GetAllQualifications().ToList();
+            qualifications.Add(new Qualification { Id = 0, Name = "All T Level courses" });
             return qualifications;
         }
 

@@ -9,5 +9,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
         IQueryable<Provider> GetProviders();
         IEnumerable<Qualification> GetQualifications();
         IEnumerable<Qualification> GetQualifications(int[] qualificationIds);
+        Qualification GetQualification(int qualificationId);
     }
 }
