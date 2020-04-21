@@ -1,29 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
-using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models;
-using sfa.Tl.Marketing.Communication.Models.Configuration;
-using sfa.Tl.Marketing.Communication.Models.Dto;
+using sfa.Tl.Marketing.Communication.SearchPipeline;
 
 namespace sfa.Tl.Marketing.Communication.Controllers
 {
     public class StudentController : Controller
     {
-        private readonly ConfigurationOptions _configuration;
-        private readonly IProviderSearchService _providerSearchService;
-        private readonly IMapper _mapper;
+        private readonly IProviderSearchEngine _providerSearchEngine;
 
-        public StudentController(ConfigurationOptions configuration, IProviderSearchService providerSearchService, IMapper mapper)
+        public StudentController(IProviderSearchEngine providerSearchEngine)
         {
-            _configuration = configuration;
-            _providerSearchService = providerSearchService;
-            _mapper = mapper;
+            _providerSearchEngine = providerSearchEngine;
         }
 
         [Route("/students", Name = "Index")]
@@ -53,42 +43,9 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         [Route("/students/find", Name = "Find")]
         public async Task<IActionResult> Find(FindViewModel viewModel)
         {
-            var qualifications = _providerSearchService.GetQualifications();
-            var qualificationId = viewModel.SelectedQualificationId ?? 0;
-            var qualificationSelectListItems = qualifications.Select(q => new SelectListItem { Text = q.Name, Value = q.Id.ToString(), Selected = (q.Id == qualificationId) });
-            viewModel.Qualifications = qualificationSelectListItems;
+            var searchResults = await _providerSearchEngine.Search(viewModel);
 
-            if (!viewModel.ShouldSearch)
-            {
-                viewModel.ShouldSearch = true;
-                return View(viewModel);
-            }
-
-            if (string.IsNullOrEmpty(viewModel.Postcode))
-            {
-                viewModel.PostCodeValidationMessage = "You must enter a postcode";
-                viewModel.ValidationStyle = "tl-validation--error";
-                return View(viewModel);
-            }
-
-            if (!string.IsNullOrEmpty(viewModel.Postcode))
-            {
-                int numberOfItems = 5;
-                
-                if (viewModel.SearchedQualificationId == qualificationId)
-                {
-                    numberOfItems = viewModel.NumberOfItems.HasValue ? viewModel.NumberOfItems.Value + 5 : 5;
-                }
-                
-                viewModel.NumberOfItems = numberOfItems;
-                var searchRequest = new SearchRequest { Postcode = viewModel.Postcode, NumberOfItems = viewModel.NumberOfItems.Value, QualificationId = qualificationId };
-                var searchResults = await _providerSearchService.Search(searchRequest);
-                var providerViewModels = _mapper.Map<IEnumerable<ProviderLocationViewModel>>(searchResults);
-                viewModel.ProviderLocations = providerViewModels;
-                viewModel.SearchedQualificationId = qualificationId;
-            }
-
-            return View(viewModel);
+            return View(searchResults);
         }
 
         [Route("/students/subjects/design-surveying-planning", Name = "DesignSurveyingPlanning")]

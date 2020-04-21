@@ -11,7 +11,7 @@ namespace sfa.Tl.Marketing.Communication.Models
         public string Postcode { get; set; }
         public string Qualification { get; set; }
         public bool ShouldSearch { get; set; }
-        public int? NumberOfItems { get; set; }
+        public int? NumberOfItemsToShow { get; set; }
         public IEnumerable<ProviderLocationViewModel> ProviderLocations { get; set; } = new List<ProviderLocationViewModel>();
         public IEnumerable<SelectListItem> Qualifications { get; set; } = new List<SelectListItem>();
         public int? SelectedQualificationId { get; set; }
@@ -26,5 +26,8 @@ namespace sfa.Tl.Marketing.Communication.Models
 
         public string PostCodeValidationMessage { get; set; }
         public string ValidationStyle { get; set; }
+        public bool ResetNumberOfItems { get; set; }
+        public int? TotalRecordCount { get; set; }
+        public int SelectedItemIndex { get; set; }
     }
 } 

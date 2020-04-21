@@ -17,9 +17,11 @@
                 <form id="searchForm" class="tl-search--form text-center @Model.ValidationStyle">
                     <span class="tl-validation--message">@Model.PostCodeValidationMessage</span>
                     <input asp-for="Postcode" placeholder="Enter your postcode" class="tl-search--form--postcode" aria-label="Enter a postcode to find a T-Level near you" />
-                    <input type="hidden" asp-for="NumberOfItems" value="@Model.NumberOfItems" />
+                    <input type="hidden" asp-for="NumberOfItemsToShow" value="@Model.NumberOfItemsToShow" />
                     <input type="hidden" asp-for="ShouldSearch" value="@Model.ShouldSearch" />
                     <input type="hidden" asp-for="SearchedQualificationId" value="@Model.SearchedQualificationId" />
+                    <input type="hidden" asp-for="TotalRecordCount" value="@Model.TotalRecordCount" />
+                    <input type="hidden" asp-for="SelectedItemIndex" value="@Model.SelectedItemIndex" />
                     <label for="tl-qualifications" class="tl-hidden">Select a course</label>
                     @Html.DropDownListFor(q => q.SelectedQualificationId, Model.Qualifications)
                     <button id="tl-find-button" type="submit" class="tl-button--search--orange" aria-label="Search for a T Level">Search</button>
@@ -59,9 +61,3 @@
         </div>
     </div>
 </section>
-
-@section jsfiles{
-
-    @*@{ var source = $"https://maps.googleapis.com/maps/api/js?key={Model.MapApiKey}&callback=maps.initMap&libraries=geometry"; }
-    <script src="@source" async defer></script>*@
-}

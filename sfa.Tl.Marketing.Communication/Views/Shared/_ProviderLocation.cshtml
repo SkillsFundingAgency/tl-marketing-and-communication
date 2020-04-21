@@ -1,7 +1,7 @@
 ﻿@model ProviderLocationViewModel
 
     <div class="tl-results--block">
-        
+
         <h4>@Model.VenueName </h4><br /><p style="white-space: pre-line">@Model.AddressLabel </p>
 
         <span class="tl-results--block--distance">@Model.DistanceInMiles @Model.DistanceString</span>
@@ -27,5 +27,5 @@
             </ul>
         }
 
-        <a href="@Model.RedirectUrl" class="tl-link-black--orange tl-results--block--link" aria-label="@Model.RedirectUrlLabel">Visit their website</a>
+        <a href="@Model.RedirectUrl" class="tl-link-black--orange tl-results--block--link" aria-label="@Model.RedirectUrlLabel" @Model.Autofocus>Visit their website</a>
     </div>

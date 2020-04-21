@@ -27,7 +27,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return qualifications.OrderBy(q => q.Name);
         }
 
-        public async Task<IEnumerable<ProviderLocation>> Search(SearchRequest searchRequest)
+        public async Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(SearchRequest searchRequest)
         {
             var providers = _providerDataService.GetProviders();
 
@@ -50,13 +50,22 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 results = await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(searchRequest.Postcode, providerLocations);
             }
 
-            return results.OrderBy(pl => pl.DistanceInMiles).Take(searchRequest.NumberOfItems);
+            var totalCount = results.Count();
+            var searchResults = results.OrderBy(pl => pl.DistanceInMiles).Take(searchRequest.NumberOfItems);
+
+            return (totalCount, searchResults);
         }
 
         public Qualification GetQualificationById(int id)
         {
             var qualification = _providerDataService.GetQualification(id);
             return qualification;
+        }
+
+        public async Task<bool> IsSearchPostcodeValid(string postcode)
+        {
+            var result = await _distanceCalculationService.IsPostcodeValid(postcode);
+            return result;
         }
     }
 }

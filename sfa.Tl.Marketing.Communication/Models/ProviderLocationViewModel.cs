@@ -52,5 +52,14 @@ namespace sfa.Tl.Marketing.Communication.Models
                 return string.IsNullOrEmpty(Name) ? $"Part of {ProviderName} \r\n {Town} | {Postcode}" : $"{Town} | {Postcode}";
             }
         }
+
+        public bool HasFocus { get; set; }
+        public string Autofocus 
+        { 
+          get 
+          {
+                return HasFocus ? "autofocus" : string.Empty;
+          } 
+        }
     }
 }

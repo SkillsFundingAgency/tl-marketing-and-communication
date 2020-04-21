@@ -28,11 +28,17 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             {
                 var distanceInMiles = _distanceService.CalculateInMiles(Convert.ToDouble(origionGeoLocation.Latitude)
                     , Convert.ToDouble(origionGeoLocation.Longitude), providerLocation.Latitude, providerLocation.Longitude);
-                providerLocation.DistanceInMiles = (int)Math.Ceiling(distanceInMiles);
+                providerLocation.DistanceInMiles = (int)Math.Floor(distanceInMiles);
                 results.Add(providerLocation);
             }
 
             return results;
+        }
+
+        public async Task<bool> IsPostcodeValid(string postcode)
+        {
+            var results = await _locationApiClient.IsValidPostcodeAsync(postcode, true);
+            return results.Item1;
         }
     }
 }
