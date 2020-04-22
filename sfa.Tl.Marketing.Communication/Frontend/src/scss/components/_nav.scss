@@ -55,6 +55,10 @@
             @include media-max(medium) {
                 padding: 0;
             }
+
+            &:last-child {
+                padding-right: 0;
+            }
         }
 
         a {
