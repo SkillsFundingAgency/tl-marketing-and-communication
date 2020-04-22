@@ -44,7 +44,6 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         public async Task<IActionResult> Find(FindViewModel viewModel)
         {
             var searchResults = await _providerSearchEngine.Search(viewModel);
-
             return View(searchResults);
         }
 

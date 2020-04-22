@@ -17,7 +17,7 @@ namespace sfa.Tl.Marketing.Communication.Application.GeoLocations
             _httpClient = httpClient;
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            _postcodeRetrieverBaseUrl = configurationOptions.PostCodeRetrieverBaseUrl.TrimEnd('/');
+            _postcodeRetrieverBaseUrl = configurationOptions.PostcodeRetrieverBaseUrl.TrimEnd('/');
         }
 
         public async Task<(bool, string)> IsValidPostcodeAsync(string postcode, bool includeTerminated)

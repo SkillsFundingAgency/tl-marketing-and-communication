@@ -27,11 +27,11 @@ To fix this, set the version that Visual Studio runs by following the following 
 
 ## Configuration
 
-The Google Maps API key is stored in the site appSettings.json file. To set the value locally, you will need to add a file 'appsettings.Development.json' to the project with the content below. Add the actual key in place of `<value>`
+The Postcode Retriever Base Url key is stored in the site appSettings.json file. To set the value locally, you will need to add a file 'appsettings.Development.json' to the project with the content below. Add the actual key in place of `<value>`
 
 ```
 {
-  "GoogleMapsApiKey": "<value>"
+  "PostcodeRetrieverBaseUrl": "<value>"
   "Logging": {
     "LogLevel": {
       "Default": "Debug",

@@ -6,6 +6,13 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
     {
         public async Task Execute(ISearchContext context)
         {
+            if (context.ViewModel.SubmitType == "search")
+            {
+                context.ViewModel.NumberOfItemsToShow = 5;
+                context.ViewModel.SelectedItemIndex = 0;
+                context.ViewModel.TotalRecordCount = 0;
+            }
+
             if (context.ViewModel.SearchedQualificationId != context.ViewModel.SelectedQualificationId.Value)
             {
                 context.ViewModel.NumberOfItemsToShow = 5;

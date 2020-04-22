@@ -7,7 +7,6 @@ namespace sfa.Tl.Marketing.Communication.Models
 {
     public class FindViewModel
     {
-        [Required(ErrorMessage = "You must enter a postcode")]
         public string Postcode { get; set; }
         public string Qualification { get; set; }
         public bool ShouldSearch { get; set; }
@@ -29,5 +28,6 @@ namespace sfa.Tl.Marketing.Communication.Models
         public bool ResetNumberOfItems { get; set; }
         public int? TotalRecordCount { get; set; }
         public int SelectedItemIndex { get; set; }
+        public string SubmitType { get; set; }
     }
 } 

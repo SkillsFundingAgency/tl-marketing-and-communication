@@ -24,7 +24,7 @@
                     <input type="hidden" asp-for="SelectedItemIndex" value="@Model.SelectedItemIndex" />
                     <label for="tl-qualifications" class="tl-hidden">Select a course</label>
                     @Html.DropDownListFor(q => q.SelectedQualificationId, Model.Qualifications)
-                    <button id="tl-find-button" type="submit" class="tl-button--search--orange" aria-label="Search for a T Level">Search</button>
+                    <button id="tl-find-button" type="submit" class="tl-button--search--orange" name="SubmitType" value="search" aria-label="Search for a T Level">Search</button>
                 </form>
             </div>
         </div>
@@ -54,7 +54,7 @@
 
                 @if (Model.ShowNext)
                 {
-                    <button id="tl-next" type="submit" form="searchForm" class="tl-button--black">Show 5 more results</button>
+                    <button id="tl-next" type="submit" form="searchForm" name="SubmitType" value="next" class="tl-button--black">Show 5 more results</button>
                 }
 
             </div>

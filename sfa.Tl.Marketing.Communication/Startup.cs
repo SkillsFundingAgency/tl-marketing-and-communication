@@ -34,9 +34,7 @@ namespace sfa.Tl.Marketing.Communication
         {
             SiteConfiguration = new ConfigurationOptions
             {
-                GoogleMapsApiKey = Configuration["GoogleMapsApiKey"],
-                PostCodeRetrieverBaseUrl = Configuration["PostCodeRetrieverBaseUrl"],
-                GoogleMapsApiBaseUrl = Configuration["GoogleMapsApiBaseUrl"],
+                PostcodeRetrieverBaseUrl = Configuration["PostcodeRetrieverBaseUrl"],
                 DataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\providers.json"
             };
 
