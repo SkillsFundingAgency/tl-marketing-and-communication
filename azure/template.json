@@ -45,7 +45,7 @@
             "type": "securestring"
         },
 		"postcodeRetrieverBaseUrl": {
-            "type": "securestring"
+            "type": "string"
         }
     },
     "variables": {
