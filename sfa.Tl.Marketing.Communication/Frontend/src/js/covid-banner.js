@@ -2,13 +2,13 @@
 $(document).ready(function () {
 
     if (GOVUK.cookie('CovidBanner') !== 'hidden') {
-        $('#tl-covid--message').addClass("tl-covid--banner--hidden");
-        $('#tl-covid-message-dismiss').text("Show");
+        $('#tl-covid--message').removeClass("tl-covid--banner--hidden");
+        $('#tl-covid-message-dismiss').text("Hide");
     }
 
     else {
-        $('#tl-covid-message-dismiss').text("Hide");
-        $('#tl-covid--message').removeClass("tl-covid--banner--hidden");
+        $('#tl-covid-message-dismiss').text("Show");
+        $('#tl-covid--message').addClass("tl-covid--banner--hidden");
 
     }
 
