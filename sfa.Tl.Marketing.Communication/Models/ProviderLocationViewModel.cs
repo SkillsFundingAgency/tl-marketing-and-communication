@@ -49,7 +49,7 @@ namespace sfa.Tl.Marketing.Communication.Models
         {
             get
             {
-                return string.IsNullOrEmpty(Name) ? $"Part of {ProviderName} \r\n {Town} | {Postcode}" : $"{Town} | {Postcode}";
+                return string.IsNullOrEmpty(Name) ? $"{Town} | {Postcode}" : $"Part of {ProviderName} \r\n {Town} | {Postcode}";
             }
         }
 

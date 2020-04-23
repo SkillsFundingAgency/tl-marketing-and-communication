@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace sfa.Tl.Marketing.Communication.Models
@@ -19,7 +18,14 @@ namespace sfa.Tl.Marketing.Communication.Models
         {
             get
             {
-                return ProviderLocations.Count() >= 5;
+                var showNext = ProviderLocations.Count() >= 5;
+                
+                if (TotalRecordCount.HasValue && NumberOfItemsToShow.HasValue && showNext)
+                {
+                    showNext = TotalRecordCount.Value != NumberOfItemsToShow.Value;
+                }
+
+                return showNext;
             } 
         }
 
