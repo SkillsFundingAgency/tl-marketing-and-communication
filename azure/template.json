@@ -41,9 +41,6 @@
         "keyVaultName": {
             "type": "string"
         },
-        "googleMapsApiKey": {
-            "type": "securestring"
-        },
 		"postcodeRetrieverBaseUrl": {
             "type": "string"
         }
@@ -171,11 +168,7 @@
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                                 "value": "[reference('app-insights').outputs.InstrumentationKey.value]"
                             },
-                            {
-                                "name": "GoogleMapsApiKey",
-                                "value": "[parameters('googleMapsApiKey')]"
-                            },
-							{
+							              {
                                 "name": "PostcodeRetrieverBaseUrl",
                                 "value": "[parameters('postcodeRetrieverBaseUrl')]"
                             }
