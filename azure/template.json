@@ -43,6 +43,9 @@
         },
 		"postcodeRetrieverBaseUrl": {
             "type": "string"
+        },
+        "googleMapsApiKey": {
+            "type": "securestring"
         }
     },
     "variables": {
@@ -168,9 +171,13 @@
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                                 "value": "[reference('app-insights').outputs.InstrumentationKey.value]"
                             },
-							              {
+							{
                                 "name": "PostcodeRetrieverBaseUrl",
                                 "value": "[parameters('postcodeRetrieverBaseUrl')]"
+                            },
+							{
+                                "name": "GoogleMapsApiKey",
+                                "value": "[parameters('googleMapsApiKey')]"
                             }
                         ]
                     },
