@@ -59,6 +59,10 @@ $(document).on('click', function () {
     }
 });
 
+$(function () {
+    $("#tl-search-results div:eq(" + $("#SelectedItemIndex").val() + ") a").focus();
+});
+
 function closeModal() {
     $(".tl-modal").removeClass("active");
     $("body").removeClass("modal-open");
