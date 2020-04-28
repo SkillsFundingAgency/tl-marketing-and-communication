@@ -129,6 +129,7 @@ function showPostcodeError(message) {
     $(".tl-search--form").addClass("tl-validation--error");
     $("#tl-search-results").empty();
     $("#tl-results-summary").removeClass("tl-none");
+    $("#tl-results-summary").empty();
     $("#tl-results-summary").append("<h3>0 results</h3><p> Enter a postcode to search for colleges and schools doing T Levels.</p>");
     $("#tl-next").addClass("tl-none");
 }
