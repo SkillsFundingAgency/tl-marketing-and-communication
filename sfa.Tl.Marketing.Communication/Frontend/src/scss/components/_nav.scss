@@ -193,7 +193,7 @@
 
 
 
-    $employernavvariables: "home", "about", "skills", "benefits", "costs";
+    $employernavvariables: "home", "about", "skills", "benefits", "costs", "nextsteps";
 
     @each $page in $employernavvariables {
         #tl-employer-#{$page} {
