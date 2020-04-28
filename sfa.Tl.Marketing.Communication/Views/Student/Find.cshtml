@@ -24,7 +24,7 @@
                     <input type="hidden" asp-for="SelectedItemIndex" value="@Model.SelectedItemIndex" />
                     <label for="tl-qualifications" class="tl-hidden">Select a course</label>
                     @Html.DropDownListFor(q => q.SelectedQualificationId, Model.Qualifications)
-                    <button id="tl-find-button" type="submit" class="tl-button--search--orange" name="SubmitType" value="search" aria-label="Search for a T Level">Search</button>
+                    <button id="tl-find-button-main" type="submit" class="tl-button--search--orange" name="SubmitType" value="search" aria-label="Search for a T Level">Search</button>
                 </form>
             </div>
         </div>
