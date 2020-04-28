@@ -9,6 +9,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
         Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(SearchRequest searchRequest);
         IEnumerable<Qualification> GetQualifications();
         Qualification GetQualificationById(int id);
-        Task<bool> IsSearchPostcodeValid(string postcode);
+        Task<(bool IsValid, string Postcode)> IsSearchPostcodeValid(string postcode);
     }
 }

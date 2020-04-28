@@ -81,14 +81,79 @@ namespace sfa.Tl.Marketing.Communication.Application.UnitTests
         public async Task IsSearchPostcodeValid_Validate_A_Postcode(string postcode, bool expected)
         {
             // Arrange
-            _distanceCalculationService.IsPostcodeValid(postcode).Returns(expected);
+            _distanceCalculationService.IsPostcodeValid(postcode).Returns((expected, postcode));
 
             // Act
             var actual = await _service.IsSearchPostcodeValid(postcode);
 
             // Assert
-            actual.Should().Be(expected);
+            actual.IsValid.Should().Be(expected);
+            actual.Postcode.Should().Be(postcode);
             await _distanceCalculationService.Received(1).IsPostcodeValid(postcode);
+        }
+
+        [Fact]
+        public async Task Search_Returns_Empty_Providers_And_TotalRecordCount()
+        {
+            // Arrange
+            _providerDataService.GetProviders().Returns(new List<Provider>().AsQueryable());
+
+            // Act
+            var actual = await _service.Search(new SearchRequest());
+
+            // Assert
+            actual.totalCount.Should().Be(0);
+            actual.searchResults.Count().Should().Be(0);
+            _providerDataService.Received(1).GetProviders();
+        }
+
+        [Fact]
+        public async Task Search_Returns_ProviderLocations_For_A_QualificationId()
+        {
+            // Arrange
+            var providers = new List<Provider>() 
+            { 
+                new Provider(),
+                new Provider(),
+                new Provider()
+            }.AsQueryable();
+            _providerDataService.GetProviders().Returns(providers);
+            
+            int? qualificationId = 2232;
+            int numberOfItems = 2;
+            string postcode = "mk669oo";
+            var searchRequest = new SearchRequest { QualificationId = qualificationId, NumberOfItems = numberOfItems, Postcode = postcode };
+
+            var locations = new List<Location>() 
+            {
+                new Location(),
+                new Location(),
+                new Location()
+            
+            }.AsQueryable();
+            _locationService.GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), Arg.Is<int>(q => q == searchRequest.QualificationId.Value)).Returns(locations);
+
+            var providerLocations = new List<ProviderLocation>()
+            {
+                new ProviderLocation(),
+                new ProviderLocation(),
+                new ProviderLocation()
+            }.AsQueryable();
+
+            _providerLocationService.GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers)).Returns(providerLocations);
+
+            _distanceCalculationService.CalculateProviderLocationDistanceInMiles(searchRequest.Postcode, providerLocations).Returns(providerLocations.ToList());
+            
+            // Act
+            var actual = await _service.Search(searchRequest);
+
+            // Assert
+            actual.totalCount.Should().Be(providerLocations.Count());
+            actual.searchResults.Count().Should().Be(numberOfItems);
+            _providerDataService.Received(1).GetProviders();
+            _locationService.Received(1).GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), Arg.Is<int>(q => q == searchRequest.QualificationId.Value));
+            _providerLocationService.Received(1).GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers));
+            await _distanceCalculationService.Received(1).CalculateProviderLocationDistanceInMiles(searchRequest.Postcode, providerLocations);
         }
 
     }

@@ -62,7 +62,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return qualification;
         }
 
-        public async Task<bool> IsSearchPostcodeValid(string postcode)
+        public async Task<(bool IsValid, string Postcode)> IsSearchPostcodeValid(string postcode)
         {
             var result = await _distanceCalculationService.IsPostcodeValid(postcode);
             return result;

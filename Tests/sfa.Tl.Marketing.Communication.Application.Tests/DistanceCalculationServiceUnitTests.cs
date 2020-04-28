@@ -83,7 +83,7 @@ namespace sfa.Tl.Marketing.Communication.Application.UnitTests
             var actual = await _service.IsPostcodeValid(postcode);
 
             // Assert
-            actual.Should().Be(expected);
+            actual.IsValid.Should().Be(expected);
             await _locationApiClient.Received(1).IsValidPostcodeAsync(postcode, Arg.Is<bool>(a => a == includeTerminatedPostcode));
         }
     }

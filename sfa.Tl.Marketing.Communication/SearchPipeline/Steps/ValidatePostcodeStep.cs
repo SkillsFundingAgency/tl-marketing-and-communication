@@ -24,9 +24,13 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
             }
             else
             {
-                var isPostcodeValid = await _providerSearchService.IsSearchPostcodeValid(context.ViewModel.Postcode);
+                var results = await _providerSearchService.IsSearchPostcodeValid(context.ViewModel.Postcode);
                 
-                if (!isPostcodeValid)
+                if (results.IsValid)
+                {
+                    context.ViewModel.Postcode = results.Postcode;
+                }
+                else
                 {
                     context.ViewModel.PostCodeValidationMessage = "You must enter a real postcode";
                 }

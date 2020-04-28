@@ -115,8 +115,7 @@ $("#tl-find-button").click(function () {
       
     if (postcode === "") {
         event.stopPropagation();
-        $(".tl-validation--message").text("You must enter a postcode");
-        $(".tl-search--form").addClass("tl-validation--error");
+        showPostcodeError("You must enter a postcode");
         return false;
     } else {
         $(".tl-search--form").removeClass("tl-validation--error");
@@ -124,6 +123,15 @@ $("#tl-find-button").click(function () {
 
     return true;
 });
+
+function showPostcodeError(message) {
+    $(".tl-validation--message").text(message);
+    $(".tl-search--form").addClass("tl-validation--error");
+    $("#tl-search-results").empty();
+    $("#tl-results-summary").removeClass("tl-none");
+    $("#tl-results-summary").append("<h3>0 results</h3><p> Enter a postcode to search for colleges and schools doing T Levels.</p>");
+    $("#tl-next").addClass("tl-none");
+}
 
 $("#tl-nav--bar-student--find").click(function () {
     clearSearchInfo();

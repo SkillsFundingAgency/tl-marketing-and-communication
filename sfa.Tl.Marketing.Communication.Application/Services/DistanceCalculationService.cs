@@ -35,10 +35,10 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return results;
         }
 
-        public async Task<bool> IsPostcodeValid(string postcode)
+        public async Task<(bool IsValid, string Postcode)> IsPostcodeValid(string postcode)
         {
             var results = await _locationApiClient.IsValidPostcodeAsync(postcode, true);
-            return results.Item1;
+            return results;
         }
     }
 }
