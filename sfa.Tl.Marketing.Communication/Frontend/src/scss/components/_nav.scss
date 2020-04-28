@@ -1,5 +1,16 @@
  $logowidth: 180;
 
+
+@include media-max(medium) {
+    .tl-nav--employer {
+        margin-bottom: 315px;
+    }
+
+    .tl-nav--student {
+        margin-bottom: 265px;
+    }
+}
+
 #tl-nav {
     display: flex;
     justify-content: space-between;
@@ -8,10 +19,6 @@
     position: relative;
     z-index: z('nav');
     background-color: $white;
-
-    @include media-max(medium) {
-        margin-bottom: 265px;
-    }
 
 
     .tl-nav--logo a {
@@ -102,10 +109,18 @@
 
 
 .js-enabled {
-    #tl-nav {
-        @include media-max(medium) {
+
+    @include media-max(medium) {
+        .tl-nav--employer {
             margin-bottom: 0;
         }
+
+        .tl-nav--student {
+            margin-bottom: 0;
+        }
+    }
+
+    #tl-nav {
 
         .tl-nav--hamburger {
             display: none;
