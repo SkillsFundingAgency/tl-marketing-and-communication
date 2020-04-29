@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sfa.Tl.Marketing.Communicat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C128B70E-3F04-4E97-8DD6-A6DFA04E9DC9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sfa.Tl.Marketing.Communication.Application.UnitTests", "Tests\sfa.Tl.Marketing.Communication.Application.Tests\sfa.Tl.Marketing.Communication.Application.UnitTests.csproj", "{18D26CBE-16C9-4C42-96F6-B43448BEFB6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sfa.Tl.Marketing.Communication.UnitTests", "Tests\sfa.Tl.Marketing.Communication.Application.Tests\sfa.Tl.Marketing.Communication.UnitTests.csproj", "{18D26CBE-16C9-4C42-96F6-B43448BEFB6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

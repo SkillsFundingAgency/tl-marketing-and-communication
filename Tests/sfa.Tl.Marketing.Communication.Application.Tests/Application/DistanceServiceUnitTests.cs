@@ -3,7 +3,7 @@ using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using Xunit;
 
-namespace sfa.Tl.Marketing.Communication.Application.UnitTests
+namespace sfa.Tl.Marketing.Communication.UnitTests.Application
 {
     public class DistanceServiceUnitTests
     {

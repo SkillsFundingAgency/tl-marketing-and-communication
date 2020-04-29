@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace sfa.Tl.Marketing.Communication.Application.UnitTests
+namespace sfa.Tl.Marketing.Communication.UnitTests.Application
 {
     public class ProviderSearchServiceUnitTests
     {
@@ -58,7 +58,7 @@ namespace sfa.Tl.Marketing.Communication.Application.UnitTests
         }
 
         [Fact]
-        public void GetQualificationById_Return_A_Qualifications_ById()
+        public void GetQualificationById_Returns_A_Qualification()
         {
             // Arrange
             const int id = 1;

@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace sfa.Tl.Marketing.Communication.Application.UnitTests
+namespace sfa.Tl.Marketing.Communication.UnitTests.Application
 {
     public class DistanceCalculationServiceUnitTests
     {
