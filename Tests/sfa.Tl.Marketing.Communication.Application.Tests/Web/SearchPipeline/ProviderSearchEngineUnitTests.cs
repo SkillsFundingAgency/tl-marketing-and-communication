@@ -25,7 +25,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline
         }
 
         [Fact]
-        public async Task Search_Execute_All_Steps()
+        public async Task Search_Execute_All_SearchSteps()
         {
             // Arrange
             var viewModel = new FindViewModel();
@@ -54,7 +54,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline
         }
 
         [Fact]
-        public async Task Search_Will_Not_Execute_Steps_When_Continue_On_SearchContext_Is_False()
+        public async Task Search_Will_Not_Execute_SearchSteps_When_SearchContext_Continue_Is_False()
         {
             // Arrange
             var viewModel = new FindViewModel();
