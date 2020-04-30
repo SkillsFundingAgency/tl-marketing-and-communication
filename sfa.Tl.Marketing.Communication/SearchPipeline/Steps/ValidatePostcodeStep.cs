@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using sfa.Tl.Marketing.Communication.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
         {
             if (string.IsNullOrEmpty(context.ViewModel.Postcode))
             {
-                context.ViewModel.PostCodeValidationMessage = "You must enter a postcode";
+                context.ViewModel.PostcodeValidationMessage = AppConstants.PostcodeValidationMessage;
             }
             else
             {
@@ -32,13 +33,13 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
                 }
                 else
                 {
-                    context.ViewModel.PostCodeValidationMessage = "You must enter a real postcode";
+                    context.ViewModel.PostcodeValidationMessage = AppConstants.RealPostcodeValidationMessage;
                 }
             }
 
-           if (!string.IsNullOrEmpty(context.ViewModel.PostCodeValidationMessage))
+           if (!string.IsNullOrEmpty(context.ViewModel.PostcodeValidationMessage))
             {
-                context.ViewModel.ValidationStyle = "tl-validation--error";
+                context.ViewModel.ValidationStyle = AppConstants.ValidationStyle;
                 context.Continue = false;
             }
            

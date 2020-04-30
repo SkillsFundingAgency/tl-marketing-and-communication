@@ -29,7 +29,7 @@ namespace sfa.Tl.Marketing.Communication.Models
             } 
         }
 
-        public string PostCodeValidationMessage { get; set; }
+        public string PostcodeValidationMessage { get; set; }
         public string ValidationStyle { get; set; }
         public bool ResetNumberOfItems { get; set; }
         public int? TotalRecordCount { get; set; }
