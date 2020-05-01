@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -25,6 +25,12 @@
     <ProjectReference Include="..\..\sfa.Tl.Marketing.Communication.Application\sfa.Tl.Marketing.Communication.Application.csproj" />
     <ProjectReference Include="..\..\sfa.Tl.Marketing.Communication.Models\sfa.Tl.Marketing.Communication.Models.csproj" />
     <ProjectReference Include="..\..\sfa.Tl.Marketing.Communication\sfa.Tl.Marketing.Communication.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\data.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

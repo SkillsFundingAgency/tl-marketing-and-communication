@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace sfa.Tl.Marketing.Communication.UnitTests.Application
+namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 {
     public class ProviderSearchServiceUnitTests
     {
