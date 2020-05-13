@@ -15,8 +15,8 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
 {
     class Program
     {
-        private const string CsvFilePath = @"C:\users\nanda\documents\Full Provider Data 2020 - 2021.csv";
-        private const string JsonOutputPath = @"C:\Dev\Esfa\T Level Provider Mapping Survey 2020 final071019 -- EIDTED.json";
+        private const string CsvFilePath = @"D:\SFA-TestData\Full Provider Data 2020 - 2021 (campaign site).csv";
+        private const string JsonOutputPath = @"D:\SFA-TestData\Json\providers.json";
         private const string PostcodesIoUrl = "https://postcodes.io";
 
         private static IList<string> _warningMessages;
