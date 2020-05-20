@@ -10,5 +10,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var objects = JsonConvert.DeserializeObject<T>(json);
             return objects;
         }
+
+        public string SerializeObject(object data)
+        {
+            var json = JsonConvert.SerializeObject(data);
+            return json;
+        }
     }
 }
