@@ -96,8 +96,7 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
             }
             catch(Exception ex)
             {
-                _outputHelper.WriteLine($"Error message: {ex.Message} StackTrace: {ex.StackTrace}");
-                //isUrlBroken = true;
+                _outputHelper.WriteLine($"Website: {url} \n\r Error message: {ex.Message} \n\rStackTrace: {ex.StackTrace}");
             }
 
             return isUrlBroken;
