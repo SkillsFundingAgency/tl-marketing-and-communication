@@ -81,7 +81,10 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
 
             try
             {
-                using (var client = new HttpClient())
+                HttpClientHandler clientHandler = new HttpClientHandler();
+                clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+                
+                using (var client = new HttpClient(clientHandler))
                 {
                     var checkingResponse = await client.GetAsync(url);
                     if (checkingResponse.StatusCode == HttpStatusCode.NotFound)
@@ -91,9 +94,10 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
                     }
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                isUrlBroken = true;
+                _outputHelper.WriteLine($"Error message: {ex.Message} StackTrace: {ex.StackTrace}");
+                //isUrlBroken = true;
             }
 
             return isUrlBroken;
