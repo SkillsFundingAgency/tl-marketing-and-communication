@@ -52,9 +52,16 @@ steps:
   displayName: 'DotNet Test'
   inputs:
     command: test
-    projects: '**/*[Tt]ests/*.csproj'
+    projects: '**/*.UnitTests.csproj'
     arguments: '--configuration $(buildConfiguration)  --no-restore'
-
+- task: DotNetCoreCLI@2
+    displayName: 'Integration Tests'
+    continueOnError: true
+    timeoutInMinutes: 5
+    inputs:
+        command: test
+        projects: '**/*.IntegrationTests.csproj'
+        arguments: '--configuration $(buildConfiguration)'
 - task: DotNetCoreCLI@2
   displayName: 'DotNet Publish'
   inputs:
