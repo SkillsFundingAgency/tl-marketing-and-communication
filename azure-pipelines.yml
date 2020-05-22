@@ -52,16 +52,8 @@ steps:
   displayName: 'DotNet Test'
   inputs:
     command: test
-    projects: '**/*.UnitTests.csproj'
+    projects: '**/*[Tt]ests/*.csproj'
     arguments: '--configuration $(buildConfiguration)  --no-restore'
-
-- task: DotNetCoreCLI@2
-    displayName: 'Integration Tests'
-    inputs:
-    command: test
-    failTaskOnFailedTests: false
-    projects: '**/*.IntegrationTests.csproj'
-    arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: 'DotNet Publish'
