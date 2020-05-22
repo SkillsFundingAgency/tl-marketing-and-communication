@@ -58,7 +58,7 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: 'Integration Tests'
   continueOnError: true
-  timeoutInMinutes: 5
+  timeoutInMinutes: 35
   inputs:
     command: test
     projects: '**/*.IntegrationTests.csproj'
