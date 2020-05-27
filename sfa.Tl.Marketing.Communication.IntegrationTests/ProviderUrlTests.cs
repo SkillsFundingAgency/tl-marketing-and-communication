@@ -50,14 +50,16 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
             var locations = _providerSearchService.GetAllProviderLocations();
             var locationsWithBrokenUrls = new List<ProviderLocation>();
 
-            foreach (var location in locations)
-            {
-                var isUrlBroken = await IsUrlBroken(location.Website);
-                if (isUrlBroken)
-                {
-                    locationsWithBrokenUrls.Add(location);
-                }
-            }
+            //foreach (var location in locations)
+            //{
+            //    var isUrlBroken = await IsUrlBroken(location.Website);
+            //    if (isUrlBroken)
+            //    {
+            //        locationsWithBrokenUrls.Add(location);
+            //    }
+            //}
+
+            locationsWithBrokenUrls = await GetBrokenUrls(locations);
 
             if (locationsWithBrokenUrls.Any())
             {
@@ -67,13 +69,45 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
                 var json = _jsonConvertor.SerializeObject(providersWithBrokenUrls);
                 _outputHelper.WriteLine(json);
 
-                Assert.True(false, $"There are {locationsWithBrokenUrls.Count()} providers with broken websites.");
+                Assert.True(false, $"There are {locationsWithBrokenUrls.Count()} out of {locations.Count()} Providers with broken websites.");
             }
             else
             {
                 Assert.True(true, "All providers websites are working fine.");
             }
         }
+
+        private async Task<List<ProviderLocation>> GetBrokenUrls(IEnumerable<ProviderLocation> locations)
+        {
+            var locationsWithBrokenUrls = new List<ProviderLocation>();
+
+            try
+            {
+
+                HttpClientHandler clientHandler = new HttpClientHandler();
+                clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+                
+                using (var client = new HttpClient(clientHandler))
+                {
+                    foreach (var location in locations)
+                    {
+                        var checkingResponse = await client.GetAsync(location.Website);
+                        if (checkingResponse.StatusCode == HttpStatusCode.NotFound)
+                        {
+
+                            locationsWithBrokenUrls.Add(location);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _outputHelper.WriteLine($"Error message: {ex.Message}\n\rInner Exception: {ex.InnerException.Message}\n\rStackTrace: {ex.StackTrace}");
+            }
+
+            return locationsWithBrokenUrls;
+        }
+
 
         private async Task<bool> IsUrlBroken(string url)
         {
