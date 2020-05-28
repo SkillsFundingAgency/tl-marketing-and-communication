@@ -61,17 +61,19 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
 
             if (locationsWithBrokenUrls.Any())
             {
-                _outputHelper.WriteLine($"{locationsWithBrokenUrls.Count()} out of {locations.Count()} Providers has broken Websites, as shown below:");
+                _outputHelper.WriteLine($"\n{locationsWithBrokenUrls.Count()} out of {locations.Count()} Providers has broken Websites, as shown below:\n");
+                
                 var providersWithBrokenUrls = from providerLocation in locationsWithBrokenUrls
                                    select new { providerLocation.ProviderName, providerLocation.Website };
                 var json = _jsonConvertor.SerializeObject(providersWithBrokenUrls);
+                
                 _outputHelper.WriteLine(json);
 
-                Assert.True(false, $"There are {locationsWithBrokenUrls.Count()} providers with broken websites.");
+                Assert.True(false, $"There are {locationsWithBrokenUrls.Count()} out of {locations.Count()} Providers with broken websites.");
             }
             else
             {
-                Assert.True(true, "All providers websites are working fine.");
+                Assert.True(true, $"All {locations.Count()} providers websites are working fine.");
             }
         }
 
@@ -86,6 +88,7 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
                 
                 using (var client = new HttpClient(clientHandler))
                 {
+                    client.Timeout = TimeSpan.FromSeconds(10);
                     var checkingResponse = await client.GetAsync(url);
                     if (checkingResponse.StatusCode == HttpStatusCode.NotFound)
                     {
@@ -96,7 +99,7 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
             }
             catch(Exception ex)
             {
-                _outputHelper.WriteLine($"Website: {url} \n\r Error message: {ex.Message} \n\rStackTrace: {ex.StackTrace}");
+                _outputHelper.WriteLine($"\n\rWebsite: {url}\nError message: {ex.Message}\nInner Exception: {ex.InnerException.Message}\nStackTrace: {ex.StackTrace}");
             }
 
             return isUrlBroken;
