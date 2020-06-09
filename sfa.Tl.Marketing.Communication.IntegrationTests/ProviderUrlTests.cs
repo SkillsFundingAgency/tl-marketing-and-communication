@@ -73,7 +73,9 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
             }
             else
             {
-                Assert.True(true, $"All {locations.Count()} providers websites are working fine.");
+                var successMessage = $"All {locations.Count()} providers websites are working fine.";
+                _outputHelper.WriteLine(successMessage);
+                Assert.True(true, successMessage);
             }
         }
 
