@@ -6,10 +6,7 @@
     ViewData["Title"] = "About T Levels for employers";
     ViewData["PageID"] = "tl-employer-about";
     ViewData["MetaDescription"] = "T Levels are a new qualification for students aged 16 to 19. They will reform vocational training and create a new pipeline of talent for employers. ";
-
-
 }
-@model FindViewModel
 
 <section id="tl-employer-about--banner" class="tl-content-wide--purple">
     <div class="tl-container tl-overflow--fix">
@@ -99,17 +96,5 @@
 
 @section jsfiles{
 
-
-    <script src="~/js/plyr.polyfilled.min.js"></script>
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script>
-        const player = new Plyr('#player', {});
-
-        // Expose player so it can be used from the console
-        window.player = player;
-
-        setTimeout(() => {
-            player.poster = '/files/images/TLevels_WebsiteAssets30.jpg';
-        }, 500)</script>
 }
 

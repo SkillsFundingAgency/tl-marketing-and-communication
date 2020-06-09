@@ -1,17 +1,19 @@
 ﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using sfa.Tl.Marketing.Communication.Models;
+using sfa.Tl.Marketing.Communication.SearchPipeline;
 
 namespace sfa.Tl.Marketing.Communication.Controllers
 {
     public class StudentController : Controller
     {
-        private readonly ConfigurationOptions _configuration;
+        private readonly IProviderSearchEngine _providerSearchEngine;
 
-        public StudentController(ConfigurationOptions configuration)
+        public StudentController(IProviderSearchEngine providerSearchEngine)
         {
-            _configuration = configuration;
+            _providerSearchEngine = providerSearchEngine;
         }
 
         [Route("/students", Name = "Index")]
@@ -39,13 +41,10 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         }
 
         [Route("/students/find", Name = "Find")]
-        public IActionResult Find(FindViewModel viewModel)
+        public async Task<IActionResult> Find(FindViewModel viewModel)
         {
-            viewModel.ShouldSearch = !string.IsNullOrEmpty(viewModel.Postcode);
-
-            viewModel.MapApiKey = _configuration.GoogleMapsApiKey;
-
-            return View(viewModel);
+            var searchResults = await _providerSearchEngine.Search(viewModel);
+            return View(searchResults);
         }
 
         [Route("/students/subjects/design-surveying-planning", Name = "DesignSurveyingPlanning")]

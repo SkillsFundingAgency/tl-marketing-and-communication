@@ -1,0 +1,20 @@
+$mediatypes :
+mobile xsmall,
+    tablet small,
+    desktop large;
+
+.tl-hidden {
+    @each $mediatype, $mediasize in $mediatypes {
+        &--#{$mediatype}--up {
+            @include media-min($mediasize) {
+                display: none;
+            }
+        }
+
+        &--#{$mediatype}--down {
+            @include media-max($mediasize) {
+                display: none;
+            }
+        }
+    }
+    }

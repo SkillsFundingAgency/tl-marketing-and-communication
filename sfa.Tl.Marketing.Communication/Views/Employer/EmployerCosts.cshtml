@@ -6,10 +6,7 @@
     ViewData["Title"] = "Industry placement costs";
     ViewData["PageID"] = "tl-employer-costs";
     ViewData["MetaDescription"] = "An industry placement is an efficient way to bring in new talent and develop the skills you need as an employer.";
-
-
 }
-@model FindViewModel
 
 <section id="tl-employer-costs--banner" class="tl-content-wide--purple">
     <div class="tl-container tl-overflow--fix">
@@ -106,18 +103,5 @@
 
 
 @section jsfiles{
-
-
-    <script src="~/js/plyr.polyfilled.min.js"></script>
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script>
-        const player = new Plyr('#player', {});
-
-        // Expose player so it can be used from the console
-        window.player = player;
-
-        setTimeout(() => {
-            player.poster = '/files/images/TLevels_WebsiteAssets30.jpg';
-        }, 500)</script>
 }
 

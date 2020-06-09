@@ -1,0 +1,39 @@
+﻿@model ProviderLocationViewModel
+
+    <div class="tl-results--block">
+
+        <h4>@Model.VenueName </h4><p style="white-space: pre-line">@Model.AddressLabel </p>
+        <span class="tl-results--block--distance">@Model.DistanceInMiles @Model.DistanceString</span>
+        <hr class="tl-line-lightgrey--small">
+        @if (Model.Qualification2020.Any())
+        {
+            <h5><strong>From September 2020 onwards:</strong></h5>
+            <ul>
+                @foreach (var q in Model.Qualification2020)
+                {
+                    <li>@q.Name</li>
+                }
+            </ul>
+        }
+        @if (Model.Qualification2021.Any())
+        {
+            <h5><strong>From September 2021 onwards:</strong></h5>
+            <ul>
+                @foreach (var q in Model.Qualification2021)
+                {
+                    <li>@q.Name</li>
+                }
+            </ul>
+        }
+
+        @if (Model.HasFocus)
+        {
+            <a href="@Model.RedirectUrl" class="tl-link-black--orange tl-results--block--link" aria-label="@Model.RedirectUrlLabel" autofocus="autofocus">Visit their website</a>
+        }
+        else
+        {
+            <a href="@Model.RedirectUrl" class="tl-link-black--orange tl-results--block--link" aria-label="@Model.RedirectUrlLabel">Visit their website</a>
+        }
+
+
+    </div>

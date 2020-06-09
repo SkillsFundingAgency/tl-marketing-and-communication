@@ -6,10 +6,7 @@
     ViewData["Title"] = "Industry placement business benefits";
     ViewData["PageID"] = "tl-employer-benefits";
     ViewData["MetaDescription"] = "Industry placements can help employers with recruitment, improve innovation, and increase organisational productivity. They also have important social benefits.";
-
-
 }
-@model FindViewModel
 
 <section id="tl-employer-benefits--banner" class="tl-content-wide--purple">
     <div class="tl-container tl-overflow--fix">
@@ -109,16 +106,5 @@
 @section jsfiles{
 
 
-    <script src="~/js/plyr.polyfilled.min.js"></script>
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script>
-        const player = new Plyr('#player', {});
-
-        // Expose player so it can be used from the console
-        window.player = player;
-
-        setTimeout(() => {
-            player.poster = '/files/images/TLevels_WebsiteAssets30.jpg';
-        }, 500)</script>
 }
 
