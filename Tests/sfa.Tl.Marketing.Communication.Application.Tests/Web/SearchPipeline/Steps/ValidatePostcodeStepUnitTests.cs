@@ -45,8 +45,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         public async Task Step_Validate_Wrong_Postcode()
         {
             // Arrange
-            string postcode = "dddfd";
-            bool isValid = false;
+            const string postcode = "dddfd";
+            const bool isValid = false;
             var viewModel = new FindViewModel()
             {
                 Postcode = postcode
@@ -70,9 +70,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         public async Task Step_Validate_Postcode_And_()
         {
             // Arrange
-            string postcode = "mk 4 2 8 y u";
-            string expected = "MK42 8YU";
-            bool isValid = true;
+            const string postcode = "mk 4 2 8 y u";
+            const string expected = "MK42 8YU";
+            const bool isValid = true;
             var viewModel = new FindViewModel()
             {
                 Postcode = postcode

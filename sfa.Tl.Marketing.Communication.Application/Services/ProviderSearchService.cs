@@ -39,11 +39,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             var providers = _providerDataService.GetProviders();
 
-            IQueryable<Location> locations = new List<Location>().AsQueryable();
             var results = new List<ProviderLocation>();
 
             if (providers.Any())
             {
+                IQueryable<Location> locations;
                 if (searchRequest.QualificationId.HasValue && searchRequest.QualificationId.Value > 0)
                 {
                     locations = _locationService.GetLocations(providers, searchRequest.QualificationId.Value);

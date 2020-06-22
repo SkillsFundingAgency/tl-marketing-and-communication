@@ -5,7 +5,6 @@ using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -26,7 +25,7 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
         {
             _outputHelper = outputHelper;
 
-            var appDomain = System.AppDomain.CurrentDomain;
+            var appDomain = AppDomain.CurrentDomain;
             var basePath = appDomain.RelativeSearchPath ?? appDomain.BaseDirectory;
             var dataFilePath = Path.Combine(basePath, "Data", "providers.json");
             var configurationOptions = new ConfigurationOptions()
@@ -47,7 +46,7 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
         [Fact]
         public async Task Check_If_a_Provider_Website_Is_Broken()
         {
-            var locations = _providerSearchService.GetAllProviderLocations();
+            var locations = _providerSearchService.GetAllProviderLocations().ToList();
             var locationsWithBrokenUrls = new List<ProviderLocation>();
 
             foreach (var location in locations)
@@ -61,7 +60,7 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
 
             if (locationsWithBrokenUrls.Any())
             {
-                _outputHelper.WriteLine($"\n{locationsWithBrokenUrls.Count()} out of {locations.Count()} Providers has broken Websites, as shown below:\n");
+                _outputHelper.WriteLine($"\n{locationsWithBrokenUrls.Count} out of {locations.Count} Providers has broken Websites, as shown below:\n");
                 
                 var providersWithBrokenUrls = from providerLocation in locationsWithBrokenUrls
                                    select new { providerLocation.ProviderName, providerLocation.Website };
@@ -69,11 +68,11 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
                 
                 _outputHelper.WriteLine(json);
 
-                Assert.True(false, $"There are {locationsWithBrokenUrls.Count()} out of {locations.Count()} Providers with broken websites.");
+                Assert.True(false, $"There are {locationsWithBrokenUrls.Count} out of {locations.Count} Providers with broken websites.");
             }
             else
             {
-                var successMessage = $"All {locations.Count()} providers websites are working fine.";
+                var successMessage = $"All {locations.Count} providers websites are working fine.";
                 _outputHelper.WriteLine(successMessage);
                 Assert.True(true, successMessage);
             }
@@ -81,22 +80,23 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
 
         private async Task<bool> IsUrlBroken(string url)
         {
-            bool isUrlBroken = false;
+            var isUrlBroken = false;
 
             try
             {
                 HttpClientHandler clientHandler = new HttpClientHandler();
                 clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-                
-                using (var client = new HttpClient(clientHandler))
-                {
-                    client.Timeout = TimeSpan.FromSeconds(10);
-                    var checkingResponse = await client.GetAsync(url);
-                    if (checkingResponse.StatusCode == HttpStatusCode.NotFound)
-                    {
 
-                        isUrlBroken = true;
-                    }
+                using var client = new HttpClient(clientHandler)
+                {
+                    Timeout = TimeSpan.FromSeconds(10)
+                };
+
+                var checkingResponse = await client.GetAsync(url);
+                if (checkingResponse.StatusCode == HttpStatusCode.NotFound)
+                {
+
+                    isUrlBroken = true;
                 }
             }
             catch(Exception ex)

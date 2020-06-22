@@ -1,6 +1,5 @@
 ﻿using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
-using System;
 using System.Linq;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services

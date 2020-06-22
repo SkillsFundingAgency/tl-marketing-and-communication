@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
@@ -12,22 +11,19 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
     public class ProviderDataServiceUnitTests
     {
         private readonly IProviderDataService _service;
-        private readonly IJsonConvertor _jsonConvertor;
-        private readonly IFileReader _fileReader;
-        private readonly ConfigurationOptions _configurationOption;
 
         public ProviderDataServiceUnitTests()
         {
-            _jsonConvertor = new JsonConvertor();
-            _fileReader = new FileReader();
+            IJsonConvertor jsonConvertor = new JsonConvertor();
+            IFileReader fileReader = new FileReader();
             var appDomain = System.AppDomain.CurrentDomain;
             var basePath = appDomain.RelativeSearchPath ?? appDomain.BaseDirectory;
             var dataFilePath = Path.Combine(basePath, "Data", "data.json");
-            _configurationOption = new ConfigurationOptions()
+            var configurationOption = new ConfigurationOptions()
             {
                 DataFilePath = dataFilePath
             };
-            _service = new ProviderDataService(_fileReader, _jsonConvertor, _configurationOption);
+            _service = new ProviderDataService(fileReader, jsonConvertor, configurationOption);
         }
 
         [Fact]
@@ -45,9 +41,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             // Arrange
             // Act
-            var results = _service.GetQualifications();
+            var results = _service.GetQualifications().ToList();
             // Assert
-            results.Count().Should().Be(11);
+            results.Count.Should().Be(11);
             results.SingleOrDefault(q => q.Id == 0 && q.Name == "All T Level courses").Should().NotBeNull();
         }
 

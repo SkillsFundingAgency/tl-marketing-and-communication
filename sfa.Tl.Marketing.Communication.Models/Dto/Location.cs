@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace sfa.Tl.Marketing.Communication.Models.Dto
+﻿namespace sfa.Tl.Marketing.Communication.Models.Dto
 {
     public class Location
     {

@@ -42,7 +42,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
                 new Qualification() {Id = 2, Name = "Qualification 2" },
                 new Qualification() {Id = 3, Name = "Qualification 3" },
                 new Qualification() {Id = 4, Name = "Qualification 4" },
-                new Qualification() {Id = 5, Name = "Qualification 5" },
+                new Qualification() {Id = 5, Name = "Qualification 5" }
             };
 
             _providerSearchService.GetQualifications().Returns(qualifications);
@@ -54,7 +54,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
             _providerSearchService.Received(1).GetQualifications();
             context.ViewModel.Qualifications.Count().Should().Be(qualifications.Count);
             context.ViewModel.Qualifications
-                .Any(q => q.Value == selectedQualificationId.ToString() && q.Selected == true)
+                .Any(q => q.Value == selectedQualificationId.ToString() && q.Selected)
                 .Should().BeTrue();
             
         }

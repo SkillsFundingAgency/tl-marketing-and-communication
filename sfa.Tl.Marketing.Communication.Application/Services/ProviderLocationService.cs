@@ -15,7 +15,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public IQueryable<ProviderLocation> GetProviderLocations(IQueryable<Location> locations, IQueryable<Provider> providers)
         {
-            var providerlocations = locations.Select(l => new { Location = l, Provider = providers.Where(parent => parent.Locations.Contains(l)).Single() })
+            var providerLocations = locations.Select(l => new
+            {
+                Location = l,
+                Provider = providers.Single(parent => parent.Locations.Contains(l))
+            })
                         .Select(pl => new ProviderLocation
                         {
                             ProviderName = pl.Provider.Name,
@@ -26,11 +30,10 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                             Town = pl.Location.Town,
                             Website = pl.Location.Website,
                             Qualification2020 = _providerDataService.GetQualifications(pl.Location.Qualification2020),
-                            Qualification2021 = _providerDataService.GetQualifications(pl.Location.Qualification2021),
-
+                            Qualification2021 = _providerDataService.GetQualifications(pl.Location.Qualification2021)
                         });
 
-            return providerlocations;
+            return providerLocations;
         }
     }
 }

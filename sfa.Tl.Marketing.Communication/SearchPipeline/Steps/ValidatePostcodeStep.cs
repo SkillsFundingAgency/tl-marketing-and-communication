@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using sfa.Tl.Marketing.Communication.Application.Interfaces;
+﻿using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Constants;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
@@ -26,7 +22,7 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
             else
             {
                 var results = await _providerSearchService.IsSearchPostcodeValid(context.ViewModel.Postcode);
-                
+
                 if (results.IsValid)
                 {
                     context.ViewModel.Postcode = results.Postcode;
@@ -37,12 +33,11 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
                 }
             }
 
-           if (!string.IsNullOrEmpty(context.ViewModel.PostcodeValidationMessage))
+            if (!string.IsNullOrEmpty(context.ViewModel.PostcodeValidationMessage))
             {
                 context.ViewModel.ValidationStyle = AppConstants.ValidationStyle;
                 context.Continue = false;
             }
-           
         }
     }
 }

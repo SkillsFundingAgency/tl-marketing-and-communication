@@ -3,10 +3,8 @@ using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Dto;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -41,15 +39,14 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             {
                 new Qualification { Id = 1, Name = "Xyz" },
                 new Qualification { Id = 2, Name = "Mno" },
-                new Qualification { Id = 3, Name = "Abc" },
-
+                new Qualification { Id = 3, Name = "Abc" }
             };
 
             _providerDataService.GetQualifications().Returns(qualifications);
 
             var expected = qualifications.OrderBy(x => x.Name); 
             // Act
-            var actual = _service.GetQualifications();
+            var actual = _service.GetQualifications().ToList();
 
             // Assert
             Assert.True(actual.SequenceEqual(expected));
