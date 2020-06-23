@@ -117,8 +117,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             _providerDataService.GetProviders().Returns(providers);
             
             int? qualificationId = 2232;
-            int numberOfItems = 2;
-            string postcode = "mk669oo";
+            var numberOfItems = 2;
+            var postcode = "mk669oo";
             var searchRequest = new SearchRequest { QualificationId = qualificationId, NumberOfItems = numberOfItems, Postcode = postcode };
 
             var locations = new List<Location>() 
@@ -166,7 +166,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 new Provider()
             }.AsQueryable();
             _providerDataService.GetProviders().Returns(providers);
-            string postcode = "mk669oo";
+            var postcode = "mk669oo";
             var searchRequest = new SearchRequest { QualificationId = qualificationId, NumberOfItems = numberOfItems, Postcode = postcode };
 
             var locations = new List<Location>()

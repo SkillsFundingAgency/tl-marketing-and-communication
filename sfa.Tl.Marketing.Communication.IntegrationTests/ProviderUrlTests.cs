@@ -84,8 +84,12 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
 
             try
             {
-                HttpClientHandler clientHandler = new HttpClientHandler();
-                clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+                var clientHandler = new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback = 
+                        (sender, cert, chain, sslPolicyErrors) 
+                            => true
+                };
 
                 using var client = new HttpClient(clientHandler)
                 {

@@ -51,13 +51,13 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         public void GetQualifications_Returns_Qualifications_By_Ids()
         {
             // Arrange
-            int[] ids = new int[] { 3, 4, 5 };
+            var ids = new int[] { 3, 4, 5 };
 
             // Act
-            var results = _service.GetQualifications(ids);
+            var results = _service.GetQualifications(ids).ToList();
 
             // Assert
-            results.Count().Should().Be(3);
+            results.Count.Should().Be(3);
             results.Single(q => q.Id == 3).Should().NotBeNull();
             results.Single(q => q.Id == 4).Should().NotBeNull();
             results.Single(q => q.Id == 5).Should().NotBeNull();
@@ -67,7 +67,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         public void GetQualification_Returns_A_Qualification_By_Id()
         {
             // Arrange
-            int id = 10;
+            var id = 10;
 
             // Act
             var result = _service.GetQualification(id);
