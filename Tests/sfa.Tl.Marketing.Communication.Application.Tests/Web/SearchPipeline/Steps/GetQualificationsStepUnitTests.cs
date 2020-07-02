@@ -33,16 +33,16 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
             {
                 SelectedQualificationId = selectedQualificationId
             };
-            
+
             var context = new SearchContext(viewModel);
 
-            var qualifications = new List<Qualification>()
+            var qualifications = new List<Qualification>
             {
-                new Qualification() {Id = 1, Name = "Qualification 1" },
-                new Qualification() {Id = 2, Name = "Qualification 2" },
-                new Qualification() {Id = 3, Name = "Qualification 3" },
-                new Qualification() {Id = 4, Name = "Qualification 4" },
-                new Qualification() {Id = 5, Name = "Qualification 5" }
+                new Qualification {Id = 1, Name = "Qualification 1" },
+                new Qualification {Id = 2, Name = "Qualification 2" },
+                new Qualification {Id = 3, Name = "Qualification 3" },
+                new Qualification {Id = 4, Name = "Qualification 4" },
+                new Qualification {Id = 5, Name = "Qualification 5" }
             };
 
             _providerSearchService.GetQualifications().Returns(qualifications);
@@ -56,7 +56,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
             context.ViewModel.Qualifications
                 .Any(q => q.Value == selectedQualificationId.ToString() && q.Selected)
                 .Should().BeTrue();
-            
         }
     }
 }

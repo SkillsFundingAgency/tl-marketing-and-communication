@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -26,83 +27,34 @@ namespace sfa.Tl.Marketing.Communication.Application.GeoLocations
             }
         }
 
-        public async Task<(bool, string)> IsValidPostcodeAsync(string postcode, bool includeTerminated)
+        public async Task<PostcodeLookupResultDto> GetGeoLocationDataAsync(string postcode)
         {
-            var (isValidPostcode, postcodeResult) = await IsValidPostcodeAsync(postcode);
-            if (!isValidPostcode)
-            {
-                (isValidPostcode, postcodeResult) = await IsTerminatedPostcodeAsync(postcode);
-            }
+            var lookupUri = new Uri(_postcodeRetrieverBaseUri, $"postcodes/{postcode.ToLetterOrDigit()}");
 
-            return (isValidPostcode, postcodeResult);
-        }
+            var responseMessage = await _httpClient.GetAsync(lookupUri);
 
-        public async Task<(bool, string)> IsValidPostcodeAsync(string postcode)
-        {
-            try
+            if (responseMessage.StatusCode == HttpStatusCode.OK)
             {
-                var postcodeLookupResultDto = await GetGeoLocationDataAsync(postcode);
-                return (true, postcodeLookupResultDto.Postcode);
-            }
-            catch
-            {
-                return (false, string.Empty);
-            }
-        }
-
-        public async Task<(bool, string)> IsTerminatedPostcodeAsync(string postcode)
-        {
-            try
-            {
-                var postcodeLookupResultDto = await GetTerminatedPostcodeGeoLocationDataAsync(postcode);
-                return (true, postcodeLookupResultDto.Postcode);
-            }
-            catch
-            {
-                return (false, string.Empty);
-            }
-        }
-
-        public async Task<PostcodeLookupResultDto> GetGeoLocationDataAsync(string postcode, bool includeTerminated)
-        {
-            try
-            {
-                return await GetGeoLocationDataAsync(postcode);
-            }
-            catch
-            {
-                if (!includeTerminated)
-                    throw;
+                var response = await responseMessage.Content.ReadAsAsync<PostcodeLookupResponse>();
+                return response.Result;
             }
 
             return await GetTerminatedPostcodeGeoLocationDataAsync(postcode);
         }
 
-        public async Task<PostcodeLookupResultDto> GetGeoLocationDataAsync(string postcode)
-        {
-            //Postcodes.io Returns 404 for "CV12 wt" so I have removed all special characters to get best possible result
-            var lookupUri = new Uri(_postcodeRetrieverBaseUri, $"postcodes/{postcode.ToLetterOrDigit()}");
-
-            var responseMessage = await _httpClient.GetAsync(lookupUri);
-            
-            responseMessage.EnsureSuccessStatusCode();
-
-            var response = await responseMessage.Content.ReadAsAsync<PostcodeLookupResponse>();
-
-            return response.Result;
-        }
-
-        public async Task<PostcodeLookupResultDto> GetTerminatedPostcodeGeoLocationDataAsync(string postcode)
+        private async Task<PostcodeLookupResultDto> GetTerminatedPostcodeGeoLocationDataAsync(string postcode)
         {
             var lookupUri = new Uri(_postcodeRetrieverBaseUri, $"terminated_postcodes/{postcode.ToLetterOrDigit()}");
 
             var responseMessage = await _httpClient.GetAsync(lookupUri);
 
-            responseMessage.EnsureSuccessStatusCode();
+            if (responseMessage.StatusCode == HttpStatusCode.OK)
+            {
+                var response = await responseMessage.Content.ReadAsAsync<PostcodeLookupResponse>();
+                return response.Result;
+            }
 
-            var response = await responseMessage.Content.ReadAsAsync<PostcodeLookupResponse>();
-
-            return response.Result;
+            return null;
         }
     }
 }

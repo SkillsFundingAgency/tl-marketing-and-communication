@@ -19,14 +19,14 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             _distanceService = distanceService;
         }
 
-        public async Task<List<ProviderLocation>> CalculateProviderLocationDistanceInMiles(string origionPostCode, IQueryable<ProviderLocation> providerLocations)
+        public async Task<List<ProviderLocation>> CalculateProviderLocationDistanceInMiles(string originPostCode, IQueryable<ProviderLocation> providerLocations)
         {
-            var origionGeoLocation = await _locationApiClient.GetGeoLocationDataAsync(origionPostCode, true);
+            var originGeoLocation = await _locationApiClient.GetGeoLocationDataAsync(originPostCode);
             var results = new List<ProviderLocation>();
             foreach (var providerLocation in providerLocations)
             {
-                var distanceInMiles = _distanceService.CalculateInMiles(Convert.ToDouble(origionGeoLocation.Latitude)
-                    , Convert.ToDouble(origionGeoLocation.Longitude), providerLocation.Latitude, providerLocation.Longitude);
+                var distanceInMiles = _distanceService.CalculateInMiles(Convert.ToDouble(originGeoLocation.Latitude)
+                    , Convert.ToDouble(originGeoLocation.Longitude), providerLocation.Latitude, providerLocation.Longitude);
                 providerLocation.DistanceInMiles = (int)Math.Floor(distanceInMiles);
                 results.Add(providerLocation);
             }
@@ -36,8 +36,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public async Task<(bool IsValid, string Postcode)> IsPostcodeValid(string postcode)
         {
-            var results = await _locationApiClient.IsValidPostcodeAsync(postcode, true);
-            return results;
+            var location = await _locationApiClient.GetGeoLocationDataAsync(postcode);
+            return (location != null, location?.Postcode);
         }
     }
 }

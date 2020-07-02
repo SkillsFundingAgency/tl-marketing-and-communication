@@ -66,7 +66,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations
             
             // Act
             var postcodeData = await locationApiClient
-                .GetTerminatedPostcodeGeoLocationDataAsync("S702YW");
+                .GetGeoLocationDataAsync("S702YW");
 
             // Assert
             postcodeData.Should().NotBeNull();
