@@ -21,19 +21,24 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
 
         public async Task Execute(ISearchContext context)
         {
-            var searchRequest = new SearchRequest { Postcode = context.ViewModel.Postcode, 
-                NumberOfItems = context.ViewModel.NumberOfItemsToShow.Value, 
-                QualificationId = context.ViewModel.SelectedQualificationId };
-            
-            var results = await _providerSearchService.Search(searchRequest);
-            
-            var providerViewModels = _mapper.Map<IEnumerable<ProviderLocationViewModel>>(results.searchResults).ToList();
-            
-            context.ViewModel.TotalRecordCount = results.totalCount;
+            var searchRequest = new SearchRequest
+            {
+                Postcode = context.ViewModel.Postcode,
+                OriginLatitude = context.ViewModel.Latitude,
+                OriginLongitude = context.ViewModel.Longitude,
+                NumberOfItems = context.ViewModel.NumberOfItemsToShow ?? 0,
+                QualificationId = context.ViewModel.SelectedQualificationId
+            };
+
+            var (totalCount, searchResults) = await _providerSearchService.Search(searchRequest);
+
+            var providerViewModels = _mapper.Map<IEnumerable<ProviderLocationViewModel>>(searchResults).ToList();
+
+            context.ViewModel.TotalRecordCount = totalCount;
             providerViewModels[context.ViewModel.SelectedItemIndex].HasFocus = true;
 
             context.ViewModel.ProviderLocations = providerViewModels;
-            context.ViewModel.SearchedQualificationId = context.ViewModel.SelectedQualificationId.Value;
+            context.ViewModel.SearchedQualificationId = context.ViewModel.SelectedQualificationId ?? -1;
         }
     }
 }

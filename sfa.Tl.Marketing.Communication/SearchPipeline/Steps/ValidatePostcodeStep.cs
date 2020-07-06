@@ -25,7 +25,9 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
 
                 if (results.IsValid)
                 {
-                    context.ViewModel.Postcode = results.Postcode;
+                    context.ViewModel.Postcode = results.PostcodeLocation.Postcode;
+                    context.ViewModel.Latitude = results.PostcodeLocation.Latitude;
+                    context.ViewModel.Longitude = results.PostcodeLocation.Longitude;
                 }
                 else
                 {

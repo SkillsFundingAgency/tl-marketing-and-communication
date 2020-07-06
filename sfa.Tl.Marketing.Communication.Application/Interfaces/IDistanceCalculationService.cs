@@ -7,7 +7,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
 {
     public interface IDistanceCalculationService
     {
-        Task<List<ProviderLocation>> CalculateProviderLocationDistanceInMiles(string originPostCode, IQueryable<ProviderLocation> providerLocations);
-        Task<(bool IsValid, string Postcode)> IsPostcodeValid(string postcode);
+        Task<List<ProviderLocation>> CalculateProviderLocationDistanceInMiles(string originPostcode, IQueryable<ProviderLocation> providerLocations);
+        Task<List<ProviderLocation>> CalculateProviderLocationDistanceInMiles(PostcodeLocation origin, IQueryable<ProviderLocation> providerLocations);
+        Task<(bool IsValid, PostcodeLocation PostcodeLocation)> IsPostcodeValid(string postcode);
     }
 }
