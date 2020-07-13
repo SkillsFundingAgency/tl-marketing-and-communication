@@ -51,7 +51,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         public void GetQualifications_Returns_Qualifications_By_Ids()
         {
             // Arrange
-            var ids = new int[] { 3, 4, 5 };
+            var ids = new[] { 3, 4, 5 };
 
             // Act
             var results = _service.GetQualifications(ids).ToList();

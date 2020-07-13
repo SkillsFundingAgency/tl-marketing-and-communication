@@ -15,7 +15,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
     public class DistanceCalculationServiceUnitTests
     {
         const double DoubleTolerance = 0.0000001;
-        
+
         private readonly IDistanceCalculationService _service;
         private readonly ILocationApiClient _locationApiClient;
         private readonly IDistanceService _distanceService;
@@ -58,7 +58,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .Returns(calculatedMileageInMiles);
 
             // Act
-            var actual = await _service.CalculateProviderLocationDistanceInMiles(sPostcode, providerLocations.AsQueryable());
+            var actual = await _service.CalculateProviderLocationDistanceInMiles(new PostcodeLocation { Postcode = sPostcode }, providerLocations.AsQueryable());
 
             // Assert
             var actualProviderLocation = actual.First();

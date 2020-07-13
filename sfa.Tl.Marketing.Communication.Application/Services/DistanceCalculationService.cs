@@ -19,25 +19,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             _distanceService = distanceService;
         }
 
-        public async Task<List<ProviderLocation>> CalculateProviderLocationDistanceInMiles(string originPostcode, IQueryable<ProviderLocation> providerLocations)
-        {
-            var originGeoLocation = await _locationApiClient.GetGeoLocationDataAsync(originPostcode);
-            var latitude = Convert.ToDouble(originGeoLocation.Latitude);
-            var longitude = Convert.ToDouble(originGeoLocation.Longitude);
-
-            var results = new List<ProviderLocation>();
-            foreach (var providerLocation in providerLocations)
-            {
-                var distanceInMiles = _distanceService.CalculateInMiles(latitude, longitude, 
-                    providerLocation.Latitude, providerLocation.Longitude);
-
-                providerLocation.DistanceInMiles = (int)Math.Floor(distanceInMiles);
-                results.Add(providerLocation);
-            }
-
-            return results;
-        }
-
         public async Task<List<ProviderLocation>> CalculateProviderLocationDistanceInMiles(PostcodeLocation origin, IQueryable<ProviderLocation> providerLocations)
         {
             double latitude;

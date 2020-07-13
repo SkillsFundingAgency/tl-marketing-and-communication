@@ -20,7 +20,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         public async Task Step_Load_Find_Page_And_Make_Page_Ready_For_Search()
         {
             // Arrange
-            var shouldSearch = false;
+            const bool shouldSearch = false;
             var viewModel = new FindViewModel()
             {
                 ShouldSearch = shouldSearch

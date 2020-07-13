@@ -220,6 +220,5 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode),
                 providerLocations);
         }
-
     }
 }
