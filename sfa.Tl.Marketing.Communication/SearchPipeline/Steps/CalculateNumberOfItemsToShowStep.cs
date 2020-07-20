@@ -14,10 +14,7 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
                 context.ViewModel.TotalRecordCount = 0;
             }
 
-            if (!context.ViewModel.NumberOfItemsToShow.HasValue)
-            {
-                context.ViewModel.NumberOfItemsToShow = AppConstants.DefaultNumberOfItemsToShow;
-            }
+            context.ViewModel.NumberOfItemsToShow ??= AppConstants.DefaultNumberOfItemsToShow;
 
             if (!context.ViewModel.TotalRecordCount.HasValue)
             {

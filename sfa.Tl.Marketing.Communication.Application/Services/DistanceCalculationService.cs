@@ -4,7 +4,6 @@ using sfa.Tl.Marketing.Communication.Models.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services
@@ -20,25 +19,45 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             _distanceService = distanceService;
         }
 
-        public async Task<List<ProviderLocation>> CalculateProviderLocationDistanceInMiles(string origionPostCode, IQueryable<ProviderLocation> providerLocations)
+        public async Task<List<ProviderLocation>> CalculateProviderLocationDistanceInMiles(PostcodeLocation origin, IQueryable<ProviderLocation> providerLocations)
         {
-            var origionGeoLocation = await _locationApiClient.GetGeoLocationDataAsync(origionPostCode, true);
+            double latitude;
+            double longitude;
+            if (string.IsNullOrWhiteSpace(origin.Latitude) || string.IsNullOrWhiteSpace(origin.Latitude))
+            {
+                var originGeoLocation = await _locationApiClient.GetGeoLocationDataAsync(origin.Postcode);
+                latitude = Convert.ToDouble(originGeoLocation.Latitude);
+                longitude = Convert.ToDouble(originGeoLocation.Longitude);
+            }
+            else
+            {
+                latitude = Convert.ToDouble(origin.Latitude);
+                longitude = Convert.ToDouble(origin.Longitude);
+            }
+
             var results = new List<ProviderLocation>();
             foreach (var providerLocation in providerLocations)
             {
-                var distanceInMiles = _distanceService.CalculateInMiles(Convert.ToDouble(origionGeoLocation.Latitude)
-                    , Convert.ToDouble(origionGeoLocation.Longitude), providerLocation.Latitude, providerLocation.Longitude);
+                var distanceInMiles = _distanceService.CalculateInMiles(latitude, longitude,
+                    providerLocation.Latitude, providerLocation.Longitude);
+
                 providerLocation.DistanceInMiles = (int)Math.Floor(distanceInMiles);
                 results.Add(providerLocation);
             }
 
             return results;
         }
-
-        public async Task<(bool IsValid, string Postcode)> IsPostcodeValid(string postcode)
+        
+        public async Task<(bool IsValid, PostcodeLocation PostcodeLocation)> IsPostcodeValid(string postcode)
         {
-            var results = await _locationApiClient.IsValidPostcodeAsync(postcode, true);
-            return results;
+            var location = await _locationApiClient.GetGeoLocationDataAsync(postcode);
+            return (location != null,
+                new PostcodeLocation
+                {
+                    Postcode = location?.Postcode,
+                    Latitude = location?.Latitude,
+                    Longitude = location?.Longitude
+                });
         }
     }
 }

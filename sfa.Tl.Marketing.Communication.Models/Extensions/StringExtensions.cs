@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace sfa.Tl.Marketing.Communication.Application.Extensions
+namespace sfa.Tl.Marketing.Communication.Models.Extensions
 {
     public static class StringExtensions
     {

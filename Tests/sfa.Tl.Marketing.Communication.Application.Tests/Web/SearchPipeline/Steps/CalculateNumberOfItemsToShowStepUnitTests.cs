@@ -3,9 +3,6 @@ using sfa.Tl.Marketing.Communication.Constants;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -87,9 +84,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         {
             // Arrange
             InitializeViewModel();
-            int currentNumberOfItemsToShow = 10;
-            int totalRecordCount = 20;
-            int qualificationId = 9;
+            var currentNumberOfItemsToShow = 10;
+            var totalRecordCount = 20;
+            var qualificationId = 9;
             _context.ViewModel.TotalRecordCount = totalRecordCount;
             _context.ViewModel.NumberOfItemsToShow = currentNumberOfItemsToShow;
             _context.ViewModel.SearchedQualificationId = qualificationId;
@@ -108,9 +105,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         {
             // Arrange
             InitializeViewModel();
-            int currentNumberOfItemsToShow = 10;
-            int totalRecordCount = 13;
-            int qualificationId = 9;
+            var currentNumberOfItemsToShow = 10;
+            var totalRecordCount = 13;
+            var qualificationId = 9;
             _context.ViewModel.TotalRecordCount = totalRecordCount;
             _context.ViewModel.NumberOfItemsToShow = currentNumberOfItemsToShow;
             _context.ViewModel.SearchedQualificationId = qualificationId;

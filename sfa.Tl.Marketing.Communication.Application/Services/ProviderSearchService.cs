@@ -39,11 +39,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             var providers = _providerDataService.GetProviders();
 
-            IQueryable<Location> locations = new List<Location>().AsQueryable();
             var results = new List<ProviderLocation>();
 
             if (providers.Any())
             {
+                IQueryable<Location> locations;
                 if (searchRequest.QualificationId.HasValue && searchRequest.QualificationId.Value > 0)
                 {
                     locations = _locationService.GetLocations(providers, searchRequest.QualificationId.Value);
@@ -55,10 +55,17 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
                 var providerLocations = _providerLocationService.GetProviderLocations(locations, providers);
 
-                results = await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(searchRequest.Postcode, providerLocations);
+                //results = await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(searchRequest.Postcode, providerLocations);
+                results = await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
+                    new PostcodeLocation
+                    {
+                        Postcode = searchRequest.Postcode,
+                        Latitude = searchRequest.OriginLatitude,
+                        Longitude = searchRequest.OriginLongitude
+                    }, providerLocations);
             }
 
-            var totalCount = results.Count();
+            var totalCount = results.Count;
             var searchResults = results.OrderBy(pl => pl.DistanceInMiles).Take(searchRequest.NumberOfItems);
 
             return (totalCount, searchResults);
@@ -66,14 +73,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public Qualification GetQualificationById(int id)
         {
-            var qualification = _providerDataService.GetQualification(id);
-            return qualification;
+            return _providerDataService.GetQualification(id);
         }
 
-        public async Task<(bool IsValid, string Postcode)> IsSearchPostcodeValid(string postcode)
+        public async Task<(bool IsValid, PostcodeLocation PostcodeLocation)> IsSearchPostcodeValid(string postcode)
         {
-            var result = await _distanceCalculationService.IsPostcodeValid(postcode);
-            return result;
+            return await _distanceCalculationService.IsPostcodeValid(postcode);
         }
     }
 }

@@ -36,7 +36,7 @@
         <div class="row no-gutters">
             <div class="col-lg-8 col-12">
                 <div id="tl-results-summary" class="tl-results--summary">
-                    @if (Model.ProviderLocations.Count() == 0)
+                    @if (!Model.ProviderLocations.Any())
                     {
                         <h3>0 results</h3>
                         <p>Enter a postcode to search for colleges and schools doing T Levels.</p>
@@ -45,12 +45,12 @@
                 <div id="tl-search-results">
                     @foreach (var providerLocation in Model.ProviderLocations)
                     {
-                        @await Html.PartialAsync("_ProviderLocation", providerLocation);
+                        @await Html.PartialAsync("_ProviderLocation", providerLocation)
                     }
                 </div>
-                <div class="tl-results--google tl-none">
+                @*<div class="tl-results--google tl-none">
                     <img src="/files/images/poweredbygoogle.png" alt="Powered by Google" class="tl-results--google--image tl-align--right" />
-                </div>
+                </div>*@
 
                 @if (Model.ShowNext)
                 {

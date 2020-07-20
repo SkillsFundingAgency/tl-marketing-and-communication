@@ -30,10 +30,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         public async Task Step_Perform_Search()
         {
             // Arrange         
-            string postcode = "MK35 8UK";
-            int numberOfItems = 9;
-            int qualificationId = 5;
-            int selectedItemIndex = 3;
+            var postcode = "MK35 8UK";
+            var numberOfItems = 9;
+            var qualificationId = 5;
+            var selectedItemIndex = 3;
 
             var viewModel = new FindViewModel()
             {

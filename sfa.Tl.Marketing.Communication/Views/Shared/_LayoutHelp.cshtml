@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <partial name="_Head" />
-    @RenderSection("cssfiles", false)
+    @await RenderSectionAsync("cssfiles", false)
 
 </head>
 <body id="@ViewData["PageID"]">
@@ -30,7 +30,7 @@
     <partial name="_FooterLanding" />
     <partial name="_Scripts" />
 
-    @RenderSection("jsfiles", false)
+    @await RenderSectionAsync("jsfiles", false)
 
 </body>
 </html>

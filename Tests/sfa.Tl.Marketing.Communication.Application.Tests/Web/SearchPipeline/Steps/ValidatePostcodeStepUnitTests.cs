@@ -6,6 +6,7 @@ using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
 using System.Threading.Tasks;
+using sfa.Tl.Marketing.Communication.Models.Dto;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
@@ -45,8 +46,18 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         public async Task Step_Validate_Wrong_Postcode()
         {
             // Arrange
-            string postcode = "dddfd";
-            bool isValid = false;
+            const string postcode = "dddfd";
+            const string latitude = "50.0123";
+            const string longitude = "1.987";
+            const bool isValid = false;
+
+            var postcodeLocation = new PostcodeLocation
+            {
+                Postcode = postcode,
+                Latitude = latitude,
+                Longitude = longitude
+            };
+
             var viewModel = new FindViewModel()
             {
                 Postcode = postcode
@@ -54,7 +65,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
 
             var context = new SearchContext(viewModel);
 
-            _providerSearchService.IsSearchPostcodeValid(Arg.Is<string>(p => p == postcode)).Returns((isValid, postcode));
+            _providerSearchService.IsSearchPostcodeValid(Arg.Is<string>(p => p == postcode)).Returns((isValid,  postcodeLocation));
 
             // Act
             await _searchStep.Execute(context);
@@ -70,17 +81,27 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         public async Task Step_Validate_Postcode_And_()
         {
             // Arrange
-            string postcode = "mk 4 2 8 y u";
-            string expected = "MK42 8YU";
-            bool isValid = true;
+            const string postcode = "mk 4 2 8 y u";
+            const string expected = "MK42 8YU";
+            const string latitude = "50.0123";
+            const string longitude = "1.987";
+            const bool isValid = true;
+
+            var expectedPostcodeLocation = new PostcodeLocation
+            {
+                Postcode = expected,
+                Latitude = latitude,
+                Longitude = longitude
+            };
+
             var viewModel = new FindViewModel()
             {
                 Postcode = postcode
             };
-
+            
             var context = new SearchContext(viewModel);
 
-            _providerSearchService.IsSearchPostcodeValid(Arg.Is<string>(p => p == postcode)).Returns((isValid, expected));
+            _providerSearchService.IsSearchPostcodeValid(Arg.Is<string>(p => p == postcode)).Returns((isValid, expectedPostcodeLocation));
 
             // Act
             await _searchStep.Execute(context);

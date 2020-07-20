@@ -115,7 +115,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             if (responseMessage.StatusCode != HttpStatusCode.NotFound)
             {
                 responseMessage.EnsureSuccessStatusCode();
-                var response = responseMessage.Content.ReadAsAsync<PostCodeLookupResponse>().GetAwaiter()
+                var response = responseMessage.Content.ReadAsAsync<PostcodeLookupResponse>().GetAwaiter()
                     .GetResult();
 
                 return new Tuple<double, double>(
@@ -129,7 +129,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                 if (terminatedResponseMessage.StatusCode != HttpStatusCode.NotFound)
                 {
                     terminatedResponseMessage.EnsureSuccessStatusCode();
-                    var response = terminatedResponseMessage.Content.ReadAsAsync<PostCodeLookupResponse>().GetAwaiter()
+                    var response = terminatedResponseMessage.Content.ReadAsAsync<PostcodeLookupResponse>().GetAwaiter()
                         .GetResult();
 
                     return new Tuple<double, double>(
@@ -195,18 +195,17 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
 
         private static void WriteProvidersToFile(ProviderWrite data, string path)
         {
-            using (var fs = File.Create(path))
-            using (var sw = new StreamWriter(fs))
-            using (var jw = new JsonTextWriter(sw))
-            {
-                var serializer = new JsonSerializer
-                {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                    Formatting = Formatting.Indented
-                };
+            using var fs = File.Create(path);
+            using var sw = new StreamWriter(fs);
+            using var jw = new JsonTextWriter(sw);
 
-                serializer.Serialize(jw, data);
-            }
+            var serializer = new JsonSerializer
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.Indented
+            };
+
+            serializer.Serialize(jw, data);
         }
 
     }

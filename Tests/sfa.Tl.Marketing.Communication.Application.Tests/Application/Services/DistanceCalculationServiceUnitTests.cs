@@ -7,7 +7,6 @@ using sfa.Tl.Marketing.Communication.Models.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -15,9 +14,12 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 {
     public class DistanceCalculationServiceUnitTests
     {
+        const double DoubleTolerance = 0.0000001;
+
         private readonly IDistanceCalculationService _service;
         private readonly ILocationApiClient _locationApiClient;
-        private readonly IDistanceService _distanceService; 
+        private readonly IDistanceService _distanceService;
+
         public DistanceCalculationServiceUnitTests()
         {
             _locationApiClient = Substitute.For<ILocationApiClient>();
@@ -30,61 +32,114 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [InlineData("mk126ab", "53.579015", "2.720474", 52.680624, -2.28696, 19.3, 19)]
         [InlineData("mk126ab", "54.579015", "3.720474", 53.680624, -3.28696, 97.7, 97)]
         [InlineData("mk126ab", "55.579015", "4.720474", 54.680624, -4.28696, 100.5, 100)]
-        public async Task CalculateProviderLocationDistanceInMiles_Calculate_Distance_In_Miles_From_StudentPostcode_To_ProviderLocation(string sPostcode, 
-            string sLat, 
-            string sLon, 
-            double dLat, 
-            double dLon, 
-            double calculatedMilageInMiles, 
-            int expectedMilageInMilesAfterRounding)
+        public async Task CalculateProviderLocationDistanceInMiles_Calculate_Distance_In_Miles_From_StudentPostcode_To_ProviderLocation_Using_LocationApi(
+            string studentPostcode,
+            string studentLat,
+            string studentLon,
+            double providerLat,
+            double providerLon,
+            double calculatedMileageInMiles,
+            int expectedMileageInMilesAfterRounding)
         {
             // Arrange
-            bool includeTerminatedPostcode = true;
-            var postcodeLookupResultDto = new PostcodeLookupResultDto() { Postcode = sPostcode, Latitude = sLat, Longitude = sLon };
-            _locationApiClient.GetGeoLocationDataAsync(sPostcode, Arg.Is<bool>(a => a == includeTerminatedPostcode)).Returns(postcodeLookupResultDto);
+            var postcodeLookupResultDto = new PostcodeLookupResultDto { Postcode = studentPostcode, Latitude = studentLat, Longitude = studentLon };
+            _locationApiClient.GetGeoLocationDataAsync(studentPostcode).Returns(postcodeLookupResultDto);
 
-            var providerLocation = new ProviderLocation() { Latitude = dLat, Longitude = dLon };
-            var providerLocations = new List<ProviderLocation>() 
+            var providerLocation = new ProviderLocation { Latitude = providerLat, Longitude = providerLon };
+            var providerLocations = new List<ProviderLocation>()
             {
                providerLocation
             };
 
-            _distanceService.CalculateInMiles(Arg.Is<double>(a => a == Convert.ToDouble(postcodeLookupResultDto.Latitude)),
-                Arg.Is<double>(a => a == Convert.ToDouble(postcodeLookupResultDto.Longitude)),
-                Arg.Is<double>(a => a == providerLocation.Latitude),
-                Arg.Is<double>(a => a == providerLocation.Longitude)).Returns(calculatedMilageInMiles);
-            
+            _distanceService.CalculateInMiles(
+                    Arg.Is<double>(a => Math.Abs(a - Convert.ToDouble(postcodeLookupResultDto.Latitude)) < DoubleTolerance),
+                    Arg.Is<double>(a => Math.Abs(a - Convert.ToDouble(postcodeLookupResultDto.Longitude)) < DoubleTolerance),
+                    Arg.Is<double>(a => Math.Abs(a - providerLocation.Latitude) < DoubleTolerance),
+                    Arg.Is<double>(a => Math.Abs(a - providerLocation.Longitude) < DoubleTolerance))
+                .Returns(calculatedMileageInMiles);
+
             // Act
-            var actual = await _service.CalculateProviderLocationDistanceInMiles(sPostcode, providerLocations.AsQueryable());
+            var actual = await _service.CalculateProviderLocationDistanceInMiles(new PostcodeLocation { Postcode = studentPostcode }, providerLocations.AsQueryable());
 
             // Assert
             var actualProviderLocation = actual.First();
-            actualProviderLocation.DistanceInMiles.Should().Be(expectedMilageInMilesAfterRounding);
-            
-            await _locationApiClient.Received(1).GetGeoLocationDataAsync(sPostcode, Arg.Is<bool>(a => a == includeTerminatedPostcode));
+            actualProviderLocation.DistanceInMiles.Should().Be(expectedMileageInMilesAfterRounding);
 
-            _distanceService.Received(1).CalculateInMiles(Arg.Is<double>(a => a == Convert.ToDouble(postcodeLookupResultDto.Latitude)),
-                Arg.Is<double>(a => a == Convert.ToDouble(postcodeLookupResultDto.Longitude)),
-                Arg.Is<double>(a => a == providerLocation.Latitude),
-                Arg.Is<double>(a => a == providerLocation.Longitude));
+            await _locationApiClient.Received(1).GetGeoLocationDataAsync(studentPostcode);
+
+            _distanceService.Received(1).CalculateInMiles(
+                Arg.Is<double>(a => Math.Abs(a - Convert.ToDouble(postcodeLookupResultDto.Latitude)) < DoubleTolerance),
+                Arg.Is<double>(a => Math.Abs(a - Convert.ToDouble(postcodeLookupResultDto.Longitude)) < DoubleTolerance),
+                Arg.Is<double>(a => Math.Abs(a - providerLocation.Latitude) < DoubleTolerance),
+                Arg.Is<double>(a => Math.Abs(a - providerLocation.Longitude) < DoubleTolerance));
         }
 
         [Theory]
-        [InlineData("mk778gh", "ssssddddd", true)]
-        [InlineData("mk665bt", "kkklk", false)]
-        public async Task IsPostcodeValid_Validate_a_Postcode_Including_TerminatedPostcodes(string postcode, string data, bool isValid)
+        [InlineData("mk126ab", "52.579015", "1.720474", 51.680624, -1.28696, 2.9, 2)]
+        [InlineData("mk126ab", "53.579015", "2.720474", 52.680624, -2.28696, 19.3, 19)]
+        [InlineData("mk126ab", "54.579015", "3.720474", 53.680624, -3.28696, 97.7, 97)]
+        [InlineData("mk126ab", "55.579015", "4.720474", 54.680624, -4.28696, 100.5, 100)]
+        public async Task CalculateProviderLocationDistanceInMiles_Calculate_Distance_In_Miles_From_StudentPostcode_To_ProviderLocation_Using_Saved_Lat_Long(
+            string studentPostcode,
+            string studentLat,
+            string studentLon,
+            double providerLat,
+            double providerLon,
+            double calculatedMileageInMiles,
+            int expectedMileageInMilesAfterRounding)
         {
             // Arrange
-            bool expected = isValid;
-            bool includeTerminatedPostcode = true;
-            _locationApiClient.IsValidPostcodeAsync(postcode, Arg.Is<bool>(a => a == includeTerminatedPostcode)).Returns((expected, data));
+            var providerLocation = new ProviderLocation { Latitude = providerLat, Longitude = providerLon };
+            var providerLocations = new List<ProviderLocation>()
+            {
+               providerLocation
+            };
+
+            _distanceService.CalculateInMiles(
+                    Arg.Is<double>(a => Math.Abs(a - Convert.ToDouble(studentLat)) < DoubleTolerance),
+                    Arg.Is<double>(a => Math.Abs(a - Convert.ToDouble(studentLon)) < DoubleTolerance),
+                    Arg.Is<double>(a => Math.Abs(a - providerLocation.Latitude) < DoubleTolerance),
+                    Arg.Is<double>(a => Math.Abs(a - providerLocation.Longitude) < DoubleTolerance))
+                .Returns(calculatedMileageInMiles);
+
+            // Act
+            var actual = await _service.CalculateProviderLocationDistanceInMiles(new PostcodeLocation
+            {
+                Postcode = studentPostcode,
+                Latitude = studentLat,
+                Longitude = studentLon
+            }, providerLocations.AsQueryable());
+
+            // Assert
+            var actualProviderLocation = actual.First();
+            actualProviderLocation.DistanceInMiles.Should().Be(expectedMileageInMilesAfterRounding);
+
+            _distanceService.Received(1).CalculateInMiles(
+                Arg.Is<double>(a => Math.Abs(a - Convert.ToDouble(studentLat)) < DoubleTolerance),
+                Arg.Is<double>(a => Math.Abs(a - Convert.ToDouble(studentLon)) < DoubleTolerance),
+                Arg.Is<double>(a => Math.Abs(a - providerLocation.Latitude) < DoubleTolerance),
+                Arg.Is<double>(a => Math.Abs(a - providerLocation.Longitude) < DoubleTolerance));
+        }
+
+        [Theory]
+        [InlineData("mk778gh", true)]
+        [InlineData("mk665bt", false)]
+        public async Task IsPostcodeValid_Validate_a_Postcode_Including_TerminatedPostcodes(string postcode, bool isValid)
+        {
+            // Arrange
+            var postcodeLookupResultDto = isValid
+                ? new PostcodeLookupResultDto { Postcode = postcode }
+                : null;
+
+            var expected = isValid;
+            _locationApiClient.GetGeoLocationDataAsync(postcode).Returns(postcodeLookupResultDto);
 
             // Act
             var actual = await _service.IsPostcodeValid(postcode);
 
             // Assert
             actual.IsValid.Should().Be(expected);
-            await _locationApiClient.Received(1).IsValidPostcodeAsync(postcode, Arg.Is<bool>(a => a == includeTerminatedPostcode));
+            await _locationApiClient.Received(1).GetGeoLocationDataAsync(postcode);
         }
     }
 }

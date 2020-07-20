@@ -11,55 +11,19 @@ namespace sfa.Tl.Marketing.Communication.Models
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public int DistanceInMiles { get; set; }
-        public string DistanceString
-        {
-            get
-            {
-                return DistanceInMiles == 1 ? "mile" : "miles";
-            }
-        }
+        public string DistanceString => DistanceInMiles == 1 ? "mile" : "miles";
         public IEnumerable<QualificationViewModel> Qualification2020 { get; set; }
         public IEnumerable<QualificationViewModel> Qualification2021 { get; set; }
         public string Website { get; set; }
-        public string RedirectUrl
-        {
-            get
-            {
-                return $"/students/redirect?url={Website}";
-            }
-        }
+        public string RedirectUrl => $"/students/redirect?url={Website}";
 
-        public string RedirectUrlLabel        
-        {
-            get
-            {
-                return $"Visit {VenueName}'s website";
-            }
-        }
+        public string RedirectUrlLabel => $"Visit {VenueName}'s website";
 
-        public string VenueName
-        {
-            get
-            {
-                return string.IsNullOrEmpty(Name) ? ProviderName : Name;
-            }
-        }
+        public string VenueName => string.IsNullOrEmpty(Name) ? ProviderName : Name;
 
-        public string AddressLabel
-        {
-            get
-            {
-                return string.IsNullOrEmpty(Name) ? $"{Town} | {Postcode}" : $"Part of {ProviderName} \r\n {Town} | {Postcode}";
-            }
-        }
+        public string AddressLabel => string.IsNullOrEmpty(Name) ? $"{Town} | {Postcode}" : $"Part of {ProviderName} \r\n {Town} | {Postcode}";
 
         public bool HasFocus { get; set; }
-        public string Autofocus 
-        { 
-          get 
-          {
-                return HasFocus ? "autofocus" : string.Empty;
-          } 
-        }
+        public string Autofocus => HasFocus ? "autofocus" : string.Empty;
     }
 }
