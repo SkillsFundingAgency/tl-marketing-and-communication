@@ -15,7 +15,9 @@ namespace sfa.Tl.Marketing.Communication.Models
         public IEnumerable<QualificationViewModel> Qualification2020 { get; set; }
         public IEnumerable<QualificationViewModel> Qualification2021 { get; set; }
         public string Website { get; set; }
-        public string RedirectUrl => $"/students/redirect?url={Website}";
+        public string RedirectUrl => !string.IsNullOrWhiteSpace(Website) 
+            ? $"/students/redirect?url={Website}" 
+            : "";
 
         public string RedirectUrlLabel => $"Visit {VenueName}'s website";
 
