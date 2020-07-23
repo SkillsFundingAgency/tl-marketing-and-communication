@@ -129,8 +129,8 @@
           "name": "",
           "postcode": "IG11 8FJ",
           "town": "Barking and Dagenham",
-          "latitude": 51.537574,
-          "longitude": 0.078117,
+          "latitude": 51.537297,
+          "longitude": 0.077008,
           "qualification2020": [],
           "qualification2021": [
             2
@@ -312,8 +312,8 @@
           "name": "",
           "postcode": "HU17 8QG",
           "town": "East Riding of Yorkshire",
-          "latitude": 53.848273,
-          "longitude": -0.504045,
+          "latitude": 53.848058,
+          "longitude": -0.503445,
           "qualification2020": [
             6
           ],
@@ -967,8 +967,8 @@
           "name": "",
           "postcode": "NR31 7BQ",
           "town": "Great Yarmouth",
-          "latitude": 52.579015,
-          "longitude": 1.720474,
+          "latitude": 52.57859,
+          "longitude": 1.719995,
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -1237,8 +1237,8 @@
           "name": "Barrow Sixth Form College",
           "postcode": "LA13 9LE",
           "town": "Barrow in Furness",
-          "latitude": 54.129924,
-          "longitude": -3.200561,
+          "latitude": 54.132245,
+          "longitude": -3.201271,
           "qualification2020": [],
           "qualification2021": [
             10
@@ -1367,8 +1367,8 @@
           "name": "",
           "postcode": "CM20 3EZ",
           "town": "Harlow",
-          "latitude": 51.769535,
-          "longitude": 0.099306,
+          "latitude": 51.76932,
+          "longitude": 0.098238,
           "qualification2020": [],
           "qualification2021": [
             5,
@@ -1698,8 +1698,8 @@
           "name": "",
           "postcode": "LS2 7BS",
           "town": "Leeds",
-          "latitude": 53.799005,
-          "longitude": -1.534648,
+          "latitude": 53.799024,
+          "longitude": -1.53483,
           "qualification2020": [],
           "qualification2021": [
             6,
@@ -2443,10 +2443,9 @@
           "town": "Sandwell",
           "latitude": 52.50705,
           "longitude": -1.965917,
-          "qualification2020": [
-            4
-          ],
+          "qualification2020": [],
           "qualification2021": [
+            4,
             7
           ],
           "website": "http://www.sandwellacademy.com/page/6th-tlevels"
@@ -3055,11 +3054,10 @@
           "town": "Walsall",
           "latitude": 52.582479,
           "longitude": -1.982079,
-          "qualification2020": [
-            4
-          ],
+          "qualification2020": [],
           "qualification2021": [
-            3
+            3,
+            4
           ],
           "website": "https://walsallstudio.school/"
         }
@@ -3167,8 +3165,8 @@
           "name": "",
           "postcode": "BS22 8NL",
           "town": "North Somerset",
-          "latitude": 51.34938,
-          "longitude": -2.948269,
+          "latitude": 51.350582,
+          "longitude": -2.947533,
           "qualification2020": [
             6
           ],
