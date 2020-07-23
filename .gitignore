@@ -298,3 +298,7 @@ appsettings.Development.json
 
 # Data load app per-developer local settings
 **/*.DataLoad/appsettings.json
+
+# Provider data .csv saved from the .xlsx file
+**/*.DataLoad/Provider Data/*.csv
+

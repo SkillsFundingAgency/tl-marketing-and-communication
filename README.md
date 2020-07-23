@@ -47,8 +47,9 @@ The Postcode Retriever Base Url key is stored in the site appSettings.json file.
 1. The console application *sfa.Tl.Marketing.Communication.DataLoad* can be run to regenerate the `providers.json` file. 
 2. All provider data exist in "Full Provider Data 2020 - 2021 (campaign site).xlsx" spreadsheet, the latest copy exist in *sfa.Tl.Marketing.Communication.DataLoad/Provider Data* folder
 3. To add a new qualification for course year a new row will be added for a provider venue to the spreadsheet
-4. To regenerate the 'providers.json' from the spreadsheet, Save As the spreadsheet as .csv file. 
-5. Before running the console app, update CsvFilePath and JsonOutputPath file paths in Programm.cs
+4. To regenerate the 'providers.json' from the spreadsheet, Save As the spreadsheet as .csv file.
+   * The csv file will not be chcked in to Git
+5. Before running the console app, update CsvFilePath and JsonOutputPath file paths in Program.cs
 Or
 6. Default paths to input and output file paths are in constants in the code; if you want to set different paths add a file called `appsettings.json` with the content below. DO NOT CHECK THIS IN.
 
