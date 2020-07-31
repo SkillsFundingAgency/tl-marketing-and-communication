@@ -64,9 +64,9 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 {
                     var qualificationsDictionary = _jsonConvertor.DeserializeObject<IDictionary<int, string>>(providerData.Value.ToString());
 
-                    foreach (var qualfication in qualificationsDictionary)
+                    foreach (var qualification in qualificationsDictionary)
                     {
-                        qualifications.Add(new Qualification { Id = qualfication.Key, Name = qualfication.Value });
+                        qualifications.Add(new Qualification { Id = qualification.Key, Name = qualification.Value });
                     }
                 }
             }
