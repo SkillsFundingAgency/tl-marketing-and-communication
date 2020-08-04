@@ -1,15 +1,71 @@
 ﻿@{
     ViewData["Title"] = "T Levels for students";
     ViewData["PageID"] = "tl-student-home";
-    ViewData["MetaDescription"] = "T Levels are a new, two-year qualification designed to give 16 to 19 year olds a head start towards the career they want.";   
+    ViewData["MetaDescription"] = "T Levels are a new, two-year qualification designed to give 16 to 19 year olds a head start towards the career they want.";
 }
 
-<section id="tl-video">
+    <section id="tl-banner--student-home">
+        <div class="tl-container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1>Welcome to the next level</h1>
+                    <p class="tl-lead">T Levels are a brand-new, 2-year qualification that will give you a head start towards the career you want.</p>
+                    <p class="tl-lead">
+                        The government has developed T Levels to deliver world-class technical education and give you a new choice after GCSEs.
+                    </p>
+                    <a href="/students/about" class="tl-button--orange" id="tl-employer-home-findoutmore">
+                        <span class="tl-hidden--mobile--up">More about T Levels</span>
+                        <span class="tl-hidden--mobile--down">Find out more about T Levels</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<section id="tl-maincontent" class="tl-margin-top--50--medium tl-margin-bottom--50--medium tl-content--white">
+    <div class="row no-gutters">
+        <div class="col-md-6 ">
+            <div class="tl-content--box">
+                <h2>Why choose T Levels</h2>
+                <p>A T Level is a nationally-recognised qualification that is worth the same number of UCAS points as 3 A levels.</p>
+                <p>Backed by business, they include a 45-day industry placement to help you learn what a real career is like.</p>
+                <a href="/students/why" id="tl-home--discover" class="tl-button--orange tl-margin-top--10">
+                    <span class="tl-hidden--desktop--down">Discover the benefits of <span class="no-break">T Levels</span></span>
+                    <span class="tl-hidden--desktop--up">Benefits of <span class="no-break">T Levels</span></span>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-6 align-self-center order-1 ">
+            <img src="/files/images/TLevels_WebsiteAssets1.jpg" alt="" />
+        </div>
+    </div>
+
+    <div class="row no-gutters tl-margin-top--50--medium tl-margin-top--30">
+        <div class="col-md-6 align-self-center order-2 order-md-1 ">
+            <img src="/files/images/TLevels_WebsiteAssets2.jpg" alt="" />
+        </div>
+        <div class="col-md-6 order-1">
+            <div class="tl-content--box">
+                <h2>What can you learn</h2>
+                <p>24 T Level subjects will become available over the next 3 years, starting in September 2020 with courses in construction, digital and education.</p>
+                <p>Eventually there will be something for everyone - from agriculture to catering and engineering to finance.</p>
+                <a href="/students/subjects" id="tl-home--subjects" class="tl-button--orange tl-margin-top--10">
+                    See all <span class="no-break">T Level</span> subjects
+                </a>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<partial name="_SearchHome" />
+
+<section id="tl-video--student">
     <div class="tl-container">
         <div class="row">
             <div class="col">
                 <div class="tl-banner--video-image plyr__video-embed tl-js--visible" id="player">
-                    <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/CYccTnWxwW0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                
+                    <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/CYccTnWxwW0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
                 <div class="tl-js--hidden tl-margin-bottom--20 tl-margin-top--20">
                     <p><a class="tl-link-white--orange" href="https://www.youtube.com/watch?v=CYccTnWxwW0">Watch video - T Levels: welcome to the next level</a></p>
@@ -20,39 +76,10 @@
 </section>
 
 <section id="tl-banner--student">
-            <h2 class="tl-hidden">Welcome to the next level</h2>
-</section>
-
-<section id="tl-maincontent" class="tl-content--orange">
-    <div class="row no-gutters">
-        <div class="col-md-6">
-            <img src="/files/images/TLevels_WebsiteAssets1.jpg" alt="" />
-        </div>
-        <div class="col-md-6">
-            <div class="tl-content--box">
-                <h2>A new qualification</h2>
-                <p>T Levels are a brand-new, 2-year qualification that will give you a head start towards the career you want.</p>
-                <p>The government has developed T Levels to deliver world-class technical education and give you a new choice after GCSEs.</p>
-                <a href="/students/why" id="tl-home--discover" class="tl-button--black tl-margin-top--10 d-inline-block d-md-none d-lg-inline-block">Discover the benefits of <span class="no-break">T Levels</span></a>
-            </div>
-        </div>
-    </div>
-
-    <div class="row no-gutters">
-        <div class="col-md-6 order-2 order-md-1">
-            <div class="tl-content--box">
-                <h2>Created with business</h2>
-                <p>T Levels have been designed in partnership with businesses and employers to give you the skills and knowledge to succeed in the workplace.</p>
-                <p>Your course includes a 45-day industry placement with a local employer to help get you ready for work.</p>
-            </div>
-        </div>
-        <div class="col-md-6 order-1">
-            <img src="/files/images/TLevels_WebsiteAssets2.jpg" alt="" />
-        </div>
+    <div class="tl-banner--content">
+        <h2 class="tl-hidden">Welcome to the next level</h2>
     </div>
 </section>
-
-<partial name="_Search" />
 
 @section jsfiles{
 

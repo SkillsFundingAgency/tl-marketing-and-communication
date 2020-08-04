@@ -18,11 +18,29 @@
         }
     }
 
-    &--student {
-        background: image("nextlevel2000.png") no-repeat center;
+
+    &--student-home {
+        padding: 60px 0;
+        background: image("StudentHomeBanner.jpg") no-repeat center;
         background-size: cover;
-        max-height: 450px;
-        height: 50vw;
         @extend #tl-banner;
+
+
+        a {
+            @include margin(top, 20);
+        }
+    }
+
+    &--student {
+        padding: 0 0 4vw 0;
+        background: black;
+
+        .tl-banner--content {
+            background: image("nextlevel2000.png") no-repeat center;
+            background-size: cover;
+            max-height: 450px;
+            height: 50vw;
+            @extend #tl-banner;
+        }
     }
 }
