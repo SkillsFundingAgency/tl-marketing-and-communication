@@ -32,10 +32,15 @@
     }
 
     &--student {
-        background: image("nextlevel2000.png") no-repeat center;
-        background-size: cover;
-        max-height: 450px;
-        height: 50vw;
-        @extend #tl-banner;
+        padding: 0 0 4vw 0;
+        background: black;
+
+        .tl-banner--content {
+            background: image("nextlevel2000.png") no-repeat center;
+            background-size: cover;
+            max-height: 450px;
+            height: 50vw;
+            @extend #tl-banner;
+        }
     }
 }

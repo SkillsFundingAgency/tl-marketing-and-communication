@@ -1,16 +1,21 @@
-#tl-video, #tl-employer-home--video {
+#tl-video, #tl-video--student, #tl-employer-home--video {
     background: $black;
     z-index: z('video');
     color: $white;
 
-    h2 {
+        h2 {
         padding-bottom: 0;
         @include margin(bottom, 0);
     }
-
-
 }
 
 .tl-video {
     width: 100%;
+}
+
+
+#tl-video--student {
+    .tl-container {
+        max-width: 1920px;
+    }
 }
