@@ -43,3 +43,14 @@
         @include rgba-background($linksecondary, 0.55);
     }
 }
+
+
+@mixin linkbasic($linkprimary, $linksecondary) {
+    color: $linkprimary;
+    text-decoration: none;
+
+    &:hover, &:focus {
+        color: $linksecondary;
+    }
+
+}

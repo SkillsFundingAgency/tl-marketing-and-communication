@@ -1,3 +1,7 @@
 @mixin margin($marginlocation, $marginsize) {
     margin-#{$marginlocation}: $marginsize + px;
 }
+
+@mixin padding($paddinglocation, $paddingsize) {
+    padding-#{$paddinglocation}: $paddingsize + px;
+}
