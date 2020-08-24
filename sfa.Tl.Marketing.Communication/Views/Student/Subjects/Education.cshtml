@@ -1,17 +1,150 @@
 ﻿@{
-    Layout = "~/Views/Student/Subjects/_Layout.cshtml";
-}
-
-
-@{
     ViewData["SubjectTitle"] = "Education and Childcare";
+    ViewData["SubjectDescription"] = "During the two-year programme, students will learn the core knowledge and skills that underpin many jobs in early years education, childcare and teaching.";
     ViewData["SelectedQualificationId"] = "6";
     ViewData["PageID"] = "tl-student-subject--education";
 }
 
-<p>Everyone studies a core curriculum of child development, how education works plus important topics like safeguarding and special educational needs. You can then focus on one of these areas:</p>
-<ul class="tl-list--vertical tl-list--bullet">
-    <li>early years education and childcare (the industry placement for this specialism lasts a minimum of 750 hours, during which students are assessed in real work situations)</li>
-    <li>assisting teaching</li>
-    <li>supporting and mentoring students in further and higher education (only available from September 2021)</li>
-</ul>
+@{
+    Layout = "~/Views/Student/Subjects/_LayoutNew.cshtml";
+}
+
+<section id="tl-maincontent" class="tl-margin-top--100 tl-margin-bottom--100 tl-content-normal--white">
+    <div class="tl-container">
+
+        <div class="row tl-margin-bottom--60">
+            <div class="col-md-12">
+                <h2>Summary</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="tl-students-subject--summary">
+                            <p><span>Level 3</span> qualificaton</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="tl-students-subject--summary">
+                            <p><span>26 weeks</span> classroom study (over two years)</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="tl-students-subject--summary">
+                            <p><span>9 weeks</span> minimum working with an employer<br />(21 weeks if you take the Early Years Educator specialism)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <h2>What you'll need before you start</h2>
+                <p>
+                    Individual colleges and schools will have their own entry requirements. However, for most courses, we expect students will need either:
+                </p>
+
+                <ul class="tl-list--vertical tl-list--bullet">
+                    <li>5 GCSE passes (grade 4 or above), including English, maths and science</li>
+                    <li>a pass in a relevant level 2 qualification</li>
+                </ul>
+
+                <p>For more information, <a class="tl-link-black--orange" href="/students/find">check with the relevant school or college</a>.</p>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="tl-secondarycontent" class="tl-padding-top--100 tl-padding-bottom--100 tl-content-normal--black">
+    <div class="tl-container">
+
+        <div class="row">
+            <div class="col-md-8">
+                <h2>What you can do with this <span class="tl-nobreak">T Level</span></h2>
+                <p>
+                    This course is suitable for anyone wanting a career in early years education, childcare or assisting teaching. Students can progress into roles such as:
+                </p>
+            </div>
+        </div>
+        <div class="row tl-margin-bottom--40">
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-4 tl-padding-top--40">
+                        <h4 class="tl-heading--xsmall--addarrow--orange">
+                            <a class="tl-link-basic-white--orange" href="https://nationalcareers.service.gov.uk/job-profiles/nursery-worker">nursery worker</a>
+                        </h4>
+                    </div>
+                    <div class="col-md-4 tl-padding-top--40">
+                        <h4 class="tl-heading--xsmall--addarrow--orange">
+                            <a class="tl-link-basic-white--orange" href="https://nationalcareers.service.gov.uk/job-profiles/special-educational-needs-(sen)-teaching-assistant">special educational needs teaching assistant</a>
+                        </h4>
+                    </div>
+                    <div class="col-md-4 tl-padding-top--40">
+                        <h4 class="tl-heading--xsmall--addarrow--orange">
+                            <a class="tl-link-basic-white--orange" href="https://nationalcareers.service.gov.uk/job-profiles/teaching-assistant">teaching assistant</a>
+                        </h4>
+                    </div>
+                    <div class="col-md-4 tl-padding-top--40">
+                        <h4 class="tl-heading--xsmall--addarrow--orange">
+                            <a class="tl-link-basic-white--orange" href="https://nationalcareers.service.gov.uk/job-profiles/learning-mentor">learning mentor</a>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <p>Students can also use this T Level to do a related higher-level apprenticeship or degree course.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section id="tl-secondarycontent" class="tl-padding-top--100 tl-padding-bottom--100 tl-content-normal--white">
+    <div class="tl-container">
+
+        <div class="row">
+            <div class="col-md-8">
+                <h2>What you’ll learn on this course</h2>
+                <div class="tl-subjects--accordion">
+                    <button class="tl-subjects--accordion--button">Core content</button>
+                    <div class="tl-subjects--accordion--panel">
+                        <p>
+                            All students will develop an understanding of:
+                        </p>
+                        <ul class="tl-list--bullet">
+                            <li>understanding the education and childcare sector from ages 0 to 19</li>
+                            <li>child development</li>
+                            <li>how to support children and young people’s education</li>
+                            <li>safeguarding, health and safety and wellbeing</li>
+                            <li>understanding and managing behaviour</li>
+                            <li>observing and assessing children and young people</li>
+                            <li>equality and diversity</li>
+                            <li>special educational needs and disability</li>
+                            <li>English as an additional language</li>
+                            <li>working with parents, carers and wider families</li>
+                            <li>working with agencies and services that support children, families and carers</li>
+                            <li>reflective practice and other forms of professional development</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tl-subjects--accordion">
+                    <button class="tl-subjects--accordion--button">Options to specialise</button>
+                    <div class="tl-subjects--accordion--panel">
+                        <p>In addition to the core content, each student has the option to study one of the following specialisms:</p>
+                        <ul class="tl-list--bullet">
+                            <li>early years education and childcare</li>
+                            <li>assisting teaching</li>
+                            <li>(from September 2021) supporting and mentoring students in further and higher education</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+
+
