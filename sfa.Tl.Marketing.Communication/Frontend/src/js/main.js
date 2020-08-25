@@ -32,6 +32,18 @@ $('.tl-nav--hamburger').keypress(function (e) {
     }
 }); 
 
+
+// Subject accordions //
+$(".tl-subjects--accordion--button").click(function () {
+    $(this).parent().toggleClass('tl-subjects--accordion--expanded');
+});
+
+
+
+
+
+
+
 var firstTabStop;
 var lastTabStop;
 

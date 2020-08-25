@@ -41,5 +41,13 @@ $linkvariables:
     }
 }
 
+.tl-link-basic {
+    @each $linktextname, $linkunderlinename, $linktextcolor, $linkunderlinecolor in $linkvariables {
+        &-#{$linktextname}--#{$linkunderlinename} {
+            @include linkbasic($linktextcolor, $linkunderlinecolor);
+        }
+    }
+}
+
 
 
