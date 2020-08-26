@@ -55,8 +55,12 @@ science;
             text-decoration-color: $orange;
         }
 
+        &:focus {
+            border: 2px solid $orange;
+        }
+
         &:after {
-            content: "+";
+            content: "\002B";
             color: $orange;
             float: right;
             font-size: 30px;
@@ -74,7 +78,7 @@ science;
     &--expanded {
         .tl-subjects--accordion--button {
             &:after {
-                content: "-";
+                content: "\2212";
             }
         }
 
