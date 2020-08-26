@@ -17,6 +17,7 @@
         height: 100%;
         display: flex;
 
+
         @include media-max(medium) {
             padding: 40px 40px;
         }
@@ -51,6 +52,24 @@
 
         .tl-button--black, .tl-button--purple, .tl-button--orange, .tl-button--white {
             margin-top: 15px;
+        }
+    }
+
+
+
+    @if $contentprimary == $white {
+        .row {
+            div:first-child {
+                .tl-content--box {
+                    padding-left: 0px !important;
+                }
+            }
+
+            div:last-child {
+                .tl-content--box {
+                    padding-right: 0px !important;
+                }
+            }
         }
     }
 
