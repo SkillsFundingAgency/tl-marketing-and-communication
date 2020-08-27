@@ -49,10 +49,16 @@ science;
         @include heading(20);
         padding: 25px 20px 25px 20px;
 
-        &:hover, &:focus {
+        &:hover {
             background-color: darken($lightgrey, 5%);
-            text-decoration: underline;
-            text-decoration-color: $orange;
+
+            span {
+                border-bottom: 2px solid $orange;
+            }
+
+            &:after {
+                text-decoration: none;
+            }
         }
 
         &:focus {
@@ -64,6 +70,7 @@ science;
             color: $orange;
             float: right;
             font-size: 30px;
+            text-decoration: none !important;
         }
     }
 
