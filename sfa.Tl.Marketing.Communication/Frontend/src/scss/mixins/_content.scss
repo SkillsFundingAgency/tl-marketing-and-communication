@@ -62,12 +62,29 @@
             div:first-child {
                 .tl-content--box {
                     padding-left: 0px !important;
+
+                    @include media-max(small) {
+                        padding-left: 15px !important;
+                    }
+
+                    @include media-max(medium) {
+                        padding-left: 20px !important;
+                    }
                 }
             }
 
             div:last-child {
                 .tl-content--box {
                     padding-right: 0px !important;
+
+
+                    @include media-max(small) {
+                        padding-right: 15px !important;
+                    }
+
+                    @include media-max(medium) {
+                        padding-right: 20px !important;
+                    }
                 }
             }
         }
