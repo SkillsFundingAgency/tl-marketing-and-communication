@@ -17,13 +17,13 @@
     }
 
     p {
-        @include font(body, 14px, $lh: 18px);
-        margin-left: 35px;
+        @include font(body, 16px, $lh: 20px);
+        margin: 0 0 10px 35px;
     }
 
     ul {
         margin: 0 0 40px 50px;
-        @include font(body, 14px, $lh: 18px);
+        @include font(body, 16px, $lh: 20px);
     }
 }
 
