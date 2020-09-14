@@ -72,7 +72,9 @@ $(document).on('click', function () {
 });
 
 $(function () {
-    $("#tl-search-results div:eq(" + $("#SelectedItemIndex").val() + ") a").focus();
+    var searchresultsize = $("#SelectedItemIndex").val();
+    $(document).scrollTop($("#tl-search-results div").eq(searchresultsize).offset().top);
+    $("#tl-search-results div:eq(" + searchresultsize + ") a").focus();
 });
 
 function closeModal() {

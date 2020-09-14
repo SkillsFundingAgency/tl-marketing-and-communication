@@ -141,6 +141,7 @@
         ul {
             @extend .tl-list--vertical;
             @extend .tl-list--bullet;
+            @include font(body, 16px);
 
             @include media-max(small) {
                 @include font(body, 14px);
@@ -159,6 +160,10 @@
                 font-size: 14px;
                 padding: 10px 15px;
             }
+        }
+
+        &--link {
+            @include font(body, 18px);
         }
 
         a {
