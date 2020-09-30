@@ -1,6 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 
@@ -8,11 +12,21 @@ namespace sfa.Tl.Marketing.Communication.Controllers
 {
     public class StudentController : Controller
     {
+        public const string AllowedRedirectUrlsCacheKey = "Allowed_Redirect_Urls";
+        public const int CacheExpiryInMinutes = 120;
+
+        private readonly IMemoryCache _cache;
+        private readonly IProviderDataService _providerDataService;
         private readonly IProviderSearchEngine _providerSearchEngine;
 
-        public StudentController(IProviderSearchEngine providerSearchEngine)
+        public StudentController(
+            IProviderDataService providerDataService, 
+            IProviderSearchEngine providerSearchEngine, 
+            IMemoryCache cache)
         {
-            _providerSearchEngine = providerSearchEngine;
+            _providerSearchEngine = providerSearchEngine ?? throw new ArgumentNullException(nameof(providerSearchEngine));
+            _providerDataService = providerDataService ?? throw new ArgumentNullException(nameof(providerDataService));
+            _cache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 
         [Route("/students", Name = "Index")]
@@ -107,11 +121,24 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         }
 
         [Route("/students/redirect", Name = "Redirect")]
-        public void Redirect(RedirectViewModel viewModel)
+        public IActionResult Redirect(RedirectViewModel viewModel)
         {
-            Response.Redirect(viewModel.Url, false);
-        }
+            if (!_cache.TryGetValue(AllowedRedirectUrlsCacheKey, out HashSet<string> allowedUrls))
+            {
+                allowedUrls = new HashSet<string>(_providerDataService.GetWebsiteUrls());
 
+                _cache.Set(AllowedRedirectUrlsCacheKey, allowedUrls,
+                    new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromMinutes(CacheExpiryInMinutes)));
+            }
+
+            var targetUrl = Url.IsLocalUrl(viewModel.Url) || allowedUrls.Contains(viewModel.Url)
+                ? viewModel.Url
+                : "/students";
+
+            return new RedirectResult(targetUrl, false);
+        }
+        
         [Route("/student")]
         public IActionResult IndexRedirect()
         {
