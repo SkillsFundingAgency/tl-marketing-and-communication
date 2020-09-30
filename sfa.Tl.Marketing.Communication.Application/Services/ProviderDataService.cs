@@ -27,7 +27,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var providers = GetAllProviders();
             return providers;
         }
-
+        
         public IEnumerable<Qualification> GetQualifications(int[] qualificationIds)
         {
             var qualifications = GetAllQualifications();
@@ -52,6 +52,24 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var json = _fileReader.ReadAllText(_configurationOptions.DataFilePath);
             var providersDataObject = _jsonConvertor.DeserializeObject<JObject> (json);
             return providersDataObject;
+        }
+
+        public IEnumerable<string> GetWebsiteUrls()
+        {
+            var urlList = new List<string>();
+
+            foreach (var provider in GetAllProviders())
+            {
+                foreach (var location in provider.Locations.Where(l => !string.IsNullOrWhiteSpace(l.Website)))
+                {
+                    if (!urlList.Contains(location.Website))
+                    {
+                        urlList.Add(location.Website);
+                    }
+                }
+            }
+
+            return urlList;
         }
 
         private IQueryable<Qualification> GetAllQualifications()
