@@ -16,7 +16,6 @@ namespace sfa.Tl.Marketing.Communication
 {
     public class Startup
     {
-
         public IConfiguration Configuration { get; }
         protected ConfigurationOptions SiteConfiguration;
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -47,6 +46,8 @@ namespace sfa.Tl.Marketing.Communication
 
             RegisterHttpClients(services);
             RegisterServices(services);
+
+            services.AddMemoryCache();
 
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();

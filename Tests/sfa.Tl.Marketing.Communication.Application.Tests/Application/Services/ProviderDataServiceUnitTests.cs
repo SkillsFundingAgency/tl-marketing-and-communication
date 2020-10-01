@@ -76,5 +76,24 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             result.Id.Should().Be(id);
             result.Name.Should().Be("Science");
         }
+
+        [Fact]
+        public void GetWebsiteUrls_Returns_Expected_Number_Of_Urls()
+        {
+            var results = _service.GetWebsiteUrls();
+
+            results.Count().Should().Be(12);
+        }
+
+        [Fact]
+        public void GetWebsiteUrls_Returns_Urls_With_No_Duplicates()
+        {
+            var results = _service.GetWebsiteUrls().ToList();
+
+            foreach (var url in results)
+            {
+                results.Count(x => x == url).Should().Be(1);
+            }
+        }
     }
 }
