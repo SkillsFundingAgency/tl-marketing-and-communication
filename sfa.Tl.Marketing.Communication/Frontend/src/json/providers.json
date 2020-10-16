@@ -418,7 +418,7 @@
             8,
             10
           ],
-          "website": "https://www.buckscollegegroup.ac.uk/"
+          "website": "https://www.buckscollegegroup.ac.uk/t-levels/"
         },
         {
           "name": "",
@@ -433,7 +433,7 @@
             3,
             10
           ],
-          "website": "https://www.buckscollegegroup.ac.uk/"
+          "website": "https://www.buckscollegegroup.ac.uk/t-levels/"
         },
         {
           "name": "",
@@ -447,7 +447,7 @@
             7,
             8
           ],
-          "website": "https://www.buckscollegegroup.ac.uk/"
+          "website": "https://www.buckscollegegroup.ac.uk/t-levels/"
         }
       ]
     },
@@ -1873,7 +1873,7 @@
             8,
             10
           ],
-          "website": "https://www.northernskills.co.uk/"
+          "website": "https://www.mbro.ac.uk/school-leavers/t-levels/"
         }
       ]
     },
@@ -2536,12 +2536,12 @@
           "latitude": 53.836819,
           "longitude": -1.790215,
           "qualification2020": [
-            4,
-            6
+            4
           ],
           "qualification2021": [
             5,
             3,
+            6,
             7,
             8
           ],
@@ -2872,6 +2872,24 @@
     },
     {
       "id": 95,
+      "name": "Thomas Telford University Technical College",
+      "locations": [
+        {
+          "name": "",
+          "postcode": "WV10 0JR",
+          "town": "Wolverhampton",
+          "latitude": 52.591888,
+          "longitude": -2.120145,
+          "qualification2020": [],
+          "qualification2021": [
+            2
+          ],
+          "website": "http://www.thomastelfordutc.com/page/tlevels"
+        }
+      ]
+    },
+    {
+      "id": 96,
       "name": "Thorpe St Andrew School and Sixth Form",
       "locations": [
         {
@@ -2890,7 +2908,7 @@
       ]
     },
     {
-      "id": 96,
+      "id": 97,
       "name": "Trafford College Group",
       "locations": [
         {
@@ -2922,7 +2940,7 @@
       ]
     },
     {
-      "id": 97,
+      "id": 98,
       "name": "Truro and Penwith College",
       "locations": [
         {
@@ -2949,7 +2967,7 @@
       ]
     },
     {
-      "id": 98,
+      "id": 99,
       "name": "University College Birmingham",
       "locations": [
         {
@@ -2968,7 +2986,7 @@
       ]
     },
     {
-      "id": 99,
+      "id": 100,
       "name": "Ursuline High School",
       "locations": [
         {
@@ -2986,7 +3004,7 @@
       ]
     },
     {
-      "id": 100,
+      "id": 101,
       "name": "Wakefield College",
       "locations": [
         {
@@ -3006,7 +3024,7 @@
       ]
     },
     {
-      "id": 101,
+      "id": 102,
       "name": "Walsall College",
       "locations": [
         {
@@ -3045,7 +3063,7 @@
       ]
     },
     {
-      "id": 102,
+      "id": 103,
       "name": "Walsall Studio School",
       "locations": [
         {
@@ -3064,7 +3082,7 @@
       ]
     },
     {
-      "id": 103,
+      "id": 104,
       "name": "Warwickshire College Group",
       "locations": [
         {
@@ -3092,24 +3110,6 @@
             3
           ],
           "website": "https://wcg.ac.uk/"
-        }
-      ]
-    },
-    {
-      "id": 104,
-      "name": "West Midlands University Technical College",
-      "locations": [
-        {
-          "name": "",
-          "postcode": "WV10 0JR",
-          "town": "Wolverhampton",
-          "latitude": 52.591888,
-          "longitude": -2.120145,
-          "qualification2020": [],
-          "qualification2021": [
-            2
-          ],
-          "website": "https://westmidsutc.co.uk/"
         }
       ]
     },
