@@ -1040,7 +1040,8 @@
           "qualification2021": [
             4,
             6,
-            7
+            7,
+            9
           ],
           "website": "https://www.ekcgroup.ac.uk/colleges/folkestone-college"
         },
@@ -1064,7 +1065,6 @@
           "longitude": 1.435027,
           "qualification2020": [],
           "qualification2021": [
-            9,
             6,
             7
           ],
@@ -1081,18 +1081,6 @@
             6
           ],
           "website": "https://www.ekcgroup.ac.uk/colleges/canterbury-college"
-        },
-        {
-          "name": "Sheppey College",
-          "postcode": "ME12 1HL",
-          "town": "Swale",
-          "latitude": 51.442008,
-          "longitude": 0.758131,
-          "qualification2020": [],
-          "qualification2021": [
-            7
-          ],
-          "website": "https://www.ekcgroup.ac.uk/colleges/sheppey-college"
         },
         {
           "name": "Canterbury College",
@@ -2237,7 +2225,8 @@
           ],
           "qualification2021": [
             7,
-            8
+            8,
+            10
           ],
           "website": "https://www.osfc.ac.uk/courses/digital-t-level/"
         }
