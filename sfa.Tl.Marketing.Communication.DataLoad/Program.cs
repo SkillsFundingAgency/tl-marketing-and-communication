@@ -83,15 +83,17 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             {
                 var venue = venueGroup.First();
                 var postcode = venue.Postcode.Trim();
-                var latLong = GetLatLong(postcode);
+
+                (string FormattedPostcode, double Lat, double Long) postcodeDetails 
+                    = GetPostcodeDetails(postcode);
 
                 var location = new LocationWriteData
                 {
                     Name = venue.VenueName.Trim(),
-                    Postcode = postcode,
+                    Postcode = postcodeDetails.FormattedPostcode,
                     Town = venue.Town.Trim(),
-                    Latitude = latLong.Item1,
-                    Longitude = latLong.Item2,
+                    Latitude = postcodeDetails.Lat,
+                    Longitude = postcodeDetails.Long,
                     Website = venue.Website.Trim(),
                     Qualification2020 = GetQualifications(venueGroup, 2020),
                     Qualification2021 = GetQualifications(venueGroup, 2021)
@@ -107,7 +109,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             return locationWriteData;
         }
 
-        private static Tuple<double, double> GetLatLong(string postcode)
+        private static (string, double, double) GetPostcodeDetails(string postcode)
         {
             var postcodesIoUrl = $"{PostcodesIoUrl}/postcodes/{postcode}";
             var httpClient = new HttpClient();
@@ -118,7 +120,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                 var response = responseMessage.Content.ReadAsAsync<PostcodeLookupResponse>().GetAwaiter()
                     .GetResult();
 
-                return new Tuple<double, double>(
+                return (response.result.Postcode,
                     Convert.ToDouble(response.result.Latitude),
                     Convert.ToDouble(response.result.Longitude));
             }
@@ -132,7 +134,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                     var response = terminatedResponseMessage.Content.ReadAsAsync<PostcodeLookupResponse>().GetAwaiter()
                         .GetResult();
 
-                    return new Tuple<double, double>(
+                    return (response.result.Postcode,
                         Convert.ToDouble(response.result.Latitude),
                         Convert.ToDouble(response.result.Longitude));
                 }

@@ -28,7 +28,7 @@
             6,
             7
           ],
-          "website": "https://www.abingdon-witney.ac.uk/whats-new/t-levels"
+          "website": "https://www.abingdon-witney.ac.uk/t-levels"
         },
         {
           "name": "",
@@ -42,7 +42,7 @@
             6,
             7
           ],
-          "website": "https://www.abingdon-witney.ac.uk/whats-new/t-levels"
+          "website": "https://www.abingdon-witney.ac.uk/t-levels"
         }
       ]
     },
@@ -1040,7 +1040,8 @@
           "qualification2021": [
             4,
             6,
-            7
+            7,
+            9
           ],
           "website": "https://www.ekcgroup.ac.uk/colleges/folkestone-college"
         },
@@ -1064,7 +1065,6 @@
           "longitude": 1.435027,
           "qualification2020": [],
           "qualification2021": [
-            9,
             6,
             7
           ],
@@ -1081,18 +1081,6 @@
             6
           ],
           "website": "https://www.ekcgroup.ac.uk/colleges/canterbury-college"
-        },
-        {
-          "name": "Sheppey College",
-          "postcode": "ME12 1HL",
-          "town": "Swale",
-          "latitude": 51.442008,
-          "longitude": 0.758131,
-          "qualification2020": [],
-          "qualification2021": [
-            7
-          ],
-          "website": "https://www.ekcgroup.ac.uk/colleges/sheppey-college"
         },
         {
           "name": "Canterbury College",
@@ -2060,7 +2048,7 @@
       "locations": [
         {
           "name": "Newcastle College",
-          "postcode": "ST52GB",
+          "postcode": "ST5 2GB",
           "town": "Newcastle under Lyme",
           "latitude": 53.015303,
           "longitude": -2.237988,
@@ -2072,7 +2060,7 @@
         },
         {
           "name": "Stafford College",
-          "postcode": "ST162QR",
+          "postcode": "ST16 2QR",
           "town": "Stafford",
           "latitude": 52.806578,
           "longitude": -2.120352,
@@ -2201,7 +2189,7 @@
       "locations": [
         {
           "name": "",
-          "postcode": "OL96AA",
+          "postcode": "OL9 6AA",
           "town": "Oldham",
           "latitude": 53.542626,
           "longitude": -2.119959,
@@ -2237,7 +2225,8 @@
           ],
           "qualification2021": [
             7,
-            8
+            8,
+            10
           ],
           "website": "https://www.osfc.ac.uk/courses/digital-t-level/"
         }
