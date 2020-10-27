@@ -49,8 +49,13 @@ namespace sfa.Tl.Marketing.Communication
 
             services.AddMemoryCache();
 
-            services.AddControllersWithViews();
-            services.AddRazorPages().AddRazorRuntimeCompilation();
+            var mvcBuilder = services.AddControllersWithViews();
+            
+            if (_webHostEnvironment.IsDevelopment())
+            {
+                mvcBuilder.AddRazorRuntimeCompilation();
+            }
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
@@ -76,7 +81,6 @@ namespace sfa.Tl.Marketing.Communication
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapRazorPages();
             });
         }
 
