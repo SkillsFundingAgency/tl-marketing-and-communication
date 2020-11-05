@@ -1,37 +1,25 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = ViewData["SubjectTitle"];
-
 }
 
 <section id="tl-subject--header" class="tl-content-normal--black">
     <div class="tl-container">
-
         <div class="row">
-            <div class="col-12 tl-margin-top--50 tl-margin-bottom--50">
+            <div class="col-12 tl-margin-top--60 tl-margin-bottom--50">
                 <a class="tl-link-white--orange" href="/students/subjects">< Back to all subjects</a>
             </div>
-
-            <div class="col-md-8 tl-margin-bottom--50">
-
+            <div class="col-md-8 tl-margin-bottom--10">
                 <h1>@ViewData["SubjectTitle"]</h1>
             </div>
-        </div>
-    </div>
-</section>
-
-<section id="tl-maincontent" class="tl-margin-top--60 tl-margin-bottom--60 tl-content-normal--white">
-    <div class="tl-container">
-
-        <div class="row">
-            <div class="col-md-8">
-                <h3>Course overview</h3>
-                @RenderBody()
-
+            <div class="col-md-8 tl-margin-bottom--100">
+                <p class="tl-lead">@ViewData["SubjectDescription"]</p>
             </div>
         </div>
     </div>
 </section>
+
+@RenderBody()
 
 @model FindViewModel
 <section id="tl-search--alt">
@@ -52,5 +40,3 @@
         </div>
     </div>
 </section>
-
-
