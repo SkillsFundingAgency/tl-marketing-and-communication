@@ -6,6 +6,7 @@
 2. npm - https://www.npmjs.com/package/npm
 3. Gulp - https://gulpjs.com/
 
+
 ## Actions
 cd to "root" directory
 
@@ -27,11 +28,15 @@ To fix this, set the version that Visual Studio runs by following the following 
 
 ## Configuration
 
-The Postcode Retriever Base Url key is stored in the site appSettings.json file. To set the value locally, you will need to add a file 'appsettings.Development.json' to the project with the content below. Add the actual key in place of `<value>`
+The Postcode Retriever Base Url key is stored in the site `appSettings.json` file. To set the value locally, you will need to add a file `appsettings.Development.json` to the project with the content below. Add the actual key in place of `<value>`
+
+Other API Keys and email addresses are also stored in the site `appSettings.json` file and need to be overridden in `appsettings.Development.json` as shown below.
 
 ```
 {
   "PostcodeRetrieverBaseUrl": "<value>"
+  "GovNotifyApiKey": "<api_key_value>",
+  "SupportEmailInboxAddress": "<your_email>",
   "Logging": {
     "LogLevel": {
       "Default": "Debug",
@@ -42,6 +47,7 @@ The Postcode Retriever Base Url key is stored in the site appSettings.json file.
 }
 ```
 
+
 ## Creating the providers data file
 
 1. The console application *sfa.Tl.Marketing.Communication.DataLoad* can be run to regenerate the `providers.json` file. 
@@ -51,7 +57,7 @@ The Postcode Retriever Base Url key is stored in the site appSettings.json file.
    * The csv file will not be chcked in to Git
 5. Before running the console app, update CsvFilePath and JsonOutputPath file paths in Program.cs
 Or
-6. Default paths to input and output file paths are in constants in the code; if you want to set different paths add a file called `appsettings.json` with the content below. DO NOT CHECK THIS IN.
+6. Default paths to input and output file paths are in constants in the code; if you want to set different paths add a file called `appsettings.json` with the content below. DO NOT CHECK THIS IN (it is already in .gitignore).
 
 {
   "InputFilePath": "<path to file>",

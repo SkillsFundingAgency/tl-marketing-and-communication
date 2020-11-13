@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using sfa.Tl.Marketing.Communication.Enums;
+using sfa.Tl.Marketing.Communication.Models;
 
 namespace sfa.Tl.Marketing.Communication.Controllers
 {
@@ -46,12 +49,24 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
+        [HttpPost]
+        [Route("/employers/next-steps", Name = "EmployerNextSteps")]
+        public async Task<IActionResult> EmployerNextSteps(EmployerContactViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            //TODO: Call service to send email
+
+            return View(viewModel);
+        }
+
         [Route("/employers/video-transcript", Name = "EmployerVideoTranscript")]
         public IActionResult EmployerVideoTranscript()
         {
             return View();
         }
-
-        
     }
 }
