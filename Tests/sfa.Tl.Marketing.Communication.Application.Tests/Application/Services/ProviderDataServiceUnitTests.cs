@@ -96,7 +96,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         public void GetQualification_Returns_A_Qualification_By_Id()
         {
             // Arrange
-            var id = 10;
+            const int id = 10;
 
             // Act
             var result = _service.GetQualification(id);
