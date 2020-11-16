@@ -14,16 +14,16 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
         public ProviderDataServiceUnitTests()
         {
-            IJsonConvertor jsonConvertor = new JsonConvertor();
             IFileReader fileReader = new FileReader();
             var appDomain = System.AppDomain.CurrentDomain;
             var basePath = appDomain.RelativeSearchPath ?? appDomain.BaseDirectory;
-            var dataFilePath = Path.Combine(basePath, "Data", "data.json");
+
+            var dataFilePath = Path.Combine(basePath ?? string.Empty, "Data", "data.json");
             var configurationOption = new ConfigurationOptions()
             {
                 DataFilePath = dataFilePath
             };
-            _service = new ProviderDataService(fileReader, jsonConvertor, configurationOption);
+            _service = new ProviderDataService(fileReader, configurationOption);
         }
 
         [Fact]
@@ -34,6 +34,35 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var providers = _service.GetProviders();
             // Assert
             providers.Count().Should().Be(10);
+        }
+
+        [Fact]
+        public void GetProviders_Returns_Expected_First_Provider()
+        {
+            var providers = _service.GetProviders();
+
+            var provider = providers.SingleOrDefault(p => p.Id == 1);
+
+            provider.Should().NotBeNull();
+
+            provider?.Id.Should().Be(1);
+            provider?.Name.Should().Be("Abingdon and Witney College");
+            provider?.Locations.Count.Should().Be(2);
+
+            var location = provider?.Locations.First();
+            location?.Name.Should().Be("");
+            location?.Postcode.Should().Be("OX14 1GG");
+            location?.Town.Should().Be("Vale of White Horse");
+            location?.Latitude.Should().Be(51.680624);
+            location?.Longitude.Should().Be(-1.28696);
+            location?.Website.Should().Be("https://www.abingdon-witney.ac.uk/whats-new/t-levels");
+
+            location?.Qualification2020.Length.Should().Be(0);
+            location?.Qualification2021.Length.Should().Be(3);
+
+            location?.Qualification2021.Should().Contain(4);
+            location?.Qualification2021.Should().Contain(6);
+            location?.Qualification2021.Should().Contain(7);
         }
 
         [Fact]

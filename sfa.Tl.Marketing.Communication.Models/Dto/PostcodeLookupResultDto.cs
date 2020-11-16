@@ -1,33 +1,33 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace sfa.Tl.Marketing.Communication.Models.Dto
 {
     public class PostcodeLookupResultDto
     {
-        [JsonProperty("postcode")]
+        [JsonPropertyName("postcode")]
         public string Postcode { get; set; }
-        [JsonProperty("longitude")]
+        [JsonPropertyName("longitude")]
         public string Longitude { get; set; }
 
-        [JsonProperty("latitude")]
+        [JsonPropertyName("latitude")]
         public string Latitude { get; set; }
 
-        [JsonProperty("country")]
+        [JsonPropertyName("country")]
         public string Country { get; set; }
 
-        [JsonProperty("region")]
+        [JsonPropertyName("region")]
         public string Region { get; set; }
 
-        [JsonProperty("outcode")]
+        [JsonPropertyName("outcode")]
         public string Outcode { get; set; }
 
-        [JsonProperty("admin_district")]
+        [JsonPropertyName("admin_district")]
         public string AdminDistrict { get; set; }
 
-        [JsonProperty("admin_county")]
+        [JsonPropertyName("admin_county")]
         public string AdminCounty { get; set; }
 
-        [JsonProperty("codes")]
+        [JsonPropertyName("codes")]
         public LocationCodesDto Codes { get; set; }
     }
 }

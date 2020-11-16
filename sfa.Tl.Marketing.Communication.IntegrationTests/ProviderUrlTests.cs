@@ -9,6 +9,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -19,7 +21,6 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
     {
         private readonly IProviderSearchService _providerSearchService;
         private readonly ITestOutputHelper _outputHelper;
-        private readonly IJsonConvertor _jsonConvertor;
 
         public ProviderUrlTests(ITestOutputHelper outputHelper)
         {
@@ -35,8 +36,7 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
             };
 
             var fileReader = new FileReader();
-            _jsonConvertor = new JsonConvertor();
-            var providerDataService = new ProviderDataService(fileReader, _jsonConvertor, configurationOptions);
+            var providerDataService = new ProviderDataService(fileReader, configurationOptions);
             var locationService = new LocationService();
             var providerLocationService = new ProviderLocationService(providerDataService);
             var distanceCalculationService = new DistanceCalculationService(new LocationApiClient(new HttpClient(), configurationOptions), new DistanceService());
@@ -64,7 +64,7 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
                 
                 var providersWithBrokenUrls = from providerLocation in locationsWithBrokenUrls
                                    select new { providerLocation.ProviderName, providerLocation.Website };
-                var json = _jsonConvertor.SerializeObject(providersWithBrokenUrls);
+                var json = SerializeObject(providersWithBrokenUrls);
                 
                 _outputHelper.WriteLine(json);
 
@@ -109,6 +109,19 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
             }
 
             return isUrlBroken;
+        }
+
+        public string SerializeObject(object data)
+        {
+            var serializerOptions = new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            };
+
+            var json = JsonSerializer.Serialize(data, serializerOptions);
+            return json;
         }
     }
 }

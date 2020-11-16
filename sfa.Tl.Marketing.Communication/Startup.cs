@@ -97,7 +97,6 @@ namespace sfa.Tl.Marketing.Communication
         protected virtual void RegisterServices(IServiceCollection services)
         {
             services.AddTransient<IFileReader, FileReader>();
-            services.AddTransient<IJsonConvertor, JsonConvertor>();
             services.AddSingleton<IProviderDataService, ProviderDataService>();
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IDistanceService, DistanceService>();
