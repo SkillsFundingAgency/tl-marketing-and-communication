@@ -14,6 +14,7 @@ namespace sfa.Tl.Marketing.Communication.Models
         public string DistanceString => DistanceInMiles == 1 ? "mile" : "miles";
         public IEnumerable<QualificationViewModel> Qualification2020 { get; set; }
         public IEnumerable<QualificationViewModel> Qualification2021 { get; set; }
+        public IEnumerable<DeliveryYearViewModel> Qualifications { get; set; }
         public string Website { get; set; }
         public string RedirectUrl => !string.IsNullOrWhiteSpace(Website) 
             ? $"/students/redirect?url={Website}" 
