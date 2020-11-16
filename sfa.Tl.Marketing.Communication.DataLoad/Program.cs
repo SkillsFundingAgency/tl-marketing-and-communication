@@ -4,12 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using sfa.Tl.Marketing.Communication.DataLoad.PostcodesIo;
 using sfa.Tl.Marketing.Communication.DataLoad.Read;
 using sfa.Tl.Marketing.Communication.DataLoad.Write;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace sfa.Tl.Marketing.Communication.DataLoad
 {
@@ -22,7 +24,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
         private static IList<string> _warningMessages;
 
         // ReSharper disable once UnusedParameter.Local
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -70,7 +72,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             Console.WriteLine($"Processed {providerWrite.Providers.Count} providers. {_warningMessages.Count} warnings.");
             Console.WriteLine($"Saving providers to {outputFilePath}");
 
-            WriteProvidersToFile(providerWrite, outputFilePath);
+            await WriteProvidersToFile(providerWrite, outputFilePath);
         }
 
         private static List<LocationWriteData> GetLocationsWrite(IGrouping<string, ProviderReadData> providers)
@@ -182,8 +184,8 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             {
                 var message =
                     $"Warning: Duplicate qualification {qualificationType} for provider {venue.ProviderName} postcode {venue.Postcode} year {year}";
-                _warningMessages.Add(message);    
-                
+                _warningMessages.Add(message);
+
                 var originalColor = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(message);
@@ -195,20 +197,20 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             }
         }
 
-        private static void WriteProvidersToFile(ProviderWrite data, string path)
+        private static async Task WriteProvidersToFile(ProviderWrite data, string path)
         {
-            using var fs = File.Create(path);
-            using var sw = new StreamWriter(fs);
-            using var jw = new JsonTextWriter(sw);
-
-            var serializer = new JsonSerializer
+            await using var fs = File.Create(path);
+            
+            var serializerOptions = new JsonSerializerOptions
             {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                Formatting = Formatting.Indented
+                //Use relaxed encoder to allow '&' through
+                //https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-how-to#serialize-all-characters
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
             };
 
-            serializer.Serialize(jw, data);
+            await JsonSerializer.SerializeAsync(fs, data, serializerOptions);
         }
-
     }
 }
