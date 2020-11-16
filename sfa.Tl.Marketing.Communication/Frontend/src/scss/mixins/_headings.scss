@@ -33,7 +33,7 @@
 
     @include font(header, $fontsize + px, italic, 400, $fontsize + px);
     padding-bottom: ($fontsize * 0.75) + px;
-    line-height: 32px;
+    display: inline-flex;
 
     @include media-max(medium) {
         @include font(header, ($fontsize * 0.8) + px, italic, 400, ($fontsize * 0.8) + px);
@@ -45,8 +45,6 @@
         }
     }
 
-
-
     &:before {
         background-image: image("arrows/arrowup-" + $colour + ".svg");
         content: "";
@@ -56,9 +54,23 @@
         background-repeat: no-repeat;
         display: inline-block;
         float: left;
-        margin: 0 ($fontsize * 1) + px ($fontsize * 2) + px 0;
+        margin: 0 ($fontsize * 1) + px 0 0;
         transition: 0.3s ease-in;
         height: ($fontsize * 1.5) + px;
+
+        @include media-max(small) {
+            margin: 0 ($fontsize * 1) + px 0 0;
+        }
+    }
+}
+
+
+
+@mixin headingarrowlink($fontsize) {
+    display: inline-block;
+
+    &:before {
+        margin: 0 ($fontsize * 1) + px ($fontsize * 2) + px 0;
 
         @include media-max(small) {
             margin: 0 ($fontsize * 1) + px ($fontsize * 1) + px 0;
