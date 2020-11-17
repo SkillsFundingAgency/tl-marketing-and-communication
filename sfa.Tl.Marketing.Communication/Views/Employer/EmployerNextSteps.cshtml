@@ -85,13 +85,13 @@
                             <span id="tl-placements-known-error" class="tl-form-group--error--message" asp-validation-for="ContactMethod"></span>
                             <div class="tl-form--radios">
                                 <div class="tl-form--radio">
-                                    <input class="tl-form--input" id="contact-method-telephone" asp-for="ContactMethod" type="radio" value="@((int)ContactMethod.Phone)" checked="@(Model?.ContactMethod == ContactMethod.Phone)">
+                                    <input class="tl-form--input" id="contact-method-telephone" asp-for="ContactMethod" type="radio" value="@ContactMethod.Phone" checked="@(Model?.ContactMethod == ContactMethod.Phone)">
                                     <label class="tl-form--label--radio" asp-for="ContactMethod">
                                         Telephone
                                     </label>
                                 </div>
                                 <div class="tl-form--radio">
-                                    <input class="tl-form--input" id="contact-method-email" asp-for="ContactMethod" type="radio" value="@((int)ContactMethod.Email)" checked="@(Model?.ContactMethod == ContactMethod.Email)">
+                                    <input class="tl-form--input" id="contact-method-email" asp-for="ContactMethod" type="radio" value="@ContactMethod.Email" checked="@(Model?.ContactMethod == ContactMethod.Email)">
                                     <label class="tl-form--label--radio" asp-for="ContactMethod">
                                         Email
                                     </label>
