@@ -47,15 +47,15 @@
                         <label class="tl-form--label" asp-for="FullName">
                             Full name
                         </label>
-                        <span class="tl-form--error--message" asp-validation-for="FullName"></span>
-                        <input asp-for="FullName" class="tl-form--input" sfa-validation-for="FullName" sfa-validationerror-class="tl-input--error" aria-label="Enter your full name" />
+                        <span class="tl-form-group--error--message" asp-validation-for="FullName"></span>
+                        <input asp-for="FullName" class="tl-form--input" sfa-validation-for="FullName" aria-label="Enter your full name" />
                     </div>
 
                     <div class="tl-form-group" sfa-validation-for="OrganisationName" sfa-validationerror-class="tl-form-group--error">
                         <label class="tl-form--label" asp-for="OrganisationName">
                             Organisation name
                         </label>
-                        <span class="tl-error-message" asp-validation-for="OrganisationName"></span>
+                        <span class="tl-form-group--error--message" asp-validation-for="OrganisationName"></span>
                         <input asp-for="OrganisationName" class="tl-form--input" sfa-validation-for="OrganisationName" sfa-validationerror-class="tl-input--error" aria-label="Enter the name of your company" />
                     </div>
 
@@ -63,7 +63,7 @@
                         <label class="tl-form--label" asp-for="PhoneNumber">
                             Phone number
                         </label>
-                        <span class="tl-error-message" asp-validation-for="PhoneNumber"></span>
+                        <span class="tl-form-group--error--message" asp-validation-for="PhoneNumber"></span>
                         <input asp-for="PhoneNumber" class="tl-form--input" type="tel" sfa-validation-for="PhoneNumber" sfa-validationerror-class="tl-input--error" aria-label="Enter your phone number" />
                     </div>
 
@@ -71,19 +71,19 @@
                         <label class="tl-form--label" asp-for="Email">
                             Email
                         </label>
-                        <span class="tl-error-message" asp-validation-for="Email"></span>
+                        <span class="tl-form-group--error--message" asp-validation-for="Email"></span>
                         <input asp-for="Email" class="tl-form--input" sfa-validation-for="Email" sfa-validationerror-class="tl-input--error" aria-label="Enter your email address" />
                     </div>
 
-                    <div class="tl-form-group tl-margin-bottom--20">
+                    <div class="tl-form-group tl-margin-bottom--20" sfa-validation-for="ContactMethod" sfa-validationerror-class="tl-form-group--error">
                         <fieldset>
                             <legend>
                                 <span class="tl-form--label">
                                     How would you like to be contacted?
                                 </span>
                             </legend>
-                            <span id="tl-placements-known-error" class="tl-error-message" asp-validation-for="ContactMethod"></span>
-                            <div class="tl-form--radios" sfa-validation-for="ContactMethod" sfa-validationerror-class="tl-form-group--error">
+                            <span id="tl-placements-known-error" class="tl-form-group--error--message" asp-validation-for="ContactMethod"></span>
+                            <div class="tl-form--radios">
                                 <div class="tl-form--radio">
                                     <input class="tl-form--input" id="contact-method-telephone" asp-for="ContactMethod" type="radio" value="@((int)ContactMethod.Phone)" checked="@(Model?.ContactMethod == ContactMethod.Phone)">
                                     <label class="tl-form--label--radio" asp-for="ContactMethod">
