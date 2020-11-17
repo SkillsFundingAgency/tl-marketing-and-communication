@@ -1,0 +1,96 @@
+.tl-form {
+    .tl-form--input {
+        width: 100%;
+        border: 2px solid $black;
+        @extend .tl-margin-bottom--30;
+        padding: 10px;
+        display: inline-block;
+        @include font(body, 18px, $lh: 26px);
+
+        &:focus {
+            outline: 3px solid lighten($purple, 20%);
+        }
+
+        &[type="tel"] {
+            max-width: 300px;
+        }
+
+        &[type="radio"] {
+            max-width: 300px;
+            cursor: pointer;
+            position: absolute;
+            z-index: 1;
+            top: -2px;
+            left: -2px;
+            width: 44px;
+            height: 44px;
+            margin: 0;
+            opacity: 0;
+
+            &:focus + .tl-form--label--radio {
+                &:before {
+                    border-width: 4px;
+                    -webkit-box-shadow: 0 0 0 4px #BBADD8;
+                    box-shadow: 0 0 0 4px #BBADD8;
+                }
+
+                &:after {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    .tl-form--label {
+        @include font(circular, 20px, normal, 400, 20px);
+        @extend .tl-margin-bottom--15;
+        @extend .tl-margin-top--10;
+        display: inline-block;
+        width: 100%;
+
+        &--radio {
+            display: inline-block;
+            margin-bottom: 0;
+            padding: 12px 15px 5px;
+            cursor: pointer;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+
+            &:before {
+                content: "";
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 40px;
+                height: 40px;
+                border: 2px solid currentColor;
+                border-radius: 50%;
+                background: transparent;
+            }
+
+            &:after {
+                content: "";
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                width: 0;
+                height: 0;
+                border: 10px solid currentColor;
+                border-radius: 50%;
+                opacity: 0;
+                background: currentColor;
+            }
+        }
+    }
+
+    .tl-form--radio {
+        display: inline-block;
+        position: relative;
+        margin-right: 20px;
+        @extend .tl-margin-bottom--30;
+        padding-left: 40px;
+        min-height: 40px;
+    }
+}
