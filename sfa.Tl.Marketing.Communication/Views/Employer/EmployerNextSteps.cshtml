@@ -86,13 +86,13 @@
                             <div class="tl-form--radios">
                                 <div class="tl-form--radio">
                                     <input class="tl-form--input" id="contact-method-telephone" asp-for="ContactMethod" type="radio" value="@ContactMethod.Phone" checked="@(Model?.ContactMethod == ContactMethod.Phone)">
-                                    <label class="tl-form--label--radio" asp-for="ContactMethod">
+                                    <label class="tl-form--label--radio" for="contact-method-telephone">
                                         Telephone
                                     </label>
                                 </div>
                                 <div class="tl-form--radio">
                                     <input class="tl-form--input" id="contact-method-email" asp-for="ContactMethod" type="radio" value="@ContactMethod.Email" checked="@(Model?.ContactMethod == ContactMethod.Email)">
-                                    <label class="tl-form--label--radio" asp-for="ContactMethod">
+                                    <label class="tl-form--label--radio" for="contact-method-email">
                                         Email
                                     </label>
                                 </div>
