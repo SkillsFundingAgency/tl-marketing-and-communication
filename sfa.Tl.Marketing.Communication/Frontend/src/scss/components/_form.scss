@@ -93,4 +93,14 @@
         padding-left: 40px;
         min-height: 40px;
     }
+
+    .tl-form-group--error {
+        &--message {
+            @include margin(bottom, 10);
+            width: 100%;
+            @include font(circular, 16px, $lh: 20px);
+            color: red;
+        }
+    }
+}
 }
