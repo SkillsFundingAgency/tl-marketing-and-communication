@@ -72,9 +72,11 @@ $(document).on('click', function () {
 });
 
 $(function () {
-    var searchresultsize = $("#SelectedItemIndex").val();
-    $(document).scrollTop($("#tl-search-results div").eq(searchresultsize).offset().top);
-    $("#tl-search-results div:eq(" + searchresultsize + ") a").focus();
+    if ($("#tl-search-results div").length) {
+        const searchResultSize = $("#SelectedItemIndex").val();
+        $(document).scrollTop($("#tl-search-results div").eq(searchResultSize).offset().top);
+        $("#tl-search-results div:eq(" + searchResultSize + ") a").focus();
+    }
 });
 
 function closeModal() {
