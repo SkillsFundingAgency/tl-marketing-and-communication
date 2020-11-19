@@ -5,7 +5,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
 {
     public interface IEmailService
     {
-        public Task<bool> SendEmployerEmail(
+        public Task<bool> SendEmployerContactEmail(
             string fullName,
             string organisationName,
             string phoneNumber,

@@ -25,7 +25,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(notificationClient));
         }
 
-        public async Task<bool> SendEmployerEmail(
+        public async Task<bool> SendEmployerContactEmail(
             string fullName,
             string organisationName,
             string phoneNumber,
@@ -36,50 +36,53 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             //TODO: Handle empty address - add test
             var toAddresses = _configuration.SupportEmailInboxAddress?.Split(';', StringSplitOptions.RemoveEmptyEntries);
 
-            if (!toAddresses.Any())
+            if (toAddresses == null || !toAddresses.Any())
             {
                 _logger.LogError("There are no support email addresses defined.");
                 return false;
             }
-
-            var tokens = new Dictionary<string, string>
+            
+            var tokens = new Dictionary<string, dynamic>
             {
-                {"full_name", fullName},
-                {"organisation_name", organisationName},
-                {"phone_number", phoneNumber},
-                {"email_address", email},
-                {"contact_method", contactMethod.ToString()}
+                { "full_name", fullName },
+                { "organisation_name", organisationName },
+                { "phone_number", phoneNumber },
+                { "email_address", email },
+                { "contact_method", contactMethod.ToString() }
             };
 
+            var allEmailsSent = true;
             foreach (var toAddress in toAddresses)
             {
-                await SendEmailAndSaveHistoryAsync(toAddress,
+                allEmailsSent &= await SendEmail(toAddress,
                     _configuration.EmployerContactEmailTemplateId,
                     tokens);
             }
 
-            return true;
+            return allEmailsSent;
         }
         
-        private async Task SendEmailAndSaveHistoryAsync(string recipient, string emailTemplateId,
-            IDictionary<string, string> personalisationTokens)
+        private async Task<bool> SendEmail(string recipient, string emailTemplateId,
+            Dictionary<string, dynamic> personalisationTokens)
         {
+            var emailSent = false;
+
             try
             {
-                var tokens = personalisationTokens.Select(x => new { key = x.Key, val = (dynamic)x.Value })
-                    .ToDictionary(item => item.key, item => item.val);
-
-                var emailResponse = await _notificationClient.SendEmailAsync(recipient, emailTemplateId, tokens);
+                var emailResponse = await _notificationClient.SendEmailAsync(recipient, emailTemplateId, personalisationTokens);
 
                 _logger.LogInformation($"Email sent - notification id '{emailResponse.id}', " +
                                        $"reference '{emailResponse.reference}, " +
                                        $"content '{emailResponse.content}'");
+                emailSent = true;
             }
             catch (Exception ex)
             {
                 var message = $"Error sending email template {emailTemplateId} to {recipient}. {ex.Message}";
                 _logger.LogError(ex, message);
             }
+
+            return emailSent;
         }
     }
 }

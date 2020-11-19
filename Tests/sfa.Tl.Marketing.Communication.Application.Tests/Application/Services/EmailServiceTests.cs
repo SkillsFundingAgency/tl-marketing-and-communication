@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -22,6 +23,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         private const string TestOrganisation = "Organisation";
         private const string TestPhoneNumber = "012-3456-78";
         private const string TestEmail = "test@test.com";
+        private const ContactMethod TestContactMethod = ContactMethod.Email;
 
         [Fact]
         public async Task EmailService_Sends_Email()
@@ -30,7 +32,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var emailService = BuildEmailService(notificationClient: notificationClient);
 
-            var result = await SendEmployerEmail(emailService);
+            var result = await SendEmployerContactEmail(emailService);
 
             result.Should().Be(true);
 
@@ -41,8 +43,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                     Arg.Is<string>(templateId =>
                         templateId == EmailTemplateId),
                     Arg.Any<Dictionary<string, dynamic>>());
-            //Arg.Is<Dictionary<string, dynamic>>(dict =>
-            //    dict.First().Key == "contactname"));
         }
 
         [Fact]
@@ -52,12 +52,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var emailService = BuildEmailService(notificationClient: notificationClient);
 
-            var result = await emailService.SendEmployerEmail(
-                TestFullName,
-                TestOrganisation,
-                TestPhoneNumber,
-                TestEmail,
-                ContactMethod.Phone);
+            var result = await SendEmployerContactEmail(emailService);
 
             result.Should().Be(true);
 
@@ -68,12 +63,16 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                     Arg.Is<string>(templateId =>
                         templateId == EmailTemplateId),
             Arg.Is<Dictionary<string, dynamic>>(tokens =>
-                    tokens.ContainsKey("full_name") && //tokens["full_name"].ToString() == TestFullName &&
-                    tokens.ContainsKey("organisation_name") && //tokens["organisation_name"] == TestFullName &&
-                    tokens.ContainsKey("phone_number") && //tokens["phone_number"] == TestFullName &&
-                    tokens.ContainsKey("email_address") && //tokens["email_address"] == TestFullName &&
-                    tokens.ContainsKey("contact_method") //&& tokens["contact_method"] == TestFullName
-                    ));
+                    TokenHasExpectedValue(tokens, "full_name", TestFullName) &&
+                    TokenHasExpectedValue(tokens, "organisation_name", TestOrganisation) &&
+                    TokenHasExpectedValue(tokens, "phone_number", TestPhoneNumber) &&
+                    TokenHasExpectedValue(tokens, "email_address", TestEmail) &&
+                    TokenHasExpectedValue(tokens, "contact_method", TestContactMethod.ToString())));
+        }
+
+        private bool TokenHasExpectedValue(IDictionary<string, dynamic> dic, string key, string expected)
+        {
+            return dic.ContainsKey(key) && (string)dic[key] == expected;
         }
 
         [Fact]
@@ -83,9 +82,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var emailService = BuildEmailService(supportInbox: "",
                 notificationClient: notificationClient);
 
-            var result = await SendEmployerEmail(emailService);
+            var result = await SendEmployerContactEmail(emailService);
 
-            //result.Should().BeFalse();
+            result.Should().BeFalse();
 
             await notificationClient
                 .DidNotReceive()
@@ -103,7 +102,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var emailService = BuildEmailService(supportInbox: emailAddressList,
                 notificationClient: notificationClient);
 
-            var result = await SendEmployerEmail(emailService);
+            var result = await SendEmployerContactEmail(emailService);
 
             await notificationClient
                 .Received(2)
@@ -124,17 +123,16 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                         emailAddress == MainSupportEmailInboxAddress),
                     Arg.Any<string>(),
                     Arg.Any<Dictionary<string, dynamic>>());
-
         }
 
-        private async Task<bool> SendEmployerEmail(IEmailService emailService)
+        private async Task<bool> SendEmployerContactEmail(IEmailService emailService)
         {
-            return await emailService.SendEmployerEmail(
+            return await emailService.SendEmployerContactEmail(
                 TestFullName,
                 TestOrganisation,
                 TestPhoneNumber,
                 TestEmail,
-                ContactMethod.Phone);
+                ContactMethod.Email);
         }
 
         private IEmailService BuildEmailService(
