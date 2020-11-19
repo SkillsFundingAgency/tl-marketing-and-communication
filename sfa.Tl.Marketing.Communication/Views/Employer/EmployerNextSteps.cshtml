@@ -38,71 +38,83 @@
     <div class="tl-container">
         <div class="row no-gutters">
             <div class="col-lg-7">
-                <h2>Do you want to discuss an industry placement?</h2>
+                <div id="tl-form--sent">
+                    <h2>
+                        Thank you for telling us that you want to talk to someone about industry placements
+                    </h2>
+                    <p>Someone will contact you within 2 working days of submitting the form.</p>
+                    <p>If it’s already been more than 2 working days and you still haven’t heard from anyone, please call us on 0800 900 8349 (choose option 4).</p>
 
-                <p>Send us a completed form and someone will contact you within 2 working days to discuss industry placements.</p>
 
-                <form id="tl-employer-contact-form" class="tl-form" asp-action="EmployerNextSteps" method="post" novalidate>
+                </div>
 
-                    <div class="tl-form-group" sfa-validation-for="FullName" sfa-validationerror-class="tl-form-group--error">
-                        <label class="tl-form--label" asp-for="FullName">
-                            Your full name
-                        </label>
-                        <span class="tl-form-group--error--message" asp-validation-for="FullName"></span>
-                        <input asp-for="FullName" class="tl-form--input" sfa-validation-for="FullName" aria-label="Enter your full name" />
-                    </div>
+                <div id="tl-form--form">
+                    <h2>Do you want to discuss an industry placement?</h2>
 
-                    <div class="tl-form-group" sfa-validation-for="OrganisationName" sfa-validationerror-class="tl-form-group--error">
-                        <label class="tl-form--label" asp-for="OrganisationName">
-                            Name of organisation
-                        </label>
-                        <span class="tl-form-group--error--message" asp-validation-for="OrganisationName"></span>
-                        <input asp-for="OrganisationName" class="tl-form--input" sfa-validation-for="OrganisationName" sfa-validationerror-class="tl-input--error" aria-label="Enter the name of your company" />
-                    </div>
+                    <p>Send us a completed form and someone will contact you within 2 working days to discuss industry placements.</p>
 
-                    <div class="tl-form-group" sfa-validation-for="PhoneNumber" sfa-validationerror-class="tl-form-group--error">
-                        <label class="tl-form--label" asp-for="PhoneNumber">
-                            Telephone number
-                        </label>
-                        <span class="tl-form-group--error--message" asp-validation-for="PhoneNumber"></span>
-                        <input asp-for="PhoneNumber" class="tl-form--input" type="tel" sfa-validation-for="PhoneNumber" sfa-validationerror-class="tl-input--error" aria-label="Enter your phone number" />
-                    </div>
+                    <form id="tl-employer-contact-form" class="tl-form" asp-action="EmployerNextSteps" method="post" novalidate>
 
-                    <div class="tl-form-group" sfa-validation-for="Email" sfa-validationerror-class="tl-form-group--error">
-                        <label class="tl-form--label" asp-for="Email">
-                            Email address
-                        </label>
-                        <span class="tl-form-group--error--message" asp-validation-for="Email"></span>
-                        <input asp-for="Email" class="tl-form--input" sfa-validation-for="Email" sfa-validationerror-class="tl-input--error" aria-label="Enter your email address" />
-                    </div>
+                        <div class="tl-form-group" sfa-validation-for="FullName" sfa-validationerror-class="tl-form-group--error">
+                            <label class="tl-form--label" asp-for="FullName">
+                                Your full name
+                            </label>
+                            <span class="tl-form-group--error--message" asp-validation-for="FullName"></span>
+                            <input asp-for="FullName" class="tl-form--input" sfa-validation-for="FullName" aria-label="Enter your full name" />
+                        </div>
 
-                    <div class="tl-form-group tl-margin-bottom--20" sfa-validation-for="ContactMethod" sfa-validationerror-class="tl-form-group--error">
-                        <fieldset>
-                            <legend>
-                                <span class="tl-form--label">
-                                    How would you like to be contacted?
-                                </span>
-                            </legend>
-                            <span id="tl-placements-known-error" class="tl-form-group--error--message" asp-validation-for="ContactMethod"></span>
-                            <div class="tl-form--radios">
-                                <div class="tl-form--radio">
-                                    <input class="tl-form--input" id="contact-method-telephone" asp-for="ContactMethod" type="radio" value="@ContactMethod.Phone" checked="@(Model?.ContactMethod == ContactMethod.Phone)">
-                                    <label class="tl-form--label--radio" for="contact-method-telephone">
-                                        Telephone
-                                    </label>
+                        <div class="tl-form-group" sfa-validation-for="OrganisationName" sfa-validationerror-class="tl-form-group--error">
+                            <label class="tl-form--label" asp-for="OrganisationName">
+                                Name of organisation
+                            </label>
+                            <span class="tl-form-group--error--message" asp-validation-for="OrganisationName"></span>
+                            <input asp-for="OrganisationName" class="tl-form--input" sfa-validation-for="OrganisationName" sfa-validationerror-class="tl-input--error" aria-label="Enter the name of your company" />
+                        </div>
+
+                        <div class="tl-form-group" sfa-validation-for="PhoneNumber" sfa-validationerror-class="tl-form-group--error">
+                            <label class="tl-form--label" asp-for="PhoneNumber">
+                                Telephone number
+                            </label>
+                            <span class="tl-form-group--error--message" asp-validation-for="PhoneNumber"></span>
+                            <input asp-for="PhoneNumber" class="tl-form--input" type="tel" sfa-validation-for="PhoneNumber" sfa-validationerror-class="tl-input--error" aria-label="Enter your phone number" />
+                        </div>
+
+                        <div class="tl-form-group" sfa-validation-for="Email" sfa-validationerror-class="tl-form-group--error">
+                            <label class="tl-form--label" asp-for="Email">
+                                Email address
+                            </label>
+                            <span class="tl-form-group--error--message" asp-validation-for="Email"></span>
+                            <input asp-for="Email" class="tl-form--input" sfa-validation-for="Email" sfa-validationerror-class="tl-input--error" aria-label="Enter your email address" />
+                        </div>
+
+                        <div class="tl-form-group tl-margin-bottom--20" sfa-validation-for="ContactMethod" sfa-validationerror-class="tl-form-group--error">
+                            <fieldset>
+                                <legend>
+                                    <span class="tl-form--label">
+                                        How would you like to be contacted?
+                                    </span>
+                                </legend>
+                                <span id="tl-placements-known-error" class="tl-form-group--error--message" asp-validation-for="ContactMethod"></span>
+                                <div class="tl-form--radios">
+                                    <div class="tl-form--radio">
+                                        <input class="tl-form--input" id="contact-method-telephone" asp-for="ContactMethod" type="radio" value="@ContactMethod.Phone" checked="@(Model?.ContactMethod == ContactMethod.Phone)">
+                                        <label class="tl-form--label--radio" for="contact-method-telephone">
+                                            Telephone
+                                        </label>
+                                    </div>
+                                    <div class="tl-form--radio">
+                                        <input class="tl-form--input" id="contact-method-email" asp-for="ContactMethod" type="radio" value="@ContactMethod.Email" checked="@(Model?.ContactMethod == ContactMethod.Email)">
+                                        <label class="tl-form--label--radio" for="contact-method-email">
+                                            Email
+                                        </label>
+                                    </div>
                                 </div>
-                                <div class="tl-form--radio">
-                                    <input class="tl-form--input" id="contact-method-email" asp-for="ContactMethod" type="radio" value="@ContactMethod.Email" checked="@(Model?.ContactMethod == ContactMethod.Email)">
-                                    <label class="tl-form--label--radio" for="contact-method-email">
-                                        Email
-                                    </label>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
+                            </fieldset>
+                        </div>
 
-                    <button class="tl-button--purple" type="submit" id="tl-send-employer-contact">Send form</button>
-                </form>
+                        <button class="tl-button--purple" type="submit" id="tl-send-employer-contact">Send form</button>
+                    </form>
+                </div>
             </div>
             <div class="col-lg-4 offset-lg-1 ">
                 <div class="tl-box--grey tl-margin-top--40 tl-margin-top--0--medium">
@@ -145,6 +157,8 @@
 
 
 @section jsfiles{
-
+    <script>
+        checkNextStepsCookie()
+    </script>
 }
 

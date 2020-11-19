@@ -187,3 +187,27 @@ function removeSearchStringFromFindUrl() {
 }
 
 
+
+// Next Steps Cookie //
+function checkNextStepsCookie() {
+    const NextStepsCookie = GOVUK.cookie('ContactFormSent')
+
+    if (NextStepsCookie === 'true') {
+        $("#tl-form--sent").show()
+    }
+
+    else {
+        $("#tl-form--form").show()
+        console.log("test2");
+    }
+}
+
+
+// REMOVE ONCE SET IN BACK END //
+function setNextStepsCookie() {
+    GOVUK.cookie('ContactFormSent', 'true', { days: 365 });
+}
+
+$("#tl-employer-contact-form").submit(function () {
+    setNextStepsCookie();
+});
