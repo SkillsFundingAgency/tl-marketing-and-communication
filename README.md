@@ -28,7 +28,7 @@ To fix this, set the version that Visual Studio runs by following the following 
 
 ## Configuration
 
-The Postcode Retriever Base Url key is stored in the site `appSettings.json` file. To set the value locally, you will need to add a file `appsettings.Development.json` to the project with the content below. Add the actual key in place of `<value>`
+The Postcode Retriever Base Url key is stored in the site `appSettings.json` file. To set the value locally, you will need to add a file `appsettings.Development.json` to the project with the content below. Add the actual key in place of `<value>` - this should usually be `https://postcodes.io/`
 
 Other API Keys and email addresses are also stored in the site `appSettings.json` file and need to be overridden in `appsettings.Development.json` as shown below.
 
