@@ -1,0 +1,5 @@
+@mixin box($boxprimary, $boxsecondary) {
+    color: $boxsecondary;
+    background-color: $boxprimary;
+    padding: 30px;
+}

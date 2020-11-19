@@ -1,0 +1,11 @@
+$displayvariables:
+none, block, inline-block, inline;
+
+
+.tl-display {
+    @each $display in $displayvariables {
+        &--#{$display} {
+            display: $display
+        }
+    }
+}

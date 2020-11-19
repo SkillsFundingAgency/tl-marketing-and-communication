@@ -45,7 +45,7 @@
 
     .tl-form--label {
         @include font(circular, 20px, normal, 400, 20px);
-        @extend .tl-margin-bottom--15;
+        @extend .tl-margin-bottom--0;
         @extend .tl-margin-top--10;
         display: inline-block;
         width: 100%;
