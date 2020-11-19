@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using sfa.Tl.Marketing.Communication.Enums;
+using sfa.Tl.Marketing.Communication.Application.Enums;
 
 namespace sfa.Tl.Marketing.Communication.Models
 {

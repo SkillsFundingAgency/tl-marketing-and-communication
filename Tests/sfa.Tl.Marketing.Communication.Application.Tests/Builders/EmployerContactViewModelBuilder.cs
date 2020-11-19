@@ -1,4 +1,4 @@
-﻿using sfa.Tl.Marketing.Communication.Enums;
+﻿using sfa.Tl.Marketing.Communication.Application.Enums;
 using sfa.Tl.Marketing.Communication.Models;
 // ReSharper disable UnusedMember.Global
 

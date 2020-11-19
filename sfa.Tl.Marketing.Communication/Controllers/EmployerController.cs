@@ -1,12 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using sfa.Tl.Marketing.Communication.Enums;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models;
 
 namespace sfa.Tl.Marketing.Communication.Controllers
 {
     public class EmployerController : Controller
     {
+        private readonly IEmailService _emailService;
+
+        public EmployerController(IEmailService emailService)
+        {
+            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
+        }
+
         [Route("/employers", Name = "Employer")]
         public IActionResult EmployerHome()
         {
@@ -58,7 +66,8 @@ namespace sfa.Tl.Marketing.Communication.Controllers
                 return View(viewModel);
             }
 
-            //TODO: Call service to send email
+            var emailSent = await _emailService.SendEmployerEmail(viewModel.FullName, viewModel.OrganisationName,
+                viewModel.PhoneNumber, viewModel.Email, viewModel.ContactMethod.Value);
 
             return View(viewModel);
         }

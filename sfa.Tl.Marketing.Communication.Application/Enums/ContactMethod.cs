@@ -1,5 +1,5 @@
 ﻿
-namespace sfa.Tl.Marketing.Communication.Enums
+namespace sfa.Tl.Marketing.Communication.Application.Enums
 {
     public enum ContactMethod
     {

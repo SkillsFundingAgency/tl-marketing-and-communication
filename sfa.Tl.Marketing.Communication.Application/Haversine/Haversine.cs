@@ -1,15 +1,9 @@
 ﻿using System;
+using sfa.Tl.Marketing.Communication.Application.Enums;
 
 namespace sfa.Tl.Marketing.Communication.Application.Haversine
 {
-    /// <summary>
-    /// The distance type to return the results in.
-    /// code reference
-    /// https://gist.github.com/jammin77/033a332542aa24889452
-    /// </summary>
-    public enum DistanceType { Miles, Kilometers };
-
-    /// <summary>
+ /// <summary>
     /// Specifies a Latitude / Longitude point.
     /// </summary>
     public struct Position
@@ -18,7 +12,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Haversine
         public double Longitude;
     }
 
-    public static class Haversine
+     /// <summary>
+     /// Haversine distance calculation.
+     /// code reference
+     /// https://gist.github.com/jammin77/033a332542aa24889452
+     /// </summary>
+     public static class Haversine
     {
         /// <summary>
         /// Returns the distance in miles or kilometers of any two
