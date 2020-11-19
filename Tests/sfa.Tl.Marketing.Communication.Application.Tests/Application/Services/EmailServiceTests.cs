@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -17,8 +15,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
     public class EmailServiceTests
     {
         private const string EmailTemplateId = "60fb5cff-dc16-4593-ab42-e2c8716f14f8";
-        private const string SingleSupportEmailInboxAddress = "test1@test.com";
-        private const string DoubleSupportEmailInboxAddress = "test1@test.com;test2@test.com";
+        private const string MainSupportEmailInboxAddress = "support@marcomms.com";
+        private const string SecondarySupportEmailInboxAddress = "moresupport@marcomms.com";
 
         private const string TestFullName = "Name";
         private const string TestOrganisation = "Organisation";
@@ -32,19 +30,14 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var emailService = BuildEmailService(notificationClient: notificationClient);
 
-            var result = await emailService.SendEmployerEmail(
-                TestFullName,
-                TestOrganisation,
-                TestPhoneNumber,
-                TestEmail,
-                ContactMethod.Phone);
+            var result = await SendEmployerEmail(emailService);
 
             result.Should().Be(true);
 
             await notificationClient
                 .Received(1)
                 .SendEmailAsync(Arg.Is<string>(emailAddress =>
-                        emailAddress == SingleSupportEmailInboxAddress),
+                        emailAddress == MainSupportEmailInboxAddress),
                     Arg.Is<string>(templateId =>
                         templateId == EmailTemplateId),
                     Arg.Any<Dictionary<string, dynamic>>());
@@ -71,7 +64,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             await notificationClient
                 .Received(1)
                 .SendEmailAsync(Arg.Is<string>(emailAddress =>
-                        emailAddress == SingleSupportEmailInboxAddress),
+                        emailAddress == MainSupportEmailInboxAddress),
                     Arg.Is<string>(templateId =>
                         templateId == EmailTemplateId),
             Arg.Is<Dictionary<string, dynamic>>(tokens =>
@@ -82,19 +75,66 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                     tokens.ContainsKey("contact_method") //&& tokens["contact_method"] == TestFullName
                     ));
         }
+
         [Fact]
         public async Task EmailService_Sends_No_Emails_When_Inbox_Address_Is_Empty()
         {
-            var emailService = BuildEmailService();
+            var notificationClient = Substitute.For<IAsyncNotificationClient>();
+            var emailService = BuildEmailService(supportInbox: "",
+                notificationClient: notificationClient);
 
+            var result = await SendEmployerEmail(emailService);
 
+            //result.Should().BeFalse();
+
+            await notificationClient
+                .DidNotReceive()
+                .SendEmailAsync(Arg.Any<string>(),
+                    Arg.Any<string>(),
+                    Arg.Any<Dictionary<string, dynamic>>());
         }
 
         [Fact]
         public async Task EmailService_Sends_Emails_To_Two_Recipients()
         {
-            var emailService = BuildEmailService(supportInbox: DoubleSupportEmailInboxAddress);
+            var notificationClient = Substitute.For<IAsyncNotificationClient>();
+            var emailAddressList = $"{MainSupportEmailInboxAddress};{SecondarySupportEmailInboxAddress}";
 
+            var emailService = BuildEmailService(supportInbox: emailAddressList,
+                notificationClient: notificationClient);
+
+            var result = await SendEmployerEmail(emailService);
+
+            await notificationClient
+                .Received(2)
+                .SendEmailAsync(Arg.Any<string>(),
+                    Arg.Any<string>(),
+                    Arg.Any<Dictionary<string, dynamic>>());
+
+            await notificationClient
+                .Received(1)
+                .SendEmailAsync(Arg.Is<string>(emailAddress =>
+                        emailAddress == MainSupportEmailInboxAddress),
+                    Arg.Any<string>(),
+                    Arg.Any<Dictionary<string, dynamic>>());
+
+            await notificationClient
+                .Received(1)
+                .SendEmailAsync(Arg.Is<string>(emailAddress =>
+                        emailAddress == MainSupportEmailInboxAddress),
+                    Arg.Any<string>(),
+                    Arg.Any<Dictionary<string, dynamic>>());
+
+        }
+
+        private async Task<bool> SendEmployerEmail(IEmailService emailService)
+        {
+            return await emailService.SendEmployerEmail(
+                TestFullName,
+                TestOrganisation,
+                TestPhoneNumber,
+                TestEmail,
+                ContactMethod.Phone);
         }
 
         private IEmailService BuildEmailService(
@@ -109,7 +149,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var configuration = new ConfigurationOptions
             {
                 EmployerContactEmailTemplateId = emailTemplateId ?? EmailTemplateId,
-                SupportEmailInboxAddress = supportInbox ?? SingleSupportEmailInboxAddress
+                SupportEmailInboxAddress = supportInbox ?? MainSupportEmailInboxAddress
             };
 
             return new EmailService(configuration, notificationClient, logger);

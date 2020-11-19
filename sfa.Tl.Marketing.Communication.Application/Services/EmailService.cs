@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Notify.Interfaces;
@@ -35,19 +34,29 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             //split addresses - send in loop
             //TODO: Handle empty address - add test
-            var toAddresses = _configuration.SupportEmailInboxAddress.Split(';', StringSplitOptions.RemoveEmptyEntries);
-            var toAddress = toAddresses.First();
+            var toAddresses = _configuration.SupportEmailInboxAddress?.Split(';', StringSplitOptions.RemoveEmptyEntries);
 
-            var tokens = new Dictionary<string, string>();
-            //Get tokens
-            //full_name
-            //organisation_name
-            //phone_number
-            //email_address
-            //contact_method
-            await SendEmailAndSaveHistoryAsync(toAddress, 
-                _configuration.EmployerContactEmailTemplateId, 
-                tokens);
+            if (!toAddresses.Any())
+            {
+                _logger.LogError("There are no support email addresses defined.");
+                return false;
+            }
+
+            var tokens = new Dictionary<string, string>
+            {
+                {"full_name", fullName},
+                {"organisation_name", organisationName},
+                {"phone_number", phoneNumber},
+                {"email_address", email},
+                {"contact_method", contactMethod.ToString()}
+            };
+
+            foreach (var toAddress in toAddresses)
+            {
+                await SendEmailAndSaveHistoryAsync(toAddress,
+                    _configuration.EmployerContactEmailTemplateId,
+                    tokens);
+            }
 
             return true;
         }
@@ -60,11 +69,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 var tokens = personalisationTokens.Select(x => new { key = x.Key, val = (dynamic)x.Value })
                     .ToDictionary(item => item.key, item => item.val);
 
-                //var emailResponse = await _notificationClient.SendEmailAsync(recipient, emailTemplateId, tokens);
+                var emailResponse = await _notificationClient.SendEmailAsync(recipient, emailTemplateId, tokens);
 
-                //_logger.LogInformation($"Email sent - notification id '{emailResponse.id}', " +
-                //                       $"reference '{emailResponse.reference}, " +
-                //                       $"content '{emailResponse.content}'");
+                _logger.LogInformation($"Email sent - notification id '{emailResponse.id}', " +
+                                       $"reference '{emailResponse.reference}, " +
+                                       $"content '{emailResponse.content}'");
             }
             catch (Exception ex)
             {
