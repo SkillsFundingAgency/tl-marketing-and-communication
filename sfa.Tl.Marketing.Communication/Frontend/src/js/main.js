@@ -187,18 +187,3 @@ function removeSearchStringFromFindUrl() {
     var studentsFindUrl = window.location.origin + window.location.pathname;
     window.history.replaceState({}, "students find", studentsFindUrl);
 }
-
-
-// Next Steps Cookie //
-function checkNextStepsCookie() {
-    const nextStepsCookie = GOVUK.cookie('ContactFormSent');
-
-    if (nextStepsCookie === 'true') {
-        console.log("NextStepsCookie true");
-        $("#tl-form--sent").show();
-    }
-    else {
-        console.log("NextStepsCookie not found");
-        $("#tl-form--form").show();
-    }
-}

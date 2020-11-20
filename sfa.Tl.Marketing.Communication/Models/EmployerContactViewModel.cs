@@ -22,5 +22,7 @@ namespace sfa.Tl.Marketing.Communication.Models
         
         [Required(ErrorMessage = "You must tell us how you would prefer to be contacted")]
         public ContactMethod? ContactMethod { get; set; }
+
+        public bool ContactFormSent { get; set; }
     }
 }

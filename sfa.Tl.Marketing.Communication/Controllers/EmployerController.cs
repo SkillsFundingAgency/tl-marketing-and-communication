@@ -58,13 +58,16 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         [Route("/employers/next-steps", Name = "EmployerNextSteps")]
         public IActionResult EmployerNextSteps()
         {
+            var viewModel = new EmployerContactViewModel();
+
             //Check cookie
             if (Request.Cookies.ContainsKey(AppConstants.EmployerContactFormSentCookieName))
             {
                 var cookie = Request.Cookies[AppConstants.EmployerContactFormSentCookieName];
+                viewModel.ContactFormSent = cookie == "true";
             }
 
-            return View();
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -86,6 +89,8 @@ namespace sfa.Tl.Marketing.Communication.Controllers
                 //TODO: If email fails, redirect to error page
                 return View(viewModel);
             }
+
+            viewModel.ContactFormSent = true;
 
             Response.Cookies.Append(AppConstants.EmployerContactFormSentCookieName, "true",
                 new CookieOptions

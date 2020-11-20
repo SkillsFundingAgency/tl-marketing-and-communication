@@ -23,9 +23,38 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
 
             var result = controller.EmployerNextSteps();
 
-            result.Should().NotBeNull();
-            result.Should().BeAssignableTo<ViewResult>();
+            var viewResult = result as ViewResult;
+            viewResult.Should().NotBeNull();
+            var viewModel = viewResult?.Model as EmployerContactViewModel;
+            viewModel.Should().NotBeNull();
+
+            viewModel?.FullName.Should().BeNull();
+            viewModel?.OrganisationName.Should().BeNull();
+            viewModel?.Phone.Should().BeNull();
+            viewModel?.Email.Should().BeNull();
+            viewModel?.ContactMethod.Should().BeNull();
+            viewModel?.ContactFormSent.Should().BeFalse();
         }
+        
+        //[Fact]
+        //public void Employer_Controller_EmployerNextSteps_Get_With_Cookie_Set_Returns_Expected_Value()
+        //{
+        //    var controller = BuildEmployerController();
+
+        //    var result = controller.EmployerNextSteps();
+
+        //    var viewResult = result as ViewResult;
+        //    viewResult.Should().NotBeNull();
+        //    var viewModel = viewResult?.Model as EmployerContactViewModel;
+        //    viewModel.Should().NotBeNull();
+
+        //    viewModel?.FullName.Should().BeNull();
+        //    viewModel?.OrganisationName.Should().BeNull();
+        //    viewModel?.Phone.Should().BeNull();
+        //    viewModel?.Email.Should().BeNull();
+        //    viewModel?.ContactMethod.Should().BeNull();
+        //    viewModel?.ContactFormSent.Should().BeTrue();
+        //}
 
         [Fact]
         public async Task Employer_Controller_EmployerNextSteps_Post_Succeeds_For_Valid_Input()
@@ -150,7 +179,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
         }
 
         private EmployerController BuildEmployerController(
-            IEmailService emailService = null)
+            IEmailService emailService = null,
+            bool setCookie = false)
         {
             emailService ??= Substitute.For<IEmailService>();
 
