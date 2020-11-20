@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models;
@@ -66,8 +68,24 @@ namespace sfa.Tl.Marketing.Communication.Controllers
                 return View(viewModel);
             }
 
-            var emailSent = await _emailService.SendEmployerEmail(viewModel.FullName, viewModel.OrganisationName,
+            var success = await _emailService.SendEmployerContactEmail(viewModel.FullName, viewModel.OrganisationName,
                 viewModel.PhoneNumber, viewModel.Email, viewModel.ContactMethod.Value);
+
+            if (!success)
+            {
+                //TODO: If email fails, redirect to error page
+                return View(viewModel);
+            }
+
+
+            Response.Cookies.Append("employercontact", "true",
+                new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(365),
+                    IsEssential = true,
+                    HttpOnly = false,
+                    Secure = true
+                });
 
             return View(viewModel);
         }

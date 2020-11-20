@@ -47,7 +47,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
 
             await emailService
                 .Received(1)
-                .SendEmployerEmail(
+                .SendEmployerContactEmail(
                     Arg.Is<string>(p => p == viewModel.FullName),
                     Arg.Is<string>(p => p == viewModel.OrganisationName),
                     Arg.Is<string>(p => p == viewModel.PhoneNumber),
