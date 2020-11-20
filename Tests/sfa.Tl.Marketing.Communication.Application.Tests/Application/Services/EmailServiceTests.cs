@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -21,7 +20,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
         private const string TestFullName = "Name";
         private const string TestOrganisation = "Organisation";
-        private const string TestPhoneNumber = "012-3456-78";
+        private const string TestPhone = "012-3456-78";
         private const string TestEmail = "test@test.com";
         private const ContactMethod TestContactMethod = ContactMethod.Email;
 
@@ -65,7 +64,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             Arg.Is<Dictionary<string, dynamic>>(tokens =>
                     TokenHasExpectedValue(tokens, "full_name", TestFullName) &&
                     TokenHasExpectedValue(tokens, "organisation_name", TestOrganisation) &&
-                    TokenHasExpectedValue(tokens, "phone_number", TestPhoneNumber) &&
+                    TokenHasExpectedValue(tokens, "phone_number", TestPhone) &&
                     TokenHasExpectedValue(tokens, "email_address", TestEmail) &&
                     TokenHasExpectedValue(tokens, "contact_method", TestContactMethod.ToString())));
         }
@@ -130,7 +129,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             return await emailService.SendEmployerContactEmail(
                 TestFullName,
                 TestOrganisation,
-                TestPhoneNumber,
+                TestPhone,
                 TestEmail,
                 ContactMethod.Email);
         }

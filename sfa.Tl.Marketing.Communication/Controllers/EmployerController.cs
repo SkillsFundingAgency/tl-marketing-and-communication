@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using sfa.Tl.Marketing.Communication.Constants;
 using sfa.Tl.Marketing.Communication.Models;
 
 namespace sfa.Tl.Marketing.Communication.Controllers
@@ -56,6 +58,12 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         [Route("/employers/next-steps", Name = "EmployerNextSteps")]
         public IActionResult EmployerNextSteps()
         {
+            //Check cookie
+            if (Request.Cookies.ContainsKey(AppConstants.EmployerContactFormSentCookieName))
+            {
+                var cookie = Request.Cookies[AppConstants.EmployerContactFormSentCookieName];
+            }
+
             return View();
         }
 
@@ -63,22 +71,23 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         [Route("/employers/next-steps", Name = "EmployerNextSteps")]
         public async Task<IActionResult> EmployerNextSteps(EmployerContactViewModel viewModel)
         {
+            Validate(viewModel);
+
             if (!ModelState.IsValid)
             {
                 return View(viewModel);
             }
-
+            
             var success = await _emailService.SendEmployerContactEmail(viewModel.FullName, viewModel.OrganisationName,
-                viewModel.PhoneNumber, viewModel.Email, viewModel.ContactMethod.Value);
-
+                viewModel.Phone, viewModel.Email, viewModel.ContactMethod.Value);
+            
             if (!success)
             {
                 //TODO: If email fails, redirect to error page
                 return View(viewModel);
             }
 
-
-            Response.Cookies.Append("employercontact", "true",
+            Response.Cookies.Append(AppConstants.EmployerContactFormSentCookieName, "true",
                 new CookieOptions
                 {
                     Expires = DateTime.Now.AddDays(365),
@@ -94,6 +103,17 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         public IActionResult EmployerVideoTranscript()
         {
             return View();
+        }
+
+        private void Validate(EmployerContactViewModel viewModel)
+        {
+            if (string.IsNullOrEmpty(viewModel.Phone))
+                return;
+
+            if (!viewModel.Phone.Any(char.IsDigit))
+                ModelState.AddModelError(nameof(viewModel.Phone), "You must enter a number");
+            else if (!Regex.IsMatch(viewModel.Phone, @"^(?:.*\d.*){7,}$"))
+                ModelState.AddModelError(nameof(viewModel.Phone), "You must enter a telephone number that has 7 or more numbers");
         }
     }
 }

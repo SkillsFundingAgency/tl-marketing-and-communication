@@ -28,12 +28,10 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public async Task<bool> SendEmployerContactEmail(
             string fullName,
             string organisationName,
-            string phoneNumber,
+            string phone,
             string email,
             ContactMethod contactMethod)
         {
-            //split addresses - send in loop
-            //TODO: Handle empty address - add test
             var toAddresses = _configuration.SupportEmailInboxAddress?.Split(';', StringSplitOptions.RemoveEmptyEntries);
 
             if (toAddresses == null || !toAddresses.Any())
@@ -46,7 +44,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             {
                 { "full_name", fullName },
                 { "organisation_name", organisationName },
-                { "phone_number", phoneNumber },
+                { "phone_number", phone },
                 { "email_address", email },
                 { "contact_method", contactMethod.ToString() }
             };

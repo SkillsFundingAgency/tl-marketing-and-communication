@@ -8,7 +8,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
         public Task<bool> SendEmployerContactEmail(
             string fullName,
             string organisationName,
-            string phoneNumber,
+            string phone,
             string email,
             ContactMethod contactMethod);
     }

@@ -20,7 +20,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
             _viewModel.FullName = "";
             _viewModel.OrganisationName = "Test Co";
             _viewModel.Email = "employer@test.com";
-            _viewModel.PhoneNumber = "0345 555 5555";
+            _viewModel.Phone = "0345 555 5555";
             _viewModel.ContactMethod = ContactMethod.Email;
             return this;
         }
@@ -43,9 +43,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
             return this;
         }
 
-        public EmployerContactViewModelBuilder WithPhoneNumber(string phoneNumber)
+        public EmployerContactViewModelBuilder WithPhone(string phone)
         {
-            _viewModel.PhoneNumber = phoneNumber;
+            _viewModel.Phone = phone;
             return this;
         }
 

@@ -71,12 +71,12 @@
                             <input asp-for="OrganisationName" class="tl-form--input" sfa-validation-for="OrganisationName" sfa-validationerror-class="tl-input--error" aria-label="Enter the name of your company" />
                         </div>
 
-                        <div class="tl-form-group" sfa-validation-for="PhoneNumber" sfa-validationerror-class="tl-form-group--error">
-                            <label class="tl-form--label" asp-for="PhoneNumber">
+                        <div class="tl-form-group" sfa-validation-for="Phone" sfa-validationerror-class="tl-form-group--error">
+                            <label class="tl-form--label" asp-for="Phone">
                                 Telephone number
                             </label>
-                            <span class="tl-form-group--error--message" asp-validation-for="PhoneNumber"></span>
-                            <input asp-for="PhoneNumber" class="tl-form--input" type="tel" sfa-validation-for="PhoneNumber" sfa-validationerror-class="tl-input--error" aria-label="Enter your phone number" />
+                            <span class="tl-form-group--error--message" asp-validation-for="Phone"></span>
+                            <input asp-for="Phone" class="tl-form--input" type="tel" sfa-validation-for="Phone" sfa-validationerror-class="tl-input--error" aria-label="Enter your phone number" />
                         </div>
 
                         <div class="tl-form-group" sfa-validation-for="Email" sfa-validationerror-class="tl-form-group--error">
@@ -158,7 +158,7 @@
 
 @section jsfiles{
     <script>
-        checkNextStepsCookie()
+        checkNextStepsCookie();
     </script>
 }
 
