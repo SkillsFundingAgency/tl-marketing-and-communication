@@ -1,21 +1,29 @@
-﻿@model ErrorViewModel
+﻿@{
+    Layout = "~/Views/Shared/_LayoutHelp.cshtml";
+}
+
+@model ErrorViewModel
 @{
     ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
+<section id="tl-error--header" class="tl-find tl-content-normal--white">
+    <div class="tl-container">
 
-<p>
-    Try again later.
-</p>
+        <div class="row">
+            <div class="col-md-10 tl-margin-bottom--50">
+                <a class="tl-link-black--orange" href="/">< Back to T Levels home page</a>
+            </div>
 
-<p>
-    <a href="/">Back to T Levels home page</a>
-</p>
+            <div class="col-md-10">
 
-@if (Model.ShowRequestId)
-{
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
-}
+                <h1>Sorry, there is a problem with the service</h1>
+                <p class="tl-body">Try again later.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
