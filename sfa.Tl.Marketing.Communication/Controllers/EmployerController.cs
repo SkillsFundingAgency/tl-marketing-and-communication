@@ -81,13 +81,18 @@ namespace sfa.Tl.Marketing.Communication.Controllers
                 return View(viewModel);
             }
             
+            if (viewModel.ContactFormSent)
+            {
+                //TODO: return here (or combine with validation) - avoids resending email if user presses refresh
+                //       might need to check cookie as well or instead
+            }
+
             var success = await _emailService.SendEmployerContactEmail(viewModel.FullName, viewModel.OrganisationName,
                 viewModel.Phone, viewModel.Email, viewModel.ContactMethod.Value);
             
             if (!success)
             {
-                //TODO: If email fails, redirect to error page
-                return View(viewModel);
+                return View("Error", new ErrorViewModel());
             }
 
             viewModel.ContactFormSent = true;

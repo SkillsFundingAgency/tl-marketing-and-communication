@@ -109,28 +109,43 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
 
             var result = await controller.EmployerNextSteps(new EmployerContactViewModelBuilder().WithDefaultValues().Build());
 
-            var responseHeaders = controller.ControllerContext.HttpContext.Response.Headers;
-
-            var cookieValue = "";
-            foreach (var (_, value) in responseHeaders.Where(h => h.Key == "Set-Cookie"))
-            {
-                var header = value.FirstOrDefault(h => h.StartsWith($"{AppConstants.EmployerContactFormSentCookieName}="));
-                if (header != null)
-                {
-                    var p1 = header.IndexOf('=');
-                    var p2 = header.IndexOf(';');
-                    cookieValue = header.Substring(p1 + 1, p2 - p1 - 1);
-                    break;
-                }
-            }
+            var cookieValue = GetCookieValue(controller, controller.ControllerContext.HttpContext.Response.Headers, AppConstants.EmployerContactFormSentCookieName);
 
             cookieValue.Should().NotBeEmpty();
             cookieValue.Should().Be("true");
-            
+
             //https://stackoverflow.com/questions/36899875/how-can-i-check-for-a-response-cookie-in-asp-net-core-mvc-aka-asp-net-5-rc1
             //https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/testing?view=aspnetcore-5.0#unit-testing-controllers
+
+            var viewResult = result as ViewResult;
+            viewResult.Should().NotBeNull();
+            var viewModel = viewResult?.Model as EmployerContactViewModel;
+            viewModel.Should().NotBeNull();
+            viewModel?.ContactFormSent.Should().BeTrue();
         }
-        
+
+        [Fact]
+        public async Task Employer_Controller_EmployerNextSteps_Post_Failed_Email_Redirects_To_Error_()
+        {
+            var emailService = Substitute.For<IEmailService>();
+            emailService.SendEmployerContactEmail(
+                    Arg.Any<string>(),
+                    Arg.Any<string>(),
+                    Arg.Any<string>(),
+                    Arg.Any<string>(),
+                    Arg.Any<ContactMethod>())
+                .Returns(false);
+
+            var controller = BuildEmployerController(emailService);
+
+            var result = await controller.EmployerNextSteps(new EmployerContactViewModelBuilder().WithDefaultValues().Build());
+            
+            var viewResult = result as ViewResult;
+            viewResult.Should().NotBeNull();
+            viewResult?.ViewName.Should().Be("Error");
+            viewResult?.Model.Should().BeOfType<ErrorViewModel>();
+        }
+
         [Fact]
         public async Task Employer_Controller_EmployerNextSteps_Post_Validates_Phone_With_No_Number()
         {
@@ -178,9 +193,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
             modelStateEntry.Errors[0].ErrorMessage.Should().Be("You must enter a telephone number that has 7 or more numbers");
         }
 
-        private EmployerController BuildEmployerController(
-            IEmailService emailService = null,
-            bool setCookie = false)
+        private static EmployerController BuildEmployerController(
+            IEmailService emailService = null)
         {
             emailService ??= Substitute.For<IEmailService>();
 
@@ -190,6 +204,24 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
             };
 
             return controller;
+        }
+
+        private static string GetCookieValue(ControllerBase controller, IHeaderDictionary headers,string cookieName)
+        {
+            var responseHeaders = controller.ControllerContext.HttpContext.Response.Headers;
+
+            foreach (var (_, value) in headers.Where(h => h.Key == "Set-Cookie"))
+            {
+                var header = value.FirstOrDefault(h => h.StartsWith($"{cookieName}="));
+                if (header != null)
+                {
+                    var p1 = header.IndexOf('=');
+                    var p2 = header.IndexOf(';');
+                    return header.Substring(p1 + 1, p2 - p1 - 1);
+                }
+            }
+
+            return null;
         }
     }
 }
