@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using sfa.Tl.Marketing.Communication.Application.Enums;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Constants;
 using sfa.Tl.Marketing.Communication.Models;
@@ -58,16 +59,10 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         [Route("/employers/next-steps", Name = "EmployerNextSteps")]
         public IActionResult EmployerNextSteps()
         {
-            var viewModel = new EmployerContactViewModel();
-
-            //Check cookie
-            if (Request.Cookies.ContainsKey(AppConstants.EmployerContactFormSentCookieName))
+            return View(new EmployerContactViewModel
             {
-                var cookie = Request.Cookies[AppConstants.EmployerContactFormSentCookieName];
-                viewModel.ContactFormSent = cookie == "true";
-            }
-
-            return View(viewModel);
+                ContactFormSent = HasContactFormSentCookie()
+            });
         }
 
         [HttpPost]
@@ -76,21 +71,22 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         {
             Validate(viewModel);
 
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || viewModel.ContactFormSent || HasContactFormSentCookie())
             {
                 return View(viewModel);
             }
             
-            if (viewModel.ContactFormSent)
+            if (HasContactFormSentCookie())
             {
-                //TODO: return here (or combine with validation) - avoids resending email if user presses refresh
-                //       might need to check cookie as well or instead
+
             }
 
-            var success = await _emailService.SendEmployerContactEmail(viewModel.FullName, viewModel.OrganisationName,
-                viewModel.Phone, viewModel.Email, viewModel.ContactMethod.Value);
-            
-            if (!success)
+            if (!(await _emailService.SendEmployerContactEmail(
+                viewModel.FullName, 
+                viewModel.OrganisationName,
+                viewModel.Phone, 
+                viewModel.Email, 
+                viewModel.ContactMethod ?? ContactMethod.Email)))
             {
                 return View("Error", new ErrorViewModel());
             }
@@ -113,6 +109,12 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         public IActionResult EmployerVideoTranscript()
         {
             return View();
+        }
+
+        private bool HasContactFormSentCookie()
+        {
+            return Request.Cookies.ContainsKey(AppConstants.EmployerContactFormSentCookieName)
+                   && Request.Cookies[AppConstants.EmployerContactFormSentCookieName] == "true";
         }
 
         private void Validate(EmployerContactViewModel viewModel)

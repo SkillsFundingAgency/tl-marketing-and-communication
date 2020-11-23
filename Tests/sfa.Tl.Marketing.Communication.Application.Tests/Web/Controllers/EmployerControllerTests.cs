@@ -35,7 +35,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
             viewModel?.ContactMethod.Should().BeNull();
             viewModel?.ContactFormSent.Should().BeFalse();
         }
-        
+
         //[Fact]
         //public void Employer_Controller_EmployerNextSteps_Get_With_Cookie_Set_Returns_Expected_Value()
         //{
@@ -79,7 +79,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
                 .Returns(true);
 
             var controller = BuildEmployerController(emailService);
-            
+
             var viewModel = new EmployerContactViewModelBuilder().WithDefaultValues().Build();
             await controller.EmployerNextSteps(viewModel);
 
@@ -108,8 +108,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
             var controller = BuildEmployerController(emailService);
 
             var result = await controller.EmployerNextSteps(new EmployerContactViewModelBuilder().WithDefaultValues().Build());
-
-            var cookieValue = GetCookieValue(controller, controller.ControllerContext.HttpContext.Response.Headers, AppConstants.EmployerContactFormSentCookieName);
+            
+            var cookieValue = GetCookieValue(controller.ControllerContext.HttpContext.Response, 
+                AppConstants.EmployerContactFormSentCookieName);
 
             cookieValue.Should().NotBeEmpty();
             cookieValue.Should().Be("true");
@@ -139,7 +140,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
             var controller = BuildEmployerController(emailService);
 
             var result = await controller.EmployerNextSteps(new EmployerContactViewModelBuilder().WithDefaultValues().Build());
-            
+
             var viewResult = result as ViewResult;
             viewResult.Should().NotBeNull();
             viewResult?.ViewName.Should().Be("Error");
@@ -161,7 +162,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
             result.Should().BeAssignableTo<ViewResult>();
 
             controller.ViewData.ModelState.Should().ContainSingle();
-            
+
             controller.ViewData.ModelState.ContainsKey(nameof(EmployerContactViewModel.Phone))
                 .Should().BeTrue();
 
@@ -206,11 +207,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
             return controller;
         }
 
-        private static string GetCookieValue(ControllerBase controller, IHeaderDictionary headers,string cookieName)
+        private static string GetCookieValue(HttpResponse response, string cookieName)
         {
-            var responseHeaders = controller.ControllerContext.HttpContext.Response.Headers;
-
-            foreach (var (_, value) in headers.Where(h => h.Key == "Set-Cookie"))
+            foreach (var (_, value) in response.Headers.Where(h => h.Key == "Set-Cookie"))
             {
                 var header = value.FirstOrDefault(h => h.StartsWith($"{cookieName}="));
                 if (header != null)
