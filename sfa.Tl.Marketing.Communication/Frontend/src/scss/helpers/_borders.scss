@@ -1,0 +1,16 @@
+$bordercolours:
+black $black, orange $orange, purple $purple, white $white;
+
+
+
+.tl-border {
+    @for $i from 0 through 10 {
+        $width: 1 * $i;
+
+        @each $colourname, $colourid in $bordercolours {
+            &-#{$width}--#{$colourname} {
+                @include border($width, $colourid);
+            }
+        }
+    }
+}
