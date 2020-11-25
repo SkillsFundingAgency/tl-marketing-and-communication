@@ -37,34 +37,23 @@
 <section class="tl-content-normal--white tl-content-padded">
     <div class="tl-container">
         <div class="row no-gutters">
-            <div class="col-lg-7">
-                
-                @if (Model.ContactFormSent)
-                {
-                    <div id="tl-form--sent">
-                        <h2>
-                            Thank you for telling us that you want to talk to someone about industry placements
-                        </h2>
-                        <p>Someone will contact you within 2 working days of submitting the form.</p>
-                        <p>If it’s already been more than 2 working days and you still haven’t heard from anyone, please call us on 0800 900 8349 (choose option 4).</p>
-                    </div>
-                }
-                else
-                {
+            @if (!Model.ContactFormSent)
+            {
+                <div class="col-lg-7">
                     <div id="tl-form--form">
                         <h2>Do you want to discuss an industry placement?</h2>
 
                         <p>Send us a completed form and someone will contact you within 2 working days to discuss industry placements.</p>
 
                         <form id="tl-employer-contact-form" class="tl-form" asp-action="EmployerNextSteps" method="post" novalidate>
-                            <input type="hidden" asp-for="ContactFormSent" value="@Model.ContactFormSent"/>
+                            <input type="hidden" asp-for="ContactFormSent" value="@Model.ContactFormSent" />
 
                             <div class="tl-form-group" sfa-validation-for="FullName" sfa-validationerror-class="tl-form-group--error">
                                 <label class="tl-form--label" asp-for="FullName">
                                     Your full name
                                 </label>
                                 <span class="tl-form-group--error--message" asp-validation-for="FullName"></span>
-                                <input asp-for="FullName" class="tl-form--input" sfa-validation-for="FullName" aria-label="Enter your full name"/>
+                                <input asp-for="FullName" class="tl-form--input" sfa-validation-for="FullName" aria-label="Enter your full name" />
                             </div>
 
                             <div class="tl-form-group" sfa-validation-for="OrganisationName" sfa-validationerror-class="tl-form-group--error">
@@ -72,7 +61,7 @@
                                     Name of organisation
                                 </label>
                                 <span class="tl-form-group--error--message" asp-validation-for="OrganisationName"></span>
-                                <input asp-for="OrganisationName" class="tl-form--input" sfa-validation-for="OrganisationName" sfa-validationerror-class="tl-input--error" aria-label="Enter the name of your company"/>
+                                <input asp-for="OrganisationName" class="tl-form--input" sfa-validation-for="OrganisationName" sfa-validationerror-class="tl-input--error" aria-label="Enter the name of your company" />
                             </div>
 
                             <div class="tl-form-group" sfa-validation-for="Phone" sfa-validationerror-class="tl-form-group--error">
@@ -80,7 +69,7 @@
                                     Telephone number
                                 </label>
                                 <span class="tl-form-group--error--message" asp-validation-for="Phone"></span>
-                                <input asp-for="Phone" class="tl-form--input" type="tel" sfa-validation-for="Phone" sfa-validationerror-class="tl-input--error" aria-label="Enter your phone number"/>
+                                <input asp-for="Phone" class="tl-form--input" type="tel" sfa-validation-for="Phone" sfa-validationerror-class="tl-input--error" aria-label="Enter your phone number" />
                             </div>
 
                             <div class="tl-form-group" sfa-validation-for="Email" sfa-validationerror-class="tl-form-group--error">
@@ -88,7 +77,7 @@
                                     Email address
                                 </label>
                                 <span class="tl-form-group--error--message" asp-validation-for="Email"></span>
-                                <input asp-for="Email" class="tl-form--input" sfa-validation-for="Email" sfa-validationerror-class="tl-input--error" aria-label="Enter your email address"/>
+                                <input asp-for="Email" class="tl-form--input" sfa-validation-for="Email" sfa-validationerror-class="tl-input--error" aria-label="Enter your email address" />
                             </div>
 
                             <div class="tl-form-group tl-margin-bottom--20" sfa-validation-for="ContactMethod" sfa-validationerror-class="tl-form-group--error">
@@ -119,20 +108,33 @@
                             <button class="tl-button--purple" type="submit" id="tl-send-employer-contact">Send form</button>
                         </form>
                     </div>
-                }
-            </div>
-            <div class="col-lg-4 offset-lg-1 ">
-                <div class="tl-box--grey tl-margin-top--40 tl-margin-top--0--medium">
-                    <h4>Alternatively, call the industry placement hotline</h4>
-                    <p class="tl-margin-top--10">
-                        Call:
-                        <span class="tl-bigtext--smaller--purple tl-display--block tl-margin-top--10 tl-padding-bottom--10">
-                            0800 900 8349
-                        </span>
-                        (choose option 4)
-                    </p>
+
+                    <div class="col-lg-4 offset-lg-1 ">
+                        <div class="tl-box--grey tl-margin-top--40 tl-margin-top--0--medium">
+                            <h4>Alternatively, call the industry placement hotline</h4>
+                            <p class="tl-margin-top--10">
+                                Call:
+                                <span class="tl-bigtext--smaller--purple tl-display--block tl-margin-top--10 tl-padding-bottom--10">
+                                    0800 900 8349
+                                </span>
+                                (choose option 4)
+                            </p>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="col-lg-9">
+                    <div id="tl-form--sent">
+                        <h2>
+                            Thank you for telling us that you want to talk to someone about industry placements
+                        </h2>
+                        <p>Someone will contact you within 2 working days of submitting the form.</p>
+                        <p>If it’s already been more than 2 working days and you still haven’t heard from anyone, please call us on 0800 900 8349 (choose option 4).</p>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </section>
