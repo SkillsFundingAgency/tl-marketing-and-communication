@@ -1,11 +1,14 @@
 $detailvariables:
 /*Button colour variables - variable name, background colour, text colour*/
-black $black, orange $orange, purple $purple, white $white;
+orange $orange, purple $purple;
 
 .tl-details {
+    @extend .tl-margin-top--30;
+
     &--summary {
         @include font(header, 20px, $lh: 20px);
         cursor: pointer;
+        display: inline-block;
 
 
         span {
@@ -15,15 +18,14 @@ black $black, orange $orange, purple $purple, white $white;
             border: none;
             font-style: italic;
             padding: 0 0 2px 0;
-            border-bottom: 2px solid $black;
             margin-bottom: 10px;
         }
     }
 
     &--content {
-        padding: 15px;
+        padding: 15px 0 1px 15px;
         border-left: 5px solid $black;
-        margin-left: 5px;
+        margin-left: 4px;
     }
 
 
@@ -33,12 +35,13 @@ black $black, orange $orange, purple $purple, white $white;
                 color: $detailcolour;
 
                 span {
-                    border-color: $detailcolour;
+                    border-bottom: 2px solid $detailcolour !important;
+                    @extend .tl-link-black--#{$detailname};
                 }
             }
 
             .tl-details--content {
-                border-color: $purple;
+                border-color: $detailcolour;
             }
         }
     }
