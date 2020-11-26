@@ -39,11 +39,6 @@ $(".tl-subjects--accordion--button").click(function () {
 });
 
 
-
-
-
-
-
 var firstTabStop;
 var lastTabStop;
 
