@@ -50,8 +50,14 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
-        [Route("/employers/what-it-costs", Name = "EmployerCosts")]
-        public IActionResult EmployerCosts()
+        [Route("/employers/what-it-costs", Name = "EmployerCostsOld")]
+        public IActionResult EmployerCostsRedirect()
+        {
+            return RedirectToAction(nameof(EmployerTimeline));
+        }
+
+        [Route("/employers/how-it-works", Name = "EmployerTimeline")]
+        public IActionResult EmployerTimeline()
         {
             return View();
         }
