@@ -1,4 +1,5 @@
-﻿using sfa.Tl.Marketing.Communication.Application.Haversine;
+﻿using sfa.Tl.Marketing.Communication.Application.Enums;
+using sfa.Tl.Marketing.Communication.Application.Haversine;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services

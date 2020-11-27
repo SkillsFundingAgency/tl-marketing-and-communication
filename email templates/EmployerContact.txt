@@ -1,0 +1,10 @@
+An employer has submitted the following information:
+
+* Full name: ((full_name))
+* Name of organisation: ((organisation_name))
+* Telephone number: ((phone_number))
+* Email address: [((email_address))](mailto:((email_address)))
+
+They would like to be contacted by ((contact_method))
+
+Please do not reply to this email.

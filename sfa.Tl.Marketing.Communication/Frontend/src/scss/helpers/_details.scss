@@ -1,0 +1,50 @@
+$detailvariables:
+/*Button colour variables - variable name, background colour, text colour*/
+orange $orange, purple $purple;
+
+.tl-details {
+    @extend .tl-margin-top--30;
+
+    &--summary {
+        @include font(header, 20px, $lh: 20px);
+        cursor: pointer;
+        display: inline-block;
+
+
+        span {
+            color: $black;
+            display: inline-block;
+            background: none;
+            border: none;
+            font-style: italic;
+            padding: 0 0 2px 0;
+            margin-bottom: 10px;
+        }
+    }
+
+    &--content {
+        padding: 15px 0 1px 15px;
+        border-left: 5px solid $black;
+        margin-left: 4px;
+    }
+
+
+    @each $detailname, $detailcolour in $detailvariables {
+        &--#{$detailname} {
+            .tl-details--summary {
+                color: $detailcolour;
+
+                span {
+                    border-bottom: 2px solid $detailcolour !important;
+                    @extend .tl-link-black--#{$detailname};
+                }
+            }
+
+            .tl-details--content {
+                border-color: $detailcolour;
+            }
+        }
+    }
+}
+
+
