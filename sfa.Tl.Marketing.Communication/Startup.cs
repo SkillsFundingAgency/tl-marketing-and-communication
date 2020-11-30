@@ -11,6 +11,8 @@ using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using System;
+using Notify.Client;
+using Notify.Interfaces;
 
 namespace sfa.Tl.Marketing.Communication
 {
@@ -32,6 +34,9 @@ namespace sfa.Tl.Marketing.Communication
             SiteConfiguration = new ConfigurationOptions
             {
                 PostcodeRetrieverBaseUrl = Configuration["PostcodeRetrieverBaseUrl"],
+                EmployerContactEmailTemplateId = Configuration["EmployerContactEmailTemplateId"],
+                //GovNotifyApiKey = Configuration["GovNotifyApiKey"],
+                SupportEmailInboxAddress = Configuration["SupportEmailInboxAddress"],
                 DataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\providers.json"
             };
 
@@ -98,13 +103,19 @@ namespace sfa.Tl.Marketing.Communication
         {
             services.AddTransient<IFileReader, FileReader>();
             services.AddSingleton<IProviderDataService, ProviderDataService>();
-            services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IDistanceService, DistanceService>();
+            services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IDistanceCalculationService, DistanceCalculationService>();
             services.AddTransient<IProviderLocationService, ProviderLocationService>();
             services.AddTransient<IProviderSearchService, ProviderSearchService>();
             services.AddTransient<ISearchPipelineFactory, SearchPipelineFactory>();
             services.AddTransient<IProviderSearchEngine, ProviderSearchEngine>();
+
+            var govNotifyApiKey = Configuration["GovNotifyApiKey"];
+            services.AddTransient<IAsyncNotificationClient, NotificationClient>(
+                provider => 
+                    new NotificationClient(govNotifyApiKey));
         }
     }
 }

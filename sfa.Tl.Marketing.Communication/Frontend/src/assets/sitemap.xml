@@ -50,6 +50,56 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.tlevels.gov.uk/students/subjects/design-surveying-planning</loc>
+    <lastmod>2020-11-27T10:47:27+00:00</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/students/subjects/digital-production-design-development</loc>
+    <lastmod>2020-11-27T10:47:27+00:00</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/students/subjects/education</loc>
+    <lastmod>2020-11-27T10:47:27+00:00</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/students/subjects/building-services-engineering</loc>
+    <lastmod>2020-11-27T10:47:27+00:00</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/students/subjects/digital-business-services</loc>
+    <lastmod>2020-11-27T10:47:27+00:00</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/students/subjects/digital-support-services</loc>
+    <lastmod>2020-11-27T10:47:27+00:00</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/students/subjects/health</loc>
+    <lastmod>2020-11-27T10:47:27+00:00</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/students/subjects/healthcare-science</loc>
+    <lastmod>2020-11-27T10:47:27+00:00</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/students/subjects/onsite-construction</loc>
+    <lastmod>2020-11-27T10:47:27+00:00</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.tlevels.gov.uk/students/subjects/science</loc>
+    <lastmod>2020-11-27T10:47:27+00:00</lastmod>
+    <priority>0.7</priority>
+  </url> 
+  <url>
     <loc>https://www.tlevels.gov.uk/students/find</loc>
     <lastmod>2020-02-19T10:47:27+00:00</lastmod>
     <priority>0.8</priority>
@@ -70,8 +120,8 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.tlevels.gov.uk/employers/what-it-costs</loc>
-    <lastmod>2020-02-19T10:47:27+00:00</lastmod>
+    <loc>https://www.tlevels.gov.uk/employers/how-it-works</loc>
+    <lastmod>2020-11-27T10:47:27+00:00</lastmod>
     <priority>0.8</priority>
   </url>
   <url>

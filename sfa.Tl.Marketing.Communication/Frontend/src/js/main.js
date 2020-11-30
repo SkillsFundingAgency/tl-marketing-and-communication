@@ -39,11 +39,6 @@ $(".tl-subjects--accordion--button").click(function () {
 });
 
 
-
-
-
-
-
 var firstTabStop;
 var lastTabStop;
 
@@ -187,5 +182,3 @@ function removeSearchStringFromFindUrl() {
     var studentsFindUrl = window.location.origin + window.location.pathname;
     window.history.replaceState({}, "students find", studentsFindUrl);
 }
-
-

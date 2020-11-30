@@ -1,23 +1,13 @@
-$headingvariables :
-    xsmall 20,
-    small 35,
-    medium 45,
-    large 60,
-    xlarge 70;
+$headingvariables: xsmall 20, smaller 30, small 35, medium 45, large 55, xlarge 70;
 
-$arrowcolours :
-    orange,
-    black,
-    white,
-    purple,
-    salmon;
+$colours: orange $orange, black $black, white $white, purple $purple, salmon $salmon;
 
 .tl-heading {
     @each $headingname, $headingsize in $headingvariables {
         &--#{$headingname} {
             @include heading($headingsize);
 
-            @each $arrowcolour in $arrowcolours {
+            @each $arrowcolour, $arrowcolourcode in $colours {
                 &--addarrow--#{$arrowcolour} {
                     @include headingarrow($headingsize, $arrowcolour);
                 }
@@ -31,7 +21,7 @@ $arrowcolours :
     }
 
     &--employer {
-        $fontsize: 50;
+        $fontsize: 45;
 
         h2 {
             @include font(header, $fontsize + px, italic, 400, $fontsize + px);
@@ -48,13 +38,20 @@ $arrowcolours :
     }
 }
 
-    .tl-bigtext {
-        @each $headingname, $headingsize in $headingvariables {
-            &--#{$headingname} {
-                @include bigtext($headingsize);
+.tl-bigtext {
+    @each $headingname, $headingsize in $headingvariables {
+        &--#{$headingname} {
+            @include bigtext($headingsize);
+
+            @each $fontcolour, $fontcolourcode in $colours {
+                &--#{$fontcolour} {
+                    @include bigtext($headingsize);
+                    color: $fontcolourcode;
+                }
             }
         }
     }
+}
 
 
     .tl-body {
@@ -80,3 +77,5 @@ $arrowcolours :
     .tl-nobreak {
         white-space: nowrap;
     }
+
+

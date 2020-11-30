@@ -28,13 +28,14 @@ To fix this, set the version that Visual Studio runs by following the following 
 
 ## Configuration
 
-The Postcode Retriever Base Url key is stored in the site `appSettings.json` file. To set the value locally, you will need to add a file `appsettings.Development.json` to the project with the content below. Add the actual key in place of `<value>`
+The Postcode Retriever Base Url key is stored in the site `appSettings.json` file. To set the value locally, you will need to add a file `appsettings.Development.json` to the project with the content below. Add the actual key in place of `<value>` - this should usually be `https://postcodes.io/`
 
 Other API Keys and email addresses are also stored in the site `appSettings.json` file and need to be overridden in `appsettings.Development.json` as shown below.
 
 ```
 {
   "PostcodeRetrieverBaseUrl": "<value>"
+  "EmployerContactEmailTemplateId": "<value>"
   "GovNotifyApiKey": "<api_key_value>",
   "SupportEmailInboxAddress": "<your_email>",
   "Logging": {
@@ -46,6 +47,10 @@ Other API Keys and email addresses are also stored in the site `appSettings.json
   }
 }
 ```
+
+- `GovNotifyApiKey` will come from GOV.UK Notify service settings (check with DevOps if you don't have access). 
+- `EmployerContactEmailTemplateId` is the email template id created in GOV.UK Notify for the contact email.
+- `SupportEmailInboxAddress` can be a single email address or a semicolon-separated list of email addresses where the contact email should be sent to.
 
 
 ## Creating the providers data file
