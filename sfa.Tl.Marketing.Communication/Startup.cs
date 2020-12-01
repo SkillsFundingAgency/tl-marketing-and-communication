@@ -11,6 +11,7 @@ using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using System;
+using Microsoft.AspNetCore.Mvc;
 using Notify.Client;
 using Notify.Interfaces;
 
@@ -48,13 +49,25 @@ namespace sfa.Tl.Marketing.Communication
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            
+            services.AddAntiforgery(options =>
+            {
+                options.Cookie.Name = "tlevels-mc-x-csrf";
+                options.FormFieldName = "_csrfToken";
+                options.HeaderName = "X-XSRF-TOKEN";
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
 
             RegisterHttpClients(services);
             RegisterServices(services);
 
             services.AddMemoryCache();
 
-            var mvcBuilder = services.AddControllersWithViews();
+            var mvcBuilder = services.AddControllersWithViews()
+                .AddMvcOptions(config =>
+                {
+                    config.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+                });
             
             if (_webHostEnvironment.IsDevelopment())
             {
@@ -83,9 +96,26 @@ namespace sfa.Tl.Marketing.Communication
                 app.UseHsts();
             }
 
+            app.UseXContentTypeOptions();
+            app.UseReferrerPolicy(opts => opts.NoReferrer());
+            app.UseXXssProtection(opts => opts.EnabledWithBlockMode());
+            app.UseXfo(xfo => xfo.Deny());
+
+            app.UseCsp(options => options.ScriptSources(s => s
+                        //.StrictDynamic()
+                        .CustomSources("https:", 
+                            "https://www.google-analytics.com/analytics.js",
+                            "https://www.googletagmanager.com/",
+                            "https://tagmanager.google.com/",
+                            "https://www.youtube.com/iframe_api")
+                        .UnsafeInline()
+                )
+                .ObjectSources(s => s.None()));
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
