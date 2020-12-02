@@ -67,11 +67,11 @@
     }
 
     &--student {
-        background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), image("LandingBanner_Student.jpg") no-repeat top;
+        background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), image("LandingBanner_Student.jpg") no-repeat 50% 20%;
         background-size: cover;
 
         @include media-min(medium) {
-            background: linear-gradient( rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25) ), image("LandingBanner_Student.jpg") no-repeat top;
+            background: linear-gradient( rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25) ), image("LandingBanner_Student.jpg") no-repeat 50% 20%;
             background-size: cover;
         }
 
@@ -83,12 +83,12 @@
     }
 
     &--employer {
-        background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), image("LandingBanner_Employer.jpg") no-repeat top;
+        background: linear-gradient( rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25) ), image("LandingBanner_Employer.jpg") no-repeat 50% 20%;
         background-size: cover;
 
 
         @include media-min(medium) {
-            background: linear-gradient( rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25) ), image("LandingBanner_Employer.jpg") no-repeat top;
+            background: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), image("LandingBanner_Employer.jpg") no-repeat 50% 20%;
             background-size: cover;
         }
 

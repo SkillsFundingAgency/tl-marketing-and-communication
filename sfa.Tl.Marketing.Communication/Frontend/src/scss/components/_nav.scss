@@ -83,7 +83,7 @@
             }
         }
 
-        &--employer {
+        &--employer, .tl-nav--bar--li--employer {
             a {
                 @include linkalt($black, $purple);
                 text-decoration: none;
