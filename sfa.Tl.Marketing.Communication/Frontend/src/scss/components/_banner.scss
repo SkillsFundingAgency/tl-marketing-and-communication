@@ -7,14 +7,13 @@
     }
 
     &--employer {
-        padding: 60px 0;
-        background: image("employer/employerbanner.jpg") no-repeat center;
-        background-size: cover;
-        @extend #tl-banner;
-
 
         a {
             @include margin(top, 20);
+        }
+
+        &--content {
+            padding: 40px 0;
         }
     }
 
