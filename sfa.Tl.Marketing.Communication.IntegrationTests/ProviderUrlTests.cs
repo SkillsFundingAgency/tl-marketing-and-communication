@@ -28,7 +28,7 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
 
             var appDomain = AppDomain.CurrentDomain;
             var basePath = appDomain.RelativeSearchPath ?? appDomain.BaseDirectory;
-            var dataFilePath = Path.Combine(basePath, "Data", "providers.json");
+            var dataFilePath = Path.Combine(basePath!, "Data", "providers.json");
             var configurationOptions = new ConfigurationOptions()
             {
                 DataFilePath = dataFilePath,
@@ -39,7 +39,7 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
             var providerDataService = new ProviderDataService(fileReader, configurationOptions);
             var locationService = new LocationService();
             var providerLocationService = new ProviderLocationService(providerDataService);
-            var distanceCalculationService = new DistanceCalculationService(new LocationApiClient(new HttpClient(), configurationOptions), new DistanceService());
+            var distanceCalculationService = new DistanceCalculationService(new LocationApiClient(new HttpClient(), configurationOptions));
             _providerSearchService = new ProviderSearchService(providerDataService, locationService, providerLocationService, distanceCalculationService);
         }
 

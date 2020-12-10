@@ -133,7 +133,6 @@ namespace sfa.Tl.Marketing.Communication
         {
             services.AddTransient<IFileReader, FileReader>();
             services.AddSingleton<IProviderDataService, ProviderDataService>();
-            services.AddTransient<IDistanceService, DistanceService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IDistanceCalculationService, DistanceCalculationService>();

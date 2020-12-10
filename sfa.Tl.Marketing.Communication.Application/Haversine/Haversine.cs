@@ -29,6 +29,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Haversine
         /// <returns></returns>
         public static double Distance(Position pos1, Position pos2, DistanceType type)
         {
+            // ReSharper disable once InconsistentNaming
             var R = (type == DistanceType.Miles) ? 3960 : 6371;
             var dLat = ToRadians(pos2.Latitude - pos1.Latitude);
             var dLon = ToRadians(pos2.Longitude - pos1.Longitude);
