@@ -12,6 +12,10 @@ $colours: orange $orange, black $black, white $white, purple $purple, salmon $sa
                     @include headingarrow($headingsize, $arrowcolour);
                 }
 
+                &--addarrowbig--#{$arrowcolour} {
+                    @include headingarrowbig($headingsize, $arrowcolour);
+                }
+
                 &--addarrow--#{$arrowcolour}--link {
                     @include headingarrow($headingsize, $arrowcolour);
                     @include headingarrowlink($headingsize);
