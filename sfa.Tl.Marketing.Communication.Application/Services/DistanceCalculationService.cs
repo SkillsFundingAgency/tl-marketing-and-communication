@@ -1,12 +1,12 @@
-﻿using sfa.Tl.Marketing.Communication.Application.GeoLocations;
-using sfa.Tl.Marketing.Communication.Application.Interfaces;
-using sfa.Tl.Marketing.Communication.Models.Dto;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using sfa.Tl.Marketing.Communication.Application.Enums;
+using sfa.Tl.Marketing.Communication.Application.GeoLocations;
 using sfa.Tl.Marketing.Communication.Application.Haversine;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using sfa.Tl.Marketing.Communication.Models.Dto;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services
 {
