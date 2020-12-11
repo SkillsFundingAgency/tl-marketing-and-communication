@@ -47,10 +47,10 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var results = new List<ProviderLocation>();
             foreach (var providerLocation in providerLocations)
             {
-                var distanceInMiles = CalculateDistanceInMiles(latitude, longitude,
+                providerLocation.DistanceInMiles = CalculateDistanceInMiles(
+                    latitude, longitude,
                     providerLocation.Latitude, providerLocation.Longitude);
-
-                providerLocation.DistanceInMiles = (int)Math.Floor(distanceInMiles);
+                
                 results.Add(providerLocation);
             }
 

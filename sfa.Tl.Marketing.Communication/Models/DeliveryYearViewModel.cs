@@ -1,8 +1,10 @@
-﻿namespace sfa.Tl.Marketing.Communication.Models
+﻿using System.Collections.Generic;
+
+namespace sfa.Tl.Marketing.Communication.Models
 {
     public class DeliveryYearViewModel
     {
         public short Year { get; set; }
-        public QualificationViewModel Qualifications { get; set; }
+        public IList<QualificationViewModel> Qualifications { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.GeoLocations;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
@@ -13,8 +14,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 {
     public class DistanceCalculationServiceUnitTests
     {
-        private const double DoubleTolerance = 0.0000001;
-
         private readonly IDistanceCalculationService _distanceCalculationService;
         private readonly ILocationApiClient _locationApiClient;
 
@@ -40,17 +39,16 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         }
 
         [Theory]
-        [InlineData("mk126ab", "52.579015", "1.720474", 51.680624, -1.28696, 2.9, 141)]
-        [InlineData("mk126ab", "53.579015", "2.720474", 52.680624, -2.28696, 19.3, 216)]
-        [InlineData("mk126ab", "54.579015", "3.720474", 53.680624, -3.28696, 97.7, 290)]
-        [InlineData("mk126ab", "55.579015", "4.720474", 54.680624, -4.28696, 100.5, 361)]
+        [InlineData("mk126ab", "52.579015", "1.720474", 51.680624, -1.28696, 141)]
+        [InlineData("mk126ab", "53.579015", "2.720474", 52.680624, -2.28696, 216)]
+        [InlineData("mk126ab", "54.579015", "3.720474", 53.680624, -3.28696, 290)]
+        [InlineData("mk126ab", "55.579015", "4.720474", 54.680624, -4.28696, 361)]
         public async Task CalculateProviderLocationDistanceInMiles_Calculate_Distance_In_Miles_From_StudentPostcode_To_ProviderLocation_Using_LocationApi(
             string studentPostcode,
             string studentLat,
             string studentLon,
             double providerLat,
             double providerLon,
-            double calculatedMileageInMiles,
             int expectedMileageInMilesAfterRounding)
         {
             // Arrange
@@ -68,7 +66,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             // Assert
             var actualProviderLocation = actual.First();
-            actualProviderLocation.DistanceInMiles.Should().Be(expectedMileageInMilesAfterRounding);
+            var roundedDistanceInMiles = (int)Math.Floor(actualProviderLocation.DistanceInMiles);
+            roundedDistanceInMiles.Should().Be(expectedMileageInMilesAfterRounding);
 
             await _locationApiClient.Received(1).GetGeoLocationDataAsync(studentPostcode);
         }
@@ -103,7 +102,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             // Assert
             var actualProviderLocation = actual.First();
-            actualProviderLocation.DistanceInMiles.Should().Be(expectedMileageInMilesAfterRounding);
+            var roundedDistanceInMiles = (int)Math.Floor(actualProviderLocation.DistanceInMiles);
+            roundedDistanceInMiles.Should().Be(expectedMileageInMilesAfterRounding);
         }
 
         [Theory]
