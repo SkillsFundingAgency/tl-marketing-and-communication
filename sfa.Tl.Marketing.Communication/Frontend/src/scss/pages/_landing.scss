@@ -14,6 +14,11 @@
         margin-right: -$tlgutter;
         margin-left: -$tlgutter;
 
+        @include media-max(small) {
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+
         & > [class^="col-"], & > [class^=" col-"] {
             padding-right: $tlgutter;
             padding-left: $tlgutter;
