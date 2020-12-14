@@ -8,6 +8,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using sfa.Tl.Marketing.Communication.DataLoad.Extensions;
 using sfa.Tl.Marketing.Communication.DataLoad.PostcodesIo;
 using sfa.Tl.Marketing.Communication.DataLoad.Read;
 using sfa.Tl.Marketing.Communication.DataLoad.Write;
@@ -60,7 +61,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                 var writeData = new ProviderWriteData
                 {
                     Id = index,
-                    Name = provider.Key,
+                    Name = provider.Key, //.ToTitleCase(), //Force to title case
                     Locations = GetLocationsWrite(provider)
                 };
                 providerWriteData.Add(writeData);
