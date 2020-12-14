@@ -14,7 +14,7 @@
         margin-right: -$tlgutter;
         margin-left: -$tlgutter;
 
-        @include media-max(small) {
+        @include media-max(large) {
             margin-right: -15px;
             margin-left: -15px;
         }
