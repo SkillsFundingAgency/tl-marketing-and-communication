@@ -1,20 +1,43 @@
 #tl-landing--content {
-    margin-top: 50px;
     margin-bottom: 50px;
+    margin-top: 50px;
 
     @include media-max(small) {
-        margin-top: 0px;
+        margin-top: 30px;
     }
 
-    .row {
+    .tl-landing--row {
+        $tlgutter: 30px;
+
+        @include make-row();
         padding: 10px 0;
+        margin-right: -$tlgutter;
+        margin-left: -$tlgutter;
+
+        @include media-max(large) {
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+
+        & > [class^="col-"], & > [class^=" col-"] {
+            padding-right: $tlgutter;
+            padding-left: $tlgutter;
+        }
+    }
+
+    .tl-landing--content--box {
+        @include media-max(small) {
+            padding: 20px 0;
+        }
     }
 }
 
 
+
+
+
 #tl-landing--banner {
     position: relative;
-    background-color: $black;
 
     &:after {
         content: "";
@@ -29,7 +52,7 @@
         width: 200px;
         background-position: bottom;
 
-        @include media-max(small) {
+        @include media-max(medium) {
             display: none;
         }
     }
@@ -39,33 +62,50 @@
 
     &--student, &--employer {
         display: flex;
-        padding: 100px 0 80px 0;
+        padding: 120px 0 60px 0;
 
-        @include media-max(small) {
-            padding: 100px 0 40px 0;
+        @include media-min(medium) {
+            height: 48vw;
+            max-height: 700px;
+            min-height: 600px;
+        }
+
+        @include media-max(xsmall) {
+            padding: 50px 0 50px 0;
         }
     }
 
     &--student {
-        background: image("LandingBanner_Student.jpg") no-repeat center;
+        background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), image("LandingBanner_Student.jpg") no-repeat 50% 20%;
+        background-size: cover;
+
+        @include media-min(medium) {
+            background: linear-gradient( rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25) ), image("LandingBanner_Student.jpg") no-repeat 50% 20%;
+            background-size: cover;
+        }
 
         .tl-landing--banner--content {
             margin-left: auto;
             padding-left: 30px;
+            align-self: flex-end;
         }
     }
 
     &--employer {
-        background: image("LandingBanner_Employer.jpg") no-repeat center;
+        background: linear-gradient( rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25) ), image("LandingBanner_Employer.jpg") no-repeat 50% 20%;
+        background-size: cover;
 
-        @include media-max(small) {
-            padding: 40px 0;
+
+        @include media-min(medium) {
+            background: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), image("LandingBanner_Employer.jpg") no-repeat 50% 20%;
+            background-size: cover;
         }
 
         .tl-landing--banner--content {
             margin-right: auto;
             text-align: right;
             padding-right: 30px;
+            align-self: flex-end;
         }
     }
 
@@ -75,7 +115,7 @@
         color: $white;
         position: relative;
 
-        @include media-min(small) {
+        @include media-min(medium) {
             max-width: ((($sitewidth) / 2) + 30) + px;
         }
 
@@ -83,11 +123,11 @@
         h2 {
             @extend .tl-heading--large;
 
-            @include media-max(small) {
+            @include media-max(medium) {
                 padding-bottom: 20px;
             }
 
-            @media (max-width: 1020px) and (min-width: 767px) {
+            @media (max-width: 1020px) and (min-width: 992px) {
                 font-size: 43px !important;
                 padding-bottom: 20px;
             }
@@ -95,18 +135,6 @@
 
         p {
             margin: 10px 0 30px 0;
-        }
-    }
-
-    &--logo {
-        background: image("logomediumwhite.svg") no-repeat center;
-        width: 170px;
-        height: 50px;
-        position: absolute;
-        top: -70px;
-
-        &:focus {
-            outline: 1px dotted $black;
         }
     }
 }

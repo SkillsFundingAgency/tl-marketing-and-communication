@@ -64,6 +64,51 @@
     }
 }
 
+@mixin headingarrowbig($fontsize, $colour) {
+
+    @include font(header, $fontsize + px, italic, 400, $fontsize + px);
+    padding-bottom: ($fontsize * 0.75) + px;
+    display: inline-flex;
+
+    @include media-max(medium) {
+        @include font(header, ($fontsize * 0.8) + px, italic, 400, ($fontsize * 0.8) + px);
+    }
+
+    @include media-max(small) {
+        padding-left: ($fontsize * 1.75) + px;
+        position: relative;
+    }
+
+
+
+    &:before {
+        background-image: image("arrows/arrowup-" + $colour + ".svg");
+        content: "";
+        background-size: ($fontsize * 1.75) + px auto;
+        min-width: ($fontsize * 1.75) + px;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: inline-block;
+        float: left;
+        margin: 0 10px 0 0;
+        transition: 0.3s ease-in;
+        height: ($fontsize * 1.75) + px;
+
+        @include media-max(medium) {
+            background-size: ($fontsize * 1.5) + px auto;
+            height: ($fontsize * 1.5) + px;
+        }
+
+        @include media-max(small) {
+            background-size: ($fontsize * 1.25) + px auto;
+            height: ($fontsize * 1.25) + px;
+            top: -6px;
+            position: absolute;
+            left: 0px;
+        }
+    }
+}
+
 
 
 @mixin headingarrowlink($fontsize) {
