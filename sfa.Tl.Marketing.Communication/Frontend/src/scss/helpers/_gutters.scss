@@ -7,9 +7,19 @@
         margin-right: -$gutter + px;
         margin-left: -$gutter + px;
 
+        @include media-max(large) {
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+
         & > [class^="col-"], & > [class^=" col-"] {
             padding-right: $gutter + px;
             padding-left: $gutter + px;
+
+            @include media-max(large) {
+                padding-right: 15px;
+                padding-left: 15px;
+            }
         }
     }
 }

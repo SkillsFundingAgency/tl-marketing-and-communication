@@ -43,6 +43,10 @@
                         <h2>Do you want to discuss an industry placement?</h2>
 
                         <p>Send us a completed form and someone will contact you within 2 working days to discuss industry placements.</p>
+                        <div class="tl-inset--text">
+                            <h5 class="tl-heading--xxsmall">How we use your data</h5>
+                            <span class="tl-body--s">The Department for Education will only use your personal information to contact you about industry placements. If you choose not to proceed with an industry placement, we will delete your data within 30 days.</span>
+                        </div>
 
                         <form id="tl-employer-contact-form" class="tl-form" asp-action="EmployerNextSteps" method="post" novalidate>
                             <input type="hidden" asp-for="ContactFormSent" value="@Model.ContactFormSent" />
