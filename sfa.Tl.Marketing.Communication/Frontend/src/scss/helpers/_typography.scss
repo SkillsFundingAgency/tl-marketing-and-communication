@@ -1,4 +1,4 @@
-$headingvariables: xsmall 20, smaller 30, small 35, medium 45, large 55, xlarge 70;
+$headingvariables: xxsmall 16, xsmall 20, smaller 30, small 35, medium 45, large 55, xlarge 70;
 
 $colours: orange $orange, black $black, white $white, purple $purple, salmon $salmon;
 
@@ -58,15 +58,24 @@ $colours: orange $orange, black $black, white $white, purple $purple, salmon $sa
 }
 
 
-    .tl-body {
-        margin-bottom: 16px;
-        @include font(body, 18px, $lh: 26px);
+.tl-body {
+    margin-bottom: 16px;
+    @include font(body, 18px, $lh: 26px);
 
+
+    @include media-max(medium) {
+        @include font(body, 16px, $lh: 24px);
+    }
+
+    &--s {
+        margin-bottom: 16px;
+        @include font(body, 16px, $lh: 24px);
 
         @include media-max(medium) {
-            @include font(body, 16px, $lh: 24px);
+            @include font(body, 14px, $lh: 22px);
         }
     }
+}
 
     .tl-lead {
         @include margin(bottom, 30);
