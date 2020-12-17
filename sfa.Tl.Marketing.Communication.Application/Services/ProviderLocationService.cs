@@ -1,4 +1,5 @@
-﻿using sfa.Tl.Marketing.Communication.Application.Interfaces;
+﻿using System.Collections.Generic;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Linq;
 
@@ -29,6 +30,17 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     Postcode = pl.Location.Postcode,
                     Town = pl.Location.Town,
                     Website = pl.Location.Website,
+                    DeliveryYears = pl.Location.DeliveryYears != null ?
+                        pl.Location.DeliveryYears
+                        .Select(d => new DeliveryYearWithQualifications
+                        {
+                            Year = d.Year,
+                            Qualifications = d.Qualifications != null ?
+                                _providerDataService.GetQualifications(d.Qualifications.ToArray())
+                                : new List<Qualification>()
+                        })
+                        .ToList()
+                    : new List<DeliveryYearWithQualifications>(),
                     Qualification2020 = _providerDataService.GetQualifications(pl.Location.Qualification2020),
                     Qualification2021 = _providerDataService.GetQualifications(pl.Location.Qualification2021)
                 });

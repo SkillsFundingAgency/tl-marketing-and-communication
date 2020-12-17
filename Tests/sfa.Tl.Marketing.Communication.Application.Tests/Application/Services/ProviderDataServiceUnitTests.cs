@@ -31,10 +31,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public void GetProviders_Returns_All_Providers()
         {
-            // Arrange
-            // Act
             var providers = _service.GetProviders();
-            // Assert
+
             providers.Count().Should().Be(10);
         }
 
@@ -65,15 +63,62 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             location?.Qualification2021.Should().Contain(4);
             location?.Qualification2021.Should().Contain(6);
             location?.Qualification2021.Should().Contain(7);
+
+            location?.DeliveryYears.Count.Should().Be(1);
+            var deliveryYear = location?.DeliveryYears.First();
+            deliveryYear.Should().NotBeNull();
+            deliveryYear?.Year.Should().Be(2021);
+
+            deliveryYear?.Qualifications.Should().NotBeNull();
+            deliveryYear?.Qualifications.Should().Contain(4);
+            deliveryYear?.Qualifications.Should().Contain(6);
+            deliveryYear?.Qualifications.Should().Contain(7);
+        }
+
+
+        [Fact]
+        public void GetProviders_Returns_Expected_Provider_Location_Delivery_Years()
+        {
+            var providers = _service.GetProviders();
+
+            var provider = providers.SingleOrDefault(p => p.Id == 10);
+
+            provider.Should().NotBeNull();
+            provider?.Name.Should().Be("Blackpool and The Fylde College");
+            provider?.Locations.Count.Should().Be(1);
+
+            var location = provider?.Locations.First();
+            location?.Postcode.Should().Be("FY2 0HB");
+
+            location?.DeliveryYears.Count.Should().Be(2);
+            var deliveryYear2020 = location?.DeliveryYears.First();
+            deliveryYear2020.Should().NotBeNull();
+            deliveryYear2020?.Year.Should().Be(2020);
+
+            deliveryYear2020?.Qualifications.Should().NotBeNull();
+            deliveryYear2020?.Qualifications.Count.Should().Be(3);
+            deliveryYear2020?.Qualifications.Should().Contain(2);
+            deliveryYear2020?.Qualifications.Should().Contain(4);
+            deliveryYear2020?.Qualifications.Should().Contain(6);
+
+            var deliveryYear2021 = location?.DeliveryYears.Skip(1).First();
+            deliveryYear2021.Should().NotBeNull();
+            deliveryYear2021?.Year.Should().Be(2021);
+
+            deliveryYear2021?.Qualifications.Count.Should().Be(6);
+            deliveryYear2021?.Qualifications.Should().NotBeNull();
+            deliveryYear2021?.Qualifications.Should().Contain(5);
+            deliveryYear2021?.Qualifications.Should().Contain(3);
+            deliveryYear2021?.Qualifications.Should().Contain(9);
+            deliveryYear2021?.Qualifications.Should().Contain(1);
+            deliveryYear2021?.Qualifications.Should().Contain(7);
+            deliveryYear2021?.Qualifications.Should().Contain(10);
         }
 
         [Fact]
         public void GetQualifications_Returns_All_Qualifications_From_DataFile_And_Add_A_Default_To_Show_All()
         {
-            // Arrange
-            // Act
             var results = _service.GetQualifications().ToList();
-            // Assert
             results.Count.Should().Be(11);
             results.SingleOrDefault(q => q.Id == 0 && q.Name == "All T Level courses").Should().NotBeNull();
         }
@@ -81,13 +126,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public void GetQualifications_Returns_Qualifications_By_Ids()
         {
-            // Arrange
             var ids = new[] { 3, 4, 5 };
 
-            // Act
             var results = _service.GetQualifications(ids).ToList();
 
-            // Assert
             results.Count.Should().Be(3);
             results.Single(q => q.Id == 3).Should().NotBeNull();
             results.Single(q => q.Id == 4).Should().NotBeNull();
@@ -97,13 +139,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public void GetQualification_Returns_A_Qualification_By_Id()
         {
-            // Arrange
             const int id = 10;
 
-            // Act
             var result = _service.GetQualification(id);
 
-            // Assert
             result.Id.Should().Be(id);
             result.Name.Should().Be("Science");
         }

@@ -117,6 +117,19 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                                     Latitude = l.GetProperty("latitude").GetDouble(),
                                     Longitude = l.GetProperty("longitude").GetDouble(),
                                     Website = l.GetProperty("website").GetString(),
+                                    DeliveryYears = l.TryGetProperty("deliveryYears", out var deliveryYears)
+                                        ? deliveryYears.EnumerateArray()
+                                            .Select(d =>
+                                                new DeliveryYear
+                                                { 
+                                                    Year = d.GetProperty("year").GetInt16(),
+                                                    Qualifications = d.GetProperty("qualifications")
+                                                        .EnumerateArray()
+                                                        .Select(q => q.GetInt32())
+                                                        .ToList()
+                                                })
+                                            .ToList()
+                                        : new List<DeliveryYear>(),
                                     Qualification2020 = l.GetProperty("qualification2020")
                                         .EnumerateArray()
                                         .Select(q => q.GetInt32())

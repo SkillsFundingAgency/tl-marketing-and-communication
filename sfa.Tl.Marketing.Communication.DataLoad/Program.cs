@@ -81,12 +81,13 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
 
             var groupedProviderVenues = providers
                 .GroupBy(p => p.Postcode.Trim());
+            
             foreach (var venueGroup in groupedProviderVenues)
             {
                 var venue = venueGroup.First();
                 var postcode = venue.Postcode.Trim();
 
-                (string FormattedPostcode, double Lat, double Long) postcodeDetails 
+                (string FormattedPostcode, double Lat, double Long) postcodeDetails
                     = GetPostcodeDetails(postcode);
 
                 var location = new LocationWriteData
@@ -97,6 +98,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                     Latitude = postcodeDetails.Lat,
                     Longitude = postcodeDetails.Long,
                     Website = venue.Website.Trim(),
+                    DeliveryYears = GetDeliveryYears(venueGroup),
                     Qualification2020 = GetQualifications(venueGroup, 2020),
                     Qualification2021 = GetQualifications(venueGroup, 2021)
                 };
@@ -197,10 +199,69 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             }
         }
 
+        private static List<DeliveryYearWriteData> GetDeliveryYears(IGrouping<string, ProviderReadData> venueGroup)
+        {
+            var deliveryYears = new List<DeliveryYearWriteData>();
+
+            Console.WriteLine("Delivery years:");
+            foreach (var venue in venueGroup)
+            {
+                var year = short.Parse(venue.CourseYear);
+
+                var deliveryYear = deliveryYears.FirstOrDefault(d => d.Year == year);
+                if (deliveryYear == null)
+                {
+                    deliveryYear = new DeliveryYearWriteData
+                    {
+                        Year = year,
+                        Qualifications = new List<int>()
+                    };
+                    
+                    deliveryYears.Add(deliveryYear);
+                }
+
+                Console.WriteLine($"   {venue.CourseYear} - " +
+                                  $"{venue.IsBuildingServices}" +
+                                  $"{venue.IsDigitalProduction}" +
+                                  $"{venue.IsDigitalBusiness}" +
+                                  $"{ venue.IsDigitalSupport}" +
+                                  $"{venue.IsDesign}" +
+                                  $"{venue.IsBuildingServices}" +
+                                  $"{venue.IsConstruction}" +
+                                  $"{venue.IsEducation}" +
+                                  $"{venue.IsHealth}" +
+                                  $"{venue.IsHealthCare}" +
+                                  $"{venue.IsScience}");
+
+                if (venue.IsDigitalProduction)
+                    AddQualification(deliveryYear.Qualifications, Type.DigitalProductionDesignDevelopment, year, venue);
+                else if (venue.IsDigitalBusiness)
+                    AddQualification(deliveryYear.Qualifications, Type.DigitalBusiness, year, venue);
+                else if (venue.IsDigitalSupport)
+                    AddQualification(deliveryYear.Qualifications, Type.DigitalSupportServices, year, venue);
+                else if (venue.IsDesign)
+                    AddQualification(deliveryYear.Qualifications, Type.DesignSurveyingPlanning, year, venue);
+                else if (venue.IsBuildingServices)
+                    AddQualification(deliveryYear.Qualifications, Type.BuildingServicesEngineering, year, venue);
+                else if (venue.IsConstruction)
+                    AddQualification(deliveryYear.Qualifications, Type.OnsiteConstruction, year, venue);
+                else if (venue.IsEducation)
+                    AddQualification(deliveryYear.Qualifications, Type.Education, year, venue);
+                else if (venue.IsHealth)
+                    AddQualification(deliveryYear.Qualifications, Type.Health, year, venue);
+                else if (venue.IsHealthCare)
+                    AddQualification(deliveryYear.Qualifications, Type.HealthCareScience, year, venue);
+                else if (venue.IsScience)
+                    AddQualification(deliveryYear.Qualifications, Type.Science, year, venue);
+            }
+
+            return deliveryYears;
+        }
+
         private static async Task WriteProvidersToFile(ProviderWrite data, string path)
         {
             await using var fs = File.Create(path);
-            
+
             var serializerOptions = new JsonSerializerOptions
             {
                 //Use relaxed encoder to allow '&' through

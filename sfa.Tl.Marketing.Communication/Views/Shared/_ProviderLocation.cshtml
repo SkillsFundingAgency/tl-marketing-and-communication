@@ -25,6 +25,20 @@
                 }
             </ul>
         }
+        
+        @if (Model.DeliveryYears.Any())
+        {
+            foreach (var deliveryYear in Model.DeliveryYears)
+            {
+                <h5>**NEW** <strong>From September @deliveryYear.Year onwards:</strong></h5>
+                <ul>
+                    @foreach (var q in deliveryYear.Qualifications)
+                    {
+                    <li>@q.Name</li>
+                    }
+                </ul>
+            }
+        }
 
 
         @if (!string.IsNullOrWhiteSpace(Model.RedirectUrl))

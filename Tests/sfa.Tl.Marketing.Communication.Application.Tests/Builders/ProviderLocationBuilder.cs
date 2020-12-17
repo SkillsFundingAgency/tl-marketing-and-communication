@@ -14,9 +14,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
             Latitude = 52.400997,
             Longitude = -1.508122,
             DistanceInMiles = 9.5,
+            DeliveryYears = new List<DeliveryYearWithQualifications>(),
             Qualification2020 = new List<Qualification>(),
             Qualification2021 = new List<Qualification>(),
-            Qualifications = new List<DeliveryYear>(),
             Website = "https://test.provider.co.uk"
         };
 
@@ -31,9 +31,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                 Latitude = 52.400997,
                 Longitude = -1.508122,
                 DistanceInMiles = 9.5,
+                DeliveryYears = new List<DeliveryYearWithQualifications>(),
                 Qualification2020 = new List<Qualification>(),
                 Qualification2021 = new List<Qualification>(),
-                Qualifications = new List<DeliveryYear>(),
                 Website = "https://test.provider.co.uk"
             }
         };

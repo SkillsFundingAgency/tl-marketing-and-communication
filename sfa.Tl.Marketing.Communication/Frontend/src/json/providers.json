@@ -10,6 +10,16 @@
           "town": "Vale of White Horse",
           "latitude": 51.680624,
           "longitude": -1.28696,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -24,6 +34,16 @@
           "town": "Vale of White Horse",
           "latitude": 51.785444,
           "longitude": -1.487934,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -44,6 +64,14 @@
           "town": "Bristol",
           "latitude": 51.455989,
           "longitude": -2.592673,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4
@@ -56,6 +84,14 @@
           "town": "Manchester",
           "latitude": 53.472598,
           "longitude": -2.242874,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4
@@ -74,6 +110,14 @@
           "town": "Reading",
           "latitude": 51.454143,
           "longitude": -0.955431,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4
@@ -86,6 +130,14 @@
           "town": "Oxford",
           "latitude": 51.720855,
           "longitude": -1.199541,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4
@@ -98,6 +150,14 @@
           "town": "Oxford",
           "latitude": 51.749548,
           "longitude": -1.264524,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             7
@@ -116,6 +176,17 @@
           "town": "Barking and Dagenham",
           "latitude": 51.56033,
           "longitude": 0.174564,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                3,
+                2,
+                1
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -131,6 +202,14 @@
           "town": "Barking and Dagenham",
           "latitude": 51.537574,
           "longitude": 0.078117,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                2
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             2
@@ -149,6 +228,15 @@
           "town": "Barnsley",
           "latitude": 53.556265,
           "longitude": -1.480614,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                2
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             2
@@ -162,6 +250,14 @@
           "town": "Barnsley",
           "latitude": 53.55982,
           "longitude": -1.48368,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                2
+              ]
+            }
+          ],
           "qualification2020": [
             2
           ],
@@ -174,6 +270,20 @@
           "town": "Barnsley",
           "latitude": 53.556624,
           "longitude": -1.482572,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
+          ],
           "qualification2020": [
             6
           ],
@@ -194,6 +304,16 @@
           "town": "Bath and North East Somerset",
           "latitude": 51.379717,
           "longitude": -2.362652,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -214,6 +334,18 @@
           "town": "Bedford",
           "latitude": 52.133347,
           "longitude": -0.468552,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                2,
+                9,
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5,
@@ -230,6 +362,17 @@
           "town": "Kettering",
           "latitude": 52.388412,
           "longitude": -0.71174,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                6,
+                7,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5,
@@ -245,6 +388,17 @@
           "town": "Corby",
           "latitude": 52.486942,
           "longitude": -0.692251,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                9,
+                1,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5,
@@ -260,6 +414,14 @@
           "town": "Wellingborough",
           "latitude": 52.300077,
           "longitude": -0.693641,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5
@@ -272,6 +434,14 @@
           "town": "Bedford",
           "latitude": 52.108958,
           "longitude": -0.496125,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                1
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             1
@@ -290,6 +460,20 @@
           "town": "Rother",
           "latitude": 50.847112,
           "longitude": 0.490934,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                3,
+                6,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -314,6 +498,20 @@
           "town": "East Riding of Yorkshire",
           "latitude": 53.848273,
           "longitude": -0.504045,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
+          ],
           "qualification2020": [
             6
           ],
@@ -334,6 +532,27 @@
           "town": "Blackpool",
           "latitude": 53.859387,
           "longitude": -3.026295,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                2,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3,
+                9,
+                1,
+                7,
+                10
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             2,
@@ -361,6 +580,19 @@
           "town": "Bolton",
           "latitude": 53.574721,
           "longitude": -2.437096,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                2,
+                9,
+                6,
+                7,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -384,6 +616,24 @@
           "town": "Sedgemoor",
           "latitude": 51.016061,
           "longitude": -3.118879,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                2,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                3,
+                1,
+                7
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             2,
@@ -408,6 +658,20 @@
           "town": "Aylesbury Vale",
           "latitude": 51.813857,
           "longitude": -0.822655,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                3,
+                6,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -426,6 +690,17 @@
           "town": "Aylesbury Vale",
           "latitude": 51.668961,
           "longitude": -0.58945,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                3,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -441,6 +716,16 @@
           "town": "Aylesbury Vale",
           "latitude": 51.606859,
           "longitude": -0.723393,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6,
+                7,
+                8
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6,
@@ -461,6 +746,14 @@
           "town": "Burnley",
           "latitude": 53.793909,
           "longitude": -2.24807,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             10
@@ -479,6 +772,18 @@
           "town": "Bury",
           "latitude": 53.587875,
           "longitude": -2.294975,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                9,
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -501,6 +806,17 @@
           "town": "Calderdale",
           "latitude": 53.719527,
           "longitude": -1.874416,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                7,
+                8
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -522,6 +838,15 @@
           "town": "South Cambridgeshire",
           "latitude": 52.235278,
           "longitude": 0.13434,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                3,
+                6
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             3,
@@ -535,6 +860,15 @@
           "town": "Huntingdonshire",
           "latitude": 52.33844,
           "longitude": -0.178105,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                3,
+                6
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             3,
@@ -554,6 +888,22 @@
           "town": "Preston",
           "latitude": 53.757096,
           "longitude": -2.688869,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -576,6 +926,23 @@
           "town": "Crewe",
           "latitude": 53.089011,
           "longitude": -2.454971,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                3,
+                2,
+                9,
+                1,
+                6,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -603,6 +970,21 @@
           "town": "Crawley",
           "latitude": 51.116206,
           "longitude": -0.181516,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -618,6 +1000,24 @@
           "town": "Chichester",
           "latitude": 50.83492,
           "longitude": -0.787766,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                3,
+                7,
+                8
+              ]
+            },
+            {
+              "year": 2020,
+              "qualifications": [
+                2,
+                6,
+                4
+              ]
+            }
+          ],
           "qualification2020": [
             2,
             6,
@@ -642,6 +1042,26 @@
           "town": "Cotswold",
           "latitude": 51.71269,
           "longitude": -1.986058,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                2,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             2,
@@ -668,6 +1088,26 @@
           "town": "Norwich",
           "latitude": 52.618144,
           "longitude": 1.286325,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                2,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3,
+                1,
+                7,
+                10
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             2,
@@ -688,6 +1128,14 @@
           "town": "Norwich",
           "latitude": 52.819813,
           "longitude": 1.38584,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                6
+              ]
+            }
+          ],
           "qualification2020": [
             6
           ],
@@ -706,6 +1154,23 @@
           "town": "Stoke on Trent",
           "latitude": 53.006787,
           "longitude": -2.177957,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [
             4
           ],
@@ -729,6 +1194,16 @@
           "town": "Sunderland",
           "latitude": 54.892128,
           "longitude": -1.409322,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                7,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -743,6 +1218,15 @@
           "town": "Sunderland",
           "latitude": 54.903545,
           "longitude": -1.384952,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                1,
+                9
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             1,
@@ -756,6 +1240,15 @@
           "town": "Hartlepool",
           "latitude": 54.676459,
           "longitude": -1.230283,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             7,
@@ -775,6 +1268,15 @@
           "town": "Hounslow",
           "latitude": 51.487616,
           "longitude": -0.406527,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -794,6 +1296,21 @@
           "town": "Derby",
           "latitude": 52.925491,
           "longitude": -1.479424,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3
+              ]
+            }
+          ],
           "qualification2020": [
             4
           ],
@@ -809,6 +1326,14 @@
           "town": "Derby",
           "latitude": 52.913794,
           "longitude": -1.459072,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                2
+              ]
+            }
+          ],
           "qualification2020": [
             2
           ],
@@ -821,6 +1346,21 @@
           "town": "Derby",
           "latitude": 52.916014,
           "longitude": -1.459,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                2,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                8
+              ]
+            }
+          ],
           "qualification2020": [
             2,
             6
@@ -836,6 +1376,14 @@
           "town": "Erewash",
           "latitude": 52.957366,
           "longitude": -1.420946,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                6
+              ]
+            }
+          ],
           "qualification2020": [
             6
           ],
@@ -854,6 +1402,14 @@
           "town": "Norwich",
           "latitude": 52.62367,
           "longitude": 1.315558,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4
+              ]
+            }
+          ],
           "qualification2020": [
             4
           ],
@@ -872,6 +1428,17 @@
           "town": "North Lincolnshire",
           "latitude": 53.578566,
           "longitude": -0.66672,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                2,
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -887,6 +1454,23 @@
           "town": "Doncaster",
           "latitude": 53.529021,
           "longitude": -1.135603,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                2,
+                6,
+                7,
+                5,
+                3,
+                9,
+                1,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -914,6 +1498,24 @@
           "town": "Dudley",
           "latitude": 52.514257,
           "longitude": -2.082623,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                7,
+                10,
+                5,
+                9
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -932,6 +1534,14 @@
           "town": "Dudley",
           "latitude": 52.513689,
           "longitude": -2.085274,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                2
+              ]
+            }
+          ],
           "qualification2020": [
             2
           ],
@@ -950,6 +1560,15 @@
           "town": "County Durham",
           "latitude": 54.780132,
           "longitude": -1.573146,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -969,6 +1588,17 @@
           "town": "Great Yarmouth",
           "latitude": 52.57859,
           "longitude": 1.719995,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                3,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -990,6 +1620,16 @@
           "town": "Eastbourne",
           "latitude": 50.788909,
           "longitude": 0.272124,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                2,
+                6
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             2,
@@ -1004,6 +1644,16 @@
           "town": "Hastings",
           "latitude": 50.857944,
           "longitude": 0.578137,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                2,
+                6
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             2,
@@ -1018,6 +1668,14 @@
           "town": "Lewes",
           "latitude": 50.870098,
           "longitude": 0.015572,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                6
+              ]
+            }
+          ],
           "qualification2020": [
             6
           ],
@@ -1036,6 +1694,17 @@
           "town": "Folkestone and Hythe",
           "latitude": 51.082418,
           "longitude": 1.165998,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                6,
+                7,
+                9
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -1051,6 +1720,14 @@
           "town": "Dover",
           "latitude": 51.128095,
           "longitude": 1.311512,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5
@@ -1063,6 +1740,15 @@
           "town": "Thanet",
           "latitude": 51.354162,
           "longitude": 1.435027,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6,
@@ -1076,6 +1762,14 @@
           "town": "Canterbury",
           "latitude": 51.276098,
           "longitude": 1.090619,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6
@@ -1088,6 +1782,14 @@
           "town": "Canterbury",
           "latitude": 51.274657,
           "longitude": 1.091181,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             7
@@ -1106,6 +1808,24 @@
           "town": "Exeter",
           "latitude": 50.726756,
           "longitude": -3.535014,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [
             4
           ],
@@ -1124,6 +1844,21 @@
           "town": "Exeter",
           "latitude": 50.716462,
           "longitude": -3.471881,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                2
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                9,
+                1
+              ]
+            }
+          ],
           "qualification2020": [
             2
           ],
@@ -1139,6 +1874,22 @@
           "town": "Exeter",
           "latitude": 50.728223,
           "longitude": -3.538392,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [
             6
           ],
@@ -1161,6 +1912,27 @@
           "town": "Fareham",
           "latitude": 50.851085,
           "longitude": -1.199216,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3,
+                9,
+                1,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -1188,6 +1960,25 @@
           "town": "Rushmoor",
           "latitude": 51.285554,
           "longitude": -0.751747,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                7,
+                8,
+                10,
+                5,
+                3
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -1213,6 +2004,16 @@
           "town": "Barrow in Furness",
           "latitude": 54.116534,
           "longitude": -3.242096,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -1227,6 +2028,14 @@
           "town": "Barrow in Furness",
           "latitude": 54.129924,
           "longitude": -3.200561,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             10
@@ -1245,6 +2054,23 @@
           "town": "Gateshead",
           "latitude": 54.96561,
           "longitude": -1.597171,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3,
+                7
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -1268,6 +2094,16 @@
           "town": "Cheltenham",
           "latitude": 51.901613,
           "longitude": -2.11819,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                2,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5,
@@ -1288,6 +2124,22 @@
           "town": "North East Lincolnshire",
           "latitude": 53.553451,
           "longitude": -0.093352,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                7,
+                8
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -1304,6 +2156,14 @@
           "town": "Scarborough",
           "latitude": 54.262655,
           "longitude": -0.394603,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                6
+              ]
+            }
+          ],
           "qualification2020": [
             6
           ],
@@ -1322,6 +2182,17 @@
           "town": "Dudley",
           "latitude": 52.457161,
           "longitude": -2.051979,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6,
@@ -1337,6 +2208,16 @@
           "town": "Dudley",
           "latitude": 52.453529,
           "longitude": -2.045229,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6,
+                7,
+                8
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6,
@@ -1357,6 +2238,20 @@
           "town": "Harlow",
           "latitude": 51.769535,
           "longitude": 0.099306,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                2,
+                1,
+                6,
+                10,
+                4,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5,
@@ -1381,6 +2276,26 @@
           "town": "Havant",
           "latitude": 50.861598,
           "longitude": -1.021127,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6,
+                2
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6,
@@ -1401,6 +2316,21 @@
           "town": "East Hampshire",
           "latitude": 51.156172,
           "longitude": -0.975771,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -1422,6 +2352,21 @@
           "town": "Hillingdon",
           "latitude": 51.549947,
           "longitude": -0.469124,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [
             4
           ],
@@ -1437,6 +2382,14 @@
           "town": "Harrow",
           "latitude": 51.577663,
           "longitude": -0.335203,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                3
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             3
@@ -1449,6 +2402,14 @@
           "town": "Hillingdon",
           "latitude": 51.515631,
           "longitude": -0.412179,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                6
+              ]
+            }
+          ],
           "qualification2020": [
             6
           ],
@@ -1467,6 +2428,16 @@
           "town": "Redditch",
           "latitude": 52.30754,
           "longitude": -1.938376,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                6,
+                5
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -1481,6 +2452,15 @@
           "town": "Worcester",
           "latitude": 52.19168,
           "longitude": -2.222471,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                6
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -1494,6 +2474,14 @@
           "town": "Worcester",
           "latitude": 52.191537,
           "longitude": -2.223534,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5
@@ -1512,6 +2500,15 @@
           "town": "Herefordshire, County of",
           "latitude": 52.061747,
           "longitude": -2.697295,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7,
+                2
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             7,
@@ -1525,6 +2522,14 @@
           "town": "Shropshire",
           "latitude": 52.367487,
           "longitude": -2.721487,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             7
@@ -1537,6 +2542,14 @@
           "town": "Shropshire",
           "latitude": 52.853995,
           "longitude": -3.038071,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             7
@@ -1555,6 +2568,17 @@
           "town": "Rochdale",
           "latitude": 53.569124,
           "longitude": -2.188708,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3,
+                1,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5,
@@ -1570,6 +2594,15 @@
           "town": "Rochdale",
           "latitude": 53.616729,
           "longitude": -2.162633,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6,
@@ -1589,6 +2622,17 @@
           "town": "Sefton",
           "latitude": 53.445072,
           "longitude": -2.989404,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                1,
+                7,
+                8
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5,
@@ -1610,6 +2654,15 @@
           "town": "South Lakeland",
           "latitude": 54.318001,
           "longitude": -2.747034,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                9,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             9,
@@ -1629,6 +2682,21 @@
           "town": "Lambeth",
           "latitude": 51.447913,
           "longitude": -0.14478,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                3
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -1650,6 +2718,22 @@
           "town": "Allerdale",
           "latitude": 54.606042,
           "longitude": -3.531755,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                3,
+                2,
+                1,
+                7,
+                8,
+                10,
+                6
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -1676,6 +2760,14 @@
           "town": "Leeds",
           "latitude": 53.787496,
           "longitude": -1.535196,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4
@@ -1688,6 +2780,15 @@
           "town": "Leeds",
           "latitude": 53.799024,
           "longitude": -1.53483,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6,
@@ -1701,6 +2802,15 @@
           "town": "Leeds",
           "latitude": 53.800447,
           "longitude": -1.559012,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             8,
@@ -1720,6 +2830,15 @@
           "town": "Leicester",
           "latitude": 52.641029,
           "longitude": -1.133131,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -1733,6 +2852,15 @@
           "town": "Leicester",
           "latitude": 52.635212,
           "longitude": -1.129359,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -1746,6 +2874,17 @@
           "town": "Leicester",
           "latitude": 52.622482,
           "longitude": -1.133165,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                9,
+                1,
+                3,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             9,
@@ -1761,6 +2900,16 @@
           "town": "Leicester",
           "latitude": 52.643993,
           "longitude": -1.127936,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6,
+                7,
+                8
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6,
@@ -1781,6 +2930,14 @@
           "town": "Birmingham",
           "latitude": 52.468755,
           "longitude": -1.963214,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                6
+              ]
+            }
+          ],
           "qualification2020": [
             6
           ],
@@ -1799,6 +2956,17 @@
           "town": "Charnwood",
           "latitude": 52.767512,
           "longitude": -1.220321,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                1,
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -1820,6 +2988,22 @@
           "town": "Manchester",
           "latitude": 53.471845,
           "longitude": -2.187628,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                3,
+                2,
+                9,
+                1,
+                7,
+                8,
+                6,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -1846,6 +3030,23 @@
           "town": "Middlesbrough",
           "latitude": 54.579944,
           "longitude": -1.226811,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                2,
+                1,
+                6,
+                7,
+                5,
+                3,
+                9,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -1873,6 +3074,15 @@
           "town": "Medway",
           "latitude": 51.393598,
           "longitude": 0.541529,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             7,
@@ -1892,6 +3102,18 @@
           "town": "Milton Keynes",
           "latitude": 52.027987,
           "longitude": -0.752148,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                3,
+                1,
+                6
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -1914,6 +3136,16 @@
           "town": "Tower Hamlets",
           "latitude": 51.533947,
           "longitude": -0.026425,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             7,
@@ -1934,6 +3166,23 @@
           "town": "Pendle",
           "latitude": 53.84442,
           "longitude": -2.221148,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                7,
+                10
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -1951,6 +3200,22 @@
           "town": "Hyndburn",
           "latitude": 53.750521,
           "longitude": -2.35606,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                7
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -1973,6 +3238,14 @@
           "town": "Havering",
           "latitude": 51.579951,
           "longitude": 0.119109,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6
@@ -1985,6 +3258,14 @@
           "town": "Epping Forest",
           "latitude": 51.648392,
           "longitude": 0.075449,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6
@@ -2003,6 +3284,24 @@
           "town": "County Durham",
           "latitude": 54.795913,
           "longitude": -1.594398,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                2,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3,
+                7
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             2,
@@ -2027,6 +3326,18 @@
           "town": "Swindon",
           "latitude": 51.557469,
           "longitude": -1.758301,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                6,
+                7,
+                5,
+                3
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -2049,6 +3360,14 @@
           "town": "Newcastle under Lyme",
           "latitude": 53.015303,
           "longitude": -2.237988,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6
@@ -2061,6 +3380,14 @@
           "town": "Stafford",
           "latitude": 52.806578,
           "longitude": -2.120352,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6
@@ -2079,6 +3406,18 @@
           "town": "Newham",
           "latitude": 51.531751,
           "longitude": 0.054842,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                3,
+                4,
+                5,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             3,
@@ -2095,6 +3434,14 @@
           "town": "Newham",
           "latitude": 51.540289,
           "longitude": 0.009554,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             7
@@ -2113,6 +3460,15 @@
           "town": "Newham",
           "latitude": 51.520068,
           "longitude": 0.031699,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                2,
+                6
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             2,
@@ -2132,6 +3488,20 @@
           "town": "Leeds",
           "latitude": 53.81076,
           "longitude": -1.552662,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
+          ],
           "qualification2020": [
             4
           ],
@@ -2152,6 +3522,20 @@
           "town": "Nottingham",
           "latitude": 52.949517,
           "longitude": -1.143699,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                3,
+                6,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -2170,6 +3554,16 @@
           "town": "Nottingham",
           "latitude": 52.983856,
           "longitude": -1.196179,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             7,
@@ -2190,6 +3584,23 @@
           "town": "Oldham",
           "latitude": 53.542626,
           "longitude": -2.119959,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                3,
+                2,
+                9,
+                1,
+                6,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -2217,6 +3628,22 @@
           "town": "Oldham",
           "latitude": 53.538654,
           "longitude": -2.11865,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7,
+                8,
+                10
+              ]
+            },
+            {
+              "year": 2020,
+              "qualifications": [
+                4
+              ]
+            }
+          ],
           "qualification2020": [
             4
           ],
@@ -2239,6 +3666,21 @@
           "town": "Staffordshire Moorlands",
           "latitude": 52.980124,
           "longitude": -1.988699,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                3,
+                7
+              ]
+            }
+          ],
           "qualification2020": [
             4
           ],
@@ -2260,6 +3702,14 @@
           "town": "Winchester",
           "latitude": 51.070701,
           "longitude": -1.321775,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                6
+              ]
+            }
+          ],
           "qualification2020": [
             6
           ],
@@ -2278,6 +3728,22 @@
           "town": "North Devon",
           "latitude": 51.072452,
           "longitude": -4.069473,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                3,
+                2,
+                1,
+                6,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -2298,6 +3764,22 @@
           "town": "Mid Devon",
           "latitude": 50.912726,
           "longitude": -3.491992,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                3,
+                2,
+                1,
+                6,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -2318,6 +3800,22 @@
           "town": "North Devon",
           "latitude": 51.065262,
           "longitude": -4.080708,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                3,
+                2,
+                1,
+                6,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -2344,6 +3842,16 @@
           "town": "Preston",
           "latitude": 53.784255,
           "longitude": -2.699784,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                2,
+                7,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             2,
@@ -2364,6 +3872,22 @@
           "town": "Warrington",
           "latitude": 53.379485,
           "longitude": -2.583436,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                7,
+                10
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -2386,6 +3910,24 @@
           "town": "South Ribble",
           "latitude": 53.680997,
           "longitude": -2.689595,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [
             4
           ],
@@ -2410,6 +3952,15 @@
           "town": "Runnymede",
           "latitude": 51.383685,
           "longitude": -0.502184,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                6
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -2429,6 +3980,15 @@
           "town": "Sandwell",
           "latitude": 52.50705,
           "longitude": -1.965917,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -2448,6 +4008,17 @@
           "town": "Sandwell",
           "latitude": 52.515086,
           "longitude": -1.992087,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                3,
+                9,
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             3,
@@ -2469,6 +4040,22 @@
           "town": "Scarborough",
           "latitude": 54.275292,
           "longitude": -0.430757,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [
             6
           ],
@@ -2491,6 +4078,14 @@
           "town": "Salford",
           "latitude": 53.477184,
           "longitude": -2.294462,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4
@@ -2503,6 +4098,14 @@
           "town": "Salford",
           "latitude": 53.495953,
           "longitude": -2.3382,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             7
@@ -2521,6 +4124,24 @@
           "town": "Bradford",
           "latitude": 53.836819,
           "longitude": -1.790215,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3,
+                6,
+                7,
+                8
+              ]
+            }
+          ],
           "qualification2020": [
             4
           ],
@@ -2545,6 +4166,14 @@
           "town": "Solihull",
           "latitude": 52.409568,
           "longitude": -1.792148,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4
@@ -2563,6 +4192,21 @@
           "town": "Torbay",
           "latitude": 50.414646,
           "longitude": -3.587847,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                2,
+                9,
+                1,
+                7,
+                10,
+                6
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -2588,6 +4232,14 @@
           "town": "Basildon",
           "latitude": 51.581497,
           "longitude": 0.449399,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4
@@ -2600,6 +4252,14 @@
           "town": "Southend-on-Sea",
           "latitude": 51.566937,
           "longitude": 0.643543,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                9
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             9
@@ -2612,6 +4272,15 @@
           "town": "Southend-on-Sea",
           "latitude": 51.537958,
           "longitude": 0.71191,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6,
+                2
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6,
@@ -2631,6 +4300,23 @@
           "town": "Blaydon",
           "latitude": 54.9612,
           "longitude": -1.722608,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3,
+                7
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -2654,6 +4340,15 @@
           "town": "Harrow",
           "latitude": 51.61362,
           "longitude": -0.310489,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6,
@@ -2673,6 +4368,25 @@
           "town": "Mendip",
           "latitude": 51.130495,
           "longitude": -2.734039,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                7,
+                8,
+                10,
+                5,
+                3
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -2698,6 +4412,27 @@
           "town": "Ipswich",
           "latitude": 52.054871,
           "longitude": 1.165925,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                1,
+                7,
+                8,
+                10,
+                3
+              ]
+            },
+            {
+              "year": 2020,
+              "qualifications": [
+                2,
+                6,
+                4
+              ]
+            }
+          ],
           "qualification2020": [
             2,
             6,
@@ -2719,6 +4454,14 @@
           "town": "Ipswich",
           "latitude": 52.141129,
           "longitude": 1.213221,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                9
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             9
@@ -2737,6 +4480,15 @@
           "town": "Horsham",
           "latitude": 51.071001,
           "longitude": -0.324301,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -2756,6 +4508,16 @@
           "town": "Kings Lynn and West Norfolk",
           "latitude": 52.756352,
           "longitude": 0.410694,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6,
+                7,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6,
@@ -2776,6 +4538,20 @@
           "town": "Dartford",
           "latitude": 51.459986,
           "longitude": 0.223992,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5
+              ]
+            }
+          ],
           "qualification2020": [
             4
           ],
@@ -2796,6 +4572,16 @@
           "town": "Islington",
           "latitude": 51.55494,
           "longitude": -0.119209,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                3
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -2810,6 +4596,16 @@
           "town": "Camden",
           "latitude": 51.526904,
           "longitude": -0.118793,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -2824,6 +4620,14 @@
           "town": "Islington",
           "latitude": 51.556571,
           "longitude": -0.11832,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6
@@ -2836,6 +4640,14 @@
           "town": "Islington",
           "latitude": 51.530345,
           "longitude": -0.104681,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                8
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             8
@@ -2854,6 +4666,14 @@
           "town": "Wolverhampton",
           "latitude": 52.591888,
           "longitude": -2.120145,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                2
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             2
@@ -2872,6 +4692,15 @@
           "town": "Broadland",
           "latitude": 52.636136,
           "longitude": 1.355735,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -2891,6 +4720,16 @@
           "town": "Trafford",
           "latitude": 53.405469,
           "longitude": -2.349545,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                1,
+                8
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5,
@@ -2905,6 +4744,14 @@
           "town": "Stockport",
           "latitude": 53.404275,
           "longitude": -2.158962,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6
@@ -2923,6 +4770,27 @@
           "town": "Cornwall",
           "latitude": 50.262794,
           "longitude": -5.100783,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                2,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3,
+                9,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             2,
@@ -2950,6 +4818,15 @@
           "town": "Birmingham",
           "latitude": 52.482263,
           "longitude": -1.906807,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6,
@@ -2969,6 +4846,14 @@
           "town": "Merton",
           "latitude": 51.41406,
           "longitude": -0.222757,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4
+              ]
+            }
+          ],
           "qualification2020": [
             4
           ],
@@ -2987,6 +4872,16 @@
           "town": "Wakefield",
           "latitude": 53.685588,
           "longitude": -1.503855,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                2,
+                6
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5,
@@ -3007,6 +4902,25 @@
           "town": "Walsall",
           "latitude": 52.589449,
           "longitude": -1.982554,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             6
@@ -3026,6 +4940,20 @@
           "town": "Walsall",
           "latitude": 52.591047,
           "longitude": -1.983596,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                2
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                1
+              ]
+            }
+          ],
           "qualification2020": [
             2
           ],
@@ -3046,6 +4974,15 @@
           "town": "Walsall",
           "latitude": 52.582479,
           "longitude": -1.982079,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                3,
+                4
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             3,
@@ -3065,6 +5002,14 @@
           "town": "Malvern Hills",
           "latitude": 52.113473,
           "longitude": -2.322755,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5
@@ -3077,6 +5022,16 @@
           "town": "Warwick",
           "latitude": 52.287561,
           "longitude": -1.549577,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                4,
+                3
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5,
@@ -3097,6 +5052,14 @@
           "town": "West Suffolk",
           "latitude": 52.252393,
           "longitude": 0.696519,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5
@@ -3109,6 +5072,15 @@
           "town": "West Suffolk",
           "latitude": 52.249242,
           "longitude": 0.700211,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6,
@@ -3128,6 +5100,15 @@
           "town": "North Somerset",
           "latitude": 51.324461,
           "longitude": -2.968688,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                2
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             2
@@ -3141,6 +5122,14 @@
           "town": "North Somerset",
           "latitude": 51.34938,
           "longitude": -2.948269,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                6
+              ]
+            }
+          ],
           "qualification2020": [
             6
           ],
@@ -3153,6 +5142,14 @@
           "town": "North Somerset",
           "latitude": 51.350953,
           "longitude": -2.981524,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             7
@@ -3171,6 +5168,15 @@
           "town": "Wigan",
           "latitude": 53.555867,
           "longitude": -2.638136,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                9,
+                1
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             9,
@@ -3184,6 +5190,16 @@
           "town": "Wigan",
           "latitude": 53.546967,
           "longitude": -2.635089,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                6,
+                7,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             6,
@@ -3198,6 +5214,14 @@
           "town": "Wigan",
           "latitude": 53.489454,
           "longitude": -2.531079,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             7
@@ -3216,6 +5240,14 @@
           "town": "Kingston upon Hull, City of",
           "latitude": 53.774574,
           "longitude": -0.278441,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             7
@@ -3234,6 +5266,18 @@
           "town": "Kingston upon Hull, City of",
           "latitude": 53.766084,
           "longitude": -0.387376,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -3256,6 +5300,20 @@
           "town": "South Somerset",
           "latitude": 50.948522,
           "longitude": -2.63778,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                3,
+                6,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -3280,6 +5338,22 @@
           "town": "York",
           "latitude": 53.929705,
           "longitude": -1.113609,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                6,
+                7
+              ]
+            },
+            {
+              "year": 2020,
+              "qualifications": [
+                2
+              ]
+            }
+          ],
           "qualification2020": [
             2
           ],

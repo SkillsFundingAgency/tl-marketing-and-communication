@@ -22,6 +22,16 @@
           "town": "Vale of White Horse",
           "latitude": 51.680624,
           "longitude": -1.28696,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -36,6 +46,16 @@
           "town": "Vale of White Horse",
           "latitude": 51.785444,
           "longitude": -1.487934,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -74,6 +94,14 @@
           "town": "Reading",
           "latitude": 51.454143,
           "longitude": -0.955431,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4
@@ -86,6 +114,14 @@
           "town": "Oxford",
           "latitude": 51.720855,
           "longitude": -1.199541,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4
@@ -98,6 +134,14 @@
           "town": "Oxford",
           "latitude": 51.749548,
           "longitude": -1.264524,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             7
@@ -116,6 +160,17 @@
           "town": "Barking and Dagenham",
           "latitude": 51.56033,
           "longitude": 0.174564,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                3,
+                2,
+                1
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -131,6 +186,14 @@
           "town": "Barking and Dagenham",
           "latitude": 51.537297,
           "longitude": 0.077008,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                2
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             2
@@ -149,6 +212,15 @@
           "town": "Barnsley",
           "latitude": 53.556265,
           "longitude": -1.480614,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                2
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             2
@@ -174,6 +246,20 @@
           "town": "Barnsley",
           "latitude": 53.556624,
           "longitude": -1.482572,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
+          ],
           "qualification2020": [
             6
           ],
@@ -194,6 +280,16 @@
           "town": "Bath and North East Somerset",
           "latitude": 51.379717,
           "longitude": -2.362652,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -214,6 +310,18 @@
           "town": "Bedford",
           "latitude": 52.133347,
           "longitude": -0.468552,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                2,
+                9,
+                6,
+                7
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5,
@@ -230,6 +338,17 @@
           "town": "Kettering",
           "latitude": 52.388412,
           "longitude": -0.71174,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                6,
+                7,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5,
@@ -245,6 +364,18 @@
           "town": "Corby",
           "latitude": 52.486942,
           "longitude": -0.692251,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                9,
+                1,
+                10
+              ]
+            }
+          ],
+
           "qualification2020": [],
           "qualification2021": [
             5,
@@ -260,6 +391,14 @@
           "town": "Wellingborough",
           "latitude": 52.300077,
           "longitude": -0.693641,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             5
@@ -272,6 +411,14 @@
           "town": "Bedford",
           "latitude": 52.108958,
           "longitude": -0.496125,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                1
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             1
@@ -290,6 +437,20 @@
           "town": "Rother",
           "latitude": 50.847112,
           "longitude": 0.490934,
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                3,
+                6,
+                7,
+                8,
+                10
+              ]
+            }
+          ],
           "qualification2020": [],
           "qualification2021": [
             4,
@@ -314,6 +475,20 @@
           "town": "East Riding of Yorkshire",
           "latitude": 53.848273,
           "longitude": -0.504045,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
+          ],
           "qualification2020": [
             6
           ],
@@ -334,6 +509,27 @@
           "town": "Blackpool",
           "latitude": 53.859387,
           "longitude": -3.026295,
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                2,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3,
+                9,
+                1,
+                7,
+                10
+              ]
+            }
+          ],
           "qualification2020": [
             4,
             2,
