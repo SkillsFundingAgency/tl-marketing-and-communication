@@ -36,9 +36,9 @@ namespace sfa.Tl.Marketing.Communication
             {
                 PostcodeRetrieverBaseUrl = Configuration["PostcodeRetrieverBaseUrl"],
                 EmployerContactEmailTemplateId = Configuration["EmployerContactEmailTemplateId"],
-                //GovNotifyApiKey = Configuration["GovNotifyApiKey"],
                 SupportEmailInboxAddress = Configuration["SupportEmailInboxAddress"],
-                DataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\providers.json"
+                ProvidersDataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\providers.json",
+                QualificationsDataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\qualifications.json"
             };
 
             services.AddSingleton(SiteConfiguration);

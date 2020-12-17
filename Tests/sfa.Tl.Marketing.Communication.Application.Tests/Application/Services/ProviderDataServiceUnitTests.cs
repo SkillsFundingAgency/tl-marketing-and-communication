@@ -18,10 +18,12 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var appDomain = System.AppDomain.CurrentDomain;
             var basePath = appDomain.RelativeSearchPath ?? appDomain.BaseDirectory;
 
-            var dataFilePath = Path.Combine(basePath ?? string.Empty, "Data", "data.json");
+            var providersDataFilePath = Path.Combine(basePath!, "Data", "test_providers.json");
+            var qualificationsDataFilePath = Path.Combine(basePath!, "Data", "test_qualifications.json");
             var configurationOption = new ConfigurationOptions()
             {
-                DataFilePath = dataFilePath
+                ProvidersDataFilePath = providersDataFilePath,
+                QualificationsDataFilePath = qualificationsDataFilePath
             };
             _service = new ProviderDataService(fileReader, configurationOption);
         }

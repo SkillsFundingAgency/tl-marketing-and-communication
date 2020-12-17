@@ -12,12 +12,14 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         private readonly IFileReader _fileReader;
         private readonly ConfigurationOptions _configurationOptions;
         private readonly JsonDocument _providersData;
+        private readonly JsonDocument _qualificationsData;
 
         public ProviderDataService(IFileReader fileReader, ConfigurationOptions configurationOptions)
         {
             _fileReader = fileReader;
             _configurationOptions = configurationOptions;
             _providersData = GetProvidersData();
+            _qualificationsData = GetQualificationsData();
         }
 
         public IQueryable<Provider> GetProviders()
@@ -47,10 +49,18 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private JsonDocument GetProvidersData()
         {
-            var json = _fileReader.ReadAllText(_configurationOptions.DataFilePath);
-            var providersJsonDoc = JsonDocument.Parse(json);
-            return providersJsonDoc;
+            var json = _fileReader.ReadAllText(_configurationOptions.ProvidersDataFilePath);
+            var jsonDoc = JsonDocument.Parse(json);
+            return jsonDoc;
         }
+
+        private JsonDocument GetQualificationsData()
+        {
+            var json = _fileReader.ReadAllText(_configurationOptions.QualificationsDataFilePath);
+            var jsonDoc = JsonDocument.Parse(json);
+            return jsonDoc;
+        }
+
 
         public IEnumerable<string> GetWebsiteUrls()
         {
@@ -72,7 +82,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private IQueryable<Qualification> GetAllQualifications()
         {
-            return _providersData
+            return _qualificationsData
                 .RootElement
                 .GetProperty("qualifications")
                 .EnumerateObject()

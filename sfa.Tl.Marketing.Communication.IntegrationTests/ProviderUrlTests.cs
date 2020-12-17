@@ -28,11 +28,13 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
 
             var appDomain = AppDomain.CurrentDomain;
             var basePath = appDomain.RelativeSearchPath ?? appDomain.BaseDirectory;
-            var dataFilePath = Path.Combine(basePath!, "Data", "providers.json");
+            var providersDataFilePath = Path.Combine(basePath!, "Data", "providers.json");
+            var qualificationsDataFilePath = Path.Combine(basePath!, "Data", "qualifications.json");
             var configurationOptions = new ConfigurationOptions()
             {
-                DataFilePath = dataFilePath,
-                PostcodeRetrieverBaseUrl = @"http://poscode.io.uk"
+                ProvidersDataFilePath = providersDataFilePath,
+                QualificationsDataFilePath = qualificationsDataFilePath,
+                PostcodeRetrieverBaseUrl = @"http://postcode.io.uk"
             };
 
             var fileReader = new FileReader();
