@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -101,13 +102,20 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                     DeliveryYears = GetDeliveryYears(venueGroup)
                 };
 
-                Console.WriteLine($"  Adding location {postcode} " +
-                                  $"{(string.IsNullOrWhiteSpace(venue.VenueName) ? "" : venue.VenueName + ' ')}.");
-                foreach (var deliveryYear in location.DeliveryYears)
+                var logMessage = new StringBuilder($"  Adding location {postcode} " +
+                               $"{(string.IsNullOrWhiteSpace(venue.VenueName) ? "" : venue.VenueName + ' ')}");
+                if (location.DeliveryYears.Any())
                 {
-                    Console.Write($"Has {deliveryYear.Qualifications.Count} {deliveryYear.Year} qualifications. ");
+                    for (var i = 0; i < location.DeliveryYears.Count; i++)
+                    {
+                        logMessage.Append(i == 0 ? "with " : "and ");
+                        logMessage.Append($"{location.DeliveryYears[i].Qualifications.Count} {location.DeliveryYears[i].Year} ");
+                    }
+
+                    logMessage.Append("qualifications");
                 }
-                Console.WriteLine();
+
+                Console.WriteLine(logMessage);
 
                 locationWriteData.Add(location);
             }
