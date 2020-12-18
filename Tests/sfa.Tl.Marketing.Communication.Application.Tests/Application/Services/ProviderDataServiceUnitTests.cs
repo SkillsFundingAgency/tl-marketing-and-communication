@@ -83,7 +83,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             location?.Postcode.Should().Be("FY2 0HB");
 
             location?.DeliveryYears.Count.Should().Be(2);
-            var deliveryYear2020 = location?.DeliveryYears.First();
+            var deliveryYear2020 = location?.DeliveryYears.Single(d => d.Year == 2020);
             deliveryYear2020.Should().NotBeNull();
             deliveryYear2020?.Year.Should().Be(2020);
 
@@ -93,7 +93,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             deliveryYear2020?.Qualifications.Should().Contain(4);
             deliveryYear2020?.Qualifications.Should().Contain(6);
 
-            var deliveryYear2021 = location?.DeliveryYears.Skip(1).First();
+            var deliveryYear2021 = location?.DeliveryYears.Single(d => d.Year == 2021);
             deliveryYear2021.Should().NotBeNull();
             deliveryYear2021?.Year.Should().Be(2021);
 

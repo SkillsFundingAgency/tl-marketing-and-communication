@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                                 _providerDataService.GetQualifications(d.Qualifications.ToArray())
                                 : new List<Qualification>()
                         })
-                        //.OrderByDescending(d => d.Year)
+                        .OrderBy(d => d.Year)
                         .ToList()
                     : new List<DeliveryYearWithQualifications>()
                 });

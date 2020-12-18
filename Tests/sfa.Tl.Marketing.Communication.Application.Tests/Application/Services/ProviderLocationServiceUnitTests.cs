@@ -38,8 +38,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 Year = 2021,
                 Qualifications = new List<int> { 3 }
             });
-
-
+            
             var location2 = BuildLocation("Location 2", "S70 2YW", 50.001, -1.234);
             location2.DeliveryYears.Add(new DeliveryYear
             {
@@ -91,6 +90,51 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                     .Contains(qualifications.Single(q => q.Id == 1)));
         }
 
+        [Fact]
+        public void GetProviderLocations_Returns__Delivery_Years_In_Order()
+        {
+            var qualifications = BuildQualifications();
+
+            var location1 = BuildLocation("Location 1", "CV1 2WT", 52.345, -2.001);
+            location1.DeliveryYears.Add(new DeliveryYear
+            {
+                Year = 2022,
+                Qualifications = new List<int> { 3 }
+            });
+            location1.DeliveryYears.Add(new DeliveryYear
+            {
+                Year = 2021,
+                Qualifications = new List<int> { 1 }
+            });
+            location1.DeliveryYears.Add(new DeliveryYear
+            {
+                Year = 2020,
+                Qualifications = new List<int> { 1 }
+            });
+
+            var locations = BuildLocations(location1);
+
+            var providers = new List<Provider>
+            {
+                BuildProvider(1, "Provider 1", new List<Location> { location1 })
+            }.AsQueryable();
+
+            _providerDataService.GetQualifications().Returns(qualifications);
+            _providerDataService.
+                GetQualifications(Arg.Any<int[]>())
+                .Returns(x => qualifications.Where(q => ((int[])x[0]).Contains(q.Id)));
+
+            var results = _service.GetProviderLocations(locations, providers).ToList();
+            
+            results.Count.Should().Be(locations.Count());
+            var deliveryYears = results.First().DeliveryYears.ToList();
+
+            deliveryYears.Count.Should().Be(3);
+            deliveryYears[0].Year.Should().Be(2020);
+            deliveryYears[1].Year.Should().Be(2021);
+            deliveryYears[2].Year.Should().Be(2022);
+        }
+        
         [Fact]
         public void GetProviderLocations_Returns_Expected_Results_When_One_Location_Has_No_Qualifications()
         {

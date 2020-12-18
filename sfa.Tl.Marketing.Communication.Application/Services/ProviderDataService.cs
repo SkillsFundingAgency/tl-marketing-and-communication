@@ -60,8 +60,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var jsonDoc = JsonDocument.Parse(json);
             return jsonDoc;
         }
-
-
+        
         public IEnumerable<string> GetWebsiteUrls()
         {
             var urlList = new List<string>();
