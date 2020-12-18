@@ -20,12 +20,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            6,
-            7
-          ],
           "website": "https://www.abingdon-witney.ac.uk/t-levels"
         },
         {
@@ -43,12 +37,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            6,
-            7
           ],
           "website": "https://www.abingdon-witney.ac.uk/t-levels"
         }
@@ -72,10 +60,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4
-          ],
           "website": "https://www.accesscreative.ac.uk/study/t-levels/"
         },
         {
@@ -91,10 +75,6 @@
                 4
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            4
           ],
           "website": "https://www.accesscreative.ac.uk/study/t-levels/"
         }
@@ -118,10 +98,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4
-          ],
           "website": "https://www.activatelearning.ac.uk/reading"
         },
         {
@@ -138,10 +114,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4
-          ],
           "website": "https://www.activatelearning.ac.uk/oxford"
         },
         {
@@ -157,10 +129,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            7
           ],
           "website": "https://www.activatelearning.ac.uk/oxford"
         }
@@ -187,13 +155,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            3,
-            2,
-            1
-          ],
           "website": "https://www.barkingdagenhamcollege.ac.uk/"
         },
         {
@@ -209,10 +170,6 @@
                 2
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            2
           ],
           "website": "https://www.barkingdagenhamcollege.ac.uk/"
         }
@@ -237,11 +194,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            2
-          ],
-          "qualification2021": [],
           "website": "https://www.barnsley.ac.uk/courses/all-about-t-levels/"
         },
         {
@@ -258,10 +210,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            2
-          ],
-          "qualification2021": [],
           "website": "https://www.barnsley.ac.uk/courses/all-about-t-levels/"
         },
         {
@@ -283,12 +231,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [
-            6
-          ],
-          "qualification2021": [
-            7
           ],
           "website": "https://www.barnsley.ac.uk/courses/all-about-t-levels/"
         }
@@ -313,12 +255,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            6,
-            7
           ],
           "website": "https://www.bathcollege.ac.uk/"
         }
@@ -346,14 +282,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            5,
-            2,
-            9,
-            6,
-            7
-          ],
           "website": "https://www.bedford.ac.uk"
         },
         {
@@ -372,13 +300,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            5,
-            6,
-            7,
-            10
           ],
           "website": "https://www.tresham.ac.uk/"
         },
@@ -399,13 +320,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            5,
-            9,
-            1,
-            10
-          ],
           "website": "https://www.tresham.ac.uk/"
         },
         {
@@ -422,10 +336,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            5
-          ],
           "website": "https://www.tresham.ac.uk/"
         },
         {
@@ -441,10 +351,6 @@
                 1
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            1
           ],
           "website": "https://www.bedford.ac.uk"
         }
@@ -474,16 +380,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            3,
-            6,
-            7,
-            8,
-            10
-          ],
           "website": "http://www.bexhillcollege.ac.uk/"
         }
       ]
@@ -511,12 +407,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [
-            6
-          ],
-          "qualification2021": [
-            7
           ],
           "website": "https://www.bishopburton.ac.uk/"
         }
@@ -553,19 +443,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            2,
-            6
-          ],
-          "qualification2021": [
-            5,
-            3,
-            9,
-            1,
-            7,
-            10
-          ],
           "website": "https://www.blackpool.ac.uk/t-levels"
         }
       ]
@@ -592,15 +469,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            2,
-            9,
-            6,
-            7,
-            10
           ],
           "website": "https://www.boltoncollege.ac.uk/t-levels/"
         }
@@ -634,16 +502,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            2,
-            6
-          ],
-          "qualification2021": [
-            3,
-            1,
-            7
-          ],
           "website": "https://www.btc.ac.uk/"
         }
       ]
@@ -672,16 +530,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            3,
-            6,
-            7,
-            8,
-            10
-          ],
           "website": "https://www.buckscollegegroup.ac.uk/t-levels/"
         },
         {
@@ -701,13 +549,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            3,
-            10
-          ],
           "website": "https://www.buckscollegegroup.ac.uk/t-levels/"
         },
         {
@@ -725,12 +566,6 @@
                 8
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            6,
-            7,
-            8
           ],
           "website": "https://www.buckscollegegroup.ac.uk/t-levels/"
         }
@@ -753,10 +588,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            10
           ],
           "website": "https://www.burnley.ac.uk/"
         }
@@ -784,14 +615,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            9,
-            6,
-            7
-          ],
           "website": "https://burycollege.ac.uk/"
         }
       ]
@@ -817,13 +640,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            7,
-            8
-          ],
           "website": "https://www.calderdale.ac.uk/"
         }
       ]
@@ -847,11 +663,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            3,
-            6
-          ],
           "website": "https://www.camre.ac.uk/"
         },
         {
@@ -868,11 +679,6 @@
                 6
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            3,
-            6
           ],
           "website": "https://www.camre.ac.uk/"
         }
@@ -903,14 +709,6 @@
                 3
               ]
             }
-          ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [
-            5,
-            3
           ],
           "website": "https://www.cardinalnewman.ac.uk/school-leavers/t-levels/"
         }
@@ -943,19 +741,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            3,
-            2,
-            9,
-            1,
-            6,
-            7,
-            8,
-            10
-          ],
           "website": "https://www.ccsw.ac.uk/t%20levels/"
         }
       ]
@@ -985,13 +770,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [
-            5
-          ],
           "website": "https://www.crawley.ac.uk/study-courses/t-levels"
         },
         {
@@ -1017,16 +795,6 @@
                 4
               ]
             }
-          ],
-          "qualification2020": [
-            2,
-            6,
-            4
-          ],
-          "qualification2021": [
-            3,
-            7,
-            8
           ],
           "website": "https://chichester.ac.uk/"
         }
@@ -1062,18 +830,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            2,
-            6
-          ],
-          "qualification2021": [
-            5,
-            3,
-            7,
-            8,
-            10
-          ],
           "website": "https://www.cirencester.ac.uk/courses/course-directory/t-levels/"
         }
       ]
@@ -1108,18 +864,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            2,
-            6
-          ],
-          "qualification2021": [
-            5,
-            3,
-            1,
-            7,
-            10
-          ],
           "website": "https://www.ccn.ac.uk/courses/course-types/t-levels/"
         },
         {
@@ -1136,10 +880,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            6
-          ],
-          "qualification2021": [],
           "website": "https://www.ccn.ac.uk/courses/course-types/t-levels/"
         }
       ]
@@ -1171,15 +911,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4
-          ],
-          "qualification2021": [
-            5,
-            7,
-            8,
-            10
-          ],
           "website": "https://www.stokesfc.ac.uk/our-courses/?tex_post_tag=t-level&view=list"
         }
       ]
@@ -1204,12 +935,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            7,
-            10
-          ],
           "website": "https://sunderlandcollege.ac.uk/"
         },
         {
@@ -1227,11 +952,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            1,
-            9
-          ],
           "website": "https://sunderlandcollege.ac.uk/"
         },
         {
@@ -1248,11 +968,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            7,
-            10
           ],
           "website": "https://hartlepoolsixth.ac.uk/"
         }
@@ -1277,11 +992,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [],
           "website": "http://www.cranford.hounslow.sch.uk/"
         }
       ]
@@ -1311,13 +1021,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4
-          ],
-          "qualification2021": [
-            5,
-            3
-          ],
           "website": "https://www.derby-college.ac.uk/t-levels-welcome-to-the-next-level"
         },
         {
@@ -1334,10 +1037,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            2
-          ],
-          "qualification2021": [],
           "website": "https://www.derby-college.ac.uk/t-levels-welcome-to-the-next-level"
         },
         {
@@ -1361,13 +1060,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            2,
-            6
-          ],
-          "qualification2021": [
-            8
-          ],
           "website": "https://www.derby-college.ac.uk/t-levels-welcome-to-the-next-level"
         },
         {
@@ -1384,10 +1076,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            6
-          ],
-          "qualification2021": [],
           "website": "https://www.derby-college.ac.uk/t-levels-welcome-to-the-next-level"
         }
       ]
@@ -1410,10 +1098,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4
-          ],
-          "qualification2021": [],
           "website": "http://www.developebp.co.uk/"
         }
       ]
@@ -1439,13 +1123,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            2,
-            6,
-            7
-          ],
           "website": "https://northlindsey.ac.uk/"
         },
         {
@@ -1470,19 +1147,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            2,
-            6,
-            7,
-            5,
-            3,
-            9,
-            1,
-            8,
-            10
           ],
           "website": "https://www.don.ac.uk/"
         }
@@ -1516,16 +1180,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [
-            7,
-            10,
-            5,
-            9
-          ],
           "website": "https://www.dudleycol.ac.uk/School-Leavers/T-Levels"
         },
         {
@@ -1542,10 +1196,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            2
-          ],
-          "qualification2021": [],
           "website": "https://www.dudleycol.ac.uk/School-Leavers/T-Levels"
         }
       ]
@@ -1568,11 +1218,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            7
           ],
           "website": "http://www.durhamsixthformcentre.org.uk/courseinformation.html"
         }
@@ -1599,13 +1244,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            3,
-            8,
-            10
-          ],
           "website": "https://www.eastnorfolk.ac.uk/"
         }
       ]
@@ -1630,12 +1268,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            2,
-            6
-          ],
-          "qualification2021": [],
           "website": "http://www.escg.ac.uk/study/t-levels/"
         },
         {
@@ -1654,12 +1286,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            2,
-            6
-          ],
-          "qualification2021": [],
           "website": "http://www.escg.ac.uk/study/t-levels/"
         },
         {
@@ -1676,10 +1302,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            6
-          ],
-          "qualification2021": [],
           "website": "http://www.escg.ac.uk/study/t-levels/"
         }
       ]
@@ -1705,13 +1327,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            6,
-            7,
-            9
-          ],
           "website": "https://www.ekcgroup.ac.uk/colleges/folkestone-college"
         },
         {
@@ -1727,10 +1342,6 @@
                 5
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            5
           ],
           "website": "https://www.ekcgroup.ac.uk/colleges/dover-technical-college"
         },
@@ -1749,11 +1360,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            6,
-            7
-          ],
           "website": "https://www.ekcgroup.ac.uk/colleges/broadstairs-college"
         },
         {
@@ -1770,10 +1376,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            6
-          ],
           "website": "https://www.ekcgroup.ac.uk/colleges/canterbury-college"
         },
         {
@@ -1789,10 +1391,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            7
           ],
           "website": "https://www.ekcgroup.ac.uk/colleges/canterbury-college"
         }
@@ -1826,16 +1424,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4
-          ],
-          "qualification2021": [
-            5,
-            3,
-            7,
-            8,
-            10
-          ],
           "website": "https://exe-coll.ac.uk/school-leavers/t-levels/"
         },
         {
@@ -1858,13 +1446,6 @@
                 1
               ]
             }
-          ],
-          "qualification2020": [
-            2
-          ],
-          "qualification2021": [
-            9,
-            1
           ],
           "website": "https://exe-coll.ac.uk/school-leavers/t-levels/"
         },
@@ -1889,14 +1470,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [
-            6
-          ],
-          "qualification2021": [
-            7,
-            8,
-            10
           ],
           "website": "https://exe-coll.ac.uk/school-leavers/t-levels/"
         }
@@ -1933,19 +1506,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [
-            5,
-            3,
-            9,
-            1,
-            7,
-            8,
-            10
-          ],
           "website": "https://www.fareham.ac.uk/t-levels/"
         }
       ]
@@ -1979,17 +1539,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [
-            7,
-            8,
-            10,
-            5,
-            3
-          ],
           "website": "https://www.farn-ct.ac.uk/school-leavers/introducing-t-levels/"
         }
       ]
@@ -2014,12 +1563,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            6,
-            7
-          ],
           "website": "https://www.furness.ac.uk/"
         },
         {
@@ -2035,10 +1578,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            10
           ],
           "website": "https://www.furness.ac.uk/about/barrow-sixth-form-campus/"
         }
@@ -2071,15 +1610,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [
-            5,
-            3,
-            7
-          ],
           "website": "https://www.gateshead.ac.uk/school-leavers/t-levels"
         }
       ]
@@ -2103,12 +1633,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            5,
-            2,
-            7
           ],
           "website": "http://www.gloscol.ac.uk/"
         }
@@ -2140,14 +1664,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [
-            7,
-            8
-          ],
           "website": "https://career6.grimsby.ac.uk/t-levels/"
         },
         {
@@ -2164,10 +1680,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            6
-          ],
-          "qualification2021": [],
           "website": "https://scarboroughtec.ac.uk/"
         }
       ]
@@ -2193,13 +1705,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            6,
-            7,
-            8,
-            10
-          ],
           "website": "https://www.halesowen.ac.uk/"
         },
         {
@@ -2217,12 +1722,6 @@
                 8
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            6,
-            7,
-            8
           ],
           "website": "https://www.halesowen.ac.uk/"
         }
@@ -2251,16 +1750,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            5,
-            2,
-            1,
-            6,
-            10,
-            4,
-            7
           ],
           "website": "https://www.harlow-college.ac.uk/study-options/t-levels"
         }
@@ -2296,18 +1785,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            6,
-            2
-          ],
-          "qualification2021": [
-            5,
-            3,
-            7,
-            8,
-            10
-          ],
           "website": "https://www.hsdc.ac.uk/study-with-us/t-levels/"
         },
         {
@@ -2330,13 +1807,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [
-            7
           ],
           "website": "https://www.hsdc.ac.uk/study-with-us/t-levels/"
         }
@@ -2367,13 +1837,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4
-          ],
-          "qualification2021": [
-            8,
-            10
-          ],
           "website": "https://www.hcuc.ac.uk/"
         },
         {
@@ -2389,10 +1852,6 @@
                 3
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            3
           ],
           "website": "https://www.hcuc.ac.uk/"
         },
@@ -2410,10 +1869,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            6
-          ],
-          "qualification2021": [],
           "website": "https://www.uxbridge.ac.uk/courses-west-london/t-levels.html"
         }
       ]
@@ -2438,12 +1893,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            6,
-            5
-          ],
           "website": "https://www.howcollege.ac.uk/"
         },
         {
@@ -2461,11 +1910,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            6
-          ],
           "website": "https://www.howcollege.ac.uk/"
         },
         {
@@ -2481,10 +1925,6 @@
                 5
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            5
           ],
           "website": "https://www.howcollege.ac.uk/"
         }
@@ -2509,11 +1949,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            7,
-            2
-          ],
           "website": "https://www.hlcollege.ac.uk/"
         },
         {
@@ -2530,10 +1965,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            7
-          ],
           "website": "https://www.ludlow-college.ac.uk/"
         },
         {
@@ -2549,10 +1980,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            7
           ],
           "website": "https://www.nsc.ac.uk/"
         }
@@ -2579,13 +2006,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            5,
-            3,
-            1,
-            10
-          ],
           "website": "https://www.hopwood.ac.uk/"
         },
         {
@@ -2602,11 +2022,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            6,
-            7
           ],
           "website": "https://www.hopwood.ac.uk/"
         }
@@ -2633,13 +2048,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            5,
-            1,
-            7,
-            8
-          ],
           "website": "https://www.hughbaird.ac.uk/"
         }
       ]
@@ -2662,11 +2070,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            9,
-            7
           ],
           "website": "https://kendal.ac.uk/"
         }
@@ -2696,13 +2099,6 @@
                 3
               ]
             }
-          ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [
-            3
           ],
           "website": "https://www.laretraite.lambeth.sch.uk/1194/t-levels"
         }
@@ -2734,18 +2130,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            3,
-            2,
-            1,
-            7,
-            8,
-            10,
-            6
-          ],
           "website": "https://www.lcwc.ac.uk/"
         }
       ]
@@ -2768,10 +2152,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4
-          ],
           "website": "https://www.leedscitycollege.ac.uk/"
         },
         {
@@ -2789,11 +2169,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            6,
-            7
-          ],
           "website": "https://www.leedscitycollege.ac.uk/"
         },
         {
@@ -2810,11 +2185,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            8,
-            10
           ],
           "website": "https://www.leedscitycollege.ac.uk/"
         }
@@ -2839,11 +2209,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5
-          ],
           "website": "https://leicestercollege.ac.uk/"
         },
         {
@@ -2860,11 +2225,6 @@
                 5
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5
           ],
           "website": "https://leicestercollege.ac.uk/"
         },
@@ -2885,13 +2245,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            9,
-            1,
-            3,
-            10
-          ],
           "website": "https://leicestercollege.ac.uk/"
         },
         {
@@ -2909,12 +2262,6 @@
                 8
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            6,
-            7,
-            8
           ],
           "website": "https://leicestercollege.ac.uk/"
         }
@@ -2938,10 +2285,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            6
-          ],
-          "qualification2021": [],
           "website": "http://www.lordswoodgirls.co.uk/"
         }
       ]
@@ -2966,13 +2309,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            1,
-            6,
-            7
           ],
           "website": "https://www.loucoll.ac.uk/t-levels-courses"
         }
@@ -3003,18 +2339,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            3,
-            2,
-            9,
-            1,
-            7,
-            8,
-            6,
-            10
           ],
           "website": "https://www.ltegroup.co.uk/"
         }
@@ -3047,19 +2371,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            2,
-            1,
-            6,
-            7,
-            5,
-            3,
-            9,
-            8,
-            10
-          ],
           "website": "https://www.mbro.ac.uk/school-leavers/t-levels/"
         }
       ]
@@ -3082,11 +2393,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            7,
-            10
           ],
           "website": "https://www.midkent.ac.uk/"
         }
@@ -3114,14 +2420,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            3,
-            1,
-            6
-          ],
           "website": "https://www.mkcollege.ac.uk/"
         }
       ]
@@ -3145,12 +2443,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            7,
-            8,
-            10
           ],
           "website": "http://mulberryutc.org/"
         }
@@ -3183,15 +2475,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [
-            5,
-            7,
-            10
-          ],
           "website": "https://www.nelson.ac.uk/16-18/t-levels/"
         },
         {
@@ -3216,14 +2499,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [
-            5,
-            7
-          ],
           "website": "https://www.accross.ac.uk/school-leavers/t-levels/"
         }
       ]
@@ -3246,10 +2521,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            6
-          ],
           "website": "https://www.ncclondon.ac.uk/"
         },
         {
@@ -3265,10 +2536,6 @@
                 6
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            6
           ],
           "website": "https://www.ncclondon.ac.uk/"
         }
@@ -3302,16 +2569,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            2,
-            6
-          ],
-          "qualification2021": [
-            5,
-            3,
-            7
-          ],
           "website": "https://www.newcollegedurham.ac.uk/"
         }
       ]
@@ -3338,14 +2595,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            6,
-            7,
-            5,
-            3
-          ],
           "website": "http://www.newcollege.ac.uk/"
         }
       ]
@@ -3368,10 +2617,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            6
-          ],
           "website": "https://nscg.ac.uk/"
         },
         {
@@ -3387,10 +2632,6 @@
                 6
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            6
           ],
           "website": "https://nscg.ac.uk/"
         }
@@ -3418,14 +2659,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            3,
-            4,
-            5,
-            8,
-            10
-          ],
           "website": "https://www.newham.ac.uk/"
         },
         {
@@ -3441,10 +2674,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            7
           ],
           "website": "https://www.newham.ac.uk/"
         }
@@ -3468,11 +2697,6 @@
                 6
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            2,
-            6
           ],
           "website": "https://www.newvic.ac.uk/"
         }
@@ -3502,12 +2726,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4
-          ],
-          "qualification2021": [
-            7
-          ],
           "website": "https://www.notredamecoll.ac.uk/courses/digital-t-level/"
         }
       ]
@@ -3536,16 +2754,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            3,
-            6,
-            7,
-            8,
-            10
-          ],
           "website": "https://www.nottinghamcollege.ac.uk/"
         },
         {
@@ -3563,12 +2771,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            7,
-            8,
-            10
           ],
           "website": "https://www.nottinghamcollege.ac.uk/"
         }
@@ -3601,19 +2803,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            3,
-            2,
-            9,
-            1,
-            6,
-            7,
-            8,
-            10
-          ],
           "website": "https://www.oldham.ac.uk/"
         }
       ]
@@ -3644,14 +2833,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4
-          ],
-          "qualification2021": [
-            7,
-            8,
-            10
-          ],
           "website": "https://www.osfc.ac.uk/courses/digital-t-level/"
         }
       ]
@@ -3681,13 +2862,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4
-          ],
-          "qualification2021": [
-            3,
-            7
-          ],
           "website": "http://www.painsley.co.uk/sixth-form/t-levels/"
         }
       ]
@@ -3710,10 +2884,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            6
-          ],
-          "qualification2021": [],
           "website": "https://www.psc.ac.uk/courses/2020/education/"
         }
       ]
@@ -3744,18 +2914,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            3,
-            2,
-            1,
-            6,
-            7,
-            8,
-            10
-          ],
           "website": "https://www.petroc.ac.uk/courses-search/t-levels"
         },
         {
@@ -3779,18 +2937,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            3,
-            2,
-            1,
-            6,
-            7,
-            8,
-            10
           ],
           "website": "https://www.petroc.ac.uk/courses-search/t-levels"
         },
@@ -3816,18 +2962,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            3,
-            2,
-            1,
-            6,
-            7,
-            8,
-            10
-          ],
           "website": "https://www.petroc.ac.uk/courses-search/t-levels"
         }
       ]
@@ -3851,12 +2985,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            2,
-            7,
-            10
           ],
           "website": "https://www.preston.ac.uk/"
         }
@@ -3887,14 +3015,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [
-            7,
-            10
           ],
           "website": "https://www.priestley.ac.uk/t-levels-at-priestley/"
         }
@@ -3928,16 +3048,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4
-          ],
-          "qualification2021": [
-            5,
-            3,
-            7,
-            8,
-            10
-          ],
           "website": "https://www.runshaw.ac.uk/"
         }
       ]
@@ -3961,11 +3071,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            6
-          ],
           "website": "https://salesian.surrey.sch.uk/t-levels/"
         }
       ]
@@ -3988,11 +3093,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            7
           ],
           "website": "http://www.sandwellacademy.com/page/6th-tlevels"
         }
@@ -4018,13 +3118,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            3,
-            9,
-            6,
-            7
           ],
           "website": "https://www.sandwell.ac.uk/"
         }
@@ -4056,14 +3149,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            6
-          ],
-          "qualification2021": [
-            7,
-            8,
-            10
-          ],
           "website": "https://s6f.org.uk/"
         }
       ]
@@ -4086,10 +3171,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4
-          ],
           "website": "https://www.salfordcc.ac.uk/"
         },
         {
@@ -4105,10 +3186,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            7
           ],
           "website": "https://www.salfordcc.ac.uk/"
         }
@@ -4142,16 +3219,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4
-          ],
-          "qualification2021": [
-            5,
-            3,
-            6,
-            7,
-            8
-          ],
           "website": "https://www.shipley.ac.uk/courses/categories/t-levels/full-time/"
         }
       ]
@@ -4173,10 +3240,6 @@
                 4
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            4
           ],
           "website": "https://www.solihull.ac.uk/"
         }
@@ -4207,17 +3270,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            2,
-            9,
-            1,
-            7,
-            10,
-            6
-          ],
           "website": "https://www.southdevon.ac.uk/"
         }
       ]
@@ -4240,10 +3292,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4
-          ],
           "website": "https://www.southessex.ac.uk/t-levels/?&level_1_gcse=true&level_2_gcse_btec=true&level_3_btec_a_level=true&a_level=true"
         },
         {
@@ -4259,10 +3307,6 @@
                 9
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            9
           ],
           "website": "https://www.southessex.ac.uk/t-levels/?&level_1_gcse=true&level_2_gcse_btec=true&level_3_btec_a_level=true&a_level=true"
         },
@@ -4280,11 +3324,6 @@
                 2
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            6,
-            2
           ],
           "website": "https://www.southessex.ac.uk/t-levels/?&level_1_gcse=true&level_2_gcse_btec=true&level_3_btec_a_level=true&a_level=true"
         }
@@ -4317,15 +3356,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [
-            5,
-            3,
-            7
-          ],
           "website": "https://www.stthomasmore.org.uk/"
         }
       ]
@@ -4348,11 +3378,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            6,
-            10
           ],
           "website": "https://stanmore.ac.uk/T-Levels"
         }
@@ -4386,17 +3411,6 @@
                 3
               ]
             }
-          ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [
-            7,
-            8,
-            10,
-            5,
-            3
           ],
           "website": "https://www.strode-college.ac.uk/courses/whats-right-for-you/t-levels/what-t-levels-can-i-study/"
         }
@@ -4433,19 +3447,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            2,
-            6,
-            4
-          ],
-          "qualification2021": [
-            5,
-            1,
-            7,
-            8,
-            10,
-            3
-          ],
           "website": "https://www.suffolk.ac.uk/courses/t-levels"
         },
         {
@@ -4461,10 +3462,6 @@
                 9
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            9
           ],
           "website": "https://www.suffolk.ac.uk/courses/t-levels"
         }
@@ -4489,11 +3486,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [],
           "website": "https://www.collyers.ac.uk/"
         }
       ]
@@ -4517,12 +3509,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            6,
-            7,
-            10
           ],
           "website": "https://cwa.ac.uk/"
         }
@@ -4552,12 +3538,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4
-          ],
-          "qualification2021": [
-            5
-          ],
           "website": "https://theleighutc.org.uk/post-16/"
         }
       ]
@@ -4582,12 +3562,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            3
-          ],
           "website": "https://www.candi.ac.uk/"
         },
         {
@@ -4606,12 +3580,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            8,
-            10
-          ],
           "website": "https://www.westking.ac.uk/"
         },
         {
@@ -4628,10 +3596,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            6
-          ],
           "website": "https://www.candi.ac.uk/"
         },
         {
@@ -4647,10 +3611,6 @@
                 8
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            8
           ],
           "website": "https://www.candi.ac.uk/"
         }
@@ -4673,10 +3633,6 @@
                 2
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            2
           ],
           "website": "http://www.thomastelfordutc.com/page/tlevels"
         }
@@ -4701,11 +3657,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [],
           "website": "https://thorpestandrewschool.org.uk/sixth-form/courses-on-offer/"
         }
       ]
@@ -4730,12 +3681,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            5,
-            1,
-            8
-          ],
           "website": "https://trafford.ac.uk/"
         },
         {
@@ -4751,10 +3696,6 @@
                 6
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            6
           ],
           "website": "https://stockport.ac.uk/"
         }
@@ -4791,19 +3732,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            2,
-            6
-          ],
-          "qualification2021": [
-            5,
-            3,
-            9,
-            7,
-            8,
-            10
-          ],
           "website": "https://www.truro-penwith.ac.uk/what-to-study/further-education/t-levels"
         }
       ]
@@ -4827,11 +3755,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            6,
-            7
-          ],
           "website": "https://www.ucb.ac.uk/study/college/introducing-new-t-levels/"
         }
       ]
@@ -4854,10 +3777,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4
-          ],
-          "qualification2021": [],
           "website": "https://www.ursulinehigh.merton.sch.uk/sixth-form/sixth-form-life-2/what-are-t-levels/"
         }
       ]
@@ -4881,12 +3800,6 @@
                 6
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            5,
-            2,
-            6
           ],
           "website": "https://www.wakefield.ac.uk/study-with-us/school-leavers/t-levels"
         }
@@ -4921,17 +3834,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            6
-          ],
-          "qualification2021": [
-            5,
-            3,
-            7,
-            8,
-            10
-          ],
           "website": "https://www.walsallcollege.ac.uk/modes-of-study/courses-16-19s/t-levels/"
         },
         {
@@ -4953,12 +3855,6 @@
                 1
               ]
             }
-          ],
-          "qualification2020": [
-            2
-          ],
-          "qualification2021": [
-            1
           ],
           "website": "https://www.walsallcollege.ac.uk/modes-of-study/courses-16-19s/t-levels/"
         }
@@ -4983,11 +3879,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            3,
-            4
-          ],
           "website": "https://walsallstudio.school/"
         }
       ]
@@ -5010,10 +3901,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            5
-          ],
           "website": "https://wcg.ac.uk/"
         },
         {
@@ -5031,12 +3918,6 @@
                 3
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            5,
-            4,
-            3
           ],
           "website": "https://wcg.ac.uk/"
         }
@@ -5060,10 +3941,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            5
-          ],
           "website": "https://www.wsc.ac.uk/"
         },
         {
@@ -5080,11 +3957,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            6,
-            7
           ],
           "website": "https://www.wsc.ac.uk/"
         }
@@ -5109,11 +3981,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            2
-          ],
-          "qualification2021": [],
           "website": "https://www.weston.ac.uk/what-can-i-study/courses-16-18-year-olds/t-levels"
         },
         {
@@ -5130,10 +3997,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            6
-          ],
-          "qualification2021": [],
           "website": "https://www.weston.ac.uk/what-can-i-study/courses-16-18-year-olds/t-levels"
         },
         {
@@ -5149,10 +4012,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            7
           ],
           "website": "https://www.weston.ac.uk/what-can-i-study/courses-16-18-year-olds/t-levels"
         }
@@ -5177,11 +4036,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            9,
-            1
-          ],
           "website": "https://www.wigan-leigh.ac.uk/16-18-full-time-courses/t-level"
         },
         {
@@ -5200,12 +4054,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            6,
-            7,
-            10
-          ],
           "website": "https://www.wigan-leigh.ac.uk/16-18-full-time-courses/t-level"
         },
         {
@@ -5221,10 +4069,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            7
           ],
           "website": "https://www.wigan-leigh.ac.uk/16-18-full-time-courses/t-level"
         }
@@ -5247,10 +4091,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            7
           ],
           "website": "https://wilberforce.ac.uk/"
         }
@@ -5277,14 +4117,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            7,
-            8,
-            10
           ],
           "website": "https://wyke.ac.uk/"
         }
@@ -5313,16 +4145,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            3,
-            6,
-            7,
-            8,
-            10
           ],
           "website": "https://www.yeovil.ac.uk/"
         }
@@ -5353,14 +4175,6 @@
                 2
               ]
             }
-          ],
-          "qualification2020": [
-            2
-          ],
-          "qualification2021": [
-            4,
-            6,
-            7
           ],
           "website": "https://www.yorkcollege.ac.uk/course-types/vocational/3724-t-levels.html"
         }
