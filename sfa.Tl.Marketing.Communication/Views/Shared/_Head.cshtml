@@ -1,8 +1,8 @@
-﻿@{ var PagePath = ViewData["PagePath"];}
+﻿@{ var pagePath = ViewData["PagePath"];}
 <script>
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-        'pagePath': window.location.pathname + '@(PagePath)',
+        'pagePath': window.location.pathname + '@(pagePath)'
     });
 </script>
 <!-- Optimize antiflicker -->
@@ -35,10 +35,10 @@
 @{ var subtitle = ViewData["Title"];}
 <title>@(subtitle != null ? subtitle + " | T Levels" : "T Levels | The Next Level Qualification")</title>
 @{
-    var metadescription = ViewData["MetaDescription"];
-    if (metadescription != null)
+    var metaDescription = ViewData["MetaDescription"];
+    if (metaDescription != null)
     {
-        <meta name="description" content="@metadescription">
+        <meta name="description" content="@metaDescription">
     }
 }
 <meta name="viewport" content="width=device-width">

@@ -8,6 +8,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad.Extensions
 {
     public static class StringExtensions
     {
+        // ReSharper disable once UnusedMember.Global
         public static string ToTitleCase(this string value)
         {
             if (string.IsNullOrWhiteSpace(value))
