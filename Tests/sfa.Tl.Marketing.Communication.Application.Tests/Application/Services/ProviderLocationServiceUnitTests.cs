@@ -28,11 +28,24 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var qualifications = BuildQualifications();
 
             var location1 = BuildLocation("Location 1", "CV1 2WT", 52.345, -2.001);
-            location1.Qualification2020 = new[] { 1, 2 };
-            location1.Qualification2021 = new[] { 3 };
+            location1.DeliveryYears.Add(new DeliveryYear
+            {
+                Year = 2020,
+                Qualifications = new List<int> { 1, 2 }
+            });
+            location1.DeliveryYears.Add(new DeliveryYear
+            {
+                Year = 2021,
+                Qualifications = new List<int> { 3 }
+            });
+
 
             var location2 = BuildLocation("Location 2", "S70 2YW", 50.001, -1.234);
-            location2.Qualification2020 = new[] { 1 };
+            location2.DeliveryYears.Add(new DeliveryYear
+            {
+                Year = 2020,
+                Qualifications = new List<int> { 1 }
+            });
 
             var locations = BuildLocations(location1, location2);
 
@@ -56,21 +69,26 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 p.Postcode == "CV1 2WT" &&
                 Math.Abs(p.Latitude - 52.345) < 0.001 &&
                 Math.Abs(p.Longitude - (-2.001)) < 0.001 &&
-                p.Qualification2020.Count() == 2 &&
-                p.Qualification2020.Contains(qualifications.Single(q => q.Id == 1)) &&
-                p.Qualification2020.Contains(qualifications.Single(q => q.Id == 2)) &&
-                p.Qualification2021.Count() == 1 &&
-                p.Qualification2021.Contains(qualifications.Single(q => q.Id == 3)));
+                p.DeliveryYears.Count() == 2 &&
+                p.DeliveryYears.Count(dy => dy.Year == 2020) == 1 &&
+                p.DeliveryYears.Single(dy => dy.Year == 2020).Qualifications
+                    .Contains(qualifications.Single(q => q.Id == 1)) &&
+                p.DeliveryYears.Single(dy => dy.Year == 2020).Qualifications
+                    .Contains(qualifications.Single(q => q.Id == 2)) &&
+                p.DeliveryYears.Count(dy => dy.Year == 2021) == 1 &&
+                p.DeliveryYears.Single(dy => dy.Year == 2021).Qualifications
+                    .Contains(qualifications.Single(q => q.Id == 3)));
 
             results.Should().Contain(p =>
-                    p.ProviderName == "Provider 2" &&
-                    p.Name == "Location 2" &&
-                    p.Postcode == "S70 2YW" &&
-                    Math.Abs(p.Latitude - 50.001) < 0.001 &&
-                    Math.Abs(p.Longitude - (-1.234)) < 0.001 &&
-                    p.Qualification2020.Count() == 1 &&
-                    p.Qualification2020.Contains(qualifications.Single(q => q.Id == 1)) &&
-                    !p.Qualification2021.Any());
+                p.ProviderName == "Provider 2" &&
+                p.Name == "Location 2" &&
+                p.Postcode == "S70 2YW" &&
+                Math.Abs(p.Latitude - 50.001) < 0.001 &&
+                Math.Abs(p.Longitude - (-1.234)) < 0.001 &&
+                p.DeliveryYears.Count() == 1 &&
+                p.DeliveryYears.Count(dy => dy.Year == 2020) == 1 &&
+                p.DeliveryYears.Single(dy => dy.Year == 2020).Qualifications
+                    .Contains(qualifications.Single(q => q.Id == 1)));
         }
 
         [Fact]
@@ -81,7 +99,11 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var location1 = BuildLocation("Location 1", "CV1 2WT", 52.345, -2.001);
 
             var location2 = BuildLocation("Location 2", "S70 2YW", 50.001, -1.234);
-            location2.Qualification2020 = new[] { 1 };
+            location2.DeliveryYears.Add(new DeliveryYear
+            {
+                Year = 2020,
+                Qualifications = new List<int> { 1 }
+            });
 
             var locations = BuildLocations(location1, location2);
 
@@ -108,9 +130,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                     p.Postcode == "S70 2YW" &&
                     Math.Abs(p.Latitude - 50.001) < 0.001 &&
                     Math.Abs(p.Longitude - (-1.234)) < 0.001 &&
-                    p.Qualification2020.Count() == 1 &&
-                    p.Qualification2020.Contains(qualifications.Single(q => q.Id == 1)) &&
-                    !p.Qualification2021.Any());
+                    p.DeliveryYears.Count() == 1 &&
+                    p.DeliveryYears.Count(dy => dy.Year == 2020) == 1 &&
+                    p.DeliveryYears.Single(dy => dy.Year == 2020).Qualifications
+                        .Contains(qualifications.Single(q => q.Id == 1)));
         }
 
         [Fact]
@@ -148,8 +171,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 Postcode = postcode,
                 Latitude = lat,
                 Longitude = lng,
-                Qualification2020 = new int[] { },
-                Qualification2021 = new int[] { }
+                DeliveryYears = new List<DeliveryYear>()
             };
         }
 

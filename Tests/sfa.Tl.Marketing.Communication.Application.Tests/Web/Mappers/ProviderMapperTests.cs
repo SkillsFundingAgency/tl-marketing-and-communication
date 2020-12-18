@@ -42,8 +42,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Mappers
             viewModel.Longitude.Should().Be(-1.508122);
             viewModel.DistanceInMiles.Should().Be(9);
             viewModel.DeliveryYears.Should().NotBeNull();
-            viewModel.Qualification2020.Should().NotBeNull();
-            viewModel.Qualification2021.Should().NotBeNull();
             viewModel.Website.Should().Be("https://test.provider.co.uk");
         }
 
@@ -73,8 +71,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Mappers
             viewModelList[0].Longitude.Should().Be(-1.508122);
             viewModelList[0].DistanceInMiles.Should().Be(9);
             viewModelList[0].DeliveryYears.Should().NotBeNull();
-            viewModelList[0].Qualification2020.Should().NotBeNull();
-            viewModelList[0].Qualification2021.Should().NotBeNull();
             viewModelList[0].Website.Should().Be("https://test.provider.co.uk");
         }
 

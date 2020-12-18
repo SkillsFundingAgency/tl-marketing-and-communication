@@ -129,15 +129,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                                                         .ToList()
                                                 })
                                             .ToList()
-                                        : new List<DeliveryYear>(),
-                                    Qualification2020 = l.GetProperty("qualification2020")
-                                        .EnumerateArray()
-                                        .Select(q => q.GetInt32())
-                                        .ToArray(),
-                                    Qualification2021 = l.GetProperty("qualification2021")
-                                        .EnumerateArray()
-                                        .Select(q => q.GetInt32())
-                                        .ToArray()
+                                        : new List<DeliveryYear>()
                                 }).ToList()
                     })
                 .ToList();

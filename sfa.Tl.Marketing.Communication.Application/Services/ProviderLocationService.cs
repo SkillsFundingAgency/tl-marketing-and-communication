@@ -39,10 +39,9 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                                 _providerDataService.GetQualifications(d.Qualifications.ToArray())
                                 : new List<Qualification>()
                         })
+                        //.OrderByDescending(d => d.Year)
                         .ToList()
-                    : new List<DeliveryYearWithQualifications>(),
-                    Qualification2020 = _providerDataService.GetQualifications(pl.Location.Qualification2020),
-                    Qualification2021 = _providerDataService.GetQualifications(pl.Location.Qualification2021)
+                    : new List<DeliveryYearWithQualifications>()
                 });
                 //Proposed fix for bug TLWP-1284
                 //.Where(pl => pl.Qualification2020.Any() || pl.Qualification2021.Any());

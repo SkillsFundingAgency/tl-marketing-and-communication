@@ -57,13 +57,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             location?.Longitude.Should().Be(-1.28696);
             location?.Website.Should().Be("https://www.abingdon-witney.ac.uk/whats-new/t-levels");
 
-            location?.Qualification2020.Length.Should().Be(0);
-            location?.Qualification2021.Length.Should().Be(3);
-
-            location?.Qualification2021.Should().Contain(4);
-            location?.Qualification2021.Should().Contain(6);
-            location?.Qualification2021.Should().Contain(7);
-
             location?.DeliveryYears.Count.Should().Be(1);
             var deliveryYear = location?.DeliveryYears.First();
             deliveryYear.Should().NotBeNull();
@@ -74,8 +67,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             deliveryYear?.Qualifications.Should().Contain(6);
             deliveryYear?.Qualifications.Should().Contain(7);
         }
-
-
+        
         [Fact]
         public void GetProviders_Returns_Expected_Provider_Location_Delivery_Years()
         {

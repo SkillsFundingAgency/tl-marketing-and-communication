@@ -98,14 +98,16 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                     Latitude = postcodeDetails.Lat,
                     Longitude = postcodeDetails.Long,
                     Website = venue.Website.Trim(),
-                    DeliveryYears = GetDeliveryYears(venueGroup),
-                    Qualification2020 = GetQualifications(venueGroup, 2020),
-                    Qualification2021 = GetQualifications(venueGroup, 2021)
+                    DeliveryYears = GetDeliveryYears(venueGroup)
                 };
 
                 Console.WriteLine($"  Adding location {postcode} " +
-                                  $"{(string.IsNullOrWhiteSpace(venue.VenueName) ? "" : venue.VenueName + ' ')}" +
-                                  $"with {location.Qualification2020.Length} 2020 and {location.Qualification2021.Length} 2021 qualifications ");
+                                  $"{(string.IsNullOrWhiteSpace(venue.VenueName) ? "" : venue.VenueName + ' ')}.");
+                foreach (var deliveryYear in location.DeliveryYears)
+                {
+                    Console.Write($"Has {deliveryYear.Qualifications.Count} {deliveryYear.Year} qualifications. ");
+                }
+                Console.WriteLine();
 
                 locationWriteData.Add(location);
             }
@@ -148,38 +150,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                 }
             }
         }
-
-        private static int[] GetQualifications(IGrouping<string, ProviderReadData> venueGroup, int year)
-        {
-            var qualifications = new List<int>();
-
-            foreach (var venue in venueGroup.Where(venue => venue.CourseYear == year.ToString()))
-            {
-                if (venue.IsDigitalProduction)
-                    AddQualification(qualifications, Type.DigitalProductionDesignDevelopment, year, venue);
-                else if (venue.IsDigitalBusiness)
-                    AddQualification(qualifications, Type.DigitalBusiness, year, venue);
-                else if (venue.IsDigitalSupport)
-                    AddQualification(qualifications, Type.DigitalSupportServices, year, venue);
-                else if (venue.IsDesign)
-                    AddQualification(qualifications, Type.DesignSurveyingPlanning, year, venue);
-                else if (venue.IsBuildingServices)
-                    AddQualification(qualifications, Type.BuildingServicesEngineering, year, venue);
-                else if (venue.IsConstruction)
-                    AddQualification(qualifications, Type.OnsiteConstruction, year, venue);
-                else if (venue.IsEducation)
-                    AddQualification(qualifications, Type.Education, year, venue);
-                else if (venue.IsHealth)
-                    AddQualification(qualifications, Type.Health, year, venue);
-                else if (venue.IsHealthCare)
-                    AddQualification(qualifications, Type.HealthCareScience, year, venue);
-                else if (venue.IsScience)
-                    AddQualification(qualifications, Type.Science, year, venue);
-            }
-
-            return qualifications.ToArray();
-        }
-
+        
         private static void AddQualification(IList<int> qualificationList, Type qualificationType, int year, ProviderReadData venue)
         {
             if (qualificationList.Contains((int)qualificationType))
@@ -203,7 +174,6 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
         {
             var deliveryYears = new List<DeliveryYearWriteData>();
 
-            Console.WriteLine("Delivery years:");
             foreach (var venue in venueGroup)
             {
                 var year = short.Parse(venue.CourseYear);
@@ -219,19 +189,6 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                     
                     deliveryYears.Add(deliveryYear);
                 }
-
-                Console.WriteLine($"   {venue.CourseYear} - " +
-                                  $"{venue.IsBuildingServices}" +
-                                  $"{venue.IsDigitalProduction}" +
-                                  $"{venue.IsDigitalBusiness}" +
-                                  $"{ venue.IsDigitalSupport}" +
-                                  $"{venue.IsDesign}" +
-                                  $"{venue.IsBuildingServices}" +
-                                  $"{venue.IsConstruction}" +
-                                  $"{venue.IsEducation}" +
-                                  $"{venue.IsHealth}" +
-                                  $"{venue.IsHealthCare}" +
-                                  $"{venue.IsScience}");
 
                 if (venue.IsDigitalProduction)
                     AddQualification(deliveryYear.Qualifications, Type.DigitalProductionDesignDevelopment, year, venue);

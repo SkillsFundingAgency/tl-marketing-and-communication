@@ -32,12 +32,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            6,
-            7
-          ],
           "website": "https://www.abingdon-witney.ac.uk/whats-new/t-levels"
         },
         {
@@ -56,12 +50,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            6,
-            7
-          ],
           "website": "https://www.abingdon-witney.ac.uk/whats-new/t-levels"
         }
       ]
@@ -76,10 +64,6 @@
           "town": "Manchester",
           "latitude": 53.472598,
           "longitude": -2.242874,
-          "qualification2020": [
-            4
-          ],
-          "qualification2021": [],
           "website": "https://www.accesscreative.ac.uk/study/t-levels/"
         }
       ]
@@ -102,10 +86,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4
-          ],
           "website": "https://www.activatelearning.ac.uk/reading"
         },
         {
@@ -122,10 +102,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4
-          ],
           "website": "https://www.activatelearning.ac.uk/oxford"
         },
         {
@@ -141,10 +117,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            7
           ],
           "website": "https://www.activatelearning.ac.uk/oxford"
         }
@@ -171,13 +143,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            3,
-            2,
-            1
-          ],
           "website": "https://www.barkingdagenhamcollege.ac.uk/"
         },
         {
@@ -193,10 +158,6 @@
                 2
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            2
           ],
           "website": "https://www.barkingdagenhamcollege.ac.uk/"
         }
@@ -221,11 +182,6 @@
               ]
             }
           ],
-          "qualification2020": [
-            4,
-            2
-          ],
-          "qualification2021": [],
           "website": "https://www.barnsley.ac.uk/courses/all-about-t-levels/"
         },
         {
@@ -234,10 +190,14 @@
           "town": "Barnsley",
           "latitude": 53.55982,
           "longitude": -1.48368,
-          "qualification2020": [
-            2
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                2
+              ]
+            }
           ],
-          "qualification2021": [],
           "website": "https://www.barnsley.ac.uk/courses/all-about-t-levels/"
         },
         {
@@ -259,12 +219,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [
-            6
-          ],
-          "qualification2021": [
-            7
           ],
           "website": "https://www.barnsley.ac.uk/courses/all-about-t-levels/"
         }
@@ -289,12 +243,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            6,
-            7
           ],
           "website": "https://www.bathcollege.ac.uk/"
         }
@@ -322,14 +270,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            5,
-            2,
-            9,
-            6,
-            7
-          ],
           "website": "https://www.bedford.ac.uk"
         },
         {
@@ -348,13 +288,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            5,
-            6,
-            7,
-            10
           ],
           "website": "https://www.tresham.ac.uk/"
         },
@@ -375,14 +308,6 @@
               ]
             }
           ],
-
-          "qualification2020": [],
-          "qualification2021": [
-            5,
-            9,
-            1,
-            10
-          ],
           "website": "https://www.tresham.ac.uk/"
         },
         {
@@ -399,10 +324,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            5
-          ],
           "website": "https://www.tresham.ac.uk/"
         },
         {
@@ -418,10 +339,6 @@
                 1
               ]
             }
-          ],
-          "qualification2020": [],
-          "qualification2021": [
-            1
           ],
           "website": "https://www.bedford.ac.uk"
         }
@@ -451,16 +368,6 @@
               ]
             }
           ],
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            3,
-            6,
-            7,
-            8,
-            10
-          ],
           "website": "http://www.bexhillcollege.ac.uk/"
         }
       ]
@@ -488,12 +395,6 @@
                 7
               ]
             }
-          ],
-          "qualification2020": [
-            6
-          ],
-          "qualification2021": [
-            7
           ],
           "website": "https://www.bishopburton.ac.uk/"
         }
@@ -529,19 +430,6 @@
                 10
               ]
             }
-          ],
-          "qualification2020": [
-            4,
-            2,
-            6
-          ],
-          "qualification2021": [
-            5,
-            3,
-            9,
-            1,
-            7,
-            10
           ],
           "website": "https://www.blackpool.ac.uk/t-levels"
         }
