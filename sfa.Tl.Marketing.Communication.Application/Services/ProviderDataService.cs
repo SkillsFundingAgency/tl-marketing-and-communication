@@ -119,7 +119,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                                     DeliveryYears = l.TryGetProperty("deliveryYears", out var deliveryYears)
                                         ? deliveryYears.EnumerateArray()
                                             .Select(d =>
-                                                new DeliveryYear
+                                                new DeliveryYearDto
                                                 { 
                                                     Year = d.GetProperty("year").GetInt16(),
                                                     Qualifications = d.GetProperty("qualifications")
@@ -128,7 +128,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                                                         .ToList()
                                                 })
                                             .ToList()
-                                        : new List<DeliveryYear>()
+                                        : new List<DeliveryYearDto>()
                                 }).ToList()
                     })
                 .ToList();

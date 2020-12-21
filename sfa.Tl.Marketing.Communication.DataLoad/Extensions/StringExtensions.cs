@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+// ReSharper disable UnusedMember.Global
 
 namespace sfa.Tl.Marketing.Communication.DataLoad.Extensions
 {
     public static class StringExtensions
     {
-        // ReSharper disable once UnusedMember.Global
         public static string ToTitleCase(this string value)
         {
             if (string.IsNullOrWhiteSpace(value))

@@ -11,7 +11,7 @@ namespace sfa.Tl.Marketing.Communication.Models.Dto
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public double DistanceInMiles { get; set; }
-        public IEnumerable<DeliveryYearWithQualifications> DeliveryYears { get; set; }
+        public IEnumerable<DeliveryYear> DeliveryYears { get; set; }
         public string Website { get; set; }
     }
 }

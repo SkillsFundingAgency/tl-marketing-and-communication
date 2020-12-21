@@ -2,10 +2,10 @@
 
 namespace sfa.Tl.Marketing.Communication.Models.Dto
 {
-    public class DeliveryYearWithQualifications
+    public class DeliveryYearDto
     {
         public short Year { get; set; }
 
-        public IEnumerable<Qualification> Qualifications { get; set; }
+        public IList<int> Qualifications { get; set; }
     }
 }

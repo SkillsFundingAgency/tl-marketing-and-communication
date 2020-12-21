@@ -9,7 +9,7 @@ namespace sfa.Tl.Marketing.Communication.Mappers
     {
         public ProviderMapper()
         {
-            CreateMap<DeliveryYearWithQualifications, DeliveryYearViewModel>();
+            CreateMap<DeliveryYear, DeliveryYearViewModel>();
 
             CreateMap<Qualification, QualificationViewModel>();
 

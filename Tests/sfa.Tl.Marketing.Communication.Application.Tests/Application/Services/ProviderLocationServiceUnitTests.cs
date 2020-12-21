@@ -28,19 +28,19 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var qualifications = BuildQualifications();
 
             var location1 = BuildLocation("Location 1", "CV1 2WT", 52.345, -2.001);
-            location1.DeliveryYears.Add(new DeliveryYear
+            location1.DeliveryYears.Add(new DeliveryYearDto
             {
                 Year = 2020,
                 Qualifications = new List<int> { 1, 2 }
             });
-            location1.DeliveryYears.Add(new DeliveryYear
+            location1.DeliveryYears.Add(new DeliveryYearDto
             {
                 Year = 2021,
                 Qualifications = new List<int> { 3 }
             });
             
             var location2 = BuildLocation("Location 2", "S70 2YW", 50.001, -1.234);
-            location2.DeliveryYears.Add(new DeliveryYear
+            location2.DeliveryYears.Add(new DeliveryYearDto
             {
                 Year = 2020,
                 Qualifications = new List<int> { 1 }
@@ -96,17 +96,17 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var qualifications = BuildQualifications();
 
             var location1 = BuildLocation("Location 1", "CV1 2WT", 52.345, -2.001);
-            location1.DeliveryYears.Add(new DeliveryYear
+            location1.DeliveryYears.Add(new DeliveryYearDto
             {
                 Year = 2022,
                 Qualifications = new List<int> { 3 }
             });
-            location1.DeliveryYears.Add(new DeliveryYear
+            location1.DeliveryYears.Add(new DeliveryYearDto
             {
                 Year = 2021,
                 Qualifications = new List<int> { 1 }
             });
-            location1.DeliveryYears.Add(new DeliveryYear
+            location1.DeliveryYears.Add(new DeliveryYearDto
             {
                 Year = 2020,
                 Qualifications = new List<int> { 1 }
@@ -143,7 +143,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var location1 = BuildLocation("Location 1", "CV1 2WT", 52.345, -2.001);
 
             var location2 = BuildLocation("Location 2", "S70 2YW", 50.001, -1.234);
-            location2.DeliveryYears.Add(new DeliveryYear
+            location2.DeliveryYears.Add(new DeliveryYearDto
             {
                 Year = 2020,
                 Qualifications = new List<int> { 1 }
@@ -215,7 +215,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 Postcode = postcode,
                 Latitude = lat,
                 Longitude = lng,
-                DeliveryYears = new List<DeliveryYear>()
+                DeliveryYears = new List<DeliveryYearDto>()
             };
         }
 

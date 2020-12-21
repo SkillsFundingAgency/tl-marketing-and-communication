@@ -33,7 +33,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     Website = pl.Location.Website,
                     DeliveryYears = pl.Location.DeliveryYears != null ?
                         pl.Location.DeliveryYears
-                        .Select(d => new DeliveryYearWithQualifications
+                        .Select(d => new DeliveryYear
                         {
                             Year = d.Year,
                             Qualifications = d.Qualifications != null ?
@@ -42,7 +42,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                         })
                         .OrderBy(d => d.Year)
                         .ToList()
-                    : new List<DeliveryYearWithQualifications>()
+                    : new List<DeliveryYear>()
                 });
                 //Proposed fix for bug TLWP-1284
                 //.Where(pl => pl.Qualification2020.Any() || pl.Qualification2021.Any());
