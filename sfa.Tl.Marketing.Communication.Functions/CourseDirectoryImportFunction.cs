@@ -9,12 +9,12 @@ namespace sfa.Tl.Marketing.Communication.Functions
 {
     public class CourseDirectoryImportFunction
     {
-        [FunctionName("ManualImport")]
+        [FunctionName("CourseDirectoryImportFunction")]
         public async Task<IActionResult> ManualImport(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("ManualImport::C# HTTP trigger function processed a request.");
+            log.LogInformation("C# HTTP trigger function processed a request.");
 
             return new OkResult();
         }
