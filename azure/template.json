@@ -259,10 +259,10 @@
                             {
                                 "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
                                 "value": "[concat('InstrumentationKey=', reference('app-insights').outputs.InstrumentationKey.value, ';IngestionEndpoint=https://westeurope-0.in.applicationinsights.azure.com/')]"
-                            },
+                            },                            
                             {
                                 "name": "AzureWebJobsStorage",
-                                "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',reference('storage-account'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', reference('storage-account')), '2019-06-01').keys[0].value,';EndpointSuffix=','core.windows.net')]"
+                                "value": "[reference('storage-account').outputs.storageConnectionString.value]"
                             }
                         ]
                     }
