@@ -274,6 +274,10 @@
         "AppServiceName": {
             "type": "string",
             "value": "[variables('AppServiceName')]"
+        },
+        "FunctionAppName": {
+            "type": "string",
+            "value": "[variables('FunctionAppName')]"
         }
     }
 }
