@@ -84,7 +84,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: false
-    projects: 'src/sfa.Tl.Marketing.Communication.Functions/sfa.Tl.Marketing.Communication.Functions.csproj'
+    projects: 'sfa.Tl.Marketing.Communication.Functions/sfa.Tl.Marketing.Communication.Functions.csproj'
     arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore --no-build'
 
 - task: CopyFiles@2
