@@ -63,7 +63,8 @@
         "storageAccountName": "[toLower(concat(parameters('resourceIdentifier'), parameters('resourceEnvironmentName'), parameters('serviceName'), 'str'))]",
         "AppServicePlanName": "[concat(variables('resourceNamePrefix'), '-asp')]",
         "AppServiceName": "[concat(variables('resourceNamePrefix'),'-as')]",
-        "ResourceGroup" : "[concat(variables('resourceNamePrefix'), '-rg')]"
+        "ResourceGroup": "[concat(variables('resourceNamePrefix'), '-rg')]",
+        "FunctionAppName": "[concat(variables('resourceNamePrefix'), '-func')]"
     },
     "resources": [
         {
@@ -207,7 +208,7 @@
                         "value": [
                         ]
                     },
-                      "customHostName": {
+                    "customHostName": {
                         "value": "[parameters('customHostname')]"
                     },
                     "certificateThumbprint": {
@@ -220,12 +221,63 @@
                 "app-service-certificate",
                 "app-insights"
             ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat('function-app')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'function-app.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "functionAppName": {
+                        "value": "[variables('FunctionAppName')]"
+                    },
+                    "appServicePlanName": {
+                        "value": "[variables('AppServicePlanName')]"
+                    },
+                    "appServicePlanResourceGroup": {
+                        "value": "[variables('ResourceGroup')]"
+                    },
+                    "functionAppAppSettings": {
+                        "value": [
+                            {
+                                "name": "FUNCTIONS_EXTENSION_VERSION",
+                                "value": "~3"
+                            },
+                            {
+                                "name": "FUNCTIONS_WORKER_RUNTIME",
+                                "value": "dotnet"
+                            },
+                            {
+                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                                "value": "[reference('app-insights').outputs.InstrumentationKey.value]"
+                            },
+                            {
+                                "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+                                "value": "[concat('InstrumentationKey=', reference('app-insights').outputs.InstrumentationKey.value, ';IngestionEndpoint=https://westeurope-0.in.applicationinsights.azure.com/')]"
+                            },                            
+                            {
+                                "name": "AzureWebJobsStorage",
+                                "value": "[reference('storage-account').outputs.storageConnectionString.value]"
+                            }
+                        ]
+                    }
+                }
+            }
         }
     ],
     "outputs": {
         "AppServiceName": {
             "type": "string",
             "value": "[variables('AppServiceName')]"
+        },
+        "FunctionAppName": {
+            "type": "string",
+            "value": "[variables('FunctionAppName')]"
         }
     }
 }
