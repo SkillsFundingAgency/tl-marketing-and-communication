@@ -164,9 +164,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var results = _service.GetProviderLocations(locations, providers).ToList();
 
-            results.Count.Should().Be(2);
-            //Fix for bug TLWP-1284 should give the following result:
-            //results.Count.Should().Be(1);
+            results.Count.Should().Be(1);
 
             results.Should().Contain(p =>
                     p.ProviderName == "Provider 2" &&
@@ -202,9 +200,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var results = _service.GetProviderLocations(locations, providers).ToList();
 
-            results.Count.Should().Be(2);
-            //Fix for bug TLWP-1284 should give the following result:
-            //results.Count.Should().Be(0);
+            results.Count.Should().Be(0);
         }
 
         private static Location BuildLocation(string name, string postcode, double lat, double lng)
