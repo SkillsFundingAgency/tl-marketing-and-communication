@@ -80,6 +80,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
             context.ViewModel.ProviderLocations.Should().Equal(providerLocationViewModels);
             await _providerSearchService.Received(1).Search(Arg.Is<SearchRequest>(sr => sr.Postcode == postcode && sr.NumberOfItems == numberOfItems && sr.QualificationId == qualificationId));
             _mapper.Received(1).Map<IEnumerable<ProviderLocationViewModel>>(Arg.Is(providerLocations));
+
         }
     }
 }

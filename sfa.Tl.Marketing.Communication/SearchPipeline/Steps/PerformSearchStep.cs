@@ -33,7 +33,7 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
             var (totalCount, searchResults) = await _providerSearchService.Search(searchRequest);
 
             var providerViewModels = _mapper.Map<IEnumerable<ProviderLocationViewModel>>(searchResults).ToList();
-
+            
             context.ViewModel.TotalRecordCount = totalCount;
             providerViewModels[context.ViewModel.SelectedItemIndex].HasFocus = true;
 

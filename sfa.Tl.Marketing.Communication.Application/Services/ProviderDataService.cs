@@ -1,25 +1,25 @@
-﻿using Newtonsoft.Json.Linq;
-using sfa.Tl.Marketing.Communication.Application.Interfaces;
+﻿using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services
 {
     public class ProviderDataService : IProviderDataService
     {
         private readonly IFileReader _fileReader;
-        private readonly IJsonConvertor _jsonConvertor;
         private readonly ConfigurationOptions _configurationOptions;
-        private readonly JObject _providersData;
+        private readonly JsonDocument _providersData;
+        private readonly JsonDocument _qualificationsData;
 
-        public ProviderDataService(IFileReader fileReader, IJsonConvertor jsonConvertor, ConfigurationOptions configurationOptions)
+        public ProviderDataService(IFileReader fileReader, ConfigurationOptions configurationOptions)
         {
             _fileReader = fileReader;
-            _jsonConvertor = jsonConvertor;
             _configurationOptions = configurationOptions;
             _providersData = GetProvidersData();
+            _qualificationsData = GetQualificationsData();
         }
 
         public IQueryable<Provider> GetProviders()
@@ -27,7 +27,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var providers = GetAllProviders();
             return providers;
         }
-        
+
         public IEnumerable<Qualification> GetQualifications(int[] qualificationIds)
         {
             var qualifications = GetAllQualifications();
@@ -47,13 +47,20 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return qualifications;
         }
 
-        private JObject GetProvidersData()
+        private JsonDocument GetProvidersData()
         {
-            var json = _fileReader.ReadAllText(_configurationOptions.DataFilePath);
-            var providersDataObject = _jsonConvertor.DeserializeObject<JObject> (json);
-            return providersDataObject;
+            var json = _fileReader.ReadAllText(_configurationOptions.ProvidersDataFilePath);
+            var jsonDoc = JsonDocument.Parse(json);
+            return jsonDoc;
         }
 
+        private JsonDocument GetQualificationsData()
+        {
+            var json = _fileReader.ReadAllText(_configurationOptions.QualificationsDataFilePath);
+            var jsonDoc = JsonDocument.Parse(json);
+            return jsonDoc;
+        }
+        
         public IEnumerable<string> GetWebsiteUrls()
         {
             var urlList = new List<string>();
@@ -74,38 +81,59 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private IQueryable<Qualification> GetAllQualifications()
         {
-            var qualifications = new List<Qualification>();
-
-            foreach (var providerData in _providersData)
-            {
-                if (providerData.Key == "qualifications")
-                {
-                    var qualificationsDictionary = _jsonConvertor.DeserializeObject<IDictionary<int, string>>(providerData.Value.ToString());
-
-                    foreach (var qualification in qualificationsDictionary)
+            return _qualificationsData
+                .RootElement
+                .GetProperty("qualifications")
+                .EnumerateObject()
+                .Select(q =>
+                    new Qualification
                     {
-                        qualifications.Add(new Qualification { Id = qualification.Key, Name = qualification.Value });
-                    }
-                }
-            }
-
-            return qualifications.AsQueryable();
+                        Id = int.Parse(q.Name),
+                        Name = q.Value.GetString()
+                    })
+                .AsQueryable();
         }
 
         private IQueryable<Provider> GetAllProviders()
         {
-            var providers = new List<Provider>();
-
-            foreach (var providerData in _providersData)
-            {
-                if (providerData.Key == "providers")
-                {
-                    providers = _jsonConvertor.DeserializeObject<List<Provider>>(providerData.Value.ToString());
-                }
-            }
+            var providers = _providersData
+                .RootElement
+                .GetProperty("providers")
+                .EnumerateArray()
+                .Select(p =>
+                    new Provider
+                    {
+                        Id = p.GetProperty("id").GetInt32(),
+                        Name = p.GetProperty("name").GetString(),
+                        Locations = p.GetProperty("locations")
+                            .EnumerateArray()
+                            .Select(l =>
+                                new Location
+                                {
+                                    Postcode = l.GetProperty("postcode").GetString(),
+                                    Name = l.GetProperty("name").GetString(),
+                                    Town = l.GetProperty("town").GetString(),
+                                    Latitude = l.GetProperty("latitude").GetDouble(),
+                                    Longitude = l.GetProperty("longitude").GetDouble(),
+                                    Website = l.GetProperty("website").GetString(),
+                                    DeliveryYears = l.TryGetProperty("deliveryYears", out var deliveryYears)
+                                        ? deliveryYears.EnumerateArray()
+                                            .Select(d =>
+                                                new DeliveryYearDto
+                                                { 
+                                                    Year = d.GetProperty("year").GetInt16(),
+                                                    Qualifications = d.GetProperty("qualifications")
+                                                        .EnumerateArray()
+                                                        .Select(q => q.GetInt32())
+                                                        .ToList()
+                                                })
+                                            .ToList()
+                                        : new List<DeliveryYearDto>()
+                                }).ToList()
+                    })
+                .ToList();
 
             return providers.AsQueryable();
         }
-
     }
 }

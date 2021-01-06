@@ -81,12 +81,12 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             _distanceCalculationService.IsPostcodeValid(postcode).Returns((expected, new PostcodeLocation { Postcode = postcode }));
 
             // Act
-            var actual = await _service.IsSearchPostcodeValid(postcode);
+            var (isValid, postcodeLocation) = await _service.IsSearchPostcodeValid(postcode);
 
             // Assert
-            actual.IsValid.Should().Be(expected);
-            actual.PostcodeLocation.Should().NotBeNull();
-            actual.PostcodeLocation.Postcode.Should().Be(postcode);
+            isValid.Should().Be(expected);
+            postcodeLocation.Should().NotBeNull();
+            postcodeLocation.Postcode.Should().Be(postcode);
             await _distanceCalculationService.Received(1).IsPostcodeValid(postcode);
         }
 
@@ -97,11 +97,11 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             _providerDataService.GetProviders().Returns(new List<Provider>().AsQueryable());
 
             // Act
-            var actual = await _service.Search(new SearchRequest());
+            var (totalCount, searchResults) = await _service.Search(new SearchRequest());
 
             // Assert
-            actual.totalCount.Should().Be(0);
-            actual.searchResults.Count().Should().Be(0);
+            totalCount.Should().Be(0);
+            searchResults.Count().Should().Be(0);
             _providerDataService.Received(1).GetProviders();
         }
 
@@ -154,11 +154,11 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .Returns(providerLocations.ToList());
 
             // Act
-            var actual = await _service.Search(searchRequest);
+            var (totalCount, searchResults) = await _service.Search(searchRequest);
 
             // Assert
-            actual.totalCount.Should().Be(providerLocations.Count());
-            actual.searchResults.Count().Should().Be(numberOfItems);
+            totalCount.Should().Be(providerLocations.Count());
+            searchResults.Count().Should().Be(numberOfItems);
             _providerDataService.Received(1).GetProviders();
             _locationService.Received(1).GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), Arg.Is<int>(q => q == searchRequest.QualificationId.Value));
             _providerLocationService.Received(1).GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers));
@@ -212,11 +212,11 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .Returns(providerLocations.ToList());
 
             // Act
-            var actual = await _service.Search(searchRequest);
+            var (totalCount, searchResults) = await _service.Search(searchRequest);
 
             // Assert
-            actual.totalCount.Should().Be(providerLocations.Count());
-            actual.searchResults.Count().Should().Be(numberOfItems);
+            totalCount.Should().Be(providerLocations.Count());
+            searchResults.Count().Should().Be(numberOfItems);
             _providerDataService.Received(1).GetProviders();
             _locationService.Received(1).GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers));
             _providerLocationService.Received(1).GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers));

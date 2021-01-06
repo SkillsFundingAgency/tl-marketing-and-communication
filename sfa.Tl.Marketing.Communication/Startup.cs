@@ -36,9 +36,9 @@ namespace sfa.Tl.Marketing.Communication
             {
                 PostcodeRetrieverBaseUrl = Configuration["PostcodeRetrieverBaseUrl"],
                 EmployerContactEmailTemplateId = Configuration["EmployerContactEmailTemplateId"],
-                //GovNotifyApiKey = Configuration["GovNotifyApiKey"],
                 SupportEmailInboxAddress = Configuration["SupportEmailInboxAddress"],
-                DataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\providers.json"
+                ProvidersDataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\providers.json",
+                QualificationsDataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\qualifications.json"
             };
 
             services.AddSingleton(SiteConfiguration);
@@ -132,9 +132,7 @@ namespace sfa.Tl.Marketing.Communication
         protected virtual void RegisterServices(IServiceCollection services)
         {
             services.AddTransient<IFileReader, FileReader>();
-            services.AddTransient<IJsonConvertor, JsonConvertor>();
             services.AddSingleton<IProviderDataService, ProviderDataService>();
-            services.AddTransient<IDistanceService, DistanceService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IDistanceCalculationService, DistanceCalculationService>();

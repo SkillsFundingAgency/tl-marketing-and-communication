@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -60,7 +61,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                 var writeData = new ProviderWriteData
                 {
                     Id = index,
-                    Name = provider.Key,
+                    Name = provider.Key, //.ToTitleCase(), //Force to title case
                     Locations = GetLocationsWrite(provider)
                 };
                 providerWriteData.Add(writeData);
@@ -81,12 +82,13 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
 
             var groupedProviderVenues = providers
                 .GroupBy(p => p.Postcode.Trim());
+
             foreach (var venueGroup in groupedProviderVenues)
             {
                 var venue = venueGroup.First();
                 var postcode = venue.Postcode.Trim();
 
-                (string FormattedPostcode, double Lat, double Long) postcodeDetails 
+                (string FormattedPostcode, double Lat, double Long) postcodeDetails
                     = GetPostcodeDetails(postcode);
 
                 var location = new LocationWriteData
@@ -97,13 +99,23 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                     Latitude = postcodeDetails.Lat,
                     Longitude = postcodeDetails.Long,
                     Website = venue.Website.Trim(),
-                    Qualification2020 = GetQualifications(venueGroup, 2020),
-                    Qualification2021 = GetQualifications(venueGroup, 2021)
+                    DeliveryYears = GetDeliveryYears(venueGroup)
                 };
 
-                Console.WriteLine($"  Adding location {postcode} " +
-                                  $"{(string.IsNullOrWhiteSpace(venue.VenueName) ? "" : venue.VenueName + ' ')}" +
-                                  $"with {location.Qualification2020.Length} 2020 and {location.Qualification2021.Length} 2021 qualifications ");
+                var logMessage = new StringBuilder($"  Adding location {postcode} " +
+                               $"{(string.IsNullOrWhiteSpace(venue.VenueName) ? "" : venue.VenueName + ' ')}");
+                if (location.DeliveryYears.Any())
+                {
+                    for (var i = 0; i < location.DeliveryYears.Count; i++)
+                    {
+                        logMessage.Append(i == 0 ? "with " : "and ");
+                        logMessage.Append($"{location.DeliveryYears[i].Qualifications.Count} {location.DeliveryYears[i].Year} ");
+                    }
+
+                    logMessage.Append("qualifications");
+                }
+
+                Console.WriteLine(logMessage);
 
                 locationWriteData.Add(location);
             }
@@ -147,37 +159,6 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             }
         }
 
-        private static int[] GetQualifications(IGrouping<string, ProviderReadData> venueGroup, int year)
-        {
-            var qualifications = new List<int>();
-
-            foreach (var venue in venueGroup.Where(venue => venue.CourseYear == year.ToString()))
-            {
-                if (venue.IsDigitalProduction)
-                    AddQualification(qualifications, Type.DigitalProductionDesignDevelopment, year, venue);
-                else if (venue.IsDigitalBusiness)
-                    AddQualification(qualifications, Type.DigitalBusiness, year, venue);
-                else if (venue.IsDigitalSupport)
-                    AddQualification(qualifications, Type.DigitalSupportServices, year, venue);
-                else if (venue.IsDesign)
-                    AddQualification(qualifications, Type.DesignSurveyingPlanning, year, venue);
-                else if (venue.IsBuildingServices)
-                    AddQualification(qualifications, Type.BuildingServicesEngineering, year, venue);
-                else if (venue.IsConstruction)
-                    AddQualification(qualifications, Type.OnsiteConstruction, year, venue);
-                else if (venue.IsEducation)
-                    AddQualification(qualifications, Type.Education, year, venue);
-                else if (venue.IsHealth)
-                    AddQualification(qualifications, Type.Health, year, venue);
-                else if (venue.IsHealthCare)
-                    AddQualification(qualifications, Type.HealthCareScience, year, venue);
-                else if (venue.IsScience)
-                    AddQualification(qualifications, Type.Science, year, venue);
-            }
-
-            return qualifications.ToArray();
-        }
-
         private static void AddQualification(IList<int> qualificationList, Type qualificationType, int year, ProviderReadData venue)
         {
             if (qualificationList.Contains((int)qualificationType))
@@ -197,10 +178,57 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             }
         }
 
+        private static List<DeliveryYearWriteData> GetDeliveryYears(IGrouping<string, ProviderReadData> venueGroup)
+        {
+            var deliveryYears = new List<DeliveryYearWriteData>();
+
+            foreach (var venue in venueGroup)
+            {
+                if (short.TryParse(venue.CourseYear, out var year))
+                {
+                    var deliveryYear = deliveryYears.FirstOrDefault(d => d.Year == year);
+                    if (deliveryYear == null)
+                    {
+                        deliveryYear = new DeliveryYearWriteData
+                        {
+                            Year = year,
+                            Qualifications = new List<int>()
+                        };
+
+                        deliveryYears.Add(deliveryYear);
+                    }
+
+                    if (venue.IsDigitalProduction)
+                        AddQualification(deliveryYear.Qualifications, Type.DigitalProductionDesignDevelopment, year,
+                            venue);
+                    else if (venue.IsDigitalBusiness)
+                        AddQualification(deliveryYear.Qualifications, Type.DigitalBusiness, year, venue);
+                    else if (venue.IsDigitalSupport)
+                        AddQualification(deliveryYear.Qualifications, Type.DigitalSupportServices, year, venue);
+                    else if (venue.IsDesign)
+                        AddQualification(deliveryYear.Qualifications, Type.DesignSurveyingPlanning, year, venue);
+                    else if (venue.IsBuildingServices)
+                        AddQualification(deliveryYear.Qualifications, Type.BuildingServicesEngineering, year, venue);
+                    else if (venue.IsConstruction)
+                        AddQualification(deliveryYear.Qualifications, Type.OnsiteConstruction, year, venue);
+                    else if (venue.IsEducation)
+                        AddQualification(deliveryYear.Qualifications, Type.Education, year, venue);
+                    else if (venue.IsHealth)
+                        AddQualification(deliveryYear.Qualifications, Type.Health, year, venue);
+                    else if (venue.IsHealthCare)
+                        AddQualification(deliveryYear.Qualifications, Type.HealthCareScience, year, venue);
+                    else if (venue.IsScience)
+                        AddQualification(deliveryYear.Qualifications, Type.Science, year, venue);
+                }
+            }
+
+            return deliveryYears;
+        }
+
         private static async Task WriteProvidersToFile(ProviderWrite data, string path)
         {
             await using var fs = File.Create(path);
-            
+
             var serializerOptions = new JsonSerializerOptions
             {
                 //Use relaxed encoder to allow '&' through
