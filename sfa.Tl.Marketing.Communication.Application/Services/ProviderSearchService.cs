@@ -55,7 +55,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
                 var providerLocations = _providerLocationService.GetProviderLocations(locations, providers);
 
-                //results = await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(searchRequest.Postcode, providerLocations);
                 results = await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
                     new PostcodeLocation
                     {

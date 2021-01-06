@@ -22,11 +22,15 @@
           "town": "Vale of White Horse",
           "latitude": 51.680624,
           "longitude": -1.28696,
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            6,
-            7
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                6,
+                7
+              ]
+            }
           ],
           "website": "https://www.abingdon-witney.ac.uk/whats-new/t-levels"
         },
@@ -36,11 +40,15 @@
           "town": "Vale of White Horse",
           "latitude": 51.785444,
           "longitude": -1.487934,
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            6,
-            7
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                6,
+                7
+              ]
+            }
           ],
           "website": "https://www.abingdon-witney.ac.uk/whats-new/t-levels"
         }
@@ -56,10 +64,6 @@
           "town": "Manchester",
           "latitude": 53.472598,
           "longitude": -2.242874,
-          "qualification2020": [
-            4
-          ],
-          "qualification2021": [],
           "website": "https://www.accesscreative.ac.uk/study/t-levels/"
         }
       ]
@@ -74,9 +78,13 @@
           "town": "Reading",
           "latitude": 51.454143,
           "longitude": -0.955431,
-          "qualification2020": [],
-          "qualification2021": [
-            4
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4
+              ]
+            }
           ],
           "website": "https://www.activatelearning.ac.uk/reading"
         },
@@ -86,9 +94,13 @@
           "town": "Oxford",
           "latitude": 51.720855,
           "longitude": -1.199541,
-          "qualification2020": [],
-          "qualification2021": [
-            4
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4
+              ]
+            }
           ],
           "website": "https://www.activatelearning.ac.uk/oxford"
         },
@@ -98,9 +110,13 @@
           "town": "Oxford",
           "latitude": 51.749548,
           "longitude": -1.264524,
-          "qualification2020": [],
-          "qualification2021": [
-            7
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
           ],
           "website": "https://www.activatelearning.ac.uk/oxford"
         }
@@ -116,12 +132,16 @@
           "town": "Barking and Dagenham",
           "latitude": 51.56033,
           "longitude": 0.174564,
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            3,
-            2,
-            1
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                3,
+                2,
+                1
+              ]
+            }
           ],
           "website": "https://www.barkingdagenhamcollege.ac.uk/"
         },
@@ -131,9 +151,13 @@
           "town": "Barking and Dagenham",
           "latitude": 51.537297,
           "longitude": 0.077008,
-          "qualification2020": [],
-          "qualification2021": [
-            2
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                2
+              ]
+            }
           ],
           "website": "https://www.barkingdagenhamcollege.ac.uk/"
         }
@@ -149,11 +173,15 @@
           "town": "Barnsley",
           "latitude": 53.556265,
           "longitude": -1.480614,
-          "qualification2020": [
-            4,
-            2
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                2
+              ]
+            }
           ],
-          "qualification2021": [],
           "website": "https://www.barnsley.ac.uk/courses/all-about-t-levels/"
         },
         {
@@ -162,10 +190,14 @@
           "town": "Barnsley",
           "latitude": 53.55982,
           "longitude": -1.48368,
-          "qualification2020": [
-            2
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                2
+              ]
+            }
           ],
-          "qualification2021": [],
           "website": "https://www.barnsley.ac.uk/courses/all-about-t-levels/"
         },
         {
@@ -174,11 +206,19 @@
           "town": "Barnsley",
           "latitude": 53.556624,
           "longitude": -1.482572,
-          "qualification2020": [
-            6
-          ],
-          "qualification2021": [
-            7
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
           ],
           "website": "https://www.barnsley.ac.uk/courses/all-about-t-levels/"
         }
@@ -194,11 +234,15 @@
           "town": "Bath and North East Somerset",
           "latitude": 51.379717,
           "longitude": -2.362652,
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            6,
-            7
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                6,
+                7
+              ]
+            }
           ],
           "website": "https://www.bathcollege.ac.uk/"
         }
@@ -214,13 +258,17 @@
           "town": "Bedford",
           "latitude": 52.133347,
           "longitude": -0.468552,
-          "qualification2020": [],
-          "qualification2021": [
-            5,
-            2,
-            9,
-            6,
-            7
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                2,
+                9,
+                6,
+                7
+              ]
+            }
           ],
           "website": "https://www.bedford.ac.uk"
         },
@@ -230,12 +278,16 @@
           "town": "Kettering",
           "latitude": 52.388412,
           "longitude": -0.71174,
-          "qualification2020": [],
-          "qualification2021": [
-            5,
-            6,
-            7,
-            10
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                6,
+                7,
+                10
+              ]
+            }
           ],
           "website": "https://www.tresham.ac.uk/"
         },
@@ -245,12 +297,16 @@
           "town": "Corby",
           "latitude": 52.486942,
           "longitude": -0.692251,
-          "qualification2020": [],
-          "qualification2021": [
-            5,
-            9,
-            1,
-            10
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                9,
+                1,
+                10
+              ]
+            }
           ],
           "website": "https://www.tresham.ac.uk/"
         },
@@ -260,9 +316,13 @@
           "town": "Wellingborough",
           "latitude": 52.300077,
           "longitude": -0.693641,
-          "qualification2020": [],
-          "qualification2021": [
-            5
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                5
+              ]
+            }
           ],
           "website": "https://www.tresham.ac.uk/"
         },
@@ -272,9 +332,13 @@
           "town": "Bedford",
           "latitude": 52.108958,
           "longitude": -0.496125,
-          "qualification2020": [],
-          "qualification2021": [
-            1
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                1
+              ]
+            }
           ],
           "website": "https://www.bedford.ac.uk"
         }
@@ -290,15 +354,19 @@
           "town": "Rother",
           "latitude": 50.847112,
           "longitude": 0.490934,
-          "qualification2020": [],
-          "qualification2021": [
-            4,
-            5,
-            3,
-            6,
-            7,
-            8,
-            10
+          "deliveryYears": [
+            {
+              "year": 2021,
+              "qualifications": [
+                4,
+                5,
+                3,
+                6,
+                7,
+                8,
+                10
+              ]
+            }
           ],
           "website": "http://www.bexhillcollege.ac.uk/"
         }
@@ -314,11 +382,19 @@
           "town": "East Riding of Yorkshire",
           "latitude": 53.848273,
           "longitude": -0.504045,
-          "qualification2020": [
-            6
-          ],
-          "qualification2021": [
-            7
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                7
+              ]
+            }
           ],
           "website": "https://www.bishopburton.ac.uk/"
         }
@@ -334,18 +410,26 @@
           "town": "Blackpool",
           "latitude": 53.859387,
           "longitude": -3.026295,
-          "qualification2020": [
-            4,
-            2,
-            6
-          ],
-          "qualification2021": [
-            5,
-            3,
-            9,
-            1,
-            7,
-            10
+          "deliveryYears": [
+            {
+              "year": 2020,
+              "qualifications": [
+                4,
+                2,
+                6
+              ]
+            },
+            {
+              "year": 2021,
+              "qualifications": [
+                5,
+                3,
+                9,
+                1,
+                7,
+                10
+              ]
+            }
           ],
           "website": "https://www.blackpool.ac.uk/t-levels"
         }

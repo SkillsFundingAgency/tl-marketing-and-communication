@@ -3,21 +3,12 @@ using sfa.Tl.Marketing.Communication.Application.Enums;
 
 namespace sfa.Tl.Marketing.Communication.Application.Haversine
 {
- /// <summary>
-    /// Specifies a Latitude / Longitude point.
+    /// <summary>
+    /// Haversine distance calculation.
+    /// code reference
+    /// https://gist.github.com/jammin77/033a332542aa24889452
     /// </summary>
-    public struct Position
-    {
-        public double Latitude;
-        public double Longitude;
-    }
-
-     /// <summary>
-     /// Haversine distance calculation.
-     /// code reference
-     /// https://gist.github.com/jammin77/033a332542aa24889452
-     /// </summary>
-     public static class Haversine
+    public static class Haversine
     {
         /// <summary>
         /// Returns the distance in miles or kilometers of any two
@@ -29,6 +20,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Haversine
         /// <returns></returns>
         public static double Distance(Position pos1, Position pos2, DistanceType type)
         {
+            // ReSharper disable once InconsistentNaming
             var R = (type == DistanceType.Miles) ? 3960 : 6371;
             var dLat = ToRadians(pos2.Latitude - pos1.Latitude);
             var dLon = ToRadians(pos2.Longitude - pos1.Longitude);

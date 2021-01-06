@@ -1,4 +1,6 @@
-﻿namespace sfa.Tl.Marketing.Communication.Models.Dto
+﻿using System.Collections.Generic;
+
+namespace sfa.Tl.Marketing.Communication.Models.Dto
 {
     public class Location
     {
@@ -7,8 +9,7 @@
         public string Town { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public int[] Qualification2020 { get; set; }
-        public int[] Qualification2021 { get; set; }
+        public List<DeliveryYearDto> DeliveryYears { get; set; }
         public string Website { get; set; }
     }
 }

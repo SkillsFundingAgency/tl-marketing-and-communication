@@ -5,7 +5,7 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
 {
     public class CalculateNumberOfItemsToShowStep : ISearchStep
     {
-        public async Task Execute(ISearchContext context)
+        public Task Execute(ISearchContext context)
         {
             if (context.ViewModel.SubmitType == "search")
             {
@@ -45,6 +45,8 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
                     context.ViewModel.NumberOfItemsToShow = context.ViewModel.TotalRecordCount.Value;
                 }
             }
+
+            return Task.CompletedTask;
         }
     }
 }

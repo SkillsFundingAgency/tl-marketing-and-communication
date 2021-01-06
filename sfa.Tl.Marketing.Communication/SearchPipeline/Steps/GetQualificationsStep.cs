@@ -14,11 +14,12 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
             _providerSearchService = providerSearchService;
         }
 
-        public async Task Execute(ISearchContext context)
+        public Task Execute(ISearchContext context)
         {
             var qualifications = _providerSearchService.GetQualifications();
-            var qualificationSelectListItems = qualifications.Select(q => new SelectListItem { Text = q.Name, Value = q.Id.ToString(), Selected = (q.Id == context.ViewModel.SelectedQualificationId.Value) });
+            var qualificationSelectListItems = qualifications.Select(q => new SelectListItem { Text = q.Name, Value = q.Id.ToString(), Selected = q.Id == context.ViewModel.SelectedQualificationId.Value });
             context.ViewModel.Qualifications = qualificationSelectListItems;
+            return Task.CompletedTask;
         }
     }
 }

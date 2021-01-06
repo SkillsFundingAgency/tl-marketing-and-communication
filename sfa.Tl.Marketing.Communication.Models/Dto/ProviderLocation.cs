@@ -10,9 +10,8 @@ namespace sfa.Tl.Marketing.Communication.Models.Dto
         public string Town { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public int DistanceInMiles { get; set; }
-        public IEnumerable<Qualification> Qualification2020 { get; set; }
-        public IEnumerable<Qualification> Qualification2021 { get; set; }
+        public double DistanceInMiles { get; set; }
+        public IEnumerable<DeliveryYear> DeliveryYears { get; set; }
         public string Website { get; set; }
     }
 }

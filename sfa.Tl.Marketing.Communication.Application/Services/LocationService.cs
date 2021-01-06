@@ -15,8 +15,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public IQueryable<Location> GetLocations(IQueryable<Provider> providers, int qualificationId)
         {
             var locations = providers.SelectMany(p => p.Locations)
-                            .Where(l => l.Qualification2020.Contains(qualificationId)
-                                        || l.Qualification2021.Contains(qualificationId));
+                            .Where(l => l.DeliveryYears.Any(d => d.Qualifications.Contains(qualificationId)));
 
             return locations;
         }
