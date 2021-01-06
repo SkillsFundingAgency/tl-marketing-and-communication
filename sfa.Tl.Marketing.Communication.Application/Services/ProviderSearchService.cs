@@ -67,6 +67,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var totalCount = results.Count;
             var searchResults = results.OrderBy(pl => pl.DistanceInMiles).Take(searchRequest.NumberOfItems);
 
+            searchResults = searchResults.Select(s =>
+            {
+                s.JourneyUrl = "https://www.google.com/maps/dir/B91+1NG,+Solihull/Solihull+College+%26+University+Centre+Blossomfield+Campus,+Solihull/@52.4113588,-1.795049,17z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x4870b9e9b63f91ef:0x2a0e6b03104f3776!2m2!1d-1.7921997!2d52.4131839!1m5!1m1!1s0x4870b9c249edef4d:0xa9adeba9e68f74c!2m2!1d-1.7924987!2d52.4092323!3e3";
+                 return s;
+            });
+
             return (totalCount, searchResults);
         }
 

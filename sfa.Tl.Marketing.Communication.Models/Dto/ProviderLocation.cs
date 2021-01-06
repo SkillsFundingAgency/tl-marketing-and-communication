@@ -13,5 +13,6 @@ namespace sfa.Tl.Marketing.Communication.Models.Dto
         public double DistanceInMiles { get; set; }
         public IEnumerable<DeliveryYear> DeliveryYears { get; set; }
         public string Website { get; set; }
+        public string JourneyUrl { get; set; }
     }
 }

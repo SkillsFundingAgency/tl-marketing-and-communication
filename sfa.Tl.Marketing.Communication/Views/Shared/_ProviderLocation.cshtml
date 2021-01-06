@@ -2,7 +2,8 @@
 
 <div class="tl-results--block">
 
-    <h4>@Model.VenueName </h4><p style="white-space: pre-line">@Model.AddressLabel </p>
+    <h4>@Model.VenueName </h4>
+    <p style="white-space: pre-line">@Model.AddressLabel <a target="_blank" href="@Model.JourneyUrl" class="tl-link-black--orange tl-margin-left--20">How do I get there?</a></p>
 
     <span class="tl-results--block--distance">@Model.DistanceInMiles @Model.DistanceString</span>
     <hr class="tl-line-lightgrey--small">
@@ -20,7 +21,7 @@
             </ul>
         }
     }
-    
+
     @if (!string.IsNullOrWhiteSpace(Model.RedirectUrl))
     {
         @if (Model.HasFocus)
