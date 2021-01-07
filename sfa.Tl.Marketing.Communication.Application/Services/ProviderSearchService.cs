@@ -1,5 +1,4 @@
-﻿using System;
-using sfa.Tl.Marketing.Communication.Application.Interfaces;
+﻿using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,8 +38,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             var providers = _providerDataService.GetProviders();
             var locations = _locationService.GetLocations(providers);
-            var providerLocations = _providerLocationService.GetProviderLocations(locations, providers);
-            return providerLocations;
+            return _providerLocationService.GetProviderLocations(locations, providers);
         }
 
         public async Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(SearchRequest searchRequest)
@@ -51,15 +49,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             if (providers.Any())
             {
-                IQueryable<Location> locations;
-                if (searchRequest.QualificationId.HasValue && searchRequest.QualificationId.Value > 0)
-                {
-                    locations = _locationService.GetLocations(providers, searchRequest.QualificationId.Value);
-                }
-                else
-                {
-                    locations = _locationService.GetLocations(providers);
-                }
+                var locations = _locationService.GetLocations(providers, searchRequest.QualificationId);
 
                 var providerLocations = _providerLocationService.GetProviderLocations(locations, providers);
 
@@ -73,10 +63,10 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             }
 
             var totalCount = results.Count;
-            var searchResults = results.OrderBy(pl => pl.DistanceInMiles).Take(searchRequest.NumberOfItems);
-
-            var searchOriginLatitude = Convert.ToDouble(searchRequest.OriginLatitude);
-            var searchOriginLongitude = Convert.ToDouble(searchRequest.OriginLongitude);
+            var searchResults = results
+                .OrderBy(pl => pl.DistanceInMiles)
+                .Take(searchRequest.NumberOfItems)
+                .ToList();
 
             foreach (var searchResult in searchResults)
             {
