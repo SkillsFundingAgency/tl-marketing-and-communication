@@ -108,8 +108,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             searchResults.Count().Should().Be(0);
             _providerDataService.Received(1).GetProviders();
             _journeyService.DidNotReceive()
-                .GetDirectionsLink(Arg.Any<string>(), Arg.Any<double>(), Arg.Any<double>(),
-                    Arg.Any<string>(), Arg.Any<double>(), Arg.Any<double>());
+                .GetDirectionsLink(Arg.Any<string>(), Arg.Any<ProviderLocation>());
         }
 
         [Fact]
@@ -173,8 +172,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode),
                 providerLocations);
             _journeyService.Received(numberOfItems)
-                .GetDirectionsLink(Arg.Any<string>(), Arg.Any<double>(), Arg.Any<double>(),
-                    Arg.Any<string>(), Arg.Any<double>(), Arg.Any<double>());
+                .GetDirectionsLink(Arg.Any<string>(), Arg.Any<ProviderLocation>());
         }
 
         [Theory]
@@ -234,8 +232,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode),
                 providerLocations);
             _journeyService.Received(numberOfItems)
-                .GetDirectionsLink(Arg.Any<string>(), Arg.Any<double>(), Arg.Any<double>(),
-                    Arg.Any<string>(), Arg.Any<double>(), Arg.Any<double>());
+                .GetDirectionsLink(Arg.Any<string>(), Arg.Any<ProviderLocation>());
         }
     }
 }

@@ -78,15 +78,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var searchOriginLatitude = Convert.ToDouble(searchRequest.OriginLatitude);
             var searchOriginLongitude = Convert.ToDouble(searchRequest.OriginLongitude);
 
-            foreach (var s in searchResults)
+            foreach (var searchResult in searchResults)
             {
-                s.JourneyUrl = _journeyService.GetDirectionsLink(
+                searchResult.JourneyUrl = _journeyService.GetDirectionsLink(
                     searchRequest.Postcode,
-                    searchOriginLatitude,
-                    searchOriginLongitude,
-                    s.Postcode,
-                    s.Latitude,
-                    s.Longitude);
+                    searchResult);
             }
 
             return (totalCount, searchResults);
