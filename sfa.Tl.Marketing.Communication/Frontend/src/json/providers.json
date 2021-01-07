@@ -4248,6 +4248,28 @@
           "website": "https://www.gov.uk/government/organisations/education-and-skills-funding-agency"
         }
       ]
+    },
+    {
+      "id": 113,
+      "name": "Shalini's School of Testing",
+      "locations": [
+        {
+          "name": "",
+          "postcode": "B43 6JN",
+          "town": "Birmingham",
+          "latitude": 52.548338,
+          "longitude": -1.932533,
+          "deliveryYears": [
+            {
+              "year": 2023,
+              "qualifications": [
+                10
+              ]
+            }
+          ],
+          "website": "https://www.test.com/"
+        }
+      ]
     }
   ]
 }
