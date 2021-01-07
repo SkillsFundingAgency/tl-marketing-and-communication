@@ -14,6 +14,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
     {
         private readonly IProviderDataService _providerDataService;
         private readonly IProviderLocationService _providerLocationService;
+        private readonly IJourneyService _journeyService;
         private readonly ILocationService _locationService;
         private readonly IDistanceCalculationService _distanceCalculationService;
         private readonly IProviderSearchService _service;
@@ -22,10 +23,13 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             _providerDataService = Substitute.For<IProviderDataService>();
             _providerLocationService = Substitute.For<IProviderLocationService>();
+            _journeyService = Substitute.For<IJourneyService>();
             _locationService = Substitute.For<ILocationService>();
             _distanceCalculationService = Substitute.For<IDistanceCalculationService>();
 
-            _service = new ProviderSearchService(_providerDataService,
+            _service = new ProviderSearchService(
+                _providerDataService,
+                _journeyService,
                 _locationService,
                 _providerLocationService,
                 _distanceCalculationService);
@@ -59,7 +63,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             // Arrange
             const int id = 1;
-            const string name = "ssss";
+            const string name = "Test Qualification";
 
             var expected = new Qualification { Id = id, Name = name };
 
@@ -103,6 +107,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             totalCount.Should().Be(0);
             searchResults.Count().Should().Be(0);
             _providerDataService.Received(1).GetProviders();
+            _journeyService.DidNotReceive()
+                .GetDirectionsLink(Arg.Any<string>(), Arg.Any<double>(), Arg.Any<double>(),
+                    Arg.Any<string>(), Arg.Any<double>(), Arg.Any<double>());
         }
 
         [Fact]
@@ -165,6 +172,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             await _distanceCalculationService.Received(1).CalculateProviderLocationDistanceInMiles(
                 Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode),
                 providerLocations);
+            _journeyService.Received(numberOfItems)
+                .GetDirectionsLink(Arg.Any<string>(), Arg.Any<double>(), Arg.Any<double>(),
+                    Arg.Any<string>(), Arg.Any<double>(), Arg.Any<double>());
         }
 
         [Theory]
@@ -223,6 +233,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             await _distanceCalculationService.Received(1).CalculateProviderLocationDistanceInMiles(
                 Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode),
                 providerLocations);
+            _journeyService.Received(numberOfItems)
+                .GetDirectionsLink(Arg.Any<string>(), Arg.Any<double>(), Arg.Any<double>(),
+                    Arg.Any<string>(), Arg.Any<double>(), Arg.Any<double>());
         }
     }
 }

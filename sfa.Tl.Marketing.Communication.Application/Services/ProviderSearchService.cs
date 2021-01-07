@@ -1,4 +1,5 @@
-﻿using sfa.Tl.Marketing.Communication.Application.Interfaces;
+﻿using System;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,20 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
     {
         private readonly IProviderDataService _providerDataService;
         private readonly IProviderLocationService _providerLocationService;
+        private readonly IJourneyService _journeyService;
         private readonly ILocationService _locationService;
         private readonly IDistanceCalculationService _distanceCalculationService;
 
-        public ProviderSearchService(IProviderDataService providerDataService, ILocationService locationService, IProviderLocationService providerLocationService, IDistanceCalculationService distanceCalculationService)
+        public ProviderSearchService(
+            IProviderDataService providerDataService, 
+            IJourneyService journeyService, 
+            ILocationService locationService, 
+            IProviderLocationService providerLocationService, 
+            IDistanceCalculationService distanceCalculationService)
         {
             _providerDataService = providerDataService;
             _providerLocationService = providerLocationService;
+            _journeyService = journeyService;
             _locationService = locationService;
             _distanceCalculationService = distanceCalculationService;
         }
@@ -67,11 +75,19 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var totalCount = results.Count;
             var searchResults = results.OrderBy(pl => pl.DistanceInMiles).Take(searchRequest.NumberOfItems);
 
-            searchResults = searchResults.Select(s =>
+            var searchOriginLatitude = Convert.ToDouble(searchRequest.OriginLatitude);
+            var searchOriginLongitude = Convert.ToDouble(searchRequest.OriginLongitude);
+
+            foreach (var s in searchResults)
             {
-                s.JourneyUrl = "https://www.google.com/maps/dir/B91+1NG,+Solihull/Solihull+College+%26+University+Centre+Blossomfield+Campus,+Solihull/@52.4113588,-1.795049,17z/data=!3m1!4b1!4m14!4m13!1m5!1m1!1s0x4870b9e9b63f91ef:0x2a0e6b03104f3776!2m2!1d-1.7921997!2d52.4131839!1m5!1m1!1s0x4870b9c249edef4d:0xa9adeba9e68f74c!2m2!1d-1.7924987!2d52.4092323!3e3";
-                 return s;
-            });
+                s.JourneyUrl = _journeyService.GetDirectionsLink(
+                    searchRequest.Postcode,
+                    searchOriginLatitude,
+                    searchOriginLongitude,
+                    s.Postcode,
+                    s.Latitude,
+                    s.Longitude);
+            }
 
             return (totalCount, searchResults);
         }
