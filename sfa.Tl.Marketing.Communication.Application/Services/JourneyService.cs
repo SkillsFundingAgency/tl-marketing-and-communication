@@ -16,12 +16,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var uriBuilder = new StringBuilder(BaseUrl);
             uriBuilder.Append($"origin={WebUtility.UrlEncode(fromPostcode)}");
             uriBuilder.Append($"&destination={WebUtility.UrlEncode(toLocation.Postcode)}");
-            uriBuilder.Append($",{WebUtility.UrlEncode(toLocation.ProviderName)}");
-            if (!string.IsNullOrWhiteSpace(toLocation.Name))
-            {
-                uriBuilder.Append($",{WebUtility.UrlEncode(toLocation.Name)}");
-            }
-
             // ReSharper disable once StringLiteralTypo
             uriBuilder.Append("&travelmode=transit");
 
