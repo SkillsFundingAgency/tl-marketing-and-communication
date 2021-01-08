@@ -38,8 +38,14 @@ namespace sfa.Tl.Marketing.Communication
                 EmployerContactEmailTemplateId = Configuration["EmployerContactEmailTemplateId"],
                 SupportEmailInboxAddress = Configuration["SupportEmailInboxAddress"],
                 ProvidersDataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\providers.json",
-                QualificationsDataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\qualifications.json"
+                QualificationsDataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\qualifications.json",
+                StorageConfiguration = new StorageSettings
+                {
+                TableStorageConnectionString = Configuration[ConfigurationKeys.TableStorageConnectionStringConfigKey]
+                }
             };
+
+            //services.AddApplicationInsightsTelemetry();
 
             services.AddSingleton(SiteConfiguration);
 
@@ -140,6 +146,7 @@ namespace sfa.Tl.Marketing.Communication
             services.AddTransient<IProviderSearchService, ProviderSearchService>();
             services.AddTransient<ISearchPipelineFactory, SearchPipelineFactory>();
             services.AddTransient<IProviderSearchEngine, ProviderSearchEngine>();
+            services.AddTransient<ICourseDirectoryDataService, CourseDirectoryDataService>();
 
             var govNotifyApiKey = Configuration["GovNotifyApiKey"];
             services.AddTransient<IAsyncNotificationClient, NotificationClient>(

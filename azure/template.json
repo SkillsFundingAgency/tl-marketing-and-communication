@@ -55,6 +55,9 @@
         },
         "govNotifyApiKey": {
             "type": "string"
+        },
+        "sharedStorageAccountConnectionString": {
+            "type": "string"
         }
     },
     "variables": {
@@ -199,8 +202,12 @@
                                 "value": "[parameters('googleMapsApiKey')]"
                             },
                             {
-                                "name": "GovNotifyApiKey",
-                                "value": "[parameters('govNotifyApiKey')]"
+                              "name": "GovNotifyApiKey",
+                              "value": "[parameters('govNotifyApiKey')]"
+                            },
+                            {
+                              "name": "SharedStorageAccountConnectionString",
+                              "value": "[parameters('sharedStorageAccountConnectionString')]"
                             }
                         ]
                     },
