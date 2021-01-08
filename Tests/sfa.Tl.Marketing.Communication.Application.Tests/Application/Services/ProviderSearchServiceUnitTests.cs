@@ -38,7 +38,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public void GetQualifications_Returns_All_Qualifications_OrderBy_Name()
         {
-            // Arrange
             var qualifications = new List<Qualification>()
             {
                 new Qualification { Id = 1, Name = "Xyz" },
@@ -49,10 +48,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             _providerDataService.GetQualifications().Returns(qualifications);
 
             var expected = qualifications.OrderBy(x => x.Name);
-            // Act
+            
             var actual = _service.GetQualifications().ToList();
 
-            // Assert
             Assert.True(actual.SequenceEqual(expected));
             Assert.False(actual.SequenceEqual(qualifications));
             _providerDataService.Received(1).GetQualifications();
@@ -61,17 +59,15 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public void GetQualificationById_Returns_A_Qualification()
         {
-            // Arrange
             const int id = 1;
             const string name = "Test Qualification";
 
             var expected = new Qualification { Id = id, Name = name };
 
             _providerDataService.GetQualification(id).Returns(expected);
-            // Act
+            
             var actual = _service.GetQualificationById(id);
 
-            // Assert
             actual.Should().BeSameAs(expected);
             _providerDataService.Received(1).GetQualification(id);
         }
@@ -81,13 +77,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [InlineData("mk980kl", false)]
         public async Task IsSearchPostcodeValid_Validate_A_Postcode(string postcode, bool expected)
         {
-            // Arrange
             _distanceCalculationService.IsPostcodeValid(postcode).Returns((expected, new PostcodeLocation { Postcode = postcode }));
 
-            // Act
             var (isValid, postcodeLocation) = await _service.IsSearchPostcodeValid(postcode);
 
-            // Assert
             isValid.Should().Be(expected);
             postcodeLocation.Should().NotBeNull();
             postcodeLocation.Postcode.Should().Be(postcode);
@@ -97,13 +90,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public async Task Search_Returns_Empty_Providers_And_TotalRecordCount()
         {
-            // Arrange
             _providerDataService.GetProviders().Returns(new List<Provider>().AsQueryable());
 
-            // Act
             var (totalCount, searchResults) = await _service.Search(new SearchRequest());
 
-            // Assert
             totalCount.Should().Be(0);
             searchResults.Count().Should().Be(0);
             _providerDataService.Received(1).GetProviders();
@@ -114,7 +104,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public async Task Search_Returns_ProviderLocations_Filtered_By_Qualification_And_NumberOfItems()
         {
-            // Arrange
             var providers = new List<Provider>
             {
                 new Provider(),
@@ -159,10 +148,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 providerLocations)
                 .Returns(providerLocations.ToList());
 
-            // Act
             var (totalCount, searchResults) = await _service.Search(searchRequest);
 
-            // Assert
             totalCount.Should().Be(providerLocations.Count());
             searchResults.Count().Should().Be(numberOfItems);
             _providerDataService.Received(1).GetProviders();
@@ -180,7 +167,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [InlineData(0, 2)]
         public async Task Search_Returns_All_ProviderLocations_When_Qualification_Filter_Is_Null_Or_Zero(int? qualificationId, int numberOfItems)
         {
-            // Arrange
             var providers = new List<Provider>()
             {
                 new Provider(),
@@ -203,7 +189,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 new Location(),
                 new Location()
             }.AsQueryable();
-            _locationService.GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers)).Returns(locations);
+            
+            _locationService.GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), qualificationId).Returns(locations);
 
             var providerLocations = new List<ProviderLocation>
             {
@@ -219,14 +206,12 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                     providerLocations)
                 .Returns(providerLocations.ToList());
 
-            // Act
             var (totalCount, searchResults) = await _service.Search(searchRequest);
 
-            // Assert
             totalCount.Should().Be(providerLocations.Count());
             searchResults.Count().Should().Be(numberOfItems);
             _providerDataService.Received(1).GetProviders();
-            _locationService.Received(1).GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers));
+            _locationService.Received(1).GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), qualificationId);
             _providerLocationService.Received(1).GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers));
             await _distanceCalculationService.Received(1).CalculateProviderLocationDistanceInMiles(
                 Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode),
