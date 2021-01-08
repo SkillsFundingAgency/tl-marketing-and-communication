@@ -18,18 +18,16 @@ namespace sfa.Tl.Marketing.Communication.Functions.Tests
         [Fact]
         public async Task CourseDirectoryImportFunction_Scheduled_Import_Calls_CourseDirectoryImportService()
         {
-            var function = new CourseDirectoryImportFunction();
-
             var service = Substitute.For<ICourseDirectoryDataService>();
             service.ImportFromCourseDirectoryApi().Returns(10);
 
             var timerSchedule = Substitute.For<TimerSchedule>();
-            var logger = new NullLogger<CourseDirectoryImportFunction>();
+            var logger = new NullLogger<CourseDirectoryImportFunctions>();
 
-            await function.ImportCourseDirectoryData(
+            var functions = new CourseDirectoryImportFunctions(service);
+            await functions.ImportCourseDirectoryData(
                 new TimerInfo(timerSchedule, new ScheduleStatus()),
                 new ExecutionContext(),
-                service,
                 logger);
 
             await service.Received(1).ImportFromCourseDirectoryApi();
@@ -38,8 +36,6 @@ namespace sfa.Tl.Marketing.Communication.Functions.Tests
         [Fact]
         public async Task CourseDirectoryImportFunction_ManualImport_Calls_CourseDirectoryImportService()
         {
-            var function = new CourseDirectoryImportFunction();
-
             var service = Substitute.For<ICourseDirectoryDataService>();
             service.ImportFromCourseDirectoryApi().Returns(10);
 
@@ -49,7 +45,8 @@ namespace sfa.Tl.Marketing.Communication.Functions.Tests
 
             var logger = Substitute.For<ILogger>();
 
-            var result = await function.ManualImport(request, service, logger);
+            var functions = new CourseDirectoryImportFunctions(service);
+            var result = await functions.ManualImport(request, logger);
 
             result.Should().BeOfType<OkObjectResult>();
             ((OkObjectResult)result).Value.Should().Be("10 records saved.");

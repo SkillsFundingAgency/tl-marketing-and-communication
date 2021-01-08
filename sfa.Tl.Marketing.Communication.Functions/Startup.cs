@@ -1,13 +1,15 @@
 ﻿using System;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Functions;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
-[assembly: FunctionsStartup(typeof(Startup))]
+[assembly: FunctionsStartup(typeof(sfa.Tl.Marketing.Communication.Functions.Startup))]
 namespace sfa.Tl.Marketing.Communication.Functions
 {
     public class Startup : FunctionsStartup
@@ -78,10 +80,12 @@ namespace sfa.Tl.Marketing.Communication.Functions
         private void RegisterServices(IServiceCollection services)
         {
             //    //https://stackoverflow.com/questions/57564396/how-do-i-mix-custom-parameter-binding-with-dependency-injection-in-azure-functio
-            //    var webJobsBuilder = services.AddWebJobs(x => { });
-            //    webJobsBuilder
-            //        .AddAzureStorage()
-            //        .AddAzureStorageCoreServices();
+            //var webJobsBuilder = services.AddWebJobs(x => { });
+            //webJobsBuilder
+            //    .AddTimers()
+            //    //.AddAzureStorage()
+            //    //.AddAzureStorageCoreServices()
+            //    ;
 
             //services.AddLogging(logging =>
             //{
@@ -91,7 +95,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
             //    logging.AddFilter((category, level) =>
             //        level >= (category == "Microsoft" ? LogLevel.Error : LogLevel.Information));
             //});
-            
+
             services.AddSingleton(ApiConfiguration);
             services.AddSingleton(StorageConfiguration);
             

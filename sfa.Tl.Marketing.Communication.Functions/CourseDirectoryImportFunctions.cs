@@ -10,21 +10,27 @@ using sfa.Tl.Marketing.Communication.Application.Interfaces;
 
 namespace sfa.Tl.Marketing.Communication.Functions
 {
-    public class CourseDirectoryImportFunction
+    public class CourseDirectoryImportFunctions
     {
-        //[FunctionName("SendProviderFeedbackEmails")]
+        private readonly ICourseDirectoryDataService _courseDirectoryDataService;
+
+        public CourseDirectoryImportFunctions(ICourseDirectoryDataService courseDirectoryDataService)
+        {
+            _courseDirectoryDataService = courseDirectoryDataService ?? throw new ArgumentNullException(nameof(courseDirectoryDataService));
+        }
+
+        [FunctionName("CourseDirectoryScheduledImport")]
         public async Task ImportCourseDirectoryData(
-            //[TimerTrigger("%CourseDirectoryImportTrigger%")]
+            [TimerTrigger("%CourseDirectoryImportTrigger%")]
             TimerInfo timer,
             ExecutionContext context,
-            ICourseDirectoryDataService courseDirectoryDataService,
             ILogger logger)
         {
             try
             {
                 logger.LogInformation("Course directory scheduled import function was called.");
 
-                var resultsCount = await courseDirectoryDataService.ImportFromCourseDirectoryApi();
+                var resultsCount = await _courseDirectoryDataService.ImportFromCourseDirectoryApi();
 
                 logger.LogInformation($"Course directory scheduled import saved {resultsCount} records.");
             }
@@ -39,14 +45,13 @@ namespace sfa.Tl.Marketing.Communication.Functions
         public async Task<IActionResult> ManualImport(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequest req,
-            ICourseDirectoryDataService courseDirectoryDataService,
             ILogger logger)
         {
             try
             {
                 logger.LogInformation("Course directory ManualImport function was called.");
 
-                var resultsCount = await courseDirectoryDataService.ImportFromCourseDirectoryApi();
+                var resultsCount = await _courseDirectoryDataService.ImportFromCourseDirectoryApi();
 
                 logger.LogInformation("Course directory ManualImport saved {resultsCount} records.");
 
