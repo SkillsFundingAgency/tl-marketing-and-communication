@@ -40,7 +40,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Mappers
             viewModel.Town.Should().Be("Coventry");
             viewModel.Latitude.Should().Be(52.400997);
             viewModel.Longitude.Should().Be(-1.508122);
-            viewModel.DistanceInMiles.Should().Be(9);
+            viewModel.DistanceInMiles.Should().Be(10);
             viewModel.DeliveryYears.Should().NotBeNull();
             viewModel.Website.Should().Be("https://test.provider.co.uk");
         }
@@ -69,7 +69,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Mappers
             viewModelList[0].Town.Should().Be("Coventry");
             viewModelList[0].Latitude.Should().Be(52.400997);
             viewModelList[0].Longitude.Should().Be(-1.508122);
-            viewModelList[0].DistanceInMiles.Should().Be(9);
+           
+            viewModelList[0].DistanceInMiles.Should().Be(10);
             viewModelList[0].DeliveryYears.Should().NotBeNull();
             viewModelList[0].Website.Should().Be("https://test.provider.co.uk");
         }

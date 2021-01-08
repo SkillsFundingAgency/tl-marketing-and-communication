@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Linq;
@@ -43,9 +42,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                         .OrderBy(d => d.Year)
                         .ToList()
                     : new List<DeliveryYear>()
-                });
-                //Proposed fix for bug TLWP-1284
-                //.Where(pl => pl.Qualification2020.Any() || pl.Qualification2021.Any());
+                })
+                .Where(pl => pl.DeliveryYears.Any(y => y.Qualifications.Any()));
         }
     }
 }
