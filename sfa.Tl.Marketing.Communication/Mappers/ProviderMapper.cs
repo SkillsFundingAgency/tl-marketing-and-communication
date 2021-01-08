@@ -15,7 +15,7 @@ namespace sfa.Tl.Marketing.Communication.Mappers
 
             CreateMap<ProviderLocation, ProviderLocationViewModel>()
                 .ForMember(m => m.DistanceInMiles, config =>
-                    config.MapFrom(s => (int)Math.Floor(s.DistanceInMiles)))
+                    config.MapFrom(s => (int)Math.Round(s.DistanceInMiles, MidpointRounding.AwayFromZero)))
                 .ForMember(m => m.HasFocus, config => config.Ignore());
         }
     }
