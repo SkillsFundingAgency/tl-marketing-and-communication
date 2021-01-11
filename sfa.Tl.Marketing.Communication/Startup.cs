@@ -14,6 +14,8 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using Notify.Client;
 using Notify.Interfaces;
+//using sfa.Tl.Marketing.Communication.Data.Interfaces;
+//using sfa.Tl.Marketing.Communication.Data.Services;
 
 namespace sfa.Tl.Marketing.Communication
 {
@@ -41,7 +43,7 @@ namespace sfa.Tl.Marketing.Communication
                 QualificationsDataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\qualifications.json",
                 StorageConfiguration = new StorageSettings
                 {
-                TableStorageConnectionString = Configuration[ConfigurationKeys.TableStorageConnectionStringConfigKey]
+                    TableStorageConnectionString = Configuration[ConfigurationKeys.TableStorageConnectionStringConfigKey]
                 }
             };
 
@@ -55,7 +57,7 @@ namespace sfa.Tl.Marketing.Communication
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            
+
             services.AddAntiforgery(options =>
             {
                 options.Cookie.Name = "tlevels-mc-x-csrf";
@@ -74,7 +76,7 @@ namespace sfa.Tl.Marketing.Communication
                 {
                     config.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
                 });
-            
+
             if (_webHostEnvironment.IsDevelopment())
             {
                 mvcBuilder.AddRazorRuntimeCompilation();
@@ -109,7 +111,7 @@ namespace sfa.Tl.Marketing.Communication
 
             app.UseCsp(options => options.ScriptSources(s => s
                         //.StrictDynamic()
-                        .CustomSources("https:", 
+                        .CustomSources("https:",
                             "https://www.google-analytics.com/analytics.js",
                             "https://www.googletagmanager.com/",
                             "https://tagmanager.google.com/",
@@ -121,7 +123,7 @@ namespace sfa.Tl.Marketing.Communication
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
@@ -146,11 +148,11 @@ namespace sfa.Tl.Marketing.Communication
             services.AddTransient<IProviderSearchService, ProviderSearchService>();
             services.AddTransient<ISearchPipelineFactory, SearchPipelineFactory>();
             services.AddTransient<IProviderSearchEngine, ProviderSearchEngine>();
-            services.AddTransient<ICourseDirectoryDataService, CourseDirectoryDataService>();
+            //services.AddTransient<ICourseDirectoryDataService, CourseDirectoryDataService>();
 
             var govNotifyApiKey = Configuration["GovNotifyApiKey"];
             services.AddTransient<IAsyncNotificationClient, NotificationClient>(
-                provider => 
+                provider =>
                     new NotificationClient(govNotifyApiKey));
         }
     }

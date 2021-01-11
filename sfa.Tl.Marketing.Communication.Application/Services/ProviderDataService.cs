@@ -50,15 +50,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         private JsonDocument GetProvidersData()
         {
             var json = _fileReader.ReadAllText(_configurationOptions.ProvidersDataFilePath);
-            var jsonDoc = JsonDocument.Parse(json);
-            return jsonDoc;
+            return JsonDocument.Parse(json);
         }
 
         private JsonDocument GetQualificationsData()
         {
             var json = _fileReader.ReadAllText(_configurationOptions.QualificationsDataFilePath);
-            var jsonDoc = JsonDocument.Parse(json);
-            return jsonDoc;
+            return JsonDocument.Parse(json);
         }
         
         public IEnumerable<string> GetWebsiteUrls()

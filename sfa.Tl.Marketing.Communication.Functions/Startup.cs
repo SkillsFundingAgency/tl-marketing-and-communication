@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Configuration;
@@ -50,7 +53,6 @@ namespace sfa.Tl.Marketing.Communication.Functions
 
         private void RegisterHttpClients(IServiceCollection services)
         {
-            /*
             services.AddHttpClient<ICourseDirectoryDataService, CourseDirectoryDataService>(
                     CourseDirectoryDataService.CourseDirectoryHttpClientName,
                     client =>
@@ -73,7 +75,6 @@ namespace sfa.Tl.Marketing.Communication.Functions
                     }
                     return handler;
                 });
-            */
         }
 
         private void RegisterServices(IServiceCollection services)

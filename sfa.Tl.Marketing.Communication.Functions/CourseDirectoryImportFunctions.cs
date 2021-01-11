@@ -53,7 +53,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
 
                 var resultsCount = await _courseDirectoryDataService.ImportFromCourseDirectoryApi();
 
-                logger.LogInformation("Course directory ManualImport saved {resultsCount} records.");
+                logger.LogInformation($"Course directory ManualImport saved {resultsCount} records.");
 
                 return new OkObjectResult($"{resultsCount} records saved.");
             }
