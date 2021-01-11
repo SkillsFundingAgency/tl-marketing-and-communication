@@ -4,10 +4,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using sfa.Tl.Marketing.Communication.Data.Entities;
 using sfa.Tl.Marketing.Communication.Data.Interfaces;
 using sfa.Tl.Marketing.Communication.Data.Repositories;
@@ -52,7 +50,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
             };
         }
 
-        private static string GetConfigurationValue(IConfigurationRoot config, string key) => 
+        private static string GetConfigurationValue(IConfiguration config, string key) => 
             Environment.GetEnvironmentVariable(key) ?? config.GetValue<string>(key);
 
         private void RegisterHttpClients(IServiceCollection services)
