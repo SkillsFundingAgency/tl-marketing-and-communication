@@ -1,9 +1,9 @@
-﻿using FluentAssertions;
-using sfa.Tl.Marketing.Communication.Application.Services;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using FluentAssertions;
+using sfa.Tl.Marketing.Communication.Data.Services;
 using Xunit;
 
-namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
+namespace sfa.Tl.Marketing.Communication.Data.UnitTests
 {
     public class CourseDirectoryDataServiceTests
     {

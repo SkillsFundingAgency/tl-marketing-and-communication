@@ -8,7 +8,7 @@ using Microsoft.Azure.WebJobs.Extensions.Timers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
-using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using sfa.Tl.Marketing.Communication.Data.Interfaces;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.Functions.Tests

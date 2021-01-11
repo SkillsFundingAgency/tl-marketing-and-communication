@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using sfa.Tl.Marketing.Communication.Data.Interfaces;
 
-namespace sfa.Tl.Marketing.Communication.Application.Services
+namespace sfa.Tl.Marketing.Communication.Data.Services
 {
     public class CourseDirectoryDataService : ICourseDirectoryDataService
     {

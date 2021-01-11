@@ -4,9 +4,8 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using sfa.Tl.Marketing.Communication.Application.Interfaces;
-using sfa.Tl.Marketing.Communication.Application.Services;
-using sfa.Tl.Marketing.Communication.Functions;
+using sfa.Tl.Marketing.Communication.Data.Interfaces;
+using sfa.Tl.Marketing.Communication.Data.Services;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
 [assembly: FunctionsStartup(typeof(sfa.Tl.Marketing.Communication.Functions.Startup))]

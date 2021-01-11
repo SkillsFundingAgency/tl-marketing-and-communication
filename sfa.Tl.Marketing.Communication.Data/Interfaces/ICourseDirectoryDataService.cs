@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace sfa.Tl.Marketing.Communication.Application.Interfaces
+namespace sfa.Tl.Marketing.Communication.Data.Interfaces
 {
     public interface ICourseDirectoryDataService
     {
