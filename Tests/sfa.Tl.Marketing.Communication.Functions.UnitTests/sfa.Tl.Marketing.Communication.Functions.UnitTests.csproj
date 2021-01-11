@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\sfa.Tl.Marketing.Communication.Data\sfa.Tl.Marketing.Communication.Data.csproj" />
-    <ProjectReference Include="..\sfa.Tl.Marketing.Communication.Functions\sfa.Tl.Marketing.Communication.Functions.csproj" />
+    <ProjectReference Include="..\..\sfa.Tl.Marketing.Communication.Data\sfa.Tl.Marketing.Communication.Data.csproj" />
+    <ProjectReference Include="..\..\sfa.Tl.Marketing.Communication.Functions\sfa.Tl.Marketing.Communication.Functions.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,7 @@ using NSubstitute;
 using sfa.Tl.Marketing.Communication.Data.Interfaces;
 using Xunit;
 
-namespace sfa.Tl.Marketing.Communication.Functions.Tests
+namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
 {
     public class CourseDirectoryImportFunctionTests
     {

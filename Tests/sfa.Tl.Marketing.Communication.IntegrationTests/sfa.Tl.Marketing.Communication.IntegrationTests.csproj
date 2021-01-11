@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\sfa.Tl.Marketing.Communication\Frontend\src\json\providers.json" Link="Data\providers.json">
+    <Content Include="..\..\sfa.Tl.Marketing.Communication\Frontend\src\json\providers.json" Link="Data\providers.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-	<Content Include="..\sfa.Tl.Marketing.Communication\Frontend\src\json\qualifications.json" Link="Data\qualifications.json">
+	<Content Include="..\..\sfa.Tl.Marketing.Communication\Frontend\src\json\qualifications.json" Link="Data\qualifications.json">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</Content>
   </ItemGroup>
@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\sfa.Tl.Marketing.Communication.Application\sfa.Tl.Marketing.Communication.Application.csproj" />
+    <ProjectReference Include="..\..\sfa.Tl.Marketing.Communication.Application\sfa.Tl.Marketing.Communication.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
