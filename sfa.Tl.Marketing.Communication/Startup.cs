@@ -45,7 +45,7 @@ namespace sfa.Tl.Marketing.Communication
                 }
             };
 
-            //services.AddApplicationInsightsTelemetry();
+            services.AddApplicationInsightsTelemetry();
 
             services.AddSingleton(SiteConfiguration);
 
