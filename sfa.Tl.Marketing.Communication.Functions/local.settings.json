@@ -1,7 +1,7 @@
 {
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "TableStorageConnectionString": "UseDevelopmentStorage=true;",
+    "SharedStorageAccountConnectionString": "UseDevelopmentStorage=true;",
     "CourseDirectoryImportTrigger": "0 0 20 * * MON-FRI",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet"
   },

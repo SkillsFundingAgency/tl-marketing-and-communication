@@ -12,6 +12,7 @@ using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos.Table;
 using Notify.Client;
 using Notify.Interfaces;
 //using sfa.Tl.Marketing.Communication.Data.Interfaces;
@@ -148,7 +149,20 @@ namespace sfa.Tl.Marketing.Communication
             services.AddTransient<IProviderSearchService, ProviderSearchService>();
             services.AddTransient<ISearchPipelineFactory, SearchPipelineFactory>();
             services.AddTransient<IProviderSearchEngine, ProviderSearchEngine>();
+
+            var cloudStorageAccount =
+                CloudStorageAccount.Parse(SiteConfiguration.StorageConfiguration.TableStorageConnectionString);
+            services.AddSingleton(cloudStorageAccount);
+            var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
+            services.AddSingleton(cloudTableClient);
+
+            //services.AddTransient(typeof(ICloudTableRepository<ProviderEntity>),
+            //    typeof(GenericCloudTableRepository<ProviderEntity, int>));
+            //services.AddTransient(typeof(ICloudTableRepository<QualificationEntity>),
+            //    typeof(GenericCloudTableRepository<QualificationEntity, int>));
+
             //services.AddTransient<ICourseDirectoryDataService, CourseDirectoryDataService>();
+            //services.AddTransient<ITableStorageService, TableStorageService>();
 
             var govNotifyApiKey = Configuration["GovNotifyApiKey"];
             services.AddTransient<IAsyncNotificationClient, NotificationClient>(

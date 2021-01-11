@@ -2,12 +2,15 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using sfa.Tl.Marketing.Communication.Data.Entities;
 using sfa.Tl.Marketing.Communication.Data.Interfaces;
+using sfa.Tl.Marketing.Communication.Data.Repositories;
 using sfa.Tl.Marketing.Communication.Data.Services;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
@@ -39,17 +42,18 @@ namespace sfa.Tl.Marketing.Communication.Functions
 
             ApiConfiguration = new CourseDirectoryApiSettings
             {
-                ApiKey = Environment.GetEnvironmentVariable(ConfigurationKeys.CourseDirectoryApiKeyConfigKey)
-                         ?? config.GetValue<string>(ConfigurationKeys.CourseDirectoryApiKeyConfigKey),
-                ApiBaseUri = Environment.GetEnvironmentVariable(ConfigurationKeys.CourseDirectoryApiBaseUriConfigKey)
-                             ?? config.GetValue<string>(ConfigurationKeys.CourseDirectoryApiBaseUriConfigKey)
+                ApiKey = GetConfigurationValue(config, ConfigurationKeys.CourseDirectoryApiKeyConfigKey),
+                ApiBaseUri = GetConfigurationValue(config, ConfigurationKeys.CourseDirectoryApiBaseUriConfigKey)
             };
 
             StorageConfiguration = new StorageSettings
             {
-                TableStorageConnectionString = Environment.GetEnvironmentVariable(ConfigurationKeys.TableStorageConnectionStringConfigKey)
+                TableStorageConnectionString = GetConfigurationValue(config, ConfigurationKeys.TableStorageConnectionStringConfigKey)
             };
         }
+
+        private static string GetConfigurationValue(IConfigurationRoot config, string key) => 
+            Environment.GetEnvironmentVariable(key) ?? config.GetValue<string>(key);
 
         private void RegisterHttpClients(IServiceCollection services)
         {
@@ -98,18 +102,20 @@ namespace sfa.Tl.Marketing.Communication.Functions
 
             services.AddSingleton(ApiConfiguration);
             services.AddSingleton(StorageConfiguration);
-            
-            //var cloudStorageAccount =
-            //    CloudStorageAccount.Parse(StorageConfigurationOptions.TableStorageConnectionString);
-            //services.AddSingleton(cloudStorageAccount);
-            //var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
-            //services.AddSingleton(cloudTableClient);
 
-            //services.AddTransient(typeof(ICloudTableRepository<QualificationEntity>),
-            //    typeof(GenericCloudTableRepository<QualificationEntity, int>));
+            var cloudStorageAccount =
+                CloudStorageAccount.Parse(StorageConfiguration.TableStorageConnectionString);
+            services.AddSingleton(cloudStorageAccount);
+            var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
+            services.AddSingleton(cloudTableClient);
+
+            services.AddTransient(typeof(ICloudTableRepository<ProviderEntity>),
+                typeof(GenericCloudTableRepository<ProviderEntity, int>));
+            services.AddTransient(typeof(ICloudTableRepository<QualificationEntity>),
+                typeof(GenericCloudTableRepository<QualificationEntity, int>));
 
             services.AddTransient<ICourseDirectoryDataService, CourseDirectoryDataService>();
-            //services.AddTransient<IProviderStorageService, ProviderStorageService>();
+            services.AddTransient<ITableStorageService, TableStorageService>();
         }
     }
 }
