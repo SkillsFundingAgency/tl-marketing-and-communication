@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using sfa.Tl.Marketing.Communication.Data.Interfaces;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services
 {

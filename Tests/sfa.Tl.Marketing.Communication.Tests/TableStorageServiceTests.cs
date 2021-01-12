@@ -1,15 +1,12 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using sfa.Tl.Marketing.Communication.Data.Entities;
-using sfa.Tl.Marketing.Communication.Data.Interfaces;
-using sfa.Tl.Marketing.Communication.Data.Services;
-using sfa.Tl.Marketing.Communication.Data.UnitTests.Builders;
+using sfa.Tl.Marketing.Communication.Application.Entities;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using sfa.Tl.Marketing.Communication.Application.Services;
 using Xunit;
 
-namespace sfa.Tl.Marketing.Communication.Data.UnitTests
+namespace sfa.Tl.Marketing.Communication.UnitTests
 {
     public class TableStorageServiceTests
     {

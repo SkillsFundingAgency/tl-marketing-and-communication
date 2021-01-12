@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using sfa.Tl.Marketing.Communication.Data.Interfaces;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace sfa.Tl.Marketing.Communication.Data.Interfaces
+namespace sfa.Tl.Marketing.Communication.Application.Interfaces
 {
     public interface ICloudTableRepository<T>
     {

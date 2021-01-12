@@ -14,7 +14,6 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using sfa.Tl.Marketing.Communication.Data.Interfaces;
 using Xunit;
 using Xunit.Abstractions;
 

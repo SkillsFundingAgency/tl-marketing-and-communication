@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 
-namespace sfa.Tl.Marketing.Communication.Data.Interfaces
+namespace sfa.Tl.Marketing.Communication.Application.Interfaces
 {
     public interface ITableStorageService
     {

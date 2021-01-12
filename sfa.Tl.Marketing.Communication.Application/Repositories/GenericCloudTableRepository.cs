@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos.Table;
-using sfa.Tl.Marketing.Communication.Data.Entities;
-using sfa.Tl.Marketing.Communication.Data.Interfaces;
+using sfa.Tl.Marketing.Communication.Application.Entities;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
 
-namespace sfa.Tl.Marketing.Communication.Data.Repositories
+namespace sfa.Tl.Marketing.Communication.Application.Repositories
 {
     public class GenericCloudTableRepository<T, TKey> : ICloudTableRepository<T>
         where T : Entity<TKey>, ITableEntity, new()

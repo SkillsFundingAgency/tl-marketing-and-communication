@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.Azure.Cosmos.Table;
 
-namespace sfa.Tl.Marketing.Communication.Data.Entities
+namespace sfa.Tl.Marketing.Communication.Application.Entities
 {
     public class Entity<TKey> : TableEntity
     {

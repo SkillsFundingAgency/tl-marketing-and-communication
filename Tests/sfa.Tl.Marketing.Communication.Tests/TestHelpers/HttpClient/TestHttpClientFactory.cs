@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
-namespace sfa.Tl.Marketing.Communication.Data.UnitTests.TestHelpers.HttpClient
+namespace sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.HttpClient
 {
     // ReSharper disable UnusedMember.Global
     public class TestHttpClientFactory

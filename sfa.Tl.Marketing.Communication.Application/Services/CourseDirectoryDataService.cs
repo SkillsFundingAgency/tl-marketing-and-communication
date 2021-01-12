@@ -4,9 +4,9 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using sfa.Tl.Marketing.Communication.Data.Interfaces;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
 
-namespace sfa.Tl.Marketing.Communication.Data.Services
+namespace sfa.Tl.Marketing.Communication.Application.Services
 {
     public class CourseDirectoryDataService : ICourseDirectoryDataService
     {

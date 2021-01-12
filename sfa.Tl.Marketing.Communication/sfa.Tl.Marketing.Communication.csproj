@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\sfa.Tl.Marketing.Communication.Application\sfa.Tl.Marketing.Communication.Application.csproj" />
-    <ProjectReference Include="..\sfa.Tl.Marketing.Communication.Data\sfa.Tl.Marketing.Communication.Data.csproj" />
     <ProjectReference Include="..\sfa.Tl.Marketing.Communication.Models\sfa.Tl.Marketing.Communication.Models.csproj" />
   </ItemGroup>
 

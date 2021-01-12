@@ -3,7 +3,7 @@ using sfa.Tl.Marketing.Communication.Models.Configuration;
 
 // ReSharper disable UnusedMember.Global
 
-namespace sfa.Tl.Marketing.Communication.Data.UnitTests.Builders
+namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
 {
     internal class SettingsBuilder
     {

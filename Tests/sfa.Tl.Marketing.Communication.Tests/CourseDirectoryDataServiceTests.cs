@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using sfa.Tl.Marketing.Communication.Data.Services;
-using sfa.Tl.Marketing.Communication.Data.UnitTests.Builders;
-using sfa.Tl.Marketing.Communication.Data.UnitTests.TestHelpers.HttpClient;
+using sfa.Tl.Marketing.Communication.Application.Services;
+using sfa.Tl.Marketing.Communication.UnitTests.Builders;
+using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.HttpClient;
 using Xunit;
 
-namespace sfa.Tl.Marketing.Communication.Data.UnitTests
+namespace sfa.Tl.Marketing.Communication.UnitTests
 {
     public class CourseDirectoryDataServiceTests
     {

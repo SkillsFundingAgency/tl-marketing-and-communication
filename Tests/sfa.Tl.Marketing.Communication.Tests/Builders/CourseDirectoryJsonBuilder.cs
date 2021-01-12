@@ -1,6 +1,6 @@
-﻿using sfa.Tl.Marketing.Communication.Data.UnitTests.TestHelpers.Extensions;
+﻿using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.Extensions;
 
-namespace sfa.Tl.Marketing.Communication.Data.UnitTests.Builders
+namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
 {
     internal class CourseDirectoryJsonBuilder
     {

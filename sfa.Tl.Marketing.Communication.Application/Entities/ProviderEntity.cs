@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace sfa.Tl.Marketing.Communication.Data.Entities
+namespace sfa.Tl.Marketing.Communication.Application.Entities
 {
     public class ProviderEntity : Entity<int>
     {
