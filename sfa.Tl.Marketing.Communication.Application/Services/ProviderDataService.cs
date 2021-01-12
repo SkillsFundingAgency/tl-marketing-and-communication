@@ -78,6 +78,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             try
             {
+                _logger.LogInformation("Looking for qualifications in table storage");
                 var qualifications = await _tableStorageService.RetrieveQualifications();
                 if (qualifications != null && qualifications.Any())
                 {
