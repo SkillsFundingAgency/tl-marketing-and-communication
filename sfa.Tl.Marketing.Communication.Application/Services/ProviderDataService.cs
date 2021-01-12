@@ -1,9 +1,13 @@
-﻿using sfa.Tl.Marketing.Communication.Application.Interfaces;
+﻿using System;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using sfa.Tl.Marketing.Communication.Data.Interfaces;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services
 {
@@ -13,13 +17,25 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         private readonly ConfigurationOptions _configurationOptions;
         private readonly JsonDocument _providersData;
         private readonly JsonDocument _qualificationsData;
+        private readonly ITableStorageService _tableStorageService;
+        private readonly ILogger<ProviderDataService> _logger;
 
-        public ProviderDataService(IFileReader fileReader, ConfigurationOptions configurationOptions)
+        public ProviderDataService(
+            IFileReader fileReader, 
+            ConfigurationOptions configurationOptions, 
+            ITableStorageService tableStorageService,
+            ILogger<ProviderDataService> logger)
         {
-            _fileReader = fileReader;
-            _configurationOptions = configurationOptions;
+            _fileReader = fileReader ?? throw new ArgumentNullException(nameof(fileReader));
+            _configurationOptions = configurationOptions ?? throw new ArgumentNullException(nameof(configurationOptions));
+            _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
             _providersData = GetProvidersData();
             _qualificationsData = GetQualificationsData();
+
+            //Test new table storage methods
+            GetQualificationsFromTableStorage().Wait();
         }
 
         public IQueryable<Provider> GetProviders()
@@ -59,6 +75,29 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return JsonDocument.Parse(json);
         }
         
+        private async Task GetQualificationsFromTableStorage()
+        {
+            try
+            {
+                var qualifications = await _tableStorageService.RetrieveQualifications();
+                if (qualifications != null && qualifications.Any())
+                {
+                    _logger.LogInformation($"Found {qualifications.Count} qualifications in table storage");
+                }
+                else
+                {
+                    var saved = await _tableStorageService
+                        .SaveQualifications(GetAllQualifications().ToList());
+                    _logger.LogInformation($"Saved {saved} qualifications to table storage");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to retrieve qualifications from table storage");
+                //throw;
+            }
+        }
+
         public IEnumerable<string> GetWebsiteUrls()
         {
             var urlList = new List<string>();

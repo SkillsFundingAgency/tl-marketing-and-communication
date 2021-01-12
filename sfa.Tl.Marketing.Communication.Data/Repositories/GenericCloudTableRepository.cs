@@ -29,13 +29,17 @@ namespace sfa.Tl.Marketing.Communication.Data.Repositories
 
         public async Task<IList<T>> GetAll()
         {
-            var cloudTable = _cloudTableClient.GetTableReference(_tableName);
-
-            var tableQuery = new TableQuery<T>();
-
             var results = new List<T>();
 
+            var cloudTable = _cloudTableClient.GetTableReference(_tableName);
+            if (!cloudTable.Exists())
+            {
+                return results;
+            }
+
+            var tableQuery = new TableQuery<T>();
             var continuationToken = default(TableContinuationToken);
+
             do
             {
                 var queryResults = await cloudTable

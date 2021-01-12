@@ -96,7 +96,7 @@ namespace sfa.Tl.Marketing.Communication.Data.Services
                         Name = q.Name
                     }).ToList();
 
-            _logger.LogInformation($"RetrieveQualifications saved {qualifications.Count()} records.");
+            _logger.LogInformation($"RetrieveQualifications saved {qualifications.Count} records.");
 
             return qualifications;
         }

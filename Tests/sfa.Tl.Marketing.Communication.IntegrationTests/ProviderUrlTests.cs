@@ -12,6 +12,12 @@ using System.Net.Http;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using NSubstitute;
+using sfa.Tl.Marketing.Communication.Data.Entities;
+using sfa.Tl.Marketing.Communication.Data.Interfaces;
+using sfa.Tl.Marketing.Communication.Data.Services;
+using sfa.Tl.Marketing.Communication.Data.Repositories;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -38,7 +44,12 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
             };
 
             var fileReader = new FileReader();
-            var providerDataService = new ProviderDataService(fileReader, configurationOptions);
+
+            var tableStorageService = Substitute.For<ITableStorageService>();
+            var loggerFactory = new LoggerFactory();
+            var logger = loggerFactory.CreateLogger<ProviderDataService>();
+
+            var providerDataService = new ProviderDataService(fileReader, configurationOptions, tableStorageService, logger);
             var locationService = new LocationService();
             var providerLocationService = new ProviderLocationService(providerDataService);
             var distanceCalculationService = new DistanceCalculationService(new LocationApiClient(new HttpClient(), configurationOptions));

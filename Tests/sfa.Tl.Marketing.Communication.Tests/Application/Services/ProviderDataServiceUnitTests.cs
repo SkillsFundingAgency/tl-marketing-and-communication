@@ -4,6 +4,9 @@ using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using System.IO;
 using System.Linq;
+using Microsoft.Extensions.Logging;
+using NSubstitute;
+using sfa.Tl.Marketing.Communication.Data.Interfaces;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
@@ -25,7 +28,11 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 ProvidersDataFilePath = providersDataFilePath,
                 QualificationsDataFilePath = qualificationsDataFilePath
             };
-            _service = new ProviderDataService(fileReader, configurationOption);
+
+            var tableStorageService = Substitute.For<ITableStorageService>();
+            var logger = Substitute.For<ILogger<ProviderDataService>>();
+
+            _service = new ProviderDataService(fileReader, configurationOption, tableStorageService, logger);
         }
 
         [Fact]
