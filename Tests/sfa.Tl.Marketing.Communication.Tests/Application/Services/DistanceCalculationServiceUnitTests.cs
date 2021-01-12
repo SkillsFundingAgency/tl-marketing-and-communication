@@ -36,14 +36,14 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         }
 
         [Theory]
-        [InlineData("mk126ab", "52.579015", "1.720474", 51.680624, -1.28696, 142)]
-        [InlineData("mk126ab", "53.579015", "2.720474", 52.680624, -2.28696, 217)]
-        [InlineData("mk126ab", "54.579015", "3.720474", 53.680624, -3.28696, 290)]
-        [InlineData("mk126ab", "55.579015", "4.720474", 54.680624, -4.28696, 361)]
+        [InlineData("mk126ab", 52.579015, 1.720474, 51.680624, -1.28696, 142)]
+        [InlineData("mk126ab", 53.579015, 2.720474, 52.680624, -2.28696, 217)]
+        [InlineData("mk126ab", 54.579015, 3.720474, 53.680624, -3.28696, 290)]
+        [InlineData("mk126ab", 55.579015, 4.720474, 54.680624, -4.28696, 361)]
         public async Task CalculateProviderLocationDistanceInMiles_Calculate_Distance_In_Miles_From_StudentPostcode_To_ProviderLocation_Using_LocationApi(
             string studentPostcode,
-            string studentLat,
-            string studentLon,
+            double studentLat,
+            double studentLon,
             double providerLat,
             double providerLon,
             int expectedMileageInMilesAfterRounding)
@@ -67,14 +67,14 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         }
 
         [Theory]
-        [InlineData("mk126ab", "52.579015", "1.720474", 51.680624, -1.28696, 142)]
-        [InlineData("mk126ab", "53.579015", "2.720474", 52.680624, -2.28696, 217)]
-        [InlineData("mk126ab", "54.579015", "3.720474", 53.680624, -3.28696, 290)]
-        [InlineData("mk126ab", "55.579015", "4.720474", 54.680624, -4.28696, 361)]
+        [InlineData("mk126ab", 52.579015, 1.720474, 51.680624, -1.28696, 142)]
+        [InlineData("mk126ab", 53.579015, 2.720474, 52.680624, -2.28696, 217)]
+        [InlineData("mk126ab", 54.579015, 3.720474, 53.680624, -3.28696, 290)]
+        [InlineData("mk126ab", 55.579015, 4.720474, 54.680624, -4.28696, 361)]
         public async Task CalculateProviderLocationDistanceInMiles_Calculate_Distance_In_Miles_From_StudentPostcode_To_ProviderLocation_Using_Saved_Lat_Long(
             string studentPostcode,
-            string studentLat,
-            string studentLon,
+            double studentLat,
+            double studentLon,
             double providerLat,
             double providerLon,
             int expectedMileageInMilesAfterRounding)

@@ -1,4 +1,5 @@
-﻿using sfa.Tl.Marketing.Communication.Application.Interfaces;
+﻿using System;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,8 +60,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     new PostcodeLocation
                     {
                         Postcode = searchRequest.Postcode,
-                        Latitude = searchRequest.OriginLatitude,
-                        Longitude = searchRequest.OriginLongitude
+                        Latitude = Convert.ToDouble(searchRequest.OriginLatitude),
+                        Longitude = Convert.ToDouble(searchRequest.OriginLongitude)
                     }, providerLocations);
             }
 

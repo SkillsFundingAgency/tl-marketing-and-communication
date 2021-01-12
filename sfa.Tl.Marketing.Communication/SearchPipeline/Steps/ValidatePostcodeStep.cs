@@ -1,4 +1,5 @@
-﻿using sfa.Tl.Marketing.Communication.Application.Interfaces;
+﻿using System.Globalization;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Constants;
 using System.Threading.Tasks;
 
@@ -26,8 +27,8 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
                 if (results.IsValid)
                 {
                     context.ViewModel.Postcode = results.PostcodeLocation.Postcode;
-                    context.ViewModel.Latitude = results.PostcodeLocation.Latitude;
-                    context.ViewModel.Longitude = results.PostcodeLocation.Longitude;
+                    context.ViewModel.Latitude = results.PostcodeLocation.Latitude.Value.ToString(CultureInfo.InvariantCulture);
+                    context.ViewModel.Longitude = results.PostcodeLocation.Longitude.Value.ToString(CultureInfo.InvariantCulture);
                 }
                 else
                 {

@@ -148,8 +148,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
                 Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode
-                                              && p.Latitude == searchRequest.OriginLatitude
-                                              && p.Longitude == searchRequest.OriginLongitude),
+                                              && p.Latitude.ToString() == searchRequest.OriginLatitude
+                                              && p.Longitude.ToString() == searchRequest.OriginLongitude),
                 providerLocations)
                 .Returns(providerLocations.ToList());
 

@@ -47,8 +47,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         {
             // Arrange
             const string postcode = "dddfd";
-            const string latitude = "50.0123";
-            const string longitude = "1.987";
+            const double latitude = 50.0123;
+            const double longitude = 1.987;
             const bool isValid = false;
 
             var postcodeLocation = new PostcodeLocation
@@ -83,8 +83,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
             // Arrange
             const string postcode = "mk 4 2 8 y u";
             const string expected = "MK42 8YU";
-            const string latitude = "50.0123";
-            const string longitude = "1.987";
+            const double latitude = 50.0123;
+            const double longitude = 1.987;
             const bool isValid = true;
 
             var expectedPostcodeLocation = new PostcodeLocation

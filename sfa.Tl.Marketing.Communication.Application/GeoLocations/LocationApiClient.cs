@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.Json;
 using System.Threading.Tasks;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.Models.Dto;
@@ -35,8 +36,11 @@ namespace sfa.Tl.Marketing.Communication.Application.GeoLocations
 
             if (responseMessage.StatusCode == HttpStatusCode.OK)
             {
-                var response = await responseMessage.Content.ReadAsAsync<PostcodeLookupResponse>();
-                return response.Result;
+                //var response = await responseMessage.Content.ReadAsAsync<PostcodeLookupResponse>();
+                var s = await responseMessage.Content.ReadAsStringAsync();
+                //var response1 = JsonSerializer.Deserialize<PostcodeLookupResponse>(s);
+                var response = await JsonSerializer.DeserializeAsync<PostcodeLookupResponse>(await responseMessage.Content.ReadAsStreamAsync());
+                return response?.Result;
             }
 
             return await GetTerminatedPostcodeGeoLocationDataAsync(postcode);
@@ -50,7 +54,8 @@ namespace sfa.Tl.Marketing.Communication.Application.GeoLocations
 
             if (responseMessage.StatusCode == HttpStatusCode.OK)
             {
-                var response = await responseMessage.Content.ReadAsAsync<PostcodeLookupResponse>();
+                //var response = await responseMessage.Content.ReadAsAsync<PostcodeLookupResponse>();
+                var response = await JsonSerializer.DeserializeAsync<PostcodeLookupResponse>(await responseMessage.Content.ReadAsStreamAsync());
                 return response.Result;
             }
 

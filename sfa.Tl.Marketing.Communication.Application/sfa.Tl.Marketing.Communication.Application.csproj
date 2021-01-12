@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\sfa.Tl.Marketing.Communication.DataLoad\sfa.Tl.Marketing.Communication.DataLoad.csproj" />
     <ProjectReference Include="..\sfa.Tl.Marketing.Communication.Data\sfa.Tl.Marketing.Communication.Data.csproj" />
     <ProjectReference Include="..\sfa.Tl.Marketing.Communication.Models\sfa.Tl.Marketing.Communication.Models.csproj" />
   </ItemGroup>

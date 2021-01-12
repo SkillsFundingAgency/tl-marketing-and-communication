@@ -31,8 +31,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations
             var responseData = new PostcodeLookupResultDto
             {
                 Postcode = "CV1 2WT",
-                Latitude = "50.001",
-                Longitude = "-1.234"
+                Latitude = 50.001,
+                Longitude = -1.234
             };
 
             var httpClient = IntializeHttpClient("CV1 2WT", responseData);
@@ -45,8 +45,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations
             // Assert
             postcodeData.Should().NotBeNull();
             postcodeData.Postcode.Should().Be("CV1 2WT");
-            postcodeData.Latitude.Should().Be("50.001");
-            postcodeData.Longitude.Should().Be("-1.234");
+            postcodeData.Latitude.Should().Be(50.001);
+            postcodeData.Longitude.Should().Be(-1.234);
         }
 
         [Fact]
@@ -56,8 +56,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations
             var responseData = new PostcodeLookupResultDto
             {
                 Postcode = "S70 2YW",
-                Latitude = "50.001",
-                Longitude = "-1.234"
+                Latitude = 50.001,
+                Longitude = -1.234
             };
 
             var httpClient = IntializeTerminatedHttpClient("S70 2YW", responseData);
@@ -71,8 +71,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations
             // Assert
             postcodeData.Should().NotBeNull();
             postcodeData.Postcode.Should().Be("S70 2YW");
-            postcodeData.Latitude.Should().Be("50.001");
-            postcodeData.Longitude.Should().Be("-1.234");
+            postcodeData.Latitude.Should().Be(50.001);
+            postcodeData.Longitude.Should().Be(-1.234);
         }
 
         private HttpClient IntializeHttpClient(string requestPostcode, PostcodeLookupResultDto responseData)
@@ -80,7 +80,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations
             var response = new PostcodeLookupResponse
             {
                 Result = responseData,
-                Status = "OK"
+                Status = 200
             };
 
             return CreateClient(response, $"https://example.com/postcodes/{requestPostcode.Replace(" ", "")}");
@@ -91,7 +91,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations
             var response = new PostcodeLookupResponse
             {
                 Result = responseData,
-                Status = "OK"
+                Status = 200
             };
 
             return CreateClient(response, $"https://example.com/terminated_postcodes/{requestPostcode.Replace(" ", "")}");
