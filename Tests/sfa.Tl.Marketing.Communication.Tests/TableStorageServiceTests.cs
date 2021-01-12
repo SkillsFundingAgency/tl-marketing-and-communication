@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using sfa.Tl.Marketing.Communication.Application.Entities;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
+using sfa.Tl.Marketing.Communication.Models.Entities;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests

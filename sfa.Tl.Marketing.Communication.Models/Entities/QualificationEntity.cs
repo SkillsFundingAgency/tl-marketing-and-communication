@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace sfa.Tl.Marketing.Communication.Application.Entities
+namespace sfa.Tl.Marketing.Communication.Models.Entities
 {
-    public class ProviderEntity : Entity<int>
+    public class QualificationEntity : Entity<int>
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        //TODO: Fill in the rest of the properties
-        public ProviderEntity()
+        public QualificationEntity()
         {
             //TODO: Add a DateTimeService
             CreatedOn = DateTime.UtcNow;

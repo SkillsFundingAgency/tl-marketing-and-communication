@@ -6,11 +6,11 @@ using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using sfa.Tl.Marketing.Communication.Application.Entities;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
+using sfa.Tl.Marketing.Communication.Models.Entities;
 
 [assembly: FunctionsStartup(typeof(sfa.Tl.Marketing.Communication.Functions.Startup))]
 namespace sfa.Tl.Marketing.Communication.Functions

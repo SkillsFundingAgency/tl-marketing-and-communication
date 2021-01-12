@@ -15,8 +15,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos.Table;
 using Notify.Client;
 using Notify.Interfaces;
-using sfa.Tl.Marketing.Communication.Application.Entities;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
+using sfa.Tl.Marketing.Communication.Models.Entities;
 
 namespace sfa.Tl.Marketing.Communication
 {
