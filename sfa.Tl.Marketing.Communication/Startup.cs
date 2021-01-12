@@ -15,6 +15,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos.Table;
 using Notify.Client;
 using Notify.Interfaces;
+using sfa.Tl.Marketing.Communication.Data.Entities;
+using sfa.Tl.Marketing.Communication.Data.Interfaces;
+using sfa.Tl.Marketing.Communication.Data.Repositories;
+using sfa.Tl.Marketing.Communication.Data.Services;
+
 //using sfa.Tl.Marketing.Communication.Data.Interfaces;
 //using sfa.Tl.Marketing.Communication.Data.Services;
 
@@ -156,13 +161,12 @@ namespace sfa.Tl.Marketing.Communication
             var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
             services.AddSingleton(cloudTableClient);
 
-            //services.AddTransient(typeof(ICloudTableRepository<ProviderEntity>),
-            //    typeof(GenericCloudTableRepository<ProviderEntity, int>));
-            //services.AddTransient(typeof(ICloudTableRepository<QualificationEntity>),
-            //    typeof(GenericCloudTableRepository<QualificationEntity, int>));
+            services.AddTransient(typeof(ICloudTableRepository<ProviderEntity>),
+                typeof(GenericCloudTableRepository<ProviderEntity, int>));
+            services.AddTransient(typeof(ICloudTableRepository<QualificationEntity>),
+                typeof(GenericCloudTableRepository<QualificationEntity, int>));
 
-            //services.AddTransient<ICourseDirectoryDataService, CourseDirectoryDataService>();
-            //services.AddTransient<ITableStorageService, TableStorageService>();
+            services.AddTransient<ITableStorageService, TableStorageService>();
 
             var govNotifyApiKey = Configuration["GovNotifyApiKey"];
             services.AddTransient<IAsyncNotificationClient, NotificationClient>(
