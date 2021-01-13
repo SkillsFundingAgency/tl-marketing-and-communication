@@ -32,9 +32,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             _providersData = GetProvidersData();
             _qualificationsData = GetQualificationsData();
-
-            //Test new table storage methods
-            GetQualificationsFromTableStorage().Wait();
         }
 
         public IQueryable<Provider> GetProviders()
@@ -74,30 +71,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return JsonDocument.Parse(json);
         }
         
-        private async Task GetQualificationsFromTableStorage()
-        {
-            try
-            {
-                _logger.LogInformation("Looking for qualifications in table storage");
-                var qualifications = await _tableStorageService.RetrieveQualifications();
-                if (qualifications != null && qualifications.Any())
-                {
-                    _logger.LogInformation($"Found {qualifications.Count} qualifications in table storage");
-                }
-                else
-                {
-                    var saved = await _tableStorageService
-                        .SaveQualifications(GetAllQualifications().ToList());
-                    _logger.LogInformation($"Saved {saved} qualifications to table storage");
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to retrieve qualifications from table storage");
-                //throw;
-            }
-        }
-
         public IEnumerable<string> GetWebsiteUrls()
         {
             var urlList = new List<string>();
@@ -118,6 +91,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private IQueryable<Qualification> GetAllQualifications()
         {
+            return GetQualificationsFromTableStorage().GetAwaiter().GetResult();
+        }
+
+        private IQueryable<Qualification> GetAllQualificationsFromJson()
+        {
             return _qualificationsData
                 .RootElement
                 .GetProperty("qualifications")
@@ -129,6 +107,44 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                         Name = q.Value.GetString()
                     })
                 .AsQueryable();
+        }
+
+        private async Task<IQueryable<Qualification>> GetQualificationsFromTableStorage()
+        {
+            //TODO: Get rid of this - just here until we know the table storage works in Azure
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            if (assemblies.Any(a => a.FullName != null && a.FullName.ToLower().StartsWith("xunit")))
+            {
+                return GetAllQualificationsFromJson();
+            }
+
+            try
+            {
+                _logger.LogInformation("Looking for qualifications in table storage");
+                var qualificationsFromTable = await _tableStorageService.RetrieveQualifications();
+                if (qualificationsFromTable != null && qualificationsFromTable.Any())
+                {
+                    _logger.LogInformation($"Found {qualificationsFromTable.Count} qualifications in table storage");
+                }
+                else
+                {
+                    var saved = await _tableStorageService
+                        .SaveQualifications(GetAllQualificationsFromJson().ToList());
+                    _logger.LogInformation($"Saved {saved} qualifications to table storage");
+
+                    //Reread
+                    _logger.LogInformation($"Rereading qualifications from table storage");
+                    qualificationsFromTable = await _tableStorageService.RetrieveQualifications();
+                    _logger.LogInformation($"Found {qualificationsFromTable.Count} qualifications in table storage (reread)");
+                }
+
+                return qualificationsFromTable.AsQueryable();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to retrieve qualifications from table storage");
+                return new List<Qualification>().AsQueryable();
+            }
         }
 
         private IQueryable<Provider> GetAllProviders()
