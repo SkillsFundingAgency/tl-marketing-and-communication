@@ -1,9 +1,14 @@
-﻿namespace sfa.Tl.Marketing.Communication.DataLoad.PostcodesIo
+﻿using System.Text.Json.Serialization;
+
+namespace sfa.Tl.Marketing.Communication.DataLoad.PostcodesIo
 {
     public class PostcodeLookupResultDto
     {
+        [JsonPropertyName("postcode")]
         public string Postcode { get; set; }
-        public string Longitude { get; set; }
-        public string Latitude { get; set; }
+        [JsonPropertyName("longitude")]
+        public double Longitude { get; set; }
+        [JsonPropertyName("latitude")]
+        public double Latitude { get; set; }
     }
 }

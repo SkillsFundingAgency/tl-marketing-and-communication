@@ -1,9 +1,14 @@
-﻿namespace sfa.Tl.Marketing.Communication.DataLoad.PostcodesIo
+﻿using System.Text.Json.Serialization;
+
+namespace sfa.Tl.Marketing.Communication.DataLoad.PostcodesIo
 {
     public class PostcodeLookupResponse
     {
         // ReSharper disable InconsistentNaming
-        public string status { get; set; }
-        public PostcodeLookupResultDto result { get; set; }
+        [JsonPropertyName("status")]
+        public int Status { get; set; }
+
+        [JsonPropertyName("result")]
+        public PostcodeLookupResultDto Result { get; set; }
     }
 }

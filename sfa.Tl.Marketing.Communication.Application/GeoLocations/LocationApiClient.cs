@@ -36,10 +36,9 @@ namespace sfa.Tl.Marketing.Communication.Application.GeoLocations
 
             if (responseMessage.StatusCode == HttpStatusCode.OK)
             {
-                //var response = await responseMessage.Content.ReadAsAsync<PostcodeLookupResponse>();
-                var s = await responseMessage.Content.ReadAsStringAsync();
-                //var response1 = JsonSerializer.Deserialize<PostcodeLookupResponse>(s);
-                var response = await JsonSerializer.DeserializeAsync<PostcodeLookupResponse>(await responseMessage.Content.ReadAsStreamAsync());
+                var response = await JsonSerializer
+                    .DeserializeAsync<PostcodeLookupResponse>(
+                        await responseMessage.Content.ReadAsStreamAsync());
                 return response?.Result;
             }
 
@@ -54,9 +53,10 @@ namespace sfa.Tl.Marketing.Communication.Application.GeoLocations
 
             if (responseMessage.StatusCode == HttpStatusCode.OK)
             {
-                //var response = await responseMessage.Content.ReadAsAsync<PostcodeLookupResponse>();
-                var response = await JsonSerializer.DeserializeAsync<PostcodeLookupResponse>(await responseMessage.Content.ReadAsStreamAsync());
-                return response.Result;
+                var response = await JsonSerializer
+                    .DeserializeAsync<PostcodeLookupResponse>(
+                        await responseMessage.Content.ReadAsStreamAsync());
+                return response?.Result;
             }
 
             return null;

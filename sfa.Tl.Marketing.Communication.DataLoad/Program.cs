@@ -131,12 +131,17 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             if (responseMessage.StatusCode != HttpStatusCode.NotFound)
             {
                 responseMessage.EnsureSuccessStatusCode();
-                var response = responseMessage.Content.ReadAsAsync<PostcodeLookupResponse>().GetAwaiter()
-                    .GetResult();
 
-                return (response.result.Postcode,
-                    Convert.ToDouble(response.result.Latitude),
-                    Convert.ToDouble(response.result.Longitude));
+                var stream = responseMessage.Content.ReadAsStreamAsync()
+                    .GetAwaiter().GetResult();
+                var response = JsonSerializer
+                    .DeserializeAsync<PostcodeLookupResponse>(stream)
+                    .GetAwaiter().GetResult();
+
+                // ReSharper disable once PossibleNullReferenceException
+                return (response.Result.Postcode,
+                        response.Result.Latitude,
+                        response.Result.Longitude);
             }
             else
             {
@@ -145,12 +150,17 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                 if (terminatedResponseMessage.StatusCode != HttpStatusCode.NotFound)
                 {
                     terminatedResponseMessage.EnsureSuccessStatusCode();
-                    var response = terminatedResponseMessage.Content.ReadAsAsync<PostcodeLookupResponse>().GetAwaiter()
-                        .GetResult();
 
-                    return (response.result.Postcode,
-                        Convert.ToDouble(response.result.Latitude),
-                        Convert.ToDouble(response.result.Longitude));
+                    var stream = terminatedResponseMessage.Content.ReadAsStreamAsync()
+                        .GetAwaiter().GetResult();
+                    var response = JsonSerializer
+                        .DeserializeAsync<PostcodeLookupResponse>(stream)
+                        .GetAwaiter().GetResult();
+
+                    // ReSharper disable once PossibleNullReferenceException
+                    return (response.Result.Postcode,
+                            response.Result.Latitude,
+                            response.Result.Longitude);
                 }
                 else
                 {
