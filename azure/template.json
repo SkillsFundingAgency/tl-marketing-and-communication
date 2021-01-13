@@ -5,7 +5,7 @@
         "resourceEnvironmentName": {
             "type": "string",
             "metadata": {
-                "description": "Enviroment Designation"
+                "description": "Environment Designation"
             }
         },
         "serviceName": {
@@ -217,18 +217,6 @@
                             {
                               "name": "SharedStorageAccountConnectionString",
                               "value": "[parameters('sharedStorageAccountConnectionString')]"
-                            },
-                            {
-                              "name": "CourseDirectoryApiKey",
-                              "value": "[parameters('courseDirectoryApiKey')]"
-                            },
-                            {
-                              "name": "CourseDirectoryApiBaseUri",
-                              "value": "[parameters('courseDirectoryApiBaseUri')]"
-                            },
-                            {
-                              "name": "CourseDirectoryImportTrigger",
-                              "value": "[parameters('courseDirectoryImportTrigger')]"
                             }
                         ]
                     },
