@@ -153,7 +153,11 @@ namespace sfa.Tl.Marketing.Communication
             services.AddTransient<ISearchPipelineFactory, SearchPipelineFactory>();
             services.AddTransient<IProviderSearchEngine, ProviderSearchEngine>();
 
+            //TODO: Remove this - just want to confirm the value is being read
             _logger.LogInformation("Configuring table storage");
+            var storageString = SiteConfiguration.StorageConfiguration?.TableStorageConnectionString ?? "null";
+            storageString = storageString.Substring(0, Math.Min(storageString.Length - 1, 20));
+            _logger.LogInformation($"Table storage string starts '{storageString}'");
 
             var cloudStorageAccount =
                 CloudStorageAccount.Parse(SiteConfiguration.StorageConfiguration.TableStorageConnectionString);

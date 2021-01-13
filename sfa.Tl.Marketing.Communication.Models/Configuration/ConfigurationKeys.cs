@@ -3,8 +3,8 @@
     public static class ConfigurationKeys
     {
         public const string CourseDirectoryApiConfigurationSectionName = "CourseDirectoryApiConfiguration";
-        public const string CourseDirectoryApiKeyConfigKey = CourseDirectoryApiConfigurationSectionName + ":ApiKey";
-        public const string CourseDirectoryApiBaseUriConfigKey = CourseDirectoryApiConfigurationSectionName + ":ApiBaseUri";
+        public const string CourseDirectoryApiKeyConfigKey = CourseDirectoryApiConfigurationSectionName + "CourseDirectoryApiKey";
+        public const string CourseDirectoryApiBaseUriConfigKey = CourseDirectoryApiConfigurationSectionName + "CourseDirectoryApiBaseUri";
 
         public const string TableStorageConnectionStringConfigKey = "SharedStorageAccountConnectionString";
     }

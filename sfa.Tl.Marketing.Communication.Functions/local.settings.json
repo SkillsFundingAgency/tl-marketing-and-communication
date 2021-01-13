@@ -3,11 +3,9 @@
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "SharedStorageAccountConnectionString": "UseDevelopmentStorage=true;",
     "CourseDirectoryImportTrigger": "0 0 20 * * MON-FRI",
+    "CourseDirectoryApiKey": "X",
+    "CourseDirectoryApiBaseUri": "",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet"
-  },
-  "CourseDirectoryApiConfiguration": {
-    "ApiKey": "X",
-    "ApiBaseUri": ""
   },
   "IsEncrypted": false
 }
