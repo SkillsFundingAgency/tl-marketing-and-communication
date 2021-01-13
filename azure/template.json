@@ -56,7 +56,7 @@
         "govNotifyApiKey": {
             "type": "string"
         },
-        "sharedStorageAccountConnectionString": {
+        "tableStorageConnectionString": {
             "type": "string"
         },
         "courseDirectoryApiKey": {
@@ -215,8 +215,8 @@
                               "value": "[parameters('govNotifyApiKey')]"
                             },
                             {
-                              "name": "SharedStorageAccountConnectionString",
-                              "value": "[parameters('sharedStorageAccountConnectionString')]"
+                              "name": "TableStorageConnectionString",
+                              "value": "[parameters('tableStorageConnectionString')]"
                             }
                         ]
                     },
@@ -293,8 +293,8 @@
                           "value": "[parameters('courseDirectoryImportTrigger')]"
                         },
                         {
-                          "name": "SharedStorageAccountConnectionString",
-                          "value": "[parameters('sharedStorageAccountConnectionString')]"
+                          "name": "TableStorageConnectionString",
+                          "value": "[parameters('tableStorageConnectionString')]"
                         }
                       ]
                     }

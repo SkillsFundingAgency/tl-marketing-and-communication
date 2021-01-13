@@ -50,8 +50,16 @@ namespace sfa.Tl.Marketing.Communication.Functions
             };
         }
 
-        private static string GetConfigurationValue(IConfiguration config, string key) => 
-            Environment.GetEnvironmentVariable(key) ?? config.GetValue<string>(key);
+        private static string GetConfigurationValue(IConfiguration config, string key)
+        {
+            var value = Environment.GetEnvironmentVariable(key);
+            if (string.IsNullOrEmpty(value))
+                value = config.GetValue<string>(key);
+            if (string.IsNullOrEmpty(value))
+                value = config.GetValue<string>($"Values:{key}");
+
+            return value;
+        }
 
         private void RegisterHttpClients(IServiceCollection services)
         {
@@ -62,7 +70,6 @@ namespace sfa.Tl.Marketing.Communication.Functions
                         client.BaseAddress = new Uri(ApiConfiguration.ApiBaseUri);
                         client.DefaultRequestHeaders.Add("Accept", "application/json");
                         client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", ApiConfiguration.ApiKey);
-                        // https://stackoverflow.com/questions/28754673/httpclient-conditionally-set-acceptencoding-compression-at-runtime
                         client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
                         client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
                     }

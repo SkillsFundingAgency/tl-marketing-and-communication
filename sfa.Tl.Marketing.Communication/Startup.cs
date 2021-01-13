@@ -13,7 +13,6 @@ using sfa.Tl.Marketing.Communication.SearchPipeline;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos.Table;
-using Microsoft.Extensions.Logging;
 using Notify.Client;
 using Notify.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
@@ -26,12 +25,10 @@ namespace sfa.Tl.Marketing.Communication
         public IConfiguration Configuration { get; }
         protected ConfigurationOptions SiteConfiguration;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly ILogger _logger;
 
-        public Startup(IConfiguration configuration, ILogger<Startup> logger, IWebHostEnvironment webHostEnvironment)
+        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             Configuration = configuration;
-            _logger = logger;
             _webHostEnvironment = webHostEnvironment;
         }
 
@@ -152,12 +149,6 @@ namespace sfa.Tl.Marketing.Communication
             services.AddTransient<IProviderSearchService, ProviderSearchService>();
             services.AddTransient<ISearchPipelineFactory, SearchPipelineFactory>();
             services.AddTransient<IProviderSearchEngine, ProviderSearchEngine>();
-
-            //TODO: Remove this - just want to confirm the value is being read
-            _logger.LogInformation("Configuring table storage");
-            var storageString = SiteConfiguration.StorageConfiguration?.TableStorageConnectionString ?? "null";
-            storageString = storageString.Substring(0, Math.Min(storageString.Length - 1, 20));
-            _logger.LogInformation($"Table storage string starts '{storageString}'");
 
             var cloudStorageAccount =
                 CloudStorageAccount.Parse(SiteConfiguration.StorageConfiguration.TableStorageConnectionString);
