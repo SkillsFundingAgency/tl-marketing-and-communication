@@ -66,6 +66,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
             }
         }
 
+        [FunctionName("GetProviders")]
         public async Task<IActionResult> GetProviders(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequest request,

@@ -1,6 +1,8 @@
+using System;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Web.Http;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +11,7 @@ using Microsoft.Azure.WebJobs.Extensions.Timers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders;
@@ -22,7 +25,9 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
         public async Task CourseDirectoryImportFunction_Scheduled_Import_Calls_CourseDirectoryDataService_Import()
         {
             var service = Substitute.For<ICourseDirectoryDataService>();
-            service.ImportFromCourseDirectoryApi().Returns(10);
+            service
+                .ImportFromCourseDirectoryApi()
+                .Returns(10);
 
             var timerSchedule = Substitute.For<TimerSchedule>();
             var logger = new NullLogger<CourseDirectoryImportFunctions>();
@@ -40,7 +45,9 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
         public async Task CourseDirectoryImportFunction_ManualImport_Calls_CourseDirectoryDataService_Import()
         {
             var service = Substitute.For<ICourseDirectoryDataService>();
-            service.ImportFromCourseDirectoryApi().Returns(10);
+            service
+                .ImportFromCourseDirectoryApi()
+                .Returns(10);
 
             var request = BuildHttpRequest(HttpMethod.Get);
 
@@ -53,6 +60,23 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             ((OkObjectResult)result).Value.Should().Be("10 records saved.");
 
             await service.Received(1).ImportFromCourseDirectoryApi();
+        }
+
+        [Fact]
+        public async Task CourseDirectoryImportFunction_ManualImport_Exception_Returns_Expected_Result()
+        {
+            var service = Substitute.For<ICourseDirectoryDataService>();
+            service
+                .ImportFromCourseDirectoryApi()
+                .ThrowsForAnyArgs(new InvalidOperationException());
+
+            var request = BuildHttpRequest(HttpMethod.Get);
+
+            var logger = Substitute.For<ILogger>();
+
+            var functions = new CourseDirectoryImportFunctions(service);
+            var result = await functions.ManualImport(request, logger);
+            result.Should().BeOfType<InternalServerErrorResult>();
         }
 
         [Fact]
@@ -84,6 +108,28 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
         }
 
         [Fact]
+        public async Task CourseDirectoryImportFunction_GetProviders_Exception_Returns_Expected_Result()
+        {
+            var builder = new ProviderBuilder();
+            var providers = builder.BuildList();
+            var expectedResult = builder.BuildJson().PrettifyJsonString();
+
+            var service = Substitute.For<ICourseDirectoryDataService>();
+            service
+                .GetProviders()
+                .ThrowsForAnyArgs(new InvalidOperationException());
+
+            var request = BuildHttpRequest(HttpMethod.Get);
+
+            var logger = Substitute.For<ILogger>();
+
+            var functions = new CourseDirectoryImportFunctions(service);
+            var result = await functions.GetProviders(request, logger);
+
+            result.Should().BeOfType<InternalServerErrorResult>();
+        }
+
+        [Fact]
         public async Task CourseDirectoryImportFunction_GetQualifications_Returns_Expected_Result()
         {
             var builder = new QualificationBuilder();
@@ -91,7 +137,9 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             var expectedResult = builder.BuildJson().PrettifyJsonString();
 
             var service = Substitute.For<ICourseDirectoryDataService>();
-            service.GetQualifications().Returns(qualifications);
+            service
+                .GetQualifications()
+                .Returns(qualifications);
 
             var request = BuildHttpRequest(HttpMethod.Get);
 
@@ -99,7 +147,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
 
             var functions = new CourseDirectoryImportFunctions(service);
             var result = await functions.GetQualifications(request, logger);
-            
+
             var jsonResult = result as JsonResult;
             jsonResult.Should().NotBeNull();
 
@@ -109,6 +157,28 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 });
             json.PrettifyJsonString().Should().Be(expectedResult);
+        }
+
+        [Fact]
+        public async Task CourseDirectoryImportFunction_GetQualifications_Exception_Returns_Expected_Result()
+        {
+            var builder = new QualificationBuilder();
+            var qualifications = builder.BuildList();
+            var expectedResult = builder.BuildJson().PrettifyJsonString();
+
+            var service = Substitute.For<ICourseDirectoryDataService>();
+            service
+                .GetQualifications()
+                .ThrowsForAnyArgs(new InvalidOperationException());
+
+            var request = BuildHttpRequest(HttpMethod.Get);
+
+            var logger = Substitute.For<ILogger>();
+
+            var functions = new CourseDirectoryImportFunctions(service);
+            var result = await functions.GetQualifications(request, logger);
+
+            result.Should().BeOfType<InternalServerErrorResult>();
         }
 
         private static HttpRequest BuildHttpRequest(HttpMethod method)
