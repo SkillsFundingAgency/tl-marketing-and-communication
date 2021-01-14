@@ -1,13 +1,11 @@
-﻿using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.Extensions;
+﻿using sfa.Tl.Marketing.Communication.Application.Extensions;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
 {
     internal class CourseDirectoryJsonBuilder
     {
-        public string BuildValidTLevelDetailResponse()
-        {
-            return $"{GetType().Namespace}.Data.TLevelDetailResponse.json"
+        public string BuildValidTLevelDetailResponse() =>
+            $"{GetType().Namespace}.Data.TLevelDetailResponse.json"
                 .ReadManifestResourceStreamAsString();
-        }
     }
 }

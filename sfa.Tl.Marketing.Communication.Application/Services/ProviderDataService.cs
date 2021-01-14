@@ -133,7 +133,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     _logger.LogInformation($"Saved {saved} qualifications to table storage");
 
                     //Reread
-                    _logger.LogInformation($"Rereading qualifications from table storage");
+                    _logger.LogInformation("Rereading qualifications from table storage");
                     qualificationsFromTable = await _tableStorageService.RetrieveQualifications();
                     _logger.LogInformation($"Found {qualificationsFromTable.Count} qualifications in table storage (reread)");
                 }

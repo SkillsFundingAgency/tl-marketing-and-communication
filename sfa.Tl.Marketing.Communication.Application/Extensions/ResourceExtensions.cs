@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.Extensions
+namespace sfa.Tl.Marketing.Communication.Application.Extensions
 {
     public static class ResourceExtensions
     {

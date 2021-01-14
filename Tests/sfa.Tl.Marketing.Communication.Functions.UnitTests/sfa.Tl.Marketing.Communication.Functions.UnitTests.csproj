@@ -7,6 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Builders\Data\ProviderData.json" />
+    <None Remove="Builders\Data\QualificationData.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Builders\Data\ProviderData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Builders\Data\QualificationData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.9" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
@@ -23,6 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\sfa.Tl.Marketing.Communication.Application\sfa.Tl.Marketing.Communication.Application.csproj" />
     <ProjectReference Include="..\..\sfa.Tl.Marketing.Communication.Functions\sfa.Tl.Marketing.Communication.Functions.csproj" />
   </ItemGroup>
 

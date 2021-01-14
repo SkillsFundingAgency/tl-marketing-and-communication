@@ -44,7 +44,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
         [FunctionName("CourseDirectoryImportFunction")]
         public async Task<IActionResult> ManualImport(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
-            HttpRequest req,
+            HttpRequest request,
             ILogger logger)
         {
             try
@@ -60,6 +60,55 @@ namespace sfa.Tl.Marketing.Communication.Functions
             catch (Exception e)
             {
                 var errorMessage = $"Error importing data from course directory. Internal Error Message {e}";
+                logger.LogError(errorMessage);
+
+                return new InternalServerErrorResult();
+            }
+        }
+
+        public async Task<IActionResult> GetProviders(
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
+            HttpRequest request,
+            ILogger logger)
+        {
+            try
+            {
+                logger.LogInformation("Course directory GetProviders function was called.");
+
+                var providers = await _courseDirectoryDataService.GetProviders();
+
+                logger.LogInformation($"Course directory GetProviders returned {providers?.Count} records.");
+
+                return new JsonResult(providers);
+            }
+            catch (Exception e)
+            {
+                var errorMessage = $"Error in GetProviders. Internal Error Message {e}";
+                logger.LogError(errorMessage);
+
+                return new InternalServerErrorResult();
+            }
+        }
+
+        [FunctionName("GetQualifications")]
+        public async Task<IActionResult> GetQualifications(
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
+            HttpRequest request,
+            ILogger logger)
+        {
+            try
+            {
+                logger.LogInformation("Course directory GetQualifications function was called.");
+
+                var qualifications = await _courseDirectoryDataService.GetQualifications();
+
+                logger.LogInformation($"Course directory GetQualifications returned {qualifications?.Count} records.");
+                
+                return new JsonResult(qualifications);
+            }
+            catch (Exception e)
+            {
+                var errorMessage = $"Error in GetQualifications. Internal Error Message {e}";
                 logger.LogError(errorMessage);
 
                 return new InternalServerErrorResult();

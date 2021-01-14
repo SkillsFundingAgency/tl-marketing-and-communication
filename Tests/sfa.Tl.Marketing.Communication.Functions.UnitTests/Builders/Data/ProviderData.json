@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "name": "Test Provider 1",
+    "locations": [
+      {
+        "name": null,
+        "postcode": "CV1 2WT",
+        "town": "Coventry",
+        "latitude": 52.400997,
+        "longitude": -1.508122,
+        "deliveryYears": [
+          {
+            "year": 2021,
+            "qualifications": [
+              1
+            ]
+          }
+        ],
+        "website": "https://test.provider.co.uk"
+      }
+    ]
+  }
+]

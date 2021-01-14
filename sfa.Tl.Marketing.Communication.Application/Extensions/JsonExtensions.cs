@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.Json;
 
-namespace sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.Extensions
+namespace sfa.Tl.Marketing.Communication.Application.Extensions
 {
     public static class JsonExtensions
     {
