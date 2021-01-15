@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos.Table;
+using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Entities;
 
@@ -12,12 +14,16 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
         where T : Entity<TKey>, ITableEntity, new()
     {
         private readonly CloudTableClient _cloudTableClient;
+        private readonly ILogger<GenericCloudTableRepository<T, TKey>> _logger;
 
         private readonly string _tableName;
 
-        public GenericCloudTableRepository(CloudTableClient cloudTableClient)
+        public GenericCloudTableRepository(
+            CloudTableClient cloudTableClient,
+            ILogger<GenericCloudTableRepository<T, TKey>> logger)
         {
             _cloudTableClient = cloudTableClient ?? throw new ArgumentNullException(nameof(cloudTableClient));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             _tableName = typeof(T).Name;
             const string suffix = "Entity";
@@ -34,11 +40,15 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             var cloudTable = _cloudTableClient.GetTableReference(_tableName);
             if (!cloudTable.Exists())
             {
+                _logger.LogWarning($"GetAll from table - {_tableName} not found. Returning 0 results.");
                 return results;
             }
 
             var tableQuery = new TableQuery<T>();
             var continuationToken = default(TableContinuationToken);
+
+            var loopCount = 0;
+            var stopwatch = Stopwatch.StartNew();
 
             do
             {
@@ -50,16 +60,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
                 continuationToken = queryResults.ContinuationToken;
 
                 results.AddRange(queryResults.Results);
-                //results.AddRange(
-                //    queryResults
-                //        .Select(entity =>
-                //            new Qualification
-                //            {
-                //                Id = entity.Id,
-                //                Name = entity.Name
-                //            }));
-
+                loopCount++;
             } while (continuationToken != null);
+
+            stopwatch.Stop();
+            _logger.LogInformation($"GetAll from {_tableName} returning {results.Count} results from {loopCount} loops in {stopwatch.ElapsedMilliseconds:#,###}ms.");  
 
             return results;
         }
@@ -68,6 +73,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
         {
             if (entities == null || !entities.Any())
             {
+                _logger.LogInformation($"Save to {_tableName} was given no entities to save.");
                 return 0;
             }
 
@@ -75,40 +81,58 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
 
             await cloudTable.CreateIfNotExistsAsync();
 
-            //var inserted = 0;
-            var batchOperation = new TableBatchOperation();
+            var inserted = 0;
+            var batchCount = 0;
+            const int batchSize = 100;
+            var stopwatch = Stopwatch.StartNew();
+
             var batchPartitionKey = entities.First().Id.ToString();
 
-            foreach (var entity in entities)
+            var rowOffset = 0;
+
+            while (rowOffset < entities.Count)
             {
-                //TODO: Check if exists, then update if it has changed
+                var batchOperation = new TableBatchOperation();
 
-                //TODO: Add a ctor with row key? or always do this in the entity?
-                entity.RowKey = entity.Id.ToString();
-                //TODO: Do we need a partition?
-                //Possibly use "Qualifications" and "Providers" with a single table, or partition by Provider id with locations below?
-                entity.PartitionKey = batchPartitionKey;
+                // next batch
+                var batchEntities = entities.Skip(rowOffset).Take(batchSize).ToList();
 
-                //var tableOperation = TableOperation.Insert(entity);
-                batchOperation.InsertOrReplace(entity);
-                //var tableResult = await cloudTable.ExecuteAsync(tableOperation);
+                foreach (var entity in batchEntities)
+                {
+                    //TODO: Check if exists, then update if it has changed
+                    //TODO: Add a ctor with row key? or always do this in the entity?
+                    entity.RowKey = entity.Id.ToString();
+                    //TODO: Do we need a partition?
+                    entity.PartitionKey = batchPartitionKey;
 
-                //TODO: Move to repository, _cloudTable created for that
+                    //TODO: Sort out object collections
+                    // https://damieng.com/blog/2015/06/27/table-per-hierarchy-in-azure-table-storage
+                    // https://stackoverflow.com/questions/19885219/insert-complex-objects-to-azure-table-with-tableserviceentity
+                    // https://www.devprotocol.com/azure-table-storage-and-complex-types-stored-in-json/
 
-                //TODO: Do we need to look for deleted providers or venues - will need a pass over the data to see what's in table but not in data
+                    batchOperation.InsertOrReplace(entity);
+                }
 
-                //inserted++;
+                var batchResult = await cloudTable.ExecuteBatchAsync(batchOperation);
+                inserted += batchResult.Count;
+                batchCount++;
+
+                rowOffset += batchEntities.Count;
+
+                _logger.LogInformation($"Save to {_tableName} batch result {batchResult.Count} entities in rowOffset is now {rowOffset} batches in {stopwatch.ElapsedMilliseconds:#,###}ms.");
+
             }
-
-            var batchResult = await cloudTable.ExecuteBatchAsync(batchOperation);
 
             //TODO: Can do a batch insert
             //https://docs.microsoft.com/en-us/azure/cosmos-db/table-storage-how-to-use-java
             //Performance
             //https://stackoverflow.com/questions/17955557/painfully-slow-azure-table-insert-and-delete-batch-operations
 
+            stopwatch.Stop();
+            _logger.LogInformation($"Save to {_tableName} saved {inserted} entities in {batchCount} batches in {stopwatch.ElapsedMilliseconds:#,###}ms.");
+
             //return inserted;
-            return batchResult.Count;
+            return inserted;
         }
     }
 }

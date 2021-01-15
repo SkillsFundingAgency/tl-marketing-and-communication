@@ -7,11 +7,5 @@ namespace sfa.Tl.Marketing.Communication.Models.Entities
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
-
-        public QualificationEntity()
-        {
-            //TODO: Add a DateTimeService
-            CreatedOn = DateTime.UtcNow;
-        }
     }
 }

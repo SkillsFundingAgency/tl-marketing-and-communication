@@ -1,5 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.Azure.Cosmos.Table;
 
 namespace sfa.Tl.Marketing.Communication.Models.Entities
 {
@@ -8,11 +12,41 @@ namespace sfa.Tl.Marketing.Communication.Models.Entities
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        //TODO: Fill in the rest of the properties
-        public ProviderEntity()
+        //This property is serialized to json in the cloud table
+        public IList<LocationEntity> Locations { get; set; }
+
+        public override IDictionary<string, EntityProperty> WriteEntity(OperationContext operationContext)
         {
-            //TODO: Add a DateTimeService
-            CreatedOn = DateTime.UtcNow;
+            var results = base.WriteEntity(operationContext);
+            results.Add("Locations", new EntityProperty(JsonSerializer.Serialize(Locations)));
+            return results;
+        }
+
+        public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext operationContext)
+        {
+            base.ReadEntity(properties, operationContext);
+
+
+            var fakeProperty = properties.FirstOrDefault(p => p.Key == "xxxx");
+            if (!fakeProperty.Equals(default(KeyValuePair<string, EntityProperty>)))
+            {
+            }
+            else
+            {
+            }
+
+            var locationsProperty = properties.FirstOrDefault(p => p.Key == "Locations");
+
+            if (!locationsProperty.Equals(default(KeyValuePair<string, EntityProperty>))
+                && locationsProperty.Value != null)
+            {
+                Locations = JsonSerializer.Deserialize<IList<LocationEntity>>
+                        (locationsProperty.Value.ToString());
+            }
+            else
+            {
+                Locations = new List<LocationEntity>();
+            }
         }
     }
 }

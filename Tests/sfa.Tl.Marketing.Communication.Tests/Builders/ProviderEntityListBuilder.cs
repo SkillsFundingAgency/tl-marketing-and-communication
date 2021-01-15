@@ -20,7 +20,28 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                 {
                     Id = nextId,
                     Name = $"Test Provider {nextId}",
-                    //TODO: Add the rest of the entity fields
+                    Locations = new List<LocationEntity>
+                    {
+                        new LocationEntity()
+                        {
+                            Postcode = $"CV{nextId} {nextId + 1}WT",
+                            Town = "Coventry",
+                            Latitude = 50.1234 + nextId,
+                            Longitude = -0.234 - nextId,
+                            DeliveryYears = new List<DeliveryYearEntity>
+                            {
+                                new DeliveryYearEntity
+                                {
+                                    Year = (short)(2020 + nextId),
+                                    Qualifications = new List<int>()
+                                    {
+                                        nextId
+                                    }
+                                }
+                            },
+                            Website = $"https://test.provider_{nextId}.co.uk"
+                        }
+                    }
                 });
             }
 

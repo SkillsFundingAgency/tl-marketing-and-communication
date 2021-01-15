@@ -9,9 +9,6 @@ namespace sfa.Tl.Marketing.Communication.Models.Entities
         [JsonPropertyName("id")]
         public TKey Id { get; set; }
 
-        //[JsonPropertyName("object")]
-        //public string Object { get; set; }
-
         [JsonPropertyName("createdOn")]
         public DateTime CreatedOn { get; set; }
 

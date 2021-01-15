@@ -16,12 +16,15 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         private readonly ConfigurationOptions _configurationOptions;
         private readonly JsonDocument _providersData;
         private readonly JsonDocument _qualificationsData;
+        private readonly IList<Provider> _providerTableData;
+        private readonly IList<Qualification> _qualificationTableData;
+
         private readonly ITableStorageService _tableStorageService;
         private readonly ILogger<ProviderDataService> _logger;
 
         public ProviderDataService(
-            IFileReader fileReader, 
-            ConfigurationOptions configurationOptions, 
+            IFileReader fileReader,
+            ConfigurationOptions configurationOptions,
             ITableStorageService tableStorageService,
             ILogger<ProviderDataService> logger)
         {
@@ -32,6 +35,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             _providersData = GetProvidersData();
             _qualificationsData = GetQualificationsData();
+            _providerTableData = LoadProviderTableData().GetAwaiter().GetResult();
+            _qualificationTableData = LoadQualificationTableData().GetAwaiter().GetResult();
         }
 
         public IQueryable<Provider> GetProviders()
@@ -70,7 +75,69 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var json = _fileReader.ReadAllText(_configurationOptions.QualificationsDataFilePath);
             return JsonDocument.Parse(json);
         }
-        
+
+        private async Task<IList<Provider>> LoadProviderTableData()
+        {
+            try
+            {
+                 _logger.LogInformation("Looking for providers in table storage");
+                var providersFromTable = await _tableStorageService.RetrieveProviders();
+                if (providersFromTable != null && providersFromTable.Any())
+                {
+                    _logger.LogInformation($"Found {providersFromTable.Count} providers in table storage");
+                }
+                else
+                {
+                    var saved = await _tableStorageService
+                        .SaveProviders(GetAllProvidersFromJsonDocument().ToList());
+                    _logger.LogInformation($"Saved {saved} providers to table storage");
+
+                    //Reread
+                    _logger.LogInformation("Rereading providers from table storage");
+                    providersFromTable = await _tableStorageService.RetrieveProviders();
+                    _logger.LogInformation($"Found {providersFromTable.Count} providers in table storage (reread)");
+                }
+
+                return providersFromTable;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to retrieve providers from table storage");
+                return null;
+            }
+        }
+
+        private async Task<IList<Qualification>> LoadQualificationTableData()
+        {
+            try
+            {
+                _logger.LogInformation("Looking for qualifications in table storage");
+                var qualificationsFromTable = await _tableStorageService.RetrieveQualifications();
+                if (qualificationsFromTable != null && qualificationsFromTable.Any())
+                {
+                    _logger.LogInformation($"Found {qualificationsFromTable.Count} qualifications in table storage");
+                }
+                else
+                {
+                    var saved = await _tableStorageService
+                        .SaveQualifications(GetAllQualificationsFromJsonDocument().ToList());
+                    _logger.LogInformation($"Saved {saved} qualifications to table storage");
+
+                    //Reread
+                    _logger.LogInformation("Rereading qualifications from table storage");
+                    qualificationsFromTable = await _tableStorageService.RetrieveQualifications();
+                    _logger.LogInformation($"Found {qualificationsFromTable.Count} qualifications in table storage (reread)");
+                }
+
+                return qualificationsFromTable;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to retrieve qualifications from table storage");
+                return null;
+            }
+        }
+
         public IEnumerable<string> GetWebsiteUrls()
         {
             var urlList = new List<string>();
@@ -91,10 +158,14 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private IQueryable<Qualification> GetAllQualifications()
         {
-            return GetQualificationsFromTableStorage().GetAwaiter().GetResult();
+            var qualifications = _qualificationTableData != null && _qualificationTableData.Any()
+                ? _qualificationTableData
+                : GetAllQualificationsFromJsonDocument();
+
+            return qualifications.AsQueryable();
         }
 
-        private IQueryable<Qualification> GetAllQualificationsFromJson()
+        private IList<Qualification> GetAllQualificationsFromJsonDocument()
         {
             return _qualificationsData
                 .RootElement
@@ -106,51 +177,21 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                         Id = int.Parse(q.Name),
                         Name = q.Value.GetString()
                     })
-                .AsQueryable();
-        }
-
-        private async Task<IQueryable<Qualification>> GetQualificationsFromTableStorage()
-        {
-            //TODO: Get rid of this - just here until we know the table storage works in Azure
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            if (assemblies.Any(a => a.FullName != null && a.FullName.ToLower().StartsWith("xunit")))
-            {
-                return GetAllQualificationsFromJson();
-            }
-
-            try
-            {
-                _logger.LogInformation("Looking for qualifications in table storage");
-                var qualificationsFromTable = await _tableStorageService.RetrieveQualifications();
-                if (qualificationsFromTable != null && qualificationsFromTable.Any())
-                {
-                    _logger.LogInformation($"Found {qualificationsFromTable.Count} qualifications in table storage");
-                }
-                else
-                {
-                    var saved = await _tableStorageService
-                        .SaveQualifications(GetAllQualificationsFromJson().ToList());
-                    _logger.LogInformation($"Saved {saved} qualifications to table storage");
-
-                    //Reread
-                    _logger.LogInformation("Rereading qualifications from table storage");
-                    qualificationsFromTable = await _tableStorageService.RetrieveQualifications();
-                    _logger.LogInformation($"Found {qualificationsFromTable.Count} qualifications in table storage (reread)");
-                }
-
-                return qualificationsFromTable.AsQueryable();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to retrieve qualifications from table storage");
-                return new List<Qualification>().AsQueryable();
-            }
+                .ToList();
         }
 
         private IQueryable<Provider> GetAllProviders()
         {
-            var providers = _providersData
-                .RootElement
+            var providers = _providerTableData != null && _providerTableData.Any()
+                ? _providerTableData
+                : GetAllProvidersFromJsonDocument();
+
+            return providers.AsQueryable();
+        }
+
+        private IList<Provider> GetAllProvidersFromJsonDocument()
+        {
+            return _providersData.RootElement
                 .GetProperty("providers")
                 .EnumerateArray()
                 .Select(p =>
@@ -173,7 +214,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                                         ? deliveryYears.EnumerateArray()
                                             .Select(d =>
                                                 new DeliveryYearDto
-                                                { 
+                                                {
                                                     Year = d.GetProperty("year").GetInt16(),
                                                     Qualifications = d.GetProperty("qualifications")
                                                         .EnumerateArray()
@@ -185,8 +226,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                                 }).ToList()
                     })
                 .ToList();
-
-            return providers.AsQueryable();
         }
     }
 }

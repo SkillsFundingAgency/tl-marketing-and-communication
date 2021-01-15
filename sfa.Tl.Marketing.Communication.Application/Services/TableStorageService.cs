@@ -37,8 +37,26 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     new ProviderEntity
                     {
                         Id = provider.Id,
-                        Name = provider.Name
-                        //TODO: Save the rest of the provider fields
+                        Name = provider.Name,
+                        Locations = provider.Locations.Select(
+                            location => 
+                                new LocationEntity
+                                {
+                                    Name = location.Name,
+                                    Postcode = location.Postcode,
+                                    Latitude = location.Latitude,
+                                    Longitude = location.Longitude,
+                                    Town = location.Town,
+                                    Website = location.Website,
+                                    DeliveryYears = location.DeliveryYears.Select(
+                                        deliveryYear => 
+                                            new DeliveryYearEntity
+                                            {
+                                                Year = deliveryYear.Year,
+                                                Qualifications = deliveryYear.Qualifications.ToList()
+                                            }
+                                        ).ToList(),
+                                }).ToList()
                     }).ToList();
 
             var saved = await _providerRepository.Save(providerEntities);
@@ -52,11 +70,29 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var providerEntities = await _providerRepository.GetAll();
 
             var providers = providerEntities
-                .Select(q =>
+                .Select(provider =>
                     new Provider
                     {
-                        Id = q.Id,
-                        Name = q.Name
+                        Id = provider.Id,
+                        Name = provider.Name,
+                        Locations = provider.Locations.Select(
+                            location =>
+                                new Location
+                                {
+                                    Name = location.Name,
+                                    Postcode = location.Postcode,
+                                    Latitude = location.Latitude,
+                                    Longitude = location.Longitude,
+                                    Town = location.Town,
+                                    Website = location.Website,
+                                    DeliveryYears = location.DeliveryYears.Select(
+                                        deliveryYear =>
+                                            new DeliveryYearDto
+                                            {
+                                                Year = deliveryYear.Year,
+                                                Qualifications = deliveryYear.Qualifications.ToList()
+                                            }).ToList()
+                                }).ToList()
                     }).ToList();
 
             _logger.LogInformation($"RetrieveProviders saved {providers.Count()} records.");

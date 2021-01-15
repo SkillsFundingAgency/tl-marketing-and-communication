@@ -9,7 +9,7 @@ namespace sfa.Tl.Marketing.Communication.Models.Dto
         public string Town { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public List<DeliveryYearDto> DeliveryYears { get; set; }
+        public IList<DeliveryYearDto> DeliveryYears { get; set; }
         public string Website { get; set; }
     }
 }

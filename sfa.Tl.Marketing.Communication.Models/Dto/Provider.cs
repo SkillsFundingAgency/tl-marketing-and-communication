@@ -8,6 +8,6 @@ namespace sfa.Tl.Marketing.Communication.Models.Dto
         [JsonPropertyName("id")]
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Location> Locations { get; set; }
+        public IList<Location> Locations { get; set; }
     }
 }
