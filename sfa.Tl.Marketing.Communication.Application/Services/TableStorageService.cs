@@ -95,7 +95,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                                 }).ToList()
                     }).ToList();
 
-            _logger.LogInformation($"RetrieveProviders saved {providers.Count()} records.");
+            _logger.LogInformation($"RetrieveProviders found {providers.Count()} records.");
             return providers;
         }
 
@@ -132,7 +132,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                         Name = q.Name
                     }).ToList();
 
-            _logger.LogInformation($"RetrieveQualifications saved {qualifications.Count} records.");
+            _logger.LogInformation($"RetrieveQualifications found {qualifications.Count} records.");
 
             return qualifications;
         }
