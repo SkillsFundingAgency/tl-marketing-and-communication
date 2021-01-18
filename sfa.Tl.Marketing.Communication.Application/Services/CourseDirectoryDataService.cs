@@ -29,6 +29,20 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        public async Task<string> GetJsonFromCourseDirectoryApi()
+        {
+            var httpClient = _httpClientFactory.CreateClient(CourseDirectoryHttpClientName);
+
+            // ReSharper disable once StringLiteralTypo
+            var response = await httpClient.GetAsync("tleveldetail");
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
+            }
+
+            return await response.Content.ReadAsStringAsync();
+        }
+
         public async Task<int> ImportFromCourseDirectoryApi()
         {
             _logger.LogInformation("ImportFromCourseDirectoryApi called");
@@ -40,8 +54,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var response = await httpClient.GetAsync("tleveldetail");
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                //TODO: Add logger
-                Console.WriteLine($"Response failed with {response.StatusCode} - {response.ReasonPhrase}");
+                _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
             }
 
             //var content = await response.Content.ReadAsStringAsync();
@@ -54,8 +67,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             {
                 offeringType = offeringTypeElement.GetString();
             }
-
-            Console.WriteLine($"offeringType: {offeringType}");
 
             //For the initial version we just need to confirm 1 record was found. This will change before go-live
             //Should count json records, or records saved

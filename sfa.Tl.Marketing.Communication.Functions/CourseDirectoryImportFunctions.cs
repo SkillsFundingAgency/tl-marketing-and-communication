@@ -66,6 +66,33 @@ namespace sfa.Tl.Marketing.Communication.Functions
             }
         }
 
+        [FunctionName("GetCourseDirectoryJson")]
+        public async Task<IActionResult> GetCourseDirectoryJson(
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
+            HttpRequest request,
+            ILogger logger)
+        {
+            try
+            {
+                logger.LogInformation("Course directory GetCourseDirectoryJson function was called.");
+
+                var json = await _courseDirectoryDataService.GetJsonFromCourseDirectoryApi();
+
+                return new ContentResult
+                {
+                    Content = json,
+                    ContentType = "application/json"
+                };
+            }
+            catch (Exception e)
+            {
+                var errorMessage = $"Error reading json data from course directory. Internal Error Message {e}";
+                logger.LogError(errorMessage);
+
+                return new InternalServerErrorResult();
+            }
+        }
+
         [FunctionName("GetProviders")]
         public async Task<IActionResult> GetProviders(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
@@ -104,7 +131,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
                 var qualifications = await _courseDirectoryDataService.GetQualifications();
 
                 logger.LogInformation($"Course directory GetQualifications returned {qualifications?.Count} records.");
-                
+
                 return new JsonResult(qualifications);
             }
             catch (Exception e)

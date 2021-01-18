@@ -3,16 +3,38 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
 using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.HttpClient;
 using Xunit;
 
-namespace sfa.Tl.Marketing.Communication.UnitTests
+namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 {
     public class CourseDirectoryDataServiceTests
     {
+        [Fact]
+        public async Task CourseDirectoryDataService_GetJsonFromCourseDirectoryApi_Returns_Expected_Result()
+        {
+            var responseJson = new CourseDirectoryJsonBuilder().BuildValidTLevelDetailResponse();
+            var httpClientFactory = Substitute.For<IHttpClientFactory>();
+            httpClientFactory
+                .CreateClient(CourseDirectoryDataService.CourseDirectoryHttpClientName)
+                .Returns(new TestHttpClientFactory()
+                    // ReSharper disable once StringLiteralTypo
+                    .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri, "tleveldetail", responseJson));
+
+            var service = BuildCourseDirectoryDataService(httpClientFactory);
+
+            var result = await service.GetJsonFromCourseDirectoryApi();
+
+            var expectedJson = responseJson.PrettifyJsonString();
+            var finalResultJson = result.PrettifyJsonString();
+
+            finalResultJson.Should().Be(expectedJson);
+        }
+
         [Fact]
         public async Task CourseDirectoryDataService_Import_Returns_Expected_Result()
         {

@@ -7,6 +7,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
     public interface ICourseDirectoryDataService
     {
         Task<int> ImportFromCourseDirectoryApi();
+        
+        Task<string> GetJsonFromCourseDirectoryApi();
 
         Task<IList<Provider>> GetProviders();
 
