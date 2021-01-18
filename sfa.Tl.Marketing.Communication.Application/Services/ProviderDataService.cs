@@ -48,7 +48,9 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public IEnumerable<Qualification> GetQualifications(int[] qualificationIds)
         {
             var qualifications = GetAllQualifications();
-            return qualifications.Where(q => qualificationIds.Contains(q.Id));
+            return qualifications
+                .Where(q => qualificationIds.Contains(q.Id))
+                .OrderBy(q => q.Name);
         }
 
         public Qualification GetQualification(int qualificationId)

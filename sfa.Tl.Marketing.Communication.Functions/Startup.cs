@@ -88,23 +88,6 @@ namespace sfa.Tl.Marketing.Communication.Functions
 
         private void RegisterServices(IServiceCollection services)
         {
-            //    //https://stackoverflow.com/questions/57564396/how-do-i-mix-custom-parameter-binding-with-dependency-injection-in-azure-functio
-            //var webJobsBuilder = services.AddWebJobs(x => { });
-            //webJobsBuilder
-            //    .AddTimers()
-            //    //.AddAzureStorage()
-            //    //.AddAzureStorageCoreServices()
-            //    ;
-
-            //services.AddLogging(logging =>
-            //{
-            //    logging.AddConsole();
-            //    logging.AddDebug();
-            //    logging.AddApplicationInsights();
-            //    logging.AddFilter((category, level) =>
-            //        level >= (category == "Microsoft" ? LogLevel.Error : LogLevel.Information));
-            //});
-
             services.AddSingleton(ApiConfiguration);
             services.AddSingleton(StorageConfiguration);
 

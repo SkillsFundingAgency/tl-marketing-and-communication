@@ -267,6 +267,5 @@ namespace sfa.Tl.Marketing.Communication
                 .OrderBy(q => q.Id)
                 .ToList();
         }
-
     }
 }

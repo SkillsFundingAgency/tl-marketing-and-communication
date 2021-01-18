@@ -73,7 +73,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             deliveryYear?.Qualifications.Should().Contain(6);
             deliveryYear?.Qualifications.Should().Contain(7);
         }
-        
+
         [Fact]
         public void GetProviders_Returns_Expected_Provider_Location_Delivery_Years()
         {
@@ -114,7 +114,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         }
 
         [Fact]
-        public void GetQualifications_Returns_All_Qualifications_From_DataFile_And_Add_A_Default_To_Show_All()
+        public void GetQualifications_Returns_All_Qualifications_From_Data_And_Adds_A_Default_To_Show_All()
         {
             var results = _service.GetQualifications().ToList();
             results.Count.Should().Be(11);
@@ -122,16 +122,34 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         }
 
         [Fact]
-        public void GetQualifications_Returns_Qualifications_By_Ids()
+        public void GetQualifications_By_Ids_Returns_Qualifications_By_Ids()
         {
             var ids = new[] { 3, 4, 5 };
-
             var results = _service.GetQualifications(ids).ToList();
 
             results.Count.Should().Be(3);
             results.Single(q => q.Id == 3).Should().NotBeNull();
             results.Single(q => q.Id == 4).Should().NotBeNull();
             results.Single(q => q.Id == 5).Should().NotBeNull();
+        }
+
+        [Fact]
+        public void GetQualifications_ByIds_Returns_Qualifications_In_Alphabetical_Order()
+        {
+            var ids = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var results = _service.GetQualifications(ids).ToList();
+            
+            results.Count.Should().Be(10);
+            results[0].Name.Should().Be("Building Services Engineering");
+            results[1].Name.Should().Be("Design, Surveying and Planning for Construction");
+            results[2].Name.Should().Be("Digital Business Services");
+            results[3].Name.Should().Be("Digital Production, Design and Development");
+            results[4].Name.Should().Be("Digital Support Services");
+            results[5].Name.Should().Be("Education and Childcare");
+            results[6].Name.Should().Be("Health");
+            results[7].Name.Should().Be("Healthcare Science");
+            results[8].Name.Should().Be("Onsite Construction");
+            results[9].Name.Should().Be("Science");
         }
 
         [Fact]
