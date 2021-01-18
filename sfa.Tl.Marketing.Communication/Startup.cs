@@ -11,11 +11,17 @@ using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos.Table;
+using Microsoft.Extensions.Logging;
 using Notify.Client;
 using Notify.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
+using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.Models.Entities;
 
 namespace sfa.Tl.Marketing.Communication
@@ -24,11 +30,13 @@ namespace sfa.Tl.Marketing.Communication
     {
         public IConfiguration Configuration { get; }
         protected ConfigurationOptions SiteConfiguration;
+        private readonly ILogger _logger;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
+        public Startup(IConfiguration configuration, ILogger<Startup> logger, IWebHostEnvironment webHostEnvironment)
         {
             Configuration = configuration;
+            _logger = logger;
             _webHostEnvironment = webHostEnvironment;
         }
 
@@ -93,7 +101,9 @@ namespace sfa.Tl.Marketing.Communication
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            IFileReader fileReader,
+            ITableStorageService tableStorageService)
         {
             if (env.IsDevelopment())
             {
@@ -131,6 +141,9 @@ namespace sfa.Tl.Marketing.Communication
             {
                 endpoints.MapControllers();
             });
+
+            //TODO: Remove this after data is being pulled from the API
+            PreloadProviderAndQualificationTableData(fileReader, tableStorageService).Wait();
         }
 
         protected virtual void RegisterHttpClients(IServiceCollection services)
@@ -168,5 +181,92 @@ namespace sfa.Tl.Marketing.Communication
                 provider =>
                     new NotificationClient(govNotifyApiKey));
         }
+
+        private async Task PreloadProviderAndQualificationTableData(
+            IFileReader fileReader,
+            ITableStorageService tableStorageService)
+        {
+            try
+            {
+                _logger.LogInformation("Clearing table storage");
+                
+                var removedQualifications = await tableStorageService.ClearQualifications();
+                _logger.LogInformation($"Removed {removedQualifications} qualifications from table storage");
+                
+                var savedQualifications = await tableStorageService
+                    .SaveQualifications(GetQualificationsData(fileReader, SiteConfiguration.QualificationsDataFilePath));
+                _logger.LogInformation($"Saved {savedQualifications} qualifications to table storage");
+
+                var removedProviders = await tableStorageService.ClearProviders();
+                _logger.LogInformation($"Removed {removedProviders} provider from table storage");
+
+                var savedProviders = await tableStorageService
+                    .SaveProviders(GetProvidersData(fileReader, SiteConfiguration.ProvidersDataFilePath));
+                _logger.LogInformation($"Saved {savedProviders} providers to table storage");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to save qualifications or providers to table storage");
+            }
+        }
+
+        private static IList<Provider> GetProvidersData(IFileReader fileReader, string providersDataFilePath)
+        {
+            var json = fileReader.ReadAllText(providersDataFilePath);
+            return JsonDocument.Parse(json)
+                .RootElement
+                .GetProperty("providers")
+                .EnumerateArray()
+                .Select(p =>
+                    new Provider
+                    {
+                        Id = p.GetProperty("id").GetInt32(),
+                        Name = p.GetProperty("name").GetString(),
+                        Locations = p.GetProperty("locations")
+                            .EnumerateArray()
+                            .Select(l =>
+                                new Location
+                                {
+                                    Postcode = l.GetProperty("postcode").GetString(),
+                                    Name = l.GetProperty("name").GetString(),
+                                    Town = l.GetProperty("town").GetString(),
+                                    Latitude = l.GetProperty("latitude").GetDouble(),
+                                    Longitude = l.GetProperty("longitude").GetDouble(),
+                                    Website = l.GetProperty("website").GetString(),
+                                    DeliveryYears = l.TryGetProperty("deliveryYears", out var deliveryYears)
+                                        ? deliveryYears.EnumerateArray()
+                                            .Select(d =>
+                                                new DeliveryYearDto
+                                                {
+                                                    Year = d.GetProperty("year").GetInt16(),
+                                                    Qualifications = d.GetProperty("qualifications")
+                                                        .EnumerateArray()
+                                                        .Select(q => q.GetInt32())
+                                                        .ToList()
+                                                })
+                                            .ToList()
+                                        : new List<DeliveryYearDto>()
+                                }).ToList()
+                    })
+                .ToList();
+        }
+
+        private static IList<Qualification> GetQualificationsData(IFileReader fileReader, string qualificationsDataFilePath)
+        {
+            var json = fileReader.ReadAllText(qualificationsDataFilePath);
+            return JsonDocument.Parse(json)
+                .RootElement
+                .GetProperty("qualifications")
+                .EnumerateObject()
+                .Select(q =>
+                    new Qualification
+                    {
+                        Id = int.Parse(q.Name),
+                        Name = q.Value.GetString()
+                    })
+                .OrderBy(q => q.Id)
+                .ToList();
+        }
+
     }
 }

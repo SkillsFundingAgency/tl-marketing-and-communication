@@ -6,8 +6,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
 {
     public interface ITableStorageService
     {
+        Task<int> ClearProviders();
         Task<int> SaveProviders(IList<Provider> providers);
         Task<IList<Provider>> RetrieveProviders();
+
+        Task<int> ClearQualifications();
         Task<int> SaveQualifications(IList<Qualification> qualifications);
         Task<IList<Qualification>> RetrieveQualifications();
     }

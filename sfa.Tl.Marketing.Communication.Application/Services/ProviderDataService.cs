@@ -82,22 +82,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             {
                  _logger.LogInformation("Looking for providers in table storage");
                 var providersFromTable = await _tableStorageService.RetrieveProviders();
-                if (providersFromTable != null && providersFromTable.Any())
-                {
-                    _logger.LogInformation($"Found {providersFromTable.Count} providers in table storage");
-                }
-                else
-                {
-                    var saved = await _tableStorageService
-                        .SaveProviders(GetAllProvidersFromJsonDocument().ToList());
-                    _logger.LogInformation($"Saved {saved} providers to table storage");
-
-                    //Reread
-                    _logger.LogInformation("Rereading providers from table storage");
-                    providersFromTable = await _tableStorageService.RetrieveProviders();
-                    _logger.LogInformation($"Found {providersFromTable.Count} providers in table storage (reread)");
-                }
-
+                _logger.LogInformation($"Found {providersFromTable?.Count ?? 0} providers in table storage");
+                
                 return providersFromTable;
             }
             catch (Exception ex)
@@ -113,21 +99,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             {
                 _logger.LogInformation("Looking for qualifications in table storage");
                 var qualificationsFromTable = await _tableStorageService.RetrieveQualifications();
-                if (qualificationsFromTable != null && qualificationsFromTable.Any())
-                {
-                    _logger.LogInformation($"Found {qualificationsFromTable.Count} qualifications in table storage");
-                }
-                else
-                {
-                    var saved = await _tableStorageService
-                        .SaveQualifications(GetAllQualificationsFromJsonDocument().ToList());
-                    _logger.LogInformation($"Saved {saved} qualifications to table storage");
-
-                    //Reread
-                    _logger.LogInformation("Rereading qualifications from table storage");
-                    qualificationsFromTable = await _tableStorageService.RetrieveQualifications();
-                    _logger.LogInformation($"Found {qualificationsFromTable.Count} qualifications in table storage (reread)");
-                }
+                _logger.LogInformation($"Found {qualificationsFromTable?.Count ?? 0} qualifications in table storage");
 
                 return qualificationsFromTable;
             }

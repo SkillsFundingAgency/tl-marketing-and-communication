@@ -18,6 +18,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
 
         private readonly string _tableName;
 
+        private const int TableBatchSize = 100;
+
         public GenericCloudTableRepository(
             CloudTableClient cloudTableClient,
             ILogger<GenericCloudTableRepository<T, TKey>> logger)
@@ -33,6 +35,54 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             }
         }
 
+        public async Task<int> DeleteAll()
+        {
+            var cloudTable = _cloudTableClient.GetTableReference(_tableName);
+            if (!cloudTable.Exists())
+            {
+                _logger.LogWarning($"DeleteAll from table '{_tableName}' not found. Returning 0 results.");
+                return 0;
+            }
+
+            //https://stackoverflow.com/questions/26326413/delete-all-azure-table-records
+
+            var tableQuery = new TableQuery<T>();
+            var continuationToken = default(TableContinuationToken);
+            var rowsDeleted = 0;
+            var stopwatch = Stopwatch.StartNew();
+
+            do
+            {
+                var queryResults = await cloudTable
+                    .ExecuteQuerySegmentedAsync(
+                        tableQuery,
+                        continuationToken);
+
+                continuationToken = queryResults.ContinuationToken;
+
+                // Split into chunks of 100 for batching
+                var rowsChunked = queryResults.Select((x, index) => new { Index = index, Value = x })
+                    .Where(x => x.Value != null)
+                    .GroupBy(x => x.Index / TableBatchSize)
+                    .Select(x => x.Select(v => v.Value).ToList())
+                    .ToList();
+
+                // Delete each chunk of 100 in a batch
+                foreach (var rows in rowsChunked)
+                {
+                    var tableBatchOperation = new TableBatchOperation();
+                    rows.ForEach(x => tableBatchOperation.Add(TableOperation.Delete(x)));
+
+                    await cloudTable.ExecuteBatchAsync(tableBatchOperation);
+                }
+
+                rowsDeleted += queryResults.Count();
+
+            } while (continuationToken != null);
+
+            return rowsDeleted;
+        }
+
         public async Task<IList<T>> GetAll()
         {
             var results = new List<T>();
@@ -40,7 +90,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             var cloudTable = _cloudTableClient.GetTableReference(_tableName);
             if (!cloudTable.Exists())
             {
-                _logger.LogWarning($"GetAll from table - {_tableName} not found. Returning 0 results.");
+                _logger.LogWarning($"GetAll from table '{_tableName}' not found. Returning 0 results.");
                 return results;
             }
 
@@ -64,7 +114,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             } while (continuationToken != null);
 
             stopwatch.Stop();
-            _logger.LogInformation($"GetAll from {_tableName} returning {results.Count} results from {loopCount} loops in {stopwatch.ElapsedMilliseconds:#,###}ms.");  
+            _logger.LogInformation($"GetAll from '{_tableName}' returning {results.Count} results from {loopCount} loops in {stopwatch.ElapsedMilliseconds:#,###}ms.");  
 
             return results;
         }
@@ -73,7 +123,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
         {
             if (entities == null || !entities.Any())
             {
-                _logger.LogInformation($"Save to {_tableName} was given no entities to save.");
+                _logger.LogInformation($"Save to '{_tableName}' was given no entities to save.");
                 return 0;
             }
 
@@ -83,7 +133,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
 
             var inserted = 0;
             var batchCount = 0;
-            const int batchSize = 100;
             var stopwatch = Stopwatch.StartNew();
 
             var batchPartitionKey = entities.First().Id.ToString();
@@ -95,7 +144,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
                 var batchOperation = new TableBatchOperation();
 
                 // next batch
-                var batchEntities = entities.Skip(rowOffset).Take(batchSize).ToList();
+                var batchEntities = entities.Skip(rowOffset).Take(TableBatchSize).ToList();
 
                 foreach (var entity in batchEntities)
                 {
@@ -119,7 +168,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
 
                 rowOffset += batchEntities.Count;
 
-                _logger.LogInformation($"Save to {_tableName} batch result {batchResult.Count} entities in rowOffset is now {rowOffset} batches in {stopwatch.ElapsedMilliseconds:#,###}ms.");
+                _logger.LogInformation($"Save to '{_tableName}' batch result {batchResult.Count} entities in rowOffset is now {rowOffset} batches in {stopwatch.ElapsedMilliseconds:#,###}ms.");
 
             }
 
@@ -129,7 +178,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             //https://stackoverflow.com/questions/17955557/painfully-slow-azure-table-insert-and-delete-batch-operations
 
             stopwatch.Stop();
-            _logger.LogInformation($"Save to {_tableName} saved {inserted} entities in {batchCount} batches in {stopwatch.ElapsedMilliseconds:#,###}ms.");
+            _logger.LogInformation($"Save to '{_tableName}' saved {inserted} entities in {batchCount} batches in {stopwatch.ElapsedMilliseconds:#,###}ms.");
 
             //return inserted;
             return inserted;

@@ -10,14 +10,36 @@ using sfa.Tl.Marketing.Communication.Models.Entities;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
 using Xunit;
 
-namespace sfa.Tl.Marketing.Communication.UnitTests
+namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 {
     public class TableStorageServiceTests
     {
         [Fact]
+        public async Task TableStorageService_ClearProviders_Returns_Expected_Results()
+        {
+            var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity>>();
+            providerRepository
+                .DeleteAll()
+                .Returns(5);
+
+            var service = BuildTableStorageService(providerRepository);
+
+            var result = await service.ClearProviders();
+
+            result.Should().Be(5);
+        }
+
+        [Fact]
         public async Task TableStorageService_RetrieveProviders_Returns_Expected_Results()
         {
-            var service = BuildTableStorageService();
+            var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity>>();
+            providerRepository
+                .GetAll()
+                .Returns(new ProviderEntityListBuilder()
+                    .Add()
+                    .Build());
+
+            var service = BuildTableStorageService(providerRepository);
 
             var providers = new ProviderListBuilder()
                 .Add()
@@ -25,35 +47,55 @@ namespace sfa.Tl.Marketing.Communication.UnitTests
 
             var result = await service.RetrieveProviders();
 
-            //TODO: Implement method and put back check below
-            //result.Should().BeEquivalentTo(providers);
+            result.Should().BeEquivalentTo(providers);
         }
 
         [Fact]
         public async Task TableStorageService_SaveProviders_Returns_Expected_Count_Of_Items_Saved()
         {
-            var service = BuildTableStorageService();
-
             var providers = new ProviderListBuilder()
                 .Add(3)
                 .Build();
+
+            var qualificationRepository = Substitute.For<ICloudTableRepository<ProviderEntity>>();
+            qualificationRepository
+                .Save(Arg.Any<IList<ProviderEntity>>())
+                .Returns(args => 
+                    ((IList<ProviderEntity>)args[0]).Count);
+
+            var service = BuildTableStorageService(qualificationRepository);
+
             var result = await service.SaveProviders(providers);
 
-            //TODO: Implement method and put back check below
-            //result.Should().Be(providers.Count);
+            result.Should().Be(providers.Count);
+        }
+
+        [Fact]
+        public async Task TableStorageService_ClearQualifications_Returns_Expected_Results()
+        {
+            var qualificationRepository = Substitute.For<ICloudTableRepository<QualificationEntity>>();
+            qualificationRepository
+                .DeleteAll()
+                .Returns(5);
+
+            var service = BuildTableStorageService(qualificationRepository: qualificationRepository);
+
+            var result = await service.ClearQualifications();
+
+            result.Should().Be(5);
         }
 
         [Fact]
         public async Task TableStorageService_RetrieveQualifications_Returns_Expected_Results()
         {
-            var repository = Substitute.For<ICloudTableRepository<QualificationEntity>>();
-            repository
+            var qualificationRepository = Substitute.For<ICloudTableRepository<QualificationEntity>>();
+            qualificationRepository
                 .GetAll()
                 .Returns(new QualificationEntityListBuilder()
                     .Add()
                     .Build());
 
-            var service = BuildTableStorageService(qualificationRepository: repository);
+            var service = BuildTableStorageService(qualificationRepository: qualificationRepository);
 
             var qualifications = new QualificationListBuilder()
                 .Add()
@@ -90,15 +132,16 @@ namespace sfa.Tl.Marketing.Communication.UnitTests
                 .Add(2)
                 .Build();
 
-            var repository = Substitute.For<ICloudTableRepository<QualificationEntity>>();
-            repository
+            var qualificationRepository = Substitute.For<ICloudTableRepository<QualificationEntity>>();
+            qualificationRepository
                 .Save(Arg.Do<IList<QualificationEntity>>(entities =>
                 {
                     savedQualificationEntities.AddRange(entities);
                 }))
-                .Returns(qualifications.Count);
+                .Returns(args =>
+                    ((IList<QualificationEntity>)args[0]).Count);
 
-            var service = BuildTableStorageService(qualificationRepository: repository);
+            var service = BuildTableStorageService(qualificationRepository: qualificationRepository);
 
             var result = await service.SaveQualifications(qualifications);
 

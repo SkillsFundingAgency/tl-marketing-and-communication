@@ -25,6 +25,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        public async Task<int> ClearProviders()
+        {
+            return await _providerRepository.DeleteAll();
+        }
+
         public async Task<int> SaveProviders(IList<Provider> providers)
         {
             if (providers == null || !providers.Any())
@@ -97,6 +102,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             _logger.LogInformation($"RetrieveProviders found {providers.Count()} records.");
             return providers;
+        }
+
+        public async  Task<int> ClearQualifications()
+        {
+            return await _qualificationRepository.DeleteAll();
         }
 
         public async Task<int> SaveQualifications(IList<Qualification> qualifications)
