@@ -47,9 +47,10 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
 
             var providerDataService = new ProviderDataService(fileReader, configurationOptions, tableStorageService, logger);
             var locationService = new LocationService();
+            var journeyService = new JourneyService();
             var providerLocationService = new ProviderLocationService(providerDataService);
             var distanceCalculationService = new DistanceCalculationService(new LocationApiClient(new HttpClient(), configurationOptions));
-            _providerSearchService = new ProviderSearchService(providerDataService, locationService, providerLocationService, distanceCalculationService);
+            _providerSearchService = new ProviderSearchService(providerDataService, journeyService, locationService, providerLocationService, distanceCalculationService);
         }
 
         [Fact]

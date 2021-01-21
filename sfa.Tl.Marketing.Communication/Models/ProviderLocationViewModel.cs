@@ -26,5 +26,7 @@ namespace sfa.Tl.Marketing.Communication.Models
 
         public bool HasFocus { get; set; }
         public string Autofocus => HasFocus ? "autofocus" : string.Empty;
+
+        public string JourneyUrl { get; set; }
     }
 }

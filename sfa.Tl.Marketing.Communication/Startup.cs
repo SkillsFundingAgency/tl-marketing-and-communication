@@ -156,8 +156,9 @@ namespace sfa.Tl.Marketing.Communication
             services.AddTransient<IFileReader, FileReader>();
             services.AddSingleton<IProviderDataService, ProviderDataService>();
             services.AddTransient<IEmailService, EmailService>();
-            services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IDistanceCalculationService, DistanceCalculationService>();
+            services.AddTransient<IJourneyService, JourneyService>();
+            services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IProviderLocationService, ProviderLocationService>();
             services.AddTransient<IProviderSearchService, ProviderSearchService>();
             services.AddTransient<ISearchPipelineFactory, SearchPipelineFactory>();

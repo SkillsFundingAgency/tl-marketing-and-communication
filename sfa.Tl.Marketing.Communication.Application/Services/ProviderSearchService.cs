@@ -11,13 +11,20 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
     {
         private readonly IProviderDataService _providerDataService;
         private readonly IProviderLocationService _providerLocationService;
+        private readonly IJourneyService _journeyService;
         private readonly ILocationService _locationService;
         private readonly IDistanceCalculationService _distanceCalculationService;
 
-        public ProviderSearchService(IProviderDataService providerDataService, ILocationService locationService, IProviderLocationService providerLocationService, IDistanceCalculationService distanceCalculationService)
+        public ProviderSearchService(
+            IProviderDataService providerDataService, 
+            IJourneyService journeyService, 
+            ILocationService locationService, 
+            IProviderLocationService providerLocationService, 
+            IDistanceCalculationService distanceCalculationService)
         {
             _providerDataService = providerDataService;
             _providerLocationService = providerLocationService;
+            _journeyService = journeyService;
             _locationService = locationService;
             _distanceCalculationService = distanceCalculationService;
         }
@@ -32,8 +39,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             var providers = _providerDataService.GetProviders();
             var locations = _locationService.GetLocations(providers);
-            var providerLocations = _providerLocationService.GetProviderLocations(locations, providers);
-            return providerLocations;
+            return _providerLocationService.GetProviderLocations(locations, providers);
         }
 
         public async Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(SearchRequest searchRequest)
@@ -44,15 +50,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             if (providers.Any())
             {
-                IQueryable<Location> locations;
-                if (searchRequest.QualificationId.HasValue && searchRequest.QualificationId.Value > 0)
-                {
-                    locations = _locationService.GetLocations(providers, searchRequest.QualificationId.Value);
-                }
-                else
-                {
-                    locations = _locationService.GetLocations(providers);
-                }
+                var locations = _locationService.GetLocations(providers, searchRequest.QualificationId);
 
                 var providerLocations = _providerLocationService.GetProviderLocations(locations, providers);
 
@@ -66,7 +64,17 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             }
 
             var totalCount = results.Count;
-            var searchResults = results.OrderBy(pl => pl.DistanceInMiles).Take(searchRequest.NumberOfItems);
+            var searchResults = results
+                .OrderBy(pl => pl.DistanceInMiles)
+                .Take(searchRequest.NumberOfItems)
+                .ToList();
+
+            foreach (var searchResult in searchResults)
+            {
+                searchResult.JourneyUrl = _journeyService.GetDirectionsLink(
+                    searchRequest.Postcode,
+                    searchResult);
+            }
 
             return (totalCount, searchResults);
         }

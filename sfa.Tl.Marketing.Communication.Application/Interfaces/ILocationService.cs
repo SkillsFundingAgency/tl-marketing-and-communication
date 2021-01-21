@@ -5,8 +5,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
 {
     public interface ILocationService
     {
-        IQueryable<Location> GetLocations(IQueryable<Provider> providers);
-
-        IQueryable<Location> GetLocations(IQueryable<Provider> providers, int qualificationId);
+        IQueryable<Location> GetLocations(IQueryable<Provider> providers, int? qualificationId = null);
     }
 }

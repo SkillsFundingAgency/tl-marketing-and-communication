@@ -41,8 +41,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public IQueryable<Provider> GetProviders()
         {
-            var providers = GetAllProviders();
-            return providers;
+            return GetAllProviders();
         }
 
         public IEnumerable<Qualification> GetQualifications(int[] qualificationIds)
@@ -91,7 +90,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to retrieve providers from table storage");
-                return null;
+            	return null;
             }
         }
 
