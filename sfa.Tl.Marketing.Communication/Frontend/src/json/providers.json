@@ -756,14 +756,16 @@
             {
               "year": 2020,
               "qualifications": [
-                4,
-                6
+                4
               ]
             },
             {
               "year": 2021,
               "qualifications": [
-                5
+                1,
+                6,
+                7,
+                8
               ]
             }
           ],
@@ -779,9 +781,9 @@
             {
               "year": 2021,
               "qualifications": [
-                3,
-                7,
-                8
+                5,
+                1,
+                9
               ]
             },
             {
@@ -928,11 +930,11 @@
               "qualifications": [
                 4,
                 7,
-                10
+                1
               ]
             }
           ],
-          "website": "https://sunderlandcollege.ac.uk/"
+          "website": "https://www.sunderlandcollege.ac.uk/courses/school-leaver/t-levels/"
         },
         {
           "name": "",
@@ -949,7 +951,7 @@
               ]
             }
           ],
-          "website": "https://sunderlandcollege.ac.uk/"
+          "website": "https://www.sunderlandcollege.ac.uk/courses/school-leaver/t-levels/"
         },
         {
           "name": "Hartlepool Sixth Form College",
@@ -961,12 +963,13 @@
             {
               "year": 2021,
               "qualifications": [
+                6,
                 7,
                 10
               ]
             }
           ],
-          "website": "https://hartlepoolsixth.ac.uk/"
+          "website": "https://www.hartlepoolsixth.ac.uk/courses/school-leaver/t-levels/"
         }
       ]
     },
