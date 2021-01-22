@@ -302,3 +302,5 @@ appsettings.Development.json
 # Provider data .csv saved from the .xlsx file
 **/*.DataLoad/Provider Data/*.csv
 
+# Developer settings in function projects
+local.settings.development.json
