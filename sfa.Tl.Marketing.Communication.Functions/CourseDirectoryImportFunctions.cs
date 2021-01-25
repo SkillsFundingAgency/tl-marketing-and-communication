@@ -41,7 +41,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
             }
         }
 
-        [FunctionName("CourseDirectoryImportFunction")]
+        [FunctionName("CourseDirectoryManualImport")]
         public async Task<IActionResult> ManualImport(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequest request,
