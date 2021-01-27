@@ -72,3 +72,20 @@ Or
 
 7. After running the program, simply copy the `providers` section from the output file over the existing `providers` section in `\sfa.Tl.Marketing.Communication\Frontend\src\json\providers.json`.
 
+
+## Creating provider data in local storage
+
+1. The console application *sfa.Tl.Marketing.Communication.DataLoad* can be run to copy data into local storage. 
+2. This can be run on developer machines when Azure Storage Explorer is running.
+3. The program will create tables called `Qualification` and `Provider` and copy data from json files.
+4. You need to set the table connection string and paths to sample files in `appsettings.json` with the content below. DO NOT CHECK THIS IN (it is already in .gitignore). The paths below use files that are included in the projec.
+
+{
+  "JsonInputOnly": "true",
+  "ProviderJsonInputFilePath": "..\\..\\..\\Provider Data\\providers.json",
+  "QualificationJsonInputFilePath": "..\\..\\..\\Provider Data\\qualifications.json",
+  "TableStorageConnectionString": "UseDevelopmentStorage=true;"
+}
+
+5. Note that JsonInputOnly (above) should be set to true if you do not want to import providers from csv.
+

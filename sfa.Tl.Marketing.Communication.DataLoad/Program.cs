@@ -8,10 +8,16 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using sfa.Tl.Marketing.Communication.Application.Repositories;
+using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.DataLoad.PostcodesIo;
 using sfa.Tl.Marketing.Communication.DataLoad.Read;
 using sfa.Tl.Marketing.Communication.DataLoad.Write;
+using sfa.Tl.Marketing.Communication.Models.Entities;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace sfa.Tl.Marketing.Communication.DataLoad
@@ -21,6 +27,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
         private const string CsvFilePath = @"D:\SFA-TestData\Full Provider Data 2020 - 2021 (campaign site).csv";
         private const string JsonOutputPath = @"D:\SFA-TestData\Json\providers.json";
         private const string PostcodesIoUrl = "https://postcodes.io";
+
 
         private static IList<string> _warningMessages;
 
@@ -40,6 +47,34 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             var outputFilePath = configuration.GetValue<string>("OutputFilePath");
             if (string.IsNullOrWhiteSpace(outputFilePath))
                 outputFilePath = JsonOutputPath;
+
+            //var azureTableWriter = new AzureStorageTableWriter(
+            //configuration.GetValue<string>("TableStorageConnectionString"),
+            //configuration.GetValue<string>("ProviderJsonInputFilePath"),
+            //configuration.GetValue<string>("QualificationJsonInputFilePath"));
+
+            var tableStorageConnectionString = configuration.GetValue<string>("TableStorageConnectionString");
+            if (!string.IsNullOrEmpty(tableStorageConnectionString))
+            {
+                var jsonInputOnly = configuration.GetValue<bool>("JsonInputOnly");
+
+                var loggerFactory = new LoggerFactory();
+                var providerDataMigrationService = new ProviderDataMigrationService(
+                    new FileReader(),
+                    CreateTableStorageService(tableStorageConnectionString, loggerFactory),
+                    loggerFactory.CreateLogger<ProviderDataMigrationService>());
+
+                var qualificationsSaved = await providerDataMigrationService
+                    .WriteQualifications(configuration.GetValue<string>("QualificationJsonInputFilePath"));
+                Console.WriteLine("");
+                Console.WriteLine($"Copied {qualificationsSaved} qualifications to table storage.");
+
+                var providersSaved = await providerDataMigrationService
+                    .WriteProviders(configuration.GetValue<string>("ProviderJsonInputFilePath"));
+                Console.WriteLine($"Copied {providersSaved} providers to table storage.");
+
+                if (jsonInputOnly) return;
+            }
 
             var providerReader = new ProviderReader();
             var providerLoadResult = providerReader.ReadData(inputFilePath);
@@ -70,7 +105,8 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             providerWrite.Providers = providerWriteData;
 
             Console.WriteLine("");
-            Console.WriteLine($"Processed {providerWrite.Providers.Count} providers. {_warningMessages.Count} warnings.");
+            Console.WriteLine(
+                $"Processed {providerWrite.Providers.Count} providers. {_warningMessages.Count} warnings.");
             Console.WriteLine($"Saving providers to {outputFilePath}");
 
             await WriteProvidersToFile(providerWrite, outputFilePath);
@@ -103,13 +139,14 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                 };
 
                 var logMessage = new StringBuilder($"  Adding location {postcode} " +
-                               $"{(string.IsNullOrWhiteSpace(venue.VenueName) ? "" : venue.VenueName + ' ')}");
+                                                   $"{(string.IsNullOrWhiteSpace(venue.VenueName) ? "" : venue.VenueName + ' ')}");
                 if (location.DeliveryYears.Any())
                 {
                     for (var i = 0; i < location.DeliveryYears.Count; i++)
                     {
                         logMessage.Append(i == 0 ? "with " : "and ");
-                        logMessage.Append($"{location.DeliveryYears[i].Qualifications.Count} {location.DeliveryYears[i].Year} ");
+                        logMessage.Append(
+                            $"{location.DeliveryYears[i].Qualifications.Count} {location.DeliveryYears[i].Year} ");
                     }
 
                     logMessage.Append("qualifications");
@@ -140,8 +177,8 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
 
                 // ReSharper disable once PossibleNullReferenceException
                 return (response.Result.Postcode,
-                        response.Result.Latitude,
-                        response.Result.Longitude);
+                    response.Result.Latitude,
+                    response.Result.Longitude);
             }
             else
             {
@@ -159,8 +196,8 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
 
                     // ReSharper disable once PossibleNullReferenceException
                     return (response.Result.Postcode,
-                            response.Result.Latitude,
-                            response.Result.Longitude);
+                        response.Result.Latitude,
+                        response.Result.Longitude);
                 }
                 else
                 {
@@ -169,7 +206,8 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             }
         }
 
-        private static void AddQualification(IList<int> qualificationList, Type qualificationType, int year, ProviderReadData venue)
+        private static void AddQualification(IList<int> qualificationList, Type qualificationType, int year,
+            ProviderReadData venue)
         {
             if (qualificationList.Contains((int)qualificationType))
             {
@@ -249,6 +287,29 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             };
 
             await JsonSerializer.SerializeAsync(fs, data, serializerOptions);
+        }
+
+        private static ITableStorageService CreateTableStorageService(
+            string tableStorageConnectionString,
+            ILoggerFactory loggerFactory)
+        {
+            var cloudStorageAccount = CloudStorageAccount.Parse(tableStorageConnectionString);
+
+            var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
+
+            ICloudTableRepository<ProviderEntity> providerRepository = new GenericCloudTableRepository<ProviderEntity, int>(
+                cloudTableClient,
+                loggerFactory.CreateLogger<GenericCloudTableRepository<ProviderEntity, int>>());
+
+            ICloudTableRepository<QualificationEntity> qualificationRepository =
+                    new GenericCloudTableRepository<QualificationEntity, int>(
+                        cloudTableClient,
+                        loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity, int>>());
+
+            return new TableStorageService(
+            providerRepository,
+            qualificationRepository,
+            loggerFactory.CreateLogger<TableStorageService>());
         }
     }
 }
