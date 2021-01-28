@@ -22,7 +22,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                     Name = $"Test Provider {nextId}",
                     Locations = new List<LocationEntity>
                     {
-                        new LocationEntity()
+                        new LocationEntity
                         {
                             Postcode = $"CV{nextId} {nextId + 1}WT",
                             Town = "Coventry",
@@ -33,7 +33,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                                 new DeliveryYearEntity
                                 {
                                     Year = (short)(2020 + nextId),
-                                    Qualifications = new List<int>()
+                                    Qualifications = new List<int>
                                     {
                                         nextId
                                     }

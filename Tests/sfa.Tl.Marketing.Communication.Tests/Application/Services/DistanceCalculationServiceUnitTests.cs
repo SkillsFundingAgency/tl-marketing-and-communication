@@ -52,7 +52,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             _locationApiClient.GetGeoLocationDataAsync(studentPostcode).Returns(postcodeLookupResultDto);
 
             var providerLocation = new ProviderLocation { Latitude = providerLat, Longitude = providerLon };
-            var providerLocations = new List<ProviderLocation>()
+            var providerLocations = new List<ProviderLocation>
             {
                providerLocation
             };
@@ -80,7 +80,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             int expectedMileageInMilesAfterRounding)
         {
             var providerLocation = new ProviderLocation { Latitude = providerLat, Longitude = providerLon };
-            var providerLocations = new List<ProviderLocation>()
+            var providerLocations = new List<ProviderLocation>
             {
                providerLocation
             };

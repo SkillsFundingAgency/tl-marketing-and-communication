@@ -25,7 +25,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
         internal StorageSettings BuildStorageSettings(
             string tableStorageConnectionString = "TestConnection")
         {
-            return new StorageSettings()
+            return new StorageSettings
             {
                 TableStorageConnectionString = tableStorageConnectionString
             };

@@ -21,7 +21,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         {
             // Arrange
             const bool shouldSearch = false;
-            var viewModel = new FindViewModel()
+            var viewModel = new FindViewModel
             {
                 ShouldSearch = shouldSearch
             };

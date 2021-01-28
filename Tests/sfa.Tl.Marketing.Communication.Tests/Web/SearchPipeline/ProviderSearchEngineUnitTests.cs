@@ -35,7 +35,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline
             var searchStep1 = Substitute.For<ISearchStep>();
             var searchStep2 = Substitute.For<ISearchStep>();
             var searchStep3 = Substitute.For<ISearchStep>();
-            var steps = new List<ISearchStep>() 
+            var steps = new List<ISearchStep> 
             {
                 searchStep1,
                 searchStep2,
@@ -66,7 +66,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline
             var searchStep1 = Substitute.For<ISearchStep>();
             var searchStep2 = Substitute.For<ISearchStep>();
             var searchStep3 = Substitute.For<ISearchStep>();
-            var steps = new List<ISearchStep>()
+            var steps = new List<ISearchStep>
             {
                 searchStep1,
                 searchStep2,

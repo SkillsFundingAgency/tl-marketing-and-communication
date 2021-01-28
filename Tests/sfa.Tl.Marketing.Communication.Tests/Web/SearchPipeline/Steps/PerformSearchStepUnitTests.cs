@@ -35,7 +35,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
             var qualificationId = 5;
             var selectedItemIndex = 3;
 
-            var viewModel = new FindViewModel()
+            var viewModel = new FindViewModel
             {
                 Postcode = postcode,
                 NumberOfItemsToShow = numberOfItems,
@@ -45,7 +45,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
 
             var context = new SearchContext(viewModel);
             
-            var providerLocations = new List<ProviderLocation>()
+            var providerLocations = new List<ProviderLocation>
             {
                 new ProviderLocation(),
                 new ProviderLocation(),
@@ -59,7 +59,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
             sr.QualificationId == qualificationId))
                 .Returns((providerLocations.Count(), providerLocations));
             
-            var providerLocationViewModels = new List<ProviderLocationViewModel>()
+            var providerLocationViewModels = new List<ProviderLocationViewModel>
             {
                 new ProviderLocationViewModel(),
                 new ProviderLocationViewModel(),

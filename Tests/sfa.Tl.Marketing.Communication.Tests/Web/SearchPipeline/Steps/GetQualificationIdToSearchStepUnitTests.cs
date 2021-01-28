@@ -23,7 +23,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         public async Task Step_Setup_QualificationId_For_Search(int? qualificationId, int expected)
         {
             // Arrange
-            var viewModel = new FindViewModel()
+            var viewModel = new FindViewModel
             {
                 SelectedQualificationId = qualificationId
             };

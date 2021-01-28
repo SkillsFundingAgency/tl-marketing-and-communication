@@ -38,7 +38,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public void GetQualifications_Returns_All_Qualifications_OrderBy_Name()
         {
-            var qualifications = new List<Qualification>()
+            var qualifications = new List<Qualification>
             {
                 new Qualification { Id = 1, Name = "Xyz" },
                 new Qualification { Id = 2, Name = "Mno" },
@@ -167,7 +167,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [InlineData(0, 2)]
         public async Task Search_Returns_All_ProviderLocations_When_Qualification_Filter_Is_Null_Or_Zero(int? qualificationId, int numberOfItems)
         {
-            var providers = new List<Provider>()
+            var providers = new List<Provider>
             {
                 new Provider(),
                 new Provider(),

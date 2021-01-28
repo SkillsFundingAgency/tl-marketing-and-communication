@@ -26,7 +26,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         public async Task Step_Validate_Empty_Postcode()
         {
             // Arrange
-            var viewModel = new FindViewModel()
+            var viewModel = new FindViewModel
             {
                 Postcode = string.Empty
             };
@@ -58,7 +58,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
                 Longitude = longitude
             };
 
-            var viewModel = new FindViewModel()
+            var viewModel = new FindViewModel
             {
                 Postcode = postcode
             };
@@ -94,7 +94,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
                 Longitude = longitude
             };
 
-            var viewModel = new FindViewModel()
+            var viewModel = new FindViewModel
             {
                 Postcode = postcode
             };

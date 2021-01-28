@@ -33,7 +33,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                                 new DeliveryYearDto
                                 {
                                     Year = (short)(2020 + nextId),
-                                    Qualifications = new List<int>()
+                                    Qualifications = new List<int>
                                     {
                                         nextId
                                     }

@@ -232,7 +232,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
         private static List<Qualification> BuildQualifications()
         {
-            var qualifications = new List<Qualification>()
+            var qualifications = new List<Qualification>
             {
                 new Qualification {Id = 1, Name = "Xyz"},
                 new Qualification {Id = 2, Name = "Mno"},

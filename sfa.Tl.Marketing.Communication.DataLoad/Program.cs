@@ -48,11 +48,6 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             if (string.IsNullOrWhiteSpace(outputFilePath))
                 outputFilePath = JsonOutputPath;
 
-            //var azureTableWriter = new AzureStorageTableWriter(
-            //configuration.GetValue<string>("TableStorageConnectionString"),
-            //configuration.GetValue<string>("ProviderJsonInputFilePath"),
-            //configuration.GetValue<string>("QualificationJsonInputFilePath"));
-
             var tableStorageConnectionString = configuration.GetValue<string>("TableStorageConnectionString");
             if (!string.IsNullOrEmpty(tableStorageConnectionString))
             {

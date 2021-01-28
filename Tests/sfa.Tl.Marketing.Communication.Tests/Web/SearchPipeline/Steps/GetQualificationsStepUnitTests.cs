@@ -29,7 +29,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
             // Arrange
             int? selectedQualificationId = 3;
 
-            var viewModel = new FindViewModel()
+            var viewModel = new FindViewModel
             {
                 SelectedQualificationId = selectedQualificationId
             };

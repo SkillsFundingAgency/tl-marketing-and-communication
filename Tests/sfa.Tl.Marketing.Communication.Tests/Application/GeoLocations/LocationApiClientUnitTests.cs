@@ -18,7 +18,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations
 
         public LocationApiClientUnitTests()
         {
-            _configurationOptions = new ConfigurationOptions()
+            _configurationOptions = new ConfigurationOptions
             {
                 PostcodeRetrieverBaseUrl = "https://example.com/"
             };

@@ -22,7 +22,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                         new DeliveryYearDto
                         {
                             Year = 2021,
-                            Qualifications = new List<int>()
+                            Qualifications = new List<int>
                             {
                                 1
                             }
