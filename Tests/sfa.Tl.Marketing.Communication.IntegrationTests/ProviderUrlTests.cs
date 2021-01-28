@@ -11,8 +11,12 @@ using System.Net.Http;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Azure.Cosmos.Table;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using sfa.Tl.Marketing.Communication.Application.Repositories;
+using sfa.Tl.Marketing.Communication.Models.Entities;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -27,16 +31,16 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
         {
             _outputHelper = outputHelper;
 
-            var configurationOptions = new ConfigurationOptions
-            {
-                PostcodeRetrieverBaseUrl = @"http://postcode.io.uk"
-            };
+            var configurationOptions = InitConfiguration();
 
-            var tableStorageService = Substitute.For<ITableStorageService>();
             var loggerFactory = new LoggerFactory();
-            var logger = loggerFactory.CreateLogger<ProviderDataService>();
+            var providerDataServiceLogger = loggerFactory.CreateLogger<ProviderDataService>();
 
-            var providerDataService = new ProviderDataService(tableStorageService, logger);
+            var tableStorageService = CreateTableStorageService(
+                configurationOptions.StorageConfiguration.TableStorageConnectionString, 
+                loggerFactory);
+
+            var providerDataService = new ProviderDataService(tableStorageService, providerDataServiceLogger);
             var locationService = new LocationService();
             var journeyService = new JourneyService();
             var providerLocationService = new ProviderLocationService(providerDataService);
@@ -62,11 +66,11 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
             if (locationsWithBrokenUrls.Any())
             {
                 _outputHelper.WriteLine($"\n{locationsWithBrokenUrls.Count} out of {locations.Count} Providers has broken Websites, as shown below:\n");
-                
+
                 var providersWithBrokenUrls = from providerLocation in locationsWithBrokenUrls
-                                   select new { providerLocation.ProviderName, providerLocation.Website };
+                                              select new { providerLocation.ProviderName, providerLocation.Website };
                 var json = SerializeObject(providersWithBrokenUrls);
-                
+
                 _outputHelper.WriteLine(json);
 
                 Assert.True(false, $"There are {locationsWithBrokenUrls.Count} out of {locations.Count} Providers with broken websites.");
@@ -79,6 +83,45 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
             }
         }
 
+        public static ConfigurationOptions InitConfiguration()
+        {
+            var config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.test.json")
+                .Build();
+
+            return new ConfigurationOptions
+            {
+                PostcodeRetrieverBaseUrl = config["PostcodeRetrieverBaseUrl"],
+                StorageConfiguration = new StorageSettings
+                {
+                    TableStorageConnectionString = config["TableStorageConnectionString"]
+                }
+            };
+        }
+
+        private static ITableStorageService CreateTableStorageService(
+            string tableStorageConnectionString,
+            ILoggerFactory loggerFactory)
+        {
+            var cloudStorageAccount = CloudStorageAccount.Parse(tableStorageConnectionString);
+
+            var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
+
+            ICloudTableRepository<ProviderEntity> providerRepository = new GenericCloudTableRepository<ProviderEntity, int>(
+                cloudTableClient,
+                loggerFactory.CreateLogger<GenericCloudTableRepository<ProviderEntity, int>>());
+
+            ICloudTableRepository<QualificationEntity> qualificationRepository =
+                new GenericCloudTableRepository<QualificationEntity, int>(
+                    cloudTableClient,
+                    loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity, int>>());
+
+            return new TableStorageService(
+                providerRepository,
+                qualificationRepository,
+                loggerFactory.CreateLogger<TableStorageService>());
+        }
+
         private async Task<bool> IsUrlBroken(string url)
         {
             var isUrlBroken = false;
@@ -87,8 +130,8 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
             {
                 var clientHandler = new HttpClientHandler
                 {
-                    ServerCertificateCustomValidationCallback = 
-                        (sender, cert, chain, sslPolicyErrors) 
+                    ServerCertificateCustomValidationCallback =
+                        (sender, cert, chain, sslPolicyErrors)
                             => true
                 };
 
@@ -104,7 +147,7 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
                     isUrlBroken = true;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _outputHelper.WriteLine($"\n\rWebsite: {url}\nError message: {ex.Message}\nStackTrace: {ex.StackTrace}\n");
             }
