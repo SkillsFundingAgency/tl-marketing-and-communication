@@ -2,19 +2,17 @@ using sfa.Tl.Marketing.Communication.Application.GeoLocations;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
-using sfa.Tl.Marketing.Communication.Models.Dto;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text.Encodings.Web;
-using System.Text.Json;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
 using sfa.Tl.Marketing.Communication.Models.Entities;
 using Xunit;
@@ -31,16 +29,16 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
         {
             _outputHelper = outputHelper;
 
-            var configurationOptions = InitConfiguration();
+            var configurationOptions = LoadConfiguration();
 
             var loggerFactory = new LoggerFactory();
             var providerDataServiceLogger = loggerFactory.CreateLogger<ProviderDataService>();
 
             var tableStorageService = CreateTableStorageService(
-                configurationOptions.StorageConfiguration.TableStorageConnectionString, 
+                configurationOptions.StorageConfiguration.TableStorageConnectionString,
                 loggerFactory);
 
-            var providerDataService = new ProviderDataService(tableStorageService, providerDataServiceLogger);
+            IProviderDataService providerDataService = new ProviderDataService(tableStorageService, providerDataServiceLogger);
             var locationService = new LocationService();
             var journeyService = new JourneyService();
             var providerLocationService = new ProviderLocationService(providerDataService);
@@ -51,39 +49,48 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
         [Fact]
         public async Task Check_If_a_Provider_Website_Is_Broken()
         {
-            var locations = _providerSearchService.GetAllProviderLocations().ToList();
-            var locationsWithBrokenUrls = new List<ProviderLocation>();
+            //var locations = _providerSearchService.GetAllProviderLocations().ToList();
 
-            foreach (var location in locations)
+            var distinctProviderUrls =
+                (from r in _providerSearchService.GetAllProviderLocations()
+                 group r by new { r.ProviderName, r.Website } into g
+                 orderby g.Key.ProviderName
+                 select (g.Key.ProviderName, g.Key.Website)
+                ).ToList();
+
+            IList<(string ProviderName, string Website)> brokenProviderUrls = new List<(string ProviderName, string Website)>();
+
+            foreach (var location in distinctProviderUrls)
             {
+                Debug.WriteLine($"{location.ProviderName} - {location.Website}");
+
                 var isUrlBroken = await IsUrlBroken(location.Website);
                 if (isUrlBroken)
                 {
-                    locationsWithBrokenUrls.Add(location);
+                    brokenProviderUrls.Add(location);
                 }
             }
 
-            if (locationsWithBrokenUrls.Any())
+            if (brokenProviderUrls.Any())
             {
-                _outputHelper.WriteLine($"\n{locationsWithBrokenUrls.Count} out of {locations.Count} Providers has broken Websites, as shown below:\n");
+                _outputHelper.WriteLine($"\n{brokenProviderUrls.Count} out of {distinctProviderUrls.Count} provider websites have broken urls, as shown below:\n");
 
-                var providersWithBrokenUrls = from providerLocation in locationsWithBrokenUrls
-                                              select new { providerLocation.ProviderName, providerLocation.Website };
-                var json = SerializeObject(providersWithBrokenUrls);
-
-                _outputHelper.WriteLine(json);
-
-                Assert.True(false, $"There are {locationsWithBrokenUrls.Count} out of {locations.Count} Providers with broken websites.");
+                foreach (var brokenUrl in brokenProviderUrls)
+                {
+                    _outputHelper.WriteLine($"\t{brokenUrl.ProviderName} - {brokenUrl.Website}");
+                }
             }
             else
             {
-                var successMessage = $"All {locations.Count} providers websites are working fine.";
+                var successMessage = $"All {distinctProviderUrls.Count} provider websites are working fine.";
                 _outputHelper.WriteLine(successMessage);
-                Assert.True(true, successMessage);
             }
+
+            brokenProviderUrls.Count.Should().Be(0,
+                $"because there should be no broken urls. There are {brokenProviderUrls.Count} out of {distinctProviderUrls.Count} locations with broken websites.");
         }
 
-        public static ConfigurationOptions InitConfiguration()
+        private static ConfigurationOptions LoadConfiguration()
         {
             var config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.test.json")
@@ -153,19 +160,6 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
             }
 
             return isUrlBroken;
-        }
-
-        public string SerializeObject(object data)
-        {
-            var serializerOptions = new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
-            };
-
-            var json = JsonSerializer.Serialize(data, serializerOptions);
-            return json;
         }
     }
 }
