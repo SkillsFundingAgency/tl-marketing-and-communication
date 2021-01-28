@@ -1,11 +1,10 @@
 ﻿using FluentAssertions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
-using sfa.Tl.Marketing.Communication.Models.Configuration;
-using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using sfa.Tl.Marketing.Communication.UnitTests.Builders;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
@@ -16,22 +15,17 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
         public ProviderDataServiceUnitTests()
         {
-            IFileReader fileReader = new FileReader();
-            var appDomain = System.AppDomain.CurrentDomain;
-            var basePath = appDomain.RelativeSearchPath ?? appDomain.BaseDirectory;
-
-            var providersDataFilePath = Path.Combine(basePath!, "Data", "test_providers.json");
-            var qualificationsDataFilePath = Path.Combine(basePath!, "Data", "test_qualifications.json");
-            var configurationOption = new ConfigurationOptions()
-            {
-                ProvidersDataFilePath = providersDataFilePath,
-                QualificationsDataFilePath = qualificationsDataFilePath
-            };
-
-            var tableStorageService = Substitute.For<ITableStorageService>();
             var logger = Substitute.For<ILogger<ProviderDataService>>();
 
-            _service = new ProviderDataService(fileReader, configurationOption, tableStorageService, logger);
+            var qualifications = new TestQualificationsFromJsonBuilder()
+                .Build();
+            var providers = new TestProvidersFromJsonBuilder()
+                .Build();
+            var tableStorageService = Substitute.For<ITableStorageService>();
+            tableStorageService.RetrieveProviders().Returns(providers);
+            tableStorageService.RetrieveQualifications().Returns(qualifications);
+
+            _service = new ProviderDataService(tableStorageService, logger);
         }
 
         [Fact]

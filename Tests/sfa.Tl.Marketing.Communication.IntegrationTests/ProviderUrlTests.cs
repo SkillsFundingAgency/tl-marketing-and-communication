@@ -5,7 +5,6 @@ using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -28,24 +27,16 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
         {
             _outputHelper = outputHelper;
 
-            var appDomain = AppDomain.CurrentDomain;
-            var basePath = appDomain.RelativeSearchPath ?? appDomain.BaseDirectory;
-            var providersDataFilePath = Path.Combine(basePath!, "Data", "providers.json");
-            var qualificationsDataFilePath = Path.Combine(basePath!, "Data", "qualifications.json");
-            var configurationOptions = new ConfigurationOptions()
+            var configurationOptions = new ConfigurationOptions
             {
-                ProvidersDataFilePath = providersDataFilePath,
-                QualificationsDataFilePath = qualificationsDataFilePath,
                 PostcodeRetrieverBaseUrl = @"http://postcode.io.uk"
             };
-
-            var fileReader = new FileReader();
 
             var tableStorageService = Substitute.For<ITableStorageService>();
             var loggerFactory = new LoggerFactory();
             var logger = loggerFactory.CreateLogger<ProviderDataService>();
 
-            var providerDataService = new ProviderDataService(fileReader, configurationOptions, tableStorageService, logger);
+            var providerDataService = new ProviderDataService(tableStorageService, logger);
             var locationService = new LocationService();
             var journeyService = new JourneyService();
             var providerLocationService = new ProviderLocationService(providerDataService);

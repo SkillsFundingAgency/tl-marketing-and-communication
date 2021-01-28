@@ -7,10 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Builders\Data\test_providers.json" />
+    <None Remove="Builders\Data\test_qualifications.json" />
     <None Remove="Builders\Data\TLevelDetailResponse.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Builders\Data\test_providers.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Builders\Data\test_qualifications.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Builders\Data\TLevelDetailResponse.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -37,15 +45,6 @@
     <ProjectReference Include="..\..\sfa.Tl.Marketing.Communication.Application\sfa.Tl.Marketing.Communication.Application.csproj" />
     <ProjectReference Include="..\..\sfa.Tl.Marketing.Communication.Models\sfa.Tl.Marketing.Communication.Models.csproj" />
     <ProjectReference Include="..\..\sfa.Tl.Marketing.Communication\sfa.Tl.Marketing.Communication.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Data\test_providers.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\test_qualifications.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
