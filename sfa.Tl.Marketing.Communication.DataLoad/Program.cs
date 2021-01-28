@@ -18,7 +18,6 @@ using sfa.Tl.Marketing.Communication.DataLoad.PostcodesIo;
 using sfa.Tl.Marketing.Communication.DataLoad.Read;
 using sfa.Tl.Marketing.Communication.DataLoad.Write;
 using sfa.Tl.Marketing.Communication.Models.Entities;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace sfa.Tl.Marketing.Communication.DataLoad
 {
@@ -27,8 +26,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
         private const string CsvFilePath = @"D:\SFA-TestData\Full Provider Data 2020 - 2021 (campaign site).csv";
         private const string JsonOutputPath = @"D:\SFA-TestData\Json\providers.json";
         private const string PostcodesIoUrl = "https://postcodes.io";
-
-
+        
         private static IList<string> _warningMessages;
 
         // ReSharper disable once UnusedParameter.Local
@@ -302,9 +300,9 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                         loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity, int>>());
 
             return new TableStorageService(
-            providerRepository,
-            qualificationRepository,
-            loggerFactory.CreateLogger<TableStorageService>());
+                providerRepository,
+                qualificationRepository,
+                loggerFactory.CreateLogger<TableStorageService>());
         }
     }
 }
