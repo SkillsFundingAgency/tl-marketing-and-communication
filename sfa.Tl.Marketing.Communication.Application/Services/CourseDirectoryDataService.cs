@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 
@@ -14,6 +15,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
     public class CourseDirectoryDataService : ICourseDirectoryDataService
     {
         public const string CourseDirectoryHttpClientName = "CourseDirectoryAutoCompressClient";
+        public const string CourseDetailEndpoint = "tleveldetail";
+        public const string QualificationsEndpoint = "tlevelqualification";
 
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ITableStorageService _tableStorageService;
@@ -34,7 +37,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var httpClient = _httpClientFactory.CreateClient(CourseDirectoryHttpClientName);
 
             // ReSharper disable once StringLiteralTypo
-            var response = await httpClient.GetAsync("tleveldetail");
+            var response = await httpClient.GetAsync(CourseDetailEndpoint);
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
@@ -49,32 +52,59 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             var httpClient = _httpClientFactory.CreateClient(CourseDirectoryHttpClientName);
 
-            //https://dev.api.nationalcareersservice.org.uk/coursedirectory/findacourse/tleveldetail[?TLevelId]
-            // ReSharper disable once StringLiteralTypo
-            var response = await httpClient.GetAsync("tleveldetail");
+            var response = await httpClient.GetAsync(CourseDetailEndpoint);
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
             }
 
-            //var content = await response.Content.ReadAsStringAsync();
-            var jsonDoc = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
+            //var jsonDoc = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
+            //TODO: just create the jsonDoc as above - for now wrap the record in an array using string 
+            var content = await response.Content.ReadAsStringAsync();
+            content = $"[\n{content}\n]";
+            var jsonDoc = JsonDocument.Parse(content);
+
             var root = jsonDoc.RootElement;
 
-            //Should always check "offeringType": "TLevel"
-            string offeringType = null;
-            if (root.TryGetProperty("offeringType", out var offeringTypeElement))
+            var count = 0;
+            foreach (var courseRecord in root.EnumerateArray())
             {
-                offeringType = offeringTypeElement.GetString();
+                if (courseRecord.SafeGetString("offeringType")  == "TLevel")
+                {
+                    if(await ProcessCourseRecord(courseRecord))
+                        count++;
+                }
             }
-
-            //For the initial version we just need to confirm 1 record was found. This will change before go-live
-            //Should count json records, or records saved
-            var count = offeringType == "TLevel" ? 1 : 0;
 
             _logger.LogInformation($"ImportFromCourseDirectoryApi saved {count} records");
 
             return count;
+        }
+
+        private async Task<bool> ProcessCourseRecord(JsonElement courseRecord)
+        {
+            //read start date
+            if (!DateTime.TryParse(courseRecord.SafeGetString("startDate"), out var startDate))
+            {
+                //TODO: What to do here? If no date should probably log an error and/or ignore this record
+                _logger.LogWarning("Could not read start date from course record.");
+                return false;
+            }
+
+            //Read qualification
+            //Read provider
+            var providerProperty = courseRecord.GetProperty("provider");
+
+            var provider = new Provider
+            {
+                //UkPrn = providerProperty.SafeGetString("ukPrn")
+                Name = providerProperty.SafeGetString("providerName"),
+                //Locations = TODO - Select from "locations"
+            };
+
+            //read locations
+
+            return true;
         }
 
         public async Task<IList<Provider>> GetProviders()

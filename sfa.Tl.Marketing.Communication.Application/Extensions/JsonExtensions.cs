@@ -28,5 +28,31 @@ namespace sfa.Tl.Marketing.Communication.Application.Extensions
 
             return Encoding.UTF8.GetString(stream.ToArray());
         }
+
+        public static int SafeGetInt32(this JsonElement element, string propertyName)
+        {
+            return element.TryGetProperty(propertyName, out var property)
+                   && property.ValueKind == JsonValueKind.Number
+                   && property.TryGetInt32(out var val)
+                ? val
+                : default;
+        }
+
+        public static long SafeGetInt64(this JsonElement element, string propertyName)
+        {
+            return element.TryGetProperty(propertyName, out var property)
+                   && property.ValueKind == JsonValueKind.Number
+                   && property.TryGetInt64(out var val)
+                ? val
+                : default;
+        }
+
+        public static string SafeGetString(this JsonElement element, string propertyName)
+        {
+            return element.TryGetProperty(propertyName, out var property)
+                   && property.ValueKind == JsonValueKind.String
+                ? property.GetString()
+                : default;
+        }
     }
 }
