@@ -19,6 +19,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                 _providerEntities.Add(new ProviderEntity
                 {
                     Id = nextId,
+                    UkPrn = 10000000 + nextId,
                     Name = $"Test Provider {nextId}",
                     Locations = new List<LocationEntity>
                     {

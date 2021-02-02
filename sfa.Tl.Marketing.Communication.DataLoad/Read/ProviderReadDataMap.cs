@@ -6,6 +6,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad.Read
     {
         internal ProviderReadDataMap()
         {
+            Map(m => m.UkPrn).Name("UKPRN");
             Map(m => m.ProviderName).Name("Provider Name");
             Map(m => m.VenueName).Name("Venue Name");
             Map(m => m.Postcode).Name("Postcode");

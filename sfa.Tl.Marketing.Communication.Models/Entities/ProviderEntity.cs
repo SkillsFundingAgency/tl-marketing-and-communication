@@ -12,6 +12,9 @@ namespace sfa.Tl.Marketing.Communication.Models.Entities
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
+        [JsonPropertyName("ukprn")]
+        public long UkPrn { get; set; }
+
         //This property is serialized to json in the cloud table
         public IList<LocationEntity> Locations { get; set; }
 

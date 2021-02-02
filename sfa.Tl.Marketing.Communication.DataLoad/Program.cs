@@ -26,7 +26,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
         private const string CsvFilePath = @"D:\SFA-TestData\Full Provider Data 2020 - 2021 (campaign site).csv";
         private const string JsonOutputPath = @"D:\SFA-TestData\Json\providers.json";
         private const string PostcodesIoUrl = "https://postcodes.io";
-        
+
         private static IList<string> _warningMessages;
 
         // ReSharper disable once UnusedParameter.Local
@@ -46,27 +46,28 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             if (string.IsNullOrWhiteSpace(outputFilePath))
                 outputFilePath = JsonOutputPath;
 
-            var tableStorageConnectionString = configuration.GetValue<string>("TableStorageConnectionString");
-            if (!string.IsNullOrEmpty(tableStorageConnectionString))
+            if (configuration.GetValue<bool>("JsonInputOnly"))
             {
-                var jsonInputOnly = configuration.GetValue<bool>("JsonInputOnly");
+                var tableStorageConnectionString = configuration.GetValue<string>("TableStorageConnectionString");
+                if (!string.IsNullOrEmpty(tableStorageConnectionString))
+                {
+                    var loggerFactory = new LoggerFactory();
+                    var providerDataMigrationService = new ProviderDataMigrationService(
+                        new FileReader(),
+                        CreateTableStorageService(tableStorageConnectionString, loggerFactory),
+                        loggerFactory.CreateLogger<ProviderDataMigrationService>());
 
-                var loggerFactory = new LoggerFactory();
-                var providerDataMigrationService = new ProviderDataMigrationService(
-                    new FileReader(),
-                    CreateTableStorageService(tableStorageConnectionString, loggerFactory),
-                    loggerFactory.CreateLogger<ProviderDataMigrationService>());
+                    var qualificationsSaved = await providerDataMigrationService
+                        .WriteQualifications(configuration.GetValue<string>("QualificationJsonInputFilePath"));
+                    Console.WriteLine("");
+                    Console.WriteLine($"Copied {qualificationsSaved} qualifications to table storage.");
 
-                var qualificationsSaved = await providerDataMigrationService
-                    .WriteQualifications(configuration.GetValue<string>("QualificationJsonInputFilePath"));
-                Console.WriteLine("");
-                Console.WriteLine($"Copied {qualificationsSaved} qualifications to table storage.");
+                    var providersSaved = await providerDataMigrationService
+                        .WriteProviders(configuration.GetValue<string>("ProviderJsonInputFilePath"));
+                    Console.WriteLine($"Copied {providersSaved} providers to table storage.");
 
-                var providersSaved = await providerDataMigrationService
-                    .WriteProviders(configuration.GetValue<string>("ProviderJsonInputFilePath"));
-                Console.WriteLine($"Copied {providersSaved} providers to table storage.");
-
-                if (jsonInputOnly) return;
+                    return;
+                }
             }
 
             var providerReader = new ProviderReader();
@@ -89,6 +90,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                 var writeData = new ProviderWriteData
                 {
                     Id = index,
+                    UkPrn = provider.First().UkPrn,
                     Name = provider.Key, //.ToTitleCase(), //Force to title case
                     Locations = GetLocationsWrite(provider)
                 };

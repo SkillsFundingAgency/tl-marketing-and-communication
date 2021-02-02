@@ -66,6 +66,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     new Provider
                     {
                         Id = p.GetProperty("id").GetInt32(),
+                        UkPrn = p.GetProperty("ukPrn").GetInt64(),
                         Name = p.GetProperty("name").GetString(),
                         Locations = p.GetProperty("locations")
                             .EnumerateArray()

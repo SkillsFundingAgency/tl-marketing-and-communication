@@ -2,6 +2,7 @@
 {
     public class ProviderReadData
     {
+        public long UkPrn { get; set; }
         public string ProviderName { get; set; }
         public string VenueName { get; set; }
         public string Postcode { get; set; }

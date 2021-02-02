@@ -42,6 +42,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     new ProviderEntity
                     {
                         Id = provider.Id,
+                        UkPrn = provider.UkPrn,
                         Name = provider.Name,
                         Locations = provider.Locations.Select(
                             location => 
@@ -79,6 +80,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     new Provider
                     {
                         Id = provider.Id,
+                        UkPrn = provider.UkPrn,
                         Name = provider.Name,
                         Locations = provider.Locations.Select(
                             location =>
