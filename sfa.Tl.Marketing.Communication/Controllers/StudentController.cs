@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
@@ -125,14 +127,24 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         {
             if (!_cache.TryGetValue(AllowedRedirectUrlsCacheKey, out HashSet<string> allowedUrls))
             {
-                allowedUrls = new HashSet<string>(_providerDataService.GetWebsiteUrls());
+                allowedUrls = new HashSet<string>(_providerDataService.GetWebsiteUrls().Select(WebUtility.UrlDecode));
 
                 _cache.Set(AllowedRedirectUrlsCacheKey, allowedUrls,
                     new MemoryCacheEntryOptions()
                         .SetSlidingExpiration(TimeSpan.FromMinutes(CacheExpiryInMinutes)));
+
+                Debug.Write("Allowed urls:");
+                foreach (var url in allowedUrls)
+                {
+                    Debug.WriteLine(url);
+                }
+                Debug.Write(new string('-', 50));
             }
 
-            var targetUrl = Url.IsLocalUrl(viewModel.Url) || allowedUrls.Contains(viewModel.Url)
+            //Need to decode the url for comparison to the allow list,
+            //as it has been encoded before being added to web pages
+            var decodedUrl = WebUtility.UrlDecode(viewModel.Url);
+            var targetUrl = Url.IsLocalUrl(decodedUrl) || allowedUrls.Contains(decodedUrl)
                 ? viewModel.Url
                 : "/students";
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 
 namespace sfa.Tl.Marketing.Communication.Models
 {
@@ -15,7 +16,7 @@ namespace sfa.Tl.Marketing.Communication.Models
         public IEnumerable<DeliveryYearViewModel> DeliveryYears { get; set; }
         public string Website { get; set; }
         public string RedirectUrl => !string.IsNullOrWhiteSpace(Website) 
-            ? $"/students/redirect?url={Website}" 
+            ? $"/students/redirect?url={WebUtility.UrlEncode(Website)}" 
             : "";
 
         public string RedirectUrlLabel => $"Visit {VenueName}'s website";
