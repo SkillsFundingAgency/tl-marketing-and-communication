@@ -66,45 +66,102 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             var root = jsonDoc.RootElement;
 
-            var count = 0;
+            var providers = new List<Provider>();
             foreach (var courseRecord in root.EnumerateArray())
             {
                 if (courseRecord.SafeGetString("offeringType")  == "TLevel")
                 {
-                    if(await ProcessCourseRecord(courseRecord))
-                        count++;
+                    var provider = await ProcessCourseRecord(courseRecord);
+                    if (provider != null)
+                    {
+                        var existingProvider = providers.SingleOrDefault(p => p.UkPrn == provider.UkPrn);
+                        if (existingProvider == null)
+                        {
+                            providers.Add(provider);
+                        }
+                        else
+                        {
+                            //Merge provider
+                        }
+                    }
                 }
             }
 
-            _logger.LogInformation($"ImportFromCourseDirectoryApi saved {count} records");
+            //After accumulating all providers
+            //TODO: Merge data, don't clear
+            var removedProviders = await _tableStorageService.ClearProviders();
+            _logger.LogInformation($"Removed {removedProviders} providers from table storage");
 
-            return count;
+            var savedProviders = await _tableStorageService.SaveProviders(providers);
+            _logger.LogInformation($"Saved {savedProviders} providers to table storage");
+
+            //TODO: Delete any providers that aren't in the incoming list
+
+            _logger.LogInformation($"ImportFromCourseDirectoryApi saved {providers.Count} records");
+
+            return providers.Count;
         }
 
-        private async Task<bool> ProcessCourseRecord(JsonElement courseRecord)
+        private async Task<Provider> ProcessCourseRecord(JsonElement courseRecord)
         {
-            //read start date
+            _logger.LogWarning($"Processing T Level with id '{courseRecord.SafeGetString("tLevelId")}'");
+
             if (!DateTime.TryParse(courseRecord.SafeGetString("startDate"), out var startDate))
             {
                 //TODO: What to do here? If no date should probably log an error and/or ignore this record
                 _logger.LogWarning("Could not read start date from course record.");
-                return false;
+                return null;
             }
 
             //Read qualification
-            //Read provider
-            var providerProperty = courseRecord.GetProperty("provider");
-
-            var provider = new Provider
+            var qualificationId = 0;
+            if (courseRecord.TryGetProperty("qualification", out var qualificationProperty))
             {
-                //UkPrn = providerProperty.SafeGetString("ukPrn")
-                Name = providerProperty.SafeGetString("providerName"),
-                //Locations = TODO - Select from "locations"
+                qualificationId = MapQualificationId(qualificationProperty.SafeGetInt32("frameworkCode"));
+                if (qualificationId == 0)
+                {
+                    _logger.LogWarning("Could not find qualification.");
+                    return null;
+                }
+            }
+
+            //Read provider
+            if (courseRecord.TryGetProperty("provider", out var providerProperty))
+            {
+                var provider = new Provider
+                {
+                    Name = providerProperty.SafeGetString("providerName"),
+                    UkPrn = int.TryParse(providerProperty.SafeGetString("ukprn"), out var ukPrn) ? ukPrn : 0,
+                    
+                    Locations = courseRecord.TryGetProperty("locations", out var locationsProperty)
+                        ? locationsProperty.EnumerateArray().Select(l =>
+                            new Location
+                            {
+                                Name = l.SafeGetString("venueName"),
+                                Postcode = l.SafeGetString("postcode"),
+                            }).ToList()
+                        : new List<Location>()
+                };
+
+
+                return provider;
+            }
+
+            return null;
+        }
+
+        private int MapQualificationId(int id)
+        {
+            return id switch
+            {
+                36 => 2 //Design, Surveying and Planning for Construction
+                ,
+                37 => 4 //Digital Production, Design and Development
+                ,
+                38 => 6 //Education and Childcare
+                ,
+                _ => 0
             };
-
-            //read locations
-
-            return true;
         }
 
         public async Task<IList<Provider>> GetProviders()
