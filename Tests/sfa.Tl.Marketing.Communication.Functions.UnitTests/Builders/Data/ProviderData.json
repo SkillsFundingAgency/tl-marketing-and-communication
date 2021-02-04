@@ -1,6 +1,7 @@
 [
   {
     "id": 1,
+    "ukPrn": 12345678,
     "name": "Test Provider 1",
     "locations": [
       {
