@@ -142,24 +142,21 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                             }).ToList()
                         : new List<Location>()
                 };
-
-
+                
                 return provider;
             }
 
             return null;
         }
 
-        private int MapQualificationId(int id)
+        private static int MapQualificationId(int id)
         {
+            //TODO: Replace this with the correct ids returned in the real API - might be a guid or a map to qualifications
             return id switch
             {
-                36 => 2 //Design, Surveying and Planning for Construction
-                ,
-                37 => 4 //Digital Production, Design and Development
-                ,
-                38 => 6 //Education and Childcare
-                ,
+                36 => 2, //Design, Surveying and Planning for Construction
+                37 => 4, //Digital Production, Design and Development
+                38 => 6, //Education and Childcare
                 _ => 0
             };
         }
