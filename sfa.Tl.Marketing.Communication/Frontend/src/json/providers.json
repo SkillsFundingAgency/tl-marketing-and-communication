@@ -757,7 +757,7 @@
               ]
             }
           ],
-          "website": "https://www.ccsw.ac.uk/t%20levels/"
+          "website": "https://www.ccsw.ac.uk/t-levels/"
         }
       ]
     },
@@ -953,9 +953,7 @@
               "year": 2021,
               "qualifications": [
                 4,
-                7,
-                2,
-                1
+                7
               ]
             }
           ],
@@ -971,8 +969,8 @@
             {
               "year": 2021,
               "qualifications": [
-                1,
-                9
+                2,
+                1
               ]
             }
           ],
@@ -2072,8 +2070,9 @@
             {
               "year": 2021,
               "qualifications": [
+                4,
+                5,
                 6,
-                2,
                 7
               ]
             }
@@ -3383,7 +3382,7 @@
               ]
             }
           ],
-          "website": "https://www.southessex.ac.uk/t-levels/?&level_1_gcse=true&level_2_gcse_btec=true&level_3_btec_a_level=true&a_level=true"
+          "website": "https://www.southessex.ac.uk/t-levels"
         },
         {
           "name": "",
@@ -3399,7 +3398,7 @@
               ]
             }
           ],
-          "website": "https://www.southessex.ac.uk/t-levels/?&level_1_gcse=true&level_2_gcse_btec=true&level_3_btec_a_level=true&a_level=true"
+          "website": "https://www.southessex.ac.uk/t-levels"
         },
         {
           "name": "",
@@ -3416,7 +3415,7 @@
               ]
             }
           ],
-          "website": "https://www.southessex.ac.uk/t-levels/?&level_1_gcse=true&level_2_gcse_btec=true&level_3_btec_a_level=true&a_level=true"
+          "website": "https://www.southessex.ac.uk/t-levels"
         }
       ]
     },
