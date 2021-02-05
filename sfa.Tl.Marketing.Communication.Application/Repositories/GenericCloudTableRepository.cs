@@ -49,7 +49,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             var tableQuery = new TableQuery<T>();
             var continuationToken = default(TableContinuationToken);
             var rowsDeleted = 0;
-            var stopwatch = Stopwatch.StartNew();
 
             do
             {
@@ -180,7 +179,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             stopwatch.Stop();
             _logger.LogInformation($"Save to '{_tableName}' saved {inserted} entities in {batchCount} batches in {stopwatch.ElapsedMilliseconds:#,###}ms.");
 
-            //return inserted;
             return inserted;
         }
     }

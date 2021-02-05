@@ -6,6 +6,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad.PostcodesIo
     {
         // ReSharper disable InconsistentNaming
         [JsonPropertyName("status")]
+        // ReSharper disable once UnusedMember.Global
         public int Status { get; set; }
 
         [JsonPropertyName("result")]

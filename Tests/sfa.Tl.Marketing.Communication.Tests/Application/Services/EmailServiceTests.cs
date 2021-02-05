@@ -101,7 +101,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var emailService = BuildEmailService(supportInbox: emailAddressList,
                 notificationClient: notificationClient);
 
-            var result = await SendEmployerContactEmail(emailService);
+            await SendEmployerContactEmail(emailService);
 
             await notificationClient
                 .Received(2)
