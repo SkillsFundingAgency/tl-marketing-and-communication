@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Controllers;
@@ -29,8 +28,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
                 AllowedExternalProviderUri
             };
 
-            var cache = Substitute.For<IMemoryCache>();
-
             var providerSearchEngine = Substitute.For<IProviderSearchEngine>();
 
             var providerDataService = Substitute.For<IProviderDataService>();
@@ -40,7 +37,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
             urlHelper.IsLocalUrl(Arg.Any<string>())
                 .Returns(args => (string)args[0] == LocalUri);
 
-            _controller = new StudentController(providerDataService, providerSearchEngine, cache)
+            _controller = new StudentController(providerDataService, providerSearchEngine)
             {
                 Url = urlHelper
             };

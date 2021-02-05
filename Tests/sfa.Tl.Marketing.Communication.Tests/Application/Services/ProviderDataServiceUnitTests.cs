@@ -2,6 +2,7 @@
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using System.Linq;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
@@ -15,6 +16,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
         public ProviderDataServiceUnitTests()
         {
+            var cache = Substitute.For<IMemoryCache>();
             var logger = Substitute.For<ILogger<ProviderDataService>>();
 
             var qualifications = new TestQualificationsFromJsonBuilder()
@@ -25,7 +27,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             tableStorageService.RetrieveProviders().Returns(providers);
             tableStorageService.RetrieveQualifications().Returns(qualifications);
 
-            _service = new ProviderDataService(tableStorageService, logger);
+            _service = new ProviderDataService(tableStorageService, cache, logger);
         }
 
         [Fact]

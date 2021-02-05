@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
@@ -14,21 +13,15 @@ namespace sfa.Tl.Marketing.Communication.Controllers
 {
     public class StudentController : Controller
     {
-        public const string AllowedRedirectUrlsCacheKey = "Allowed_Redirect_Urls";
-        public const int CacheExpiryInMinutes = 120;
-
-        private readonly IMemoryCache _cache;
         private readonly IProviderDataService _providerDataService;
         private readonly IProviderSearchEngine _providerSearchEngine;
 
         public StudentController(
             IProviderDataService providerDataService, 
-            IProviderSearchEngine providerSearchEngine, 
-            IMemoryCache cache)
+            IProviderSearchEngine providerSearchEngine)
         {
             _providerSearchEngine = providerSearchEngine ?? throw new ArgumentNullException(nameof(providerSearchEngine));
             _providerDataService = providerDataService ?? throw new ArgumentNullException(nameof(providerDataService));
-            _cache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 
         [Route("/students", Name = "Index")]
@@ -125,21 +118,10 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         [Route("/students/redirect", Name = "Redirect")]
         public IActionResult Redirect(RedirectViewModel viewModel)
         {
-            if (!_cache.TryGetValue(AllowedRedirectUrlsCacheKey, out HashSet<string> allowedUrls))
-            {
-                allowedUrls = new HashSet<string>(_providerDataService.GetWebsiteUrls().Select(WebUtility.UrlDecode));
-
-                _cache.Set(AllowedRedirectUrlsCacheKey, allowedUrls,
-                    new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromMinutes(CacheExpiryInMinutes)));
-
-                Debug.Write("Allowed urls:");
-                foreach (var url in allowedUrls)
-                {
-                    Debug.WriteLine(url);
-                }
-                Debug.Write(new string('-', 50));
-            }
+            var allowedUrls = new HashSet<string>(
+                _providerDataService
+                    .GetWebsiteUrls()
+                    .Select(WebUtility.UrlDecode));
 
             //Need to decode the url for comparison to the allow list,
             //as it has been encoded before being added to web pages

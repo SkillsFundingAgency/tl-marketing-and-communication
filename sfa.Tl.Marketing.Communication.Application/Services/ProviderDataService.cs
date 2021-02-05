@@ -4,27 +4,29 @@ using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services
 {
     public class ProviderDataService : IProviderDataService
     {
-        private readonly IList<Provider> _providerTableData;
-        private readonly IList<Qualification> _qualificationTableData;
+        public const string ProviderTableDataCacheKey = "Provider_Table_Data";
+        public const string QualificationTableDataCacheKey = "Qualification_Table_Data";
+        public const int CacheExpiryInSeconds = 60;
 
+        private readonly IMemoryCache _cache;
         private readonly ITableStorageService _tableStorageService;
         private readonly ILogger<ProviderDataService> _logger;
 
         public ProviderDataService(
             ITableStorageService tableStorageService,
+            IMemoryCache cache,
             ILogger<ProviderDataService> logger)
         {
             _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
+            _cache = cache ?? throw new ArgumentNullException(nameof(cache));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
-            _providerTableData = LoadProviderTableData().GetAwaiter().GetResult();
-            _qualificationTableData = LoadQualificationTableData().GetAwaiter().GetResult();
         }
 
         public IQueryable<Provider> GetProviders()
@@ -52,21 +54,21 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             qualifications.Add(new Qualification { Id = 0, Name = "All T Level courses" });
             return qualifications;
         }
-        
+
         private async Task<IList<Provider>> LoadProviderTableData()
         {
             try
             {
-                 _logger.LogInformation("Looking for providers in table storage");
+                _logger.LogInformation("Looking for providers in table storage");
                 var providersFromTable = await _tableStorageService.RetrieveProviders();
                 _logger.LogInformation($"Found {providersFromTable?.Count ?? 0} providers in table storage");
-                
+
                 return providersFromTable;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to retrieve providers from table storage");
-            	return null;
+                return null;
             }
         }
 
@@ -107,12 +109,37 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private IQueryable<Qualification> GetAllQualifications()
         {
-            return _qualificationTableData.AsQueryable();
+            //_qualificationTableData = LoadQualificationTableData().GetAwaiter().GetResult();
+            //private readonly IList<Provider> _providerTableData;
+            //private readonly IList<Qualification> _qualificationTableData;
+
+            if (!_cache.TryGetValue(QualificationTableDataCacheKey,
+                out IList<Qualification> qualificationTableData))
+            {
+                qualificationTableData = LoadQualificationTableData().GetAwaiter().GetResult();
+                _cache.Set(QualificationTableDataCacheKey,
+                    qualificationTableData,
+                    new MemoryCacheEntryOptions()
+                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(CacheExpiryInSeconds)));
+            }
+
+            return qualificationTableData.AsQueryable();
         }
 
         private IQueryable<Provider> GetAllProviders()
         {
-            return _providerTableData.AsQueryable();
+            //_providerTableData = LoadProviderTableData().GetAwaiter().GetResult();
+            if (!_cache.TryGetValue(ProviderTableDataCacheKey,
+                out IList<Provider> providerTableData))
+            {
+                providerTableData = LoadProviderTableData().GetAwaiter().GetResult();
+                _cache.Set(ProviderTableDataCacheKey,
+                    providerTableData,
+                    new MemoryCacheEntryOptions()
+                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(CacheExpiryInSeconds)));
+            }
+
+            return providerTableData.AsQueryable();
         }
     }
 }
