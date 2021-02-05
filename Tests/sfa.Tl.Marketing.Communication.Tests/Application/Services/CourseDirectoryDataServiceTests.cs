@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using NSubstitute.Core;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
@@ -80,6 +79,22 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var location = provider.Locations.First();
             location.Name.Should().Be("Provider venue");
             location.Postcode.Should().Be("CV1 2AA");
+            location.Town.Should().Be("Coventry");
+            location.Latitude.Should().Be(50.12345);
+            location.Longitude.Should().Be(-1.987654);
+            location.Website.Should().Be("https://provider.com/venue/tlevel");
+
+            location.DeliveryYears.Should().NotBeNull();
+            location.DeliveryYears.Should().HaveCount(1);
+
+            var deliveryYear = location.DeliveryYears.First();
+            deliveryYear.Year.Should().Be(2021);
+
+            deliveryYear.Qualifications.Should().NotBeNull();
+            deliveryYear.Qualifications.Should().HaveCount(1);
+
+            var qualification = deliveryYear.Qualifications.First();
+            qualification.Should().Be(2);
         }
 
         [Fact]

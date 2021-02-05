@@ -41,9 +41,9 @@
       "postcode": "CV1 2AA",
       "telephone": null,
       "email": null,
-      "website": null,
-      "latitude": 1.23,
-      "longitude": 1.23
+      "website": "https://provider.com/venue/tlevel",
+      "latitude": 50.12345,
+      "longitude": -1.987654
     }
   ],
   "deliveryMode": "ClassroomBased",

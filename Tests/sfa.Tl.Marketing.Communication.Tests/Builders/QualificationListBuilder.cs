@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Builders

@@ -36,7 +36,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             var httpClient = _httpClientFactory.CreateClient(CourseDirectoryHttpClientName);
 
-            // ReSharper disable once StringLiteralTypo
+            _logger.LogInformation($"Call API {httpClient.BaseAddress} endpoint {CourseDetailEndpoint}");
+
             var response = await httpClient.GetAsync(CourseDetailEndpoint);
             if (response.StatusCode != HttpStatusCode.OK)
             {
@@ -52,11 +53,15 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             var httpClient = _httpClientFactory.CreateClient(CourseDirectoryHttpClientName);
 
+            _logger.LogInformation($"Call API {httpClient.BaseAddress} endpoint {CourseDetailEndpoint}");
+
             var response = await httpClient.GetAsync(CourseDetailEndpoint);
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
             }
+
+            response.EnsureSuccessStatusCode();
 
             //var jsonDoc = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
             //TODO: just create the jsonDoc as above - for now wrap the record in an array using string 
@@ -77,6 +82,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                         var existingProvider = providers.SingleOrDefault(p => p.UkPrn == provider.UkPrn);
                         if (existingProvider == null)
                         {
+                            //TODO: Should we use this as id? Or use UKPRN?
+                            provider.Id = providers.Count + 1;
                             providers.Add(provider);
                         }
                         else
@@ -128,6 +135,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             //Read provider
             if (courseRecord.TryGetProperty("provider", out var providerProperty))
             {
+                var providerWebsite = providerProperty.SafeGetString("website");
+
                 var provider = new Provider
                 {
                     Name = providerProperty.SafeGetString("providerName"),
@@ -135,11 +144,36 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     
                     Locations = courseRecord.TryGetProperty("locations", out var locationsProperty)
                         ? locationsProperty.EnumerateArray().Select(l =>
-                            new Location
+                        {
+                            var locationWebsite = l.SafeGetString("website");
+
+                            return new Location
                             {
                                 Name = l.SafeGetString("venueName"),
                                 Postcode = l.SafeGetString("postcode"),
-                            }).ToList()
+                                Town = l.SafeGetString("town"),
+                                Latitude = l.SafeGetDouble("latitude"),
+                                Longitude = l.SafeGetDouble("longitude"),
+                                //TODO: Should website be from venue or provider, or both
+                                //Website = !string.IsNullOrWhiteSpace(l.SafeGetString("website"))
+                                //    ? l.SafeGetString("website")
+                                //    : providerProperty.SafeGetString("website"),
+                                Website = !string.IsNullOrWhiteSpace(locationWebsite)
+                                    ? locationWebsite   
+                                    : providerWebsite,
+                                DeliveryYears = new List<DeliveryYearDto>
+                                {
+                                    new DeliveryYearDto
+                                    {
+                                        Year = (short)startDate.Year,
+                                        Qualifications = new List<int>
+                                        {
+                                            qualificationId
+                                        }
+                                    }
+                                }
+                            };
+                        }).ToList()
                         : new List<Location>()
                 };
                 
