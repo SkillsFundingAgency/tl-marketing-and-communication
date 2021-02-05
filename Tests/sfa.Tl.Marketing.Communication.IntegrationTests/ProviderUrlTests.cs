@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Azure.Cosmos.Table;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
@@ -34,11 +35,13 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
             var loggerFactory = new LoggerFactory();
             var providerDataServiceLogger = loggerFactory.CreateLogger<ProviderDataService>();
 
+            var cache = new MemoryCache(new MemoryCacheOptions());
+
             var tableStorageService = CreateTableStorageService(
                 configurationOptions.StorageConfiguration.TableStorageConnectionString,
                 loggerFactory);
 
-            IProviderDataService providerDataService = new ProviderDataService(tableStorageService, providerDataServiceLogger);
+            IProviderDataService providerDataService = new ProviderDataService(tableStorageService, cache, providerDataServiceLogger);
             var locationService = new LocationService();
             var journeyService = new JourneyService();
             var providerLocationService = new ProviderLocationService(providerDataService);
@@ -49,8 +52,6 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
         [Fact]
         public async Task Check_If_a_Provider_Website_Is_Broken()
         {
-            //var locations = _providerSearchService.GetAllProviderLocations().ToList();
-
             var distinctProviderUrls =
                 (from r in _providerSearchService.GetAllProviderLocations()
                  group r by new { r.ProviderName, r.Website } into g
@@ -58,7 +59,7 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
                  select (g.Key.ProviderName, g.Key.Website)
                 ).ToList();
 
-            IList<(string ProviderName, string Website)> brokenProviderUrls = new List<(string ProviderName, string Website)>();
+            var brokenProviderUrls = new List<(string ProviderName, string Website)>();
 
             foreach (var location in distinctProviderUrls)
             {
@@ -75,9 +76,9 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
             {
                 _outputHelper.WriteLine($"\n{brokenProviderUrls.Count} out of {distinctProviderUrls.Count} provider websites have broken urls, as shown below:\n");
 
-                foreach (var brokenUrl in brokenProviderUrls)
+                foreach (var (providerName, website) in brokenProviderUrls)
                 {
-                    _outputHelper.WriteLine($"\t{brokenUrl.ProviderName} - {brokenUrl.Website}");
+                    _outputHelper.WriteLine($"\t{providerName} - {website}");
                 }
             }
             else
@@ -114,12 +115,11 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
 
             var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
 
-            ICloudTableRepository<ProviderEntity> providerRepository = new GenericCloudTableRepository<ProviderEntity, int>(
+            var providerRepository = new GenericCloudTableRepository<ProviderEntity, int>(
                 cloudTableClient,
                 loggerFactory.CreateLogger<GenericCloudTableRepository<ProviderEntity, int>>());
 
-            ICloudTableRepository<QualificationEntity> qualificationRepository =
-                new GenericCloudTableRepository<QualificationEntity, int>(
+            var qualificationRepository =  new GenericCloudTableRepository<QualificationEntity, int>(
                     cloudTableClient,
                     loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity, int>>());
 
