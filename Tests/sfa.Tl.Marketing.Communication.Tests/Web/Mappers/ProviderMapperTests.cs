@@ -78,7 +78,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Mappers
         [Fact]
         public void Qualification_Is_Mapped_To_QualificationViewModel_Correctly()
         {
-            var qualification = new QualificationBuilder().Build();
+            var qualification = new QualificationListBuilder()
+                .Add()
+                .Build()
+                .First();
 
             var config = new MapperConfiguration(c =>
             {
@@ -90,7 +93,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Mappers
             var viewModel = mapper.Map<QualificationViewModel>(qualification);
 
             viewModel.Should().NotBeNull();
-            viewModel.Name.Should().Be("Test Qualification");
+            viewModel.Name.Should().Be("Test Qualification 1");
             viewModel.Id.Should().Be(1);
         }
         
