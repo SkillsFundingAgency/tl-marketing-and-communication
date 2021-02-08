@@ -67,46 +67,38 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             //TODO: just create the jsonDoc as above - for now wrap the record in an array using string 
             var content = await response.Content.ReadAsStringAsync();
             content = $"[\n{content}\n]";
-            var jsonDoc = JsonDocument.Parse(content);
 
-            var root = jsonDoc.RootElement;
+            var providers = await ProcessTLevelDetailsDocument(JsonDocument.Parse(content));
 
+            return await UpdateProvidersInTableStorage(providers);
+        }
+
+        private async Task<IList<Provider>> ProcessTLevelDetailsDocument(JsonDocument jsonDoc)
+        {
             var providers = new List<Provider>();
-            foreach (var courseRecord in root.EnumerateArray())
+
+            foreach (var courseRecord in jsonDoc.RootElement
+                .EnumerateArray()
+                .Where(courseRecord => courseRecord.SafeGetString("offeringType") == "TLevel"))
             {
-                if (courseRecord.SafeGetString("offeringType")  == "TLevel")
+                var provider = await ProcessCourseRecord(courseRecord);
+                if (provider != null)
                 {
-                    var provider = await ProcessCourseRecord(courseRecord);
-                    if (provider != null)
+                    var existingProvider = providers.SingleOrDefault(p => p.UkPrn == provider.UkPrn);
+                    if (existingProvider == null)
                     {
-                        var existingProvider = providers.SingleOrDefault(p => p.UkPrn == provider.UkPrn);
-                        if (existingProvider == null)
-                        {
-                            //TODO: Should we use this as id? Or use UKPRN?
-                            provider.Id = providers.Count + 1;
-                            providers.Add(provider);
-                        }
-                        else
-                        {
-                            //Merge provider
-                        }
+                        //TODO: Should we use this as id? Or use UKPRN?
+                        provider.Id = providers.Count + 1;
+                        providers.Add(provider);
+                    }
+                    else
+                    {
+                        //Merge provider
                     }
                 }
             }
 
-            //After accumulating all providers
-            //TODO: Merge data, don't clear
-            var removedProviders = await _tableStorageService.ClearProviders();
-            _logger.LogInformation($"Removed {removedProviders} providers from table storage");
-
-            var savedProviders = await _tableStorageService.SaveProviders(providers);
-            _logger.LogInformation($"Saved {savedProviders} providers to table storage");
-
-            //TODO: Delete any providers that aren't in the incoming list
-
-            _logger.LogInformation($"ImportFromCourseDirectoryApi saved {providers.Count} records");
-
-            return providers.Count;
+            return providers;
         }
 
         private async Task<Provider> ProcessCourseRecord(JsonElement courseRecord)
@@ -193,6 +185,23 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 38 => 6, //Education and Childcare
                 _ => 0
             };
+        }
+
+        private async Task<int> UpdateProvidersInTableStorage(IList<Provider> providers)
+        {
+            //After accumulating all providers
+            //TODO: Merge data, don't clear
+            var removedProviders = await _tableStorageService.ClearProviders();
+            _logger.LogInformation($"Removed {removedProviders} providers from table storage");
+
+            var savedProviders = await _tableStorageService.SaveProviders(providers);
+            _logger.LogInformation($"Saved {savedProviders} providers to table storage");
+
+            //TODO: Delete any providers that aren't in the incoming list
+
+            _logger.LogInformation($"ImportFromCourseDirectoryApi saved {providers.Count} records");
+
+            return providers.Count;
         }
 
         public async Task<IList<Provider>> GetProviders()
