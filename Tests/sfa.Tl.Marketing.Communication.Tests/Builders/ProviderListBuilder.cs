@@ -48,66 +48,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
 
             return this;
         }
-
-        /*
-         * public IList<Provider> BuildList() => new List<Provider>
-        {
-            new Provider
-            {
-                Id = 1,
-                Name = "Test Provider 1",
-                Locations = new List<Location>
-                {
-                    new Location
-                    {
-                        Postcode = "CV1 2WT",
-                        Town = "Coventry",
-                        Latitude = 52.400997,
-                        Longitude = -1.508122,
-                        DeliveryYears = new List<DeliveryYearDto>
-                        {
-                            new DeliveryYearDto
-                            {
-                                Year = 2021,
-                                Qualifications = new List<int>()
-                                {
-                                    1
-                                }
-                            }
-                        },
-                        Website = "https://test.provider.co.uk"
-                    }
-                }
-            },
-            new Provider
-            {
-                Id = 2,
-                Name = "Test Provider 2",
-                Locations = new List<Location>
-                {
-                    new Location
-                    {
-                        Postcode = "CV1 2WT",
-                        Town = "Coventry",
-                        Latitude = 52.400997,
-                        Longitude = -1.508122,
-                        DeliveryYears = new List<DeliveryYearDto>
-                        {
-                            new DeliveryYearDto
-                            {
-                                Year = 2021,
-                                Qualifications = new List<int>()
-                                {
-                                    1
-                                }
-                            }
-                        },
-                        Website = "https://test.provider.co.uk"
-                    }
-                }
-            }
-        };
-         */
     }
 }
 

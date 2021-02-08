@@ -48,7 +48,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Mappers
         [Fact]
         public void ProviderLocationList_Is_Mapped_To_ProviderLocationViewModelList_Correctly()
         {
-            var providerLocationList = new ProviderLocationBuilder().BuildList();
+            var providerLocationList = new ProviderLocationListBuilder()
+                .Add(2)
+                .Build();
 
             var config = new MapperConfiguration(c =>
             {
@@ -61,18 +63,42 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Mappers
 
             viewModelList.Should().NotBeNull();
             viewModelList.Should().NotBeEmpty();
-            viewModelList.Count.Should().Be(1);
+            viewModelList.Count.Should().Be(2);
 
-            viewModelList[0].ProviderName.Should().Be("Test Provider");
-            viewModelList[0].Name.Should().Be("Test Location");
+            viewModelList[0].ProviderName.Should().Be("Test Provider 1");
+            viewModelList[0].Name.Should().Be("Test Location 1");
             viewModelList[0].Postcode.Should().Be("CV1 2WT");
             viewModelList[0].Town.Should().Be("Coventry");
             viewModelList[0].Latitude.Should().Be(52.400997);
             viewModelList[0].Longitude.Should().Be(-1.508122);
-           
             viewModelList[0].DistanceInMiles.Should().Be(10);
-            viewModelList[0].DeliveryYears.Should().NotBeNull();
             viewModelList[0].Website.Should().Be("https://test.provider.co.uk");
+
+            viewModelList[0].DeliveryYears.Should().NotBeNull();
+            viewModelList[0].DeliveryYears.Count().Should().Be(1);
+            viewModelList[0].DeliveryYears.First().Year.Should().Be(2021);
+            viewModelList[0].DeliveryYears.First().Qualifications.Should().NotBeNull();
+            viewModelList[0].DeliveryYears.First().Qualifications.Count.Should().Be(1);
+            viewModelList[0].DeliveryYears.First().Qualifications.First().Id.Should().Be(1);
+            viewModelList[0].DeliveryYears.First().Qualifications.First().Name.Should().Be("Qualification 1");
+
+
+            viewModelList[1].ProviderName.Should().Be("Test Provider 2");
+            viewModelList[1].Name.Should().Be("Test Location 2");
+            viewModelList[1].Postcode.Should().Be("CV2 3WT");
+            viewModelList[1].Town.Should().Be("Coventry");
+            viewModelList[1].Latitude.Should().Be(53.400997);
+            viewModelList[1].Longitude.Should().Be(-2.508122);
+            viewModelList[1].DistanceInMiles.Should().Be(11);
+            viewModelList[1].Website.Should().Be("https://test.provider.co.uk");
+
+            viewModelList[1].DeliveryYears.Should().NotBeNull();
+            viewModelList[1].DeliveryYears.Count().Should().Be(1);
+            viewModelList[1].DeliveryYears.First().Year.Should().Be(2022);
+            viewModelList[1].DeliveryYears.First().Qualifications.Should().NotBeNull();
+            viewModelList[1].DeliveryYears.First().Qualifications.Count.Should().Be(1);
+            viewModelList[1].DeliveryYears.First().Qualifications.First().Id.Should().Be(2);
+            viewModelList[1].DeliveryYears.First().Qualifications.First().Name.Should().Be("Qualification 2");
         }
 
         [Fact]
@@ -96,7 +122,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Mappers
             viewModel.Name.Should().Be("Test Qualification 1");
             viewModel.Id.Should().Be(1);
         }
-        
+
         [Fact]
         public void DeliveryYear_Is_Mapped_To_DeliveryYearViewModel_Correctly()
         {
