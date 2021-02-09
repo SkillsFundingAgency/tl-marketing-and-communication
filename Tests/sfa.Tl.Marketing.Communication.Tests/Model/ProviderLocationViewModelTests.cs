@@ -53,21 +53,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Model
                 Name = "Venue"
             };
 
-            viewModel.AddressLabel.Should().Be("Part of Test Provider \r\n Coventry | CV1 2WT");
-        }
-
-        [Fact]
-        public void ProviderLocationViewModel_AddressLabel_Is_As_Expected_When_Venue_Name_Is_ProviderName()
-        {
-            var viewModel = new ProviderLocationViewModel
-            {
-                ProviderName = "Test Provider",
-                Postcode = "CV1 2WT",
-                Town = "Coventry",
-                Name = "Test Provider"
-            };
-
-            viewModel.AddressLabel.Should().Be("Part of Test Provider \r\n Coventry | CV1 2WT");
+            viewModel.AddressLabel.Should().Be("Coventry | CV1 2WT");
         }
 
         [Fact]
@@ -128,7 +114,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Model
         }
 
         [Fact]
-        public void ProviderLocationViewModel_VenueName_Shows_ProviderName_When_Name_Is_Blank()
+        public void ProviderLocationViewModel_VenueName_Shows_ProviderName_When_Venue_Name_Is_Blank()
         {
             var viewModel = new ProviderLocationViewModel
             {
@@ -139,9 +125,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Model
             viewModel.VenueName.Should().Be("Test Provider");
         }
 
-
         [Fact]
-        public void ProviderLocationViewModel_VenueName_Shows_ProviderName_When_Name_Is_Null()
+        public void ProviderLocationViewModel_VenueName_Shows_ProviderName_When_Venue_Name_Is_Null()
         {
             var viewModel = new ProviderLocationViewModel
             {
@@ -150,6 +135,29 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Model
             };
 
             viewModel.VenueName.Should().Be("Test Provider");
+        }
+
+        [Fact]
+        public void ProviderLocationViewModel_VenueName_Shows_ProviderName_When_Venue_Name_Is_ProviderName()
+        {
+            var viewModel = new ProviderLocationViewModel
+            {
+                ProviderName = "Test Provider",
+                Name = "Test Provider"
+            };
+
+            viewModel.VenueName.Should().Be("Test Provider");
+        }
+        [Fact]
+        public void ProviderLocationViewModel_VenueName_Shows_ProviderName_When_Venue_Name_Is_Not_ProviderName()
+        {
+            var viewModel = new ProviderLocationViewModel
+            {
+                ProviderName = "Test Provider",
+                Name = "Venue Name"
+            };
+
+            viewModel.VenueName.Should().Be("Venue Name");
         }
     }
 }
