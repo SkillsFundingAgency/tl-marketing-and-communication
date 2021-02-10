@@ -7,17 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Builders\Data\ProviderData.json" />
-    <None Remove="Builders\Data\QualificationData.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Builders\Data\ProviderData.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Builders\Data\QualificationData.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Builders\Data\ProviderData.json" />
+    <EmbeddedResource Include="Builders\Data\QualificationData.json" />
   </ItemGroup>
 
   <ItemGroup>

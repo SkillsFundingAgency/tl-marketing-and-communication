@@ -2,26 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Builders\Data\test_providers.json" />
-    <None Remove="Builders\Data\test_qualifications.json" />
-    <None Remove="Builders\Data\TLevelDetailResponse.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Builders\Data\test_providers.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Builders\Data\test_qualifications.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Builders\Data\TLevelDetailResponse.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Builders\Data\test_providers.json" />
+    <EmbeddedResource Include="Builders\Data\test_qualifications.json" />
+    <EmbeddedResource Include="Builders\Data\TLevelDetailResponse.json" />
   </ItemGroup>
 
   <ItemGroup>
