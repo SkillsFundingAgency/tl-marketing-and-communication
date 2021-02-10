@@ -17,6 +17,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public const string CourseDirectoryHttpClientName = "CourseDirectoryAutoCompressClient";
         public const string CourseDetailEndpoint = "tleveldetail";
         public const string QualificationsEndpoint = "tlevelqualification";
+        public const string QualificationTitlePrefix = "T Level Technical Qualification in ";
 
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ITableStorageService _tableStorageService;
@@ -42,7 +43,10 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
+                response = CreateWorkaroundResponse();
             }
+
+            response.EnsureSuccessStatusCode();
 
             return await response.Content.ReadAsStringAsync();
         }
@@ -59,18 +63,36 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
+                response = CreateWorkaroundResponse();
+            }
+            else
+            {
+                //TODO: Remove this - the new API shouldn't need to be re-wrapped in []
+                var content = await response.Content.ReadAsStringAsync();
+                content = $"[\n{content}\n]";
+                response.Content = new StringContent(content);
             }
 
             response.EnsureSuccessStatusCode();
 
-            //var jsonDoc = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
-            //TODO: just create the jsonDoc as above - for now wrap the record in an array using string 
-            var content = await response.Content.ReadAsStringAsync();
-            content = $"[\n{content}\n]";
-
-            var providers = await ProcessTLevelDetailsDocument(JsonDocument.Parse(content));
+            var jsonDoc = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
+            var providers = await ProcessTLevelDetailsDocument(jsonDoc);
 
             return await UpdateProvidersInTableStorage(providers);
+        }
+
+        //TODO: Remove this when API is implemented
+        //To work around incomplete API implementation - load data from resource
+        private HttpResponseMessage CreateWorkaroundResponse()
+        {
+            var json = $"{GetType().Namespace}.Data.CourseDirectoryTLevelDetailResponse.json"
+                .ReadManifestResourceStreamAsString();
+
+            return new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(json)
+            };
         }
 
         private async Task<IList<Provider>> ProcessTLevelDetailsDocument(JsonDocument jsonDoc)
@@ -177,6 +199,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private static int MapQualificationId(int id)
         {
+            //Qualifications will have a prefix of "T Level Technical Qualification in "
             //TODO: Replace this with the correct ids returned in the real API - might be a guid or a map to qualifications
             return id switch
             {
