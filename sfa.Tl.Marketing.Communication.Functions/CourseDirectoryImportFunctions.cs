@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +8,9 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using sfa.Tl.Marketing.Communication.Models.Dto;
 
 namespace sfa.Tl.Marketing.Communication.Functions
 {
@@ -16,7 +20,8 @@ namespace sfa.Tl.Marketing.Communication.Functions
 
         public CourseDirectoryImportFunctions(ICourseDirectoryDataService courseDirectoryDataService)
         {
-            _courseDirectoryDataService = courseDirectoryDataService ?? throw new ArgumentNullException(nameof(courseDirectoryDataService));
+            _courseDirectoryDataService = courseDirectoryDataService ??
+                                          throw new ArgumentNullException(nameof(courseDirectoryDataService));
         }
 
         [FunctionName("CourseDirectoryScheduledImport")]
@@ -30,7 +35,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
             {
                 logger.LogInformation("Course directory scheduled import function was called.");
 
-                var resultsCount = await _courseDirectoryDataService.ImportFromCourseDirectoryApi();
+                var resultsCount = await Import();
 
                 logger.LogInformation($"Course directory scheduled import saved {resultsCount} records.");
             }
@@ -51,7 +56,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
             {
                 logger.LogInformation("Course directory ManualImport function was called.");
 
-                var resultsCount = await _courseDirectoryDataService.ImportFromCourseDirectoryApi();
+                var resultsCount = await Import();
 
                 logger.LogInformation($"Course directory ManualImport saved {resultsCount} records.");
 
@@ -66,17 +71,60 @@ namespace sfa.Tl.Marketing.Communication.Functions
             }
         }
 
+        private async Task<int> Import()
+        {
+            var json = $"{GetType().Namespace}.Data.VenueNames.json"
+                .ReadManifestResourceStreamAsString();
+            var venueNameOverrides = JsonSerializer
+                .Deserialize<IList<VenueNameOverride>>(json);
+
+            var qualificationResultsCount =
+                await _courseDirectoryDataService.ImportQualificationsFromCourseDirectoryApi();
+
+            var providerResultsCount =
+                await _courseDirectoryDataService.ImportProvidersFromCourseDirectoryApi(venueNameOverrides);
+
+            return providerResultsCount;
+        }
+
         [FunctionName("GetCourseDirectoryJson")]
-        public async Task<IActionResult> GetCourseDirectoryJson(
+        public async Task<IActionResult> GetCourseDirectoryDetailJson(
+                [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
+            HttpRequest request,
+                ILogger logger)
+        {
+            try
+            {
+                logger.LogInformation("Course directory GetCourseDirectoryDetailJson function was called.");
+
+                var json = await _courseDirectoryDataService.GetTLevelDetailJsonFromCourseDirectoryApi();
+
+                return new ContentResult
+                {
+                    Content = json,
+                    ContentType = "application/json"
+                };
+            }
+            catch (Exception e)
+            {
+                var errorMessage = $"Error reading json data from course directory. Internal Error Message {e}";
+                logger.LogError(errorMessage);
+
+                return new InternalServerErrorResult();
+            }
+        }
+
+        [FunctionName("GetCourseDirectoryQualificationJson")]
+        public async Task<IActionResult> GetCourseDirectoryQualificationJson(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequest request,
             ILogger logger)
         {
             try
             {
-                logger.LogInformation("Course directory GetCourseDirectoryJson function was called.");
+                logger.LogInformation("Course directory GetCourseDirectoryQualificationJson function was called.");
 
-                var json = await _courseDirectoryDataService.GetJsonFromCourseDirectoryApi();
+                var json = await _courseDirectoryDataService.GetTLevelQualificationJsonFromCourseDirectoryApi();
 
                 return new ContentResult
                 {

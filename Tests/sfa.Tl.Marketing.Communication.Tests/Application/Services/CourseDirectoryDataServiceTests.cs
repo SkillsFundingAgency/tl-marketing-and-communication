@@ -18,7 +18,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
     public class CourseDirectoryDataServiceTests
     {
         [Fact]
-        public async Task CourseDirectoryDataService_GetJsonFromCourseDirectoryApi_Returns_Expected_Result()
+        public async Task CourseDirectoryDataService_GetTLevelDetailJsonFromCourseDirectoryApi_Returns_Expected_Result()
         {
             var responseJson = new CourseDirectoryJsonBuilder().BuildValidTLevelDetailResponse();
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
@@ -30,7 +30,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var service = BuildCourseDirectoryDataService(httpClientFactory);
 
-            var result = await service.GetJsonFromCourseDirectoryApi();
+            var result = await service.GetTLevelDetailJsonFromCourseDirectoryApi();
 
             var expectedJson = responseJson.PrettifyJsonString();
             var finalResultJson = result.PrettifyJsonString();
@@ -38,6 +38,26 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             finalResultJson.Should().Be(expectedJson);
         }
 
+        [Fact]
+        public async Task CourseDirectoryDataService_GetTLevelQualificationsJsonFromCourseDirectoryApi_Returns_Expected_Result()
+        {
+            var responseJson = new CourseDirectoryJsonBuilder().BuildValidTLevelQualificationsResponse();
+            var httpClientFactory = Substitute.For<IHttpClientFactory>();
+            httpClientFactory
+                .CreateClient(CourseDirectoryDataService.CourseDirectoryHttpClientName)
+                .Returns(new TestHttpClientFactory()
+                    // ReSharper disable once StringLiteralTypo
+                    .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri, "tlevelqualification", responseJson));
+
+            var service = BuildCourseDirectoryDataService(httpClientFactory);
+
+            var result = await service.GetTLevelQualificationJsonFromCourseDirectoryApi();
+
+            var expectedJson = responseJson.PrettifyJsonString();
+            var finalResultJson = result.PrettifyJsonString();
+
+            finalResultJson.Should().Be(expectedJson);
+        }
         [Fact]
         public async Task CourseDirectoryDataService_Import_Returns_Expected_Result()
         {
@@ -63,7 +83,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var service = BuildCourseDirectoryDataService(httpClientFactory, tableStorageService);
 
-            var result = await service.ImportFromCourseDirectoryApi();
+            var result = await service
+                .ImportProvidersFromCourseDirectoryApi(
+                    new List<VenueNameOverride>());
 
             result.Should().Be(1);
 
@@ -94,7 +116,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             deliveryYear.Qualifications.Should().HaveCount(1);
 
             var qualification = deliveryYear.Qualifications.First();
-            qualification.Should().Be(2);
+            qualification.Should().Be(36);
         }
 
         [Fact]

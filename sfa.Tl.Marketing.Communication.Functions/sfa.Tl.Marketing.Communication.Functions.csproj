@@ -1,8 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\VenueNames.json" />
+  </ItemGroup>
+
   <ItemGroup>
 	  <PackageReference Include="AzureFunctions.Extensions.DependencyInjection" Version="1.1.3" />
 	  <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />

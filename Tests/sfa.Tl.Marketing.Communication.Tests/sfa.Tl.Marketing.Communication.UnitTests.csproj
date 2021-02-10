@@ -2,10 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Builders\Data\TLevelQualificationsResponse.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Builders\Data\TLevelQualificationsResponse.json" />
     <EmbeddedResource Include="Builders\Data\test_providers.json" />
     <EmbeddedResource Include="Builders\Data\test_qualifications.json" />
     <EmbeddedResource Include="Builders\Data\TLevelDetailResponse.json" />

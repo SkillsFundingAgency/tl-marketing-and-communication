@@ -7,5 +7,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
         public string BuildValidTLevelDetailResponse() =>
             $"{GetType().Namespace}.Data.TLevelDetailResponse.json"
                 .ReadManifestResourceStreamAsString();
+
+        public string BuildValidTLevelQualificationsResponse() =>
+            $"{GetType().Namespace}.Data.TLevelQualificationsResponse.json"
+                .ReadManifestResourceStreamAsString();
     }
 }

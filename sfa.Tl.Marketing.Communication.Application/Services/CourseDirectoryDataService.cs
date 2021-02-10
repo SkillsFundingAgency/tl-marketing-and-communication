@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
@@ -33,7 +35,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<string> GetJsonFromCourseDirectoryApi()
+        public async Task<string> GetTLevelDetailJsonFromCourseDirectoryApi()
         {
             var httpClient = _httpClientFactory.CreateClient(CourseDirectoryHttpClientName);
 
@@ -51,7 +53,25 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return await response.Content.ReadAsStringAsync();
         }
 
-        public async Task<int> ImportFromCourseDirectoryApi()
+        public async Task<string> GetTLevelQualificationJsonFromCourseDirectoryApi()
+        {
+            var httpClient = _httpClientFactory.CreateClient(CourseDirectoryHttpClientName);
+
+            _logger.LogInformation($"Call API {httpClient.BaseAddress} endpoint {CourseDetailEndpoint}");
+
+            var response = await httpClient.GetAsync(QualificationsEndpoint);
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
+                response = CreateWorkaroundResponse("CourseDirectoryTLevelQualificationsResponse");
+            }
+
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadAsStringAsync();
+        }
+
+        public async Task<int> ImportProvidersFromCourseDirectoryApi(IList<VenueNameOverride> venueNames)
         {
             _logger.LogInformation("ImportFromCourseDirectoryApi called");
 
@@ -81,11 +101,47 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return await UpdateProvidersInTableStorage(providers);
         }
 
+        public async Task<int> ImportQualificationsFromCourseDirectoryApi()
+        {
+            _logger.LogInformation("ImportFromCourseDirectoryApi called");
+
+            var httpClient = _httpClientFactory.CreateClient(CourseDirectoryHttpClientName);
+
+            _logger.LogInformation($"Call API {httpClient.BaseAddress} endpoint {CourseDetailEndpoint}");
+
+            var response = await httpClient.GetAsync(CourseDetailEndpoint);
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
+                response = CreateWorkaroundResponse("CourseDirectoryTLevelQualificationsResponse");
+            }
+
+            response.EnsureSuccessStatusCode();
+
+            var jsonDoc = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
+            var qualifications = ProcessTLevelQualificationsDocument(jsonDoc);
+
+            return await UpdateQualificationsInTableStorage(qualifications);
+        }
+
+        public async Task<IList<Provider>> GetProviders()
+        {
+            return (await _tableStorageService.RetrieveProviders())
+                .OrderBy(p => p.Id).ToList();
+        }
+
+        public async Task<IList<Qualification>> GetQualifications()
+        {
+            return (await _tableStorageService
+                    .RetrieveQualifications())
+                .OrderBy(q => q.Id).ToList();
+        }
+
         //TODO: Remove this when API is implemented
         //To work around incomplete API implementation - load data from resource
-        private HttpResponseMessage CreateWorkaroundResponse()
+        private HttpResponseMessage CreateWorkaroundResponse(string resource = "CourseDirectoryTLevelDetailResponse")
         {
-            var json = $"{GetType().Namespace}.Data.CourseDirectoryTLevelDetailResponse.json"
+            var json = $"{Assembly.GetExecutingAssembly().GetName().Name}.Data.{resource}.json"
                 .ReadManifestResourceStreamAsString();
 
             return new HttpResponseMessage
@@ -99,11 +155,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             var providers = new List<Provider>();
 
-            foreach (var courseRecord in jsonDoc.RootElement
+            foreach (var courseElement in jsonDoc.RootElement
                 .EnumerateArray()
-                .Where(courseRecord => courseRecord.SafeGetString("offeringType") == "TLevel"))
+                .Where(courseElement => courseElement.SafeGetString("offeringType") == "TLevel"))
             {
-                var provider = await ProcessCourseRecord(courseRecord);
+                var provider = await ProcessCourseElement(courseElement);
                 if (provider != null)
                 {
                     var existingProvider = providers.SingleOrDefault(p => p.UkPrn == provider.UkPrn);
@@ -123,11 +179,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return providers;
         }
 
-        private async Task<Provider> ProcessCourseRecord(JsonElement courseRecord)
+        private async Task<Provider> ProcessCourseElement(JsonElement courseElement)
         {
-            _logger.LogWarning($"Processing T Level with id '{courseRecord.SafeGetString("tLevelId")}'");
+            _logger.LogWarning($"Processing T Level with id '{courseElement.SafeGetString("tLevelId")}'");
 
-            if (!DateTime.TryParse(courseRecord.SafeGetString("startDate"), out var startDate))
+            if (!DateTime.TryParse(courseElement.SafeGetString("startDate"), out var startDate))
             {
                 //TODO: What to do here? If no date should probably log an error and/or ignore this record
                 _logger.LogWarning("Could not read start date from course record.");
@@ -136,9 +192,10 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             //Read qualification
             var qualificationId = 0;
-            if (courseRecord.TryGetProperty("qualification", out var qualificationProperty))
+            if (courseElement.TryGetProperty("qualification", out var qualificationProperty))
             {
-                qualificationId = MapQualificationId(qualificationProperty.SafeGetInt32("frameworkCode"));
+                //qualificationId = MapQualificationId(qualificationProperty.SafeGetInt32("frameworkCode"));
+                qualificationId = qualificationProperty.SafeGetInt32("frameworkCode");
                 if (qualificationId == 0)
                 {
                     _logger.LogWarning("Could not find qualification.");
@@ -147,7 +204,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             }
 
             //Read provider
-            if (courseRecord.TryGetProperty("provider", out var providerProperty))
+            if (courseElement.TryGetProperty("provider", out var providerProperty))
             {
                 var providerWebsite = providerProperty.SafeGetString("website");
 
@@ -155,8 +212,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 {
                     Name = providerProperty.SafeGetString("providerName"),
                     UkPrn = int.TryParse(providerProperty.SafeGetString("ukprn"), out var ukPrn) ? ukPrn : 0,
-                    
-                    Locations = courseRecord.TryGetProperty("locations", out var locationsProperty)
+
+                    Locations = courseElement.TryGetProperty("locations", out var locationsProperty)
                         ? locationsProperty.EnumerateArray().Select(l =>
                         {
                             var locationWebsite = l.SafeGetString("website");
@@ -169,11 +226,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                                 Latitude = l.SafeGetDouble("latitude"),
                                 Longitude = l.SafeGetDouble("longitude"),
                                 //TODO: Should website be from venue or provider, or both
+                                //      Could also go to top-level for t level, where there is another website
                                 //Website = !string.IsNullOrWhiteSpace(l.SafeGetString("website"))
                                 //    ? l.SafeGetString("website")
                                 //    : providerProperty.SafeGetString("website"),
                                 Website = !string.IsNullOrWhiteSpace(locationWebsite)
-                                    ? locationWebsite   
+                                    ? locationWebsite
                                     : providerWebsite,
                                 DeliveryYears = new List<DeliveryYearDto>
                                 {
@@ -190,29 +248,29 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                         }).ToList()
                         : new List<Location>()
                 };
-                
+
                 return provider;
             }
 
             return null;
         }
 
-        private static int MapQualificationId(int id)
+        private IList<Qualification> ProcessTLevelQualificationsDocument(JsonDocument jsonDoc)
         {
-            //Qualifications will have a prefix of "T Level Technical Qualification in "
-            //TODO: Replace this with the correct ids returned in the real API - might be a guid or a map to qualifications
-            return id switch
-            {
-                36 => 2, //Design, Surveying and Planning for Construction
-                37 => 4, //Digital Production, Design and Development
-                38 => 6, //Education and Childcare
-                _ => 0
-            };
+            return jsonDoc.RootElement
+                .EnumerateArray()
+                .Select(q =>
+                    new Qualification
+                    {
+                        Id = q.SafeGetInt32("frameworkCode"),
+                        Name = Regex.Replace(
+                            q.SafeGetString("name"),
+                                $"^{QualificationTitlePrefix}", "") 
+                    }).ToList();
         }
 
         private async Task<int> UpdateProvidersInTableStorage(IList<Provider> providers)
         {
-            //After accumulating all providers
             //TODO: Merge data, don't clear
             var removedProviders = await _tableStorageService.ClearProviders();
             _logger.LogInformation($"Removed {removedProviders} providers from table storage");
@@ -227,17 +285,38 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return providers.Count;
         }
 
-        public async Task<IList<Provider>> GetProviders()
+        private async Task<int> UpdateQualificationsInTableStorage(IList<Qualification> qualifications)
         {
-            return (await _tableStorageService.RetrieveProviders())
-                .OrderBy(p => p.Id).ToList();
+            //TODO: Merge data, don't clear
+            var removedQualifications = await _tableStorageService.ClearQualifications();
+            _logger.LogInformation($"Removed {removedQualifications} qualifications from table storage");
+
+            var savedQualifications = await _tableStorageService.SaveQualifications(qualifications);
+            _logger.LogInformation($"Saved {savedQualifications} qualifications to table storage");
+
+            //TODO: Delete any qualifications that aren't in the incoming list
+
+            _logger.LogInformation($"ImportFromCourseDirectoryApi saved {qualifications.Count} records");
+
+            return qualifications.Count;
         }
 
-        public async Task<IList<Qualification>> GetQualifications()
+        private static int MapQualificationId(int id)
         {
-            return (await _tableStorageService
-                .RetrieveQualifications())
-                .OrderBy(q => q.Id).ToList();
+            return id switch
+            {
+                41 => 1, //Building Services Engineering for Construction"
+                36 => 2, //Design, Surveying and Planning for Construction
+                40 => 3, //Digital Business Services
+                37 => 4, //Digital Production, Design and Development
+                39 => 5, //Digital Support Services
+                38 => 6, //Education and Childcare
+                44 => 7, //Health
+                45 => 8, //Healthcare Science
+                42 => 9, //Onsite Construction
+                43 => 10, //Science
+                _ => 0
+            };
         }
     }
 }

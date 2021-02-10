@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ using NSubstitute.ExceptionExtensions;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders;
+using sfa.Tl.Marketing.Communication.Models.Dto;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
@@ -22,12 +24,15 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
     public class CourseDirectoryImportFunctionTests
     {
         [Fact]
-        public async Task CourseDirectoryImportFunction_Scheduled_Import_Calls_CourseDirectoryDataService_Import()
+        public async Task CourseDirectoryImportFunction_Scheduled_Import_Calls_CourseDirectoryDataService_Import_Methods()
         {
             var service = Substitute.For<ICourseDirectoryDataService>();
             service
-                .ImportFromCourseDirectoryApi()
+                .ImportProvidersFromCourseDirectoryApi(Arg.Any<IList<VenueNameOverride>>())
                 .Returns(10);
+            service
+                .ImportQualificationsFromCourseDirectoryApi()
+                .Returns(12);
 
             var timerSchedule = Substitute.For<TimerSchedule>();
             var logger = new NullLogger<CourseDirectoryImportFunctions>();
@@ -38,7 +43,8 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 new ExecutionContext(),
                 logger);
 
-            await service.Received(1).ImportFromCourseDirectoryApi();
+            await service.Received(1).ImportQualificationsFromCourseDirectoryApi();
+            await service.Received(1).ImportProvidersFromCourseDirectoryApi(Arg.Any<IList<VenueNameOverride>>());
         }
 
         [Fact]
@@ -46,8 +52,11 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
         {
             var service = Substitute.For<ICourseDirectoryDataService>();
             service
-                .ImportFromCourseDirectoryApi()
+                .ImportProvidersFromCourseDirectoryApi(Arg.Any<IList<VenueNameOverride>>())
                 .Returns(10);
+            service
+                .ImportQualificationsFromCourseDirectoryApi()
+                .Returns(12);
 
             var request = BuildHttpRequest(HttpMethod.Get);
 
@@ -65,7 +74,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
         {
             var service = Substitute.For<ICourseDirectoryDataService>();
             service
-                .ImportFromCourseDirectoryApi()
+                .ImportProvidersFromCourseDirectoryApi(Arg.Any<IList<VenueNameOverride>>())
                 .ThrowsForAnyArgs(new InvalidOperationException());
 
             var request = BuildHttpRequest(HttpMethod.Get);
@@ -78,13 +87,13 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
         }
 
         [Fact]
-        public async Task CourseDirectoryImportFunction_GetCourseDirectoryJson_Returns_Expected_Result()
+        public async Task CourseDirectoryImportFunction_GetCourseDirectoryDetailJson_Returns_Expected_Result()
         {
-            const string expectedJson = "{ \"test\": \"result\" } ";
+            const string expectedJson = "{ \"detail\": \"result\" } ";
 
             var service = Substitute.For<ICourseDirectoryDataService>();
             service
-                .GetJsonFromCourseDirectoryApi()
+                .GetTLevelDetailJsonFromCourseDirectoryApi()
                 .Returns(expectedJson);
 
             var request = BuildHttpRequest(HttpMethod.Get);
@@ -92,7 +101,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             var logger = Substitute.For<ILogger>();
 
             var functions = new CourseDirectoryImportFunctions(service);
-            var result = await functions.GetCourseDirectoryJson(request, logger);
+            var result = await functions.GetCourseDirectoryDetailJson(request, logger);
 
             result.Should().BeOfType<ContentResult>();
             var contentResult = result as ContentResult;
@@ -101,11 +110,34 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
         }
 
         [Fact]
-        public async Task CourseDirectoryImportFunction_GetCourseDirectoryJson_Exception_Returns_Expected_Result()
+        public async Task CourseDirectoryImportFunction_GetCourseDirectoryQualificationJson_Returns_Expected_Result()
+        {
+            const string expectedJson = "{ \"qualification\": \"result\" } ";
+
+            var service = Substitute.For<ICourseDirectoryDataService>();
+            service
+                .GetTLevelQualificationJsonFromCourseDirectoryApi()
+                .Returns(expectedJson);
+
+            var request = BuildHttpRequest(HttpMethod.Get);
+
+            var logger = Substitute.For<ILogger>();
+
+            var functions = new CourseDirectoryImportFunctions(service);
+            var result = await functions.GetCourseDirectoryQualificationJson(request, logger);
+
+            result.Should().BeOfType<ContentResult>();
+            var contentResult = result as ContentResult;
+            contentResult?.ContentType.Should().Be("application/json");
+            contentResult?.Content.Should().Be(expectedJson);
+        }
+
+        [Fact]
+        public async Task CourseDirectoryImportFunction_GetCourseDirectoryDetailJson_Exception_Returns_Expected_Result()
         {
             var service = Substitute.For<ICourseDirectoryDataService>();
             service
-                .GetJsonFromCourseDirectoryApi()
+                .GetTLevelDetailJsonFromCourseDirectoryApi()
                 .ThrowsForAnyArgs(new InvalidOperationException());
 
             var request = BuildHttpRequest(HttpMethod.Get);
@@ -113,7 +145,24 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             var logger = Substitute.For<ILogger>();
 
             var functions = new CourseDirectoryImportFunctions(service);
-            var result = await functions.GetCourseDirectoryJson(request, logger);
+            var result = await functions.GetCourseDirectoryDetailJson(request, logger);
+            result.Should().BeOfType<InternalServerErrorResult>();
+        }
+
+        [Fact]
+        public async Task CourseDirectoryImportFunction_GetCourseDirectoryQualificationJson_Exception_Returns_Expected_Result()
+        {
+            var service = Substitute.For<ICourseDirectoryDataService>();
+            service
+                .GetTLevelQualificationJsonFromCourseDirectoryApi()
+                .ThrowsForAnyArgs(new InvalidOperationException());
+
+            var request = BuildHttpRequest(HttpMethod.Get);
+
+            var logger = Substitute.For<ILogger>();
+
+            var functions = new CourseDirectoryImportFunctions(service);
+            var result = await functions.GetCourseDirectoryQualificationJson(request, logger);
             result.Should().BeOfType<InternalServerErrorResult>();
         }
 
