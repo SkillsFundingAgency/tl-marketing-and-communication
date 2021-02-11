@@ -14,6 +14,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos.Table;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.Logging;
 using Notify.Client;
 using Notify.Interfaces;
@@ -188,6 +189,9 @@ namespace sfa.Tl.Marketing.Communication
         {
             try
             {
+                if(bool.TryParse(Configuration["SkipPreloadProviderAndQualificationTableData"], out var skipPreload) && skipPreload)
+                    return;
+
                 _logger.LogInformation("Migrating providers and qualifications to table storage");
                 
                 var savedQualifications = await providerDataMigrationService.WriteQualifications(SiteConfiguration.QualificationsDataFilePath);

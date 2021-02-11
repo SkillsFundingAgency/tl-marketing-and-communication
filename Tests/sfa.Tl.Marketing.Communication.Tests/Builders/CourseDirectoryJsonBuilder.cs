@@ -4,8 +4,12 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
 {
     internal class CourseDirectoryJsonBuilder
     {
-        public string BuildValidTLevelDetailResponse() =>
-            $"{GetType().Namespace}.Data.TLevelDetailResponse.json"
+        public string BuildValidTLevelDetailSingleItemResponse() =>
+            $"{GetType().Namespace}.Data.TLevelDetailSingleItemResponse.json"
+                .ReadManifestResourceStreamAsString();
+
+        public string BuildValidTLevelDetailMultiItemResponse() =>
+            $"{GetType().Namespace}.Data.TLevelDetailMultiItemResponse.json"
                 .ReadManifestResourceStreamAsString();
 
         public string BuildValidTLevelQualificationsResponse() =>

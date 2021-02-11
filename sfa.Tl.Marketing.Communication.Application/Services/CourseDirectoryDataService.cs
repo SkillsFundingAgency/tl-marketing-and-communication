@@ -88,9 +88,9 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             else
             {
                 //TODO: Remove this - the new API shouldn't need to be re-wrapped in []
-                var content = await response.Content.ReadAsStringAsync();
-                content = $"[\n{content}\n]";
-                response.Content = new StringContent(content);
+                //var content = await response.Content.ReadAsStringAsync();
+                //content = $"[\n{content}\n]";
+                //response.Content = new StringContent(content);
             }
 
             response.EnsureSuccessStatusCode();
@@ -171,7 +171,43 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     }
                     else
                     {
-                        //Merge provider
+                        //Assume provider name will be the same
+                        var location = provider.Locations.FirstOrDefault();
+                        if (location != null)
+                        {
+                            var existingLocation =
+                                existingProvider.Locations.SingleOrDefault(l =>
+                                    l.Postcode == provider.Locations.First().Postcode);
+                            if (existingLocation == null)
+                            {
+                                existingProvider.Locations.Add(location);
+                            }
+                            else
+                            {
+                                var deliveryYear = location.DeliveryYears.FirstOrDefault();
+                                if (deliveryYear != null && deliveryYear.Qualifications.Any())
+                                {
+                                    var qualification = deliveryYear.Qualifications.First();
+                                    var existingDeliveryYear =
+                                        existingLocation
+                                            .DeliveryYears
+                                            .FirstOrDefault(dy => dy.Year == deliveryYear.Year);
+
+                                    if (existingDeliveryYear == null)
+                                    {
+                                        existingLocation.DeliveryYears.Add(deliveryYear);
+                                    }
+                                    else
+                                    {
+                                        if (!existingDeliveryYear.Qualifications
+                                            .Contains(qualification))
+                                        {
+                                            existingDeliveryYear.Qualifications.Add(qualification);
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
