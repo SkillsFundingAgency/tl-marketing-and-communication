@@ -60,7 +60,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             try
             {
                 _logger.LogInformation("Looking for providers in table storage");
-                var providersFromTable = await _tableStorageService.RetrieveProviders();
+                var providersFromTable = await _tableStorageService.GetAllProviders();
                 _logger.LogInformation($"Found {providersFromTable?.Count ?? 0} providers in table storage");
 
                 return providersFromTable;
@@ -77,7 +77,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             try
             {
                 _logger.LogInformation("Looking for qualifications in table storage");
-                var qualificationsFromTable = await _tableStorageService.RetrieveQualifications();
+                var qualificationsFromTable = await _tableStorageService.GetAllQualifications();
                 _logger.LogInformation($"Found {qualificationsFromTable?.Count ?? 0} qualifications in table storage");
 
                 return qualificationsFromTable;

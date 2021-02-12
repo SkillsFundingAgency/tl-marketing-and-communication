@@ -29,10 +29,10 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             var service = Substitute.For<ICourseDirectoryDataService>();
             service
                 .ImportProvidersFromCourseDirectoryApi(Arg.Any<IList<VenueNameOverride>>())
-                .Returns(10);
+                .Returns((10, 0));
             service
                 .ImportQualificationsFromCourseDirectoryApi()
-                .Returns(12);
+                .Returns((12, 0));
 
             var timerSchedule = Substitute.For<TimerSchedule>();
             var logger = new NullLogger<CourseDirectoryImportFunctions>();
@@ -53,10 +53,10 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             var service = Substitute.For<ICourseDirectoryDataService>();
             service
                 .ImportProvidersFromCourseDirectoryApi(Arg.Any<IList<VenueNameOverride>>())
-                .Returns(10);
+                .Returns((10, 0));
             service
                 .ImportQualificationsFromCourseDirectoryApi()
-                .Returns(12);
+                .Returns((12, 0));
 
             var request = BuildHttpRequest(HttpMethod.Get);
 
@@ -66,7 +66,9 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             var result = await functions.ManualImport(request, logger);
 
             result.Should().BeOfType<OkObjectResult>();
-            ((OkObjectResult)result).Value.Should().Be("10 records saved.");
+            ((OkObjectResult)result).Value.Should().Be(
+                "Inserted or updated 10 and deleted 0 qualifications.\r\n" +
+                "Inserted or updated 12 and deleted 0 providers.");
         }
 
         [Fact]

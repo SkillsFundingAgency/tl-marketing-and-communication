@@ -71,7 +71,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return await response.Content.ReadAsStringAsync();
         }
 
-        public async Task<int> ImportProvidersFromCourseDirectoryApi(IList<VenueNameOverride> venueNames)
+        public async Task<(int Saved, int Deleted)> ImportProvidersFromCourseDirectoryApi(IList<VenueNameOverride> venueNames)
         {
             _logger.LogInformation("ImportFromCourseDirectoryApi called");
 
@@ -97,11 +97,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             var jsonDoc = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
             var providers = ProcessTLevelDetailsDocument(jsonDoc);
-
+             
             return await UpdateProvidersInTableStorage(providers);
         }
 
-        public async Task<int> ImportQualificationsFromCourseDirectoryApi()
+        public async Task<(int Saved, int Deleted)> ImportQualificationsFromCourseDirectoryApi()
         {
             _logger.LogInformation("ImportFromCourseDirectoryApi called");
 
@@ -121,19 +121,19 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var jsonDoc = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
             var qualifications = ProcessTLevelQualificationsDocument(jsonDoc);
 
-            return await UpdateQualificationsInTableStorage(qualifications);
+            return  await UpdateQualificationsInTableStorage(qualifications);
         }
 
         public async Task<IList<Provider>> GetProviders()
         {
-            return (await _tableStorageService.RetrieveProviders())
+            return (await _tableStorageService.GetAllProviders())
                 .OrderBy(p => p.Id).ToList();
         }
 
         public async Task<IList<Qualification>> GetQualifications()
         {
             return (await _tableStorageService
-                    .RetrieveQualifications())
+                    .GetAllQualifications())
                 .OrderBy(q => q.Id).ToList();
         }
 
@@ -150,7 +150,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 Content = new StringContent(json)
             };
         }
-        
+
         private IList<Provider> ProcessTLevelDetailsDocument(JsonDocument jsonDoc)
         {
             var providers = new List<Provider>();
@@ -273,36 +273,71 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     }).ToList();
         }
 
-        private async Task<int> UpdateProvidersInTableStorage(IList<Provider> providers)
+        private async Task<(int Saved, int Deleted)> UpdateProvidersInTableStorage(IList<Provider> providers)
         {
-            //TODO: Merge data, don't clear
-            var removedProviders = await _tableStorageService.ClearProviders();
-            _logger.LogInformation($"Removed {removedProviders} providers from table storage");
+            //var removedProviders = await _tableStorageService.ClearProviders();
+            //_logger.LogInformation($"Removed {removedProviders} providers from table storage");
+            
+            var existingProviders = await _tableStorageService.GetAllProviders();
 
-            var savedProviders = await _tableStorageService.SaveProviders(providers);
-            _logger.LogInformation($"Saved {savedProviders} providers to table storage");
+            var providersToInsertOrUpdate = providers.Where(q =>
+                    existingProviders.All(x => x.Id != q.Id) //Not in existing data, so add it
+                    //TODO: Need a full comparison here - add a comparer
+                    || existingProviders.Any(x => x.Id == q.Id && x.Name != q.Name) //Is in existing data and has changed
+            ).ToList();
 
-            //TODO: Delete any providers that aren't in the incoming list
+            var providersToDelete = existingProviders.Where(q =>
+                    providers.All(x => x.UkPrn != q.UkPrn) //Not in new data, so add it to the delete list
+            ).ToList();
 
-            _logger.LogInformation($"ImportFromCourseDirectoryApi saved {providers.Count} records");
+            var savedProviders = 0;
+            if (providersToInsertOrUpdate.Any())
+            {
+                savedProviders = await _tableStorageService.SaveProviders(providersToInsertOrUpdate);
+                _logger.LogInformation($"Saved {savedProviders} providers to table storage");
+            }
 
-            return providers.Count;
+            var deletedProviders = 0;
+            if (providersToDelete.Any())
+            {
+                deletedProviders = await _tableStorageService.RemoveProviders(providersToDelete);
+                _logger.LogInformation($"Deleted {deletedProviders} providers from table storage");
+            }
+
+            return (Saved: savedProviders, Deleted: deletedProviders);
         }
 
-        private async Task<int> UpdateQualificationsInTableStorage(IList<Qualification> qualifications)
+        private async Task<(int Saved, int Deleted)> UpdateQualificationsInTableStorage(IList<Qualification> qualifications)
         {
-            //TODO: Merge data, don't clear
-            var removedQualifications = await _tableStorageService.ClearQualifications();
-            _logger.LogInformation($"Removed {removedQualifications} qualifications from table storage");
+            //var removedQualifications = await _tableStorageService.ClearQualifications();
+            //_logger.LogInformation($"Removed {removedQualifications} qualifications from table storage");
 
-            var savedQualifications = await _tableStorageService.SaveQualifications(qualifications);
-            _logger.LogInformation($"Saved {savedQualifications} qualifications to table storage");
+            var existingQualifications = await _tableStorageService.GetAllQualifications();
+            
+            var qualificationsToInsertOrUpdate = qualifications.Where(q =>
+                    existingQualifications.All(x => x.Id != q.Id) //Not in existing data, so add it
+                    || existingQualifications.Any(x => x.Id == q.Id && x.Name != q.Name) //Is in existing data and has changed
+                    ).ToList();
 
-            //TODO: Delete any qualifications that aren't in the incoming list
+            var qualificationsToDelete = existingQualifications.Where(q =>
+                    qualifications.All(x => x.Id != q.Id) //Not in new data, so add it to the delete list
+            ).ToList();
 
-            _logger.LogInformation($"ImportFromCourseDirectoryApi saved {qualifications.Count} records");
+            var savedQualifications = 0;
+            if (qualificationsToInsertOrUpdate.Any())
+            {
+                savedQualifications = await _tableStorageService.SaveQualifications(qualificationsToInsertOrUpdate);
+                _logger.LogInformation($"Saved {savedQualifications} qualifications to table storage");
+            }
 
-            return qualifications.Count;
+            var deletedQualifications = 0;
+            if (qualificationsToDelete.Any())
+            {
+                deletedQualifications = await _tableStorageService.RemoveQualifications(qualificationsToDelete);
+                _logger.LogInformation($"Deleted {deletedQualifications} qualifications from table storage");
+            }
+
+            return (Saved: savedQualifications, Deleted: deletedQualifications);
         }
 
         private static int MapQualificationId(int id)

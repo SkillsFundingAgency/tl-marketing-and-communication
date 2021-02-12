@@ -30,7 +30,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         }
 
         [Fact]
-        public async Task TableStorageService_RetrieveProviders_Returns_Expected_Results()
+        public async Task TableStorageService_GetAllProviders_Returns_Expected_Results()
         {
             var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity>>();
             providerRepository
@@ -45,9 +45,27 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .Add()
                 .Build();
 
-            var result = await service.RetrieveProviders();
+            var result = await service.GetAllProviders();
 
             result.Should().BeEquivalentTo(providers);
+        }
+
+        [Fact]
+        public async Task TableStorageService_RemoveProviders_Returns_Expected_Results()
+        {
+            var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity>>();
+            providerRepository
+                .Delete(Arg.Any<IList<ProviderEntity>>())
+                .Returns(args =>
+                    ((IList<ProviderEntity>)args[0]).Count);
+
+            var service = BuildTableStorageService(providerRepository);
+
+            var result = await service
+                .RemoveProviders(
+                    new ProviderListBuilder().Add(4).Build());
+
+            result.Should().Be(4);
         }
 
         [Fact]
@@ -86,7 +104,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         }
 
         [Fact]
-        public async Task TableStorageService_RetrieveQualifications_Returns_Expected_Results()
+        public async Task TableStorageService_GetAllQualifications_Returns_Expected_Results()
         {
             var qualificationRepository = Substitute.For<ICloudTableRepository<QualificationEntity>>();
             qualificationRepository
@@ -100,9 +118,27 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var qualifications = new QualificationListBuilder()
                 .Add()
                 .Build();
-            var result = await service.RetrieveQualifications();
+            var result = await service.GetAllQualifications();
 
             result.Should().BeEquivalentTo(qualifications);
+        }
+
+        [Fact]
+        public async Task TableStorageService_RemoveQualifications_Returns_Expected_Results()
+        {
+            var qualificationRepository = Substitute.For<ICloudTableRepository<QualificationEntity>>();
+            qualificationRepository
+                .Delete(Arg.Any<IList<QualificationEntity>>())
+                .Returns(args =>
+                    ((IList<QualificationEntity>)args[0]).Count);
+
+            var service = BuildTableStorageService(qualificationRepository: qualificationRepository);
+
+            var result = await service
+                .RemoveQualifications(
+                    new QualificationListBuilder().Add(4).Build());
+
+            result.Should().Be(4);
         }
 
         [Fact]

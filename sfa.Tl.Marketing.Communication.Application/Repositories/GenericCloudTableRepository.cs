@@ -35,12 +35,60 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             }
         }
 
+        public async Task<int> Delete(IList<T> entities)
+        {
+            //Need to get delete working properly - just return with 0 results for now
+            //https://www.wintellect.com/deleting-entities-in-windows-azure-table-storage/
+            //https://blog.bitscry.com/2019/03/25/efficiently-deleting-rows-from-azure-table-storage/
+            return 0;
+
+            var cloudTable = _cloudTableClient.GetTableReference(_tableName);
+            if (!cloudTable.Exists())
+            {
+                _logger.LogWarning($"GenericCloudTableRepository Delete: table '{_tableName}' not found. Returning 0 results.");
+                return 0;
+            }
+
+            //https://stackoverflow.com/questions/26326413/delete-all-azure-table-records
+
+            var deleted = 0;
+
+            var stopwatch = Stopwatch.StartNew();
+
+            var rowOffset = 0;
+
+            while (rowOffset < entities.Count)
+            {
+                var batchOperation = new TableBatchOperation();
+
+                // next batch
+                var batchEntities = entities.Skip(rowOffset).Take(TableBatchSize).ToList();
+
+                batchEntities.ForEach(x =>
+                {
+                    //Add wildcard etag
+                    x.ETag = "*";
+                    batchOperation.Add(TableOperation.Delete(x));
+                });
+
+                var batchResult = await cloudTable.ExecuteBatchAsync(batchOperation);
+                deleted += batchResult.Count;
+
+                rowOffset += batchEntities.Count;
+
+                stopwatch.Stop();
+                _logger.LogInformation($"Delete from '{_tableName}' batch result {batchResult.Count} entities in rowOffset in {rowOffset} batches in {stopwatch.ElapsedMilliseconds:#,###}ms.");
+            }
+
+            return deleted;
+        }
+
         public async Task<int> DeleteAll()
         {
             var cloudTable = _cloudTableClient.GetTableReference(_tableName);
             if (!cloudTable.Exists())
             {
-                _logger.LogWarning($"DeleteAll from table '{_tableName}' not found. Returning 0 results.");
+                _logger.LogWarning($"GenericCloudTableRepository DeleteAll: table '{_tableName}' not found. Returning 0 results.");
                 return 0;
             }
 
@@ -48,7 +96,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
 
             var tableQuery = new TableQuery<T>();
             var continuationToken = default(TableContinuationToken);
-            var rowsDeleted = 0;
+            var deleted = 0;
 
             do
             {
@@ -69,17 +117,17 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
                 // Delete each chunk of 100 in a batch
                 foreach (var rows in rowsChunked)
                 {
-                    var tableBatchOperation = new TableBatchOperation();
-                    rows.ForEach(x => tableBatchOperation.Add(TableOperation.Delete(x)));
+                    var batchOperation = new TableBatchOperation();
+                    rows.ForEach(x => batchOperation.Add(TableOperation.Delete(x)));
 
-                    await cloudTable.ExecuteBatchAsync(tableBatchOperation);
+                    await cloudTable.ExecuteBatchAsync(batchOperation);
                 }
 
-                rowsDeleted += queryResults.Count();
+                deleted += queryResults.Count();
 
             } while (continuationToken != null);
 
-            return rowsDeleted;
+            return deleted;
         }
 
         public async Task<IList<T>> GetAll()
@@ -89,14 +137,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             var cloudTable = _cloudTableClient.GetTableReference(_tableName);
             if (!cloudTable.Exists())
             {
-                _logger.LogWarning($"GetAll from table '{_tableName}' not found. Returning 0 results.");
+                _logger.LogWarning($"GenericCloudTableRepository GetAll: table '{_tableName}' not found. Returning 0 results.");
                 return results;
             }
 
             var tableQuery = new TableQuery<T>();
             var continuationToken = default(TableContinuationToken);
 
-            var loopCount = 0;
             var stopwatch = Stopwatch.StartNew();
 
             do
@@ -109,11 +156,10 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
                 continuationToken = queryResults.ContinuationToken;
 
                 results.AddRange(queryResults.Results);
-                loopCount++;
             } while (continuationToken != null);
 
             stopwatch.Stop();
-            _logger.LogInformation($"GetAll from '{_tableName}' returning {results.Count} results from {loopCount} loops in {stopwatch.ElapsedMilliseconds:#,###}ms.");  
+            _logger.LogInformation($"GetAll from '{_tableName}' returning {results.Count} results in {stopwatch.ElapsedMilliseconds:#,###}ms.");
 
             return results;
         }
@@ -167,8 +213,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
 
                 rowOffset += batchEntities.Count;
 
-                _logger.LogInformation($"Save to '{_tableName}' batch result {batchResult.Count} entities in rowOffset is now {rowOffset} batches in {stopwatch.ElapsedMilliseconds:#,###}ms.");
-
+                _logger.LogInformation($"Save to '{_tableName}' batch result {batchResult.Count} entities in rowOffset in {rowOffset} batches in {stopwatch.ElapsedMilliseconds:#,###}ms.");
             }
 
             //TODO: Can do a batch insert

@@ -8,10 +8,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
     {
         Task<int> ClearProviders();
         Task<int> SaveProviders(IList<Provider> providers);
-        Task<IList<Provider>> RetrieveProviders();
+        Task<int> RemoveProviders(IList<Provider> providers);
+        Task<IList<Provider>> GetAllProviders();
 
         Task<int> ClearQualifications();
         Task<int> SaveQualifications(IList<Qualification> qualifications);
-        Task<IList<Qualification>> RetrieveQualifications();
+        Task<int> RemoveQualifications(IList<Qualification> qualifications);
+        Task<IList<Qualification>> GetAllQualifications();
     }
 }

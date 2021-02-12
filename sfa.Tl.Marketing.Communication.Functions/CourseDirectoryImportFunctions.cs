@@ -35,9 +35,9 @@ namespace sfa.Tl.Marketing.Communication.Functions
             {
                 logger.LogInformation("Course directory scheduled import function was called.");
 
-                var resultsCount = await Import();
+                await Import(logger);
 
-                logger.LogInformation($"Course directory scheduled import saved {resultsCount} records.");
+                logger.LogInformation($"Course directory scheduled import finished.");
             }
             catch (Exception e)
             {
@@ -54,13 +54,15 @@ namespace sfa.Tl.Marketing.Communication.Functions
         {
             try
             {
-                logger.LogInformation("Course directory ManualImport function was called.");
+                logger.LogInformation("Course directory manual import function was called.");
 
-                var resultsCount = await Import();
+                var (savedProviders, deletedProviders, savedQualifications, deletedQualifications) = await Import(logger);
 
-                logger.LogInformation($"Course directory ManualImport saved {resultsCount} records.");
+                logger.LogInformation($"Course directory manual import finished.");
 
-                return new OkObjectResult($"{resultsCount} records saved.");
+                return new OkObjectResult(
+                    $"Inserted or updated {savedQualifications} and deleted {deletedQualifications} qualifications.\r\n" +
+                    $"Inserted or updated {savedProviders} and deleted {deletedProviders} providers.");
             }
             catch (Exception e)
             {
@@ -71,27 +73,28 @@ namespace sfa.Tl.Marketing.Communication.Functions
             }
         }
 
-        private async Task<int> Import()
+        private async Task<(int SavedQualifications, int DeletedQualifications, int SavedProviders, int DeletedProviders)> Import(ILogger logger)
         {
-            var json = $"{GetType().Namespace}.Data.VenueNames.json"
-                .ReadManifestResourceStreamAsString();
             var venueNameOverrides = JsonSerializer
-                .Deserialize<IList<VenueNameOverride>>(json);
+                .Deserialize<IList<VenueNameOverride>>(
+                    $"{GetType().Namespace}.Data.VenueNames.json"
+                        .ReadManifestResourceStreamAsString());
 
-            var qualificationResultsCount =
-                await _courseDirectoryDataService.ImportQualificationsFromCourseDirectoryApi();
+            var (savedQualifications, deletedQualifications) = await _courseDirectoryDataService.ImportQualificationsFromCourseDirectoryApi();
+            logger.LogInformation($"Course directory import saved {savedQualifications} and deleted {deletedQualifications} qualifications.");
 
-            var providerResultsCount =
+            var (savedProviders, deletedProviders) =
                 await _courseDirectoryDataService.ImportProvidersFromCourseDirectoryApi(venueNameOverrides);
+            logger.LogInformation($"Course directory import saved {savedProviders} and deleted {deletedProviders} providers.");
 
-            return providerResultsCount;
+            return (savedQualifications, deletedQualifications, savedProviders, deletedProviders);
         }
 
         [FunctionName("GetCourseDirectoryJson")]
         public async Task<IActionResult> GetCourseDirectoryDetailJson(
-                [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequest request,
-                ILogger logger)
+            ILogger logger)
         {
             try
             {

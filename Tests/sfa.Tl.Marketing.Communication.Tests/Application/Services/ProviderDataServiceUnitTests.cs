@@ -24,8 +24,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var providers = new TestProvidersFromJsonBuilder()
                 .Build();
             var tableStorageService = Substitute.For<ITableStorageService>();
-            tableStorageService.RetrieveProviders().Returns(providers);
-            tableStorageService.RetrieveQualifications().Returns(qualifications);
+            tableStorageService.GetAllProviders().Returns(providers);
+            tableStorageService.GetAllQualifications().Returns(qualifications);
 
             _service = new ProviderDataService(tableStorageService, cache, logger);
         }

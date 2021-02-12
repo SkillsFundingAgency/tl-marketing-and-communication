@@ -6,9 +6,9 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
 {
     public interface ICourseDirectoryDataService
     {
-        Task<int> ImportProvidersFromCourseDirectoryApi(IList<VenueNameOverride> venueNames);
+        Task<(int Saved, int Deleted)> ImportProvidersFromCourseDirectoryApi(IList<VenueNameOverride> venueNames);
 
-        Task<int> ImportQualificationsFromCourseDirectoryApi();
+        Task<(int Saved, int Deleted)> ImportQualificationsFromCourseDirectoryApi();
 
         Task<string> GetTLevelDetailJsonFromCourseDirectoryApi();
 

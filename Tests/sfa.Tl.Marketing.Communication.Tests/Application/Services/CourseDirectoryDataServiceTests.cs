@@ -82,8 +82,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                     Arg.Do<IList<Provider>>(p => 
                         providersPassedToSaveProviders.AddRange(p)))
                 .Returns(x => ((IList<Provider>)x[0]).Count);
-            //tableStorageService.RetrieveProviders().Returns(providers);
-            //tableStorageService.RetrieveQualifications().Returns(qualifications);
+            //tableStorageService.GetAllProviders().Returns(providers);
+            //tableStorageService.GetAllQualifications().Returns(qualifications);
 
             var service = BuildCourseDirectoryDataService(httpClientFactory, tableStorageService);
 
@@ -91,7 +91,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .ImportProvidersFromCourseDirectoryApi(
                     new List<VenueNameOverride>());
 
-            result.Should().Be(1);
+            result.Saved.Should().Be(1);
+            result.Deleted.Should().Be(0);
 
             providersPassedToSaveProviders.Should().HaveCount(1);
 
@@ -137,7 +138,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .ImportProvidersFromCourseDirectoryApi(
                     new List<VenueNameOverride>());
 
-            result.Should().Be(3);
+            result.Saved.Should().Be(3);
+            result.Deleted.Should().Be(0);
 
             providersPassedToSaveProviders.Should().HaveCount(3);
 
@@ -194,7 +196,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var result = await service
                 .ImportQualificationsFromCourseDirectoryApi();
 
-            result.Should().Be(10);
+            result.Saved.Should().Be(10);
+            result.Deleted.Should().Be(0);
 
             qualificationsPassedToSaveQualifications.Should().HaveCount(10);
 
@@ -218,7 +221,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .Add(2)
                 .Build();
             var tableStorageService = Substitute.For<ITableStorageService>();
-            tableStorageService.RetrieveProviders().Returns(providers);
+            tableStorageService.GetAllProviders().Returns(providers);
 
             var service = BuildCourseDirectoryDataService(tableStorageService: tableStorageService);
 
@@ -235,7 +238,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .Build();
 
             var tableStorageService = Substitute.For<ITableStorageService>();
-            tableStorageService.RetrieveQualifications().Returns(qualifications);
+            tableStorageService.GetAllQualifications().Returns(qualifications);
 
             var service = BuildCourseDirectoryDataService(tableStorageService: tableStorageService);
 
