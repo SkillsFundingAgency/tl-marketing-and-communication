@@ -96,7 +96,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             response.EnsureSuccessStatusCode();
 
             var jsonDoc = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
-            var providers = await ProcessTLevelDetailsDocument(jsonDoc);
+            var providers = ProcessTLevelDetailsDocument(jsonDoc);
 
             return await UpdateProvidersInTableStorage(providers);
         }
@@ -150,8 +150,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 Content = new StringContent(json)
             };
         }
-
-        private async Task<IList<Provider>> ProcessTLevelDetailsDocument(JsonDocument jsonDoc)
+        
+        private IList<Provider> ProcessTLevelDetailsDocument(JsonDocument jsonDoc)
         {
             var providers = new List<Provider>();
 
@@ -159,136 +159,104 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 .EnumerateArray()
                 .Where(courseElement => courseElement.SafeGetString("offeringType") == "TLevel"))
             {
-                var provider = await ProcessCourseElement(courseElement);
-                if (provider != null)
+                var tLevelId = courseElement.SafeGetString("tLevelId");
+
+                if (!DateTime.TryParse(courseElement.SafeGetString("startDate"), out var startDate))
                 {
-                    var existingProvider = providers.SingleOrDefault(p => p.UkPrn == provider.UkPrn);
-                    if (existingProvider == null)
+                    _logger.LogWarning($"Could not read start date for course record with tLevelId {tLevelId}.");
+                    continue;
+                }
+
+                var qualification = courseElement.TryGetProperty("qualification", out var qualificationProperty)
+                    ? qualificationProperty.SafeGetInt32("frameworkCode")
+                    : 0;
+                if (qualification == 0)
+                {
+                    _logger.LogWarning("Could not find qualification for course record with tLevelId {tLevelId}.");
+                    continue;
+                }
+
+                if (!courseElement.TryGetProperty("provider", out var providerProperty))
+                {
+                    _logger.LogWarning("Could not find provider property for course record with tLevelId {tLevelId}.");
+                    continue;
+                }
+
+                var hasUkPrn = int.TryParse(providerProperty.SafeGetString("ukprn"), out var ukPrn);
+                //TODO: Log and continue if no ukprn?
+
+                var providerName = providerProperty.SafeGetString("providerName");
+                var providerWebsite = providerProperty.SafeGetString("website");
+
+                var provider = providers.SingleOrDefault(p => p.UkPrn == ukPrn);
+                if (provider == null)
+                {
+                    provider = new Provider
                     {
                         //TODO: Should we use this as id? Or use UKPRN?
-                        provider.Id = providers.Count + 1;
-                        providers.Add(provider);
-                    }
-                    else
-                    {
-                        //Assume provider name will be the same
-                        var location = provider.Locations.FirstOrDefault();
-                        if (location != null)
-                        {
-                            var existingLocation =
-                                existingProvider.Locations.SingleOrDefault(l =>
-                                    l.Postcode == provider.Locations.First().Postcode);
-                            if (existingLocation == null)
-                            {
-                                existingProvider.Locations.Add(location);
-                            }
-                            else
-                            {
-                                var deliveryYear = location.DeliveryYears.FirstOrDefault();
-                                if (deliveryYear != null && deliveryYear.Qualifications.Any())
-                                {
-                                    var qualification = deliveryYear.Qualifications.First();
-                                    var existingDeliveryYear =
-                                        existingLocation
-                                            .DeliveryYears
-                                            .FirstOrDefault(dy => dy.Year == deliveryYear.Year);
+                        Id = providers.Count + 1,
+                        UkPrn = ukPrn,
+                        Name = providerName,
+                        Locations = new List<Location>()
+                    };
+                    providers.Add(provider);
+                }
 
-                                    if (existingDeliveryYear == null)
-                                    {
-                                        existingLocation.DeliveryYears.Add(deliveryYear);
-                                    }
-                                    else
-                                    {
-                                        if (!existingDeliveryYear.Qualifications
-                                            .Contains(qualification))
-                                        {
-                                            existingDeliveryYear.Qualifications.Add(qualification);
-                                        }
-                                    }
-                                }
+                if (!courseElement.TryGetProperty("locations", out var locationsProperty))
+                {
+                    _logger.LogWarning(
+                        "Could not find locations property for course record with tLevelId {tLevelId}.");
+                    continue;
+                }
+
+                foreach (var locationElement in locationsProperty.EnumerateArray())
+                {
+                    var postcode = locationElement.SafeGetString("postcode");
+                    var locationWebsite = locationElement.SafeGetString("website");
+
+                    var location = provider.Locations.SingleOrDefault(l =>
+                        l.Postcode == postcode);
+                    if (location == null)
+                    {
+                        location = new Location
+                        {
+                            Postcode = postcode,
+                            Name = locationElement.SafeGetString("venueName"),
+                            Town = locationElement.SafeGetString("town"),
+                            Latitude = locationElement.SafeGetDouble("latitude"),
+                            Longitude = locationElement.SafeGetDouble("longitude"),
+                            Website = !string.IsNullOrWhiteSpace(locationWebsite)
+                                ? locationWebsite
+                                : providerWebsite,
+                            DeliveryYears = new List<DeliveryYearDto>()
+                        };
+                        provider.Locations.Add(location);
+                    }
+
+                    var deliveryYear = location
+                            .DeliveryYears
+                            .FirstOrDefault(dy => dy.Year == startDate.Year);
+                    if (deliveryYear == null)
+                    {
+                        deliveryYear = new DeliveryYearDto
+                        {
+                            Year = (short)startDate.Year,
+                            Qualifications = new List<int>
+                            {
+                                qualification
                             }
-                        }
+                        };
+                        location.DeliveryYears.Add(deliveryYear);
+                    }
+                    else if (!deliveryYear.Qualifications
+                                .Contains(qualification))
+                    {
+                        deliveryYear.Qualifications.Add(qualification);
                     }
                 }
             }
 
             return providers;
-        }
-
-        private async Task<Provider> ProcessCourseElement(JsonElement courseElement)
-        {
-            _logger.LogWarning($"Processing T Level with id '{courseElement.SafeGetString("tLevelId")}'");
-
-            if (!DateTime.TryParse(courseElement.SafeGetString("startDate"), out var startDate))
-            {
-                //TODO: What to do here? If no date should probably log an error and/or ignore this record
-                _logger.LogWarning("Could not read start date from course record.");
-                return null;
-            }
-
-            //Read qualification
-            var qualificationId = 0;
-            if (courseElement.TryGetProperty("qualification", out var qualificationProperty))
-            {
-                //qualificationId = MapQualificationId(qualificationProperty.SafeGetInt32("frameworkCode"));
-                qualificationId = qualificationProperty.SafeGetInt32("frameworkCode");
-                if (qualificationId == 0)
-                {
-                    _logger.LogWarning("Could not find qualification.");
-                    return null;
-                }
-            }
-
-            //Read provider
-            if (courseElement.TryGetProperty("provider", out var providerProperty))
-            {
-                var providerWebsite = providerProperty.SafeGetString("website");
-
-                var provider = new Provider
-                {
-                    Name = providerProperty.SafeGetString("providerName"),
-                    UkPrn = int.TryParse(providerProperty.SafeGetString("ukprn"), out var ukPrn) ? ukPrn : 0,
-
-                    Locations = courseElement.TryGetProperty("locations", out var locationsProperty)
-                        ? locationsProperty.EnumerateArray().Select(l =>
-                        {
-                            var locationWebsite = l.SafeGetString("website");
-
-                            return new Location
-                            {
-                                Name = l.SafeGetString("venueName"),
-                                Postcode = l.SafeGetString("postcode"),
-                                Town = l.SafeGetString("town"),
-                                Latitude = l.SafeGetDouble("latitude"),
-                                Longitude = l.SafeGetDouble("longitude"),
-                                //TODO: Should website be from venue or provider, or both
-                                //      Could also go to top-level for t level, where there is another website
-                                //Website = !string.IsNullOrWhiteSpace(l.SafeGetString("website"))
-                                //    ? l.SafeGetString("website")
-                                //    : providerProperty.SafeGetString("website"),
-                                Website = !string.IsNullOrWhiteSpace(locationWebsite)
-                                    ? locationWebsite
-                                    : providerWebsite,
-                                DeliveryYears = new List<DeliveryYearDto>
-                                {
-                                    new DeliveryYearDto
-                                    {
-                                        Year = (short)startDate.Year,
-                                        Qualifications = new List<int>
-                                        {
-                                            qualificationId
-                                        }
-                                    }
-                                }
-                            };
-                        }).ToList()
-                        : new List<Location>()
-                };
-
-                return provider;
-            }
-
-            return null;
         }
 
         private IList<Qualification> ProcessTLevelQualificationsDocument(JsonDocument jsonDoc)
@@ -301,7 +269,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                         Id = q.SafeGetInt32("frameworkCode"),
                         Name = Regex.Replace(
                             q.SafeGetString("name"),
-                                $"^{QualificationTitlePrefix}", "") 
+                                $"^{QualificationTitlePrefix}", "")
                     }).ToList();
         }
 
