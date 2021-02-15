@@ -339,23 +339,5 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             return (Saved: savedQualifications, Deleted: deletedQualifications);
         }
-
-        private static int MapQualificationId(int id)
-        {
-            return id switch
-            {
-                41 => 1, //Building Services Engineering for Construction"
-                36 => 2, //Design, Surveying and Planning for Construction
-                40 => 3, //Digital Business Services
-                37 => 4, //Digital Production, Design and Development
-                39 => 5, //Digital Support Services
-                38 => 6, //Education and Childcare
-                44 => 7, //Health
-                45 => 8, //Healthcare Science
-                42 => 9, //Onsite Construction
-                43 => 10, //Science
-                _ => 0
-            };
-        }
     }
 }
