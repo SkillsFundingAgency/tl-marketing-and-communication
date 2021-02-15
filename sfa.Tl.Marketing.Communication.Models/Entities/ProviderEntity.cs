@@ -6,7 +6,7 @@ using Microsoft.Azure.Cosmos.Table;
 
 namespace sfa.Tl.Marketing.Communication.Models.Entities
 {
-    public class ProviderEntity : Entity<int>
+    public class ProviderEntity : Entity<long>
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
@@ -27,15 +27,6 @@ namespace sfa.Tl.Marketing.Communication.Models.Entities
         public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext operationContext)
         {
             base.ReadEntity(properties, operationContext);
-
-
-            var fakeProperty = properties.FirstOrDefault(p => p.Key == "xxxx");
-            if (!fakeProperty.Equals(default(KeyValuePair<string, EntityProperty>)))
-            {
-            }
-            else
-            {
-            }
 
             var locationsProperty = properties.FirstOrDefault(p => p.Key == "Locations");
 

@@ -61,8 +61,8 @@ namespace sfa.Tl.Marketing.Communication.Functions
                 logger.LogInformation($"Course directory manual import finished.");
 
                 return new OkObjectResult(
-                    $"Inserted or updated {savedQualifications} and deleted {deletedQualifications} qualifications.\r\n" +
-                    $"Inserted or updated {savedProviders} and deleted {deletedProviders} providers.");
+                    $"Inserted or updated {savedProviders} and deleted {deletedProviders} providers.\r\n" +
+                    $"Inserted or updated {savedQualifications} and deleted {deletedQualifications} qualifications.");
             }
             catch (Exception e)
             {
@@ -73,7 +73,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
             }
         }
 
-        private async Task<(int SavedQualifications, int DeletedQualifications, int SavedProviders, int DeletedProviders)> Import(ILogger logger)
+        private async Task<(int SavedProviders, int DeletedProviders, int SavedQualifications, int DeletedQualifications)> Import(ILogger logger)
         {
             var venueNameOverrides = JsonSerializer
                 .Deserialize<IList<VenueNameOverride>>(
@@ -87,7 +87,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
                 await _courseDirectoryDataService.ImportProvidersFromCourseDirectoryApi(venueNameOverrides);
             logger.LogInformation($"Course directory import saved {savedProviders} and deleted {deletedProviders} providers.");
 
-            return (savedQualifications, deletedQualifications, savedProviders, deletedProviders);
+            return (savedProviders, deletedProviders, savedQualifications, deletedQualifications);
         }
 
         [FunctionName("GetCourseDirectoryJson")]

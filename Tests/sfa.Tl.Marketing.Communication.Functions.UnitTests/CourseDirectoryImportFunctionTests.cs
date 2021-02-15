@@ -53,10 +53,10 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             var service = Substitute.For<ICourseDirectoryDataService>();
             service
                 .ImportProvidersFromCourseDirectoryApi(Arg.Any<IList<VenueNameOverride>>())
-                .Returns((10, 0));
+                .Returns((10, 4));
             service
                 .ImportQualificationsFromCourseDirectoryApi()
-                .Returns((12, 0));
+                .Returns((12, 2));
 
             var request = BuildHttpRequest(HttpMethod.Get);
 
@@ -67,8 +67,8 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
 
             result.Should().BeOfType<OkObjectResult>();
             ((OkObjectResult)result).Value.Should().Be(
-                "Inserted or updated 10 and deleted 0 qualifications.\r\n" +
-                "Inserted or updated 12 and deleted 0 providers.");
+                "Inserted or updated 10 and deleted 4 providers.\r\n" +
+                "Inserted or updated 12 and deleted 2 qualifications.");
         }
 
         [Fact]

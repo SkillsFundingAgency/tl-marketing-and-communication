@@ -14,7 +14,6 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos.Table;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.Logging;
 using Notify.Client;
 using Notify.Interfaces;
@@ -171,7 +170,7 @@ namespace sfa.Tl.Marketing.Communication
             services.AddSingleton(cloudTableClient);
 
             services.AddTransient(typeof(ICloudTableRepository<ProviderEntity>),
-                typeof(GenericCloudTableRepository<ProviderEntity, int>));
+                typeof(GenericCloudTableRepository<ProviderEntity, long>));
             services.AddTransient(typeof(ICloudTableRepository<QualificationEntity>),
                 typeof(GenericCloudTableRepository<QualificationEntity, int>));
 

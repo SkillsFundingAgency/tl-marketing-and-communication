@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.Models.Entities;
+using sfa.Tl.Marketing.Communication.Models.Extensions;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services
 {
@@ -36,7 +37,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             {
                 return 0;
             }
-            var providerEntities = ConvertProviderListToEntityList(providers);
+            var providerEntities = providers.ToProviderEntityList();
 
             return await _providerRepository.Delete(providerEntities);
         }
@@ -48,7 +49,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 return 0;
             }
 
-            var providerEntities = ConvertProviderListToEntityList(providers);
+            var providerEntities = providers.ToProviderEntityList();
 
             var saved = await _providerRepository.Save(providerEntities);
 
@@ -58,34 +59,9 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public async Task<IList<Provider>> GetAllProviders()
         {
-            var providerEntities = await _providerRepository.GetAll();
-
-            var providers = providerEntities
-                .Select(provider =>
-                    new Provider
-                    {
-                        Id = provider.Id,
-                        UkPrn = provider.UkPrn,
-                        Name = provider.Name,
-                        Locations = provider.Locations.Select(
-                            location =>
-                                new Location
-                                {
-                                    Name = location.Name,
-                                    Postcode = location.Postcode,
-                                    Latitude = location.Latitude,
-                                    Longitude = location.Longitude,
-                                    Town = location.Town,
-                                    Website = location.Website,
-                                    DeliveryYears = location.DeliveryYears.Select(
-                                        deliveryYear =>
-                                            new DeliveryYearDto
-                                            {
-                                                Year = deliveryYear.Year,
-                                                Qualifications = deliveryYear.Qualifications.ToList()
-                                            }).ToList()
-                                }).ToList()
-                    }).ToList();
+            var providers = 
+                (await _providerRepository.GetAll())
+                .ToProviderList();
 
             _logger.LogInformation($"RetrieveProviders found {providers.Count()} records.");
             return providers;
@@ -103,7 +79,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 return 0;
             }
 
-            var qualificationEntities = ConvertQualificationListToEntityList(qualifications);
+            var qualificationEntities = qualifications.ToQualificationEntityList();
 
             return await _qualificationRepository.Delete(qualificationEntities);
         }
@@ -115,7 +91,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 return 0;
             }
 
-            var qualificationEntities = ConvertQualificationListToEntityList(qualifications);
+            var qualificationEntities = qualifications.ToQualificationEntityList();
 
             var saved = await _qualificationRepository.Save(qualificationEntities);
 
@@ -125,61 +101,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public async Task<IList<Qualification>> GetAllQualifications()
         {
-            var qualificationEntities = await _qualificationRepository.GetAll();
-
-            var qualifications = qualificationEntities
-                .Select(q =>
-                    new Qualification
-                    {
-                        Id = q.Id,
-                        Name = q.Name
-                    }).ToList();
+            var qualifications = 
+                (await _qualificationRepository.GetAll())
+                .ToQualificationList();
 
             _logger.LogInformation($"RetrieveQualifications found {qualifications.Count} records.");
 
             return qualifications;
-        }
-
-        private static IList<QualificationEntity> ConvertQualificationListToEntityList(IEnumerable<Qualification> qualifications)
-        {
-            return qualifications
-                .Select(qualification =>
-                    new QualificationEntity
-                    {
-                        Id = qualification.Id,
-                        Name = qualification.Name
-                    }).ToList();
-        }
-
-        private static IList<ProviderEntity> ConvertProviderListToEntityList(IEnumerable<Provider> providers)
-        {
-            return providers
-                .Select(provider =>
-                    new ProviderEntity
-                    {
-                        Id = provider.Id,
-                        UkPrn = provider.UkPrn,
-                        Name = provider.Name,
-                        Locations = provider.Locations.Select(
-                            location =>
-                                new LocationEntity
-                                {
-                                    Name = location.Name,
-                                    Postcode = location.Postcode,
-                                    Latitude = location.Latitude,
-                                    Longitude = location.Longitude,
-                                    Town = location.Town,
-                                    Website = location.Website,
-                                    DeliveryYears = location.DeliveryYears.Select(
-                                        deliveryYear =>
-                                            new DeliveryYearEntity
-                                            {
-                                                Year = deliveryYear.Year,
-                                                Qualifications = deliveryYear.Qualifications.ToList()
-                                            }
-                                    ).ToList(),
-                                }).ToList()
-                    }).ToList();
         }
     }
 }

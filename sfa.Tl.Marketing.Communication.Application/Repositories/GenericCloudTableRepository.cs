@@ -40,7 +40,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             //Need to get delete working properly - just return with 0 results for now
             //https://www.wintellect.com/deleting-entities-in-windows-azure-table-storage/
             //https://blog.bitscry.com/2019/03/25/efficiently-deleting-rows-from-azure-table-storage/
-            return 0;
+            //return 0;
 
             var cloudTable = _cloudTableClient.GetTableReference(_tableName);
             if (!cloudTable.Exists())
@@ -180,7 +180,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             var batchCount = 0;
             var stopwatch = Stopwatch.StartNew();
 
-            var batchPartitionKey = entities.First().Id.ToString();
+            //var batchPartitionKey = entities.First().Id.ToString();
 
             var rowOffset = 0;
 
@@ -193,11 +193,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
 
                 foreach (var entity in batchEntities)
                 {
-                    //TODO: Check if exists, then update if it has changed
-                    //TODO: Add a ctor with row key? or always do this in the entity?
-                    entity.RowKey = entity.Id.ToString();
-                    //TODO: Do we need a partition?
-                    entity.PartitionKey = batchPartitionKey;
+                    //entity.RowKey = entity.Id.ToString();
+                    //entity.PartitionKey = batchPartitionKey;
 
                     //TODO: Sort out object collections
                     // https://damieng.com/blog/2015/06/27/table-per-hierarchy-in-azure-table-storage

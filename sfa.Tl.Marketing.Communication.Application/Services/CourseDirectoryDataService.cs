@@ -280,10 +280,10 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             
             var existingProviders = await _tableStorageService.GetAllProviders();
 
-            var providersToInsertOrUpdate = providers.Where(q =>
-                    existingProviders.All(x => x.Id != q.Id) //Not in existing data, so add it
+            var providersToInsertOrUpdate = providers.Where(p =>
+                    existingProviders.All(x => x.UkPrn != p.UkPrn) //Not in existing data, so add it
                     //TODO: Need a full comparison here - add a comparer
-                    || existingProviders.Any(x => x.Id == q.Id && x.Name != q.Name) //Is in existing data and has changed
+                    || existingProviders.Any(x => x.Id == p.Id && x.Name != p.Name) //Is in existing data and has changed
             ).ToList();
 
             var providersToDelete = existingProviders.Where(q =>

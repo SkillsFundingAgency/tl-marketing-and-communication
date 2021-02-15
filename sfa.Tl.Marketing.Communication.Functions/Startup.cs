@@ -98,7 +98,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
             services.AddSingleton(cloudTableClient);
 
             services.AddTransient(typeof(ICloudTableRepository<ProviderEntity>),
-                typeof(GenericCloudTableRepository<ProviderEntity, int>));
+                typeof(GenericCloudTableRepository<ProviderEntity, long>));
             services.AddTransient(typeof(ICloudTableRepository<QualificationEntity>),
                 typeof(GenericCloudTableRepository<QualificationEntity, int>));
 

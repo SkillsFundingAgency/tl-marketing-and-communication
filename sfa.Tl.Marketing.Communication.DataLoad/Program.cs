@@ -292,9 +292,9 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
 
             var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
 
-            var providerRepository = new GenericCloudTableRepository<ProviderEntity, int>(
+            var providerRepository = new GenericCloudTableRepository<ProviderEntity, long>(
                 cloudTableClient,
-                loggerFactory.CreateLogger<GenericCloudTableRepository<ProviderEntity, int>>());
+                loggerFactory.CreateLogger<GenericCloudTableRepository<ProviderEntity, long>>());
 
             var qualificationRepository =
                     new GenericCloudTableRepository<QualificationEntity, int>(
