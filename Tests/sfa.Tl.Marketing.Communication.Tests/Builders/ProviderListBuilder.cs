@@ -18,7 +18,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                 var nextId = start + i + 1;
                 _providers.Add(new Provider
                 {
-                    Id = 10000000 + nextId,
                     UkPrn = 10000000 + nextId,
                     Name = $"Test Provider {nextId}",
                     Locations = new List<Location>

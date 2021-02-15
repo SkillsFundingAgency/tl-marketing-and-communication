@@ -60,7 +60,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             {
                 var batchOperation = new TableBatchOperation();
 
-                // next batch
                 var batchEntities = entities.Skip(rowOffset).Take(TableBatchSize).ToList();
 
                 batchEntities.ForEach(x =>

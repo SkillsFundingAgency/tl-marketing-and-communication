@@ -127,7 +127,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public async Task<IList<Provider>> GetProviders()
         {
             return (await _tableStorageService.GetAllProviders())
-                .OrderBy(p => p.Id).ToList();
+                .OrderBy(p => p.UkPrn).ToList();
         }
 
         public async Task<IList<Qualification>> GetQualifications()
@@ -194,7 +194,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     provider = new Provider
                     {
                         //TODO: Should we use this as id? Or use UKPRN?
-                        Id = providers.Count + 1,
                         UkPrn = ukPrn,
                         Name = providerName,
                         Locations = new List<Location>()
@@ -283,7 +282,10 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var providersToInsertOrUpdate = providers.Where(p =>
                     existingProviders.All(x => x.UkPrn != p.UkPrn) //Not in existing data, so add it
                     //TODO: Need a full comparison here - add a comparer
-                    || existingProviders.Any(x => x.Id == p.Id && x.Name != p.Name) //Is in existing data and has changed
+                    || existingProviders.Any(x => 
+                        x.UkPrn == p.UkPrn && 
+                        x.Name != p.Name
+                        ) //Is in existing data and has changed
             ).ToList();
 
             var providersToDelete = existingProviders.Where(q =>

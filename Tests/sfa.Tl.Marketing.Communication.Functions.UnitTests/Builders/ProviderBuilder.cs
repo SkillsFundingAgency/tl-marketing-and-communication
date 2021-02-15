@@ -10,7 +10,6 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders
         {
             new()
             {
-                Id = 1,
                 UkPrn = 12345678,
                 Name = "Test Provider 1",
                 Locations = new List<Location>

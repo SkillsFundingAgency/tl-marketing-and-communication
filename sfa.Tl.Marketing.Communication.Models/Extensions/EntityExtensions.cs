@@ -71,7 +71,6 @@ namespace sfa.Tl.Marketing.Communication.Models.Extensions
                 .Select(provider =>
                     new Provider
                     {
-                        Id = (int)provider.UkPrn,
                         UkPrn = provider.UkPrn,
                         Name = provider.Name,
                         Locations = provider.Locations.Select(

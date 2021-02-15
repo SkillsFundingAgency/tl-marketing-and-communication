@@ -43,11 +43,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var providers = _service.GetProviders();
 
-            var provider = providers.SingleOrDefault(p => p.Id == 1);
+            var provider = providers.SingleOrDefault(p => p.UkPrn == 10000055);
 
             provider.Should().NotBeNull();
 
-            provider?.Id.Should().Be(1);
             provider?.UkPrn.Should().Be(10000055);
             provider?.Name.Should().Be("Abingdon and Witney College");
             provider?.Locations.Count.Should().Be(2);
@@ -76,7 +75,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var providers = _service.GetProviders();
 
-            var provider = providers.SingleOrDefault(p => p.Id == 10);
+            var provider = providers.SingleOrDefault(p => p.UkPrn == 10000754);
 
             provider.Should().NotBeNull();
             provider?.Name.Should().Be("Blackpool and The Fylde College");

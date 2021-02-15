@@ -21,7 +21,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                             .Select(p =>
                                 new Provider
                                 {
-                                    Id = p.GetProperty("id").GetInt32(),
                                     UkPrn = p.GetProperty("ukPrn").GetInt64(),
                                     Name = p.GetProperty("name").GetString(),
                                     Locations = p.GetProperty("locations")
