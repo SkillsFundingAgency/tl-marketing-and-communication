@@ -37,7 +37,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
 
                 await Import(logger);
 
-                logger.LogInformation($"Course directory scheduled import finished.");
+                logger.LogInformation("Course directory scheduled import finished.");
             }
             catch (Exception e)
             {
@@ -58,7 +58,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
 
                 var (savedProviders, deletedProviders, savedQualifications, deletedQualifications) = await Import(logger);
 
-                logger.LogInformation($"Course directory manual import finished.");
+                logger.LogInformation("Course directory manual import finished.");
 
                 return new OkObjectResult(
                     $"Inserted or updated {savedProviders} and deleted {deletedProviders} providers.\r\n" +

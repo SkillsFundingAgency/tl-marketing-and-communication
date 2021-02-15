@@ -40,9 +40,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var qualifications = new List<Qualification>
             {
-                new Qualification { Id = 1, Name = "Xyz" },
-                new Qualification { Id = 2, Name = "Mno" },
-                new Qualification { Id = 3, Name = "Abc" }
+                new() { Id = 1, Name = "Xyz" },
+                new () { Id = 2, Name = "Mno" },
+                new () { Id = 3, Name = "Abc" }
             };
 
             _providerDataService.GetQualifications().Returns(qualifications);
@@ -106,9 +106,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var providers = new List<Provider>
             {
-                new Provider(),
-                new Provider(),
-                new Provider()
+                new (),
+                new (),
+                new ()
             }.AsQueryable();
             _providerDataService.GetProviders().Returns(providers);
 
@@ -126,17 +126,17 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var locations = new List<Location>
             {
-                new Location(),
-                new Location(),
-                new Location()
+                new (),
+                new (),
+                new ()
             }.AsQueryable();
             _locationService.GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), Arg.Is<int>(q => q == searchRequest.QualificationId.Value)).Returns(locations);
 
             var providerLocations = new List<ProviderLocation>
             {
-                new ProviderLocation(),
-                new ProviderLocation(),
-                new ProviderLocation()
+                new (),
+                new (),
+                new ()
             }.AsQueryable();
 
             _providerLocationService.GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers)).Returns(providerLocations);
@@ -169,9 +169,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var providers = new List<Provider>
             {
-                new Provider(),
-                new Provider(),
-                new Provider()
+                new (),
+                new (),
+                new ()
             }.AsQueryable();
             _providerDataService.GetProviders().Returns(providers);
             const string postcode = "mk669oo";
@@ -185,18 +185,18 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var locations = new List<Location>
             {
-                new Location(),
-                new Location(),
-                new Location()
+                new (),
+                new (),
+                new ()
             }.AsQueryable();
             
             _locationService.GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), qualificationId).Returns(locations);
 
             var providerLocations = new List<ProviderLocation>
             {
-                new ProviderLocation(),
-                new ProviderLocation(),
-                new ProviderLocation()
+                new (),
+                new (),
+                new ()
             }.AsQueryable();
 
             _providerLocationService.GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers)).Returns(providerLocations);

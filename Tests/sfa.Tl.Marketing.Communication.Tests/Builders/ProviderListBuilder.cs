@@ -23,7 +23,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                     Name = $"Test Provider {nextId}",
                     Locations = new List<Location>
                     {
-                        new Location
+                        new()
                         {
                             Postcode = $"CV{nextId} {nextId + 1}WT",
                             Town = "Coventry",
@@ -31,7 +31,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                             Longitude = -0.234 - nextId,
                             DeliveryYears = new List<DeliveryYearDto>
                             {
-                                new DeliveryYearDto
+                                new()
                                 {
                                     Year = (short)(2020 + nextId),
                                     Qualifications = new List<int>

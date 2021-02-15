@@ -63,7 +63,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 (await _providerRepository.GetAll())
                 .ToProviderList();
 
-            _logger.LogInformation($"RetrieveProviders found {providers.Count()} records.");
+            _logger.LogInformation($"RetrieveProviders found {providers.Count} records.");
             return providers;
         }
 

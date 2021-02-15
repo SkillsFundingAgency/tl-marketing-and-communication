@@ -27,12 +27,12 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                     DistanceInMiles = 9.5 + i,
                     DeliveryYears = new List<DeliveryYear>
                     {
-                        new DeliveryYear
+                        new()
                         {
                             Year = (short)(2020 + nextId),
                             Qualifications = new List<Qualification>
                             {
-                                new Qualification
+                                new()
                                 {
                                     Id = nextId,
                                     Name = $"Qualification {nextId}"

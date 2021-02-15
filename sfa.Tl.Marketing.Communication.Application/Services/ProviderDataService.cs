@@ -109,10 +109,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private IQueryable<Qualification> GetAllQualifications()
         {
-            //_qualificationTableData = LoadQualificationTableData().GetAwaiter().GetResult();
-            //private readonly IList<Provider> _providerTableData;
-            //private readonly IList<Qualification> _qualificationTableData;
-
             if (!_cache.TryGetValue(QualificationTableDataCacheKey,
                 out IList<Qualification> qualificationTableData))
             {
@@ -128,7 +124,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private IQueryable<Provider> GetAllProviders()
         {
-            //_providerTableData = LoadProviderTableData().GetAwaiter().GetResult();
             if (!_cache.TryGetValue(ProviderTableDataCacheKey,
                 out IList<Provider> providerTableData))
             {

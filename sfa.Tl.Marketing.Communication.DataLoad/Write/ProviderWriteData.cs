@@ -7,6 +7,6 @@ namespace sfa.Tl.Marketing.Communication.DataLoad.Write
         public int Id { get; set; }
         public long UkPrn { get; set; }
         public string Name { get; set; }
-        public List<LocationWriteData> Locations { get; set; } = new List<LocationWriteData>();
+        public List<LocationWriteData> Locations { get; set; } = new();
     }
 }
