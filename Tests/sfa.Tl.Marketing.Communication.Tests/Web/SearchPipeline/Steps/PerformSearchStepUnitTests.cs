@@ -7,7 +7,6 @@ using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -27,13 +26,12 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         }
 
         [Fact]
-        public async Task Step_Perform_Search()
+        public async Task Step_Perform_Search_Returns_Expected_Results()
         {
-            // Arrange         
-            var postcode = "MK35 8UK";
-            var numberOfItems = 9;
-            var qualificationId = 5;
-            var selectedItemIndex = 3;
+            const string postcode = "MK35 8UK";
+            const int numberOfItems = 9;
+            const int qualificationId = 5;
+            const int selectedItemIndex = 3;
 
             var viewModel = new FindViewModel
             {
@@ -70,17 +68,55 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
 
             _mapper.Map<IEnumerable<ProviderLocationViewModel>>(Arg.Is(providerLocations)).Returns(providerLocationViewModels);
 
-            // Act
             await _searchStep.Execute(context);
 
-            // Assert
             context.ViewModel.TotalRecordCount.Should().Be(providerLocationViewModels.Count);
             providerLocationViewModels[context.ViewModel.SelectedItemIndex].HasFocus.Should().BeTrue();
             context.ViewModel.SearchedQualificationId.Should().Be(qualificationId);
             context.ViewModel.ProviderLocations.Should().Equal(providerLocationViewModels);
+
             await _providerSearchService.Received(1).Search(Arg.Is<SearchRequest>(sr => sr.Postcode == postcode && sr.NumberOfItems == numberOfItems && sr.QualificationId == qualificationId));
             _mapper.Received(1).Map<IEnumerable<ProviderLocationViewModel>>(Arg.Is(providerLocations));
+        }
 
+        [Fact]
+        public async Task Step_Perform_Search_Returns_Zero_Results()
+        {
+            const string postcode = "MK35 8UK";
+            const int numberOfItems = 9;
+            const int qualificationId = 5;
+            const int selectedItemIndex = 3;
+
+            var viewModel = new FindViewModel
+            {
+                Postcode = postcode,
+                NumberOfItemsToShow = numberOfItems,
+                SelectedQualificationId = qualificationId,
+                SelectedItemIndex = selectedItemIndex
+            };
+
+            var context = new SearchContext(viewModel);
+
+            var providerLocations = new List<ProviderLocation>();
+
+            _providerSearchService.Search(Arg.Is<SearchRequest>(sr => sr.Postcode == postcode &&
+            sr.NumberOfItems == numberOfItems &&
+            sr.QualificationId == qualificationId))
+                .Returns((providerLocations.Count, providerLocations));
+
+            // ReSharper disable once CollectionNeverUpdated.Local
+            var providerLocationViewModels = new List<ProviderLocationViewModel>();
+
+            _mapper.Map<IEnumerable<ProviderLocationViewModel>>(Arg.Is(providerLocations)).Returns(providerLocationViewModels);
+
+            await _searchStep.Execute(context);
+
+            context.ViewModel.TotalRecordCount.Should().Be(0);
+            context.ViewModel.SearchedQualificationId.Should().Be(qualificationId);
+            context.ViewModel.ProviderLocations.Should().Equal(providerLocationViewModels);
+
+            await _providerSearchService.Received(1).Search(Arg.Is<SearchRequest>(sr => sr.Postcode == postcode && sr.NumberOfItems == numberOfItems && sr.QualificationId == qualificationId));
+            _mapper.Received(1).Map<IEnumerable<ProviderLocationViewModel>>(Arg.Is(providerLocations));
         }
     }
 }

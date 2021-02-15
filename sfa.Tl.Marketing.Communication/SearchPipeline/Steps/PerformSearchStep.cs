@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.Models.Dto;
@@ -35,7 +36,10 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
             var providerViewModels = _mapper.Map<IEnumerable<ProviderLocationViewModel>>(searchResults).ToList();
             
             context.ViewModel.TotalRecordCount = totalCount;
-            providerViewModels[context.ViewModel.SelectedItemIndex].HasFocus = true;
+            if (providerViewModels.Count > context.ViewModel.SelectedItemIndex)
+            {
+                providerViewModels[context.ViewModel.SelectedItemIndex].HasFocus = true;
+            }
 
             context.ViewModel.ProviderLocations = providerViewModels;
             context.ViewModel.SearchedQualificationId = context.ViewModel.SelectedQualificationId ?? -1;
