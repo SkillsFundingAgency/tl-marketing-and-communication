@@ -115,13 +115,13 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
 
             var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
 
-            var providerRepository = new GenericCloudTableRepository<ProviderEntity, long>(
+            var providerRepository = new GenericCloudTableRepository<ProviderEntity>(
                 cloudTableClient,
-                loggerFactory.CreateLogger<GenericCloudTableRepository<ProviderEntity, long>>());
+                loggerFactory.CreateLogger<GenericCloudTableRepository<ProviderEntity>>());
 
-            var qualificationRepository =  new GenericCloudTableRepository<QualificationEntity, int>(
+            var qualificationRepository =  new GenericCloudTableRepository<QualificationEntity>(
                     cloudTableClient,
-                    loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity, int>>());
+                    loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity>>());
 
             return new TableStorageService(
                 providerRepository,
@@ -138,8 +138,7 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
                 var clientHandler = new HttpClientHandler
                 {
                     ServerCertificateCustomValidationCallback =
-                        (sender, cert, chain, sslPolicyErrors)
-                            => true
+                        (_, _, _, _) => true
                 };
 
                 using var client = new HttpClient(clientHandler)

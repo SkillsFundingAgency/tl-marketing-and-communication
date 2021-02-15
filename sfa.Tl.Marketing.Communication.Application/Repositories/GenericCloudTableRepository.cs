@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
-using sfa.Tl.Marketing.Communication.Models.Entities;
 
 namespace sfa.Tl.Marketing.Communication.Application.Repositories
 {
-    public class GenericCloudTableRepository<T, TKey> : ICloudTableRepository<T>
-        where T : Entity<TKey>, ITableEntity, new()
+    public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
+        where T : ITableEntity, new()
     {
         private readonly CloudTableClient _cloudTableClient;
-        private readonly ILogger<GenericCloudTableRepository<T, TKey>> _logger;
+        private readonly ILogger<GenericCloudTableRepository<T>> _logger;
 
         private readonly string _tableName;
 
@@ -22,11 +21,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
 
         public GenericCloudTableRepository(
             CloudTableClient cloudTableClient,
-            ILogger<GenericCloudTableRepository<T, TKey>> logger)
+            ILogger<GenericCloudTableRepository<T>> logger)
         {
             _cloudTableClient = cloudTableClient ?? throw new ArgumentNullException(nameof(cloudTableClient));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
+            
             _tableName = typeof(T).Name;
             const string suffix = "Entity";
             if (_tableName.EndsWith(suffix))
