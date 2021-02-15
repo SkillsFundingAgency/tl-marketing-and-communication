@@ -48,6 +48,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             provider.Should().NotBeNull();
 
             provider?.Id.Should().Be(1);
+            provider?.UkPrn.Should().Be(10000055);
             provider?.Name.Should().Be("Abingdon and Witney College");
             provider?.Locations.Count.Should().Be(2);
 

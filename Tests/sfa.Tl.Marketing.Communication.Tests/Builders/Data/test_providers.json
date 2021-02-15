@@ -14,6 +14,7 @@
   "providers": [
     {
       "id": 1,
+      "ukPrn": "10000055",
       "name": "Abingdon and Witney College",
       "locations": [
         {
@@ -56,6 +57,7 @@
     },
     {
       "id": 2,
+      "ukPrn": 10000080,
       "name": "Access Creative College",
       "locations": [
         {
@@ -70,6 +72,7 @@
     },
     {
       "id": 3,
+      "ukPrn": 10004927,
       "name": "Activate Learning",
       "locations": [
         {
@@ -124,6 +127,7 @@
     },
     {
       "id": 4,
+      "ukPrn": 10000528,
       "name": "Barking & Dagenham College",
       "locations": [
         {
@@ -165,6 +169,7 @@
     },
     {
       "id": 5,
+      "ukPrn": 10000536,
       "name": "Barnsley College",
       "locations": [
         {
@@ -226,6 +231,7 @@
     },
     {
       "id": 6,
+      "ukPrn": 10001465,
       "name": "Bath College",
       "locations": [
         {
@@ -250,6 +256,7 @@
     },
     {
       "id": 7,
+      "ukPrn": 10000610,
       "name": "Bedford College Group",
       "locations": [
         {
@@ -346,6 +353,7 @@
     },
     {
       "id": 8,
+      "ukPrn": 10000670,
       "name": "Bexhill College",
       "locations": [
         {
@@ -374,6 +382,7 @@
     },
     {
       "id": 9,
+      "ukPrn": 10000721,
       "name": "Bishop Burton College",
       "locations": [
         {
@@ -402,6 +411,7 @@
     },
     {
       "id": 10,
+      "ukPrn": 10000754,
       "name": "Blackpool and The Fylde College",
       "locations": [
         {

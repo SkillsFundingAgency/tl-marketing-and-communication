@@ -22,6 +22,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                                 new Provider
                                 {
                                     Id = p.GetProperty("id").GetInt32(),
+                                    UkPrn = p.GetProperty("UkPrn").GetInt64(),
                                     Name = p.GetProperty("name").GetString(),
                                     Locations = p.GetProperty("locations")
                                         .EnumerateArray()
