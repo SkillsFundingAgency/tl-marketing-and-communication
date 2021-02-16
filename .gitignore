@@ -121,6 +121,7 @@ _TeamCity*
 _NCrunch_*
 .*crunch*.local.xml
 nCrunchTemp_*
+*.ncrunchsolution
 
 # MightyMoose
 *.mm.*
@@ -304,3 +305,6 @@ appsettings.Development.json
 
 # Developer settings in function projects
 local.settings.development.json
+
+# VsCode cache folder
+.vscode/
