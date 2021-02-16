@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
+using System.Reflection.Metadata.Ecma335;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -85,19 +87,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
                 response = CreateWorkaroundResponse();
             }
-            else
-            {
-                //TODO: Remove this - the new API shouldn't need to be re-wrapped in []
-                //var content = await response.Content.ReadAsStringAsync();
-                //content = $"[\n{content}\n]";
-                //response.Content = new StringContent(content);
-            }
 
             response.EnsureSuccessStatusCode();
 
             var jsonDoc = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
             var providers = ProcessTLevelDetailsDocument(jsonDoc);
-             
+
             return await UpdateProvidersInTableStorage(providers);
         }
 
@@ -121,7 +116,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var jsonDoc = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
             var qualifications = ProcessTLevelQualificationsDocument(jsonDoc);
 
-            return  await UpdateQualificationsInTableStorage(qualifications);
+            return await UpdateQualificationsInTableStorage(qualifications);
         }
 
         public async Task<IList<Provider>> GetProviders()
@@ -274,18 +269,23 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private async Task<(int Saved, int Deleted)> UpdateProvidersInTableStorage(IList<Provider> providers)
         {
-            //var removedProviders = await _tableStorageService.ClearProviders();
-            //_logger.LogInformation($"Removed {removedProviders} providers from table storage");
-            
             var existingProviders = await _tableStorageService.GetAllProviders();
 
+            //var providersToInsert = providers.Where(p =>
+            //        existingProviders.All(x => x.UkPrn != p.UkPrn))
+            //    .ToList();
+            
+            //var providersToUpdate = providers.Where(p => 
+            //        existingProviders.Any(x => 
+            //            x.UkPrn == p.UkPrn && 
+            //            !CompareProviders(x, p))
+            //).ToList();
+
             var providersToInsertOrUpdate = providers.Where(p =>
-                    existingProviders.All(x => x.UkPrn != p.UkPrn) //Not in existing data, so add it
-                    //TODO: Need a full comparison here - add a comparer
-                    || existingProviders.Any(x => 
-                        x.UkPrn == p.UkPrn && 
-                        x.Name != p.Name
-                        ) //Is in existing data and has changed
+                    existingProviders.All(x => x.UkPrn == p.UkPrn) //Not in existing data, so add it
+                    || existingProviders.Any(x =>
+                        x.UkPrn == p.UkPrn &&
+                        !CompareProviders(x, p)) //Is in existing data and has changed
             ).ToList();
 
             var providersToDelete = existingProviders.Where(q =>
@@ -309,13 +309,49 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return (Saved: savedProviders, Deleted: deletedProviders);
         }
 
+        private static bool CompareProviders(Provider existingProvider, Provider provider)
+        {
+            Debug.WriteLine($"Comparing {existingProvider.UkPrn} {provider.UkPrn}");
+            if (existingProvider.UkPrn != provider.UkPrn) return false;
+            if (existingProvider.Name != provider.Name) return false;
+            if (existingProvider.Locations.Count != provider.Locations.Count) return false;
+
+            foreach (var location in existingProvider.Locations)
+            {
+                var matchingLocation = provider.Locations.SingleOrDefault(l => l.Postcode == location.Postcode);
+                if (matchingLocation == null) return false;
+
+                if (matchingLocation.Town != location.Town) return false;
+                if (matchingLocation.Name != location.Name) return false;
+                if (matchingLocation.Website != location.Website) return false;
+
+                if (Math.Abs(matchingLocation.Latitude - location.Latitude) > .000001) return false;
+                if (Math.Abs(matchingLocation.Longitude - location.Longitude) > .000001) return false;
+
+                if (matchingLocation.DeliveryYears.Count != location.DeliveryYears.Count) return false;
+
+                foreach (var deliveryYear in matchingLocation.DeliveryYears)
+                {
+                    var matchingDeliveryYear =
+                        location.DeliveryYears.SingleOrDefault(dy => dy.Year == deliveryYear.Year);
+                    if (matchingDeliveryYear == null) return false;
+
+                    if (matchingDeliveryYear.Qualifications.Count != deliveryYear.Qualifications.Count) return false;
+
+                    if (matchingDeliveryYear.Qualifications.Any(qualification =>
+                        !deliveryYear.Qualifications.Contains(qualification)))
+                        return false;
+                }
+            }
+
+            Debug.WriteLine($"Returning true for {provider.UkPrn}");
+            return true;
+        }
+
         private async Task<(int Saved, int Deleted)> UpdateQualificationsInTableStorage(IList<Qualification> qualifications)
         {
-            //var removedQualifications = await _tableStorageService.ClearQualifications();
-            //_logger.LogInformation($"Removed {removedQualifications} qualifications from table storage");
-
             var existingQualifications = await _tableStorageService.GetAllQualifications();
-            
+
             var qualificationsToInsertOrUpdate = qualifications.Where(q =>
                     existingQualifications.All(x => x.Id != q.Id) //Not in existing data, so add it
                     || existingQualifications.Any(x => x.Id == q.Id && x.Name != q.Name) //Is in existing data and has changed
