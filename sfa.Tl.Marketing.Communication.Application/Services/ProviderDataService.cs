@@ -55,40 +55,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return qualifications;
         }
 
-        private async Task<IList<Provider>> LoadProviderTableData()
-        {
-            try
-            {
-                _logger.LogInformation("Looking for providers in table storage");
-                var providersFromTable = await _tableStorageService.GetAllProviders();
-                _logger.LogInformation($"Found {providersFromTable?.Count ?? 0} providers in table storage");
-
-                return providersFromTable;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to retrieve providers from table storage");
-                return null;
-            }
-        }
-
-        private async Task<IList<Qualification>> LoadQualificationTableData()
-        {
-            try
-            {
-                _logger.LogInformation("Looking for qualifications in table storage");
-                var qualificationsFromTable = await _tableStorageService.GetAllQualifications();
-                _logger.LogInformation($"Found {qualificationsFromTable?.Count ?? 0} qualifications in table storage");
-
-                return qualificationsFromTable;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to retrieve qualifications from table storage");
-                return null;
-            }
-        }
-
         public IEnumerable<string> GetWebsiteUrls()
         {
             var urlList = new List<string>();
@@ -112,7 +78,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             if (!_cache.TryGetValue(QualificationTableDataCacheKey,
                 out IList<Qualification> qualificationTableData))
             {
-                qualificationTableData = LoadQualificationTableData().GetAwaiter().GetResult();
+                qualificationTableData = _tableStorageService.GetAllQualifications().GetAwaiter().GetResult();
                 _cache.Set(QualificationTableDataCacheKey,
                     qualificationTableData,
                     new MemoryCacheEntryOptions()
@@ -127,7 +93,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             if (!_cache.TryGetValue(ProviderTableDataCacheKey,
                 out IList<Provider> providerTableData))
             {
-                providerTableData = LoadProviderTableData().GetAwaiter().GetResult();
+                providerTableData = _tableStorageService.GetAllProviders().GetAwaiter().GetResult();
                 _cache.Set(ProviderTableDataCacheKey,
                     providerTableData,
                     new MemoryCacheEntryOptions()
