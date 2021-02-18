@@ -1337,9 +1337,7 @@
             {
               "year": 2021,
               "qualifications": [
-                4,
                 6,
-                7,
                 9
               ]
             }
@@ -1372,8 +1370,8 @@
             {
               "year": 2021,
               "qualifications": [
-                6,
-                7
+                4,
+                6
               ]
             }
           ],
@@ -1389,22 +1387,7 @@
             {
               "year": 2021,
               "qualifications": [
-                6
-              ]
-            }
-          ],
-          "website": "https://www.ekcgroup.ac.uk/colleges/canterbury-college"
-        },
-        {
-          "name": "Canterbury College",
-          "postcode": "CT1 3AQ",
-          "town": "Canterbury",
-          "latitude": 51.274657,
-          "longitude": 1.091181,
-          "deliveryYears": [
-            {
-              "year": 2021,
-              "qualifications": [
+                6,
                 7
               ]
             }
@@ -3896,11 +3879,11 @@
       "name": "Warwickshire College Group",
       "locations": [
         {
-          "name": "Malvern Hills College",
-          "postcode": "WR14 2YH",
+          "name": "Malvern Hills Centre for Digital & Cyber Technology",
+          "postcode": "WR14 3SZ",
           "town": "Malvern Hills",
-          "latitude": 52.113473,
-          "longitude": -2.322755,
+          "latitude": 52.104819,
+          "longitude": -2.311898,
           "deliveryYears": [
             {
               "year": 2021,
