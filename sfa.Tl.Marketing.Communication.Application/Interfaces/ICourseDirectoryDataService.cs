@@ -13,9 +13,5 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
         Task<string> GetTLevelDetailJsonFromCourseDirectoryApi();
 
         Task<string> GetTLevelQualificationJsonFromCourseDirectoryApi();
-
-        Task<IList<Provider>> GetProviders();
-
-        Task<IList<Qualification>> GetQualifications();
     }
 }

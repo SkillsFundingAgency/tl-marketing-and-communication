@@ -213,40 +213,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             lastQualification.Id.Should().Be(45);
             lastQualification.Name.Should().Be("Healthcare Science");
         }
-
-        [Fact]
-        public async Task CourseDirectoryDataService_GetProviders_Returns_Expected_Result()
-        {
-            var providers = new ProviderListBuilder()
-                .Add(2)
-                .Build();
-            var tableStorageService = Substitute.For<ITableStorageService>();
-            tableStorageService.GetAllProviders().Returns(providers);
-
-            var service = BuildCourseDirectoryDataService(tableStorageService: tableStorageService);
-
-            var result = await service.GetProviders();
-
-            result.Should().BeEquivalentTo(providers);
-        }
-
-        [Fact]
-        public async Task CourseDirectoryDataService_GetQualifications_Returns_Expected_Result()
-        {
-            var qualifications = new QualificationListBuilder()
-                .Add(2)
-                .Build();
-
-            var tableStorageService = Substitute.For<ITableStorageService>();
-            tableStorageService.GetAllQualifications().Returns(qualifications);
-
-            var service = BuildCourseDirectoryDataService(tableStorageService: tableStorageService);
-
-            var result = await service.GetQualifications();
-
-            result.Should().BeEquivalentTo(qualifications);
-        }
-
+        
         private CourseDirectoryDataService BuildCourseDirectoryDataService(
             IHttpClientFactory httpClientFactory = null,
             ITableStorageService tableStorageService = null,

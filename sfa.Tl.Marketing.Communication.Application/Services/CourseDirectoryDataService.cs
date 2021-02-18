@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
-using System.Reflection.Metadata.Ecma335;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -118,20 +117,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             return await UpdateQualificationsInTableStorage(qualifications);
         }
-
-        public async Task<IList<Provider>> GetProviders()
-        {
-            return (await _tableStorageService.GetAllProviders())
-                .OrderBy(p => p.UkPrn).ToList();
-        }
-
-        public async Task<IList<Qualification>> GetQualifications()
-        {
-            return (await _tableStorageService
-                    .GetAllQualifications())
-                .OrderBy(q => q.Id).ToList();
-        }
-
+        
         //TODO: Remove this when API is implemented
         //To work around incomplete API implementation - load data from resource
         private HttpResponseMessage CreateWorkaroundResponse(string resource = "CourseDirectoryTLevelDetailResponse")

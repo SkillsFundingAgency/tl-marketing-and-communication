@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -17,11 +18,14 @@ namespace sfa.Tl.Marketing.Communication.Functions
     public class CourseDirectoryImportFunctions
     {
         private readonly ICourseDirectoryDataService _courseDirectoryDataService;
+        private readonly ITableStorageService _tableStorageService;
 
-        public CourseDirectoryImportFunctions(ICourseDirectoryDataService courseDirectoryDataService)
+        public CourseDirectoryImportFunctions(
+            ICourseDirectoryDataService courseDirectoryDataService,
+            ITableStorageService tableStorageService)
         {
-            _courseDirectoryDataService = courseDirectoryDataService ??
-                                          throw new ArgumentNullException(nameof(courseDirectoryDataService));
+            _courseDirectoryDataService = courseDirectoryDataService ?? throw new ArgumentNullException(nameof(courseDirectoryDataService));
+            _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
         }
 
         [FunctionName("CourseDirectoryScheduledImport")]
@@ -154,9 +158,11 @@ namespace sfa.Tl.Marketing.Communication.Functions
             {
                 logger.LogInformation("Course directory GetProviders function was called.");
 
-                var providers = await _courseDirectoryDataService.GetProviders();
+                var providers = 
+                    (await _tableStorageService.GetAllProviders())
+                    .OrderBy(p => p.UkPrn);
 
-                logger.LogInformation($"Course directory GetProviders returned {providers?.Count} records.");
+                logger.LogInformation($"Course directory GetProviders returned {providers.Count()} records.");
 
                 return new JsonResult(providers);
             }
@@ -179,9 +185,11 @@ namespace sfa.Tl.Marketing.Communication.Functions
             {
                 logger.LogInformation("Course directory GetQualifications function was called.");
 
-                var qualifications = await _courseDirectoryDataService.GetQualifications();
+                var qualifications = 
+                    (await _tableStorageService.GetAllQualifications())
+                    .OrderBy(q => q.Id);
 
-                logger.LogInformation($"Course directory GetQualifications returned {qualifications?.Count} records.");
+                logger.LogInformation($"Course directory GetQualifications returned {qualifications.Count()} records.");
 
                 return new JsonResult(qualifications);
             }

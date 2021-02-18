@@ -37,7 +37,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             var timerSchedule = Substitute.For<TimerSchedule>();
             var logger = new NullLogger<CourseDirectoryImportFunctions>();
 
-            var functions = new CourseDirectoryImportFunctions(service);
+            var functions = BuildCourseDirectoryImportFunctions(service);
             await functions.ImportCourseDirectoryData(
                 new TimerInfo(timerSchedule, new ScheduleStatus()),
                 new ExecutionContext(),
@@ -62,7 +62,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
 
             var logger = Substitute.For<ILogger>();
 
-            var functions = new CourseDirectoryImportFunctions(service);
+            var functions = BuildCourseDirectoryImportFunctions(service);
             var result = await functions.ManualImport(request, logger);
 
             result.Should().BeOfType<OkObjectResult>();
@@ -83,7 +83,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
 
             var logger = Substitute.For<ILogger>();
 
-            var functions = new CourseDirectoryImportFunctions(service);
+            var functions = BuildCourseDirectoryImportFunctions(service);
             var result = await functions.ManualImport(request, logger);
             result.Should().BeOfType<InternalServerErrorResult>();
         }
@@ -102,7 +102,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
 
             var logger = Substitute.For<ILogger>();
 
-            var functions = new CourseDirectoryImportFunctions(service);
+            var functions = BuildCourseDirectoryImportFunctions(service);
             var result = await functions.GetCourseDirectoryDetailJson(request, logger);
 
             result.Should().BeOfType<ContentResult>();
@@ -125,7 +125,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
 
             var logger = Substitute.For<ILogger>();
 
-            var functions = new CourseDirectoryImportFunctions(service);
+            var functions = BuildCourseDirectoryImportFunctions(service);
             var result = await functions.GetCourseDirectoryQualificationJson(request, logger);
 
             result.Should().BeOfType<ContentResult>();
@@ -146,7 +146,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
 
             var logger = Substitute.For<ILogger>();
 
-            var functions = new CourseDirectoryImportFunctions(service);
+            var functions = BuildCourseDirectoryImportFunctions(service);
             var result = await functions.GetCourseDirectoryDetailJson(request, logger);
             result.Should().BeOfType<InternalServerErrorResult>();
         }
@@ -163,7 +163,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
 
             var logger = Substitute.For<ILogger>();
 
-            var functions = new CourseDirectoryImportFunctions(service);
+            var functions = BuildCourseDirectoryImportFunctions(service);
             var result = await functions.GetCourseDirectoryQualificationJson(request, logger);
             result.Should().BeOfType<InternalServerErrorResult>();
         }
@@ -175,14 +175,14 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             var providers = builder.BuildList();
             var expectedResult = builder.BuildJson().PrettifyJsonString();
 
-            var service = Substitute.For<ICourseDirectoryDataService>();
-            service.GetProviders().Returns(providers);
+            var tableStorageService = Substitute.For<ITableStorageService>();
+            tableStorageService.GetAllProviders().Returns(providers);
 
             var request = BuildHttpRequest(HttpMethod.Get);
 
             var logger = Substitute.For<ILogger>();
 
-            var functions = new CourseDirectoryImportFunctions(service);
+            var functions = BuildCourseDirectoryImportFunctions(tableStorageService: tableStorageService);
             var result = await functions.GetProviders(request, logger);
 
             var jsonResult = result as JsonResult;
@@ -199,16 +199,16 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
         [Fact]
         public async Task CourseDirectoryImportFunction_GetProviders_Exception_Returns_Expected_Result()
         {
-            var service = Substitute.For<ICourseDirectoryDataService>();
-            service
-                .GetProviders()
+            var tableStorageService = Substitute.For<ITableStorageService>();
+            tableStorageService
+                .GetAllProviders()
                 .ThrowsForAnyArgs(new InvalidOperationException());
 
             var request = BuildHttpRequest(HttpMethod.Get);
 
             var logger = Substitute.For<ILogger>();
 
-            var functions = new CourseDirectoryImportFunctions(service);
+            var functions = BuildCourseDirectoryImportFunctions(tableStorageService: tableStorageService);
             var result = await functions.GetProviders(request, logger);
 
             result.Should().BeOfType<InternalServerErrorResult>();
@@ -221,16 +221,14 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             var qualifications = builder.BuildList();
             var expectedResult = builder.BuildJson().PrettifyJsonString();
 
-            var service = Substitute.For<ICourseDirectoryDataService>();
-            service
-                .GetQualifications()
-                .Returns(qualifications);
+            var tableStorageService = Substitute.For<ITableStorageService>();
+            tableStorageService.GetAllQualifications().Returns(qualifications);
 
             var request = BuildHttpRequest(HttpMethod.Get);
 
             var logger = Substitute.For<ILogger>();
 
-            var functions = new CourseDirectoryImportFunctions(service);
+            var functions = BuildCourseDirectoryImportFunctions(tableStorageService: tableStorageService);
             var result = await functions.GetQualifications(request, logger);
 
             var jsonResult = result as JsonResult;
@@ -247,19 +245,29 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
         [Fact]
         public async Task CourseDirectoryImportFunction_GetQualifications_Exception_Returns_Expected_Result()
         {
-            var service = Substitute.For<ICourseDirectoryDataService>();
-            service
-                .GetQualifications()
+            var tableStorageService = Substitute.For<ITableStorageService>();
+            tableStorageService
+                .GetAllQualifications()
                 .ThrowsForAnyArgs(new InvalidOperationException());
 
             var request = BuildHttpRequest(HttpMethod.Get);
 
             var logger = Substitute.For<ILogger>();
 
-            var functions = new CourseDirectoryImportFunctions(service);
+            var functions = BuildCourseDirectoryImportFunctions(tableStorageService: tableStorageService);
             var result = await functions.GetQualifications(request, logger);
 
             result.Should().BeOfType<InternalServerErrorResult>();
+        }
+
+        private CourseDirectoryImportFunctions BuildCourseDirectoryImportFunctions(
+            ICourseDirectoryDataService courseDirectoryDataService = null,
+            ITableStorageService tableStorageService = null)
+        {
+            courseDirectoryDataService ??= Substitute.For<ICourseDirectoryDataService>();
+            tableStorageService ??= Substitute.For<ITableStorageService>();
+
+            return new CourseDirectoryImportFunctions(courseDirectoryDataService, tableStorageService);
         }
 
         private static HttpRequest BuildHttpRequest(HttpMethod method)
