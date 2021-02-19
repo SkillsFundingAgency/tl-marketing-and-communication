@@ -19,7 +19,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
     {
         public const string CourseDirectoryHttpClientName = "CourseDirectoryAutoCompressClient";
         public const string CourseDetailEndpoint = "tleveldetail";
-        public const string QualificationsEndpoint = "tlevelqualification";
+        public const string QualificationsEndpoint = "tleveldefinitions";
         public const string QualificationTitlePrefix = "T Level Technical Qualification in ";
 
         private readonly IHttpClientFactory _httpClientFactory;
@@ -64,7 +64,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
-                response = CreateWorkaroundResponse("CourseDirectoryTLevelQualificationsResponse");
             }
 
             response.EnsureSuccessStatusCode();
@@ -107,7 +106,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
-                response = CreateWorkaroundResponse("CourseDirectoryTLevelQualificationsResponse");
             }
 
             response.EnsureSuccessStatusCode();
@@ -241,16 +239,40 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private IList<Qualification> ProcessTLevelQualificationsDocument(JsonDocument jsonDoc)
         {
+            var el = jsonDoc.RootElement.GetProperty("tLevelDefinitions");
+
             return jsonDoc.RootElement
+                .GetProperty("tLevelDefinitions")
                 .EnumerateArray()
                 .Select(q =>
                     new Qualification
                     {
                         Id = q.SafeGetInt32("frameworkCode"),
-                        Name = Regex.Replace(
-                            q.SafeGetString("name"),
-                                $"^{QualificationTitlePrefix}", "")
+                        Name = ExtractQualificationName(q.SafeGetString("name"))
+
                     }).ToList();
+        }
+
+        private string ExtractQualificationName(string fullName)
+        {
+            //Old - 
+            //Name = Regex.Replace(
+            //    q.SafeGetString("name"),
+            //        $"^{QualificationTitlePrefix}", "")
+
+            if (!string.IsNullOrWhiteSpace(fullName))
+            {
+                var parts = fullName.Split('-');
+                switch (parts.Length)
+                {
+                    case > 1:
+                        return parts[1].Trim();
+                    case 1:
+                        return parts[0].Trim();
+                }
+            }
+
+            return null;
         }
 
         private async Task<(int Saved, int Deleted)> UpdateProvidersInTableStorage(IList<Provider> providers)

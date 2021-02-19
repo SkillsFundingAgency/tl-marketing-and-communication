@@ -29,6 +29,19 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
         public QualificationListBuilder CreateKnownList()
         {
             _qualifications.Clear();
+
+            /*
+      "frameworkCode": 36, "name": "T Level Construction - Design, Surveying and Planning for Construction"
+      "frameworkCode": 37, "name": "T Level Digital - Digital Production, Design and Development"
+      "frameworkCode": 38, "name": "T Level Education - Education and Childcare"
+      "frameworkCode": 39, "name": "T Level Digital - Digital Business Services"
+      "frameworkCode": 40, "name": "T Level Digital - Digital Support Services"
+      "frameworkCode": 41, "name": "T Level Health and Science - Health"
+      "frameworkCode": 42, "name": "T Level Health and Science - Healthcare Science"
+      "frameworkCode": 43, "name": "T Level Health and Science - Science"
+      "frameworkCode": 44, "name": "T Level Construction - Onsite construction"
+      "frameworkCode": 45, "name": "T Level Construction - Building services engineering for construction"
+            */
             _qualifications.Add(new Qualification
             {
                 Id = 1,
@@ -46,18 +59,18 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
             });
             _qualifications.Add(new Qualification
             {
-                Id = 40,
+                Id = 39,
                 Name = "Digital Business Services"
             });
             _qualifications.Add(new Qualification
             {
                 Id = 41,
-                Name = "Building Services Engineering for Construction"
+                Name = "Health"
             });
             _qualifications.Add(new Qualification
             {
                 Id = 42,
-                Name = "Onsite Construction"
+                Name = "Healthcare Science"
             });
             _qualifications.Add(new Qualification
             {
@@ -67,12 +80,12 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
             _qualifications.Add(new Qualification
             {
                 Id = 44,
-                Name = "Health"
+                Name = "Onsite construction"
             });
             _qualifications.Add(new Qualification
             {
                 Id = 45,
-                Name = "Healthcare Science"
+                Name = "Building services engineering for construction"
             });
             _qualifications.Add(new Qualification
             {

@@ -1,4 +1,5 @@
 ﻿using sfa.Tl.Marketing.Communication.Application.Extensions;
+// ReSharper disable All
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
 {
@@ -12,8 +13,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
             $"{GetType().Namespace}.Data.TLevelDetailMultiItemResponse.json"
                 .ReadManifestResourceStreamAsString();
 
-        public string BuildValidTLevelQualificationsResponse() =>
-            $"{GetType().Namespace}.Data.TLevelQualificationsResponse.json"
+        public string BuildValidTLevelDefinitionsResponse() =>
+            $"{GetType().Namespace}.Data.tleveldefinitions.json"
                 .ReadManifestResourceStreamAsString();
     }
 }

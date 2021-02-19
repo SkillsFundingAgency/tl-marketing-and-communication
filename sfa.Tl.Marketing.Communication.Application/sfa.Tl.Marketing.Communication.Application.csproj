@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Data\CourseDirectoryTLevelDetailResponse.json" />
-    <EmbeddedResource Include="Data\CourseDirectoryTLevelQualificationsResponse.json" />
   </ItemGroup>
 
   <ItemGroup>

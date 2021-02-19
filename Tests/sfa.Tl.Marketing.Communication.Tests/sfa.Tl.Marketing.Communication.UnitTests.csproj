@@ -6,13 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Builders\Data\tleveldefinitions.json" />
     <None Remove="Builders\Data\TLevelDetailMultiItemResponse.json" />
-    <None Remove="Builders\Data\TLevelQualificationsResponse.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Builders\Data\TLevelDetailMultiItemResponse.json" />
-    <EmbeddedResource Include="Builders\Data\TLevelQualificationsResponse.json" />
+    <EmbeddedResource Include="Builders\Data\tleveldefinitions.json" />
     <EmbeddedResource Include="Builders\Data\test_providers.json" />
     <EmbeddedResource Include="Builders\Data\test_qualifications.json" />
     <EmbeddedResource Include="Builders\Data\TLevelDetailSingleItemResponse.json" />
