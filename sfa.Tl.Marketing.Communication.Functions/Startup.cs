@@ -74,7 +74,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
                         client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
                     }
                 )
-                .ConfigurePrimaryHttpMessageHandler(messageHandler =>
+                .ConfigurePrimaryHttpMessageHandler(_ =>
                 {
                     var handler = new HttpClientHandler();
 

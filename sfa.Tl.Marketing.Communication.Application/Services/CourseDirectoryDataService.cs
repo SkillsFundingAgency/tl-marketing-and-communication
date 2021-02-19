@@ -4,9 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Reflection;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
@@ -18,9 +16,9 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
     public class CourseDirectoryDataService : ICourseDirectoryDataService
     {
         public const string CourseDirectoryHttpClientName = "CourseDirectoryAutoCompressClient";
-        public const string CourseDetailEndpoint = "tleveldetail";
+        public const string CourseDetailEndpoint = "tlevels";
         public const string QualificationsEndpoint = "tleveldefinitions";
-        public const string QualificationTitlePrefix = "T Level Technical Qualification in ";
+        //public const string QualificationTitlePrefix = "T Level Technical Qualification in ";
 
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ITableStorageService _tableStorageService;
@@ -46,7 +44,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
-                response = CreateWorkaroundResponse();
             }
 
             response.EnsureSuccessStatusCode();
@@ -83,7 +80,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
-                response = CreateWorkaroundResponse();
             }
 
             response.EnsureSuccessStatusCode();
@@ -115,26 +111,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             return await UpdateQualificationsInTableStorage(qualifications);
         }
-
-        //TODO: Remove this when API is implemented
-        //To work around incomplete API implementation - load data from resource
-        private HttpResponseMessage CreateWorkaroundResponse(string resource = "CourseDirectoryTLevelDetailResponse")
-        {
-            var json = $"{Assembly.GetExecutingAssembly().GetName().Name}.Data.{resource}.json"
-                .ReadManifestResourceStreamAsString();
-
-            return new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(json)
-            };
-        }
-
+        
         private IList<Provider> ProcessTLevelDetailsDocument(JsonDocument jsonDoc)
         {
             var providers = new List<Provider>();
 
             foreach (var courseElement in jsonDoc.RootElement
+                .GetProperty("tLevels")
                 .EnumerateArray()
                 .Where(courseElement => courseElement.SafeGetString("offeringType") == "TLevel"))
             {
@@ -239,8 +222,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private IList<Qualification> ProcessTLevelQualificationsDocument(JsonDocument jsonDoc)
         {
-            var el = jsonDoc.RootElement.GetProperty("tLevelDefinitions");
-
             return jsonDoc.RootElement
                 .GetProperty("tLevelDefinitions")
                 .EnumerateArray()

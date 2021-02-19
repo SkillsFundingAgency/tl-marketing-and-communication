@@ -20,7 +20,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public async Task CourseDirectoryDataService_GetTLevelDetailJsonFromCourseDirectoryApi_Returns_Expected_Result()
         {
-            var responseJson = new CourseDirectoryJsonBuilder().BuildValidTLevelDetailSingleItemResponse();
+            var responseJson = new CourseDirectoryJsonBuilder().BuildValidTLevelsSingleItemResponse();
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
             httpClientFactory
                 .CreateClient(CourseDirectoryDataService.CourseDirectoryHttpClientName)
@@ -71,7 +71,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                     .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri,
                         CourseDirectoryDataService.CourseDetailEndpoint,
                         new CourseDirectoryJsonBuilder()
-                            .BuildValidTLevelDetailSingleItemResponse()));
+                            .BuildValidTLevelsSingleItemResponse()));
 
             var providersPassedToSaveProviders = new List<Provider>();
 
@@ -94,13 +94,13 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             providersPassedToSaveProviders.Should().HaveCount(1);
 
             var provider = providersPassedToSaveProviders.First();
-            ValidateProvider(provider, "Demo provider", 123456);
+            ValidateProvider(provider, "ABINGDON AND WITNEY COLLEGE", 10000055);
 
             var location = provider.Locations.First();
             ValidateLocation(location,
-                "Provider venue", "CV1 2AA", "Coventry",
-                "https://provider.com/venue/tlevel",
-                50.12345, -1.987654);
+                "ABINGDON CAMPUS", "OX14 1GG", "Abingdon",
+                "http://www.abingdon-witney.ac.uk",
+                51.680637, -1.286943);
 
             ValidateDeliveryYear(location.DeliveryYears.First(), 2021, new[] { 36 });
         }
@@ -115,7 +115,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                     .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri,
                         CourseDirectoryDataService.CourseDetailEndpoint,
                         new CourseDirectoryJsonBuilder()
-                            .BuildValidTLevelDetailMultiItemResponse()));
+                            .BuildValidTLevelsMultiItemResponse()));
 
             var providersPassedToSaveProviders = new List<Provider>();
 
@@ -137,30 +137,24 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             providersPassedToSaveProviders.Should().HaveCount(3);
 
-            var provider = providersPassedToSaveProviders.First();
-            provider.Name.Should().Be("Abingdon and Witney College");
-            provider.UkPrn.Should().Be(10000055);
+            var provider = providersPassedToSaveProviders.OrderBy(p => p.Name).First();
+            ValidateProvider(provider, "ABINGDON AND WITNEY COLLEGE", 10000055);
 
-            provider.Locations.Should().NotBeNull();
-            provider.Locations.Should().HaveCount(2);
-
-            ValidateProvider(provider, "Abingdon and Witney College", 10000055, 2);
-
-            var firstLocation = provider.Locations.First();
+            provider.Locations.Should().HaveCount(1);
+            var firstLocation = provider.Locations.OrderBy(l => l.Name).First();
             ValidateLocation(firstLocation,
-                "Abingdon Campus", "OX14 1GG", "Abingdon",
-                "https://www.abingdon-witney.ac.uk/t-levels",
-                51.680624, -1.28696);
+                "ABINGDON CAMPUS", "OX14 1GG", "Abingdon",
+                "http://www.abingdon-witney.ac.uk",
+                51.680637, -1.286943);
+            ValidateDeliveryYear(firstLocation.DeliveryYears.First(), 2021, new[] { 36 });
 
-            ValidateDeliveryYear(firstLocation.DeliveryYears.First(), 2021, new[] { 37, 38, 44 });
+            //var secondLocation = provider.Locations.OrderBy(l => l.Name).Skip(1).First();
+            //ValidateLocation(secondLocation,
+            //    "Witney Campus", "OX28 6NE", "Witney",
+            //    "https://www.abingdon-witney.ac.uk/t-levels",
+            //    51.785444, -1.487934);
 
-            var secondLocation = provider.Locations.Skip(1).First();
-            ValidateLocation(secondLocation,
-                "Witney Campus", "OX28 6NE", "Witney",
-                "https://www.abingdon-witney.ac.uk/t-levels",
-                51.785444, -1.487934);
-
-            ValidateDeliveryYear(secondLocation.DeliveryYears.First(), 2021, new[] { 37, 38, 44 });
+            //ValidateDeliveryYear(secondLocation.DeliveryYears.First(), 2021, new[] { 37, 38, 44 });
         }
 
         [Fact]
