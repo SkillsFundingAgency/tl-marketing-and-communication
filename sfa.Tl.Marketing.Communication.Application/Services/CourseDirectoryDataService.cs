@@ -103,7 +103,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             _logger.LogInformation($"Call API {httpClient.BaseAddress} endpoint {CourseDetailEndpoint}");
 
-            var response = await httpClient.GetAsync(CourseDetailEndpoint);
+            var response = await httpClient.GetAsync(QualificationsEndpoint);
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
@@ -117,7 +117,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             return await UpdateQualificationsInTableStorage(qualifications);
         }
-        
+
         //TODO: Remove this when API is implemented
         //To work around incomplete API implementation - load data from resource
         private HttpResponseMessage CreateWorkaroundResponse(string resource = "CourseDirectoryTLevelDetailResponse")
@@ -257,22 +257,14 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             var existingProviders = await _tableStorageService.GetAllProviders();
 
-            //var providersToInsert = providers.Where(p =>
-            //        existingProviders.All(x => x.UkPrn != p.UkPrn))
-            //    .ToList();
+            var stopwatch = Stopwatch.StartNew();
             
-            //var providersToUpdate = providers.Where(p => 
-            //        existingProviders.Any(x => 
-            //            x.UkPrn == p.UkPrn && 
-            //            !CompareProviders(x, p))
-            //).ToList();
-
-            var providersToInsertOrUpdate = providers.Where(p =>
-                    existingProviders.All(x => x.UkPrn == p.UkPrn) //Not in existing data, so add it
-                    || existingProviders.Any(x =>
-                        x.UkPrn == p.UkPrn &&
-                        !CompareProviders(x, p)) //Is in existing data and has changed
+            var providersToInsertOrUpdate = providers.Where(q =>
+                ProviderIsNewOrHasChanges(existingProviders, q)
             ).ToList();
+
+            stopwatch.Stop();
+            Debug.WriteLine($"ProviderIsNewOrHasChanges took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
 
             var providersToDelete = existingProviders.Where(q =>
                     providers.All(x => x.UkPrn != q.UkPrn) //Not in new data, so add it to the delete list
@@ -295,53 +287,17 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return (Saved: savedProviders, Deleted: deletedProviders);
         }
 
-        private static bool CompareProviders(Provider existingProvider, Provider provider)
-        {
-            Debug.WriteLine($"Comparing {existingProvider.UkPrn} {provider.UkPrn}");
-            if (existingProvider.UkPrn != provider.UkPrn) return false;
-            if (existingProvider.Name != provider.Name) return false;
-            if (existingProvider.Locations.Count != provider.Locations.Count) return false;
-
-            foreach (var location in existingProvider.Locations)
-            {
-                var matchingLocation = provider.Locations.SingleOrDefault(l => l.Postcode == location.Postcode);
-                if (matchingLocation == null) return false;
-
-                if (matchingLocation.Town != location.Town) return false;
-                if (matchingLocation.Name != location.Name) return false;
-                if (matchingLocation.Website != location.Website) return false;
-
-                if (Math.Abs(matchingLocation.Latitude - location.Latitude) > .000001) return false;
-                if (Math.Abs(matchingLocation.Longitude - location.Longitude) > .000001) return false;
-
-                if (matchingLocation.DeliveryYears.Count != location.DeliveryYears.Count) return false;
-
-                foreach (var deliveryYear in matchingLocation.DeliveryYears)
-                {
-                    var matchingDeliveryYear =
-                        location.DeliveryYears.SingleOrDefault(dy => dy.Year == deliveryYear.Year);
-                    if (matchingDeliveryYear == null) return false;
-
-                    if (matchingDeliveryYear.Qualifications.Count != deliveryYear.Qualifications.Count) return false;
-
-                    if (matchingDeliveryYear.Qualifications.Any(qualification =>
-                        !deliveryYear.Qualifications.Contains(qualification)))
-                        return false;
-                }
-            }
-
-            Debug.WriteLine($"Returning true for {provider.UkPrn}");
-            return true;
-        }
-
         private async Task<(int Saved, int Deleted)> UpdateQualificationsInTableStorage(IList<Qualification> qualifications)
         {
             var existingQualifications = await _tableStorageService.GetAllQualifications();
 
+            var stopwatch = Stopwatch.StartNew();
             var qualificationsToInsertOrUpdate = qualifications.Where(q =>
-                    existingQualifications.All(x => x.Id != q.Id) //Not in existing data, so add it
-                    || existingQualifications.Any(x => x.Id == q.Id && x.Name != q.Name) //Is in existing data and has changed
-                    ).ToList();
+                    QualificationIsNewOrHasChanges(existingQualifications, q)
+            ).ToList();
+
+            stopwatch.Stop();
+            Debug.WriteLine($"QualificationIsNewOrHasChanges took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
 
             var qualificationsToDelete = existingQualifications.Where(q =>
                     qualifications.All(x => x.Id != q.Id) //Not in new data, so add it to the delete list
@@ -362,6 +318,67 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             }
 
             return (Saved: savedQualifications, Deleted: deletedQualifications);
+        }
+
+        private bool ProviderIsNewOrHasChanges(IEnumerable<Provider> existingProviders, Provider provider)
+        {
+            var existingProvider = existingProviders.SingleOrDefault(p => p.UkPrn == provider.UkPrn);
+            if (existingProvider == null) return true; //This provider does not exist 
+
+            //Debug.WriteLine($"Compare providers {existingProvider.UkPrn} - {provider.UkPrn}");
+
+            var hasChanges = false;
+            hasChanges |= existingProvider.Name != provider.Name;
+            hasChanges |= existingProvider.Locations.Count != provider.Locations.Count;
+
+            foreach (var location in existingProvider.Locations)
+            {
+                var matchingLocation = provider.Locations.SingleOrDefault(l => l.Postcode == location.Postcode);
+                hasChanges |= matchingLocation == null;
+
+                if (matchingLocation != null)
+                {
+                    hasChanges |= matchingLocation.Town != location.Town;
+                    hasChanges |= matchingLocation.Name != location.Name;
+                    hasChanges |= matchingLocation.Website != location.Website;
+
+                    hasChanges |= Math.Abs(matchingLocation.Latitude - location.Latitude) > .000001;
+                    hasChanges |= Math.Abs(matchingLocation.Longitude - location.Longitude) > .000001;
+
+                    hasChanges |= matchingLocation.DeliveryYears.Count != location.DeliveryYears.Count;
+
+                    foreach (var deliveryYear in matchingLocation.DeliveryYears)
+                    {
+                        var matchingDeliveryYear =
+                            location.DeliveryYears.SingleOrDefault(dy => dy.Year == deliveryYear.Year);
+                        hasChanges |= matchingDeliveryYear == null;
+
+                        if (matchingDeliveryYear != null)
+                        {
+                            hasChanges |= matchingDeliveryYear.Qualifications.Count !=
+                                          deliveryYear.Qualifications.Count;
+
+                            hasChanges |= (matchingDeliveryYear.Qualifications.Any(qualification =>
+                                !deliveryYear.Qualifications.Contains(qualification)));
+                        }
+                    }
+                }
+            }
+
+            return hasChanges;
+        }
+
+        private bool QualificationIsNewOrHasChanges(IEnumerable<Qualification> existingQualifications, Qualification qualification)
+        {
+            var existingQualification = existingQualifications.SingleOrDefault(q => q.Id == qualification.Id);
+            if (existingQualification == null) return true; //This qualification does not exist 
+
+            //Debug.WriteLine($"Compare quals {existingQualification.Id} - {qualification.Id}");
+
+            var hasChanges = false;
+            hasChanges |= existingQualification.Name != qualification.Name;
+
+            return hasChanges;
         }
     }
 }

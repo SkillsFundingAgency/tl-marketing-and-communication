@@ -25,5 +25,63 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
 
             return this;
         }
+
+        public QualificationListBuilder CreateKnownList()
+        {
+            _qualifications.Clear();
+            _qualifications.Add(new Qualification
+            {
+                Id = 1,
+                Name = "Qualification 1"
+            });
+            _qualifications.Add(new Qualification
+            {
+                Id = 37,
+                Name = "Old Name for Digital Production, Design and Development"
+            });
+            _qualifications.Add(new Qualification
+            {
+                Id = 38,
+                Name = "Education and Childcare"
+            });
+            _qualifications.Add(new Qualification
+            {
+                Id = 40,
+                Name = "Digital Business Services"
+            });
+            _qualifications.Add(new Qualification
+            {
+                Id = 41,
+                Name = "Building Services Engineering for Construction"
+            });
+            _qualifications.Add(new Qualification
+            {
+                Id = 42,
+                Name = "Onsite Construction"
+            });
+            _qualifications.Add(new Qualification
+            {
+                Id = 43,
+                Name = "Laboratory Science"
+            });
+            _qualifications.Add(new Qualification
+            {
+                Id = 44,
+                Name = "Health"
+            });
+            _qualifications.Add(new Qualification
+            {
+                Id = 45,
+                Name = "Healthcare Science"
+            });
+            _qualifications.Add(new Qualification
+            {
+                Id = 99,
+                Name = "One to delete"
+            });
+
+            return this;
+        }
+
     }
 }

@@ -26,7 +26,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .CreateClient(CourseDirectoryDataService.CourseDirectoryHttpClientName)
                 .Returns(new TestHttpClientFactory()
                     .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri,
-                        CourseDirectoryDataService.CourseDetailEndpoint, 
+                        CourseDirectoryDataService.CourseDetailEndpoint,
                         responseJson));
 
             var service = BuildCourseDirectoryDataService(httpClientFactory);
@@ -48,7 +48,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .CreateClient(CourseDirectoryDataService.CourseDirectoryHttpClientName)
                 .Returns(new TestHttpClientFactory()
                     .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri,
-                        CourseDirectoryDataService.QualificationsEndpoint, 
+                        CourseDirectoryDataService.QualificationsEndpoint,
                         responseJson));
 
             var service = BuildCourseDirectoryDataService(httpClientFactory);
@@ -76,23 +76,20 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var providersPassedToSaveProviders = new List<Provider>();
 
             var tableStorageService = Substitute.For<ITableStorageService>();
-            tableStorageService.ClearProviders().Returns(0);
             tableStorageService
                 .SaveProviders(
-                    Arg.Do<IList<Provider>>(p => 
+                    Arg.Do<IList<Provider>>(p =>
                         providersPassedToSaveProviders.AddRange(p)))
                 .Returns(x => ((IList<Provider>)x[0]).Count);
-            //tableStorageService.GetAllProviders().Returns(providers);
-            //tableStorageService.GetAllQualifications().Returns(qualifications);
 
             var service = BuildCourseDirectoryDataService(httpClientFactory, tableStorageService);
 
-            var result = await service
+            var (savedCount, deletedCount) = await service
                 .ImportProvidersFromCourseDirectoryApi(
                     new List<VenueNameOverride>());
 
-            result.Saved.Should().Be(1);
-            result.Deleted.Should().Be(0);
+            savedCount.Should().Be(1);
+            deletedCount.Should().Be(0);
 
             providersPassedToSaveProviders.Should().HaveCount(1);
 
@@ -100,14 +97,14 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             ValidateProvider(provider, "Demo provider", 123456);
 
             var location = provider.Locations.First();
-            ValidateLocation(location, 
+            ValidateLocation(location,
                 "Provider venue", "CV1 2AA", "Coventry",
-                "https://provider.com/venue/tlevel", 
+                "https://provider.com/venue/tlevel",
                 50.12345, -1.987654);
 
-            ValidateDeliveryYear(location.DeliveryYears.First(), 2021, new[] {36});
+            ValidateDeliveryYear(location.DeliveryYears.First(), 2021, new[] { 36 });
         }
-        
+
         [Fact]
         public async Task CourseDirectoryDataService_ImportProviders_With_Multiple_Items_Returns_Expected_Result()
         {
@@ -123,23 +120,20 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var providersPassedToSaveProviders = new List<Provider>();
 
             var tableStorageService = Substitute.For<ITableStorageService>();
-            tableStorageService.ClearProviders().Returns(0);
             tableStorageService
                 .SaveProviders(
                     Arg.Do<IList<Provider>>(p =>
                         providersPassedToSaveProviders.AddRange(p)))
                 .Returns(x => ((IList<Provider>)x[0]).Count);
-            //tableStorageService.RetrieveProviders().Returns(providers);
-            //tableStorageService.RetrieveQualifications().Returns(qualifications);
 
             var service = BuildCourseDirectoryDataService(httpClientFactory, tableStorageService);
 
-            var result = await service
+            var (savedCount, deletedCount) = await service
                 .ImportProvidersFromCourseDirectoryApi(
                     new List<VenueNameOverride>());
 
-            result.Saved.Should().Be(3);
-            result.Deleted.Should().Be(0);
+            savedCount.Should().Be(3);
+            deletedCount.Should().Be(0);
 
             providersPassedToSaveProviders.Should().HaveCount(3);
 
@@ -170,7 +164,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         }
 
         [Fact]
-        public async Task CourseDirectoryDataService_ImportQualifications_Returns_Expected_Result()
+        public async Task CourseDirectoryDataService_ImportQualifications_Returns_Expected_Result_When_No_Existing_Qualifications()
         {
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
             httpClientFactory
@@ -181,40 +175,98 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                         new CourseDirectoryJsonBuilder()
                             .BuildValidTLevelQualificationsResponse()));
 
-            var qualificationsPassedToSaveQualifications = new List<Qualification>();
+            var deletedQualifications = new List<Qualification>();
+            var savedQualifications = new List<Qualification>();
 
             var tableStorageService = Substitute.For<ITableStorageService>();
-            tableStorageService.ClearQualifications().Returns(0);
+            tableStorageService.GetAllQualifications().Returns(new List<Qualification>());
+            tableStorageService
+                .RemoveQualifications(
+                    Arg.Do<IList<Qualification>>(q =>
+                        deletedQualifications.AddRange(q)))
+                .Returns(x => ((IList<Qualification>)x[0]).Count);
             tableStorageService
                 .SaveQualifications(
                     Arg.Do<IList<Qualification>>(q =>
-                        qualificationsPassedToSaveQualifications.AddRange(q)))
+                        savedQualifications.AddRange(q)))
                 .Returns(x => ((IList<Qualification>)x[0]).Count);
 
             var service = BuildCourseDirectoryDataService(httpClientFactory, tableStorageService);
 
-            var result = await service
+            var (savedCount, deletedCount) = await service
                 .ImportQualificationsFromCourseDirectoryApi();
 
-            result.Saved.Should().Be(10);
-            result.Deleted.Should().Be(0);
+            savedCount.Should().Be(10);
+            deletedCount.Should().Be(0);
 
-            qualificationsPassedToSaveQualifications.Should().HaveCount(10);
+            deletedQualifications.Should().HaveCount(0);
+            savedQualifications.Should().HaveCount(10);
 
-            var firstQualification = qualificationsPassedToSaveQualifications
-                .OrderBy(q => q.Id)
-                .First();
-            firstQualification.Id.Should().Be(36);
-            firstQualification.Name.Should().Be("Design, Surveying and Planning for Construction");
-
-            var lastQualification = qualificationsPassedToSaveQualifications
-                .OrderBy(q => q.Id)
-                .Last();
-            lastQualification.Id.Should().Be(45);
-            lastQualification.Name.Should().Be("Healthcare Science");
+            var orderedSavedQualifications = savedQualifications.OrderBy(q => q.Id).ToList();
+            ValidateQualification(orderedSavedQualifications[0], 36, "Design, Surveying and Planning for Construction");
+            ValidateQualification(orderedSavedQualifications[1], 37, "Digital Production, Design and Development");
+            ValidateQualification(orderedSavedQualifications[2], 38, "Education and Childcare");
+            ValidateQualification(orderedSavedQualifications[3], 39, "Digital Support Services");
+            ValidateQualification(orderedSavedQualifications[4], 40, "Digital Business Services");
+            ValidateQualification(orderedSavedQualifications[5], 41, "Building Services Engineering for Construction");
+            ValidateQualification(orderedSavedQualifications[6], 42, "Onsite Construction");
+            ValidateQualification(orderedSavedQualifications[7], 43, "Science");
+            ValidateQualification(orderedSavedQualifications[8], 44, "Health");
+            ValidateQualification(orderedSavedQualifications[9], 45, "Healthcare Science");
         }
-        
-        private CourseDirectoryDataService BuildCourseDirectoryDataService(
+
+        [Fact]
+        public async Task CourseDirectoryDataService_ImportQualifications_Returns_Expected_Result_When_Has_Existing_Qualifications()
+        {
+            var httpClientFactory = Substitute.For<IHttpClientFactory>();
+            httpClientFactory
+                .CreateClient(CourseDirectoryDataService.CourseDirectoryHttpClientName)
+                .Returns(new TestHttpClientFactory()
+                    .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri,
+                        CourseDirectoryDataService.QualificationsEndpoint,
+                        new CourseDirectoryJsonBuilder()
+                            .BuildValidTLevelQualificationsResponse()));
+
+            var deletedQualifications = new List<Qualification>();
+            var savedQualifications = new List<Qualification>();
+
+            var tableStorageService = Substitute.For<ITableStorageService>();
+            tableStorageService
+                .GetAllQualifications()
+                .Returns(new QualificationListBuilder().CreateKnownList().Build());
+            tableStorageService
+                .RemoveQualifications(
+                    Arg.Do<IList<Qualification>>(q =>
+                        deletedQualifications.AddRange(q)))
+                .Returns(x => ((IList<Qualification>)x[0]).Count);
+            tableStorageService
+                .SaveQualifications(
+                    Arg.Do<IList<Qualification>>(q =>
+                        savedQualifications.AddRange(q)))
+                .Returns(x => ((IList<Qualification>)x[0]).Count);
+
+            var service = BuildCourseDirectoryDataService(httpClientFactory, tableStorageService);
+
+            var (savedCount, deletedCount) = await service
+                .ImportQualificationsFromCourseDirectoryApi();
+
+            savedCount.Should().Be(4);
+            deletedCount.Should().Be(2);
+
+            deletedQualifications.Should().HaveCount(2);
+            var orderedDeletedQualifications = deletedQualifications.OrderBy(q => q.Id).ToList();
+            ValidateQualification(orderedDeletedQualifications[0], 1, "Qualification 1");
+            ValidateQualification(orderedDeletedQualifications[1], 99, "One to delete");
+
+            savedQualifications.Should().HaveCount(4);
+            var orderedSavedQualifications = savedQualifications.OrderBy(q => q.Id).ToList();
+            ValidateQualification(orderedSavedQualifications[0], 36, "Design, Surveying and Planning for Construction");
+            ValidateQualification(orderedSavedQualifications[1], 37, "Digital Production, Design and Development");
+            ValidateQualification(orderedSavedQualifications[2], 39, "Digital Support Services");
+            ValidateQualification(orderedSavedQualifications[3], 43, "Science");
+        }
+
+        private static CourseDirectoryDataService BuildCourseDirectoryDataService(
             IHttpClientFactory httpClientFactory = null,
             ITableStorageService tableStorageService = null,
             ILogger<CourseDirectoryDataService> logger = null)
@@ -263,6 +315,12 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             {
                 deliveryYear.Qualifications.Should().Contain(qualification);
             }
+        }
+
+        private static void ValidateQualification(Qualification qualification, int id, string name)
+        {
+            qualification.Id.Should().Be(id);
+            qualification.Name.Should().Be(name);
         }
     }
 }
