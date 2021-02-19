@@ -7,12 +7,10 @@
 
   <ItemGroup>
     <None Remove="Builders\Data\tleveldefinitions.json" />
-    <None Remove="Builders\Data\tlevels_multiple_items - Copy.json" />
     <None Remove="Builders\Data\tlevels_multiple_items.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Builders\Data\tlevels_multiple_items - Copy.json" />
     <EmbeddedResource Include="Builders\Data\tlevels_multiple_items.json" />
     <EmbeddedResource Include="Builders\Data\tleveldefinitions.json" />
     <EmbeddedResource Include="Builders\Data\test_providers.json" />
