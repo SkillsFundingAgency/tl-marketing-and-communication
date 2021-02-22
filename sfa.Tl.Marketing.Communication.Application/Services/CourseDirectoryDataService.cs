@@ -192,6 +192,15 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                                 : providerWebsite,
                             DeliveryYears = new List<DeliveryYearDto>()
                         };
+
+                        if (provider.Locations.Count > 100)
+                        {
+                            //TODO: Solve problem of large objects -
+                            //https://blog.minhazav.dev/bypass-cell-size-limitation-of-azure-storage-table/
+                            //Have one object of size 288323 - can try splitting into chunks and save multiple columns
+                            _logger.LogWarning($"Too many locations for {provider.UkPrn} {provider.Name}");
+                            break;
+                        }
                         provider.Locations.Add(location);
                     }
 
