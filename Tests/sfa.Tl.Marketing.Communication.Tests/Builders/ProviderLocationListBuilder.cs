@@ -25,6 +25,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                     Latitude = 52.400997 + i,
                     Longitude = -1.508122 - i,
                     DistanceInMiles = 9.5 + i,
+                    Website = "https://test.provider.co.uk",
                     DeliveryYears = new List<DeliveryYear>
                     {
                         new()
@@ -38,10 +39,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                                     Name = $"Qualification {nextId}"
                                 }
                             }
-
                         }
-                    },
-                    Website = "https://test.provider.co.uk"
+                    }
                 });
             }
 

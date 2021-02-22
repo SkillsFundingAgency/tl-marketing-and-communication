@@ -28,6 +28,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                             Town = "Coventry",
                             Latitude = 50.1234 + nextId,
                             Longitude = -0.234 - nextId,
+                            Website = $"https://test.provider_{nextId}.co.uk",
                             DeliveryYears = new List<DeliveryYearEntity>
                             {
                                 new()
@@ -38,8 +39,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                                         nextId
                                     }
                                 }
-                            },
-                            Website = $"https://test.provider_{nextId}.co.uk"
+                            }
                         }
                     }
                 });

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
 using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.HttpClient;
 using Xunit;
+using Xunit.Sdk;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 {
@@ -94,7 +96,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             providersPassedToSaveProviders.Should().HaveCount(1);
 
             var provider = providersPassedToSaveProviders.First();
-            ValidateProvider(provider, "ABINGDON AND WITNEY COLLEGE", 10000055);
+            ValidateProvider(provider, 10000055, "ABINGDON AND WITNEY COLLEGE");
 
             var location = provider.Locations.First();
             ValidateLocation(location,
@@ -103,6 +105,51 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 51.680637, -1.286943);
 
             ValidateDeliveryYear(location.DeliveryYears.First(), 2021, new[] { 36 });
+        }
+
+        [Fact]
+        public async Task CourseDirectoryDataService_ImportProviders_With_Multiple_Items_Deletes_One_And_Saves_No_Changes()
+        {
+            var httpClientFactory = Substitute.For<IHttpClientFactory>();
+            httpClientFactory
+                .CreateClient(CourseDirectoryDataService.CourseDirectoryHttpClientName)
+                .Returns(new TestHttpClientFactory()
+                    .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri,
+                        CourseDirectoryDataService.CourseDetailEndpoint,
+                        new CourseDirectoryJsonBuilder()
+                            .BuildValidTLevelsMultiItemResponse()));
+
+            var deletedProviders = new List<Provider>();
+            var savedProviders = new List<Provider>();
+
+            var tableStorageService = Substitute.For<ITableStorageService>();
+            tableStorageService
+                .GetAllProviders()
+                .Returns(new ProviderListBuilder().CreateKnownList().Build());
+            tableStorageService
+                .RemoveProviders(
+                    Arg.Do<IList<Provider>>(p =>
+                        deletedProviders.AddRange(p)))
+                .Returns(x => ((IList<Provider>)x[0]).Count);
+            tableStorageService
+                .SaveProviders(
+                    Arg.Do<IList<Provider>>(p =>
+                        savedProviders.AddRange(p)))
+                .Returns(x => ((IList<Provider>)x[0]).Count);
+
+            var service = BuildCourseDirectoryDataService(httpClientFactory, tableStorageService);
+
+            var (savedCount, deletedCount) = await service
+                .ImportProvidersFromCourseDirectoryApi(
+                    new List<VenueNameOverride>());
+
+            savedCount.Should().Be(0);
+            deletedCount.Should().Be(1);
+
+            savedProviders.Should().HaveCount(0);
+            deletedProviders.Should().HaveCount(1);
+
+            ValidateProvider(deletedProviders[0], 10000001, "TEST COLLEGE TO BE DELETED");
         }
 
         [Fact]
@@ -117,28 +164,48 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                         new CourseDirectoryJsonBuilder()
                             .BuildValidTLevelsMultiItemResponse()));
 
-            var providersPassedToSaveProviders = new List<Provider>();
+            var deletedProviders = new List<Provider>();
+            var savedProviders = new List<Provider>();
+
+            //Get a list of providers and change one
+            var providers = new ProviderListBuilder().CreateKnownList().Build();
+            providers.Single(p => p.UkPrn == 10000055)
+                .Locations.First()
+                .Name = "Old Venue Name";
 
             var tableStorageService = Substitute.For<ITableStorageService>();
             tableStorageService
+                .GetAllProviders()
+                .Returns(providers);
+            tableStorageService
+                .RemoveProviders(
+                    Arg.Do<IList<Provider>>(p =>
+                        deletedProviders.AddRange(p)))
+                .Returns(x => ((IList<Provider>)x[0]).Count);
+            tableStorageService
                 .SaveProviders(
                     Arg.Do<IList<Provider>>(p =>
-                        providersPassedToSaveProviders.AddRange(p)))
+                        savedProviders.AddRange(p)))
                 .Returns(x => ((IList<Provider>)x[0]).Count);
 
-            var service = BuildCourseDirectoryDataService(httpClientFactory, tableStorageService);
+            var logger = Substitute.For<ILogger<CourseDirectoryDataService>>();
+            var service = BuildCourseDirectoryDataService(httpClientFactory, tableStorageService, logger);
 
             var (savedCount, deletedCount) = await service
                 .ImportProvidersFromCourseDirectoryApi(
                     new List<VenueNameOverride>());
 
-            savedCount.Should().Be(3);
-            deletedCount.Should().Be(0);
+            savedCount.Should().Be(1);
+            deletedCount.Should().Be(1);
 
-            providersPassedToSaveProviders.Should().HaveCount(3);
+            savedProviders.Should().HaveCount(1);
+            deletedProviders.Should().HaveCount(1);
 
-            var provider = providersPassedToSaveProviders.OrderBy(p => p.Name).First();
-            ValidateProvider(provider, "ABINGDON AND WITNEY COLLEGE", 10000055);
+            deletedProviders.Should().HaveCount(1);
+            ValidateProvider(deletedProviders[0], 10000001, "TEST COLLEGE TO BE DELETED");
+
+            var provider = savedProviders.OrderBy(p => p.Name).First();
+            ValidateProvider(provider, 10000055, "ABINGDON AND WITNEY COLLEGE");
 
             provider.Locations.Should().HaveCount(1);
             var firstLocation = provider.Locations.OrderBy(l => l.Name).First();
@@ -148,13 +215,14 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 51.680637, -1.286943);
             ValidateDeliveryYear(firstLocation.DeliveryYears.First(), 2021, new[] { 36 });
 
-            //var secondLocation = provider.Locations.OrderBy(l => l.Name).Skip(1).First();
-            //ValidateLocation(secondLocation,
-            //    "Witney Campus", "OX28 6NE", "Witney",
-            //    "https://www.abingdon-witney.ac.uk/t-levels",
-            //    51.785444, -1.487934);
-
-            //ValidateDeliveryYear(secondLocation.DeliveryYears.First(), 2021, new[] { 37, 38, 44 });
+            const string expectedMessage =
+                "Venue name for 10000055 ABINGDON AND WITNEY COLLEGE OX14 1GG changed from 'Old Venue Name' to 'ABINGDON CAMPUS'";
+            logger.ReceivedCalls()
+                .Select(call => call.GetArguments())
+                .Count(callArguments => 
+                    ((LogLevel)callArguments[0]).Equals(LogLevel.Warning) &&
+                    ((IReadOnlyList<KeyValuePair<string, object>>)callArguments[2]).Last().Value.ToString().Equals(expectedMessage))
+                .Should().Be(1);
         }
 
         [Fact]
@@ -199,11 +267,11 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var orderedSavedQualifications = savedQualifications.OrderBy(q => q.Id).ToList();
             ValidateQualification(orderedSavedQualifications[0], 36, "Construction", "Design, Surveying and Planning for Construction");
             ValidateQualification(orderedSavedQualifications[1], 37, "Digital", "Digital Production, Design and Development");
-            ValidateQualification(orderedSavedQualifications[2], 38, "Education","Education and Childcare");
-            ValidateQualification(orderedSavedQualifications[3], 39, "Digital","Digital Business Services");
+            ValidateQualification(orderedSavedQualifications[2], 38, "Education", "Education and Childcare");
+            ValidateQualification(orderedSavedQualifications[3], 39, "Digital", "Digital Business Services");
             ValidateQualification(orderedSavedQualifications[4], 40, "Digital", "Digital Support Services");
-            ValidateQualification(orderedSavedQualifications[5], 41, "Health and Science","Health");
-            ValidateQualification(orderedSavedQualifications[6], 42, "Health and Science","Healthcare Science");
+            ValidateQualification(orderedSavedQualifications[5], 41, "Health and Science", "Health");
+            ValidateQualification(orderedSavedQualifications[6], 42, "Health and Science", "Healthcare Science");
             ValidateQualification(orderedSavedQualifications[7], 43, "Health and Science", "Science");
             ValidateQualification(orderedSavedQualifications[8], 44, "Construction", "Onsite Construction");
             ValidateQualification(orderedSavedQualifications[9], 45, "Construction", "Building Services Engineering for Construction");
@@ -273,10 +341,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             return new CourseDirectoryDataService(httpClientFactory, tableStorageService, logger);
         }
 
-        private static void ValidateProvider(Provider provider, string name, long ukPrn, int locationCount = 1)
+        private static void ValidateProvider(Provider provider, long ukPrn, string name, int locationCount = 1)
         {
-            provider.Name.Should().Be(name);
             provider.UkPrn.Should().Be(ukPrn);
+            provider.Name.Should().Be(name);
 
             provider.Locations.Should().NotBeNull();
             provider.Locations.Should().HaveCount(locationCount);
