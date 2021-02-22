@@ -17,6 +17,7 @@ namespace sfa.Tl.Marketing.Communication.Models.Extensions
                         PartitionKey = "qualifications",
                         RowKey = qualification.Id.ToString(),
                         Id = qualification.Id,
+                        Route = qualification.Route,
                         Name = qualification.Name
                     }).ToList();
         }
@@ -28,6 +29,7 @@ namespace sfa.Tl.Marketing.Communication.Models.Extensions
                     new Qualification
                     {
                         Id = q.Id,
+                        Route = q.Route,
                         Name = q.Name
                     }).ToList();
         }

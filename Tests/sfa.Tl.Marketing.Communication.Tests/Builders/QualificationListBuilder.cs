@@ -19,6 +19,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                 _qualifications.Add(new Qualification
                 {
                     Id = nextId,
+                    Route = $"Route {nextId}",
                     Name = $"Test Qualification {nextId}"
                 });
             }
@@ -29,67 +30,64 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
         public QualificationListBuilder CreateKnownList()
         {
             _qualifications.Clear();
-
-            /*
-      "frameworkCode": 36, "name": "T Level Construction - Design, Surveying and Planning for Construction"
-      "frameworkCode": 37, "name": "T Level Digital - Digital Production, Design and Development"
-      "frameworkCode": 38, "name": "T Level Education - Education and Childcare"
-      "frameworkCode": 39, "name": "T Level Digital - Digital Business Services"
-      "frameworkCode": 40, "name": "T Level Digital - Digital Support Services"
-      "frameworkCode": 41, "name": "T Level Health and Science - Health"
-      "frameworkCode": 42, "name": "T Level Health and Science - Healthcare Science"
-      "frameworkCode": 43, "name": "T Level Health and Science - Science"
-      "frameworkCode": 44, "name": "T Level Construction - Onsite construction"
-      "frameworkCode": 45, "name": "T Level Construction - Building services engineering for construction"
-            */
             _qualifications.Add(new Qualification
             {
                 Id = 1,
+                Route = "Test",
                 Name = "Qualification 1"
             });
             _qualifications.Add(new Qualification
             {
                 Id = 37,
+                Route = "Digital",
                 Name = "Old Name for Digital Production, Design and Development"
             });
             _qualifications.Add(new Qualification
             {
                 Id = 38,
+                Route = "Education",
                 Name = "Education and Childcare"
             });
             _qualifications.Add(new Qualification
             {
                 Id = 39,
+                Route = "Digital",
                 Name = "Digital Business Services"
             });
             _qualifications.Add(new Qualification
             {
                 Id = 41,
+                Route = "Health and Science",
                 Name = "Health"
             });
             _qualifications.Add(new Qualification
             {
                 Id = 42,
+                Route = "Health and Science",
                 Name = "Healthcare Science"
             });
             _qualifications.Add(new Qualification
             {
                 Id = 43,
+                Route = "Health and Science",
                 Name = "Laboratory Science"
             });
             _qualifications.Add(new Qualification
             {
                 Id = 44,
-                Name = "Onsite construction"
+                Route = "Construction",
+                Name = "Onsite Construction"
             });
             _qualifications.Add(new Qualification
             {
                 Id = 45,
+                Route = "Construction",
                 Name = "Building services engineering for construction"
             });
             _qualifications.Add(new Qualification
             {
                 Id = 99,
+                Route = "None",
                 Name = "One to delete"
             });
 

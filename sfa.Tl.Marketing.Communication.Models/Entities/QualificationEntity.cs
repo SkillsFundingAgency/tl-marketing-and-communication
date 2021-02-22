@@ -8,6 +8,9 @@ namespace sfa.Tl.Marketing.Communication.Models.Entities
         [JsonPropertyName("id")]
         public int Id { get; set; }
 
+        [JsonPropertyName("route")]
+        public string Route { get; set; }
+
         [JsonPropertyName("name")]
         public string Name { get; set; }
     }

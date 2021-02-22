@@ -1,6 +1,7 @@
 [
   {
     "id": 1,
+    "route": "Test Route",
     "name": "Test Qualification 1"
   }
 ]

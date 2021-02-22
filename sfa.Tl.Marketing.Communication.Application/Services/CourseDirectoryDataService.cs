@@ -5,11 +5,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
+using sfa.Tl.Marketing.Communication.Models.Extensions;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services
 {
@@ -226,34 +228,41 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 .GetProperty("tLevelDefinitions")
                 .EnumerateArray()
                 .Select(q =>
-                    new Qualification
+                {
+                    var (route, name) = ExtractQualificationRouteAndName(q.SafeGetString("name"));
+
+                    return new Qualification
                     {
                         Id = q.SafeGetInt32("frameworkCode"),
-                        Name = ExtractQualificationName(q.SafeGetString("name"))
-
-                    }).ToList();
+                        Route = route,
+                        Name = name
+                    };
+                }).ToList();
         }
 
-        private string ExtractQualificationName(string fullName)
+        private (string Route, string Name) ExtractQualificationRouteAndName(string fullName)
         {
-            //Old - 
-            //Name = Regex.Replace(
-            //    q.SafeGetString("name"),
-            //        $"^{QualificationTitlePrefix}", "")
-
+            string route = null;
+            string name = null;
             if (!string.IsNullOrWhiteSpace(fullName))
             {
                 var parts = fullName.Split('-');
                 switch (parts.Length)
                 {
                     case > 1:
-                        return parts[1].Trim();
+                        route = Regex.Replace(parts[0],
+                                $"^T Level", "")
+                            .ToTitleCase();
+                        name = parts[1].ToTitleCase();
+                        break;
                     case 1:
-                        return parts[0].Trim();
+                        name = parts[0].ToTitleCase();
+                        break;
                 }
             }
 
-            return null;
+            Debug.WriteLine($"{route} => {name}");
+            return (route, name);
         }
 
         private async Task<(int Saved, int Deleted)> UpdateProvidersInTableStorage(IList<Provider> providers)
@@ -294,13 +303,9 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             var existingQualifications = await _tableStorageService.GetAllQualifications();
 
-            var stopwatch = Stopwatch.StartNew();
             var qualificationsToInsertOrUpdate = qualifications.Where(q =>
                     QualificationIsNewOrHasChanges(existingQualifications, q)
             ).ToList();
-
-            stopwatch.Stop();
-            Debug.WriteLine($"QualificationIsNewOrHasChanges took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
 
             var qualificationsToDelete = existingQualifications.Where(q =>
                     qualifications.All(x => x.Id != q.Id) //Not in new data, so add it to the delete list
@@ -327,8 +332,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             var existingProvider = existingProviders.SingleOrDefault(p => p.UkPrn == provider.UkPrn);
             if (existingProvider == null) return true; //This provider does not exist 
-
-            //Debug.WriteLine($"Compare providers {existingProvider.UkPrn} - {provider.UkPrn}");
 
             var hasChanges = false;
             hasChanges |= existingProvider.Name != provider.Name;
@@ -376,9 +379,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var existingQualification = existingQualifications.SingleOrDefault(q => q.Id == qualification.Id);
             if (existingQualification == null) return true; //This qualification does not exist 
 
-            //Debug.WriteLine($"Compare quals {existingQualification.Id} - {qualification.Id}");
-
             var hasChanges = false;
+            hasChanges |= existingQualification.Route != qualification.Route;
             hasChanges |= existingQualification.Name != qualification.Name;
 
             return hasChanges;

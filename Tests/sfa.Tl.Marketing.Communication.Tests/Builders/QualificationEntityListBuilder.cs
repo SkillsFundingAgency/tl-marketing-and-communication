@@ -19,6 +19,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                 _qualificationEntities.Add(new QualificationEntity
                 {
                     Id = nextId,
+                    Route = $"Route {nextId}",
                     Name = $"Test Qualification {nextId}"
                 });
             }

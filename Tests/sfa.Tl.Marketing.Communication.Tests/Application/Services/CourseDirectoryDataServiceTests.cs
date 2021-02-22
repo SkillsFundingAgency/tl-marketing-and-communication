@@ -197,16 +197,16 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             savedQualifications.Should().HaveCount(10);
 
             var orderedSavedQualifications = savedQualifications.OrderBy(q => q.Id).ToList();
-            ValidateQualification(orderedSavedQualifications[0], 36, "Design, Surveying and Planning for Construction");
-            ValidateQualification(orderedSavedQualifications[1], 37, "Digital Production, Design and Development");
-            ValidateQualification(orderedSavedQualifications[2], 38, "Education and Childcare");
-            ValidateQualification(orderedSavedQualifications[3], 39, "Digital Business Services");
-            ValidateQualification(orderedSavedQualifications[4], 40, "Digital Support Services");
-            ValidateQualification(orderedSavedQualifications[5], 41, "Health");
-            ValidateQualification(orderedSavedQualifications[6], 42, "Healthcare Science");
-            ValidateQualification(orderedSavedQualifications[7], 43, "Science");
-            ValidateQualification(orderedSavedQualifications[8], 44, "Onsite Construction");
-            ValidateQualification(orderedSavedQualifications[9], 45, "Building Services Engineering for Construction");
+            ValidateQualification(orderedSavedQualifications[0], 36, "Construction", "Design, Surveying and Planning for Construction");
+            ValidateQualification(orderedSavedQualifications[1], 37, "Digital", "Digital Production, Design and Development");
+            ValidateQualification(orderedSavedQualifications[2], 38, "Education","Education and Childcare");
+            ValidateQualification(orderedSavedQualifications[3], 39, "Digital","Digital Business Services");
+            ValidateQualification(orderedSavedQualifications[4], 40, "Digital", "Digital Support Services");
+            ValidateQualification(orderedSavedQualifications[5], 41, "Health and Science","Health");
+            ValidateQualification(orderedSavedQualifications[6], 42, "Health and Science","Healthcare Science");
+            ValidateQualification(orderedSavedQualifications[7], 43, "Health and Science", "Science");
+            ValidateQualification(orderedSavedQualifications[8], 44, "Construction", "Onsite Construction");
+            ValidateQualification(orderedSavedQualifications[9], 45, "Construction", "Building Services Engineering for Construction");
         }
 
         [Fact]
@@ -244,20 +244,21 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var (savedCount, deletedCount) = await service
                 .ImportQualificationsFromCourseDirectoryApi();
 
-            savedCount.Should().Be(4);
+            savedCount.Should().Be(5);
             deletedCount.Should().Be(2);
 
             deletedQualifications.Should().HaveCount(2);
             var orderedDeletedQualifications = deletedQualifications.OrderBy(q => q.Id).ToList();
-            ValidateQualification(orderedDeletedQualifications[0], 1, "Qualification 1");
-            ValidateQualification(orderedDeletedQualifications[1], 99, "One to delete");
+            ValidateQualification(orderedDeletedQualifications[0], 1, "Test", "Qualification 1");
+            ValidateQualification(orderedDeletedQualifications[1], 99, "None", "One to delete");
 
-            savedQualifications.Should().HaveCount(4);
+            savedQualifications.Should().HaveCount(5);
             var orderedSavedQualifications = savedQualifications.OrderBy(q => q.Id).ToList();
-            ValidateQualification(orderedSavedQualifications[0], 36, "Design, Surveying and Planning for Construction");
-            ValidateQualification(orderedSavedQualifications[1], 37, "Digital Production, Design and Development");
-            ValidateQualification(orderedSavedQualifications[2], 40, "Digital Support Services");
-            ValidateQualification(orderedSavedQualifications[3], 43, "Science");
+            ValidateQualification(orderedSavedQualifications[0], 36, "Construction", "Design, Surveying and Planning for Construction");
+            ValidateQualification(orderedSavedQualifications[1], 37, "Digital", "Digital Production, Design and Development");
+            ValidateQualification(orderedSavedQualifications[2], 40, "Digital", "Digital Support Services");
+            ValidateQualification(orderedSavedQualifications[3], 43, "Health and Science", "Science");
+            ValidateQualification(orderedSavedQualifications[4], 45, "Construction", "Building Services Engineering for Construction");
         }
 
         private static CourseDirectoryDataService BuildCourseDirectoryDataService(
@@ -311,10 +312,11 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             }
         }
 
-        private static void ValidateQualification(Qualification qualification, int id, string name)
+        private static void ValidateQualification(Qualification qualification, int id, string route, string name)
         {
             qualification.Id.Should().Be(id);
-            qualification.Name.Should().BeEquivalentTo(name);
+            qualification.Route.Should().Be(route);
+            qualification.Name.Should().Be(name);
         }
     }
 }

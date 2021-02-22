@@ -11,6 +11,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders
             new()
             {
                 Id = 1,
+                Route = "Test Route",
                 Name = "Test Qualification 1"
             }
         };
