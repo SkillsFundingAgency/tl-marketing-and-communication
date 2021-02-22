@@ -20,7 +20,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public const string CourseDirectoryHttpClientName = "CourseDirectoryAutoCompressClient";
         public const string CourseDetailEndpoint = "tlevels";
         public const string QualificationsEndpoint = "tleveldefinitions";
-        //public const string QualificationTitlePrefix = "T Level Technical Qualification in ";
 
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ITableStorageService _tableStorageService;
@@ -345,7 +344,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 if (matchingLocation != null)
                 {
                     hasChanges |= matchingLocation.Town != location.Town;
-                    hasChanges |= matchingLocation.Name != location.Name;
+                    if (matchingLocation.Name != location.Name)
+                    {
+                        hasChanges = true;
+                        _logger.LogWarning($"Venue name for {provider.UkPrn} {provider.Name} {location.Postcode} " +
+                                           $"changed from '{location.Name}' to '{matchingLocation.Name}'");
+                    }
+
                     hasChanges |= matchingLocation.Website != location.Website;
 
                     hasChanges |= Math.Abs(matchingLocation.Latitude - location.Latitude) > .000001;
