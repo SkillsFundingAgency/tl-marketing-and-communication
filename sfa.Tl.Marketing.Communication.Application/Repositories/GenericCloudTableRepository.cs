@@ -74,9 +74,10 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
 
                 rowOffset += batchEntities.Count;
 
-                stopwatch.Stop();
-                _logger.LogInformation($"Delete from '{_tableName}' batch result {batchResult.Count} entities in rowOffset in {rowOffset} batches in {stopwatch.ElapsedMilliseconds:#,###}ms.");
             }
+
+            stopwatch.Stop();
+            _logger.LogInformation($"Delete from '{_tableName}' deleted {deleted} entities in rowOffset in {rowOffset} batches in {stopwatch.ElapsedMilliseconds:#,###}ms.");
 
             return deleted;
         }
@@ -128,6 +129,67 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             return deleted;
         }
 
+        public async Task<int> DeleteByPartitionKey(string partitionKey)
+        {
+            var cloudTable = _cloudTableClient.GetTableReference(_tableName);
+            if (!cloudTable.Exists())
+            {
+                _logger.LogWarning($"GenericCloudTableRepository DeleteAll: table '{_tableName}' not found. Returning 0 results.");
+                return 0;
+            }
+
+            //https://stackoverflow.com/questions/26326413/delete-all-azure-table-records
+
+            var tableQuery = new TableQuery<T>()
+                .Where(TableQuery.GenerateFilterCondition(
+                    "PartitionKey",
+                    QueryComparisons.Equal,
+                    partitionKey));
+                
+            var continuationToken = default(TableContinuationToken);
+            var deleted = 0;
+
+            do
+            {
+                var queryResults = await cloudTable
+                    .ExecuteQuerySegmentedAsync(
+                        tableQuery,
+                        continuationToken);
+
+                continuationToken = queryResults.ContinuationToken;
+
+                // Split into chunks of 100 for batching
+                var rowsChunked = queryResults.Select((x, index) => new { Index = index, Value = x })
+                    .Where(x => x.Value != null)
+                    .GroupBy(x => x.Index / TableBatchSize)
+                    .Select(x => x.Select(v => v.Value).ToList())
+                    .ToList();
+
+                // Delete each chunk of 100 in a batch
+                foreach (var rows in rowsChunked)
+                {
+                    var batchOperation = new TableBatchOperation();
+                    rows.ForEach(x => batchOperation.Add(TableOperation.Delete(x)));
+
+                    await cloudTable.ExecuteBatchAsync(batchOperation);
+                }
+
+                deleted += queryResults.Count();
+
+            } while (continuationToken != null);
+
+            return deleted;
+        }
+
+        public async Task DeleteTable()
+        {
+            var cloudTable = _cloudTableClient.GetTableReference(_tableName);
+            if (cloudTable.Exists())
+            {
+                await cloudTable.DeleteAsync();
+            }
+        }
+
         public async Task<IList<T>> GetAll()
         {
             var results = new List<T>();
@@ -162,6 +224,47 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             return results;
         }
 
+        public async Task<IList<T>> GetByPartitionKey(string partitionKey)
+        {
+            var results = new List<T>();
+
+            var cloudTable = _cloudTableClient.GetTableReference(_tableName);
+            if (!cloudTable.Exists())
+            {
+                _logger.LogWarning(
+                    $"GenericCloudTableRepository GetAll: table '{_tableName}' not found. Returning 0 results.");
+                return results;
+            }
+
+            var tableQuery = new TableQuery<T>()
+                .Where(TableQuery.GenerateFilterCondition(
+                    "PartitionKey",
+                    QueryComparisons.Equal,
+                    partitionKey));
+
+            var continuationToken = default(TableContinuationToken);
+
+            var stopwatch = Stopwatch.StartNew();
+
+            do
+            {
+                var queryResults = await cloudTable
+                    .ExecuteQuerySegmentedAsync(
+                        tableQuery,
+                        continuationToken);
+
+                continuationToken = queryResults.ContinuationToken;
+
+                results.AddRange(queryResults.Results);
+            } while (continuationToken != null);
+
+            stopwatch.Stop();
+            _logger.LogInformation(
+                $"GetAll from '{_tableName}' returning {results.Count} results in {stopwatch.ElapsedMilliseconds:#,###}ms.");
+
+            return results;
+        }
+
         public async Task<int> Save(IList<T> entities)
         {
             if (entities == null || !entities.Any())
@@ -178,8 +281,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             var batchCount = 0;
             var stopwatch = Stopwatch.StartNew();
 
-            //var batchPartitionKey = entities.First().Id.ToString();
-
             var rowOffset = 0;
 
             while (rowOffset < entities.Count)
@@ -191,9 +292,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
 
                 foreach (var entity in batchEntities)
                 {
-                    //entity.RowKey = entity.Id.ToString();
-                    //entity.PartitionKey = batchPartitionKey;
-
                     //TODO: Sort out object collections
                     // https://damieng.com/blog/2015/06/27/table-per-hierarchy-in-azure-table-storage
                     // https://stackoverflow.com/questions/19885219/insert-complex-objects-to-azure-table-with-tableserviceentity
@@ -207,8 +305,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
                 batchCount++;
 
                 rowOffset += batchEntities.Count;
-
-                _logger.LogInformation($"Save to '{_tableName}' batch result {batchResult.Count} entities in rowOffset in {rowOffset} batches in {stopwatch.ElapsedMilliseconds:#,###}ms.");
             }
 
             //TODO: Can do a batch insert

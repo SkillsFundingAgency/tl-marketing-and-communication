@@ -7,6 +7,17 @@ namespace sfa.Tl.Marketing.Communication.Models.Extensions
 {
     public static class StringExtensions
     {
+        public static IEnumerable<string> ChunkString(this string str, int chunkLength)
+        {
+            for (int i = 0; i < str.Length; i += chunkLength)
+            {
+                if (chunkLength + i > str.Length)
+                    chunkLength = str.Length - i;
+
+                yield return str.Substring(i, chunkLength);
+            }
+        }
+
         public static string ToLetterOrDigit(this string value)
         {
             return string.IsNullOrWhiteSpace(value) ? string.Empty : 

@@ -169,10 +169,7 @@ namespace sfa.Tl.Marketing.Communication
             var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
             services.AddSingleton(cloudTableClient);
 
-            services.AddTransient(typeof(ICloudTableRepository<ProviderEntity>),
-                typeof(GenericCloudTableRepository<ProviderEntity>));
-            services.AddTransient(typeof(ICloudTableRepository<QualificationEntity>),
-                typeof(GenericCloudTableRepository<QualificationEntity>));
+            services.AddTransient(typeof(ICloudTableRepository<>), typeof(GenericCloudTableRepository<>));
 
             services.AddTransient<ITableStorageService, TableStorageService>();
             

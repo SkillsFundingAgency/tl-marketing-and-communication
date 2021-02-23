@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -22,7 +24,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .DeleteAll()
                 .Returns(5);
 
-            var service = BuildTableStorageService(providerRepository);
+            var service = BuildTableStorageService(providerRepository: providerRepository);
 
             var result = await service.ClearProviders();
 
@@ -32,14 +34,27 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public async Task TableStorageService_GetAllProviders_Returns_Expected_Results()
         {
+            var providerEntities = new ProviderEntityListBuilder()
+                .Add()
+                .Build();
+
             var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity>>();
             providerRepository
                 .GetAll()
-                .Returns(new ProviderEntityListBuilder()
-                    .Add()
-                    .Build());
+                .Returns(providerEntities);
+            var locationRepository = Substitute.For<ICloudTableRepository<LocationEntity>>();
+            
+            locationRepository
+                .GetByPartitionKey(Arg.Any<string>())
+                .Returns(callInfo =>
+                {
+                    var partitionKey = callInfo.ArgAt<string>(0);
+                    var ukPrn = Convert.ToInt32(partitionKey);
+                    var provider = providerEntities.SingleOrDefault(p => p.UkPrn == ukPrn);
+                    return provider?.Locations;
+                });
 
-            var service = BuildTableStorageService(providerRepository);
+            var service = BuildTableStorageService(locationRepository, providerRepository);
 
             var providers = new ProviderListBuilder()
                 .Add()
@@ -59,7 +74,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .Returns(args =>
                     ((IList<ProviderEntity>)args[0]).Count);
 
-            var service = BuildTableStorageService(providerRepository);
+            var service = BuildTableStorageService(providerRepository: providerRepository);
 
             var result = await service
                 .RemoveProviders(
@@ -75,13 +90,13 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .Add(3)
                 .Build();
 
-            var qualificationRepository = Substitute.For<ICloudTableRepository<ProviderEntity>>();
-            qualificationRepository
+            var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity>>();
+            providerRepository
                 .Save(Arg.Any<IList<ProviderEntity>>())
                 .Returns(args => 
                     ((IList<ProviderEntity>)args[0]).Count);
 
-            var service = BuildTableStorageService(qualificationRepository);
+            var service = BuildTableStorageService(providerRepository: providerRepository);
 
             var result = await service.SaveProviders(providers);
 
@@ -188,15 +203,21 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         }
 
         private TableStorageService BuildTableStorageService(
+            ICloudTableRepository<LocationEntity> locationRepository = null,
             ICloudTableRepository<ProviderEntity> providerRepository = null,
             ICloudTableRepository<QualificationEntity> qualificationRepository = null,
             ILogger<TableStorageService> logger = null)
         {
+            locationRepository ??= Substitute.For<ICloudTableRepository<LocationEntity>>();
             providerRepository ??= Substitute.For<ICloudTableRepository<ProviderEntity>>();
             qualificationRepository ??= Substitute.For<ICloudTableRepository<QualificationEntity>>();
             logger ??= Substitute.For<ILogger<TableStorageService>>();
 
-            return new TableStorageService(providerRepository, qualificationRepository, logger);
+            return new TableStorageService(
+                locationRepository, 
+                providerRepository, 
+                qualificationRepository, 
+                logger);
         }
     }
 }

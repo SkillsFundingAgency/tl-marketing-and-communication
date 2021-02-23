@@ -112,7 +112,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             return await UpdateQualificationsInTableStorage(qualifications);
         }
-        
+
         private IList<Provider> ProcessTLevelDetailsDocument(JsonDocument jsonDoc)
         {
             var providers = new List<Provider>();
@@ -193,14 +193,14 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                             DeliveryYears = new List<DeliveryYearDto>()
                         };
 
-                        if (provider.Locations.Count > 100)
-                        {
-                            //TODO: Solve problem of large objects -
-                            //https://blog.minhazav.dev/bypass-cell-size-limitation-of-azure-storage-table/
-                            //Have one object of size 288323 - can try splitting into chunks and save multiple columns
-                            _logger.LogWarning($"Too many locations for {provider.UkPrn} {provider.Name}");
-                            break;
-                        }
+                        //if (provider.Locations.Count > 100)
+                        //{
+                        //    //TODO: Solve problem of large objects -
+                        //    //https://blog.minhazav.dev/bypass-cell-size-limitation-of-azure-storage-table/
+                        //    //Have one object of size 288323 - can try splitting into chunks and save multiple columns
+                        //    _logger.LogWarning($"Too many locations for {provider.UkPrn} {provider.Name}");
+                        //    //break;
+                        //}
                         provider.Locations.Add(location);
                     }
 
@@ -278,7 +278,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var existingProviders = await _tableStorageService.GetAllProviders();
 
             var stopwatch = Stopwatch.StartNew();
-            
+
             var providersToInsertOrUpdate = providers.Where(q =>
                 ProviderIsNewOrHasChanges(existingProviders, q)
             ).ToList();

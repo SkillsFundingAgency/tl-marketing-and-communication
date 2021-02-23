@@ -12,15 +12,18 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 {
     public class TableStorageService : ITableStorageService
     {
+        private readonly ICloudTableRepository<LocationEntity> _locationRepository;
         private readonly ICloudTableRepository<ProviderEntity> _providerRepository;
         private readonly ICloudTableRepository<QualificationEntity> _qualificationRepository;
         private readonly ILogger<TableStorageService> _logger;
 
         public TableStorageService(
+            ICloudTableRepository<LocationEntity> locationRepository,
             ICloudTableRepository<ProviderEntity> providerRepository,
             ICloudTableRepository<QualificationEntity> qualificationRepository,
             ILogger<TableStorageService> logger)
         {
+            _locationRepository = locationRepository ?? throw new ArgumentNullException(nameof(locationRepository));
             _providerRepository = providerRepository ?? throw new ArgumentNullException(nameof(providerRepository));
             _qualificationRepository = qualificationRepository ?? throw new ArgumentNullException(nameof(qualificationRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -28,7 +31,9 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public async Task<int> ClearProviders()
         {
-            return await _providerRepository.DeleteAll();
+            var deletedProviders = await _providerRepository.DeleteAll();
+            await _locationRepository.DeleteTable();
+            return deletedProviders;
         }
 
         public async Task<int> RemoveProviders(IList<Provider> providers)
@@ -37,9 +42,27 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             {
                 return 0;
             }
+
+            var deletedLocations = 0;
+            foreach (var provider in providers)
+            {
+                deletedLocations += await _locationRepository.DeleteByPartitionKey(provider.UkPrn.ToString());
+            }
+
             var providerEntities = providers.ToProviderEntityList();
 
             return await _providerRepository.Delete(providerEntities);
+        }
+
+        public async Task<int> RemoveLocations(IList<Location> locations, string partitionKey)
+        {
+            if (locations == null || !locations.Any())
+            {
+                return 0;
+            }
+            var locationEntities = locations.ToLocationEntityList(partitionKey);
+
+            return await _locationRepository.Delete(locationEntities);
         }
 
         public async Task<int> SaveProviders(IList<Provider> providers)
@@ -53,21 +76,43 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             var saved = await _providerRepository.Save(providerEntities);
 
-            _logger.LogInformation($"SaveProviders saved {saved} records.");
+            var savedLocations = 0;
+            var deletedLocations = 0;
+            foreach (var provider in providers)
+            {
+                //await RemoveLocations(provider.Locations, provider.UkPrn.ToString());
+                deletedLocations += await _locationRepository.DeleteByPartitionKey(provider.UkPrn.ToString());
+
+                savedLocations += await _locationRepository
+                    .Save(provider.Locations.ToLocationEntityList(provider.UkPrn.ToString()));
+            }
+
+            //foreach (var providerEntity in providerEntities)
+            //{
+            //    savedLocations += await _locationRepository.Save(providerEntity.Locations);
+            //}
+
+            _logger.LogInformation($"SaveProviders saved {saved} providers and {savedLocations} locations.");
             return saved;
         }
 
         public async Task<IList<Provider>> GetAllProviders()
         {
-            var providers = 
+            var providers =
                 (await _providerRepository.GetAll())
                 .ToProviderList();
+
+            foreach (var provider in providers)
+            {
+                provider.Locations = (await _locationRepository.GetByPartitionKey(provider.UkPrn.ToString()))
+                    .ToLocationList();
+            }
 
             _logger.LogInformation($"RetrieveProviders found {providers.Count} records.");
             return providers;
         }
 
-        public async  Task<int> ClearQualifications()
+        public async Task<int> ClearQualifications()
         {
             return await _qualificationRepository.DeleteAll();
         }
@@ -101,7 +146,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public async Task<IList<Qualification>> GetAllQualifications()
         {
-            var qualifications = 
+            var qualifications =
                 (await _qualificationRepository.GetAll())
                 .ToQualificationList();
 
