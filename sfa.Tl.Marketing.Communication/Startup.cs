@@ -11,6 +11,7 @@ using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos.Table;
@@ -104,8 +105,9 @@ namespace sfa.Tl.Marketing.Communication
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
-            //TODO: Remove this after NCS data is imported via API 
-            IProviderDataMigrationService providerDataMigrationService)
+            //TODO: Remove the following parameters after NCS data is imported via API 
+            IProviderDataMigrationService providerDataMigrationService,
+            ITableStorageService tableStorageService)
         {
             if (env.IsDevelopment())
             {
@@ -145,7 +147,7 @@ namespace sfa.Tl.Marketing.Communication
             });
 
             //TODO: Remove this after NCS data is imported via API 
-            PreloadProviderAndQualificationTableData(providerDataMigrationService).Wait();
+            PreloadProviderAndQualificationTableData(providerDataMigrationService, tableStorageService).Wait();
         }
 
         protected virtual void RegisterHttpClients(IServiceCollection services)
@@ -187,11 +189,14 @@ namespace sfa.Tl.Marketing.Communication
 
         //TODO: Remove this after NCS data is imported via API 
         private async Task PreloadProviderAndQualificationTableData(
-            IProviderDataMigrationService providerDataMigrationService)
+            IProviderDataMigrationService providerDataMigrationService,
+            ITableStorageService tableStorageService)
         {
             try
             {
-                if(bool.TryParse(Configuration["SkipPreloadProviderAndQualificationTableData"], out var skipPreload) && skipPreload)
+                var existingQualifications = await tableStorageService.GetAllQualifications();
+                var existingProviders = await tableStorageService.GetAllProviders();
+                if (existingQualifications.Any() && existingProviders.Any())
                     return;
 
                 _logger.LogInformation("Migrating providers and qualifications to table storage");

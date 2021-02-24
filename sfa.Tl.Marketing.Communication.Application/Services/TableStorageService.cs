@@ -87,11 +87,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     .Save(provider.Locations.ToLocationEntityList(provider.UkPrn.ToString()));
             }
 
-            //foreach (var providerEntity in providerEntities)
-            //{
-            //    savedLocations += await _locationRepository.Save(providerEntity.Locations);
-            //}
-
             _logger.LogInformation($"SaveProviders saved {saved} providers and {savedLocations} locations.");
             return saved;
         }
