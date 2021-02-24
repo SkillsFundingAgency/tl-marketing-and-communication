@@ -115,6 +115,10 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
 
             var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
 
+            var locationRepository = new GenericCloudTableRepository<LocationEntity>(
+                cloudTableClient,
+                loggerFactory.CreateLogger<GenericCloudTableRepository<LocationEntity>>());
+
             var providerRepository = new GenericCloudTableRepository<ProviderEntity>(
                 cloudTableClient,
                 loggerFactory.CreateLogger<GenericCloudTableRepository<ProviderEntity>>());
@@ -124,6 +128,7 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
                     loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity>>());
 
             return new TableStorageService(
+                locationRepository,
                 providerRepository,
                 qualificationRepository,
                 loggerFactory.CreateLogger<TableStorageService>());

@@ -14,10 +14,11 @@ using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
 using sfa.Tl.Marketing.Communication.Application.Services;
-using sfa.Tl.Marketing.Communication.DataLoad.PostcodesIo;
 using sfa.Tl.Marketing.Communication.DataLoad.Read;
 using sfa.Tl.Marketing.Communication.DataLoad.Write;
+using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.Models.Entities;
+using PostcodeLookupResponse = sfa.Tl.Marketing.Communication.DataLoad.PostcodesIo.PostcodeLookupResponse;
 
 namespace sfa.Tl.Marketing.Communication.DataLoad
 {
@@ -292,16 +293,20 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
 
             var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
 
+            var locationRepository = new GenericCloudTableRepository<LocationEntity>(
+                cloudTableClient,
+                loggerFactory.CreateLogger<GenericCloudTableRepository<LocationEntity>>());
+
             var providerRepository = new GenericCloudTableRepository<ProviderEntity>(
                 cloudTableClient,
                 loggerFactory.CreateLogger<GenericCloudTableRepository<ProviderEntity>>());
 
-            var qualificationRepository =
-                    new GenericCloudTableRepository<QualificationEntity>(
+            var qualificationRepository = new GenericCloudTableRepository<QualificationEntity>(
                         cloudTableClient,
                         loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity>>());
 
             return new TableStorageService(
+                locationRepository,
                 providerRepository,
                 qualificationRepository,
                 loggerFactory.CreateLogger<TableStorageService>());

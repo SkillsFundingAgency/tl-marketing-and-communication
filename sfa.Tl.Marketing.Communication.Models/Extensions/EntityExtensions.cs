@@ -42,13 +42,14 @@ namespace sfa.Tl.Marketing.Communication.Models.Extensions
                     {
                         PartitionKey = "providers",
                         RowKey = provider.UkPrn.ToString(),
-                        //Id = provider.UkPrn,
                         UkPrn = provider.UkPrn,
                         Name = provider.Name,
-                        Locations = provider.Locations.Select(
+                        Locations = provider.Locations?.Select(
                             location =>
                                 new LocationEntity
                                 {
+                                    PartitionKey = provider.UkPrn.ToString(),
+                                    RowKey = location.Postcode,
                                     Name = location.Name,
                                     Postcode = location.Postcode,
                                     Latitude = location.Latitude,
@@ -63,7 +64,7 @@ namespace sfa.Tl.Marketing.Communication.Models.Extensions
                                                 Qualifications = deliveryYear.Qualifications.ToList()
                                             }
                                     ).ToList(),
-                                }).ToList()
+                                }).ToList() ?? new List<LocationEntity>()
                     }).ToList();
         }
 
@@ -75,7 +76,7 @@ namespace sfa.Tl.Marketing.Communication.Models.Extensions
                     {
                         UkPrn = provider.UkPrn,
                         Name = provider.Name,
-                        Locations = provider.Locations.Select(
+                        Locations = provider.Locations?.Select(
                             location =>
                                 new Location
                                 {
@@ -92,8 +93,58 @@ namespace sfa.Tl.Marketing.Communication.Models.Extensions
                                                 Year = deliveryYear.Year,
                                                 Qualifications = deliveryYear.Qualifications.ToList()
                                             }).ToList()
-                                }).ToList()
+                                }).ToList() ?? new List<Location>()
                     }).ToList();
+        }
+
+
+        public static IList<LocationEntity> ToLocationEntityList(this IEnumerable<Location> locations, string partitionKey)
+        {
+            return locations?
+                .Select(
+                    location =>
+                        new LocationEntity
+                        {
+                            PartitionKey = partitionKey,
+                            RowKey = location.Postcode,
+                            Name = location.Name,
+                            Postcode = location.Postcode,
+                            Latitude = location.Latitude,
+                            Longitude = location.Longitude,
+                            Town = location.Town,
+                            Website = location.Website,
+                            DeliveryYears = location.DeliveryYears.Select(
+                                deliveryYear =>
+                                    new DeliveryYearEntity
+                                    {
+                                        Year = deliveryYear.Year,
+                                        Qualifications = deliveryYear.Qualifications.ToList()
+                                    }
+                            ).ToList()
+                        }).ToList() ?? new List<LocationEntity>();
+        }
+
+        public static IList<Location> ToLocationList(this IEnumerable<LocationEntity> locationEntities)
+        {
+            return locationEntities?
+                .Select(
+                    location =>
+                        new Location
+                        {
+                            Name = location.Name,
+                            Postcode = location.Postcode,
+                            Latitude = location.Latitude,
+                            Longitude = location.Longitude,
+                            Town = location.Town,
+                            Website = location.Website,
+                            DeliveryYears = location.DeliveryYears.Select(
+                                deliveryYear =>
+                                    new DeliveryYearDto
+                                    {
+                                        Year = deliveryYear.Year,
+                                        Qualifications = deliveryYear.Qualifications.ToList()
+                                    }).ToList()
+                        }).ToList() ?? new List<Location>();
         }
     }
 }
