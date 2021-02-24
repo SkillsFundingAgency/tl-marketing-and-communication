@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using sfa.Tl.Marketing.Communication.Models.Configuration;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services
 {
@@ -12,7 +13,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
     {
         public const string ProviderTableDataCacheKey = "Provider_Table_Data";
         public const string QualificationTableDataCacheKey = "Qualification_Table_Data";
-        public const int CacheExpiryInSeconds = 60;
+        private readonly int _cacheExpiryInSeconds = 60;
 
         private readonly IMemoryCache _cache;
         private readonly ITableStorageService _tableStorageService;
@@ -21,11 +22,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public ProviderDataService(
             ITableStorageService tableStorageService,
             IMemoryCache cache,
-            ILogger<ProviderDataService> logger)
+            ILogger<ProviderDataService> logger,
+            ConfigurationOptions configuration)
         {
             _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _cacheExpiryInSeconds = configuration?.CacheExpiryInSeconds ?? 60;
         }
 
         public IQueryable<Provider> GetProviders()
@@ -78,10 +81,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 out IList<Qualification> qualificationTableData))
             {
                 qualificationTableData = _tableStorageService.GetAllQualifications().GetAwaiter().GetResult();
-                _cache.Set(QualificationTableDataCacheKey,
-                    qualificationTableData,
-                    new MemoryCacheEntryOptions()
-                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(CacheExpiryInSeconds)));
+                _cache.Set(QualificationTableDataCacheKey, qualificationTableData, GetCacheOptions());
             }
 
             return qualificationTableData.AsQueryable();
@@ -93,13 +93,18 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 out IList<Provider> providerTableData))
             {
                 providerTableData = _tableStorageService.GetAllProviders().GetAwaiter().GetResult();
-                _cache.Set(ProviderTableDataCacheKey,
-                    providerTableData,
-                    new MemoryCacheEntryOptions()
-                        .SetAbsoluteExpiration(TimeSpan.FromSeconds(CacheExpiryInSeconds)));
+                _cache.Set(ProviderTableDataCacheKey, providerTableData, GetCacheOptions());
             }
 
             return providerTableData.AsQueryable();
+        }
+
+        private MemoryCacheEntryOptions GetCacheOptions()
+        {
+            var options = new MemoryCacheEntryOptions();
+            if (_cacheExpiryInSeconds > 0)
+                options.SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpiryInSeconds));
+            return options;
         }
     }
 }

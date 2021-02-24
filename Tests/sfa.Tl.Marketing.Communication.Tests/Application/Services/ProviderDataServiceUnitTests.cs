@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
 using Xunit;
 
@@ -16,9 +17,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
         public ProviderDataServiceUnitTests()
         {
-            var cache = Substitute.For<IMemoryCache>();
-            var logger = Substitute.For<ILogger<ProviderDataService>>();
-
             var qualifications = new TestQualificationsFromJsonBuilder()
                 .Build();
             var providers = new TestProvidersFromJsonBuilder()
@@ -27,7 +25,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             tableStorageService.GetAllProviders().Returns(providers);
             tableStorageService.GetAllQualifications().Returns(qualifications);
 
-            _service = new ProviderDataService(tableStorageService, cache, logger);
+            _service = CreateProviderDataService(tableStorageService);
         }
 
         [Fact]
@@ -134,7 +132,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var ids = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             var results = _service.GetQualifications(ids).ToList();
-            
+
             results.Count.Should().Be(10);
             results[0].Name.Should().Be("Building Services Engineering");
             results[1].Name.Should().Be("Design, Surveying and Planning for Construction");
@@ -176,6 +174,23 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             {
                 results.Count(x => x == url).Should().Be(1);
             }
+        }
+
+        private static IProviderDataService CreateProviderDataService(
+            ITableStorageService tableStorageService = null,
+            IMemoryCache cache = null,
+            ILogger<ProviderDataService> logger = null,
+            ConfigurationOptions configuration = null)
+        {
+            tableStorageService ??= Substitute.For<ITableStorageService>();
+            cache ??= Substitute.For<IMemoryCache>();
+            logger ??= Substitute.For<ILogger<ProviderDataService>>();
+            configuration ??= new ConfigurationOptions
+            {
+                CacheExpiryInSeconds = 1
+            };
+
+            return new ProviderDataService(tableStorageService, cache, logger, configuration);
         }
     }
 }

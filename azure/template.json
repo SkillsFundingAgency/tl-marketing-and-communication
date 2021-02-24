@@ -59,6 +59,9 @@
         "tableStorageConnectionString": {
             "type": "string"
         },
+        "cacheExpiryInSeconds": {
+            "type": "int"
+        },
         "courseDirectoryApiKey": {
             "type": "string"
         },
@@ -217,6 +220,10 @@
                             {
                               "name": "TableStorageConnectionString",
                               "value": "[parameters('tableStorageConnectionString')]"
+                            },
+                            {
+                              "name": "CacheExpiryInSeconds",
+                              "value": "[parameters('cacheExpiryInSeconds')]"
                             }
                         ]
                     },

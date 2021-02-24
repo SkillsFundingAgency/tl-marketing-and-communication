@@ -39,6 +39,7 @@ Other API Keys and email addresses are also stored in the site `appSettings.json
   "GovNotifyApiKey": "<api_key_value>",
   "SupportEmailInboxAddress": "<your_email>",
   "TableStorageConnectionString": "UseDevelopmentStorage=true;",
+  "CacheExpiryInSeconds": time,
   "Logging": {
     "LogLevel": {
       "Default": "Debug",

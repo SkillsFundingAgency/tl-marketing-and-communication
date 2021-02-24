@@ -39,8 +39,14 @@ namespace sfa.Tl.Marketing.Communication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            if(!int.TryParse(Configuration["CacheExpiryInSeconds"], out var cacheExpiryInSeconds))
+            {
+                cacheExpiryInSeconds = 60;
+            }
+
             SiteConfiguration = new ConfigurationOptions
             {
+                CacheExpiryInSeconds = cacheExpiryInSeconds,
                 PostcodeRetrieverBaseUrl = Configuration["PostcodeRetrieverBaseUrl"],
                 EmployerContactEmailTemplateId = Configuration["EmployerContactEmailTemplateId"],
                 SupportEmailInboxAddress = Configuration["SupportEmailInboxAddress"],

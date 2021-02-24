@@ -41,7 +41,8 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
                 configurationOptions.StorageConfiguration.TableStorageConnectionString,
                 loggerFactory);
 
-            IProviderDataService providerDataService = new ProviderDataService(tableStorageService, cache, providerDataServiceLogger);
+            var configuration = new ConfigurationOptions();
+            IProviderDataService providerDataService = new ProviderDataService(tableStorageService, cache, providerDataServiceLogger, configuration);
             var locationService = new LocationService();
             var journeyService = new JourneyService();
             var providerLocationService = new ProviderLocationService(providerDataService);
