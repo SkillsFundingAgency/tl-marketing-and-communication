@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,7 +12,6 @@ using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
 using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.HttpClient;
 using Xunit;
-using Xunit.Sdk;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 {
@@ -88,7 +86,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var (savedCount, deletedCount) = await service
                 .ImportProvidersFromCourseDirectoryApi(
-                    new List<VenueNameOverride>());
+                    new Dictionary<string, VenueNameOverride>());
 
             savedCount.Should().Be(1);
             deletedCount.Should().Be(0);
@@ -141,7 +139,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var (savedCount, deletedCount) = await service
                 .ImportProvidersFromCourseDirectoryApi(
-                    new List<VenueNameOverride>());
+                    new Dictionary<string, VenueNameOverride>());
 
             savedCount.Should().Be(0);
             deletedCount.Should().Be(1);
@@ -193,7 +191,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var (savedCount, deletedCount) = await service
                 .ImportProvidersFromCourseDirectoryApi(
-                    new List<VenueNameOverride>());
+                    new Dictionary<string, VenueNameOverride>());
 
             savedCount.Should().Be(1);
             deletedCount.Should().Be(1);
@@ -221,6 +219,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .Select(call => call.GetArguments())
                 .Count(callArguments => 
                     ((LogLevel)callArguments[0]).Equals(LogLevel.Warning) &&
+                    // ReSharper disable once PossibleNullReferenceException
                     ((IReadOnlyList<KeyValuePair<string, object>>)callArguments[2]).Last().Value.ToString().Equals(expectedMessage))
                 .Should().Be(1);
         }

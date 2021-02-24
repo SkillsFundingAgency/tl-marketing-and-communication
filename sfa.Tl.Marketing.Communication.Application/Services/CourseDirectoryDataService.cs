@@ -69,7 +69,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return await response.Content.ReadAsStringAsync();
         }
 
-        public async Task<(int Saved, int Deleted)> ImportProvidersFromCourseDirectoryApi(IList<VenueNameOverride> venueNames)
+        public async Task<(int Saved, int Deleted)> ImportProvidersFromCourseDirectoryApi(IDictionary<string, VenueNameOverride> venueNames)
         {
             _logger.LogInformation("ImportFromCourseDirectoryApi called");
 
@@ -86,7 +86,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             response.EnsureSuccessStatusCode();
 
             var jsonDoc = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
-            var providers = ProcessTLevelDetailsDocument(jsonDoc);
+            var providers = ProcessTLevelDetailsDocument(jsonDoc, venueNames);
 
             return await UpdateProvidersInTableStorage(providers);
         }
@@ -113,9 +113,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return await UpdateQualificationsInTableStorage(qualifications);
         }
 
-        private IList<Provider> ProcessTLevelDetailsDocument(JsonDocument jsonDoc)
+        private IList<Provider> ProcessTLevelDetailsDocument(
+            JsonDocument jsonDoc,
+            IDictionary<string, VenueNameOverride> venueNames)
         {
             var providers = new List<Provider>();
+
+            var stopwatch = Stopwatch.StartNew();
 
             foreach (var courseElement in jsonDoc.RootElement
                 .GetProperty("tLevels")
@@ -151,18 +155,29 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 var providerName = providerProperty.SafeGetString("providerName");
                 var providerWebsite = providerProperty.SafeGetString("website");
 
-                var provider = providers.SingleOrDefault(p => p.UkPrn == ukPrn);
+                stopwatch.Stop();
+                Trace.WriteLine($"Process setup took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                stopwatch.Restart();
+
+                var provider = providers.FirstOrDefault(p => p.UkPrn == ukPrn);
+                stopwatch.Stop();
+                Trace.WriteLine($"Process lookup provider {provider != null} took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                stopwatch.Restart();
+
                 if (provider == null)
                 {
                     provider = new Provider
                     {
-                        //TODO: Should we use this as id? Or use UKPRN?
                         UkPrn = ukPrn,
                         Name = providerName,
                         Locations = new List<Location>()
                     };
                     providers.Add(provider);
                 }
+
+                stopwatch.Stop();
+                Trace.WriteLine($"Adding provider took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                stopwatch.Restart();
 
                 if (!courseElement.TryGetProperty("locations", out var locationsProperty))
                 {
@@ -171,12 +186,17 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     continue;
                 }
 
+                stopwatch.Stop();
+                Trace.WriteLine($"Getting location took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+
                 foreach (var locationElement in locationsProperty.EnumerateArray())
                 {
+                    stopwatch.Restart();
+
                     var postcode = locationElement.SafeGetString("postcode");
                     var locationWebsite = locationElement.SafeGetString("website");
 
-                    var location = provider.Locations.SingleOrDefault(l =>
+                    var location = provider.Locations.FirstOrDefault(l =>
                         l.Postcode == postcode);
                     if (location == null)
                     {
@@ -193,14 +213,20 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                             DeliveryYears = new List<DeliveryYearDto>()
                         };
 
-                        //if (provider.Locations.Count > 100)
-                        //{
-                        //    //TODO: Solve problem of large objects -
-                        //    //https://blog.minhazav.dev/bypass-cell-size-limitation-of-azure-storage-table/
-                        //    //Have one object of size 288323 - can try splitting into chunks and save multiple columns
-                        //    _logger.LogWarning($"Too many locations for {provider.UkPrn} {provider.Name}");
-                        //    //break;
-                        //}
+                        var venueNamesStopwatch = Stopwatch.StartNew();
+                        
+                        venueNames.TryGetValue($"{provider.UkPrn}{location.Postcode}", out var venueNameItem);
+                        venueNamesStopwatch.Stop();
+                        Trace.WriteLine($"Venue name lookup in {venueNamesStopwatch.ElapsedMilliseconds}ms {venueNamesStopwatch.ElapsedTicks} ticks");
+
+                        if (venueNameItem != null)
+                        {
+                            _logger.LogInformation($"Overriding venue name for " +
+                                                   $"{provider.Name} {location.Postcode} " +
+                                                   $"from {location.Name} to {venueNameItem.VenueName}");
+                            location.Name = venueNameItem.VenueName;
+                        }
+
                         provider.Locations.Add(location);
                     }
 
@@ -224,6 +250,10 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     {
                         deliveryYear.Qualifications.Add(qualification);
                     }
+
+                    stopwatch.Stop();
+                    Trace.WriteLine($"Processing location {location.Postcode} took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                    stopwatch.Restart();
                 }
             }
 
@@ -248,7 +278,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 }).ToList();
         }
 
-        private (string Route, string Name) ExtractQualificationRouteAndName(string fullName)
+        private static (string Route, string Name) ExtractQualificationRouteAndName(string fullName)
         {
             string route = null;
             string name = null;
@@ -269,26 +299,33 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 }
             }
 
-            Debug.WriteLine($"{route} => {name}");
             return (route, name);
         }
 
         private async Task<(int Saved, int Deleted)> UpdateProvidersInTableStorage(IList<Provider> providers)
         {
+            var stopwatch = Stopwatch.StartNew();
             var existingProviders = await _tableStorageService.GetAllProviders();
 
-            var stopwatch = Stopwatch.StartNew();
+            stopwatch.Stop();
+            Trace.WriteLine($"Loading existing providers took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+            stopwatch.Restart();
 
             var providersToInsertOrUpdate = providers.Where(q =>
                 ProviderIsNewOrHasChanges(existingProviders, q)
             ).ToList();
 
             stopwatch.Stop();
-            Debug.WriteLine($"ProviderIsNewOrHasChanges took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+            Trace.WriteLine($"ProviderIsNewOrHasChanges took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+            stopwatch.Restart();
 
             var providersToDelete = existingProviders.Where(q =>
                     providers.All(x => x.UkPrn != q.UkPrn) //Not in new data, so add it to the delete list
             ).ToList();
+
+            stopwatch.Stop();
+            Trace.WriteLine($"Get providers to delete took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+            stopwatch.Restart();
 
             var savedProviders = 0;
             if (providersToInsertOrUpdate.Any())
@@ -297,12 +334,19 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 _logger.LogInformation($"Saved {savedProviders} providers to table storage");
             }
 
+            stopwatch.Stop();
+            Trace.WriteLine($"Saving providers took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+            stopwatch.Restart();
+
             var deletedProviders = 0;
             if (providersToDelete.Any())
             {
                 deletedProviders = await _tableStorageService.RemoveProviders(providersToDelete);
                 _logger.LogInformation($"Deleted {deletedProviders} providers from table storage");
             }
+
+            stopwatch.Stop();
+            Trace.WriteLine($"Deleting providers took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
 
             return (Saved: savedProviders, Deleted: deletedProviders);
         }
@@ -338,7 +382,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private bool ProviderIsNewOrHasChanges(IEnumerable<Provider> existingProviders, Provider provider)
         {
-            var existingProvider = existingProviders.SingleOrDefault(p => p.UkPrn == provider.UkPrn);
+            var existingProvider = existingProviders.FirstOrDefault(p => p.UkPrn == provider.UkPrn);
             if (existingProvider == null) return true; //This provider does not exist 
 
             var hasChanges = false;
@@ -347,7 +391,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             foreach (var location in existingProvider.Locations)
             {
-                var matchingLocation = provider.Locations.SingleOrDefault(l => l.Postcode == location.Postcode);
+                var matchingLocation = provider.Locations.FirstOrDefault(l => l.Postcode == location.Postcode);
                 hasChanges |= matchingLocation == null;
 
                 if (matchingLocation != null)
@@ -370,7 +414,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     foreach (var deliveryYear in matchingLocation.DeliveryYears)
                     {
                         var matchingDeliveryYear =
-                            location.DeliveryYears.SingleOrDefault(dy => dy.Year == deliveryYear.Year);
+                            location.DeliveryYears.FirstOrDefault(dy => dy.Year == deliveryYear.Year);
                         hasChanges |= matchingDeliveryYear == null;
 
                         if (matchingDeliveryYear != null)
@@ -390,7 +434,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private bool QualificationIsNewOrHasChanges(IEnumerable<Qualification> existingQualifications, Qualification qualification)
         {
-            var existingQualification = existingQualifications.SingleOrDefault(q => q.Id == qualification.Id);
+            var existingQualification = existingQualifications.FirstOrDefault(q => q.Id == qualification.Id);
             if (existingQualification == null) return true; //This qualification does not exist 
 
             var hasChanges = false;

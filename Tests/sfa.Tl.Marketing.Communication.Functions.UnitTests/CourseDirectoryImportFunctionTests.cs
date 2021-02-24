@@ -28,7 +28,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
         {
             var service = Substitute.For<ICourseDirectoryDataService>();
             service
-                .ImportProvidersFromCourseDirectoryApi(Arg.Any<IList<VenueNameOverride>>())
+                .ImportProvidersFromCourseDirectoryApi(Arg.Any<IDictionary<string, VenueNameOverride>>())
                 .Returns((10, 0));
             service
                 .ImportQualificationsFromCourseDirectoryApi()
@@ -44,7 +44,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 logger);
 
             await service.Received(1).ImportQualificationsFromCourseDirectoryApi();
-            await service.Received(1).ImportProvidersFromCourseDirectoryApi(Arg.Any<IList<VenueNameOverride>>());
+            await service.Received(1).ImportProvidersFromCourseDirectoryApi(Arg.Any<IDictionary<string, VenueNameOverride>>());
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
         {
             var service = Substitute.For<ICourseDirectoryDataService>();
             service
-                .ImportProvidersFromCourseDirectoryApi(Arg.Any<IList<VenueNameOverride>>())
+                .ImportProvidersFromCourseDirectoryApi(Arg.Any<IDictionary<string, VenueNameOverride>>())
                 .Returns((10, 4));
             service
                 .ImportQualificationsFromCourseDirectoryApi()
@@ -76,7 +76,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
         {
             var service = Substitute.For<ICourseDirectoryDataService>();
             service
-                .ImportProvidersFromCourseDirectoryApi(Arg.Any<IList<VenueNameOverride>>())
+                .ImportProvidersFromCourseDirectoryApi(Arg.Any<IDictionary<string, VenueNameOverride>>())
                 .ThrowsForAnyArgs(new InvalidOperationException());
 
             var request = BuildHttpRequest(HttpMethod.Get);
