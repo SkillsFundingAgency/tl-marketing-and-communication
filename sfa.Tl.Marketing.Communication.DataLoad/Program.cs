@@ -16,8 +16,8 @@ using sfa.Tl.Marketing.Communication.Application.Repositories;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.DataLoad.Read;
 using sfa.Tl.Marketing.Communication.DataLoad.Write;
+using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.Models.Entities;
-using PostcodeLookupResponse = sfa.Tl.Marketing.Communication.DataLoad.PostcodesIo.PostcodeLookupResponse;
 
 namespace sfa.Tl.Marketing.Communication.DataLoad
 {
