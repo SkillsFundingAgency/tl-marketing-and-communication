@@ -21,7 +21,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         private readonly ITableStorageService _tableStorageService;
         private readonly ILogger<ProviderDataService> _logger;
 
-        private static IDictionary<string, VenueNameOverride> _venueNameOverrides;
+        private static readonly IDictionary<string, VenueNameOverride> _venueNameOverrides;
 
         static ProviderDataService()
         {
