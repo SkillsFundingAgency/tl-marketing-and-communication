@@ -3,8 +3,10 @@ using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services
@@ -19,6 +21,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         private readonly ITableStorageService _tableStorageService;
         private readonly ILogger<ProviderDataService> _logger;
 
+        private static IDictionary<string, VenueNameOverride> _venueNameOverrides;
+
+        static ProviderDataService()
+        {
+            _venueNameOverrides = GetVenueNameOverrides();
+        }
+        
         public ProviderDataService(
             ITableStorageService tableStorageService,
             IMemoryCache cache,
@@ -78,25 +87,43 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         private IQueryable<Qualification> GetAllQualifications()
         {
             if (!_cache.TryGetValue(QualificationTableDataCacheKey,
-                out IList<Qualification> qualificationTableData))
+                out IList<Qualification> qualifications))
             {
-                qualificationTableData = _tableStorageService.GetAllQualifications().GetAwaiter().GetResult();
-                _cache.Set(QualificationTableDataCacheKey, qualificationTableData, GetCacheOptions());
+                qualifications = _tableStorageService.GetAllQualifications().GetAwaiter().GetResult();
+                _cache.Set(QualificationTableDataCacheKey, qualifications, GetCacheOptions());
             }
 
-            return qualificationTableData.AsQueryable();
+            return qualifications.AsQueryable();
         }
 
         private IQueryable<Provider> GetAllProviders()
         {
             if (!_cache.TryGetValue(ProviderTableDataCacheKey,
-                out IList<Provider> providerTableData))
+                out IList<Provider> providers))
             {
-                providerTableData = _tableStorageService.GetAllProviders().GetAwaiter().GetResult();
-                _cache.Set(ProviderTableDataCacheKey, providerTableData, GetCacheOptions());
+                providers = _tableStorageService.GetAllProviders().GetAwaiter().GetResult();
+
+                //Override location/venue names
+                foreach (var provider in providers)
+                {
+                    foreach (var location in provider.Locations)
+                    {
+                        if (_venueNameOverrides
+                                .TryGetValue($"{provider.UkPrn}{location.Postcode}",
+                                    out var venueNameItem)
+                            && location.Name != venueNameItem.VenueName)
+                        {
+                            _logger.LogInformation("Overriding venue name for " +
+                                                   $"{provider.Name} {location.Postcode} " +
+                                                   $"from {location.Name} to {venueNameItem.VenueName}");
+                            location.Name = venueNameItem.VenueName;
+                        }
+                    }
+                }
+                _cache.Set(ProviderTableDataCacheKey, providers, GetCacheOptions());
             }
 
-            return providerTableData.AsQueryable();
+            return providers.AsQueryable();
         }
 
         private MemoryCacheEntryOptions GetCacheOptions()
@@ -106,5 +133,29 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 options.SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpiryInSeconds));
             return options;
         }
+
+        private static IDictionary<string, VenueNameOverride> GetVenueNameOverrides()
+        {
+            var venueNameData = JsonSerializer
+                .Deserialize<IList<VenueNameOverride>>(
+                    "sfa.Tl.Marketing.Communication.Application.Data.VenueNames.json"
+                        .ReadManifestResourceStreamAsString(),
+                    new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
+
+            var venueNameOverrides = new Dictionary<string, VenueNameOverride>();
+            if (venueNameData != null)
+            {
+                foreach (var venueName in venueNameData)
+                {
+                    venueNameOverrides[$"{venueName.UkPrn}{venueName.Postcode}"] = venueName;
+                }
+            }
+
+            return venueNameOverrides;
+        }
+
     }
 }

@@ -30,18 +30,18 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     Postcode = pl.Location.Postcode,
                     Town = pl.Location.Town,
                     Website = pl.Location.Website,
-                    DeliveryYears = pl.Location.DeliveryYears != null ?
-                        pl.Location.DeliveryYears
-                        .Select(d => new DeliveryYear
-                        {
-                            Year = d.Year,
-                            Qualifications = d.Qualifications != null ?
-                                _providerDataService.GetQualifications(d.Qualifications.ToArray())
-                                : new List<Qualification>()
-                        })
-                        .OrderBy(d => d.Year)
-                        .ToList()
-                    : new List<DeliveryYear>()
+                    DeliveryYears = pl.Location.DeliveryYears != null 
+                        ? pl.Location.DeliveryYears
+                            .Select(d => new DeliveryYear
+                            {
+                                Year = d.Year,
+                                Qualifications = d.Qualifications != null ?
+                                    _providerDataService.GetQualifications(d.Qualifications.ToArray())
+                                    : new List<Qualification>()
+                            })
+                            .OrderBy(d => d.Year)
+                            .ToList()
+                        : new List<DeliveryYear>()
                 })
                 .Where(pl => pl.DeliveryYears.Any(y => y.Qualifications.Any()));
         }

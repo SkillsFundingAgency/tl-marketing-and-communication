@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +7,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
-using sfa.Tl.Marketing.Communication.Models.Dto;
 
 namespace sfa.Tl.Marketing.Communication.Functions
 {
@@ -82,10 +78,8 @@ namespace sfa.Tl.Marketing.Communication.Functions
             var (savedQualifications, deletedQualifications) = await _courseDirectoryDataService.ImportQualificationsFromCourseDirectoryApi();
             logger.LogInformation($"Course directory import saved {savedQualifications} and deleted {deletedQualifications} qualifications.");
 
-            var venueNames = GetVenueNameOverrides();
-
             var (savedProviders, deletedProviders) =
-                await _courseDirectoryDataService.ImportProvidersFromCourseDirectoryApi(venueNames);
+                await _courseDirectoryDataService.ImportProvidersFromCourseDirectoryApi();
             logger.LogInformation($"Course directory import saved {savedProviders} and deleted {deletedProviders} providers.");
 
             return (savedProviders, deletedProviders, savedQualifications, deletedQualifications);
@@ -197,30 +191,6 @@ namespace sfa.Tl.Marketing.Communication.Functions
 
                 return new InternalServerErrorResult();
             }
-        }
-        
-        private IDictionary<string, VenueNameOverride> GetVenueNameOverrides()
-        {
-            var venueNameOverrides = new Dictionary<string, VenueNameOverride>();
-
-            var venueNameData = JsonSerializer
-                .Deserialize<IList<VenueNameOverride>>(
-                    $"{GetType().Namespace}.Data.VenueNames.json"
-                        .ReadManifestResourceStreamAsString(),
-                    new JsonSerializerOptions
-                    {
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                    });
-
-            if (venueNameData != null)
-            {
-                foreach (var venueName in venueNameData)
-                {
-                    venueNameOverrides[$"{venueName.UkPrn}{venueName.Postcode}"] = venueName;
-                }
-            }
-
-            return venueNameOverrides;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos.Table;
@@ -51,9 +50,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             //https://stackoverflow.com/questions/26326413/delete-all-azure-table-records
 
             var deleted = 0;
-
-            var stopwatch = Stopwatch.StartNew();
-
             var rowOffset = 0;
 
             while (rowOffset < entities.Count)
@@ -75,9 +71,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
                 rowOffset += batchEntities.Count;
 
             }
-
-            stopwatch.Stop();
-            _logger.LogInformation($"Delete from '{_tableName}' deleted {deleted} entities in rowOffset in {rowOffset} batches in {stopwatch.ElapsedMilliseconds:#,###}ms.");
 
             return deleted;
         }
@@ -134,7 +127,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             var cloudTable = _cloudTableClient.GetTableReference(_tableName);
             if (!cloudTable.Exists())
             {
-                _logger.LogWarning($"GenericCloudTableRepository DeleteAll: table '{_tableName}' not found. Returning 0 results.");
+                _logger.LogWarning($"GenericCloudTableRepository DeleteByPartitionKey: table '{_tableName}' not found. Returning 0 results.");
                 return 0;
             }
 
@@ -204,8 +197,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             var tableQuery = new TableQuery<T>();
             var continuationToken = default(TableContinuationToken);
 
-            var stopwatch = Stopwatch.StartNew();
-
             do
             {
                 var queryResults = await cloudTable
@@ -217,9 +208,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
 
                 results.AddRange(queryResults.Results);
             } while (continuationToken != null);
-
-            stopwatch.Stop();
-            _logger.LogInformation($"GetAll from '{_tableName}' returning {results.Count} results in {stopwatch.ElapsedMilliseconds:#,###}ms.");
 
             return results;
         }
@@ -244,8 +232,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
 
             var continuationToken = default(TableContinuationToken);
 
-            var stopwatch = Stopwatch.StartNew();
-
             do
             {
                 var queryResults = await cloudTable
@@ -258,10 +244,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
                 results.AddRange(queryResults.Results);
             } while (continuationToken != null);
 
-            stopwatch.Stop();
-            _logger.LogInformation(
-                $"GetAll from '{_tableName}' returning {results.Count} results in {stopwatch.ElapsedMilliseconds:#,###}ms.");
-
             return results;
         }
 
@@ -269,7 +251,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
         {
             if (entities == null || !entities.Any())
             {
-                _logger.LogInformation($"Save to '{_tableName}' was given no entities to save.");
                 return 0;
             }
 
@@ -278,8 +259,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             await cloudTable.CreateIfNotExistsAsync();
 
             var inserted = 0;
-            var batchCount = 0;
-            var stopwatch = Stopwatch.StartNew();
 
             var rowOffset = 0;
 
@@ -302,18 +281,9 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
 
                 var batchResult = await cloudTable.ExecuteBatchAsync(batchOperation);
                 inserted += batchResult.Count;
-                batchCount++;
 
                 rowOffset += batchEntities.Count;
             }
-
-            //TODO: Can do a batch insert
-            //https://docs.microsoft.com/en-us/azure/cosmos-db/table-storage-how-to-use-java
-            //Performance
-            //https://stackoverflow.com/questions/17955557/painfully-slow-azure-table-insert-and-delete-batch-operations
-
-            stopwatch.Stop();
-            _logger.LogInformation($"Save to '{_tableName}' saved {inserted} entities in {batchCount} batches in {stopwatch.ElapsedMilliseconds:#,###}ms.");
 
             return inserted;
         }

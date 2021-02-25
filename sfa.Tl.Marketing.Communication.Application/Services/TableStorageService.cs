@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -54,17 +55,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return await _providerRepository.Delete(providerEntities);
         }
 
-        public async Task<int> RemoveLocations(IList<Location> locations, string partitionKey)
-        {
-            if (locations == null || !locations.Any())
-            {
-                return 0;
-            }
-            var locationEntities = locations.ToLocationEntityList(partitionKey);
-
-            return await _locationRepository.Delete(locationEntities);
-        }
-
         public async Task<int> SaveProviders(IList<Provider> providers)
         {
             if (providers == null || !providers.Any())
@@ -80,30 +70,57 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var deletedLocations = 0;
             foreach (var provider in providers)
             {
-                //await RemoveLocations(provider.Locations, provider.UkPrn.ToString());
                 deletedLocations += await _locationRepository.DeleteByPartitionKey(provider.UkPrn.ToString());
 
                 savedLocations += await _locationRepository
                     .Save(provider.Locations.ToLocationEntityList(provider.UkPrn.ToString()));
             }
 
-            _logger.LogInformation($"SaveProviders saved {saved} providers and {savedLocations} locations.");
+            _logger.LogInformation("SaveProviders saved " +
+                                   $"{saved} providers, " +
+                                   $"and saved {savedLocations} " +
+                                   $"and deleted {deletedLocations} locations.");
             return saved;
         }
 
         public async Task<IList<Provider>> GetAllProviders()
         {
-            var providers =
-                (await _providerRepository.GetAll())
-                .ToProviderList();
+            var stopwatch = Stopwatch.StartNew();
 
+            var providerEntities = await _providerRepository.GetAll();
+            
+            stopwatch.Stop();
+            Trace.WriteLine($"Get provider entities took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+            stopwatch.Restart();
+
+            var providers = providerEntities.ToProviderList();
+
+            stopwatch.Stop();
+            Trace.WriteLine($"Converting to provider list took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+            stopwatch.Restart();
+
+            var locationCount = 0;
             foreach (var provider in providers)
             {
-                provider.Locations = (await _locationRepository.GetByPartitionKey(provider.UkPrn.ToString()))
-                    .ToLocationList();
+                var locationStopwatch = Stopwatch.StartNew();
+                var locationEntities = await _locationRepository.GetByPartitionKey(provider.UkPrn.ToString());
+
+                locationStopwatch.Stop();
+                Trace.WriteLine($"   Get {provider.UkPrn.ToString()} {locationEntities.Count} location entities took {locationStopwatch.ElapsedMilliseconds}ms {locationStopwatch.ElapsedTicks} ticks");
+                locationStopwatch.Restart();
+
+                provider.Locations = locationEntities.ToLocationList();
+
+                locationStopwatch.Stop();
+                Trace.WriteLine($"   Converting to location list took {locationStopwatch.ElapsedMilliseconds}ms {locationStopwatch.ElapsedTicks} ticks");
+                
+                locationCount += locationEntities.Count;
             }
 
-            _logger.LogInformation($"RetrieveProviders found {providers.Count} records.");
+            stopwatch.Stop();
+            Trace.WriteLine($"Getting locations took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+
+            _logger.LogInformation($"RetrieveProviders found {providers.Count} providers with {locationCount} locations.");
             return providers;
         }
 

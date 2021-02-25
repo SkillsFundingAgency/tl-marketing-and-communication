@@ -69,7 +69,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return await response.Content.ReadAsStringAsync();
         }
 
-        public async Task<(int Saved, int Deleted)> ImportProvidersFromCourseDirectoryApi(IDictionary<string, VenueNameOverride> venueNames)
+        public async Task<(int Saved, int Deleted)> ImportProvidersFromCourseDirectoryApi()
         {
             _logger.LogInformation("ImportFromCourseDirectoryApi called");
 
@@ -86,7 +86,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             response.EnsureSuccessStatusCode();
 
             var jsonDoc = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
-            var providers = ProcessTLevelDetailsDocument(jsonDoc, venueNames);
+            var providers = ProcessTLevelDetailsDocument(jsonDoc);
 
             return await UpdateProvidersInTableStorage(providers);
         }
@@ -114,8 +114,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         }
 
         private IList<Provider> ProcessTLevelDetailsDocument(
-            JsonDocument jsonDoc,
-            IDictionary<string, VenueNameOverride> venueNames)
+            JsonDocument jsonDoc)
         {
             var providers = new List<Provider>();
 
@@ -156,12 +155,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 var providerWebsite = providerProperty.SafeGetString("website");
 
                 stopwatch.Stop();
-                Trace.WriteLine($"Process setup took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                //Trace.WriteLine($"Process setup took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
                 stopwatch.Restart();
 
                 var provider = providers.FirstOrDefault(p => p.UkPrn == ukPrn);
                 stopwatch.Stop();
-                Trace.WriteLine($"Process lookup provider {provider != null} took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                //Trace.WriteLine($"Process lookup provider {provider != null} took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
                 stopwatch.Restart();
 
                 if (provider == null)
@@ -176,7 +175,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 }
 
                 stopwatch.Stop();
-                Trace.WriteLine($"Adding provider took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                //Trace.WriteLine($"Adding provider took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
                 stopwatch.Restart();
 
                 if (!courseElement.TryGetProperty("locations", out var locationsProperty))
@@ -187,7 +186,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 }
 
                 stopwatch.Stop();
-                Trace.WriteLine($"Getting location took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                //Trace.WriteLine($"Getting location took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
 
                 foreach (var locationElement in locationsProperty.EnumerateArray())
                 {
@@ -212,20 +211,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                                 : providerWebsite,
                             DeliveryYears = new List<DeliveryYearDto>()
                         };
-
-                        var venueNamesStopwatch = Stopwatch.StartNew();
-                        
-                        venueNames.TryGetValue($"{provider.UkPrn}{location.Postcode}", out var venueNameItem);
-                        venueNamesStopwatch.Stop();
-                        Trace.WriteLine($"Venue name lookup in {venueNamesStopwatch.ElapsedMilliseconds}ms {venueNamesStopwatch.ElapsedTicks} ticks");
-
-                        if (venueNameItem != null)
-                        {
-                            _logger.LogInformation($"Overriding venue name for " +
-                                                   $"{provider.Name} {location.Postcode} " +
-                                                   $"from {location.Name} to {venueNameItem.VenueName}");
-                            location.Name = venueNameItem.VenueName;
-                        }
 
                         provider.Locations.Add(location);
                     }
@@ -252,7 +237,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     }
 
                     stopwatch.Stop();
-                    Trace.WriteLine($"Processing location {location.Postcode} took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                    //Trace.WriteLine($"Processing location {location.Postcode} took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
                     stopwatch.Restart();
                 }
             }
@@ -289,7 +274,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 {
                     case > 1:
                         route = Regex.Replace(parts[0],
-                                $"^T Level", "")
+                                "^T Level", "")
                             .ToTitleCase();
                         name = parts[1].ToTitleCase();
                         break;
@@ -393,55 +378,98 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             {
                 var matchingLocation = provider.Locations.FirstOrDefault(l => l.Postcode == location.Postcode);
                 hasChanges |= matchingLocation == null;
-
                 if (matchingLocation != null)
                 {
-                    hasChanges |= matchingLocation.Town != location.Town;
-                    if (matchingLocation.Name != location.Name)
-                    {
-                        hasChanges = true;
-                        _logger.LogWarning($"Venue name for {provider.UkPrn} {provider.Name} {location.Postcode} " +
-                                           $"changed from '{location.Name}' to '{matchingLocation.Name}'");
-                    }
-
-                    hasChanges |= matchingLocation.Website != location.Website;
-
-                    hasChanges |= Math.Abs(matchingLocation.Latitude - location.Latitude) > .000001;
-                    hasChanges |= Math.Abs(matchingLocation.Longitude - location.Longitude) > .000001;
-
-                    hasChanges |= matchingLocation.DeliveryYears.Count != location.DeliveryYears.Count;
-
-                    foreach (var deliveryYear in matchingLocation.DeliveryYears)
-                    {
-                        var matchingDeliveryYear =
-                            location.DeliveryYears.FirstOrDefault(dy => dy.Year == deliveryYear.Year);
-                        hasChanges |= matchingDeliveryYear == null;
-
-                        if (matchingDeliveryYear != null)
-                        {
-                            hasChanges |= matchingDeliveryYear.Qualifications.Count !=
-                                          deliveryYear.Qualifications.Count;
-
-                            hasChanges |= (matchingDeliveryYear.Qualifications.Any(qualification =>
-                                !deliveryYear.Qualifications.Contains(qualification)));
-                        }
-                    }
+                    hasChanges |= LocationIsNewOrHasChanges(provider, location, matchingLocation);
                 }
+
+                //if (matchingLocation != null)
+                //{
+                //    var hasLocationChanges = false;
+
+                //    if (matchingLocation.Name != location.Name)
+                //    {
+                //        hasLocationChanges = true;
+                //        hasChanges = true;
+                //        _logger.LogWarning($"Venue name for {provider.UkPrn} {provider.Name} {location.Postcode} " +
+                //                           $"changed from '{location.Name}' to '{matchingLocation.Name}'");
+                //        //At this point we don't need to keep checking, because we have logged the venue name change
+                //        continue;
+                //    }
+
+                //    hasLocationChanges |= matchingLocation.Town != location.Town;
+                //    hasLocationChanges |= matchingLocation.Website != location.Website;
+
+                //    hasLocationChanges |= Math.Abs(matchingLocation.Latitude - location.Latitude) > .000001;
+                //    hasLocationChanges |= Math.Abs(matchingLocation.Longitude - location.Longitude) > .000001;
+
+                //    hasLocationChanges |= matchingLocation.DeliveryYears.Count != location.DeliveryYears.Count;
+
+                //    foreach (var deliveryYear in matchingLocation.DeliveryYears)
+                //    {
+                //        var matchingDeliveryYear =
+                //            location.DeliveryYears.FirstOrDefault(dy => dy.Year == deliveryYear.Year);
+                //        hasLocationChanges |= matchingDeliveryYear == null;
+
+                //        if (matchingDeliveryYear != null)
+                //        {
+                //            hasLocationChanges |= matchingDeliveryYear.Qualifications.Count !=
+                //                                  deliveryYear.Qualifications.Count;
+
+                //            hasLocationChanges |= (matchingDeliveryYear.Qualifications.Any(qualification =>
+                //                !deliveryYear.Qualifications.Contains(qualification)));
+                //        }
+                //    }
+                //}
             }
 
             return hasChanges;
         }
 
+        private bool LocationIsNewOrHasChanges(Provider provider, Location location, Location matchingLocation)
+        {
+            if (matchingLocation != null)
+            {
+                if (matchingLocation.Name != location.Name)
+                {
+                    _logger.LogWarning($"Venue name for {provider.UkPrn} {provider.Name} {location.Postcode} " +
+                                       $"changed from '{location.Name}' to '{matchingLocation.Name}'");
+                    //At this point we don't need to keep checking, because we have logged the venue name change
+                    return true;
+                }
+
+                if (matchingLocation.Town != location.Town ||
+                    matchingLocation.Website != location.Website ||
+                    Math.Abs(matchingLocation.Latitude - location.Latitude) > .000001 ||
+                    Math.Abs(matchingLocation.Longitude - location.Longitude) > .000001 ||
+                matchingLocation.DeliveryYears.Count != location.DeliveryYears.Count)
+                    return true;
+
+                foreach (var deliveryYear in matchingLocation.DeliveryYears)
+                {
+                    var matchingDeliveryYear =
+                        location.DeliveryYears.FirstOrDefault(dy => dy.Year == deliveryYear.Year);
+
+                    if (matchingDeliveryYear == null ||
+                        matchingDeliveryYear.Qualifications.Count !=
+                        deliveryYear.Qualifications.Count ||
+                        matchingDeliveryYear.Qualifications.Any(qualification =>
+                            !deliveryYear.Qualifications.Contains(qualification)))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         private bool QualificationIsNewOrHasChanges(IEnumerable<Qualification> existingQualifications, Qualification qualification)
         {
             var existingQualification = existingQualifications.FirstOrDefault(q => q.Id == qualification.Id);
-            if (existingQualification == null) return true; //This qualification does not exist 
-
-            var hasChanges = false;
-            hasChanges |= existingQualification.Route != qualification.Route;
-            hasChanges |= existingQualification.Name != qualification.Name;
-
-            return hasChanges;
+            return existingQualification == null
+                   || existingQualification.Route != qualification.Route
+                   || existingQualification.Name != qualification.Name;
         }
     }
 }

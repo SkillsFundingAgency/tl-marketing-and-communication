@@ -85,8 +85,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var service = BuildCourseDirectoryDataService(httpClientFactory, tableStorageService);
 
             var (savedCount, deletedCount) = await service
-                .ImportProvidersFromCourseDirectoryApi(
-                    new Dictionary<string, VenueNameOverride>());
+                .ImportProvidersFromCourseDirectoryApi();
 
             savedCount.Should().Be(1);
             deletedCount.Should().Be(0);
@@ -138,8 +137,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var service = BuildCourseDirectoryDataService(httpClientFactory, tableStorageService);
 
             var (savedCount, deletedCount) = await service
-                .ImportProvidersFromCourseDirectoryApi(
-                    new Dictionary<string, VenueNameOverride>());
+                .ImportProvidersFromCourseDirectoryApi();
 
             savedCount.Should().Be(0);
             deletedCount.Should().Be(1);
@@ -190,8 +188,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var service = BuildCourseDirectoryDataService(httpClientFactory, tableStorageService, logger);
 
             var (savedCount, deletedCount) = await service
-                .ImportProvidersFromCourseDirectoryApi(
-                    new Dictionary<string, VenueNameOverride>());
+                .ImportProvidersFromCourseDirectoryApi();
 
             savedCount.Should().Be(1);
             deletedCount.Should().Be(1);

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -16,7 +15,6 @@ using NSubstitute.ExceptionExtensions;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders;
-using sfa.Tl.Marketing.Communication.Models.Dto;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
@@ -28,7 +26,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
         {
             var service = Substitute.For<ICourseDirectoryDataService>();
             service
-                .ImportProvidersFromCourseDirectoryApi(Arg.Any<IDictionary<string, VenueNameOverride>>())
+                .ImportProvidersFromCourseDirectoryApi()
                 .Returns((10, 0));
             service
                 .ImportQualificationsFromCourseDirectoryApi()
@@ -44,7 +42,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 logger);
 
             await service.Received(1).ImportQualificationsFromCourseDirectoryApi();
-            await service.Received(1).ImportProvidersFromCourseDirectoryApi(Arg.Any<IDictionary<string, VenueNameOverride>>());
+            await service.Received(1).ImportProvidersFromCourseDirectoryApi();
         }
 
         [Fact]
@@ -52,7 +50,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
         {
             var service = Substitute.For<ICourseDirectoryDataService>();
             service
-                .ImportProvidersFromCourseDirectoryApi(Arg.Any<IDictionary<string, VenueNameOverride>>())
+                .ImportProvidersFromCourseDirectoryApi()
                 .Returns((10, 4));
             service
                 .ImportQualificationsFromCourseDirectoryApi()
@@ -76,7 +74,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
         {
             var service = Substitute.For<ICourseDirectoryDataService>();
             service
-                .ImportProvidersFromCourseDirectoryApi(Arg.Any<IDictionary<string, VenueNameOverride>>())
+                .ImportProvidersFromCourseDirectoryApi()
                 .ThrowsForAnyArgs(new InvalidOperationException());
 
             var request = BuildHttpRequest(HttpMethod.Get);

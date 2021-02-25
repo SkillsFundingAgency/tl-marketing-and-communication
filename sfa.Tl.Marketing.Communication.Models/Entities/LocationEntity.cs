@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -22,7 +21,7 @@ namespace sfa.Tl.Marketing.Communication.Models.Entities
         [JsonPropertyName("website")]
         public string Website { get; set; }
 
-        //[JsonPropertyName("deliveryYears")]
+        //This property is serialized to json in the cloud table
         public IList<DeliveryYearEntity> DeliveryYears { get; set; }
         
         public override IDictionary<string, EntityProperty> WriteEntity(OperationContext operationContext)

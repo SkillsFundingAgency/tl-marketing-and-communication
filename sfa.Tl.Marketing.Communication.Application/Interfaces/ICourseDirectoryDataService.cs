@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using sfa.Tl.Marketing.Communication.Models.Dto;
+﻿using System.Threading.Tasks;
 
 namespace sfa.Tl.Marketing.Communication.Application.Interfaces
 {
     public interface ICourseDirectoryDataService
     {
-        Task<(int Saved, int Deleted)> ImportProvidersFromCourseDirectoryApi(IDictionary<string, VenueNameOverride> venueNames);
+        Task<(int Saved, int Deleted)> ImportProvidersFromCourseDirectoryApi();
 
         Task<(int Saved, int Deleted)> ImportQualificationsFromCourseDirectoryApi();
 

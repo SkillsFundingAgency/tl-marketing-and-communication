@@ -19,7 +19,6 @@ using Microsoft.Extensions.Logging;
 using Notify.Client;
 using Notify.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
-using sfa.Tl.Marketing.Communication.Models.Entities;
 
 namespace sfa.Tl.Marketing.Communication
 {
