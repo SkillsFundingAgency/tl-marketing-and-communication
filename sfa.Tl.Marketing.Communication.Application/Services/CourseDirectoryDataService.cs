@@ -148,19 +148,22 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     continue;
                 }
 
-                var hasUkPrn = int.TryParse(providerProperty.SafeGetString("ukprn"), out var ukPrn);
-                //TODO: Log and continue if no ukprn?
+                if (!int.TryParse(providerProperty.SafeGetString("ukprn"), out var ukPrn))
+                {
+                    _logger.LogWarning("Could not find ukprn property for course record with tLevelId {tLevelId}.");
+                    continue;
+                }
 
                 var providerName = providerProperty.SafeGetString("providerName");
                 var providerWebsite = providerProperty.SafeGetString("website");
 
                 stopwatch.Stop();
-                //Trace.WriteLine($"Process setup took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                Trace.WriteLine($"Process setup took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
                 stopwatch.Restart();
 
                 var provider = providers.FirstOrDefault(p => p.UkPrn == ukPrn);
                 stopwatch.Stop();
-                //Trace.WriteLine($"Process lookup provider {provider != null} took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                Trace.WriteLine($"Process lookup provider {provider != null} took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
                 stopwatch.Restart();
 
                 if (provider == null)
@@ -175,7 +178,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 }
 
                 stopwatch.Stop();
-                //Trace.WriteLine($"Adding provider took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                Trace.WriteLine($"Adding provider took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
                 stopwatch.Restart();
 
                 if (!courseElement.TryGetProperty("locations", out var locationsProperty))
@@ -186,7 +189,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 }
 
                 stopwatch.Stop();
-                //Trace.WriteLine($"Getting location took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                Trace.WriteLine($"Getting location took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
 
                 foreach (var locationElement in locationsProperty.EnumerateArray())
                 {
@@ -237,7 +240,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     }
 
                     stopwatch.Stop();
-                    //Trace.WriteLine($"Processing location {location.Postcode} took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                    Trace.WriteLine($"Processing location {location.Postcode} took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
                     stopwatch.Restart();
                 }
             }

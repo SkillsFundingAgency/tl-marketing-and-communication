@@ -65,7 +65,7 @@ namespace sfa.Tl.Marketing.Communication
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
+                options.CheckConsentNeeded = _ => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
@@ -103,6 +103,7 @@ namespace sfa.Tl.Marketing.Communication
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // ReSharper disable once UnusedMember.Global
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
             //TODO: Remove the following parameters after NCS data is imported via API 
             IProviderDataMigrationService providerDataMigrationService,
@@ -180,8 +181,7 @@ namespace sfa.Tl.Marketing.Communication
             
             var govNotifyApiKey = Configuration["GovNotifyApiKey"];
             services.AddTransient<IAsyncNotificationClient, NotificationClient>(
-                provider =>
-                    new NotificationClient(govNotifyApiKey));
+                _ => new NotificationClient(govNotifyApiKey));
         }
 
         //TODO: Remove this after NCS data is imported via API 
