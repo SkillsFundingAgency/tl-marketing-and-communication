@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using sfa.Tl.Marketing.Communication.Application.Enums;
@@ -15,7 +16,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public DistanceCalculationService(ILocationApiClient locationApiClient)
         {
-            _locationApiClient = locationApiClient;
+            _locationApiClient = locationApiClient ?? throw new ArgumentNullException(nameof(locationApiClient));
         }
 
         public double CalculateDistanceInMiles(double lat1, double lon1, double lat2, double lon2)

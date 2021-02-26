@@ -2,26 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
+using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 {
-    public class ProviderLocationServiceUnitTests
+    public class ProviderDataServiceLocationUnitTests
     {
-        private readonly IProviderDataService _providerDataService;
-        private readonly IProviderLocationService _providerLocationService;
-
-        public ProviderLocationServiceUnitTests()
-        {
-            _providerDataService = Substitute.For<IProviderDataService>();
-
-            _providerLocationService = new ProviderLocationService(_providerDataService);
-        }
-
         [Fact]
         public void GetProviderLocations_Returns_Expected_Results_For_Multiple_Providers()
         {
@@ -50,16 +43,13 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var providers = new List<Provider>
             {
-                BuildProvider(10000001, "Provider 1", new List<Location> { location1 }),
-                BuildProvider(10000002, "Provider 2", new List<Location> { location2 })
-            }.AsQueryable();
+                BuildProvider(10000001, "Provider 1", new List<Location> {location1}),
+                BuildProvider(10000002, "Provider 2", new List<Location> {location2})
+            };
 
-            _providerDataService.GetQualifications().Returns(qualifications);
-            _providerDataService.
-                GetQualifications(Arg.Any<int[]>())
-                .Returns(x => qualifications.Where(q => ((int[])x[0]).Contains(q.Id)));
+            var providerDataService = CreateProviderDataService(providers, qualifications);
 
-            var results = _providerLocationService.GetProviderLocations(locations, providers).ToList();
+            var results = providerDataService.GetProviderLocations(locations, providers.AsQueryable()).ToList();
 
             results.Count.Should().Be(locations.Count());
             results.Should().Contain(p =>
@@ -116,15 +106,12 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var providers = new List<Provider>
             {
-                BuildProvider(10000001, "Provider 1", new List<Location> { location1 })
-            }.AsQueryable();
+                BuildProvider(10000001, "Provider 1", new List<Location> {location1})
+            };
 
-            _providerDataService.GetQualifications().Returns(qualifications);
-            _providerDataService.
-                GetQualifications(Arg.Any<int[]>())
-                .Returns(x => qualifications.Where(q => ((int[])x[0]).Contains(q.Id)));
+            var providerDataService = CreateProviderDataService(providers, qualifications);
 
-            var results = _providerLocationService.GetProviderLocations(locations, providers).ToList();
+            var results = providerDataService.GetProviderLocations(locations, providers.AsQueryable()).ToList();
 
             results.Count.Should().Be(locations.Count());
             var deliveryYears = results.First().DeliveryYears.ToList();
@@ -153,29 +140,26 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var providers = new List<Provider>
             {
-                BuildProvider(10000001, "Provider 1", new List<Location> { location1 }),
-                BuildProvider(10000002, "Provider 2", new List<Location> { location2 })
-            }.AsQueryable();
+                BuildProvider(10000001, "Provider 1", new List<Location> {location1}),
+                BuildProvider(10000002, "Provider 2", new List<Location> {location2})
+            };
 
-            _providerDataService.GetQualifications().Returns(qualifications);
-            _providerDataService.
-                GetQualifications(Arg.Any<int[]>())
-                .Returns(x => qualifications.Where(q => ((int[])x[0]).Contains(q.Id)));
+            var providerDataService = CreateProviderDataService(providers, qualifications);
 
-            var results = _providerLocationService.GetProviderLocations(locations, providers).ToList();
+            var results = providerDataService.GetProviderLocations(locations, providers.AsQueryable()).ToList();
 
             results.Count.Should().Be(1);
 
             results.Should().Contain(p =>
-                    p.ProviderName == "Provider 2" &&
-                    p.Name == "Location 2" &&
-                    p.Postcode == "S70 2YW" &&
-                    Math.Abs(p.Latitude - 50.001) < 0.001 &&
-                    Math.Abs(p.Longitude - (-1.234)) < 0.001 &&
-                    p.DeliveryYears.Count() == 1 &&
-                    p.DeliveryYears.Count(dy => dy.Year == 2020) == 1 &&
-                    p.DeliveryYears.Single(dy => dy.Year == 2020).Qualifications
-                        .Contains(qualifications.Single(q => q.Id == 1)));
+                p.ProviderName == "Provider 2" &&
+                p.Name == "Location 2" &&
+                p.Postcode == "S70 2YW" &&
+                Math.Abs(p.Latitude - 50.001) < 0.001 &&
+                Math.Abs(p.Longitude - (-1.234)) < 0.001 &&
+                p.DeliveryYears.Count() == 1 &&
+                p.DeliveryYears.Count(dy => dy.Year == 2020) == 1 &&
+                p.DeliveryYears.Single(dy => dy.Year == 2020).Qualifications
+                    .Contains(qualifications.Single(q => q.Id == 1)));
         }
 
         [Fact]
@@ -189,16 +173,13 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var providers = new List<Provider>
             {
-                BuildProvider(10000001, "Provider 1", new List<Location> { location1 }),
-                BuildProvider(10000002, "Provider 2", new List<Location> { location2 })
-            }.AsQueryable();
+                BuildProvider(10000001, "Provider 1", new List<Location> {location1}),
+                BuildProvider(10000002, "Provider 2", new List<Location> {location2})
+            };
 
-            _providerDataService.GetQualifications().Returns(qualifications);
-            _providerDataService.
-                GetQualifications(Arg.Any<int[]>())
-                .Returns(x => qualifications.Where(q => ((int[])x[0]).Contains(q.Id)));
+            var providerDataService = CreateProviderDataService(providers, qualifications);
 
-            var results = _providerLocationService.GetProviderLocations(locations, providers).ToList();
+            var results = providerDataService.GetProviderLocations(locations, providers.AsQueryable()).ToList();
 
             results.Count.Should().Be(0);
         }
@@ -234,11 +215,38 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var qualifications = new List<Qualification>
             {
-                new () { Id = 1, Name = "Xyz"},
-                new () { Id = 2, Name = "Mno"},
-                new () { Id = 3, Name = "Abc"}
+                new() { Id = 1, Name = "Xyz" },
+                new() { Id = 2, Name = "Mno" },
+                new() { Id = 3, Name = "Abc" }
             };
             return qualifications;
+        }
+
+        private static IProviderDataService CreateProviderDataService(
+            IList<Provider> providers,
+            IList<Qualification> qualifications)
+        {
+            var tableStorageService = Substitute.For<ITableStorageService>();
+            tableStorageService.GetAllProviders().Returns(providers);
+            tableStorageService.GetAllQualifications().Returns(qualifications);
+            return CreateProviderDataService(tableStorageService);
+        }
+
+        private static IProviderDataService CreateProviderDataService(
+            ITableStorageService tableStorageService = null,
+            IMemoryCache cache = null,
+            ILogger<ProviderDataService> logger = null,
+            ConfigurationOptions configuration = null)
+        {
+            tableStorageService ??= Substitute.For<ITableStorageService>();
+            cache ??= Substitute.For<IMemoryCache>();
+            logger ??= Substitute.For<ILogger<ProviderDataService>>();
+            configuration ??= new ConfigurationOptions
+            {
+                CacheExpiryInSeconds = 1
+            };
+
+            return new ProviderDataService(tableStorageService, cache, logger, configuration);
         }
     }
 }

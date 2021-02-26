@@ -13,7 +13,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
     public class ProviderSearchServiceUnitTests
     {
         private readonly IProviderDataService _providerDataService;
-        private readonly IProviderLocationService _providerLocationService;
         private readonly IJourneyService _journeyService;
         private readonly IDistanceCalculationService _distanceCalculationService;
         private readonly IProviderSearchService _service;
@@ -21,14 +20,12 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         public ProviderSearchServiceUnitTests()
         {
             _providerDataService = Substitute.For<IProviderDataService>();
-            _providerLocationService = Substitute.For<IProviderLocationService>();
             _journeyService = Substitute.For<IJourneyService>();
             _distanceCalculationService = Substitute.For<IDistanceCalculationService>();
 
             _service = new ProviderSearchService(
                 _providerDataService,
                 _journeyService,
-                _providerLocationService,
                 _distanceCalculationService);
         }
 
@@ -136,7 +133,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 new ()
             }.AsQueryable();
 
-            _providerLocationService.GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers)).Returns(providerLocations);
+            _providerDataService.GetProviderLocations(
+                    Arg.Is<IQueryable<Location>>(l => l == locations), 
+                    Arg.Is<IQueryable<Provider>>(p => p == providers))
+                .Returns(providerLocations);
 
             _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
                 Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode
@@ -151,7 +151,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             searchResults.Count().Should().Be(numberOfItems);
             _providerDataService.Received(1).GetProviders();
             _providerDataService.Received(1).GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), Arg.Is<int>(q => q == searchRequest.QualificationId.Value));
-            _providerLocationService.Received(1).GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers));
+            _providerDataService.Received(1).GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers));
             await _distanceCalculationService.Received(1).CalculateProviderLocationDistanceInMiles(
                 Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode),
                 providerLocations);
@@ -196,7 +196,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 new ()
             }.AsQueryable();
 
-            _providerLocationService.GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers)).Returns(providerLocations);
+            _providerDataService.GetProviderLocations(
+                Arg.Is<IQueryable<Location>>(l => l == locations), 
+                Arg.Is<IQueryable<Provider>>(p => p == providers))
+                .Returns(providerLocations);
 
             _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
                     Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode),
@@ -209,7 +212,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             searchResults.Count().Should().Be(numberOfItems);
             _providerDataService.Received(1).GetProviders();
             _providerDataService.Received(1).GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), qualificationId);
-            _providerLocationService.Received(1).GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers));
+            _providerDataService.Received(1).GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers));
             await _distanceCalculationService.Received(1).CalculateProviderLocationDistanceInMiles(
                 Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode),
                 providerLocations);

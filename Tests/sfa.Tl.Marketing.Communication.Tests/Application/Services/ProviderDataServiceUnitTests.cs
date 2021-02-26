@@ -13,7 +13,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 {
     public class ProviderDataServiceUnitTests
     {
-        private readonly IProviderDataService _service;
+        private readonly IProviderDataService _providerDataService;
 
         public ProviderDataServiceUnitTests()
         {
@@ -25,13 +25,13 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             tableStorageService.GetAllProviders().Returns(providers);
             tableStorageService.GetAllQualifications().Returns(qualifications);
 
-            _service = CreateProviderDataService(tableStorageService);
+            _providerDataService = CreateProviderDataService(tableStorageService);
         }
 
         [Fact]
         public void GetProviders_Returns_All_Providers()
         {
-            var providers = _service.GetProviders();
+            var providers = _providerDataService.GetProviders();
 
             providers.Count().Should().Be(10);
         }
@@ -39,7 +39,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public void GetProviders_Returns_Expected_First_Provider()
         {
-            var providers = _service.GetProviders();
+            var providers = _providerDataService.GetProviders();
 
             var provider = providers.SingleOrDefault(p => p.UkPrn == 10000055);
 
@@ -71,7 +71,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public void GetProviders_Returns_Expected_Provider_Location_Delivery_Years()
         {
-            var providers = _service.GetProviders();
+            var providers = _providerDataService.GetProviders();
 
             var provider = providers.SingleOrDefault(p => p.UkPrn == 10000754);
 
@@ -110,7 +110,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public void GetQualifications_Returns_All_Qualifications_From_Data_And_Adds_A_Default_To_Show_All()
         {
-            var results = _service.GetQualifications().ToList();
+            var results = _providerDataService.GetQualifications().ToList();
             results.Count.Should().Be(11);
             results.SingleOrDefault(q => q.Id == 0 && q.Name == "All T Level courses").Should().NotBeNull();
         }
@@ -119,7 +119,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         public void GetQualifications_By_Ids_Returns_Qualifications_By_Ids()
         {
             var ids = new[] { 3, 4, 5 };
-            var results = _service.GetQualifications(ids).ToList();
+            var results = _providerDataService.GetQualifications(ids).ToList();
 
             results.Count.Should().Be(3);
             results.Single(q => q.Id == 3).Should().NotBeNull();
@@ -131,7 +131,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         public void GetQualifications_ByIds_Returns_Qualifications_In_Alphabetical_Order()
         {
             var ids = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            var results = _service.GetQualifications(ids).ToList();
+            var results = _providerDataService.GetQualifications(ids).ToList();
 
             results.Count.Should().Be(10);
             results[0].Name.Should().Be("Building Services Engineering");
@@ -151,7 +151,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             const int id = 10;
 
-            var result = _service.GetQualification(id);
+            var result = _providerDataService.GetQualification(id);
 
             result.Id.Should().Be(id);
             result.Name.Should().Be("Science");
@@ -160,7 +160,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public void GetWebsiteUrls_Returns_Expected_Number_Of_Urls()
         {
-            var results = _service.GetWebsiteUrls();
+            var results = _providerDataService.GetWebsiteUrls();
 
             results.Count().Should().Be(12);
         }
@@ -168,7 +168,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public void GetWebsiteUrls_Returns_Urls_With_No_Duplicates()
         {
-            var results = _service.GetWebsiteUrls().ToList();
+            var results = _providerDataService.GetWebsiteUrls().ToList();
 
             foreach (var url in results)
             {

@@ -53,6 +53,38 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 : providers.SelectMany(p => p.Locations);
         }
 
+        public IQueryable<ProviderLocation> GetProviderLocations(IQueryable<Location> locations, IQueryable<Provider> providers)
+        {
+            return locations.Select(l => new
+                {
+                    Location = l,
+                    Provider = providers.Single(parent => parent.Locations.Contains(l))
+                })
+                .Select(pl => new ProviderLocation
+                {
+                    ProviderName = pl.Provider.Name,
+                    Name = pl.Location.Name,
+                    Latitude = pl.Location.Latitude,
+                    Longitude = pl.Location.Longitude,
+                    Postcode = pl.Location.Postcode,
+                    Town = pl.Location.Town,
+                    Website = pl.Location.Website,
+                    DeliveryYears = pl.Location.DeliveryYears != null
+                        ? pl.Location.DeliveryYears
+                            .Select(d => new DeliveryYear
+                            {
+                                Year = d.Year,
+                                Qualifications = d.Qualifications != null ?
+                                    GetQualifications(d.Qualifications.ToArray())
+                                    : new List<Qualification>()
+                            })
+                            .OrderBy(d => d.Year)
+                            .ToList()
+                        : new List<DeliveryYear>()
+                })
+                .Where(pl => pl.DeliveryYears.Any(y => y.Qualifications.Any()));
+        }
+
         public IEnumerable<Qualification> GetQualifications(int[] qualificationIds)
         {
             var qualifications = GetAllQualifications();

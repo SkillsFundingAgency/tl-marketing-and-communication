@@ -10,20 +10,17 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
     public class ProviderSearchService : IProviderSearchService
     {
         private readonly IProviderDataService _providerDataService;
-        private readonly IProviderLocationService _providerLocationService;
         private readonly IJourneyService _journeyService;
         private readonly IDistanceCalculationService _distanceCalculationService;
 
         public ProviderSearchService(
             IProviderDataService providerDataService, 
             IJourneyService journeyService, 
-            IProviderLocationService providerLocationService, 
             IDistanceCalculationService distanceCalculationService)
         {
-            _providerDataService = providerDataService;
-            _providerLocationService = providerLocationService;
-            _journeyService = journeyService;
-            _distanceCalculationService = distanceCalculationService;
+            _providerDataService = providerDataService ?? throw new ArgumentNullException(nameof(providerDataService));
+            _journeyService = journeyService ?? throw new ArgumentNullException(nameof(journeyService));
+            _distanceCalculationService = distanceCalculationService ?? throw new ArgumentNullException(nameof(distanceCalculationService));
         }
 
         public IEnumerable<Qualification> GetQualifications()
@@ -36,7 +33,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             var providers = _providerDataService.GetProviders();
             var locations = _providerDataService.GetLocations(providers);
-            return _providerLocationService.GetProviderLocations(locations, providers);
+            return _providerDataService.GetProviderLocations(locations, providers);
         }
 
         public async Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(SearchRequest searchRequest)
@@ -49,7 +46,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             {
                 var locations = _providerDataService.GetLocations(providers, searchRequest.QualificationId);
 
-                var providerLocations = _providerLocationService.GetProviderLocations(locations, providers);
+                var providerLocations = _providerDataService.GetProviderLocations(locations, providers);
 
                 results = await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
                     new PostcodeLocation
