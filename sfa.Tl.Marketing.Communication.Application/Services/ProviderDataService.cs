@@ -15,17 +15,17 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
     {
         public const string ProviderTableDataCacheKey = "Provider_Table_Data";
         public const string QualificationTableDataCacheKey = "Qualification_Table_Data";
-        private readonly int _cacheExpiryInSeconds = 60;
+        private readonly int _cacheExpiryInSeconds;
 
         private readonly IMemoryCache _cache;
         private readonly ITableStorageService _tableStorageService;
         private readonly ILogger<ProviderDataService> _logger;
 
-        private static readonly IDictionary<string, VenueNameOverride> _venueNameOverrides;
+        private static readonly IDictionary<string, VenueNameOverride> VenueNameOverrides;
 
         static ProviderDataService()
         {
-            _venueNameOverrides = GetVenueNameOverrides();
+            VenueNameOverrides = GetVenueNameOverrides();
         }
         
         public ProviderDataService(
@@ -43,6 +43,14 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public IQueryable<Provider> GetProviders()
         {
             return GetAllProviders();
+        }
+
+        public IQueryable<Location> GetLocations(IQueryable<Provider> providers, int? qualificationId = null)
+        {
+            return qualificationId > 0
+                ? providers.SelectMany(p => p.Locations)
+                    .Where(l => l.DeliveryYears.Any(d => d.Qualifications.Contains(qualificationId.Value)))
+                : providers.SelectMany(p => p.Locations);
         }
 
         public IEnumerable<Qualification> GetQualifications(int[] qualificationIds)
@@ -108,7 +116,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 {
                     foreach (var location in provider.Locations)
                     {
-                        if (_venueNameOverrides
+                        if (VenueNameOverrides
                                 .TryGetValue($"{provider.UkPrn}{location.Postcode}",
                                     out var venueNameItem)
                             && location.Name != venueNameItem.VenueName)

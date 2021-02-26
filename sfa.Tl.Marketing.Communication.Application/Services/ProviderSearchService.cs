@@ -12,20 +12,17 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         private readonly IProviderDataService _providerDataService;
         private readonly IProviderLocationService _providerLocationService;
         private readonly IJourneyService _journeyService;
-        private readonly ILocationService _locationService;
         private readonly IDistanceCalculationService _distanceCalculationService;
 
         public ProviderSearchService(
             IProviderDataService providerDataService, 
             IJourneyService journeyService, 
-            ILocationService locationService, 
             IProviderLocationService providerLocationService, 
             IDistanceCalculationService distanceCalculationService)
         {
             _providerDataService = providerDataService;
             _providerLocationService = providerLocationService;
             _journeyService = journeyService;
-            _locationService = locationService;
             _distanceCalculationService = distanceCalculationService;
         }
 
@@ -38,7 +35,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public IEnumerable<ProviderLocation> GetAllProviderLocations()
         {
             var providers = _providerDataService.GetProviders();
-            var locations = _locationService.GetLocations(providers);
+            var locations = _providerDataService.GetLocations(providers);
             return _providerLocationService.GetProviderLocations(locations, providers);
         }
 
@@ -50,7 +47,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             if (providers.Any())
             {
-                var locations = _locationService.GetLocations(providers, searchRequest.QualificationId);
+                var locations = _providerDataService.GetLocations(providers, searchRequest.QualificationId);
 
                 var providerLocations = _providerLocationService.GetProviderLocations(locations, providers);
 

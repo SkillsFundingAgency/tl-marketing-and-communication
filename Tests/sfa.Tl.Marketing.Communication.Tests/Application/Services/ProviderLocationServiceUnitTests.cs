@@ -13,13 +13,13 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
     public class ProviderLocationServiceUnitTests
     {
         private readonly IProviderDataService _providerDataService;
-        private readonly IProviderLocationService _service;
+        private readonly IProviderLocationService _providerLocationService;
 
         public ProviderLocationServiceUnitTests()
         {
             _providerDataService = Substitute.For<IProviderDataService>();
 
-            _service = new ProviderLocationService(_providerDataService);
+            _providerLocationService = new ProviderLocationService(_providerDataService);
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 GetQualifications(Arg.Any<int[]>())
                 .Returns(x => qualifications.Where(q => ((int[])x[0]).Contains(q.Id)));
 
-            var results = _service.GetProviderLocations(locations, providers).ToList();
+            var results = _providerLocationService.GetProviderLocations(locations, providers).ToList();
 
             results.Count.Should().Be(locations.Count());
             results.Should().Contain(p =>
@@ -124,7 +124,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 GetQualifications(Arg.Any<int[]>())
                 .Returns(x => qualifications.Where(q => ((int[])x[0]).Contains(q.Id)));
 
-            var results = _service.GetProviderLocations(locations, providers).ToList();
+            var results = _providerLocationService.GetProviderLocations(locations, providers).ToList();
 
             results.Count.Should().Be(locations.Count());
             var deliveryYears = results.First().DeliveryYears.ToList();
@@ -162,7 +162,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 GetQualifications(Arg.Any<int[]>())
                 .Returns(x => qualifications.Where(q => ((int[])x[0]).Contains(q.Id)));
 
-            var results = _service.GetProviderLocations(locations, providers).ToList();
+            var results = _providerLocationService.GetProviderLocations(locations, providers).ToList();
 
             results.Count.Should().Be(1);
 
@@ -198,7 +198,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 GetQualifications(Arg.Any<int[]>())
                 .Returns(x => qualifications.Where(q => ((int[])x[0]).Contains(q.Id)));
 
-            var results = _service.GetProviderLocations(locations, providers).ToList();
+            var results = _providerLocationService.GetProviderLocations(locations, providers).ToList();
 
             results.Count.Should().Be(0);
         }
