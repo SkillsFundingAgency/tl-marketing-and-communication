@@ -16,12 +16,15 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
             for (var i = 0; i < numberOfQualificationEntities; i++)
             {
                 var nextId = start + i + 1;
-                _qualificationEntities.Add(new QualificationEntity
+                var qualification = new QualificationEntity
                 {
                     Id = nextId,
                     Route = $"Route {nextId}",
-                    Name = $"Test Qualification {nextId}"
-                });
+                    Name = $"Test Qualification {nextId}",
+                    PartitionKey = "qualifications"
+                };
+                qualification.RowKey = qualification.Id.ToString();
+                _qualificationEntities.Add(qualification);
             }
 
             return this;

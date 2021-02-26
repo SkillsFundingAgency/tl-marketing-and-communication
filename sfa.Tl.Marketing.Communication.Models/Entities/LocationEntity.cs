@@ -21,7 +21,7 @@ namespace sfa.Tl.Marketing.Communication.Models.Entities
         [JsonPropertyName("website")]
         public string Website { get; set; }
 
-        //This property is serialized to json in the cloud table
+        //This property is serialized to json WriteEntity/ReadEntity below
         public IList<DeliveryYearEntity> DeliveryYears { get; set; }
         
         public override IDictionary<string, EntityProperty> WriteEntity(OperationContext operationContext)
@@ -39,16 +39,11 @@ namespace sfa.Tl.Marketing.Communication.Models.Entities
             var deliveryYearsProperty = properties
                 .FirstOrDefault(p => p.Key == "DeliveryYears");
 
-            if (!deliveryYearsProperty.Equals(default(KeyValuePair<string, EntityProperty>))
-                && deliveryYearsProperty.Value != null)
-            {
-                DeliveryYears = JsonSerializer.Deserialize<IList<DeliveryYearEntity>>
-                    (deliveryYearsProperty.Value.ToString());
-            }
-            else
-            {
-                DeliveryYears = new List<DeliveryYearEntity>();
-            }
+            DeliveryYears = !deliveryYearsProperty.Equals(default(KeyValuePair<string, EntityProperty>))
+                            && deliveryYearsProperty.Value != null
+                ? JsonSerializer.Deserialize<IList<DeliveryYearEntity>>
+                    (deliveryYearsProperty.Value.ToString())
+                : new List<DeliveryYearEntity>();
         }
     }
 }

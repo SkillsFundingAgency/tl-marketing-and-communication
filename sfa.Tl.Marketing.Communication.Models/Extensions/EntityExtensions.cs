@@ -43,28 +43,7 @@ namespace sfa.Tl.Marketing.Communication.Models.Extensions
                         PartitionKey = "providers",
                         RowKey = provider.UkPrn.ToString(),
                         UkPrn = provider.UkPrn,
-                        Name = provider.Name,
-                        Locations = provider.Locations?.Select(
-                            location =>
-                                new LocationEntity
-                                {
-                                    PartitionKey = provider.UkPrn.ToString(),
-                                    RowKey = location.Postcode,
-                                    Name = location.Name,
-                                    Postcode = location.Postcode,
-                                    Latitude = location.Latitude,
-                                    Longitude = location.Longitude,
-                                    Town = location.Town,
-                                    Website = location.Website,
-                                    DeliveryYears = location.DeliveryYears.Select(
-                                        deliveryYear =>
-                                            new DeliveryYearEntity
-                                            {
-                                                Year = deliveryYear.Year,
-                                                Qualifications = deliveryYear.Qualifications.ToList()
-                                            }
-                                    ).ToList(),
-                                }).ToList() ?? new List<LocationEntity>()
+                        Name = provider.Name
                     }).ToList();
         }
 
@@ -76,24 +55,7 @@ namespace sfa.Tl.Marketing.Communication.Models.Extensions
                     {
                         UkPrn = provider.UkPrn,
                         Name = provider.Name,
-                        Locations = provider.Locations?.Select(
-                            location =>
-                                new Location
-                                {
-                                    Name = location.Name,
-                                    Postcode = location.Postcode,
-                                    Latitude = location.Latitude,
-                                    Longitude = location.Longitude,
-                                    Town = location.Town,
-                                    Website = location.Website,
-                                    DeliveryYears = location.DeliveryYears.Select(
-                                        deliveryYear =>
-                                            new DeliveryYearDto
-                                            {
-                                                Year = deliveryYear.Year,
-                                                Qualifications = deliveryYear.Qualifications.ToList()
-                                            }).ToList()
-                                }).ToList() ?? new List<Location>()
+                        Locations = new List<Location>()
                     }).ToList();
         }
 

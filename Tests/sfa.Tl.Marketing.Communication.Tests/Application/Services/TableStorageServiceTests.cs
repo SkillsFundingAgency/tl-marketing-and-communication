@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -37,6 +36,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var providerEntities = new ProviderEntityListBuilder()
                 .Add()
                 .Build();
+            var locationEntities = new LocationEntityListBuilder()
+                .Add()
+                .Build();
 
             var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity>>();
             providerRepository
@@ -49,9 +51,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .Returns(callInfo =>
                 {
                     var partitionKey = callInfo.ArgAt<string>(0);
-                    var ukPrn = Convert.ToInt32(partitionKey);
-                    var provider = providerEntities.SingleOrDefault(p => p.UkPrn == ukPrn);
-                    return provider?.Locations;
+                    var results = locationEntities.Where(p => p.PartitionKey == partitionKey);
+                    return results.ToList();
                 });
 
             var service = BuildTableStorageService(locationRepository, providerRepository);

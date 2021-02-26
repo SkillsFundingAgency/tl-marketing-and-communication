@@ -16,33 +16,14 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
             for (var i = 0; i < numberOfProviderEntities; i++)
             {
                 var nextId = start + i + 1;
-                _providerEntities.Add(new ProviderEntity
+                var provider = new ProviderEntity
                 {
-                    UkPrn = 10000000 + nextId,
-                    Name = $"Test Provider {nextId}",
-                    Locations = new List<LocationEntity>
-                    {
-                        new()
-                        {
-                            Postcode = $"CV{nextId} {nextId + 1}WT",
-                            Town = "Coventry",
-                            Latitude = 50.1234 + nextId,
-                            Longitude = -0.234 - nextId,
-                            Website = $"https://test.provider_{nextId}.co.uk",
-                            DeliveryYears = new List<DeliveryYearEntity>
-                            {
-                                new()
-                                {
-                                    Year = (short)(2020 + nextId),
-                                    Qualifications = new List<int>
-                                    {
-                                        nextId
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
+                    UkPrn = 10000000 + nextId, 
+                    Name = $"Test Provider {nextId}", 
+                    PartitionKey = "providers"
+                };
+                provider.RowKey = provider.UkPrn.ToString();
+                _providerEntities.Add(provider);
             }
 
             return this;
