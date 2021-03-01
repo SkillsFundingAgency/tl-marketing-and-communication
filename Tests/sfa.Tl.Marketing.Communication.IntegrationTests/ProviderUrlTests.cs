@@ -64,8 +64,11 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
             {
                 Debug.WriteLine($"{location.ProviderName} - {location.Website}");
 
-                var isUrlBroken = await IsUrlBroken(location.Website);
-                if (isUrlBroken)
+                if (string.IsNullOrWhiteSpace(location.Website))
+                {
+                    _outputHelper.WriteLine($"Url for {location.ProviderName} is blank.");
+                }
+                else if (await IsUrlBroken(location.Website))
                 {
                     brokenProviderUrls.Add(location);
                 }
