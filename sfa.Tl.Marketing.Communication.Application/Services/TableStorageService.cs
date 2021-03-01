@@ -44,10 +44,9 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 return 0;
             }
 
-            var deletedLocations = 0;
             foreach (var provider in providers)
             {
-                deletedLocations += await _locationRepository.DeleteByPartitionKey(provider.UkPrn.ToString());
+                await _locationRepository.DeleteByPartitionKey(provider.UkPrn.ToString());
             }
 
             var providerEntities = providers.ToProviderEntityList();
@@ -90,13 +89,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var providerEntities = await _providerRepository.GetAll();
             
             stopwatch.Stop();
-            Trace.WriteLine($"Get provider entities took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+            _logger.LogDebug($"TableStorageService::Get provider entities took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
             stopwatch.Restart();
 
             var providers = providerEntities.ToProviderList();
 
             stopwatch.Stop();
-            Trace.WriteLine($"Converting to provider list took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+            _logger.LogDebug($"TableStorageService::Converting to provider list took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
             stopwatch.Restart();
 
             var locationCount = 0;
@@ -106,21 +105,21 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 var locationEntities = await _locationRepository.GetByPartitionKey(provider.UkPrn.ToString());
 
                 locationStopwatch.Stop();
-                Trace.WriteLine($"   Get {provider.UkPrn.ToString()} {locationEntities.Count} location entities took {locationStopwatch.ElapsedMilliseconds}ms {locationStopwatch.ElapsedTicks} ticks");
+                _logger.LogDebug($"   TableStorageService::Get {provider.UkPrn} {locationEntities.Count} location entities took {locationStopwatch.ElapsedMilliseconds}ms {locationStopwatch.ElapsedTicks} ticks");
                 locationStopwatch.Restart();
 
                 provider.Locations = locationEntities.ToLocationList();
 
                 locationStopwatch.Stop();
-                Trace.WriteLine($"   Converting to location list took {locationStopwatch.ElapsedMilliseconds}ms {locationStopwatch.ElapsedTicks} ticks");
+                _logger.LogDebug($"   TableStorageService::Converting to location list took {locationStopwatch.ElapsedMilliseconds}ms {locationStopwatch.ElapsedTicks} ticks");
                 
                 locationCount += locationEntities.Count;
             }
 
             stopwatch.Stop();
-            Trace.WriteLine($"Getting locations took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+            _logger.LogDebug($"TableStorageService::Getting locations took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
 
-            _logger.LogInformation($"RetrieveProviders found {providers.Count} providers with {locationCount} locations.");
+            _logger.LogInformation($"TableStorageService::RetrieveProviders found {providers.Count} providers with {locationCount} locations.");
             return providers;
         }
 

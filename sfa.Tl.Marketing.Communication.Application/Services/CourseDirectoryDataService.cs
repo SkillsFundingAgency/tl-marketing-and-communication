@@ -158,12 +158,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 var providerWebsite = providerProperty.SafeGetString("website");
 
                 stopwatch.Stop();
-                Trace.WriteLine($"Process setup took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                _logger.LogDebug($"CourseDirectoryDataService::Process setup took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
                 stopwatch.Restart();
 
                 var provider = providers.FirstOrDefault(p => p.UkPrn == ukPrn);
                 stopwatch.Stop();
-                Trace.WriteLine($"Process lookup provider {provider != null} took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                _logger.LogDebug($"CourseDirectoryDataService::Process lookup provider {provider != null} took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
                 stopwatch.Restart();
 
                 if (provider == null)
@@ -178,7 +178,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 }
 
                 stopwatch.Stop();
-                Trace.WriteLine($"Adding provider took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                _logger.LogDebug($"CourseDirectoryDataService::Adding provider took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
                 stopwatch.Restart();
 
                 if (!courseElement.TryGetProperty("locations", out var locationsProperty))
@@ -189,7 +189,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 }
 
                 stopwatch.Stop();
-                Trace.WriteLine($"Getting location took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                _logger.LogDebug($"CourseDirectoryDataService::Getting location took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
 
                 foreach (var locationElement in locationsProperty.EnumerateArray())
                 {
@@ -240,7 +240,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     }
 
                     stopwatch.Stop();
-                    Trace.WriteLine($"Processing location {location.Postcode} took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+                    _logger.LogDebug($"CourseDirectoryDataService::CourseDirectoryDataService::Processing location {location.Postcode} took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
                     stopwatch.Restart();
                 }
             }
@@ -296,7 +296,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var existingProviders = await _tableStorageService.GetAllProviders();
 
             stopwatch.Stop();
-            Trace.WriteLine($"Loading existing providers took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+            _logger.LogDebug($"CourseDirectoryDataService::Loading existing providers took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
             stopwatch.Restart();
 
             var providersToInsertOrUpdate = providers.Where(q =>
@@ -304,7 +304,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             ).ToList();
 
             stopwatch.Stop();
-            Trace.WriteLine($"ProviderIsNewOrHasChanges took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+            _logger.LogDebug($"CourseDirectoryDataService::ProviderIsNewOrHasChanges took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
             stopwatch.Restart();
 
             var providersToDelete = existingProviders.Where(q =>
@@ -312,7 +312,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             ).ToList();
 
             stopwatch.Stop();
-            Trace.WriteLine($"Get providers to delete took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+            _logger.LogDebug($"CourseDirectoryDataService::Get providers to delete took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
             stopwatch.Restart();
 
             var savedProviders = 0;
@@ -323,7 +323,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             }
 
             stopwatch.Stop();
-            Trace.WriteLine($"Saving providers took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+            _logger.LogDebug($"CourseDirectoryDataService::Saving providers took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
             stopwatch.Restart();
 
             var deletedProviders = 0;
@@ -334,7 +334,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             }
 
             stopwatch.Stop();
-            Trace.WriteLine($"Deleting providers took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+            _logger.LogDebug($"CourseDirectoryDataService::Deleting providers took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
 
             return (Saved: savedProviders, Deleted: deletedProviders);
         }
