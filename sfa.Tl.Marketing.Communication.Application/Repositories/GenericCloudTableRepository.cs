@@ -35,19 +35,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
 
         public async Task<int> Delete(IList<T> entities)
         {
-            //Need to get delete working properly - just return with 0 results for now
-            //https://www.wintellect.com/deleting-entities-in-windows-azure-table-storage/
-            //https://blog.bitscry.com/2019/03/25/efficiently-deleting-rows-from-azure-table-storage/
-            //return 0;
-
             var cloudTable = _cloudTableClient.GetTableReference(_tableName);
             if (!cloudTable.Exists())
             {
                 _logger.LogWarning($"GenericCloudTableRepository Delete: table '{_tableName}' not found. Returning 0 results.");
                 return 0;
             }
-
-            //https://stackoverflow.com/questions/26326413/delete-all-azure-table-records
 
             var deleted = 0;
             var rowOffset = 0;
@@ -60,8 +53,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
 
                 batchEntities.ForEach(x =>
                 {
-                    //Add wildcard etag
-                    x.ETag = "*";
+                    x.ETag = "*"; //Add wildcard etag
                     batchOperation.Add(TableOperation.Delete(x));
                 });
 
@@ -83,8 +75,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
                 _logger.LogWarning($"GenericCloudTableRepository DeleteAll: table '{_tableName}' not found. Returning 0 results.");
                 return 0;
             }
-
-            //https://stackoverflow.com/questions/26326413/delete-all-azure-table-records
 
             var tableQuery = new TableQuery<T>();
             var continuationToken = default(TableContinuationToken);
@@ -130,8 +120,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
                 _logger.LogWarning($"GenericCloudTableRepository DeleteByPartitionKey: table '{_tableName}' not found. Returning 0 results.");
                 return 0;
             }
-
-            //https://stackoverflow.com/questions/26326413/delete-all-azure-table-records
 
             var tableQuery = new TableQuery<T>()
                 .Where(TableQuery.GenerateFilterCondition(
@@ -219,8 +207,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             var cloudTable = _cloudTableClient.GetTableReference(_tableName);
             if (!cloudTable.Exists())
             {
-                _logger.LogWarning(
-                    $"GenericCloudTableRepository GetAll: table '{_tableName}' not found. Returning 0 results.");
+                _logger.LogWarning($"GenericCloudTableRepository GetAll: table '{_tableName}' not found. Returning 0 results.");
                 return results;
             }
 
@@ -266,16 +253,10 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             {
                 var batchOperation = new TableBatchOperation();
 
-                // next batch
                 var batchEntities = entities.Skip(rowOffset).Take(TableBatchSize).ToList();
 
                 foreach (var entity in batchEntities)
                 {
-                    //TODO: Sort out object collections
-                    // https://damieng.com/blog/2015/06/27/table-per-hierarchy-in-azure-table-storage
-                    // https://stackoverflow.com/questions/19885219/insert-complex-objects-to-azure-table-with-tableserviceentity
-                    // https://www.devprotocol.com/azure-table-storage-and-complex-types-stored-in-json/
-
                     batchOperation.InsertOrReplace(entity);
                 }
 

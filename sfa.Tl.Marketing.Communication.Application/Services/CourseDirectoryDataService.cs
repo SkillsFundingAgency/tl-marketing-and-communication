@@ -118,13 +118,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             var providers = new List<Provider>();
 
-            var stopwatch = Stopwatch.StartNew();
-
             foreach (var courseElement in jsonDoc.RootElement
                 .GetProperty("tLevels")
                 .EnumerateArray()
                 .Where(courseElement => courseElement.SafeGetString("offeringType") == "TLevel"))
             {
+                var stopwatch = Stopwatch.StartNew();
+
                 var tLevelId = courseElement.SafeGetString("tLevelId");
 
                 if (!DateTime.TryParse(courseElement.SafeGetString("startDate"), out var startDate))
@@ -157,14 +157,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 var providerName = providerProperty.SafeGetString("providerName");
                 var providerWebsite = providerProperty.SafeGetString("website");
 
-                stopwatch.Stop();
-                _logger.LogDebug($"CourseDirectoryDataService::Process setup took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
-                stopwatch.Restart();
-
                 var provider = providers.FirstOrDefault(p => p.UkPrn == ukPrn);
-                stopwatch.Stop();
-                _logger.LogDebug($"CourseDirectoryDataService::Process lookup provider {provider != null} took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
-                stopwatch.Restart();
 
                 if (provider == null)
                 {
@@ -308,8 +301,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             stopwatch.Restart();
 
             var providersToDelete = existingProviders.Where(q =>
-                    providers.All(x => x.UkPrn != q.UkPrn) //Not in new data, so add it to the delete list
-            ).ToList();
+                    providers.All(x => x.UkPrn != q.UkPrn)) //Not in new data, so add it to the delete list
+                    .ToList();
 
             stopwatch.Stop();
             _logger.LogDebug($"CourseDirectoryDataService::Get providers to delete took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
