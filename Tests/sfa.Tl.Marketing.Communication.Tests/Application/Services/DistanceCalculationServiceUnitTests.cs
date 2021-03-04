@@ -57,10 +57,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                providerLocation
             };
 
-            var actual = await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(new PostcodeLocation { Postcode = studentPostcode }, providerLocations.AsQueryable());
+            await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(new PostcodeLocation { Postcode = studentPostcode }, providerLocations.AsQueryable());
 
-            var actualProviderLocation = actual.First();
-            var roundedDistanceInMiles = (int)Math.Round(actualProviderLocation.DistanceInMiles, MidpointRounding.AwayFromZero);
+            var roundedDistanceInMiles = (int)Math.Round(providerLocation.DistanceInMiles, MidpointRounding.AwayFromZero);
             roundedDistanceInMiles.Should().Be(expectedMileageInMilesAfterRounding);
 
             await _locationApiClient.Received(1).GetGeoLocationDataAsync(studentPostcode);
@@ -85,15 +84,14 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                providerLocation
             };
 
-            var actual = await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(new PostcodeLocation
+            await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(new PostcodeLocation
             {
                 Postcode = studentPostcode,
                 Latitude = studentLat,
                 Longitude = studentLon
             }, providerLocations.AsQueryable());
 
-            var actualProviderLocation = actual.First();
-            var roundedDistanceInMiles = (int)Math.Round(actualProviderLocation.DistanceInMiles, MidpointRounding.AwayFromZero);
+            var roundedDistanceInMiles = (int)Math.Round(providerLocation.DistanceInMiles, MidpointRounding.AwayFromZero);
             roundedDistanceInMiles.Should().Be(expectedMileageInMilesAfterRounding);
         }
 
