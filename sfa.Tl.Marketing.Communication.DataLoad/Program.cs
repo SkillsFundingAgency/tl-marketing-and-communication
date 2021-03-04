@@ -8,11 +8,16 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Configuration;
-using sfa.Tl.Marketing.Communication.DataLoad.PostcodesIo;
+using Microsoft.Extensions.Logging;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using sfa.Tl.Marketing.Communication.Application.Repositories;
+using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.DataLoad.Read;
 using sfa.Tl.Marketing.Communication.DataLoad.Write;
-using JsonSerializer = System.Text.Json.JsonSerializer;
+using sfa.Tl.Marketing.Communication.Models.Dto;
+using sfa.Tl.Marketing.Communication.Models.Entities;
 
 namespace sfa.Tl.Marketing.Communication.DataLoad
 {
@@ -41,6 +46,30 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             if (string.IsNullOrWhiteSpace(outputFilePath))
                 outputFilePath = JsonOutputPath;
 
+            if (configuration.GetValue<bool>("JsonInputOnly"))
+            {
+                var tableStorageConnectionString = configuration.GetValue<string>("TableStorageConnectionString");
+                if (!string.IsNullOrEmpty(tableStorageConnectionString))
+                {
+                    var loggerFactory = new LoggerFactory();
+                    var providerDataMigrationService = new ProviderDataMigrationService(
+                        new FileReader(),
+                        CreateTableStorageService(tableStorageConnectionString, loggerFactory),
+                        loggerFactory.CreateLogger<ProviderDataMigrationService>());
+
+                    var qualificationsSaved = await providerDataMigrationService
+                        .WriteQualifications(configuration.GetValue<string>("QualificationJsonInputFilePath"));
+                    Console.WriteLine("");
+                    Console.WriteLine($"Copied {qualificationsSaved} qualifications to table storage.");
+
+                    var providersSaved = await providerDataMigrationService
+                        .WriteProviders(configuration.GetValue<string>("ProviderJsonInputFilePath"));
+                    Console.WriteLine($"Copied {providersSaved} providers to table storage.");
+
+                    return;
+                }
+            }
+
             var providerReader = new ProviderReader();
             var providerLoadResult = providerReader.ReadData(inputFilePath);
 
@@ -61,6 +90,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                 var writeData = new ProviderWriteData
                 {
                     Id = index,
+                    UkPrn = provider.First().UkPrn,
                     Name = provider.Key, //.ToTitleCase(), //Force to title case
                     Locations = GetLocationsWrite(provider)
                 };
@@ -70,7 +100,8 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             providerWrite.Providers = providerWriteData;
 
             Console.WriteLine("");
-            Console.WriteLine($"Processed {providerWrite.Providers.Count} providers. {_warningMessages.Count} warnings.");
+            Console.WriteLine(
+                $"Processed {providerWrite.Providers.Count} providers. {_warningMessages.Count} warnings.");
             Console.WriteLine($"Saving providers to {outputFilePath}");
 
             await WriteProvidersToFile(providerWrite, outputFilePath);
@@ -103,13 +134,14 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                 };
 
                 var logMessage = new StringBuilder($"  Adding location {postcode} " +
-                               $"{(string.IsNullOrWhiteSpace(venue.VenueName) ? "" : venue.VenueName + ' ')}");
+                                                   $"{(string.IsNullOrWhiteSpace(venue.VenueName) ? "" : venue.VenueName + ' ')}");
                 if (location.DeliveryYears.Any())
                 {
                     for (var i = 0; i < location.DeliveryYears.Count; i++)
                     {
                         logMessage.Append(i == 0 ? "with " : "and ");
-                        logMessage.Append($"{location.DeliveryYears[i].Qualifications.Count} {location.DeliveryYears[i].Year} ");
+                        logMessage.Append(
+                            $"{location.DeliveryYears[i].Qualifications.Count} {location.DeliveryYears[i].Year} ");
                     }
 
                     logMessage.Append("qualifications");
@@ -131,12 +163,17 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             if (responseMessage.StatusCode != HttpStatusCode.NotFound)
             {
                 responseMessage.EnsureSuccessStatusCode();
-                var response = responseMessage.Content.ReadAsAsync<PostcodeLookupResponse>().GetAwaiter()
-                    .GetResult();
 
-                return (response.result.Postcode,
-                    Convert.ToDouble(response.result.Latitude),
-                    Convert.ToDouble(response.result.Longitude));
+                var stream = responseMessage.Content.ReadAsStreamAsync()
+                    .GetAwaiter().GetResult();
+                var response = JsonSerializer
+                    .DeserializeAsync<PostcodeLookupResponse>(stream)
+                    .GetAwaiter().GetResult();
+
+                // ReSharper disable once PossibleNullReferenceException
+                return (response.Result.Postcode,
+                    response.Result.Latitude,
+                    response.Result.Longitude);
             }
             else
             {
@@ -145,12 +182,17 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
                 if (terminatedResponseMessage.StatusCode != HttpStatusCode.NotFound)
                 {
                     terminatedResponseMessage.EnsureSuccessStatusCode();
-                    var response = terminatedResponseMessage.Content.ReadAsAsync<PostcodeLookupResponse>().GetAwaiter()
-                        .GetResult();
 
-                    return (response.result.Postcode,
-                        Convert.ToDouble(response.result.Latitude),
-                        Convert.ToDouble(response.result.Longitude));
+                    var stream = terminatedResponseMessage.Content.ReadAsStreamAsync()
+                        .GetAwaiter().GetResult();
+                    var response = JsonSerializer
+                        .DeserializeAsync<PostcodeLookupResponse>(stream)
+                        .GetAwaiter().GetResult();
+
+                    // ReSharper disable once PossibleNullReferenceException
+                    return (response.Result.Postcode,
+                        response.Result.Latitude,
+                        response.Result.Longitude);
                 }
                 else
                 {
@@ -159,7 +201,8 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             }
         }
 
-        private static void AddQualification(IList<int> qualificationList, Type qualificationType, int year, ProviderReadData venue)
+        private static void AddQualification(IList<int> qualificationList, Type qualificationType, int year,
+            ProviderReadData venue)
         {
             if (qualificationList.Contains((int)qualificationType))
             {
@@ -239,6 +282,33 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
             };
 
             await JsonSerializer.SerializeAsync(fs, data, serializerOptions);
+        }
+
+        private static ITableStorageService CreateTableStorageService(
+            string tableStorageConnectionString,
+            ILoggerFactory loggerFactory)
+        {
+            var cloudStorageAccount = CloudStorageAccount.Parse(tableStorageConnectionString);
+
+            var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
+
+            var locationRepository = new GenericCloudTableRepository<LocationEntity>(
+                cloudTableClient,
+                loggerFactory.CreateLogger<GenericCloudTableRepository<LocationEntity>>());
+
+            var providerRepository = new GenericCloudTableRepository<ProviderEntity>(
+                cloudTableClient,
+                loggerFactory.CreateLogger<GenericCloudTableRepository<ProviderEntity>>());
+
+            var qualificationRepository = new GenericCloudTableRepository<QualificationEntity>(
+                        cloudTableClient,
+                        loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity>>());
+
+            return new TableStorageService(
+                locationRepository,
+                providerRepository,
+                qualificationRepository,
+                loggerFactory.CreateLogger<TableStorageService>());
         }
     }
 }

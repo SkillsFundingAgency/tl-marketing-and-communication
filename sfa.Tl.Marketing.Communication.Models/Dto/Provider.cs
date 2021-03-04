@@ -4,8 +4,8 @@ namespace sfa.Tl.Marketing.Communication.Models.Dto
 {
     public class Provider
     {
-        public int Id { get; set; }
+        public long UkPrn { get; set; }
         public string Name { get; set; }
-        public List<Location> Locations { get; set; }
+        public IList<Location> Locations { get; set; }
     }
 }

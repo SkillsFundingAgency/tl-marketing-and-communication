@@ -7,9 +7,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
     public interface IProviderDataService
     {
         IQueryable<Provider> GetProviders();
+        IQueryable<Location> GetLocations(IQueryable<Provider> providers, int? qualificationId = null);
+        IQueryable<ProviderLocation> GetProviderLocations(IQueryable<Location> locations, IQueryable<Provider> providers);
+
         IEnumerable<Qualification> GetQualifications();
         IEnumerable<Qualification> GetQualifications(int[] qualificationIds);
         Qualification GetQualification(int qualificationId);
+        
         IEnumerable<string> GetWebsiteUrls();
     }
 }

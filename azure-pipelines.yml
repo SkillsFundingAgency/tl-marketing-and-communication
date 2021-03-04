@@ -16,7 +16,7 @@ variables:
 
 pool:
   name: 'Azure Pipelines'
-  vmImage: 'ubuntu-16.04'
+  vmImage: 'ubuntu-18.04'
 
 steps:
 - task: gittools.gitversion.gitversion-task.GitVersion@5
@@ -34,9 +34,9 @@ steps:
       gulpFile: sfa.Tl.Marketing.Communication/gulpfile.js
 
 - task: UseDotNet@2 
-  displayName: ".NET Core 3.1.x"
+  displayName: ".NET Core 3.x"
   inputs:
-      version: '3.1.x'
+      version: '3.x'
       packageType: sdk
 
 - task: DotNetCoreCLI@2
@@ -64,6 +64,7 @@ steps:
 
 - task: DotNetCoreCLI@2
   displayName: 'Integration Tests'
+  enabled: false
   continueOnError: true
   timeoutInMinutes: 35
   inputs:

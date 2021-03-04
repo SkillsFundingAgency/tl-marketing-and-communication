@@ -9,6 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sfa.Tl.Marketing.Communicat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A007862C-B507-4A5D-81DB-498AE9C2D6F6}"
 	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
 		NuGet.config = NuGet.config
 		README.md = README.md
 	EndProjectSection
@@ -19,13 +20,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sfa.Tl.Marketing.Communicat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C128B70E-3F04-4E97-8DD6-A6DFA04E9DC9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sfa.Tl.Marketing.Communication.UnitTests", "Tests\sfa.Tl.Marketing.Communication.Application.Tests\sfa.Tl.Marketing.Communication.UnitTests.csproj", "{18D26CBE-16C9-4C42-96F6-B43448BEFB6C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sfa.Tl.Marketing.Communication.IntegrationTests", "sfa.Tl.Marketing.Communication.IntegrationTests\sfa.Tl.Marketing.Communication.IntegrationTests.csproj", "{109C8FB4-6064-4647-B949-EEE587D5D3EC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sfa.Tl.Marketing.Communication.Functions.Tests", "sfa.Tl.Marketing.Communication.Functions.Tests\sfa.Tl.Marketing.Communication.Functions.Tests.csproj", "{DFF60F7B-9E3F-40AC-966C-2B04C16A1768}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sfa.Tl.Marketing.Communication.Functions", "sfa.Tl.Marketing.Communication.Functions\sfa.Tl.Marketing.Communication.Functions.csproj", "{E45114BD-72EF-4E6E-B5AC-3DA26BFD3408}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sfa.Tl.Marketing.Communication.Functions.UnitTests", "Tests\sfa.Tl.Marketing.Communication.Functions.UnitTests\sfa.Tl.Marketing.Communication.Functions.UnitTests.csproj", "{427EEBF6-565F-401C-A55F-F9311E03E56F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sfa.Tl.Marketing.Communication.IntegrationTests", "Tests\sfa.Tl.Marketing.Communication.IntegrationTests\sfa.Tl.Marketing.Communication.IntegrationTests.csproj", "{319002A0-B727-44F9-95B1-4B8F7395247D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sfa.Tl.Marketing.Communication.UnitTests", "Tests\sfa.Tl.Marketing.Communication.Tests\sfa.Tl.Marketing.Communication.UnitTests.csproj", "{ACADDEFC-B384-46B3-A194-7054D19CCD51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,30 +50,30 @@ Global
 		{693FC029-D644-41AD-8723-921499C6FBCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{693FC029-D644-41AD-8723-921499C6FBCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{693FC029-D644-41AD-8723-921499C6FBCC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{18D26CBE-16C9-4C42-96F6-B43448BEFB6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{18D26CBE-16C9-4C42-96F6-B43448BEFB6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{18D26CBE-16C9-4C42-96F6-B43448BEFB6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{18D26CBE-16C9-4C42-96F6-B43448BEFB6C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{109C8FB4-6064-4647-B949-EEE587D5D3EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{109C8FB4-6064-4647-B949-EEE587D5D3EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{109C8FB4-6064-4647-B949-EEE587D5D3EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{109C8FB4-6064-4647-B949-EEE587D5D3EC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DFF60F7B-9E3F-40AC-966C-2B04C16A1768}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFF60F7B-9E3F-40AC-966C-2B04C16A1768}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFF60F7B-9E3F-40AC-966C-2B04C16A1768}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFF60F7B-9E3F-40AC-966C-2B04C16A1768}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E45114BD-72EF-4E6E-B5AC-3DA26BFD3408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E45114BD-72EF-4E6E-B5AC-3DA26BFD3408}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E45114BD-72EF-4E6E-B5AC-3DA26BFD3408}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E45114BD-72EF-4E6E-B5AC-3DA26BFD3408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{427EEBF6-565F-401C-A55F-F9311E03E56F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{427EEBF6-565F-401C-A55F-F9311E03E56F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{427EEBF6-565F-401C-A55F-F9311E03E56F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{427EEBF6-565F-401C-A55F-F9311E03E56F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{319002A0-B727-44F9-95B1-4B8F7395247D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{319002A0-B727-44F9-95B1-4B8F7395247D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{319002A0-B727-44F9-95B1-4B8F7395247D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{319002A0-B727-44F9-95B1-4B8F7395247D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACADDEFC-B384-46B3-A194-7054D19CCD51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACADDEFC-B384-46B3-A194-7054D19CCD51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACADDEFC-B384-46B3-A194-7054D19CCD51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACADDEFC-B384-46B3-A194-7054D19CCD51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{18D26CBE-16C9-4C42-96F6-B43448BEFB6C} = {C128B70E-3F04-4E97-8DD6-A6DFA04E9DC9}
-		{109C8FB4-6064-4647-B949-EEE587D5D3EC} = {C128B70E-3F04-4E97-8DD6-A6DFA04E9DC9}
-		{DFF60F7B-9E3F-40AC-966C-2B04C16A1768} = {C128B70E-3F04-4E97-8DD6-A6DFA04E9DC9}
+		{427EEBF6-565F-401C-A55F-F9311E03E56F} = {C128B70E-3F04-4E97-8DD6-A6DFA04E9DC9}
+		{319002A0-B727-44F9-95B1-4B8F7395247D} = {C128B70E-3F04-4E97-8DD6-A6DFA04E9DC9}
+		{ACADDEFC-B384-46B3-A194-7054D19CCD51} = {C128B70E-3F04-4E97-8DD6-A6DFA04E9DC9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {53DC62EF-3875-4150-A4D2-ED8A1F34745E}

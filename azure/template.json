@@ -5,7 +5,7 @@
         "resourceEnvironmentName": {
             "type": "string",
             "metadata": {
-                "description": "Enviroment Designation"
+                "description": "Environment Designation"
             }
         },
         "serviceName": {
@@ -54,6 +54,21 @@
             "type": "securestring"
         },
         "govNotifyApiKey": {
+            "type": "string"
+        },
+        "tableStorageConnectionString": {
+            "type": "string"
+        },
+        "cacheExpiryInSeconds": {
+            "type": "int"
+        },
+        "courseDirectoryApiKey": {
+            "type": "string"
+        },
+        "courseDirectoryApiBaseUri": {
+            "type": "string"
+        },
+        "courseDirectoryImportTrigger": {
             "type": "string"
         }
     },
@@ -199,8 +214,16 @@
                                 "value": "[parameters('googleMapsApiKey')]"
                             },
                             {
-                                "name": "GovNotifyApiKey",
-                                "value": "[parameters('govNotifyApiKey')]"
+                              "name": "GovNotifyApiKey",
+                              "value": "[parameters('govNotifyApiKey')]"
+                            },
+                            {
+                              "name": "TableStorageConnectionString",
+                              "value": "[parameters('tableStorageConnectionString')]"
+                            },
+                            {
+                              "name": "CacheExpiryInSeconds",
+                              "value": "[parameters('cacheExpiryInSeconds')]"
                             }
                         ]
                     },
@@ -243,28 +266,44 @@
                         "value": "[variables('ResourceGroup')]"
                     },
                     "functionAppAppSettings": {
-                        "value": [
-                            {
-                                "name": "FUNCTIONS_EXTENSION_VERSION",
-                                "value": "~3"
-                            },
-                            {
-                                "name": "FUNCTIONS_WORKER_RUNTIME",
-                                "value": "dotnet"
-                            },
-                            {
-                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                "value": "[reference('app-insights').outputs.InstrumentationKey.value]"
-                            },
-                            {
-                                "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
-                                "value": "[concat('InstrumentationKey=', reference('app-insights').outputs.InstrumentationKey.value, ';IngestionEndpoint=https://westeurope-0.in.applicationinsights.azure.com/')]"
-                            },                            
-                            {
-                                "name": "AzureWebJobsStorage",
-                                "value": "[reference('storage-account').outputs.storageConnectionString.value]"
-                            }
-                        ]
+                      "value": [
+                        {
+                          "name": "FUNCTIONS_EXTENSION_VERSION",
+                          "value": "~3"
+                        },
+                        {
+                          "name": "FUNCTIONS_WORKER_RUNTIME",
+                          "value": "dotnet"
+                        },
+                        {
+                          "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                          "value": "[reference('app-insights').outputs.InstrumentationKey.value]"
+                        },
+                        {
+                          "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+                          "value": "[concat('InstrumentationKey=', reference('app-insights').outputs.InstrumentationKey.value, ';IngestionEndpoint=https://westeurope-0.in.applicationinsights.azure.com/')]"
+                        },
+                        {
+                          "name": "AzureWebJobsStorage",
+                          "value": "[reference('storage-account').outputs.storageConnectionString.value]"
+                        },
+                        {
+                          "name": "CourseDirectoryApiKey",
+                          "value": "[parameters('courseDirectoryApiKey')]"
+                        },
+                        {
+                          "name": "CourseDirectoryApiBaseUri",
+                          "value": "[parameters('courseDirectoryApiBaseUri')]"
+                        },
+                        {
+                          "name": "CourseDirectoryImportTrigger",
+                          "value": "[parameters('courseDirectoryImportTrigger')]"
+                        },
+                        {
+                          "name": "TableStorageConnectionString",
+                          "value": "[parameters('tableStorageConnectionString')]"
+                        }
+                      ]
                     }
                 }
             }

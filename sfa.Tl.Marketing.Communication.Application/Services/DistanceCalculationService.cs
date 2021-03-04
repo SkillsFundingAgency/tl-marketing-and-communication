@@ -16,7 +16,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public DistanceCalculationService(ILocationApiClient locationApiClient)
         {
-            _locationApiClient = locationApiClient;
+            _locationApiClient = locationApiClient ?? throw new ArgumentNullException(nameof(locationApiClient));
         }
 
         public double CalculateDistanceInMiles(double lat1, double lon1, double lat2, double lon2)
@@ -32,16 +32,16 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             double latitude;
             double longitude;
-            if (string.IsNullOrWhiteSpace(origin.Latitude) || string.IsNullOrWhiteSpace(origin.Latitude))
+            if (!origin.Latitude.HasValue || !origin.Longitude.HasValue)
             {
                 var originGeoLocation = await _locationApiClient.GetGeoLocationDataAsync(origin.Postcode);
-                latitude = Convert.ToDouble(originGeoLocation.Latitude);
-                longitude = Convert.ToDouble(originGeoLocation.Longitude);
+                latitude = originGeoLocation.Latitude;
+                longitude = originGeoLocation.Longitude;
             }
             else
             {
-                latitude = Convert.ToDouble(origin.Latitude);
-                longitude = Convert.ToDouble(origin.Longitude);
+                latitude = origin.Latitude.Value;
+                longitude = origin.Longitude.Value;
             }
 
             var results = new List<ProviderLocation>();
@@ -61,12 +61,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             var location = await _locationApiClient.GetGeoLocationDataAsync(postcode);
             return (location != null,
-                new PostcodeLocation
-                {
-                    Postcode = location?.Postcode,
-                    Latitude = location?.Latitude,
-                    Longitude = location?.Longitude
-                });
+                    new PostcodeLocation
+                    {
+                        Postcode = location?.Postcode,
+                        Latitude = location?.Latitude,
+                        Longitude = location?.Longitude
+                    });
         }
     }
 }

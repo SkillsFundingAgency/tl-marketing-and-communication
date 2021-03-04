@@ -21,12 +21,13 @@ namespace sfa.Tl.Marketing.Communication.Models
 
         public string RedirectUrlLabel => $"Visit {VenueName}'s website";
 
-        public string VenueName => string.IsNullOrEmpty(Name) ? ProviderName : Name;
+        public string VenueName => string.IsNullOrEmpty(Name) || Name == ProviderName
+                    ? ProviderName
+                    : Name;
 
-        public string AddressLabel => string.IsNullOrEmpty(Name) ? $"{Town} | {Postcode}" : $"Part of {ProviderName} \r\n {Town} | {Postcode}";
+        public string AddressLabel => $"{Town} | {Postcode}";
 
         public bool HasFocus { get; set; }
-        public string Autofocus => HasFocus ? "autofocus" : string.Empty;
 
         public string JourneyUrl { get; set; }
     }

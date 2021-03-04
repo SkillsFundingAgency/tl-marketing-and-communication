@@ -11,9 +11,14 @@ using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos.Table;
+using Microsoft.Extensions.Logging;
 using Notify.Client;
 using Notify.Interfaces;
+using sfa.Tl.Marketing.Communication.Application.Repositories;
 
 namespace sfa.Tl.Marketing.Communication
 {
@@ -21,35 +26,49 @@ namespace sfa.Tl.Marketing.Communication
     {
         public IConfiguration Configuration { get; }
         protected ConfigurationOptions SiteConfiguration;
+        private readonly ILogger _logger;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
+        public Startup(IConfiguration configuration, ILogger<Startup> logger, IWebHostEnvironment webHostEnvironment)
         {
             Configuration = configuration;
+            _logger = logger;
             _webHostEnvironment = webHostEnvironment;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            if(!int.TryParse(Configuration["CacheExpiryInSeconds"], out var cacheExpiryInSeconds))
+            {
+                cacheExpiryInSeconds = 60;
+            }
+
             SiteConfiguration = new ConfigurationOptions
             {
+                CacheExpiryInSeconds = cacheExpiryInSeconds,
                 PostcodeRetrieverBaseUrl = Configuration["PostcodeRetrieverBaseUrl"],
                 EmployerContactEmailTemplateId = Configuration["EmployerContactEmailTemplateId"],
                 SupportEmailInboxAddress = Configuration["SupportEmailInboxAddress"],
                 ProvidersDataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\providers.json",
-                QualificationsDataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\qualifications.json"
+                QualificationsDataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\qualifications.json",
+                StorageConfiguration = new StorageSettings
+                {
+                    TableStorageConnectionString = Configuration[ConfigurationKeys.TableStorageConnectionStringConfigKey]
+                }
             };
+
+            services.AddApplicationInsightsTelemetry();
 
             services.AddSingleton(SiteConfiguration);
 
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
+                options.CheckConsentNeeded = _ => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            
+
             services.AddAntiforgery(options =>
             {
                 options.Cookie.Name = "tlevels-mc-x-csrf";
@@ -68,7 +87,7 @@ namespace sfa.Tl.Marketing.Communication
                 {
                     config.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
                 });
-            
+
             if (_webHostEnvironment.IsDevelopment())
             {
                 mvcBuilder.AddRazorRuntimeCompilation();
@@ -84,7 +103,11 @@ namespace sfa.Tl.Marketing.Communication
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        // ReSharper disable once UnusedMember.Global
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            //TODO: Remove the following parameters after NCS data is imported via API 
+            IProviderDataMigrationService providerDataMigrationService,
+            ITableStorageService tableStorageService)
         {
             if (env.IsDevelopment())
             {
@@ -103,7 +126,7 @@ namespace sfa.Tl.Marketing.Communication
 
             app.UseCsp(options => options.ScriptSources(s => s
                         //.StrictDynamic()
-                        .CustomSources("https:", 
+                        .CustomSources("https:",
                             "https://www.google-analytics.com/analytics.js",
                             "https://www.googletagmanager.com/",
                             "https://tagmanager.google.com/",
@@ -115,13 +138,16 @@ namespace sfa.Tl.Marketing.Communication
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            //TODO: Remove this after NCS data is imported via API 
+            PreloadProviderAndQualificationTableData(providerDataMigrationService, tableStorageService).Wait();
         }
 
         protected virtual void RegisterHttpClients(IServiceCollection services)
@@ -136,16 +162,52 @@ namespace sfa.Tl.Marketing.Communication
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IDistanceCalculationService, DistanceCalculationService>();
             services.AddTransient<IJourneyService, JourneyService>();
-            services.AddTransient<ILocationService, LocationService>();
-            services.AddTransient<IProviderLocationService, ProviderLocationService>();
             services.AddTransient<IProviderSearchService, ProviderSearchService>();
             services.AddTransient<ISearchPipelineFactory, SearchPipelineFactory>();
             services.AddTransient<IProviderSearchEngine, ProviderSearchEngine>();
 
+            //TODO: Remove this after NCS data is imported from API 
+            services.AddTransient<IProviderDataMigrationService, ProviderDataMigrationService>();
+
+            var cloudStorageAccount =
+                CloudStorageAccount.Parse(SiteConfiguration.StorageConfiguration.TableStorageConnectionString);
+            services.AddSingleton(cloudStorageAccount);
+            var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
+            services.AddSingleton(cloudTableClient);
+
+            services.AddTransient(typeof(ICloudTableRepository<>), typeof(GenericCloudTableRepository<>));
+
+            services.AddTransient<ITableStorageService, TableStorageService>();
+            
             var govNotifyApiKey = Configuration["GovNotifyApiKey"];
             services.AddTransient<IAsyncNotificationClient, NotificationClient>(
-                provider => 
-                    new NotificationClient(govNotifyApiKey));
+                _ => new NotificationClient(govNotifyApiKey));
+        }
+
+        //TODO: Remove this after NCS data is imported via API 
+        private async Task PreloadProviderAndQualificationTableData(
+            IProviderDataMigrationService providerDataMigrationService,
+            ITableStorageService tableStorageService)
+        {
+            try
+            {
+                var existingQualifications = await tableStorageService.GetAllQualifications();
+                var existingProviders = await tableStorageService.GetAllProviders();
+                if (existingQualifications.Any() && existingProviders.Any())
+                    return;
+
+                _logger.LogInformation("Migrating providers and qualifications to table storage");
+                
+                var savedQualifications = await providerDataMigrationService.WriteQualifications(SiteConfiguration.QualificationsDataFilePath);
+                _logger.LogInformation($"Saved {savedQualifications} qualifications to table storage");
+                
+                var savedProviders = await providerDataMigrationService.WriteProviders(SiteConfiguration.ProvidersDataFilePath);
+                _logger.LogInformation($"Saved {savedProviders} providers to table storage");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to save qualifications or providers to table storage");
+            }
         }
     }
 }

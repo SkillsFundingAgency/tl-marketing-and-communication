@@ -1,25 +1,43 @@
-﻿using sfa.Tl.Marketing.Communication.Application.Interfaces;
-using sfa.Tl.Marketing.Communication.Models.Configuration;
+﻿using System;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+using sfa.Tl.Marketing.Communication.Application.Extensions;
+using sfa.Tl.Marketing.Communication.Models.Configuration;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services
 {
     public class ProviderDataService : IProviderDataService
     {
-        private readonly IFileReader _fileReader;
-        private readonly ConfigurationOptions _configurationOptions;
-        private readonly JsonDocument _providersData;
-        private readonly JsonDocument _qualificationsData;
+        public const string ProviderTableDataCacheKey = "Provider_Table_Data";
+        public const string QualificationTableDataCacheKey = "Qualification_Table_Data";
+        private readonly int _cacheExpiryInSeconds;
 
-        public ProviderDataService(IFileReader fileReader, ConfigurationOptions configurationOptions)
+        private readonly IMemoryCache _cache;
+        private readonly ITableStorageService _tableStorageService;
+        private readonly ILogger<ProviderDataService> _logger;
+
+        private static readonly IDictionary<string, VenueNameOverride> VenueNameOverrides;
+
+        static ProviderDataService()
         {
-            _fileReader = fileReader;
-            _configurationOptions = configurationOptions;
-            _providersData = GetProvidersData();
-            _qualificationsData = GetQualificationsData();
+            VenueNameOverrides = GetVenueNameOverrides();
+        }
+        
+        public ProviderDataService(
+            ITableStorageService tableStorageService,
+            IMemoryCache cache,
+            ILogger<ProviderDataService> logger,
+            ConfigurationOptions configuration)
+        {
+            _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
+            _cache = cache ?? throw new ArgumentNullException(nameof(cache));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _cacheExpiryInSeconds = configuration?.CacheExpiryInSeconds ?? 60;
         }
 
         public IQueryable<Provider> GetProviders()
@@ -27,10 +45,52 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return GetAllProviders();
         }
 
+        public IQueryable<Location> GetLocations(IQueryable<Provider> providers, int? qualificationId = null)
+        {
+            return qualificationId > 0
+                ? providers.SelectMany(p => p.Locations)
+                    .Where(l => l.DeliveryYears.Any(d => d.Qualifications.Contains(qualificationId.Value)))
+                : providers.SelectMany(p => p.Locations);
+        }
+
+        public IQueryable<ProviderLocation> GetProviderLocations(IQueryable<Location> locations, IQueryable<Provider> providers)
+        {
+            return locations.Select(l => new
+                {
+                    Location = l,
+                    Provider = providers.Single(parent => parent.Locations.Contains(l))
+                })
+                .Select(pl => new ProviderLocation
+                {
+                    ProviderName = pl.Provider.Name,
+                    Name = pl.Location.Name,
+                    Latitude = pl.Location.Latitude,
+                    Longitude = pl.Location.Longitude,
+                    Postcode = pl.Location.Postcode,
+                    Town = pl.Location.Town,
+                    Website = pl.Location.Website,
+                    DeliveryYears = pl.Location.DeliveryYears != null
+                        ? pl.Location.DeliveryYears
+                            .Select(d => new DeliveryYear
+                            {
+                                Year = d.Year,
+                                Qualifications = d.Qualifications != null ?
+                                    GetQualifications(d.Qualifications.ToArray())
+                                    : new List<Qualification>()
+                            })
+                            .OrderBy(d => d.Year)
+                            .ToList()
+                        : new List<DeliveryYear>()
+                })
+                .Where(pl => pl.DeliveryYears.Any(y => y.Qualifications.Any()));
+        }
+
         public IEnumerable<Qualification> GetQualifications(int[] qualificationIds)
         {
             var qualifications = GetAllQualifications();
-            return qualifications.Where(q => qualificationIds.Contains(q.Id));
+            return qualifications
+                .Where(q => qualificationIds.Contains(q.Id))
+                .OrderBy(q => q.Name);
         }
 
         public Qualification GetQualification(int qualificationId)
@@ -46,18 +106,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return qualifications;
         }
 
-        private JsonDocument GetProvidersData()
-        {
-            var json = _fileReader.ReadAllText(_configurationOptions.ProvidersDataFilePath);
-            return JsonDocument.Parse(json);
-        }
-
-        private JsonDocument GetQualificationsData()
-        {
-            var json = _fileReader.ReadAllText(_configurationOptions.QualificationsDataFilePath);
-            return JsonDocument.Parse(json);
-        }
-        
         public IEnumerable<string> GetWebsiteUrls()
         {
             var urlList = new List<string>();
@@ -78,59 +126,76 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private IQueryable<Qualification> GetAllQualifications()
         {
-            return _qualificationsData
-                .RootElement
-                .GetProperty("qualifications")
-                .EnumerateObject()
-                .Select(q =>
-                    new Qualification
-                    {
-                        Id = int.Parse(q.Name),
-                        Name = q.Value.GetString()
-                    })
-                .AsQueryable();
+            if (!_cache.TryGetValue(QualificationTableDataCacheKey,
+                out IList<Qualification> qualifications))
+            {
+                qualifications = _tableStorageService.GetAllQualifications().GetAwaiter().GetResult();
+                _cache.Set(QualificationTableDataCacheKey, qualifications, GetCacheOptions());
+            }
+
+            return qualifications.AsQueryable();
         }
 
         private IQueryable<Provider> GetAllProviders()
         {
-            var providers = _providersData
-                .RootElement
-                .GetProperty("providers")
-                .EnumerateArray()
-                .Select(p =>
-                    new Provider
+            if (!_cache.TryGetValue(ProviderTableDataCacheKey,
+                out IList<Provider> providers))
+            {
+                providers = _tableStorageService.GetAllProviders().GetAwaiter().GetResult();
+
+                //Override location/venue names
+                foreach (var provider in providers)
+                {
+                    foreach (var location in provider.Locations)
                     {
-                        Id = p.GetProperty("id").GetInt32(),
-                        Name = p.GetProperty("name").GetString(),
-                        Locations = p.GetProperty("locations")
-                            .EnumerateArray()
-                            .Select(l =>
-                                new Location
-                                {
-                                    Postcode = l.GetProperty("postcode").GetString(),
-                                    Name = l.GetProperty("name").GetString(),
-                                    Town = l.GetProperty("town").GetString(),
-                                    Latitude = l.GetProperty("latitude").GetDouble(),
-                                    Longitude = l.GetProperty("longitude").GetDouble(),
-                                    Website = l.GetProperty("website").GetString(),
-                                    DeliveryYears = l.TryGetProperty("deliveryYears", out var deliveryYears)
-                                        ? deliveryYears.EnumerateArray()
-                                            .Select(d =>
-                                                new DeliveryYearDto
-                                                { 
-                                                    Year = d.GetProperty("year").GetInt16(),
-                                                    Qualifications = d.GetProperty("qualifications")
-                                                        .EnumerateArray()
-                                                        .Select(q => q.GetInt32())
-                                                        .ToList()
-                                                })
-                                            .ToList()
-                                        : new List<DeliveryYearDto>()
-                                }).ToList()
-                    })
-                .ToList();
+                        if (VenueNameOverrides
+                                .TryGetValue($"{provider.UkPrn}{location.Postcode}",
+                                    out var venueNameItem)
+                            && location.Name != venueNameItem.VenueName)
+                        {
+                            _logger.LogInformation("Overriding venue name for " +
+                                                   $"{provider.Name} {location.Postcode} " +
+                                                   $"from {location.Name} to {venueNameItem.VenueName}");
+                            location.Name = venueNameItem.VenueName;
+                        }
+                    }
+                }
+                _cache.Set(ProviderTableDataCacheKey, providers, GetCacheOptions());
+            }
 
             return providers.AsQueryable();
         }
+
+        private MemoryCacheEntryOptions GetCacheOptions()
+        {
+            var options = new MemoryCacheEntryOptions();
+            if (_cacheExpiryInSeconds > 0)
+                options.SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpiryInSeconds));
+            return options;
+        }
+
+        private static IDictionary<string, VenueNameOverride> GetVenueNameOverrides()
+        {
+            var venueNameData = JsonSerializer
+                .Deserialize<IList<VenueNameOverride>>(
+                    "sfa.Tl.Marketing.Communication.Application.Data.VenueNames.json"
+                        .ReadManifestResourceStreamAsString(),
+                    new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
+
+            var venueNameOverrides = new Dictionary<string, VenueNameOverride>();
+            if (venueNameData != null)
+            {
+                foreach (var venueName in venueNameData)
+                {
+                    venueNameOverrides[$"{venueName.UkPrn}{venueName.Postcode}"] = venueName;
+                }
+            }
+
+            return venueNameOverrides;
+        }
+
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
+using sfa.Tl.Marketing.Communication.Constants;
 
 namespace sfa.Tl.Marketing.Communication.Models
 {
@@ -20,13 +21,9 @@ namespace sfa.Tl.Marketing.Communication.Models
         {
             get
             {
-                var showNext = ProviderLocations.Count() >= 5;
-                
-                if (TotalRecordCount.HasValue && NumberOfItemsToShow.HasValue && showNext)
-                {
-                    showNext = TotalRecordCount.Value != NumberOfItemsToShow.Value;
-                }
-
+                var showNext = ProviderLocations.Count() >= AppConstants.DefaultNumberOfItemsToShow
+                               && TotalRecordCount.HasValue && NumberOfItemsToShow.HasValue
+                               && TotalRecordCount.Value > NumberOfItemsToShow.Value;
                 return showNext;
             } 
         }

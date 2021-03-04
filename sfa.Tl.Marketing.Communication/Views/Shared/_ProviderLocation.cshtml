@@ -10,7 +10,7 @@
 
     @if (Model.DeliveryYears.Any())
     {
-        foreach (var deliveryYear in Model.DeliveryYears)
+        foreach (var deliveryYear in Model.DeliveryYears.Where(dy => dy.Qualifications != null && dy.Qualifications.Any()))
         {
             <h5><strong>From September @deliveryYear.Year onwards:</strong></h5>
             <ul>

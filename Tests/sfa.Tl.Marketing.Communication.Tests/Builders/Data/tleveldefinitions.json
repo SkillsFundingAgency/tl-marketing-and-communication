@@ -1,0 +1,74 @@
+{
+  "tLevelDefinitions": [
+    {
+      "tLevelDefinitionId": "1d1fcdec-6f23-4a0a-973a-aafc04608aee",
+      "frameworkCode": 45,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level Construction - Building services engineering for construction"
+    },
+    {
+      "tLevelDefinitionId": "fc9fefe1-ee86-4df9-9d09-c275ccbf5940",
+      "frameworkCode": 36,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level Construction - Design, Surveying and Planning for Construction"
+    },
+    {
+      "tLevelDefinitionId": "4c96995d-1193-44c8-a618-85b37890e8ce",
+      "frameworkCode": 44,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level Construction - Onsite construction"
+    },
+    {
+      "tLevelDefinitionId": "3eef6d40-ecf1-44f0-a487-d87bfceba2cb",
+      "frameworkCode": 39,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level Digital - Digital Business Services"
+    },
+    {
+      "tLevelDefinitionId": "9555d14f-f73b-495c-91c3-4703691c6347",
+      "frameworkCode": 37,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level Digital - Digital Production, Design and Development"
+    },
+    {
+      "tLevelDefinitionId": "8ef596aa-966e-4b74-a352-871a9db63a77",
+      "frameworkCode": 40,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level Digital - Digital Support Services"
+    },
+    {
+      "tLevelDefinitionId": "c1bc1361-cda3-42a3-9120-a08cdb78dba0",
+      "frameworkCode": 38,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level Education - Education and Childcare"
+    },
+    {
+      "tLevelDefinitionId": "37832d20-eb95-48f2-817c-7e6984f73645",
+      "frameworkCode": 41,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level Health and Science - Health"
+    },
+    {
+      "tLevelDefinitionId": "b27853ff-bfbb-42fd-9e85-638abe600d25",
+      "frameworkCode": 42,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level Health and Science - Healthcare Science"
+    },
+    {
+      "tLevelDefinitionId": "408f4244-c86c-49cd-8ea6-80475f9a4853",
+      "frameworkCode": 43,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level Health and Science - Science"
+    }
+  ]
+}
