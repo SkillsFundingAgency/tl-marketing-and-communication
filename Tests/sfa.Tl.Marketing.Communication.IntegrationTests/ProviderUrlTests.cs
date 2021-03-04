@@ -1,4 +1,3 @@
-using sfa.Tl.Marketing.Communication.Application.GeoLocations;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
@@ -23,7 +22,7 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
 {
     public class ProviderUrlTests
     {
-        private readonly IProviderSearchService _providerSearchService;
+        private readonly IProviderDataService _providerDataService;
         private readonly ITestOutputHelper _outputHelper;
 
         public ProviderUrlTests(ITestOutputHelper outputHelper)
@@ -42,17 +41,14 @@ namespace sfa.Tl.Marketing.Communication.IntegrationTests
                 loggerFactory);
 
             var configuration = new ConfigurationOptions();
-            IProviderDataService providerDataService = new ProviderDataService(tableStorageService, cache, providerDataServiceLogger, configuration);
-            var journeyService = new JourneyService();
-            var distanceCalculationService = new DistanceCalculationService(new LocationApiClient(new HttpClient(), configurationOptions));
-            _providerSearchService = new ProviderSearchService(providerDataService, journeyService, distanceCalculationService);
+            _providerDataService = new ProviderDataService(tableStorageService, cache, providerDataServiceLogger, configuration);
         }
 
         [Fact]
         public async Task Check_If_a_Provider_Website_Is_Broken()
         {
             var distinctProviderUrls =
-                (from r in _providerSearchService.GetAllProviderLocations()
+                (from r in _providerDataService.GetAllProviderLocations()
                  group r by new { r.ProviderName, r.Website } into g
                  orderby g.Key.ProviderName
                  select (g.Key.ProviderName, g.Key.Website)

@@ -85,6 +85,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 .Where(pl => pl.DeliveryYears.Any(y => y.Qualifications.Any()));
         }
 
+        public IEnumerable<ProviderLocation> GetAllProviderLocations()
+        {
+            var providers = GetProviders();
+            var locations = GetLocations(providers);
+            return GetProviderLocations(locations, providers);
+        }
+
         public IEnumerable<Qualification> GetQualifications(int[] qualificationIds)
         {
             var qualifications = GetAllQualifications();
@@ -196,6 +203,5 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             return venueNameOverrides;
         }
-
     }
 }

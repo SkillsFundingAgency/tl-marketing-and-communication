@@ -29,13 +29,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return qualifications.OrderBy(q => q.Name);
         }
 
-        public IEnumerable<ProviderLocation> GetAllProviderLocations()
-        {
-            var providers = _providerDataService.GetProviders();
-            var locations = _providerDataService.GetLocations(providers);
-            return _providerDataService.GetProviderLocations(locations, providers);
-        }
-
         public async Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(SearchRequest searchRequest)
         {
             var providers = _providerDataService.GetProviders();
