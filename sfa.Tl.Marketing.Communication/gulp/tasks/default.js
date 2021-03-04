@@ -15,11 +15,6 @@ gulp.task('assets', () => {
         .pipe(gulp.dest(paths.dist.Assets));
 });
 
-gulp.task('json', () => {
-    return src(paths.src.Json)
-        .pipe(gulp.dest(paths.dist.Json));
-});
-
 gulp.task('js', () => {
     return src([
         'node_modules/jquery/dist/jquery.min.js',

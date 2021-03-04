@@ -5,18 +5,18 @@ var gulp = require('gulp');
 require('./gulp/tasks/default');
 require('./gulp/tasks/dev');
 
-gulp.task('default', gulp.series('assets', 'sass', 'js', 'json', 'sitemap',
+gulp.task('default', gulp.series('assets', 'sass', 'js', 'sitemap',
     (done) => {
         done();
     }));
 
-gulp.task('dev', gulp.series('assets', 'dev.sass', 'dev.js', 'json', 'sitemap',
+gulp.task('dev', gulp.series('assets', 'dev.sass', 'dev.js', 'sitemap',
     (done) => {
         done();
     }));
 
 
-gulp.task('devwatch', gulp.series('assets', 'dev.sass', 'dev.js', 'json', 'sitemap', 'dev.sass:watch',
+gulp.task('devwatch', gulp.series('assets', 'dev.sass', 'dev.js', 'sitemap', 'dev.sass:watch',
     (done) => {
         done();
     }));
