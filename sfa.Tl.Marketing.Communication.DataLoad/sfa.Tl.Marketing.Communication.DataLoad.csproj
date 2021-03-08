@@ -6,17 +6,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Provider Data\providers.json" />
-    <None Remove="Provider Data\qualifications.json" />
+    <Compile Remove="Extensions\**" />
+    <EmbeddedResource Remove="Extensions\**" />
+    <None Remove="Extensions\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Provider Data\providers.json">
+    <None Remove="Data\providers.json" />
+    <None Remove="Data\qualifications.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\providers.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Include="Provider Data\qualifications.json">
+    <Content Include="Data\qualifications.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -40,10 +46,6 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extensions\" />
   </ItemGroup>
 
 </Project>

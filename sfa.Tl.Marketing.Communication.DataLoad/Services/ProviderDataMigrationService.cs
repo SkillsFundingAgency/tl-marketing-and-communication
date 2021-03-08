@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace sfa.Tl.Marketing.Communication.DataLoad.Write
+namespace sfa.Tl.Marketing.Communication.DataLoad.Services
 {
     public class ProviderDataMigrationService
     {
