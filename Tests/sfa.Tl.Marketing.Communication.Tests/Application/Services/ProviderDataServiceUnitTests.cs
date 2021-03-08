@@ -118,20 +118,28 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public void GetQualifications_By_Ids_Returns_Qualifications_By_Ids()
         {
-            var ids = new[] { 3, 4, 5 };
+            var ids = new[] { 37, 39, 40 };
             var results = _providerDataService.GetQualifications(ids).ToList();
 
             results.Count.Should().Be(3);
-            results.Single(q => q.Id == 3).Should().NotBeNull();
-            results.Single(q => q.Id == 4).Should().NotBeNull();
-            results.Single(q => q.Id == 5).Should().NotBeNull();
+            results.SingleOrDefault(q => q.Id == 37).Should().NotBeNull();
+            results.SingleOrDefault(q => q.Id == 39).Should().NotBeNull();
+            results.SingleOrDefault(q => q.Id == 40).Should().NotBeNull();
+
+            results.Single(q => q.Id == 37).Name.Should().Be("Digital Production, Design and Development");
+            results.Single(q => q.Id == 39).Name.Should().Be("Digital Business Services");
+            results.Single(q => q.Id == 40).Name.Should().Be("Digital Support Services");
         }
 
         [Fact]
         public void GetQualifications_ByIds_Returns_Qualifications_In_Alphabetical_Order()
         {
-            var ids = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            var results = _providerDataService.GetQualifications(ids).ToList();
+            var ids = new[] { 36, 37, 38, 39, 40, 41, 42, 43, 44, 45 };
+
+            var results = _providerDataService
+                .GetQualifications(ids)
+                .OrderBy(q => q.Name)
+                .ToList();
 
             results.Count.Should().Be(10);
             results[0].Name.Should().Be("Building Services Engineering");
@@ -149,7 +157,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public void GetQualification_Returns_A_Qualification_By_Id()
         {
-            const int id = 10;
+            const int id = 43;
 
             var result = _providerDataService.GetQualification(id);
 
