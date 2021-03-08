@@ -1,5 +1,4 @@
 ﻿using System;
-using sfa.Tl.Marketing.Communication.Application.Enums;
 
 namespace sfa.Tl.Marketing.Communication.Application.Calculators
 {

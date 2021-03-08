@@ -257,6 +257,13 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                     Arg.Is<IQueryable<Provider>>(p => p == providers))
                 .Returns(providerLocations);
 
+            _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
+                    Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode
+                                                  && p.Latitude.ToString() == searchRequest.OriginLatitude
+                                                  && p.Longitude.ToString() == searchRequest.OriginLongitude),
+                    providerLocations)
+                .Returns(providerLocations.ToList());
+
             var (totalCount, searchResults) = await _service.Search(searchRequest);
 
             totalCount.Should().Be(providerLocations.Count());
@@ -312,6 +319,11 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 Arg.Is<IQueryable<Location>>(l => l == locations),
                 Arg.Is<IQueryable<Provider>>(p => p == providers))
                 .Returns(providerLocations);
+
+            _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
+                    Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode),
+                    providerLocations)
+                .Returns(providerLocations.ToList());
 
             var (totalCount, searchResults) = await _service.Search(searchRequest);
 

@@ -46,8 +46,10 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             _logger.LogInformation($"Search::Get {providers.Count()} providers took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
             stopwatch.Restart();
 
-            if (!providers.Any()) 
+            if (!providers.Any())
+            {
                 return (0, new List<ProviderLocation>());
+            }
 
             var locations = _providerDataService.GetLocations(providers, searchRequest.QualificationId);
             stopwatch.Stop();
@@ -59,7 +61,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             _logger.LogInformation($"Search::Get {providerLocations.Count()} providerLocations took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
             stopwatch.Restart();
 
-            await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
+            var providerLocationsWithDistances = await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
                 new PostcodeLocation
                 {
                     Postcode = searchRequest.Postcode,
@@ -70,8 +72,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             stopwatch.Stop();
             _logger.LogInformation($"Search::Calculate distance for {providerLocations.Count()} providerLocations took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
             stopwatch.Restart();
-
-            var searchResults = providerLocations
+            
+            var searchResults = providerLocationsWithDistances
                 .OrderBy(pl => pl.DistanceInMiles)
                 .Take(searchRequest.NumberOfItems)
                 .ToList();
@@ -79,18 +81,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             stopwatch.Stop();
             _logger.LogInformation($"Search::Get {searchResults.Count} searchResults took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
             stopwatch.Restart();
-
-            foreach (var searchResult in searchResults)
-            {
-                searchResult.JourneyUrl = _journeyService.GetDirectionsLink(
-                    searchRequest.Postcode,
-                    searchResult);
-            }
+            searchResults.ForEach(s => 
+                s.JourneyUrl = _journeyService.GetDirectionsLink(s.Postcode, s));
 
             stopwatch.Stop();
             _logger.LogInformation($"Search::Set journey url for {searchResults.Count} results took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
 
-            return (providerLocations.Count(), searchResults);
+            return (providerLocationsWithDistances.Count(), searchResults);
         }
 
         public Qualification GetQualificationById(int id)
