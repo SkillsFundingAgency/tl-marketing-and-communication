@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -23,7 +24,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return Haversine.Distance(lat1, lon1, lat2, lon2);
         }
 
-        public async Task CalculateProviderLocationDistanceInMiles(PostcodeLocation origin, IQueryable<ProviderLocation> providerLocations)
+        public async Task<IList<ProviderLocation>> CalculateProviderLocationDistanceInMiles(PostcodeLocation origin, IQueryable<ProviderLocation> providerLocations)
         {
             double originLatitude;
             double originLongitude;
@@ -39,14 +40,20 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 originLongitude = origin.Longitude.Value;
             }
 
+            var results = new List<ProviderLocation>();
+
             foreach (var providerLocation in providerLocations)
             {
                 providerLocation.DistanceInMiles = CalculateDistanceInMiles(
                     originLatitude, originLongitude,
                     providerLocation.Latitude, providerLocation.Longitude);
+
+                results.Add(providerLocation);
             }
+
+            return results;
         }
-        
+
         public async Task<(bool IsValid, PostcodeLocation PostcodeLocation)> IsPostcodeValid(string postcode)
         {
             var location = await _locationApiClient.GetGeoLocationDataAsync(postcode);
