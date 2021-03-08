@@ -38,9 +38,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var qualifications = new List<Qualification>
             {
-                new() { Id = 1, Name = "Xyz" },
-                new () { Id = 2, Name = "Mno" },
-                new () { Id = 3, Name = "Abc" }
+                new Qualification { Id = 1, Name = "Xyz" },
+                new Qualification { Id = 2, Name = "Mno" },
+                new Qualification { Id = 3, Name = "Abc" }
             };
 
             _providerDataService.GetQualifications().Returns(qualifications);
@@ -183,7 +183,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .GetDirectionsLink(Arg.Any<string>(), Arg.Any<ProviderLocation>())
                 .Returns("https://x.com");
 
-            var (totalCount, searchResults) = 
+            var (totalCount, searchResults) =
                 await _service.Search(searchRequest);
 
             totalCount.Should().Be(providerLocations.Count());
@@ -208,7 +208,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .Be(providers.First().Locations.First().DeliveryYears.First().Qualifications.First());
             firstResult.DeliveryYears.First().Qualifications.First().Name.Should()
                 .Be("Test qualification");
-            
+
             firstResult.JourneyUrl.Should().Be("https://x.com");
 
             firstResult.DistanceInMiles.Should().Be(10);

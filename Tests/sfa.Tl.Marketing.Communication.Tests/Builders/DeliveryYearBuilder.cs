@@ -10,7 +10,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
             Year = 2020,
             Qualifications = new List<Qualification>
             {
-                new()
+                new Qualification
                 {
                     Id = 1,
                     Name = "Test Qualification"
