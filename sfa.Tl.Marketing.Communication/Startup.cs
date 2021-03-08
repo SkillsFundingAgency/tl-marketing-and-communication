@@ -98,8 +98,7 @@ namespace sfa.Tl.Marketing.Communication
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         // ReSharper disable once UnusedMember.Global
         public void Configure(IApplicationBuilder app, 
-            IWebHostEnvironment env,
-            ITableStorageService tableStorageService)
+            IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
