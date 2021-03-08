@@ -16,9 +16,18 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
 
         public Task Execute(ISearchContext context)
         {
+            context.ViewModel.SelectedQualificationId ??= 0;
+
             var qualifications = _providerSearchService.GetQualifications();
-            var qualificationSelectListItems = qualifications.Select(q => new SelectListItem { Text = q.Name, Value = q.Id.ToString(), Selected = q.Id == context.ViewModel.SelectedQualificationId.Value });
-            context.ViewModel.Qualifications = qualificationSelectListItems;
+            context.ViewModel.Qualifications = qualifications
+                .Select(q =>
+                    new SelectListItem
+                    {
+                        Text = q.Name,
+                        Value = q.Id.ToString(),
+                        Selected = q.Id == context.ViewModel.SelectedQualificationId.Value
+                    });
+
             return Task.CompletedTask;
         }
     }

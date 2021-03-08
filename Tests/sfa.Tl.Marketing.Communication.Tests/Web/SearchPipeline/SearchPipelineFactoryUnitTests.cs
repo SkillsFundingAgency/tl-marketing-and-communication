@@ -29,12 +29,11 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline
             var steps = _factory.GetSearchSteps(providerSearchService, mapper).ToArray();
 
             // Assert
-            steps[0].GetType().Name.Should().Be(nameof(GetQualificationIdToSearchStep));
-            steps[1].GetType().Name.Should().Be(nameof(GetQualificationsStep));
-            steps[2].GetType().Name.Should().Be(nameof(LoadSearchPageWithNoResultsStep));
-            steps[3].GetType().Name.Should().Be(nameof(ValidatePostcodeStep));
-            steps[4].GetType().Name.Should().Be(nameof(CalculateNumberOfItemsToShowStep));
-            steps[5].GetType().Name.Should().Be(nameof(PerformSearchStep));
+            steps[0].GetType().Name.Should().Be(nameof(GetQualificationsStep));
+            steps[1].GetType().Name.Should().Be(nameof(LoadSearchPageWithNoResultsStep));
+            steps[2].GetType().Name.Should().Be(nameof(ValidatePostcodeStep));
+            steps[3].GetType().Name.Should().Be(nameof(CalculateNumberOfItemsToShowStep));
+            steps[4].GetType().Name.Should().Be(nameof(PerformSearchStep));
         }
     }
 }
