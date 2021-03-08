@@ -297,11 +297,8 @@ __pycache__/
 # Local development settings files - may contain secrets
 appsettings.Development.json
 
-# Data load app per-developer local settings
-**/*.DataLoad/appsettings.json
-
 # Provider data .csv saved from the .xlsx file
-**/*.DataLoad/Provider Data/*.csv
+**/*.DataLoad/Data/*.csv
 
 # Developer settings in function projects
 local.settings.development.json
