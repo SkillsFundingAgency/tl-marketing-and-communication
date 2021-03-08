@@ -250,7 +250,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             if (!string.IsNullOrWhiteSpace(fullName))
             {
                 var parts = fullName.Split('-');
-                if (parts.Length is > 1)
+                if (parts.Length > 1)
                 {
                     route = Regex.Replace(parts[0],
                             "^T Level", "")
