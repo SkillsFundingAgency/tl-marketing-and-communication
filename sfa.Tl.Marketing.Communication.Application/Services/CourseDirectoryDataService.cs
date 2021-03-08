@@ -250,17 +250,16 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             if (!string.IsNullOrWhiteSpace(fullName))
             {
                 var parts = fullName.Split('-');
-                switch (parts.Length)
+                if (parts.Length is > 1)
                 {
-                    case > 1:
-                        route = Regex.Replace(parts[0],
-                                "^T Level", "")
-                            .ToTitleCase();
-                        name = parts[1].ToTitleCase();
-                        break;
-                    case 1:
-                        name = parts[0].ToTitleCase();
-                        break;
+                    route = Regex.Replace(parts[0],
+                            "^T Level", "")
+                        .ToTitleCase();
+                    name = parts[1].ToTitleCase();
+                }
+                else if (parts.Length == 1)
+                {
+                    name = parts[0].ToTitleCase();
                 }
             }
 
