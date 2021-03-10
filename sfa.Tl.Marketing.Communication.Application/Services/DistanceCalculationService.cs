@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,38 +38,19 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 originLatitude = origin.Latitude.Value;
                 originLongitude = origin.Longitude.Value;
             }
-            
-            if (UseParallelForEach)
+
+            var results = new List<ProviderLocation>();
+            foreach (var providerLocation in providerLocations)
             {
-                var resultsBag = new ConcurrentBag<ProviderLocation>();
-                Parallel.ForEach(providerLocations, providerLocation =>
-                {
-                    providerLocation.DistanceInMiles = CalculateDistanceInMiles(
-                        originLatitude, originLongitude,
-                        providerLocation.Latitude, providerLocation.Longitude);
+                providerLocation.DistanceInMiles = CalculateDistanceInMiles(
+                    originLatitude, originLongitude,
+                    providerLocation.Latitude, providerLocation.Longitude);
 
-                    resultsBag.Add(providerLocation);
-                });
-
-                return resultsBag.ToList();
+                results.Add(providerLocation);
             }
-            else
-            {
-                var results = new List<ProviderLocation>();
-                foreach (var providerLocation in providerLocations)
-                {
-                    providerLocation.DistanceInMiles = CalculateDistanceInMiles(
-                        originLatitude, originLongitude,
-                        providerLocation.Latitude, providerLocation.Longitude);
 
-                    results.Add(providerLocation);
-                }
-
-                return results;
-            }
+            return results;
         }
-        //TODO: Remove UseParallelForEach
-        public bool UseParallelForEach;
 
         public async Task<(bool IsValid, PostcodeLocation PostcodeLocation)> IsPostcodeValid(string postcode)
         {
