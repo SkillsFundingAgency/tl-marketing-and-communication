@@ -22,13 +22,13 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
             }
             else
             {
-                var results = await _providerSearchService.IsSearchPostcodeValid(context.ViewModel.Postcode);
+                var (isValid, postcodeLocation) = await _providerSearchService.IsSearchPostcodeValid(context.ViewModel.Postcode);
 
-                if (results.IsValid)
+                if (isValid)
                 {
-                    context.ViewModel.Postcode = results.PostcodeLocation.Postcode;
-                    context.ViewModel.Latitude = results.PostcodeLocation.Latitude.Value.ToString(CultureInfo.InvariantCulture);
-                    context.ViewModel.Longitude = results.PostcodeLocation.Longitude.Value.ToString(CultureInfo.InvariantCulture);
+                    context.ViewModel.Postcode = postcodeLocation.Postcode;
+                    context.ViewModel.Latitude = postcodeLocation.Latitude.HasValue ? postcodeLocation.Latitude.Value.ToString(CultureInfo.InvariantCulture) : "";
+                    context.ViewModel.Longitude = postcodeLocation.Longitude.HasValue ? postcodeLocation.Longitude.Value.ToString(CultureInfo.InvariantCulture) : "";
                 }
                 else
                 {
