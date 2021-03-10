@@ -61,11 +61,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var searchResults = providerLocationsWithDistances
                 .OrderBy(pl => pl.DistanceInMiles)
                 .Take(searchRequest.NumberOfItems)
+                .Select(s =>
+                {
+                    s.JourneyUrl = _journeyService.GetDirectionsLink(s.Postcode, s);
+                    return s;
+                })
                 .ToList();
 
-            stopwatch.Stop();
-            searchResults.ForEach(s =>
-                s.JourneyUrl = _journeyService.GetDirectionsLink(s.Postcode, s));
             stopwatch.Stop();
             _logger.LogInformation($"Search::Returning {searchResults.Count} results from {providerLocationsWithDistances.Count} locations in {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
 
