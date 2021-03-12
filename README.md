@@ -6,9 +6,13 @@
 2. npm - https://www.npmjs.com/package/npm
 3. Gulp - https://gulpjs.com/
 
+Data for the student search page is stored in Azure Storage Tables.
+
+
 
 ## Actions
-cd to "root" directory
+
+To set up gulp and npm, `cd` to the project "root" directory then:
 
 |Task|Description|
 |----|-----------|
@@ -28,13 +32,13 @@ To fix this, set the version that Visual Studio runs by following the following 
 
 ## Configuration
 
-The Postcode Retriever Base Url key is stored in the site `appSettings.json` file. To set the value locally, you will need to add a file `appsettings.Development.json` to the project with the content below. Add the actual key in place of `<value>` - this should usually be `https://postcodes.io/`
+Website configuration is in `appsettings.json` and the settings for different enviromnments are set by Azure DevOps release/pipeline variables.  
+If you need to override values on your local machine, add a `appsettings.Development.json` file and set `Copy to Output Directory` to `Copy if newer`, then add jeys/values there.
 
 Other API Keys and email addresses are also stored in the site `appSettings.json` file and need to be overridden in `appsettings.Development.json` as shown below.
 
 ```
 {
-  "PostcodeRetrieverBaseUrl": "<value>"
   "EmployerContactEmailTemplateId": "<value>"
   "GovNotifyApiKey": "<api_key_value>",
   "SupportEmailInboxAddress": "<your_email>",
@@ -51,8 +55,10 @@ Other API Keys and email addresses are also stored in the site `appSettings.json
 ```
 
 - `GovNotifyApiKey` will come from GOV.UK Notify service settings (check with DevOps if you don't have access). 
-- `EmployerContactEmailTemplateId` is the email template id created in GOV.UK Notify for the contact email.
+- `EmployerContactEmailTemplateId` is the email template id created in GOV.UK Notify for the contact email. A default value is set in `appSettings.json`.
 - `SupportEmailInboxAddress` can be a single email address or a semicolon-separated list of email addresses where the contact email should be sent to.
+- `TableStorageConnectionString` defaults to Azure Storage Emulator. If you want to use a cloud table, set the connection string here.
+- `PostcodeRetrieverBaseUrl` is usually `https://postcodes.io/` - this is set in `appSettings.json`.
 
 
 ## Creating the providers data file
