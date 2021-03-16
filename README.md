@@ -6,9 +6,6 @@
 2. npm - https://www.npmjs.com/package/npm
 3. Gulp - https://gulpjs.com/
 
-Data for the student search page is stored in Azure Storage Tables.
-
-
 
 ## Actions
 
@@ -61,38 +58,20 @@ Other API Keys and email addresses are also stored in the site `appSettings.json
 - `PostcodeRetrieverBaseUrl` is usually `https://postcodes.io/` - this is set in `appSettings.json`.
 
 
-## Creating the providers data file
-
-1. The console application *sfa.Tl.Marketing.Communication.DataLoad* can be run to regenerate the `providers.json` file. 
-2. All provider data exist in "Full Provider Data 2020 - 2021 (campaign site).xlsx" spreadsheet, the latest copy exist in *sfa.Tl.Marketing.Communication.DataLoad/Provider Data* folder
-3. To add a new qualification for course year a new row will be added for a provider venue to the spreadsheet
-4. To regenerate the 'providers.json' from the spreadsheet, Save As the spreadsheet as .csv file.
-   * The csv file will not be chcked in to Git
-5. Before running the console app, update CsvFilePath and JsonOutputPath file paths in Program.cs
-Or
-6. Default paths to input and output file paths are in constants in the code; if you want to set different paths add a file called `appsettings.json` with the content below. DO NOT CHECK THIS IN (it is already in .gitignore).
-
-{
-  "InputFilePath": "<path to file>",
-  "OutputFilePath": "<path to file>"
-}
-
-7. After running the program, simply copy the `providers` section from the output file over the existing `providers` section in `\sfa.Tl.Marketing.Communication\Frontend\src\json\providers.json`.
-
-
 ## Creating provider data in local storage
+
+Data for the student search page is stored in Azure Storage Tables. 
+This data is imported from the NCS Course Directory API using a scheduled function, but in a development environment sample data can be written to local storage as follows:
 
 1. The console application *sfa.Tl.Marketing.Communication.DataLoad* can be run to copy data into local storage. 
 2. This can be run on developer machines when Azure Storage Explorer is running.
-3. The program will create tables called `Qualification` and `Provider` and copy data from json files.
-4. You need to set the table connection string and paths to sample files in `appsettings.json` with the content below. DO NOT CHECK THIS IN (it is already in .gitignore). The paths below use files that are included in the projec.
+3. The program will create tables called `Qualification`, `Provider` and `Location` and copy data from json files.
+4. You need to set the table connection string and paths to sample files in `appsettings.json` with the content below. DO NOT CHECK THIS IN (it is already in .gitignore). The paths below use files that are included in the project.
 
 {
-  "JsonInputOnly": "true",
   "ProviderJsonInputFilePath": "..\\..\\..\\Provider Data\\providers.json",
   "QualificationJsonInputFilePath": "..\\..\\..\\Provider Data\\qualifications.json",
   "TableStorageConnectionString": "UseDevelopmentStorage=true;"
 }
 
-5. Note that JsonInputOnly (above) should be set to true if you do not want to import providers from csv.
 
