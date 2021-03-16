@@ -180,7 +180,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 });
 
             _journeyService
-                .GetDirectionsLink(Arg.Any<string>(), Arg.Any<ProviderLocation>())
+                .GetDirectionsLink(searchRequest.Postcode, Arg.Any<ProviderLocation>())
                 .Returns("https://x.com");
 
             var (totalCount, searchResults) =
@@ -275,7 +275,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode),
                 providerLocations);
             _journeyService.Received(numberOfItems)
-                .GetDirectionsLink(Arg.Any<string>(), Arg.Any<ProviderLocation>());
+                .GetDirectionsLink(searchRequest.Postcode, Arg.Any<ProviderLocation>());
         }
 
         [Theory]
@@ -336,7 +336,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode),
                 providerLocations);
             _journeyService.Received(numberOfItems)
-                .GetDirectionsLink(Arg.Any<string>(), Arg.Any<ProviderLocation>());
+                .GetDirectionsLink(searchRequest.Postcode, Arg.Any<ProviderLocation>());
         }
     }
 }
