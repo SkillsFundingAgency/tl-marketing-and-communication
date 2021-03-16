@@ -63,7 +63,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 .Take(searchRequest.NumberOfItems)
                 .Select(s =>
                 {
-                    s.JourneyUrl = _journeyService.GetDirectionsLink(s.Postcode, s);
+                    s.JourneyUrl = _journeyService.GetDirectionsLink(searchRequest.Postcode, s);
                     return s;
                 })
                 .ToList();
