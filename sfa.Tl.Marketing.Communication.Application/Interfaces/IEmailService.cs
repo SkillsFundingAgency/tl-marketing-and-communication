@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using sfa.Tl.Marketing.Communication.Application.Enums;
 
 namespace sfa.Tl.Marketing.Communication.Application.Interfaces
 {
@@ -9,7 +8,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
             string fullName,
             string organisationName,
             string phone,
-            string email,
-            ContactMethod contactMethod);
+            string email);
     }
 }

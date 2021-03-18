@@ -4,7 +4,6 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
-using sfa.Tl.Marketing.Communication.Application.Enums;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Constants;
 using sfa.Tl.Marketing.Communication.Controllers;
@@ -32,30 +31,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
             viewModel?.OrganisationName.Should().BeNull();
             viewModel?.Phone.Should().BeNull();
             viewModel?.Email.Should().BeNull();
-            viewModel?.ContactMethod.Should().BeNull();
             viewModel?.ContactFormSent.Should().BeFalse();
         }
-
-        //[Fact]
-        //public void Employer_Controller_EmployerNextSteps_Get_With_Cookie_Set_Returns_Expected_Value()
-        //{
-        //    var controller = BuildEmployerController();
-
-        //    var result = controller.EmployerNextSteps();
-
-        //    var viewResult = result as ViewResult;
-        //    viewResult.Should().NotBeNull();
-        //    var viewModel = viewResult?.Model as EmployerContactViewModel;
-        //    viewModel.Should().NotBeNull();
-
-        //    viewModel?.FullName.Should().BeNull();
-        //    viewModel?.OrganisationName.Should().BeNull();
-        //    viewModel?.Phone.Should().BeNull();
-        //    viewModel?.Email.Should().BeNull();
-        //    viewModel?.ContactMethod.Should().BeNull();
-        //    viewModel?.ContactFormSent.Should().BeTrue();
-        //}
-
+        
         [Fact]
         public async Task Employer_Controller_EmployerNextSteps_Post_Succeeds_For_Valid_Input()
         {
@@ -74,8 +52,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
                     Arg.Any<string>(),
                     Arg.Any<string>(),
                     Arg.Any<string>(),
-                    Arg.Any<string>(),
-                    Arg.Any<ContactMethod>())
+                    Arg.Any<string>())
                 .Returns(true);
 
             var controller = BuildEmployerController(emailService);
@@ -89,8 +66,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
                     Arg.Is<string>(p => p == viewModel.FullName),
                     Arg.Is<string>(p => p == viewModel.OrganisationName),
                     Arg.Is<string>(p => p == viewModel.Phone),
-                    Arg.Is<string>(p => p == viewModel.Email),
-                    Arg.Is<ContactMethod>(p => p == viewModel.ContactMethod));
+                    Arg.Is<string>(p => p == viewModel.Email));
         }
 
         [Fact]
@@ -101,15 +77,14 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
                     Arg.Any<string>(),
                     Arg.Any<string>(),
                     Arg.Any<string>(),
-                    Arg.Any<string>(),
-                    Arg.Any<ContactMethod>())
+                    Arg.Any<string>())
                 .Returns(true);
 
             var controller = BuildEmployerController(emailService);
 
             var result = await controller.EmployerNextSteps(new EmployerContactViewModelBuilder().WithDefaultValues().Build());
-            
-            var cookieValue = GetCookieValue(controller.ControllerContext.HttpContext.Response, 
+
+            var cookieValue = GetCookieValue(controller.ControllerContext.HttpContext.Response,
                 AppConstants.EmployerContactFormSentCookieName);
 
             cookieValue.Should().NotBeEmpty();
@@ -133,8 +108,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
                     Arg.Any<string>(),
                     Arg.Any<string>(),
                     Arg.Any<string>(),
-                    Arg.Any<string>(),
-                    Arg.Any<ContactMethod>())
+                    Arg.Any<string>())
                 .Returns(false);
 
             var controller = BuildEmployerController(emailService);

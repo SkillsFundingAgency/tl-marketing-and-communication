@@ -6,7 +6,6 @@
     ViewData["Title"] = "Next steps";
     ViewData["PageID"] = "tl-employer-nextsteps";
 }
-@using sfa.Tl.Marketing.Communication.Application.Enums
 @model EmployerContactViewModel
 
 <section id="tl-employer-nextsteps--banner" class="tl-content-wide--purple">
@@ -81,31 +80,6 @@
                                 </label>
                                 <span class="tl-form-group--error--message" asp-validation-for="Email"></span>
                                 <input asp-for="Email" class="tl-form--input" sfa-validation-for="Email" sfa-validationerror-class="tl-input--error" aria-label="Enter your email address" />
-                            </div>
-
-                            <div class="tl-form-group tl-margin-bottom--20" sfa-validation-for="ContactMethod" sfa-validationerror-class="tl-form-group--error">
-                                <fieldset>
-                                    <legend>
-                                        <span class="tl-form--label">
-                                            How would you like to be contacted?
-                                        </span>
-                                    </legend>
-                                    <span id="tl-placements-known-error" class="tl-form-group--error--message" asp-validation-for="ContactMethod"></span>
-                                    <div class="tl-form--radios">
-                                        <div class="tl-form--radio">
-                                            <input class="tl-form--input" id="contact-method-telephone" asp-for="ContactMethod" type="radio" value="@ContactMethod.Phone" checked="@(Model?.ContactMethod == ContactMethod.Phone)">
-                                            <label class="tl-form--label--radio" for="contact-method-telephone">
-                                                Telephone
-                                            </label>
-                                        </div>
-                                        <div class="tl-form--radio">
-                                            <input class="tl-form--input" id="contact-method-email" asp-for="ContactMethod" type="radio" value="@ContactMethod.Email" checked="@(Model?.ContactMethod == ContactMethod.Email)">
-                                            <label class="tl-form--label--radio" for="contact-method-email">
-                                                Email
-                                            </label>
-                                        </div>
-                                    </div>
-                                </fieldset>
                             </div>
 
                             <button class="tl-button--purple" type="submit" id="tl-send-employer-contact">Send form</button>
