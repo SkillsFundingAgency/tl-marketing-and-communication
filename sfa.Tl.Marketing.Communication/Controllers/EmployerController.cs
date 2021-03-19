@@ -81,11 +81,6 @@ namespace sfa.Tl.Marketing.Communication.Controllers
                 return View(viewModel);
             }
             
-            if (HasContactFormSentCookie())
-            {
-
-            }
-
             if (!await _emailService.SendEmployerContactEmail(
                 viewModel.FullName, 
                 viewModel.OrganisationName,
