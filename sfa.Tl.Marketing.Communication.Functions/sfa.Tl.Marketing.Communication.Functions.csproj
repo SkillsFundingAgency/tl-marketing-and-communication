@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
-	  <OutputType>Exe</OutputType>
+	<OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +19,7 @@
 	  <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.17.0" />
 	  <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.11" />
+      <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.11" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\sfa.Tl.Marketing.Communication.Application\sfa.Tl.Marketing.Communication.Application.csproj" />

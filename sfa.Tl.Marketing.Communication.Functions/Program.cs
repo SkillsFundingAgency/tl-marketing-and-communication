@@ -2,65 +2,75 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos.Table;
-using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
-[assembly: FunctionsStartup(typeof(sfa.Tl.Marketing.Communication.Functions.Startup))]
 namespace sfa.Tl.Marketing.Communication.Functions
 {
-    public class Startup : FunctionsStartup
+    public class Program
     {
-        protected CourseDirectoryApiSettings ApiConfiguration;
-        protected StorageSettings StorageConfiguration;
-
-        public override void Configure(IFunctionsHostBuilder builder)
+        public static async Task Main(string[] args)
         {
-            LoadConfiguration();
+            var host = new HostBuilder()
+                .ConfigureFunctionsWorkerDefaults()
+                .ConfigureAppConfiguration(c =>
+                    {
+                        Console.WriteLine("Loading configuration ...");
+                        c.AddCommandLine(args);
+                        c.AddJsonFile("local.settings.json", optional: true, reloadOnChange: false);
+                        c.AddJsonFile("local.settings.development.json", optional: true, reloadOnChange: false);
+                        c.AddEnvironmentVariables();
+                        Console.WriteLine("... Loaded configuration");
+                    }
+                )
+                //.ConfigureServices(s =>
+                .ConfigureServices((hostContext, services) =>
+                {
+                    Console.WriteLine("Configuring services ...");
 
-            RegisterHttpClients(builder.Services);
-            RegisterServices(builder.Services);
-        }
+                    var config = hostContext.Configuration;
 
-        private void LoadConfiguration()
-        {
-            //https://stackoverflow.com/questions/59959258/how-to-add-an-appsettings-json-file-to-my-azure-function-3-0-configuration
-            var config = new ConfigurationBuilder()
-                .SetBasePath(Environment.CurrentDirectory)
-                .AddJsonFile("local.settings.json", optional: true, reloadOnChange: false)
-                .AddJsonFile("local.settings.development.json", optional: true, reloadOnChange: false)
-                .AddEnvironmentVariables()
+                    Console.WriteLine("... Loading configuration ...");
+
+                    LoadConfiguration(config);
+
+                    Console.WriteLine("... Registering http clients ...");
+                    RegisterHttpClients(services);
+
+                    Console.WriteLine("... Registering services ...");
+                    RegisterServices(services);
+
+                    Console.WriteLine("... Configured services");
+                })
                 .Build();
 
+            await host.RunAsync();
+        }
+
+        private static void LoadConfiguration(IConfiguration config)
+        {
             ApiConfiguration = new CourseDirectoryApiSettings
             {
-                ApiKey = GetConfigurationValue(config, ConfigurationKeys.CourseDirectoryApiKeyConfigKey),
-                ApiBaseUri = GetConfigurationValue(config, ConfigurationKeys.CourseDirectoryApiBaseUriConfigKey)
+                ApiKey = config.GetConfigurationValue(ConfigurationKeys.CourseDirectoryApiKeyConfigKey),
+                ApiBaseUri = config.GetConfigurationValue(ConfigurationKeys.CourseDirectoryApiBaseUriConfigKey)
             };
 
+            Console.WriteLine($"   --> ApiConfiguration.ApiBaseUri {ApiConfiguration.ApiBaseUri}");
             StorageConfiguration = new StorageSettings
             {
-                TableStorageConnectionString = GetConfigurationValue(config, ConfigurationKeys.TableStorageConnectionStringConfigKey)
+                TableStorageConnectionString = config.GetConfigurationValue(ConfigurationKeys.TableStorageConnectionStringConfigKey)
             };
+            Console.WriteLine($"   --> StorageConfiguration.TableStorageConnectionString {StorageConfiguration.TableStorageConnectionString}");
         }
 
-        private static string GetConfigurationValue(IConfiguration config, string key)
-        {
-            var value = Environment.GetEnvironmentVariable(key);
-            if (string.IsNullOrEmpty(value))
-                value = config.GetValue<string>(key);
-            if (string.IsNullOrEmpty(value))
-                value = config.GetValue<string>($"Values:{key}");
-
-            return value;
-        }
-
-        private void RegisterHttpClients(IServiceCollection services)
+        private static void RegisterHttpClients(IServiceCollection services)
         {
             services.AddHttpClient<ICourseDirectoryDataService, CourseDirectoryDataService>(
                     CourseDirectoryDataService.CourseDirectoryHttpClientName,
@@ -85,7 +95,10 @@ namespace sfa.Tl.Marketing.Communication.Functions
                 });
         }
 
-        private void RegisterServices(IServiceCollection services)
+        protected static CourseDirectoryApiSettings ApiConfiguration;
+        protected static StorageSettings StorageConfiguration;
+
+        private static void RegisterServices(IServiceCollection services)
         {
             services.AddSingleton(ApiConfiguration);
             services.AddSingleton(StorageConfiguration);
