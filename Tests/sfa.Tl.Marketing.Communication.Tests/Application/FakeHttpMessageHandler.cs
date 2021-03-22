@@ -10,7 +10,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application
     public class FakeHttpMessageHandler : DelegatingHandler
     {
         private readonly Dictionary<Uri, HttpResponseMessage> _fakeResponses 
+            // ReSharper disable once ArrangeObjectCreationWhenTypeEvident
+#pragma warning disable IDE0090 // Use 'new(...)'
             = new Dictionary<Uri, HttpResponseMessage>();
+#pragma warning restore IDE0090 // Use 'new(...)'
 
         public void AddFakeResponse(Uri uri, HttpResponseMessage responseMessage)
         {
