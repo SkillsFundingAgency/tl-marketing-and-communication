@@ -19,7 +19,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.HttpClient
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            if (_fakeResponses.ContainsKey(request.RequestUri))
+            if (request.RequestUri != null && 
+                _fakeResponses.ContainsKey(request.RequestUri))
             {
                 return Task.FromResult(_fakeResponses[request.RequestUri]);
             }

@@ -66,7 +66,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                     TokenHasExpectedValue(tokens, "email_address", TestEmail)));
         }
 
-        private bool TokenHasExpectedValue(IDictionary<string, dynamic> dic, string key, string expected)
+        private static bool TokenHasExpectedValue(IDictionary<string, dynamic> dic, string key, string expected)
         {
             return dic.ContainsKey(key) && (string)dic[key] == expected;
         }
@@ -121,7 +121,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                     Arg.Any<Dictionary<string, dynamic>>());
         }
 
-        private async Task<bool> SendEmployerContactEmail(IEmailService emailService)
+        private static async Task<bool> SendEmployerContactEmail(IEmailService emailService)
         {
             return await emailService.SendEmployerContactEmail(
                 TestFullName,
@@ -130,7 +130,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 TestEmail);
         }
 
-        private IEmailService BuildEmailService(
+        private static IEmailService BuildEmailService(
             string emailTemplateId = null,
             string supportInbox = null,
             IAsyncNotificationClient notificationClient = null,
