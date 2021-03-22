@@ -203,7 +203,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             savedQualificationEntities.Count.Should().Be(qualifications.Count);
         }
 
-        private TableStorageService BuildTableStorageService(
+        private static TableStorageService BuildTableStorageService(
             ICloudTableRepository<LocationEntity> locationRepository = null,
             ICloudTableRepository<ProviderEntity> providerRepository = null,
             ICloudTableRepository<QualificationEntity> qualificationRepository = null,

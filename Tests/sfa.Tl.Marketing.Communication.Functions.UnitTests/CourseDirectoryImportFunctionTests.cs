@@ -258,7 +258,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             result.Should().BeOfType<InternalServerErrorResult>();
         }
 
-        private CourseDirectoryImportFunctions BuildCourseDirectoryImportFunctions(
+        private static CourseDirectoryImportFunctions BuildCourseDirectoryImportFunctions(
             ICourseDirectoryDataService courseDirectoryDataService = null,
             ITableStorageService tableStorageService = null)
         {
