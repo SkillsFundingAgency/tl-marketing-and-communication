@@ -8,7 +8,7 @@ using NSubstitute;
 
 namespace sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders
 {
-    public class FunctionContextBuilder
+    public class FunctionObjectsBuilder
     {
         public static FunctionContext BuildFunctionContext(ILogger logger = null)
         {

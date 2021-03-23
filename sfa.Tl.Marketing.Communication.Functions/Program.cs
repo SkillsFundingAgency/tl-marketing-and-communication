@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
 using sfa.Tl.Marketing.Communication.Application.Services;
+using sfa.Tl.Marketing.Communication.Functions.Extensions;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
 namespace sfa.Tl.Marketing.Communication.Functions

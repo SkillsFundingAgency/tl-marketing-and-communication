@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
 
-namespace sfa.Tl.Marketing.Communication.Functions
+namespace sfa.Tl.Marketing.Communication.Functions.Extensions
 {
     public static class ConfigurationExtensions
     {

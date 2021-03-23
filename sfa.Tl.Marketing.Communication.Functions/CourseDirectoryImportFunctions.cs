@@ -49,7 +49,6 @@ namespace sfa.Tl.Marketing.Communication.Functions
         }
 
         [Function("CourseDirectoryManualImport")]
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
         public async Task<HttpResponseData> ManualImport(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequestData request,
@@ -96,7 +95,6 @@ namespace sfa.Tl.Marketing.Communication.Functions
         }
 
         [Function("GetCourseDirectoryJson")]
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
         public async Task<HttpResponseData> GetCourseDirectoryDetailJson(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequestData request,
@@ -126,7 +124,6 @@ namespace sfa.Tl.Marketing.Communication.Functions
         }
 
         [Function("GetCourseDirectoryQualificationJson")]
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
         public async Task<HttpResponseData> GetCourseDirectoryQualificationJson(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequestData request,
@@ -156,7 +153,6 @@ namespace sfa.Tl.Marketing.Communication.Functions
         }
 
         [Function("GetProviders")]
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
         public async Task<HttpResponseData> GetProviders(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequestData request,
@@ -173,7 +169,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
                     .OrderBy(p => p.UkPrn)
                     .ToList();
 
-                logger.LogInformation($"Course directory GetProviders returned {providers.Count()} records.");
+                logger.LogInformation($"Course directory GetProviders returned {providers.Count} records.");
 
                 var response = request.CreateResponse(HttpStatusCode.OK);
                 response.Headers.Add("Content-Type", "application/json");
@@ -198,7 +194,6 @@ namespace sfa.Tl.Marketing.Communication.Functions
         }
 
         [Function("GetQualifications")]
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
         public async Task<HttpResponseData> GetQualifications(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequestData request,
@@ -215,7 +210,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
                     .OrderBy(q => q.Id)
                     .ToList();
 
-                logger.LogInformation($"Course directory GetQualifications returned {qualifications.Count()} records.");
+                logger.LogInformation($"Course directory GetQualifications returned {qualifications.Count} records.");
 
                 var response = request.CreateResponse(HttpStatusCode.OK);
                 response.Headers.Add("Content-Type", "application/json");

@@ -27,7 +27,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .ImportQualificationsFromCourseDirectoryApi()
                 .Returns((12, 0));
 
-            var functionContext = FunctionContextBuilder.BuildFunctionContext();
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
             var functions = BuildCourseDirectoryImportFunctions(service);
             await functions.ImportCourseDirectoryData(
                 new TimerInfo(),
@@ -48,8 +48,8 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .ImportQualificationsFromCourseDirectoryApi()
                 .Returns((12, 2));
 
-            var functionContext = FunctionContextBuilder.BuildFunctionContext();
-            var request = FunctionContextBuilder.BuildHttpRequestData(HttpMethod.Get);
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(service);
             var result = await functions.ManualImport(request, functionContext);
@@ -70,8 +70,8 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .ImportProvidersFromCourseDirectoryApi()
                 .ThrowsForAnyArgs(new InvalidOperationException());
 
-            var functionContext = FunctionContextBuilder.BuildFunctionContext();
-            var request = FunctionContextBuilder.BuildHttpRequestData(HttpMethod.Get);
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(service);
             var result = await functions.ManualImport(request, functionContext);
@@ -89,8 +89,8 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .GetTLevelDetailJsonFromCourseDirectoryApi()
                 .Returns(expectedJson);
 
-            var functionContext = FunctionContextBuilder.BuildFunctionContext();
-            var request = FunctionContextBuilder.BuildHttpRequestData(HttpMethod.Get);
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(service);
             var result = await functions.GetCourseDirectoryDetailJson(request, functionContext);
@@ -112,8 +112,8 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .GetTLevelQualificationJsonFromCourseDirectoryApi()
                 .Returns(expectedJson);
 
-            var functionContext = FunctionContextBuilder.BuildFunctionContext();
-            var request = FunctionContextBuilder.BuildHttpRequestData(HttpMethod.Get);
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(service);
             var result = await functions.GetCourseDirectoryQualificationJson(request, functionContext);
@@ -133,8 +133,8 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .GetTLevelDetailJsonFromCourseDirectoryApi()
                 .ThrowsForAnyArgs(new InvalidOperationException());
 
-            var functionContext = FunctionContextBuilder.BuildFunctionContext();
-            var request = FunctionContextBuilder.BuildHttpRequestData(HttpMethod.Get);
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(service);
             var result = await functions.GetCourseDirectoryDetailJson(request, functionContext);
@@ -150,8 +150,8 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .GetTLevelQualificationJsonFromCourseDirectoryApi()
                 .ThrowsForAnyArgs(new InvalidOperationException());
 
-            var functionContext = FunctionContextBuilder.BuildFunctionContext();
-            var request = FunctionContextBuilder.BuildHttpRequestData(HttpMethod.Get);
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(service);
             var result = await functions.GetCourseDirectoryQualificationJson(request, functionContext);
@@ -169,8 +169,8 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             var tableStorageService = Substitute.For<ITableStorageService>();
             tableStorageService.GetAllProviders().Returns(providers);
 
-            var functionContext = FunctionContextBuilder.BuildFunctionContext();
-            var request = FunctionContextBuilder.BuildHttpRequestData(HttpMethod.Get);
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(tableStorageService: tableStorageService);
             var result = await functions.GetProviders(request, functionContext);
@@ -191,8 +191,8 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .GetAllProviders()
                 .ThrowsForAnyArgs(new InvalidOperationException());
 
-            var functionContext = FunctionContextBuilder.BuildFunctionContext();
-            var request = FunctionContextBuilder.BuildHttpRequestData(HttpMethod.Get);
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(tableStorageService: tableStorageService);
             var result = await functions.GetProviders(request, functionContext);
@@ -210,8 +210,8 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             var tableStorageService = Substitute.For<ITableStorageService>();
             tableStorageService.GetAllQualifications().Returns(qualifications);
 
-            var functionContext = FunctionContextBuilder.BuildFunctionContext();
-            var request = FunctionContextBuilder.BuildHttpRequestData(HttpMethod.Get);
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(tableStorageService: tableStorageService);
             var result = await functions.GetQualifications(request, functionContext);
@@ -231,8 +231,8 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .GetAllQualifications()
                 .ThrowsForAnyArgs(new InvalidOperationException());
 
-            var functionContext = FunctionContextBuilder.BuildFunctionContext();
-            var request = FunctionContextBuilder.BuildHttpRequestData(HttpMethod.Get);
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(tableStorageService: tableStorageService);
             var result = await functions.GetQualifications(request, functionContext);
