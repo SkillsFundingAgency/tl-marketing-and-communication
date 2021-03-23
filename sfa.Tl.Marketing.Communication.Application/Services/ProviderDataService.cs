@@ -196,6 +196,5 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             return venueNameOverrides;
         }
-
     }
 }

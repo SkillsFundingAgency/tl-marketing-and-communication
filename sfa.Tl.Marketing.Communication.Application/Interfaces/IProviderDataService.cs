@@ -13,7 +13,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
         IEnumerable<Qualification> GetQualifications();
         IEnumerable<Qualification> GetQualifications(int[] qualificationIds);
         Qualification GetQualification(int qualificationId);
-        
+
         IEnumerable<string> GetWebsiteUrls();
     }
 }

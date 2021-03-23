@@ -17,7 +17,6 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline
         {
             var searchSteps = new List<ISearchStep>
             {
-                new GetQualificationIdToSearchStep(),
                 new GetQualificationsStep(providerSearchService),
                 new LoadSearchPageWithNoResultsStep(),
                 new ValidatePostcodeStep(providerSearchService),

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -84,40 +83,17 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public async Task<IList<Provider>> GetAllProviders()
         {
-            var stopwatch = Stopwatch.StartNew();
-
             var providerEntities = await _providerRepository.GetAll();
-            
-            stopwatch.Stop();
-            _logger.LogDebug($"TableStorageService::Get provider entities took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
-            stopwatch.Restart();
 
             var providers = providerEntities.ToProviderList();
-
-            stopwatch.Stop();
-            _logger.LogDebug($"TableStorageService::Converting to provider list took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
-            stopwatch.Restart();
 
             var locationCount = 0;
             foreach (var provider in providers)
             {
-                var locationStopwatch = Stopwatch.StartNew();
                 var locationEntities = await _locationRepository.GetByPartitionKey(provider.UkPrn.ToString());
-
-                locationStopwatch.Stop();
-                _logger.LogDebug($"   TableStorageService::Get {provider.UkPrn} {locationEntities.Count} location entities took {locationStopwatch.ElapsedMilliseconds}ms {locationStopwatch.ElapsedTicks} ticks");
-                locationStopwatch.Restart();
-
                 provider.Locations = locationEntities.ToLocationList();
-
-                locationStopwatch.Stop();
-                _logger.LogDebug($"   TableStorageService::Converting to location list took {locationStopwatch.ElapsedMilliseconds}ms {locationStopwatch.ElapsedTicks} ticks");
-                
                 locationCount += locationEntities.Count;
             }
-
-            stopwatch.Stop();
-            _logger.LogDebug($"TableStorageService::Getting locations took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
 
             _logger.LogInformation($"TableStorageService::RetrieveProviders found {providers.Count} providers with {locationCount} locations.");
             return providers;

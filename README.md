@@ -8,7 +8,8 @@
 
 
 ## Actions
-cd to "root" directory
+
+To set up gulp and npm, `cd` to the project "root" directory then:
 
 |Task|Description|
 |----|-----------|
@@ -28,13 +29,13 @@ To fix this, set the version that Visual Studio runs by following the following 
 
 ## Configuration
 
-The Postcode Retriever Base Url key is stored in the site `appSettings.json` file. To set the value locally, you will need to add a file `appsettings.Development.json` to the project with the content below. Add the actual key in place of `<value>` - this should usually be `https://postcodes.io/`
+Website configuration is in `appsettings.json` and the settings for different enviromnments are set by Azure DevOps release/pipeline variables.  
+If you need to override values on your local machine, add a `appsettings.Development.json` file and set `Copy to Output Directory` to `Copy if newer`, then add jeys/values there.
 
 Other API Keys and email addresses are also stored in the site `appSettings.json` file and need to be overridden in `appsettings.Development.json` as shown below.
 
 ```
 {
-  "PostcodeRetrieverBaseUrl": "<value>"
   "EmployerContactEmailTemplateId": "<value>"
   "GovNotifyApiKey": "<api_key_value>",
   "SupportEmailInboxAddress": "<your_email>",
@@ -51,42 +52,26 @@ Other API Keys and email addresses are also stored in the site `appSettings.json
 ```
 
 - `GovNotifyApiKey` will come from GOV.UK Notify service settings (check with DevOps if you don't have access). 
-- `EmployerContactEmailTemplateId` is the email template id created in GOV.UK Notify for the contact email.
+- `EmployerContactEmailTemplateId` is the email template id created in GOV.UK Notify for the contact email. A default value is set in `appSettings.json`.
 - `SupportEmailInboxAddress` can be a single email address or a semicolon-separated list of email addresses where the contact email should be sent to.
-
-
-## Creating the providers data file
-
-1. The console application *sfa.Tl.Marketing.Communication.DataLoad* can be run to regenerate the `providers.json` file. 
-2. All provider data exist in "Full Provider Data 2020 - 2021 (campaign site).xlsx" spreadsheet, the latest copy exist in *sfa.Tl.Marketing.Communication.DataLoad/Provider Data* folder
-3. To add a new qualification for course year a new row will be added for a provider venue to the spreadsheet
-4. To regenerate the 'providers.json' from the spreadsheet, Save As the spreadsheet as .csv file.
-   * The csv file will not be chcked in to Git
-5. Before running the console app, update CsvFilePath and JsonOutputPath file paths in Program.cs
-Or
-6. Default paths to input and output file paths are in constants in the code; if you want to set different paths add a file called `appsettings.json` with the content below. DO NOT CHECK THIS IN (it is already in .gitignore).
-
-{
-  "InputFilePath": "<path to file>",
-  "OutputFilePath": "<path to file>"
-}
-
-7. After running the program, simply copy the `providers` section from the output file over the existing `providers` section in `\sfa.Tl.Marketing.Communication\Frontend\src\json\providers.json`.
+- `TableStorageConnectionString` defaults to Azure Storage Emulator. If you want to use a cloud table, set the connection string here.
+- `PostcodeRetrieverBaseUrl` is usually `https://postcodes.io/` - this is set in `appSettings.json`.
 
 
 ## Creating provider data in local storage
 
+Data for the student search page is stored in Azure Storage Tables. 
+This data is imported from the NCS Course Directory API using a scheduled function, but in a development environment sample data can be written to local storage as follows:
+
 1. The console application *sfa.Tl.Marketing.Communication.DataLoad* can be run to copy data into local storage. 
 2. This can be run on developer machines when Azure Storage Explorer is running.
-3. The program will create tables called `Qualification` and `Provider` and copy data from json files.
-4. You need to set the table connection string and paths to sample files in `appsettings.json` with the content below. DO NOT CHECK THIS IN (it is already in .gitignore). The paths below use files that are included in the projec.
+3. The program will create tables called `Qualification`, `Provider` and `Location` and copy data from json files.
+4. You need to set the table connection string and paths to sample files in `appsettings.json` with the content below. DO NOT CHECK THIS IN (it is already in .gitignore). The paths below use files that are included in the project.
 
 {
-  "JsonInputOnly": "true",
   "ProviderJsonInputFilePath": "..\\..\\..\\Provider Data\\providers.json",
   "QualificationJsonInputFilePath": "..\\..\\..\\Provider Data\\qualifications.json",
   "TableStorageConnectionString": "UseDevelopmentStorage=true;"
 }
 
-5. Note that JsonInputOnly (above) should be set to true if you do not want to import providers from csv.
 

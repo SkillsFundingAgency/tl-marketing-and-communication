@@ -5,7 +5,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
 {
     public class ProviderLocationBuilder
     {
-        public ProviderLocation Build() => new()
+        public ProviderLocation Build() => new ProviderLocation
         {
             ProviderName = "Test Provider",
             Name = "Test Location",

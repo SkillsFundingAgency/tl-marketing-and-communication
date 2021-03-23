@@ -7,9 +7,9 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace sfa.Tl.Marketing.Communication.Application.Services
+namespace sfa.Tl.Marketing.Communication.DataLoad.Services
 {
-    public class ProviderDataMigrationService : IProviderDataMigrationService
+    public class ProviderDataMigrationService
     {
         private readonly IFileReader _fileReader;
         private readonly ITableStorageService _tableStorageService;

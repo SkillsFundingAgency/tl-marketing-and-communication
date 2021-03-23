@@ -63,16 +63,6 @@ steps:
     arguments: '--configuration $(buildConfiguration)  --no-restore'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Integration Tests'
-  enabled: false
-  continueOnError: true
-  timeoutInMinutes: 35
-  inputs:
-    command: test
-    projects: '**/*.IntegrationTests.csproj'
-    arguments: '--configuration $(buildConfiguration)'
-
-- task: DotNetCoreCLI@2
   displayName: 'DotNet Publish'
   inputs:
     command: publish

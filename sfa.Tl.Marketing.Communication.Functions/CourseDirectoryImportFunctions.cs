@@ -25,6 +25,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
         }
 
         [FunctionName("CourseDirectoryScheduledImport")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
         public async Task ImportCourseDirectoryData(
             [TimerTrigger("%CourseDirectoryImportTrigger%")]
             TimerInfo timer,
@@ -47,6 +48,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
         }
 
         [FunctionName("CourseDirectoryManualImport")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
         public async Task<IActionResult> ManualImport(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequest request,
@@ -86,6 +88,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
         }
 
         [FunctionName("GetCourseDirectoryJson")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
         public async Task<IActionResult> GetCourseDirectoryDetailJson(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequest request,
@@ -113,6 +116,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
         }
 
         [FunctionName("GetCourseDirectoryQualificationJson")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
         public async Task<IActionResult> GetCourseDirectoryQualificationJson(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequest request,
@@ -140,6 +144,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
         }
 
         [FunctionName("GetProviders")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
         public async Task<IActionResult> GetProviders(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequest request,
@@ -167,6 +172,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
         }
 
         [FunctionName("GetQualifications")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
         public async Task<IActionResult> GetQualifications(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequest request,

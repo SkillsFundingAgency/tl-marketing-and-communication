@@ -186,7 +186,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
         private static Location BuildLocation(string name, string postcode, double lat, double lng)
         {
-            return new()
+            return new Location
             {
                 Name = name,
                 Postcode = postcode,
@@ -203,7 +203,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
         private static Provider BuildProvider(long ukPrn, string name, IList<Location> locations)
         {
-            return new()
+            return new Provider
             {
                 UkPrn = ukPrn,
                 Name = name,
@@ -215,9 +215,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var qualifications = new List<Qualification>
             {
-                new() { Id = 1, Name = "Xyz" },
-                new() { Id = 2, Name = "Mno" },
-                new() { Id = 3, Name = "Abc" }
+                new Qualification { Id = 1, Name = "Xyz" },
+                new Qualification { Id = 2, Name = "Mno" },
+                new Qualification { Id = 3, Name = "Abc" }
             };
             return qualifications;
         }

@@ -5,12 +5,12 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
 {
     public class DeliveryYearBuilder
     {
-        public DeliveryYear Build() => new ()
+        public DeliveryYear Build() => new DeliveryYear
         {
             Year = 2020,
             Qualifications = new List<Qualification>
             {
-                new()
+                new Qualification
                 {
                     Id = 1,
                     Name = "Test Qualification"

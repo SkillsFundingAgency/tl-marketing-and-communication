@@ -8,13 +8,13 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders
     {
         public IList<Provider> BuildList() => new List<Provider>
         {
-            new()
+            new Provider
             {
                 UkPrn = 12345678,
                 Name = "Test Provider 1",
                 Locations = new List<Location>
                 {
-                    new()
+                    new Location
                     {
                         Postcode = "CV1 2WT",
                         Town = "Coventry",
@@ -22,7 +22,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders
                         Longitude = -1.508122,
                         DeliveryYears = new List<DeliveryYearDto>
                         {
-                            new()
+                            new DeliveryYearDto
                             {
                                 Year = 2021,
                                 Qualifications = new List<int>

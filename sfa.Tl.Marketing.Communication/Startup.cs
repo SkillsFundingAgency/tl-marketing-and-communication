@@ -11,11 +11,8 @@ using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos.Table;
-using Microsoft.Extensions.Logging;
 using Notify.Client;
 using Notify.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
@@ -26,13 +23,11 @@ namespace sfa.Tl.Marketing.Communication
     {
         public IConfiguration Configuration { get; }
         protected ConfigurationOptions SiteConfiguration;
-        private readonly ILogger _logger;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public Startup(IConfiguration configuration, ILogger<Startup> logger, IWebHostEnvironment webHostEnvironment)
+        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             Configuration = configuration;
-            _logger = logger;
             _webHostEnvironment = webHostEnvironment;
         }
 
@@ -50,8 +45,6 @@ namespace sfa.Tl.Marketing.Communication
                 PostcodeRetrieverBaseUrl = Configuration["PostcodeRetrieverBaseUrl"],
                 EmployerContactEmailTemplateId = Configuration["EmployerContactEmailTemplateId"],
                 SupportEmailInboxAddress = Configuration["SupportEmailInboxAddress"],
-                ProvidersDataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\providers.json",
-                QualificationsDataFilePath = @$"{_webHostEnvironment.WebRootPath}\js\qualifications.json",
                 StorageConfiguration = new StorageSettings
                 {
                     TableStorageConnectionString = Configuration[ConfigurationKeys.TableStorageConnectionStringConfigKey]
@@ -104,10 +97,8 @@ namespace sfa.Tl.Marketing.Communication
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         // ReSharper disable once UnusedMember.Global
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
-            //TODO: Remove the following parameters after NCS data is imported via API 
-            IProviderDataMigrationService providerDataMigrationService,
-            ITableStorageService tableStorageService)
+        public void Configure(IApplicationBuilder app, 
+            IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -145,9 +136,6 @@ namespace sfa.Tl.Marketing.Communication
             {
                 endpoints.MapControllers();
             });
-
-            //TODO: Remove this after NCS data is imported via API 
-            PreloadProviderAndQualificationTableData(providerDataMigrationService, tableStorageService).Wait();
         }
 
         protected virtual void RegisterHttpClients(IServiceCollection services)
@@ -166,9 +154,6 @@ namespace sfa.Tl.Marketing.Communication
             services.AddTransient<ISearchPipelineFactory, SearchPipelineFactory>();
             services.AddTransient<IProviderSearchEngine, ProviderSearchEngine>();
 
-            //TODO: Remove this after NCS data is imported from API 
-            services.AddTransient<IProviderDataMigrationService, ProviderDataMigrationService>();
-
             var cloudStorageAccount =
                 CloudStorageAccount.Parse(SiteConfiguration.StorageConfiguration.TableStorageConnectionString);
             services.AddSingleton(cloudStorageAccount);
@@ -182,32 +167,6 @@ namespace sfa.Tl.Marketing.Communication
             var govNotifyApiKey = Configuration["GovNotifyApiKey"];
             services.AddTransient<IAsyncNotificationClient, NotificationClient>(
                 _ => new NotificationClient(govNotifyApiKey));
-        }
-
-        //TODO: Remove this after NCS data is imported via API 
-        private async Task PreloadProviderAndQualificationTableData(
-            IProviderDataMigrationService providerDataMigrationService,
-            ITableStorageService tableStorageService)
-        {
-            try
-            {
-                var existingQualifications = await tableStorageService.GetAllQualifications();
-                var existingProviders = await tableStorageService.GetAllProviders();
-                if (existingQualifications.Any() && existingProviders.Any())
-                    return;
-
-                _logger.LogInformation("Migrating providers and qualifications to table storage");
-                
-                var savedQualifications = await providerDataMigrationService.WriteQualifications(SiteConfiguration.QualificationsDataFilePath);
-                _logger.LogInformation($"Saved {savedQualifications} qualifications to table storage");
-                
-                var savedProviders = await providerDataMigrationService.WriteProviders(SiteConfiguration.ProvidersDataFilePath);
-                _logger.LogInformation($"Saved {savedProviders} providers to table storage");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to save qualifications or providers to table storage");
-            }
         }
     }
 }

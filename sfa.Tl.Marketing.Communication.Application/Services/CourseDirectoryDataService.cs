@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -123,8 +122,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 .EnumerateArray()
                 .Where(courseElement => courseElement.SafeGetString("offeringType") == "TLevel"))
             {
-                var stopwatch = Stopwatch.StartNew();
-
                 var tLevelId = courseElement.SafeGetString("tLevelId");
 
                 if (!DateTime.TryParse(courseElement.SafeGetString("startDate"), out var startDate))
@@ -170,10 +167,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     providers.Add(provider);
                 }
 
-                stopwatch.Stop();
-                _logger.LogDebug($"CourseDirectoryDataService::Adding provider took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
-                stopwatch.Restart();
-
                 if (!courseElement.TryGetProperty("locations", out var locationsProperty))
                 {
                     _logger.LogWarning(
@@ -181,13 +174,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     continue;
                 }
 
-                stopwatch.Stop();
-                _logger.LogDebug($"CourseDirectoryDataService::Getting location took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
-
                 foreach (var locationElement in locationsProperty.EnumerateArray())
                 {
-                    stopwatch.Restart();
-
                     var postcode = locationElement.SafeGetString("postcode");
                     var locationWebsite = locationElement.SafeGetString("website");
 
@@ -231,10 +219,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     {
                         deliveryYear.Qualifications.Add(qualification);
                     }
-
-                    stopwatch.Stop();
-                    _logger.LogDebug($"CourseDirectoryDataService::CourseDirectoryDataService::Processing location {location.Postcode} took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
-                    stopwatch.Restart();
                 }
             }
 
@@ -266,17 +250,16 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             if (!string.IsNullOrWhiteSpace(fullName))
             {
                 var parts = fullName.Split('-');
-                switch (parts.Length)
+                if (parts.Length > 1)
                 {
-                    case > 1:
-                        route = Regex.Replace(parts[0],
-                                "^T Level", "")
-                            .ToTitleCase();
-                        name = parts[1].ToTitleCase();
-                        break;
-                    case 1:
-                        name = parts[0].ToTitleCase();
-                        break;
+                    route = Regex.Replace(parts[0],
+                            "^T Level", "")
+                        .ToTitleCase();
+                    name = parts[1].ToTitleCase();
+                }
+                else if (parts.Length == 1)
+                {
+                    name = parts[0].ToTitleCase();
                 }
             }
 
@@ -285,49 +268,29 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private async Task<(int Saved, int Deleted)> UpdateProvidersInTableStorage(IList<Provider> providers)
         {
-            var stopwatch = Stopwatch.StartNew();
             var existingProviders = await _tableStorageService.GetAllProviders();
-
-            stopwatch.Stop();
-            _logger.LogDebug($"CourseDirectoryDataService::Loading existing providers took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
-            stopwatch.Restart();
 
             var providersToInsertOrUpdate = providers.Where(q =>
                 ProviderIsNewOrHasChanges(existingProviders, q)
             ).ToList();
-
-            stopwatch.Stop();
-            _logger.LogDebug($"CourseDirectoryDataService::ProviderIsNewOrHasChanges took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
-            stopwatch.Restart();
-
+            
             var providersToDelete = existingProviders.Where(q =>
                     providers.All(x => x.UkPrn != q.UkPrn)) //Not in new data, so add it to the delete list
                     .ToList();
-
-            stopwatch.Stop();
-            _logger.LogDebug($"CourseDirectoryDataService::Get providers to delete took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
-            stopwatch.Restart();
-
+            
             var savedProviders = 0;
             if (providersToInsertOrUpdate.Any())
             {
                 savedProviders = await _tableStorageService.SaveProviders(providersToInsertOrUpdate);
                 _logger.LogInformation($"Saved {savedProviders} providers to table storage");
             }
-
-            stopwatch.Stop();
-            _logger.LogDebug($"CourseDirectoryDataService::Saving providers took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
-            stopwatch.Restart();
-
+            
             var deletedProviders = 0;
             if (providersToDelete.Any())
             {
                 deletedProviders = await _tableStorageService.RemoveProviders(providersToDelete);
                 _logger.LogInformation($"Deleted {deletedProviders} providers from table storage");
             }
-
-            stopwatch.Stop();
-            _logger.LogDebug($"CourseDirectoryDataService::Deleting providers took {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
 
             return (Saved: savedProviders, Deleted: deletedProviders);
         }

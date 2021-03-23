@@ -2,8 +2,10 @@
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services
 {
@@ -12,15 +14,18 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         private readonly IProviderDataService _providerDataService;
         private readonly IJourneyService _journeyService;
         private readonly IDistanceCalculationService _distanceCalculationService;
+        private readonly ILogger<ProviderSearchService> _logger;
 
         public ProviderSearchService(
-            IProviderDataService providerDataService, 
-            IJourneyService journeyService, 
-            IDistanceCalculationService distanceCalculationService)
+            IProviderDataService providerDataService,
+            IJourneyService journeyService,
+            IDistanceCalculationService distanceCalculationService,
+            ILogger<ProviderSearchService> logger)
         {
             _providerDataService = providerDataService ?? throw new ArgumentNullException(nameof(providerDataService));
             _journeyService = journeyService ?? throw new ArgumentNullException(nameof(journeyService));
             _distanceCalculationService = distanceCalculationService ?? throw new ArgumentNullException(nameof(distanceCalculationService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public IEnumerable<Qualification> GetQualifications()
@@ -29,48 +34,44 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return qualifications.OrderBy(q => q.Name);
         }
 
-        public IEnumerable<ProviderLocation> GetAllProviderLocations()
-        {
-            var providers = _providerDataService.GetProviders();
-            var locations = _providerDataService.GetLocations(providers);
-            return _providerDataService.GetProviderLocations(locations, providers);
-        }
-
         public async Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(SearchRequest searchRequest)
         {
+            _logger.LogInformation($"Search::requested search for {searchRequest.Postcode} with {searchRequest.NumberOfItems} for qualification {searchRequest.QualificationId}");
+
+            var stopwatch = Stopwatch.StartNew();
+
             var providers = _providerDataService.GetProviders();
-
-            var results = new List<ProviderLocation>();
-
-            if (providers.Any())
+            
+            if (!providers.Any())
             {
-                var locations = _providerDataService.GetLocations(providers, searchRequest.QualificationId);
-
-                var providerLocations = _providerDataService.GetProviderLocations(locations, providers);
-
-                results = await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
-                    new PostcodeLocation
-                    {
-                        Postcode = searchRequest.Postcode,
-                        Latitude = Convert.ToDouble(searchRequest.OriginLatitude),
-                        Longitude = Convert.ToDouble(searchRequest.OriginLongitude)
-                    }, providerLocations);
+                return (0, new List<ProviderLocation>());
             }
 
-            var totalCount = results.Count;
-            var searchResults = results
+            var locations = _providerDataService.GetLocations(providers, searchRequest.QualificationId);
+            var providerLocations = _providerDataService.GetProviderLocations(locations, providers);
+            
+            var providerLocationsWithDistances = await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
+                new PostcodeLocation
+                {
+                    Postcode = searchRequest.Postcode,
+                    Latitude = Convert.ToDouble(searchRequest.OriginLatitude),
+                    Longitude = Convert.ToDouble(searchRequest.OriginLongitude)
+                }, providerLocations);
+
+            var searchResults = providerLocationsWithDistances
                 .OrderBy(pl => pl.DistanceInMiles)
                 .Take(searchRequest.NumberOfItems)
+                .Select(s =>
+                {
+                    s.JourneyUrl = _journeyService.GetDirectionsLink(searchRequest.Postcode, s);
+                    return s;
+                })
                 .ToList();
 
-            foreach (var searchResult in searchResults)
-            {
-                searchResult.JourneyUrl = _journeyService.GetDirectionsLink(
-                    searchRequest.Postcode,
-                    searchResult);
-            }
+            stopwatch.Stop();
+            _logger.LogInformation($"Search::Returning {searchResults.Count} results from {providerLocationsWithDistances.Count} locations in {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
 
-            return (totalCount, searchResults);
+            return (providerLocationsWithDistances.Count, searchResults);
         }
 
         public Qualification GetQualificationById(int id)

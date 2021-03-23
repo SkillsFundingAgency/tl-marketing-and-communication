@@ -9,7 +9,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.HttpClient
 {
     public class FakeHttpMessageHandler : DelegatingHandler
     {
-        private readonly Dictionary<Uri, HttpResponseMessage> _fakeResponses = new();
+        private readonly Dictionary<Uri, HttpResponseMessage> _fakeResponses = 
+            new Dictionary<Uri, HttpResponseMessage>();
 
         public void AddFakeResponse(Uri uri, HttpResponseMessage responseMessage)
         {
