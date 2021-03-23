@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Notify.Interfaces;
-using sfa.Tl.Marketing.Communication.Application.Enums;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
@@ -29,8 +28,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             string fullName,
             string organisationName,
             string phone,
-            string email,
-            ContactMethod contactMethod)
+            string email)
         {
             var toAddresses = _configuration.SupportEmailInboxAddress?.Split(';', StringSplitOptions.RemoveEmptyEntries);
 
@@ -45,8 +43,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 { "full_name", fullName },
                 { "organisation_name", organisationName },
                 { "phone_number", phone },
-                { "email_address", email },
-                { "contact_method", contactMethod.ToString() }
+                { "email_address", email }
             };
 
             var allEmailsSent = true;

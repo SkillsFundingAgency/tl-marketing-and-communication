@@ -5,6 +5,4 @@ An employer has submitted the following information:
 * Telephone number: ((phone_number))
 * Email address: [((email_address))](mailto:((email_address)))
 
-They would like to be contacted by ((contact_method))
-
 Please do not reply to this email.

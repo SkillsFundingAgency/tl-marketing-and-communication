@@ -1,5 +1,4 @@
-﻿using sfa.Tl.Marketing.Communication.Application.Enums;
-using sfa.Tl.Marketing.Communication.Models;
+﻿using sfa.Tl.Marketing.Communication.Models;
 // ReSharper disable UnusedMember.Global
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
@@ -21,7 +20,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
             _viewModel.OrganisationName = "Test Co";
             _viewModel.Email = "employer@test.com";
             _viewModel.Phone = "0345 555 5555";
-            _viewModel.ContactMethod = ContactMethod.Email;
             return this;
         }
 
@@ -46,12 +44,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
         public EmployerContactViewModelBuilder WithPhone(string phone)
         {
             _viewModel.Phone = phone;
-            return this;
-        }
-
-        public EmployerContactViewModelBuilder With(ContactMethod contactMethod)
-        {
-            _viewModel.ContactMethod = contactMethod;
             return this;
         }
     }

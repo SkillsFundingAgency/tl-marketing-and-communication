@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using sfa.Tl.Marketing.Communication.Application.Enums;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Constants;
 using sfa.Tl.Marketing.Communication.Models;
@@ -82,17 +81,11 @@ namespace sfa.Tl.Marketing.Communication.Controllers
                 return View(viewModel);
             }
             
-            if (HasContactFormSentCookie())
-            {
-
-            }
-
-            if (!(await _emailService.SendEmployerContactEmail(
+            if (!await _emailService.SendEmployerContactEmail(
                 viewModel.FullName, 
                 viewModel.OrganisationName,
                 viewModel.Phone, 
-                viewModel.Email, 
-                viewModel.ContactMethod ?? ContactMethod.Email)))
+                viewModel.Email))
             {
                 return View("Error", new ErrorViewModel());
             }

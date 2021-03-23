@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using sfa.Tl.Marketing.Communication.Application.Enums;
 
 namespace sfa.Tl.Marketing.Communication.Models
 {
@@ -19,9 +18,7 @@ namespace sfa.Tl.Marketing.Communication.Models
         [RegularExpression(@"^[a-zA-Z0-9\u0080-\uFFA7?$#()""'!,+\-=_:;.&€£*%\s\/]+@[a-zA-Z0-9\u0080-\uFFA7?$#()""'!,+\-=_:;.&€£*%\s\/]+\.([a-zA-Z0-9\u0080-\uFFA7]{2,10})$", 
             ErrorMessage = "You must enter a valid email")]
         public string Email { get; set; }
-        
-        [Required(ErrorMessage = "You must tell us how you would prefer to be contacted")]
-        public ContactMethod? ContactMethod { get; set; }
+       
 
         public bool ContactFormSent { get; set; }
     }
