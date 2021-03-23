@@ -29,9 +29,9 @@ namespace sfa.Tl.Marketing.Communication.Functions
         public async Task ImportCourseDirectoryData(
             [TimerTrigger("%CourseDirectoryImportTrigger%")]
             TimerInfo timer,
-            FunctionContext executionContext)
+            FunctionContext functionContext)
         {
-            var logger = executionContext.GetLogger("HttpFunction");
+            var logger = functionContext.GetLogger("TimerFunction");
 
             try
             {
@@ -53,9 +53,9 @@ namespace sfa.Tl.Marketing.Communication.Functions
         public async Task<HttpResponseData> ManualImport(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequestData request,
-            FunctionContext executionContext)
+            FunctionContext functionContext)
         {
-            var logger = executionContext.GetLogger("HttpFunction");
+            var logger = functionContext.GetLogger("HttpFunction");
 
             try
             {
@@ -82,7 +82,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
                 return request.CreateResponse(HttpStatusCode.InternalServerError);
             }
         }
-        
+
         private async Task<(int SavedProviders, int DeletedProviders, int SavedQualifications, int DeletedQualifications)> Import(ILogger logger)
         {
             var (savedQualifications, deletedQualifications) = await _courseDirectoryDataService.ImportQualificationsFromCourseDirectoryApi();
@@ -100,9 +100,9 @@ namespace sfa.Tl.Marketing.Communication.Functions
         public async Task<HttpResponseData> GetCourseDirectoryDetailJson(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequestData request,
-            FunctionContext executionContext)
+            FunctionContext functionContext)
         {
-            var logger = executionContext.GetLogger("HttpFunction");
+            var logger = functionContext.GetLogger("HttpFunction");
 
             try
             {
@@ -130,9 +130,9 @@ namespace sfa.Tl.Marketing.Communication.Functions
         public async Task<HttpResponseData> GetCourseDirectoryQualificationJson(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequestData request,
-            FunctionContext executionContext)
+            FunctionContext functionContext)
         {
-            var logger = executionContext.GetLogger("HttpFunction");
+            var logger = functionContext.GetLogger("HttpFunction");
 
             try
             {
@@ -160,15 +160,15 @@ namespace sfa.Tl.Marketing.Communication.Functions
         public async Task<HttpResponseData> GetProviders(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequestData request,
-            FunctionContext executionContext)
+            FunctionContext functionContext)
         {
-            var logger = executionContext.GetLogger("HttpFunction");
+            var logger = functionContext.GetLogger("HttpFunction");
 
             try
             {
                 logger.LogInformation("Course directory GetProviders function was called.");
 
-                var providers = 
+                var providers =
                     (await _tableStorageService.GetAllProviders())
                     .OrderBy(p => p.UkPrn)
                     .ToList();
@@ -178,11 +178,15 @@ namespace sfa.Tl.Marketing.Communication.Functions
                 var response = request.CreateResponse(HttpStatusCode.OK);
                 response.Headers.Add("Content-Type", "application/json");
 
-                var json = JsonSerializer.Serialize(providers);
+                var json = JsonSerializer.Serialize(providers,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
+
                 await response.WriteStringAsync(json);
 
                 return response;
-
             }
             catch (Exception e)
             {
@@ -198,15 +202,15 @@ namespace sfa.Tl.Marketing.Communication.Functions
         public async Task<HttpResponseData> GetQualifications(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
             HttpRequestData request,
-            FunctionContext executionContext)
+            FunctionContext functionContext)
         {
-            var logger = executionContext.GetLogger("HttpFunction");
+            var logger = functionContext.GetLogger("HttpFunction");
 
             try
             {
                 logger.LogInformation("Course directory GetQualifications function was called.");
 
-                var qualifications = 
+                var qualifications =
                     (await _tableStorageService.GetAllQualifications())
                     .OrderBy(q => q.Id)
                     .ToList();
@@ -216,7 +220,12 @@ namespace sfa.Tl.Marketing.Communication.Functions
                 var response = request.CreateResponse(HttpStatusCode.OK);
                 response.Headers.Add("Content-Type", "application/json");
 
-                var json = JsonSerializer.Serialize(qualifications);
+                var json = JsonSerializer.Serialize(qualifications,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
+
                 await response.WriteStringAsync(json);
 
                 return response;
