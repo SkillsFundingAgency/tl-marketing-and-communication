@@ -29,15 +29,15 @@ steps:
     verbose: false
 
 - task: Gulp@0
-  displayName: 'gulp '
+  displayName: 'gulp'
   inputs:
       gulpFile: sfa.Tl.Marketing.Communication/gulpfile.js
 
 - task: UseDotNet@2 
-  displayName: ".NET 5.0.x"
+  displayName: "Install .NET 5 SDK"
   inputs:
-      version: '5.0.x'
-      packageType: sdk
+      packageType: 'sdk'
+      version: '5.0.4'
 
 - task: DotNetCoreCLI@2
   displayName: 'DotNet Restore'
