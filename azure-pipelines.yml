@@ -15,7 +15,7 @@ variables:
   buildPlatform: 'anycpu'
 
 pool:
-  name: 'Azure Pipelines'
+  name: 'windows-latest'
   vmImage: 'ubuntu-18.04'
 
 steps:
