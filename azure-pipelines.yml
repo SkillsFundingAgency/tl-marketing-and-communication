@@ -34,6 +34,12 @@ steps:
       gulpFile: sfa.Tl.Marketing.Communication/gulpfile.js
 
 - task: UseDotNet@2 
+  displayName: ".NET Core 3.1.x"
+  inputs:
+      version: '3.1.x'
+      packageType: sdk
+
+- task: UseDotNet@2 
   displayName: "Install .NET 5 SDK"
   inputs:
       packageType: 'sdk'
