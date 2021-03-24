@@ -34,7 +34,7 @@ steps:
       gulpFile: sfa.Tl.Marketing.Communication/gulpfile.js
 
 - task: UseDotNet@2 
-  displayName: ".NET Core 3.1.x"
+  displayName: "Install .NET Core 3.1.x"
   inputs:
       version: '3.1.x'
       packageType: sdk
@@ -82,7 +82,7 @@ steps:
     command: publish
     publishWebProjects: false
     projects: 'sfa.Tl.Marketing.Communication.Functions/sfa.Tl.Marketing.Communication.Functions.csproj'
-    arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore --no-build'
+    arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore'
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
