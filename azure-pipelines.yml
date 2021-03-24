@@ -37,7 +37,7 @@ steps:
   displayName: "Install .NET 5 SDK"
   inputs:
       packageType: 'sdk'
-      version: '5.0.201'
+      version: '5.*'
 
 - task: DotNetCoreCLI@2
   displayName: 'DotNet Restore'
