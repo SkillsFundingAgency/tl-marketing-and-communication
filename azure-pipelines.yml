@@ -15,8 +15,8 @@ variables:
   buildPlatform: 'anycpu'
 
 pool:
-  name: 'windows-latest'
-  vmImage: 'ubuntu-18.04'
+  name: 'Azure Pipelines'
+  vmImage: 'windows-latest'
 
 steps:
 - task: gittools.gitversion.gitversion-task.GitVersion@5
