@@ -3,6 +3,6 @@ An employer has submitted the following information:
 * Full name: ((full_name))
 * Name of organisation: ((organisation_name))
 * Telephone number: ((organisation_phone_number))
-* Email address: [((organisation_email_address))](mailto:((organisation_email_address)))
+* Email address: ((organisation_email_address))
 
 Please do not reply to this email.
