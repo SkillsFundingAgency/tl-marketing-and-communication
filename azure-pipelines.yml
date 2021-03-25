@@ -16,7 +16,7 @@ variables:
 
 pool:
   name: 'Azure Pipelines'
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-18.04'
 
 steps:
 - task: gittools.gitversion.gitversion-task.GitVersion@5
@@ -34,7 +34,7 @@ steps:
       gulpFile: sfa.Tl.Marketing.Communication/gulpfile.js
 
 - task: UseDotNet@2 
-  displayName: "Install .NET Core 3.1.x"
+  displayName: "Install .NET Core 3.1.x SDK"
   inputs:
       version: '3.1.x'
       packageType: sdk
