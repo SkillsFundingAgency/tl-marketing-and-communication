@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -212,12 +213,16 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             const string expectedMessage =
                 "Venue name for 10000055 ABINGDON AND WITNEY COLLEGE OX14 1GG changed from 'Old Venue Name' to 'ABINGDON CAMPUS'";
+
             logger.ReceivedCalls()
                 .Select(call => call.GetArguments())
-                .Count(callArguments => 
-                    ((LogLevel)callArguments[0]).Equals(LogLevel.Warning) &&
-                    // ReSharper disable once PossibleNullReferenceException
-                    ((IReadOnlyList<KeyValuePair<string, object>>)callArguments[2]).Last().Value.ToString().Equals(expectedMessage))
+                .Count(callArguments =>
+                {
+                    var logLevel = (LogLevel) callArguments[0];
+                    var logValues = (IReadOnlyList<KeyValuePair<string, object>>) callArguments[2];
+                    return logLevel.Equals(LogLevel.Warning) &&
+                           logValues[^1].Value.Equals(expectedMessage);
+                })
                 .Should().Be(1);
         }
 
