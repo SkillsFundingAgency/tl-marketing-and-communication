@@ -1,4 +1,5 @@
 ﻿using System;
+// ReSharper disable UnusedMember.Global
 
 namespace sfa.Tl.Marketing.Communication.Functions
 {

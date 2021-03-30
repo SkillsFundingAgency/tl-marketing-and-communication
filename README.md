@@ -29,8 +29,8 @@ To fix this, set the version that Visual Studio runs by following the following 
 
 ## Configuration
 
-Website configuration is in `appsettings.json` and the settings for different enviromnments are set by Azure DevOps release/pipeline variables.  
-If you need to override values on your local machine, add a `appsettings.Development.json` file and set `Copy to Output Directory` to `Copy if newer`, then add jeys/values there.
+Website configuration is in `appsettings.json` and the settings for different environments are set by Azure DevOps release/pipeline variables.  
+If you need to override values on your local machine, add a `appsettings.Development.json` file and set `Copy to Output Directory` to `Copy if newer`, then add keys/values there.
 
 Other API Keys and email addresses are also stored in the site `appSettings.json` file and need to be overridden in `appsettings.Development.json` as shown below.
 
@@ -107,7 +107,8 @@ https://github.com/Azure/azure-functions-dotnet-worker/wiki/Known-issues#net-cor
 
 There is a dependency on .NET Core 3.1, so a developer machine will need this installed and the Azure build pipeline has to install the SDK. If the dependency is removed in future, the .NET Core 3.1 SDK install step can be removed from the pipeline. See also https://github.com/Azure/azure-functions-dotnet-worker/issues/297
 
-`Microsoft.Azure.WebJobs.Script.ExtensionsMetadataGenerator` must be version `1.2.0` to avoid build or runtime errors. Note this could change in a future release.
+(Note - this isn't being used at the moment, because publish fails) `Microsoft.Azure.WebJobs.Script.ExtensionsMetadataGenerator` must be version `1.2.0` to avoid build or runtime errors. Note this could change in a future release.
+
 
 
 
