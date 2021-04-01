@@ -51,8 +51,6 @@ steps:
     command: restore
     projects: '**/*.csproj'
     noCache: true
-    feedsToUse: config
-    nugetConfigPath: NuGet.config
 
 - task: DotNetCoreCLI@2
   displayName: 'DotNet Build'
