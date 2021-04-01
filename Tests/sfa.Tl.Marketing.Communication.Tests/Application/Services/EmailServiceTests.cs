@@ -62,8 +62,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             Arg.Is<Dictionary<string, dynamic>>(tokens =>
                     TokenHasExpectedValue(tokens, "full_name", TestFullName) &&
                     TokenHasExpectedValue(tokens, "organisation_name", TestOrganisation) &&
-                    TokenHasExpectedValue(tokens, "phone_number", TestPhone) &&
-                    TokenHasExpectedValue(tokens, "email_address", TestEmail)));
+                    TokenHasExpectedValue(tokens, "organisation_phone_number", TestPhone) &&
+                    TokenHasExpectedValue(tokens, "organisation_email_address", TestEmail)));
         }
 
         private static bool TokenHasExpectedValue(IDictionary<string, dynamic> dic, string key, string expected)
