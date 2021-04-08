@@ -75,7 +75,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations
             postcodeData.Longitude.Should().Be(-1.234);
         }
 
-        private HttpClient IntializeHttpClient(string requestPostcode, PostcodeLookupResultDto responseData)
+        private static HttpClient IntializeHttpClient(string requestPostcode, PostcodeLookupResultDto responseData)
         {
             var response = new PostcodeLookupResponse
             {
@@ -86,7 +86,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations
             return CreateClient(response, $"https://example.com/postcodes/{requestPostcode.Replace(" ", "")}");
         }
 
-        private HttpClient IntializeTerminatedHttpClient(string requestPostcode, PostcodeLookupResultDto responseData)
+        private static HttpClient IntializeTerminatedHttpClient(string requestPostcode, PostcodeLookupResultDto responseData)
         {
             var response = new PostcodeLookupResponse
             {
@@ -97,7 +97,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations
             return CreateClient(response, $"https://example.com/terminated_postcodes/{requestPostcode.Replace(" ", "")}");
         }
 
-        private HttpClient CreateClient(object response, string uri, string contentType = "application/json")
+        private static HttpClient CreateClient(object response, string uri, string contentType = "application/json")
         {
             var json = JsonSerializer.Serialize(response);
 

@@ -42,8 +42,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             {
                 { "full_name", fullName },
                 { "organisation_name", organisationName },
-                { "phone_number", phone },
-                { "email_address", email }
+                { "organisation_phone_number", phone },
+                { "organisation_email_address", email }
             };
 
             var allEmailsSent = true;

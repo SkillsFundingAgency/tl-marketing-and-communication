@@ -29,15 +29,21 @@ steps:
     verbose: false
 
 - task: Gulp@0
-  displayName: 'gulp '
+  displayName: 'gulp'
   inputs:
       gulpFile: sfa.Tl.Marketing.Communication/gulpfile.js
 
 - task: UseDotNet@2 
-  displayName: ".NET Core 3.x"
+  displayName: "Install .NET Core 3.1.x SDK"
   inputs:
-      version: '3.x'
+      version: '3.1.x'
       packageType: sdk
+
+- task: UseDotNet@2 
+  displayName: "Install .NET 5 SDK"
+  inputs:
+      packageType: 'sdk'
+      version: '5.x'
 
 - task: DotNetCoreCLI@2
   displayName: 'DotNet Restore'
@@ -45,8 +51,6 @@ steps:
     command: restore
     projects: '**/*.csproj'
     noCache: true
-    feedsToUse: config
-    nugetConfigPath: NuGet.config
 
 - task: DotNetCoreCLI@2
   displayName: 'DotNet Build'
@@ -76,7 +80,7 @@ steps:
     command: publish
     publishWebProjects: false
     projects: 'sfa.Tl.Marketing.Communication.Functions/sfa.Tl.Marketing.Communication.Functions.csproj'
-    arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore --no-build'
+    arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore'
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'

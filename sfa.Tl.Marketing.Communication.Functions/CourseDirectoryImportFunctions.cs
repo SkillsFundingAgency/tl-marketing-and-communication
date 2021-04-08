@@ -1,11 +1,12 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Net;
+using System.Runtime.InteropServices;
+using System.Text.Json;
 using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 
@@ -24,14 +25,15 @@ namespace sfa.Tl.Marketing.Communication.Functions
             _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
         }
 
-        [FunctionName("CourseDirectoryScheduledImport")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
+        [Function("CourseDirectoryScheduledImport")]
+        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
         public async Task ImportCourseDirectoryData(
             [TimerTrigger("%CourseDirectoryImportTrigger%")]
             TimerInfo timer,
-            ExecutionContext context,
-            ILogger logger)
+            FunctionContext functionContext)
         {
+            var logger = functionContext.GetLogger("TimerFunction");
+
             try
             {
                 logger.LogInformation("Course directory scheduled import function was called.");
@@ -47,13 +49,14 @@ namespace sfa.Tl.Marketing.Communication.Functions
             }
         }
 
-        [FunctionName("CourseDirectoryManualImport")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
-        public async Task<IActionResult> ManualImport(
+        [Function("CourseDirectoryManualImport")]
+        public async Task<HttpResponseData> ManualImport(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
-            HttpRequest request,
-            ILogger logger)
+            HttpRequestData request,
+            FunctionContext functionContext)
         {
+            var logger = functionContext.GetLogger("HttpFunction");
+
             try
             {
                 logger.LogInformation("Course directory manual import function was called.");
@@ -62,19 +65,24 @@ namespace sfa.Tl.Marketing.Communication.Functions
 
                 logger.LogInformation("Course directory manual import finished.");
 
-                return new OkObjectResult(
+                var response = request.CreateResponse(HttpStatusCode.OK);
+                response.Headers.Add("Content-Type", "application/text");
+
+                await response.WriteStringAsync(
                     $"Inserted or updated {savedProviders} and deleted {deletedProviders} providers.\r\n" +
                     $"Inserted or updated {savedQualifications} and deleted {deletedQualifications} qualifications.");
+
+                return response;
             }
             catch (Exception e)
             {
                 var errorMessage = $"Error importing data from course directory. Internal Error Message {e}";
                 logger.LogError(errorMessage);
 
-                return new InternalServerErrorResult();
+                return request.CreateResponse(HttpStatusCode.InternalServerError);
             }
         }
-        
+
         private async Task<(int SavedProviders, int DeletedProviders, int SavedQualifications, int DeletedQualifications)> Import(ILogger logger)
         {
             var (savedQualifications, deletedQualifications) = await _courseDirectoryDataService.ImportQualificationsFromCourseDirectoryApi();
@@ -87,115 +95,148 @@ namespace sfa.Tl.Marketing.Communication.Functions
             return (savedProviders, deletedProviders, savedQualifications, deletedQualifications);
         }
 
-        [FunctionName("GetCourseDirectoryJson")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
-        public async Task<IActionResult> GetCourseDirectoryDetailJson(
+        [Function("GetCourseDirectoryJson")]
+        public async Task<HttpResponseData> GetCourseDirectoryDetailJson(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
-            HttpRequest request,
-            ILogger logger)
+            HttpRequestData request,
+            FunctionContext functionContext)
         {
+            var logger = functionContext.GetLogger("HttpFunction");
+
             try
             {
                 logger.LogInformation("Course directory GetCourseDirectoryDetailJson function was called.");
 
                 var json = await _courseDirectoryDataService.GetTLevelDetailJsonFromCourseDirectoryApi();
 
-                return new ContentResult
-                {
-                    Content = json,
-                    ContentType = "application/json"
-                };
+                var response = request.CreateResponse(HttpStatusCode.OK);
+                response.Headers.Add("Content-Type", "application/json");
+                await response.WriteStringAsync(json);
+
+                return response;
             }
             catch (Exception e)
             {
                 var errorMessage = $"Error reading json data from course directory. Internal Error Message {e}";
                 logger.LogError(errorMessage);
 
-                return new InternalServerErrorResult();
+                return request.CreateResponse(HttpStatusCode.InternalServerError);
             }
         }
 
-        [FunctionName("GetCourseDirectoryQualificationJson")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
-        public async Task<IActionResult> GetCourseDirectoryQualificationJson(
+        [Function("GetCourseDirectoryQualificationJson")]
+        public async Task<HttpResponseData> GetCourseDirectoryQualificationJson(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
-            HttpRequest request,
-            ILogger logger)
+            HttpRequestData request,
+            FunctionContext functionContext)
         {
+            var logger = functionContext.GetLogger("HttpFunction");
+
             try
             {
                 logger.LogInformation("Course directory GetCourseDirectoryQualificationJson function was called.");
 
                 var json = await _courseDirectoryDataService.GetTLevelQualificationJsonFromCourseDirectoryApi();
 
-                return new ContentResult
-                {
-                    Content = json,
-                    ContentType = "application/json"
-                };
+                var response = request.CreateResponse(HttpStatusCode.OK);
+                response.Headers.Add("Content-Type", "application/json");
+                await response.WriteStringAsync(json);
+
+                return response;
             }
             catch (Exception e)
             {
                 var errorMessage = $"Error reading json data from course directory. Internal Error Message {e}";
                 logger.LogError(errorMessage);
 
-                return new InternalServerErrorResult();
+                return request.CreateResponse(HttpStatusCode.InternalServerError);
             }
         }
 
-        [FunctionName("GetProviders")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
-        public async Task<IActionResult> GetProviders(
+        [Function("GetProviders")]
+        public async Task<HttpResponseData> GetProviders(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
-            HttpRequest request,
-            ILogger logger)
+            HttpRequestData request,
+            FunctionContext functionContext)
         {
+            var logger = functionContext.GetLogger("HttpFunction");
+
             try
             {
                 logger.LogInformation("Course directory GetProviders function was called.");
 
-                var providers = 
+                var providers =
                     (await _tableStorageService.GetAllProviders())
-                    .OrderBy(p => p.UkPrn);
+                    .OrderBy(p => p.UkPrn)
+                    .ToList();
 
-                logger.LogInformation($"Course directory GetProviders returned {providers.Count()} records.");
+                logger.LogInformation($"Course directory GetProviders returned {providers.Count} records.");
 
-                return new JsonResult(providers);
+                var response = request.CreateResponse(HttpStatusCode.OK);
+                response.Headers.Add("Content-Type", "application/json");
+
+                var json = JsonSerializer.Serialize(providers,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
+
+                await response.WriteStringAsync(json);
+
+                return response;
             }
             catch (Exception e)
             {
                 var errorMessage = $"Error in GetProviders. Internal Error Message {e}";
                 logger.LogError(errorMessage);
 
-                return new InternalServerErrorResult();
+                return request.CreateResponse(HttpStatusCode.InternalServerError);
             }
         }
 
-        [FunctionName("GetQualifications")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
-        public async Task<IActionResult> GetQualifications(
+        [Function("GetQualifications")]
+        public async Task<HttpResponseData> GetQualifications(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
-            HttpRequest request,
-            ILogger logger)
+            HttpRequestData request,
+            FunctionContext functionContext)
         {
+            var logger = functionContext.GetLogger("HttpFunction");
+
             try
             {
                 logger.LogInformation("Course directory GetQualifications function was called.");
 
-                var qualifications = 
+                logger.LogInformation($"Running framework {RuntimeInformation.FrameworkDescription}.");
+                logger.LogInformation($"FUNCTIONS_EXTENSION_VERSION = {Environment.GetEnvironmentVariable("FUNCTIONS_EXTENSION_VERSION")}.");
+                logger.LogInformation($"FUNCTIONS_WORKER_RUNTIME = {Environment.GetEnvironmentVariable("FUNCTIONS_WORKER_RUNTIME")}.");
+                logger.LogInformation($"WEBSITE_RUN_FROM_PACKAGE = {Environment.GetEnvironmentVariable("WEBSITE_RUN_FROM_PACKAGE")}.");
+
+                var qualifications =
                     (await _tableStorageService.GetAllQualifications())
-                    .OrderBy(q => q.Id);
+                    .OrderBy(q => q.Id)
+                    .ToList();
 
-                logger.LogInformation($"Course directory GetQualifications returned {qualifications.Count()} records.");
+                logger.LogInformation($"Course directory GetQualifications returned {qualifications.Count} records.");
 
-                return new JsonResult(qualifications);
+                var response = request.CreateResponse(HttpStatusCode.OK);
+                response.Headers.Add("Content-Type", "application/json");
+
+                var json = JsonSerializer.Serialize(qualifications,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
+
+                await response.WriteStringAsync(json);
+
+                return response;
             }
             catch (Exception e)
             {
                 var errorMessage = $"Error in GetQualifications. Internal Error Message {e}";
                 logger.LogError(errorMessage);
 
-                return new InternalServerErrorResult();
+                return request.CreateResponse(HttpStatusCode.InternalServerError);
             }
         }
     }

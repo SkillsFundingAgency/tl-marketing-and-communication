@@ -1,20 +1,15 @@
 using System;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
-using System.Web.Http;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Timers;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders;
+using sfa.Tl.Marketing.Communication.Functions.UnitTests.Extensions;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
@@ -32,14 +27,11 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .ImportQualificationsFromCourseDirectoryApi()
                 .Returns((12, 0));
 
-            var timerSchedule = Substitute.For<TimerSchedule>();
-            var logger = new NullLogger<CourseDirectoryImportFunctions>();
-
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
             var functions = BuildCourseDirectoryImportFunctions(service);
             await functions.ImportCourseDirectoryData(
-                new TimerInfo(timerSchedule, new ScheduleStatus()),
-                new ExecutionContext(),
-                logger);
+                new TimerInfo(),
+                functionContext);
 
             await service.Received(1).ImportQualificationsFromCourseDirectoryApi();
             await service.Received(1).ImportProvidersFromCourseDirectoryApi();
@@ -56,15 +48,16 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .ImportQualificationsFromCourseDirectoryApi()
                 .Returns((12, 2));
 
-            var request = BuildHttpRequest(HttpMethod.Get);
-
-            var logger = Substitute.For<ILogger>();
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(service);
-            var result = await functions.ManualImport(request, logger);
+            var result = await functions.ManualImport(request, functionContext);
 
-            result.Should().BeOfType<OkObjectResult>();
-            ((OkObjectResult)result).Value.Should().Be(
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var body = await result.Body.ReadAsString();
+            body.Should().Be(
                 "Inserted or updated 10 and deleted 4 providers.\r\n" +
                 "Inserted or updated 12 and deleted 2 qualifications.");
         }
@@ -77,13 +70,13 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .ImportProvidersFromCourseDirectoryApi()
                 .ThrowsForAnyArgs(new InvalidOperationException());
 
-            var request = BuildHttpRequest(HttpMethod.Get);
-
-            var logger = Substitute.For<ILogger>();
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(service);
-            var result = await functions.ManualImport(request, logger);
-            result.Should().BeOfType<InternalServerErrorResult>();
+            var result = await functions.ManualImport(request, functionContext);
+
+            result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
 
         [Fact]
@@ -96,17 +89,17 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .GetTLevelDetailJsonFromCourseDirectoryApi()
                 .Returns(expectedJson);
 
-            var request = BuildHttpRequest(HttpMethod.Get);
-
-            var logger = Substitute.For<ILogger>();
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(service);
-            var result = await functions.GetCourseDirectoryDetailJson(request, logger);
+            var result = await functions.GetCourseDirectoryDetailJson(request, functionContext);
 
-            result.Should().BeOfType<ContentResult>();
-            var contentResult = result as ContentResult;
-            contentResult?.ContentType.Should().Be("application/json");
-            contentResult?.Content.Should().Be(expectedJson);
+            result.Headers.GetValues("Content-Type").Should().NotBeNull();
+            result.Headers.GetValues("Content-Type").First().Should().Be("application/json");
+
+            var body = await result.Body.ReadAsString();
+            body.Should().Be(expectedJson);
         }
 
         [Fact]
@@ -119,17 +112,17 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .GetTLevelQualificationJsonFromCourseDirectoryApi()
                 .Returns(expectedJson);
 
-            var request = BuildHttpRequest(HttpMethod.Get);
-
-            var logger = Substitute.For<ILogger>();
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(service);
-            var result = await functions.GetCourseDirectoryQualificationJson(request, logger);
+            var result = await functions.GetCourseDirectoryQualificationJson(request, functionContext);
 
-            result.Should().BeOfType<ContentResult>();
-            var contentResult = result as ContentResult;
-            contentResult?.ContentType.Should().Be("application/json");
-            contentResult?.Content.Should().Be(expectedJson);
+            result.Headers.GetValues("Content-Type").Should().NotBeNull();
+            result.Headers.GetValues("Content-Type").First().Should().Be("application/json");
+
+            var body = await result.Body.ReadAsString();
+            body.Should().Be(expectedJson);
         }
 
         [Fact]
@@ -140,13 +133,13 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .GetTLevelDetailJsonFromCourseDirectoryApi()
                 .ThrowsForAnyArgs(new InvalidOperationException());
 
-            var request = BuildHttpRequest(HttpMethod.Get);
-
-            var logger = Substitute.For<ILogger>();
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(service);
-            var result = await functions.GetCourseDirectoryDetailJson(request, logger);
-            result.Should().BeOfType<InternalServerErrorResult>();
+            var result = await functions.GetCourseDirectoryDetailJson(request, functionContext);
+
+            result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
 
         [Fact]
@@ -157,13 +150,13 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .GetTLevelQualificationJsonFromCourseDirectoryApi()
                 .ThrowsForAnyArgs(new InvalidOperationException());
 
-            var request = BuildHttpRequest(HttpMethod.Get);
-
-            var logger = Substitute.For<ILogger>();
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(service);
-            var result = await functions.GetCourseDirectoryQualificationJson(request, logger);
-            result.Should().BeOfType<InternalServerErrorResult>();
+            var result = await functions.GetCourseDirectoryQualificationJson(request, functionContext);
+
+            result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
 
         [Fact]
@@ -176,21 +169,17 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             var tableStorageService = Substitute.For<ITableStorageService>();
             tableStorageService.GetAllProviders().Returns(providers);
 
-            var request = BuildHttpRequest(HttpMethod.Get);
-
-            var logger = Substitute.For<ILogger>();
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(tableStorageService: tableStorageService);
-            var result = await functions.GetProviders(request, logger);
+            var result = await functions.GetProviders(request, functionContext);
 
-            var jsonResult = result as JsonResult;
-            jsonResult.Should().NotBeNull();
+            result.Headers.GetValues("Content-Type").Should().NotBeNull();
+            result.Headers.GetValues("Content-Type").First().Should().Be("application/json");
 
-            var json = JsonSerializer.Serialize(jsonResult?.Value,
-                new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                });
+            var json = await result.Body.ReadAsString();
+
             json.PrettifyJsonString().Should().Be(expectedResult);
         }
 
@@ -202,14 +191,13 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .GetAllProviders()
                 .ThrowsForAnyArgs(new InvalidOperationException());
 
-            var request = BuildHttpRequest(HttpMethod.Get);
-
-            var logger = Substitute.For<ILogger>();
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(tableStorageService: tableStorageService);
-            var result = await functions.GetProviders(request, logger);
+            var result = await functions.GetProviders(request, functionContext);
 
-            result.Should().BeOfType<InternalServerErrorResult>();
+            result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
 
         [Fact]
@@ -222,21 +210,16 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             var tableStorageService = Substitute.For<ITableStorageService>();
             tableStorageService.GetAllQualifications().Returns(qualifications);
 
-            var request = BuildHttpRequest(HttpMethod.Get);
-
-            var logger = Substitute.For<ILogger>();
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(tableStorageService: tableStorageService);
-            var result = await functions.GetQualifications(request, logger);
+            var result = await functions.GetQualifications(request, functionContext);
 
-            var jsonResult = result as JsonResult;
-            jsonResult.Should().NotBeNull();
+            result.Headers.GetValues("Content-Type").Should().NotBeNull();
+            result.Headers.GetValues("Content-Type").First().Should().Be("application/json");
 
-            var json = JsonSerializer.Serialize(jsonResult?.Value,
-                new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                });
+            var json = await result.Body.ReadAsString();
             json.PrettifyJsonString().Should().Be(expectedResult);
         }
 
@@ -248,17 +231,16 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
                 .GetAllQualifications()
                 .ThrowsForAnyArgs(new InvalidOperationException());
 
-            var request = BuildHttpRequest(HttpMethod.Get);
-
-            var logger = Substitute.For<ILogger>();
+            var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+            var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
             var functions = BuildCourseDirectoryImportFunctions(tableStorageService: tableStorageService);
-            var result = await functions.GetQualifications(request, logger);
+            var result = await functions.GetQualifications(request, functionContext);
 
-            result.Should().BeOfType<InternalServerErrorResult>();
+            result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
 
-        private CourseDirectoryImportFunctions BuildCourseDirectoryImportFunctions(
+        public static CourseDirectoryImportFunctions BuildCourseDirectoryImportFunctions(
             ICourseDirectoryDataService courseDirectoryDataService = null,
             ITableStorageService tableStorageService = null)
         {
@@ -266,15 +248,6 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             tableStorageService ??= Substitute.For<ITableStorageService>();
 
             return new CourseDirectoryImportFunctions(courseDirectoryDataService, tableStorageService);
-        }
-
-        private static HttpRequest BuildHttpRequest(HttpMethod method)
-        {
-            var httpContext = new DefaultHttpContext();
-            var request = httpContext.Request;
-            request.Method = method.ToString();
-
-            return request;
         }
     }
 }

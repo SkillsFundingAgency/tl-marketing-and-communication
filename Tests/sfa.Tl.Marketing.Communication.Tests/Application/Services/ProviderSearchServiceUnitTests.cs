@@ -188,7 +188,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             totalCount.Should().Be(providerLocations.Count());
             var searchResultsList = searchResults.ToList();
-            searchResultsList.Count().Should().Be(numberOfItems);
+            searchResultsList.Count.Should().Be(numberOfItems);
 
             var firstResult = searchResultsList.First();
             firstResult.ProviderName.Should().Be(providers.First().Name);
