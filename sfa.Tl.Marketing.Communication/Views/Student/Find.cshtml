@@ -16,7 +16,7 @@
                 <p>Search for colleges and schools who start delivering T Levels in 2020 and 2021</p>
                 <form id="searchForm" class="tl-search--form text-center @Model.ValidationStyle">
                     <span class="tl-validation--message">@Model.PostcodeValidationMessage</span>
-                    <input asp-for="Postcode" value="@Model.Postcode" placeholder="Enter your postcode" class="tl-search--form--postcode" aria-label="Enter a postcode to find a T-Level near you" />
+                    <input asp-for="Postcode" value="@Model.Postcode" placeholder="Enter your postcode" class="tl-search--form--postcode" aria-label="Enter a postcode to find a T Level near you" />
                     <input type="hidden" asp-for="NumberOfItemsToShow" value="@Model.NumberOfItemsToShow" />
                     <input type="hidden" asp-for="ShouldSearch" value="@Model.ShouldSearch" />
                     <input type="hidden" asp-for="SearchedQualificationId" value="@Model.SearchedQualificationId" />
