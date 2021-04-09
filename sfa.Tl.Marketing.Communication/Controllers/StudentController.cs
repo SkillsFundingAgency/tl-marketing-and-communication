@@ -48,6 +48,12 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
+        [Route("/students/video-transcript", Name = "StudentVideoTranscript")]
+        public IActionResult StudentVideoTranscript()
+        {
+            return View();
+        }
+
         [Route("/students/find", Name = "Find")]
         public async Task<IActionResult> Find(FindViewModel viewModel)
         {
