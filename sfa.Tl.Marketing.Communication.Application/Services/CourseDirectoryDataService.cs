@@ -225,7 +225,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return providers;
         }
 
-        private IList<Qualification> ProcessTLevelQualificationsDocument(JsonDocument jsonDoc)
+        private static IList<Qualification> ProcessTLevelQualificationsDocument(JsonDocument jsonDoc)
         {
             return jsonDoc.RootElement
                 .GetProperty("tLevelDefinitions")
@@ -423,7 +423,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return false;
         }
 
-        private bool QualificationIsNewOrHasChanges(IEnumerable<Qualification> existingQualifications, Qualification qualification)
+        private static bool QualificationIsNewOrHasChanges(IEnumerable<Qualification> existingQualifications, Qualification qualification)
         {
             var existingQualification = existingQualifications.FirstOrDefault(q => q.Id == qualification.Id);
             return existingQualification == null
