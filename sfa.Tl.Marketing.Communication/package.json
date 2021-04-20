@@ -9,9 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bootstrap": "^4.3.1",
-    "jquery": "^3.5.0",
-    "plyr": "^3.5.6"
+    "bootstrap": "^4.6.0",
+    "jquery": "^3.6.0",
+    "lodash": "^4.17.21",
+    "lodash.template": "^4.5.0",
+    "plyr": "^3.6.7"
   },
   "devDependencies": {
     "gulp": "^4.0.2",
@@ -32,7 +34,7 @@
     "gulp-sass": "^3.1.0",
     "gulp-sass-lint": "^1.4.0",
     "gulp-task-listing": "^1.1.0",
-    "gulp-terser": "^1.2.0",
+    "gulp-terser": "^1.4.1",
     "gulp-to-markdown": "^1.0.0",
     "gulp-uglify": "^3.0.2",
     "gulp-uglify-es": "^1.0.4",
