@@ -38,9 +38,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var qualifications = new List<Qualification>
             {
-                new Qualification { Id = 1, Name = "Xyz" },
-                new Qualification { Id = 2, Name = "Mno" },
-                new Qualification { Id = 3, Name = "Abc" }
+                new() { Id = 1, Name = "Xyz" },
+                new() { Id = 2, Name = "Mno" },
+                new() { Id = 3, Name = "Abc" }
             };
 
             _providerDataService.GetQualifications().Returns(qualifications);
@@ -132,12 +132,12 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var deliveryYears = new List<DeliveryYear>
             {
-                new DeliveryYear
+                new()
                 {
                     Year = providers.First().Locations.First().DeliveryYears.First().Year,
                     Qualifications = new List<Qualification>()
                     {
-                        new Qualification()
+                        new()
                         {
                             Id = providers.First().Locations.First().DeliveryYears.First()
                                 .Qualifications.First(),
@@ -149,7 +149,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var providerLocations = new List<ProviderLocation>
             {
-                new ProviderLocation
+                new()
                 {
                     ProviderName = providers.First().Name,
                     Name  = providers.First().Locations.First().Name,
@@ -219,9 +219,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var providers = new List<Provider>
             {
-                new Provider(),
-                new Provider(),
-                new Provider()
+                new(),
+                new(),
+                new()
             }.AsQueryable();
             _providerDataService.GetProviders().Returns(providers);
 
@@ -239,17 +239,17 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var locations = new List<Location>
             {
-                new Location(),
-                new Location(),
-                new Location()
+                new(),
+                new(),
+                new()
             }.AsQueryable();
             _providerDataService.GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), Arg.Is<int>(q => q == searchRequest.QualificationId.Value)).Returns(locations);
 
             var providerLocations = new List<ProviderLocation>
             {
-                new ProviderLocation(),
-                new ProviderLocation(),
-                new ProviderLocation()
+                new(),
+                new(),
+                new()
             }.AsQueryable();
 
             _providerDataService.GetProviderLocations(
@@ -285,9 +285,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var providers = new List<Provider>
             {
-                new Provider(),
-                new Provider(),
-                new Provider()
+                new(),
+                new(),
+                new()
             }.AsQueryable();
             _providerDataService.GetProviders().Returns(providers);
             const string postcode = "mk669oo";
@@ -301,18 +301,18 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var locations = new List<Location>
             {
-                new Location(),
-                new Location(),
-                new Location()
+                new(),
+                new(),
+                new()
             }.AsQueryable();
 
             _providerDataService.GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), qualificationId).Returns(locations);
 
             var providerLocations = new List<ProviderLocation>
             {
-                new ProviderLocation(),
-                new ProviderLocation(),
-                new ProviderLocation()
+                new(),
+                new(),
+                new()
             }.AsQueryable();
 
             _providerDataService.GetProviderLocations(

@@ -8,7 +8,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders
     {
         public IList<Qualification> BuildList() => new List<Qualification>
         {
-            new Qualification()
+            new()
             {
                 Id = 1,
                 Route = "Test Route",

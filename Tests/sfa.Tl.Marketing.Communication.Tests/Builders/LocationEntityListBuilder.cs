@@ -25,7 +25,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                     Website = $"https://test.provider_{nextId}.co.uk",
                     DeliveryYears = new List<DeliveryYearEntity>
                     {
-                        new DeliveryYearEntity
+                        new()
                         {
                             Year = (short) (2020 + nextId), 
                             Qualifications = new List<int> {nextId}
