@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-	<LangVersion>preview</LangVersion>
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
 	<OutputType>Exe</OutputType>
     <_FunctionsSkipCleanOutput>true</_FunctionsSkipCleanOutput>
@@ -9,10 +8,10 @@
 
   <ItemGroup>
 	  <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />
-	  <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.0.0" />
+	  <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.1.0" />
 	  <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.0.12" />
 	  <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Timer" Version="4.0.1" />
-	  <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.0.1" OutputItemType="Analyzer" />
+	  <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.0.2" OutputItemType="Analyzer" />
 	  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />

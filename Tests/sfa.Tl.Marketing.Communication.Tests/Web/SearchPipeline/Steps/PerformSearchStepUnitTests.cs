@@ -45,11 +45,11 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
             
             var providerLocations = new List<ProviderLocation>
             {
-                new ProviderLocation(),
-                new ProviderLocation(),
-                new ProviderLocation(),
-                new ProviderLocation(),
-                new ProviderLocation()
+                new(),
+                new(),
+                new(),
+                new(),
+                new()
             };
 
             _providerSearchService.Search(Arg.Is<SearchRequest>(sr => sr.Postcode == postcode && 
@@ -59,11 +59,11 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
             
             var providerLocationViewModels = new List<ProviderLocationViewModel>
             {
-                new ProviderLocationViewModel(),
-                new ProviderLocationViewModel(),
-                new ProviderLocationViewModel(),
-                new ProviderLocationViewModel(),
-                new ProviderLocationViewModel()
+                new(),
+                new(),
+                new(),
+                new(),
+                new()
             };
 
             _mapper.Map<IEnumerable<ProviderLocationViewModel>>(Arg.Is(providerLocations)).Returns(providerLocationViewModels);

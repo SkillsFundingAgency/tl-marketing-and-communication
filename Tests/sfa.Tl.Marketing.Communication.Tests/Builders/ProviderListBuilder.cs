@@ -22,7 +22,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                     Name = $"Test Provider {nextId}",
                     Locations = new List<Location>
                     {
-                        new Location
+                        new()
                         {
                             Postcode = $"CV{nextId} {nextId + 1}WT",
                             Town = "Coventry",
@@ -31,7 +31,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                             Website = $"https://test.provider_{nextId}.co.uk",
                             DeliveryYears = new List<DeliveryYearDto>
                             {
-                                new DeliveryYearDto
+                                new()
                                 {
                                     Year = (short)(2020 + nextId),
                                     Qualifications = new List<int>
@@ -57,7 +57,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                 Name = "TEST COLLEGE TO BE DELETED",
                 Locations = new List<Location>
                 {
-                    new Location
+                    new()
                     {
                         Postcode = "CV1 2WT",
                         Town = "Coventry",
@@ -74,7 +74,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                 Name = "ABINGDON AND WITNEY COLLEGE",
                 Locations = new List<Location>
                 {
-                    new Location
+                    new()
                     {
                         Postcode = "OX14 1GG",
                         Name = "ABINGDON CAMPUS",
@@ -84,7 +84,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                         Website = "http://www.abingdon-witney.ac.uk",
                         DeliveryYears = new List<DeliveryYearDto>
                         {
-                            new DeliveryYearDto
+                            new()
                             {
                                 Year = 2021,
                                 Qualifications = new List<int>
@@ -102,7 +102,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                 Name = "MILTON KEYNES COLLEGE",
                 Locations = new List<Location>
                 {
-                    new Location
+                    new()
                     {
                         Postcode = "MK3 6DR",
                         Town = "Milton Keynes",
@@ -112,7 +112,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                         Website = "http://www.provider.com/tlevel",
                         DeliveryYears = new List<DeliveryYearDto>
                         {
-                            new DeliveryYearDto
+                            new()
                             {
                                 Year = 2021,
                                 Qualifications = new List<int>
@@ -130,7 +130,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                 Name = "RUGBY HIGH SCHOOL",
                 Locations = new List<Location>
                 {
-                    new Location
+                    new()
                     {
                         Postcode = "CV22 7RE",
                         Name = "Rugby High School",
@@ -140,7 +140,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                         Website = "http://www.rugbyhighschool.co.uk",
                         DeliveryYears = new List<DeliveryYearDto>
                         {
-                            new DeliveryYearDto
+                            new()
                             {
                                 Year = 2021,
                                 Qualifications = new List<int>
@@ -152,7 +152,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                                     44
                                 }
                             },
-                            new DeliveryYearDto
+                            new()
                             {
                                 Year = 2022,
                                 Qualifications = new List<int>
@@ -162,7 +162,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                             }
                         }
                     },
-                    new Location
+                    new()
                     {
                         Postcode = "CV22 5ET",
                         Name = "TEST",
@@ -172,7 +172,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                         Website = "http://www.rhswebsite.co.uk",
                         DeliveryYears = new List<DeliveryYearDto>
                         {
-                            new DeliveryYearDto
+                            new()
                             {
                                 Year = 2021,
                                 Qualifications = new List<int>
