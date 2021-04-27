@@ -3,40 +3,27 @@ using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
-using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services
 {
     public class ProviderDataService : IProviderDataService
     {
-        public const string ProviderTableDataCacheKey = "Provider_Table_Data";
-        public const string QualificationTableDataCacheKey = "Qualification_Table_Data";
+        private const string ProviderTableDataCacheKey = "Provider_Table_Data";
+        private const string QualificationTableDataCacheKey = "Qualification_Table_Data";
         private readonly int _cacheExpiryInSeconds;
 
         private readonly IMemoryCache _cache;
         private readonly ITableStorageService _tableStorageService;
-        private readonly ILogger<ProviderDataService> _logger;
 
-        private static readonly IDictionary<string, VenueNameOverride> VenueNameOverrides;
-
-        static ProviderDataService()
-        {
-            VenueNameOverrides = GetVenueNameOverrides();
-        }
-        
         public ProviderDataService(
             ITableStorageService tableStorageService,
             IMemoryCache cache,
-            ILogger<ProviderDataService> logger,
             ConfigurationOptions configuration)
         {
             _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _cacheExpiryInSeconds = configuration?.CacheExpiryInSeconds ?? 60;
         }
 
@@ -56,10 +43,10 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public IQueryable<ProviderLocation> GetProviderLocations(IQueryable<Location> locations, IQueryable<Provider> providers)
         {
             return locations.Select(l => new
-                {
-                    Location = l,
-                    Provider = providers.Single(parent => parent.Locations.Contains(l))
-                })
+            {
+                Location = l,
+                Provider = providers.Single(parent => parent.Locations.Contains(l))
+            })
                 .Select(pl => new ProviderLocation
                 {
                     ProviderName = pl.Provider.Name,
@@ -143,23 +130,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             {
                 providers = _tableStorageService.GetAllProviders().GetAwaiter().GetResult();
 
-                //Override location/venue names
-                foreach (var provider in providers)
-                {
-                    foreach (var location in provider.Locations)
-                    {
-                        if (VenueNameOverrides
-                                .TryGetValue($"{provider.UkPrn}{location.Postcode}",
-                                    out var venueNameItem)
-                            && location.Name != venueNameItem.VenueName)
-                        {
-                            _logger.LogInformation("Overriding venue name for " +
-                                                   $"{provider.Name} {location.Postcode} " +
-                                                   $"from {location.Name} to {venueNameItem.VenueName}");
-                            location.Name = venueNameItem.VenueName;
-                        }
-                    }
-                }
                 _cache.Set(ProviderTableDataCacheKey, providers, GetCacheOptions());
             }
 
@@ -172,29 +142,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             if (_cacheExpiryInSeconds > 0)
                 options.SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpiryInSeconds));
             return options;
-        }
-
-        private static IDictionary<string, VenueNameOverride> GetVenueNameOverrides()
-        {
-            var venueNameData = JsonSerializer
-                .Deserialize<IList<VenueNameOverride>>(
-                    "sfa.Tl.Marketing.Communication.Application.Data.VenueNames.json"
-                        .ReadManifestResourceStreamAsString(),
-                    new JsonSerializerOptions
-                    {
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                    });
-
-            var venueNameOverrides = new Dictionary<string, VenueNameOverride>();
-            if (venueNameData != null)
-            {
-                foreach (var venueName in venueNameData)
-                {
-                    venueNameOverrides[$"{venueName.UkPrn}{venueName.Postcode}"] = venueName;
-                }
-            }
-
-            return venueNameOverrides;
         }
     }
 }
