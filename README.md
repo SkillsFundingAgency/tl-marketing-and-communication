@@ -102,7 +102,7 @@ There is a workaround for launching directly - see https://mattjameschampion.com
 
 Once VS2019 is updated, this will no longer be required.
 
-Known issues with tis version of functions can be found at
+Known issues with this version of functions can be found at
 https://github.com/Azure/azure-functions-dotnet-worker/wiki/Known-issues#net-core-31-dependency
 
 There is a dependency on .NET Core 3.1, so a developer machine will need this installed and the Azure build pipeline has to install the SDK. If the dependency is removed in future, the .NET Core 3.1 SDK install step can be removed from the pipeline. See also https://github.com/Azure/azure-functions-dotnet-worker/issues/297
