@@ -3,7 +3,6 @@ using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using System.Linq;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
 using NSubstitute;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
@@ -187,18 +186,16 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         private static IProviderDataService CreateProviderDataService(
             ITableStorageService tableStorageService = null,
             IMemoryCache cache = null,
-            ILogger<ProviderDataService> logger = null,
             ConfigurationOptions configuration = null)
         {
             tableStorageService ??= Substitute.For<ITableStorageService>();
             cache ??= Substitute.For<IMemoryCache>();
-            logger ??= Substitute.For<ILogger<ProviderDataService>>();
             configuration ??= new ConfigurationOptions
             {
                 CacheExpiryInSeconds = 1
             };
 
-            return new ProviderDataService(tableStorageService, cache, logger, configuration);
+            return new ProviderDataService(tableStorageService, cache, configuration);
         }
     }
 }
