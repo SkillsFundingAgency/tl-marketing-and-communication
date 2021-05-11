@@ -8,6 +8,7 @@ using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using sfa.Tl.Marketing.Communication.Functions.Timers;
 using sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders;
 using sfa.Tl.Marketing.Communication.Functions.UnitTests.Extensions;
 using Xunit;

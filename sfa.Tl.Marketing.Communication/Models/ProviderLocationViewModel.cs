@@ -25,7 +25,9 @@ namespace sfa.Tl.Marketing.Communication.Models
                     ? ProviderName
                     : Name;
 
-        public string AddressLabel => $"{Town} | {Postcode}";
+        public string AddressLabel => !string.IsNullOrEmpty(Town)  
+            ? $"{Town} | {Postcode}"
+            : $"{Postcode}";
 
         public bool HasFocus { get; set; }
 
