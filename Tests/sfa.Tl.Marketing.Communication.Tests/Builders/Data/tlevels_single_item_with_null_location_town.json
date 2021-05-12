@@ -1,0 +1,61 @@
+{
+  "tLevels": [
+    {
+      "offeringType": "TLevel",
+      "tLevelId": "a03cafa5-b709-4996-9151-b8a8d0ea0aab",
+      "tLevelDefinitionId": "fc9fefe1-ee86-4df9-9d09-c275ccbf5940",
+      "qualification": {
+        "tLevelName": "T Level Construction - Design, Surveying and Planning for Construction",
+        "qualificationLevel": "3",
+        "frameworkCode": 36,
+        "progType": 31
+      },
+      "provider": {
+        "providerName": "ABINGDON AND WITNEY COLLEGE",
+        "ukprn": "10000055",
+        "addressLine1": null,
+        "addressLine2": null,
+        "town": "Abingdon Provider Town",
+        "postcode": "OX14 1GG",
+        "county": null,
+        "email": "jacqui.canton@abingdon-witney.ac.uk",
+        "telephone": "01235 555585",
+        "fax": null,
+        "website": "http://www.abingdon-witney.ac.uk",
+        "learnerSatisfaction": 9.0,
+        "employerSatisfaction": 9.9
+      },
+      "whoFor": "This T Level is suitable for anyone wanting a career in construction, specifically in surveying and design, civil engineering, building services design, or hazardous materials surveying.\r\n\r\nThe T Level is a 2 year programme and will include a 9 week (minimum) industry placement and a Technical Qualification, where you will also choose a specialist subject.",
+      "entryRequirements": "There are no national entry requirements for starting a T Level. These are set by the individual college or school. Contact us to find out more.",
+      "whatYoullLearn": "You'll learn specific topics in design, surveying and planning:\r\n\r\nProject management\r\nBudgeting and resource allocation\r\nProcurement\r\nRisk management\r\n\r\nIn addition to the core content, you will choose one of the following as a specialist subject:\r\n\r\nSurveying and design for construction and the built environment\r\nCivil engineering\r\nBuilding services design\r\nHazardous materials analysis and surveying",
+      "howYoullLearn": "Your learning will combine classroom theory and practical learning and include 9 weeks (minimum) of industry placement. The placement will provide you with a real experience of the workplace.",
+      "howYoullBeAssessed": "You will be assessed by completing an employer set project and a project on your specialist subject. You'll have time to research and complete tasks. There'll also be 2 exams.\r\n\r\nYou'll work with your tutor to decide when you're ready to be assessed.",
+      "whatYouCanDoNext": "You'll have the industry knowledge and experience to progress into roles like:\r\n\r\nCivil engineering technician\r\nTechnical surveyor\r\nBuilding technician\r\nEngineering construction technician\r\nArchitectural technician\r\n\r\nor go onto an apprenticeship or higher education.",
+      "website": "http://www.testtest.com",
+      "startDate": "2021-03-04T00:00:00",
+      "locations": [
+        {
+          "tLevelLocationId": "30c87884-d87d-4ae9-af25-8bc448270e11",
+          "venueName": "ABINGDON CAMPUS",
+          "addressLine1": "Wootton Road",
+          "addressLine2": "",
+          "town": null,
+          "county": "Oxfordshire",
+          "postcode": "OX14 1GG",
+          "telephone": "01235 555585",
+          "email": "enquiry@abingdon-witney.ac.uk",
+          "website": "http://www.abingdon-witney.ac.uk",
+          "latitude": 51.680637,
+          "longitude": -1.286943
+        }
+      ],
+      "deliveryMode": "ClassroomBased",
+      "attendancePattern": "Daytime",
+      "studyMode": "FullTime",
+      "durationUnit": "Years",
+      "durationValue": 2,
+      "cost": null,
+      "costDescription": "T Levels are currently only available to 16-19 year olds. Contact us for details of other suitable courses."
+    }
+  ]
+}

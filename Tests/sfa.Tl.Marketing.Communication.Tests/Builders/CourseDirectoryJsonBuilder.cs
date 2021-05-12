@@ -9,6 +9,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
             $"{GetType().Namespace}.Data.tlevels_single_item.json"
                 .ReadManifestResourceStreamAsString();
 
+        public string BuildValidTLevelsSingleItemWithNullLocationTownResponse() =>
+            $"{GetType().Namespace}.Data.tlevels_single_item_with_null_location_town.json"
+                .ReadManifestResourceStreamAsString();
+        
         public string BuildValidTLevelsMultiItemResponse() =>
             $"{GetType().Namespace}.Data.tlevels_multiple_items.json"
                 .ReadManifestResourceStreamAsString();

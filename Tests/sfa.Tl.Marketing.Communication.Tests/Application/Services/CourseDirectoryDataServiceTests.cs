@@ -105,6 +105,49 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         }
 
         [Fact]
+        public async Task CourseDirectoryDataService_ImportProviders_With_Single_Item_With_Null_Location_Returns_Expected_Result()
+        {
+            var httpClientFactory = Substitute.For<IHttpClientFactory>();
+            httpClientFactory
+                .CreateClient(CourseDirectoryDataService.CourseDirectoryHttpClientName)
+                .Returns(new TestHttpClientFactory()
+                    .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri,
+                        CourseDirectoryDataService.CourseDetailEndpoint,
+                        new CourseDirectoryJsonBuilder()
+                            .BuildValidTLevelsSingleItemWithNullLocationTownResponse()));
+
+            var providersPassedToSaveProviders = new List<Provider>();
+
+            var tableStorageService = Substitute.For<ITableStorageService>();
+            tableStorageService
+                .SaveProviders(
+                    Arg.Do<IList<Provider>>(p =>
+                        providersPassedToSaveProviders.AddRange(p)))
+                .Returns(x => ((IList<Provider>)x[0]).Count);
+
+            var service = BuildCourseDirectoryDataService(httpClientFactory, tableStorageService);
+
+            var (savedCount, deletedCount) = await service
+                .ImportProvidersFromCourseDirectoryApi();
+
+            savedCount.Should().Be(1);
+            deletedCount.Should().Be(0);
+
+            providersPassedToSaveProviders.Should().HaveCount(1);
+
+            var provider = providersPassedToSaveProviders.First();
+            ValidateProvider(provider, 10000055, "ABINGDON AND WITNEY COLLEGE");
+
+            var location = provider.Locations.First();
+            ValidateLocation(location,
+                "ABINGDON CAMPUS", "OX14 1GG", null,
+                "http://www.abingdon-witney.ac.uk",
+                51.680637, -1.286943);
+
+            ValidateDeliveryYear(location.DeliveryYears.First(), 2021, new[] { 36 });
+        }
+
+        [Fact]
         public async Task CourseDirectoryDataService_ImportProviders_With_Multiple_Items_Deletes_One_And_Saves_No_Changes()
         {
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
