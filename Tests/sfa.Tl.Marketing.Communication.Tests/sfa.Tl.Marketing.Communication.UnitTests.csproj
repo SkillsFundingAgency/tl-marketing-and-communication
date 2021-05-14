@@ -8,6 +8,7 @@
   <ItemGroup>
     <None Remove="Builders\Data\tleveldefinitions.json" />
     <None Remove="Builders\Data\tlevels_multiple_items.json" />
+    <None Remove="Builders\Data\tlevels_single_item_with_null_location_town.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,6 +16,7 @@
     <EmbeddedResource Include="Builders\Data\tleveldefinitions.json" />
     <EmbeddedResource Include="Builders\Data\test_providers.json" />
     <EmbeddedResource Include="Builders\Data\test_qualifications.json" />
+    <EmbeddedResource Include="Builders\Data\tlevels_single_item_with_null_location_town.json" />
     <EmbeddedResource Include="Builders\Data\tlevels_single_item.json" />
   </ItemGroup>
 

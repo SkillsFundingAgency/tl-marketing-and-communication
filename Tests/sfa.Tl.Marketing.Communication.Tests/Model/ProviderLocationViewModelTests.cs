@@ -57,6 +57,34 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Model
         }
 
         [Fact]
+        public void ProviderLocationViewModel_AddressLabel_Is_As_Expected_When_Venue_Town_Is_Null()
+        {
+            var viewModel = new ProviderLocationViewModel
+            {
+                ProviderName = "Test Provider",
+                Postcode = "CV1 2WT",
+                Town = null,
+                Name = "Venue"
+            };
+
+            viewModel.AddressLabel.Should().Be("CV1 2WT");
+        }
+
+        [Fact]
+        public void ProviderLocationViewModel_AddressLabel_Is_As_Expected_When_Venue_Town_Is_Blank()
+        {
+            var viewModel = new ProviderLocationViewModel
+            {
+                ProviderName = "Test Provider",
+                Postcode = "CV1 2WT",
+                Town = "",
+                Name = "Venue"
+            };
+
+            viewModel.AddressLabel.Should().Be("CV1 2WT");
+        }
+
+        [Fact]
         public void ProviderLocationViewModel_RedirectUrl_Is_As_Expected_When_Website_Is_Blank()
         {
             var viewModel = new ProviderLocationViewModel
