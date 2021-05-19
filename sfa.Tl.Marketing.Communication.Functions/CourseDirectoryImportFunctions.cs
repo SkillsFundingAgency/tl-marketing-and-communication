@@ -9,7 +9,6 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
-using sfa.Tl.Marketing.Communication.Functions.Timers;
 
 namespace sfa.Tl.Marketing.Communication.Functions
 {
