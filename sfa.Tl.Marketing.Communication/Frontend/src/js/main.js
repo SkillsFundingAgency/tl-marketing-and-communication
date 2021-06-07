@@ -25,8 +25,7 @@ $(".tl-nav--hamburger").click(function () {
 
 $('.tl-nav--hamburger').keypress(function (e) {
     var key = e.which;
-    if (key == 13) 
-    {
+    if (key === 13) {
         $(this).click();
         return false;
     }
@@ -101,22 +100,6 @@ function processKeyboardEvents(e) {
     if (e.keyCode === keyEscape) {
         closeModal();
     }
-}
-
-var entityMap = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': '&quot;',
-    "'": '&#39;',
-    '’': '&#8217',
-    "/": '&#x2F;'
-};
-
-function escapeHtml(string) {
-    return String(string).replace(/[&<>"'\/]/g, function (s) {
-        return entityMap[s];
-    });
 }
 
 $("#tl-find-button").click(function () {
