@@ -6,12 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Builders\Data\tleveldefinitions.json" />
-    <None Remove="Builders\Data\tlevels_multiple_items.json" />
-    <None Remove="Builders\Data\tlevels_single_item_with_null_location_town.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Builders\Data\tlevels_multiple_items.json" />
     <EmbeddedResource Include="Builders\Data\tleveldefinitions.json" />
     <EmbeddedResource Include="Builders\Data\test_providers.json" />
@@ -40,10 +34,6 @@
     <ProjectReference Include="..\..\sfa.Tl.Marketing.Communication.Application\sfa.Tl.Marketing.Communication.Application.csproj" />
     <ProjectReference Include="..\..\sfa.Tl.Marketing.Communication.Models\sfa.Tl.Marketing.Communication.Models.csproj" />
     <ProjectReference Include="..\..\sfa.Tl.Marketing.Communication\sfa.Tl.Marketing.Communication.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="TestHelpers\Extensions\" />
   </ItemGroup>
 
 </Project>

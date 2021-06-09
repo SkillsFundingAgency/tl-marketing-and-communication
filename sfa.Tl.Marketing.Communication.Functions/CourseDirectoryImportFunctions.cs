@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
@@ -26,7 +25,6 @@ namespace sfa.Tl.Marketing.Communication.Functions
         }
 
         [Function("CourseDirectoryScheduledImport")]
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
         public async Task ImportCourseDirectoryData(
             [TimerTrigger("%CourseDirectoryImportTrigger%"
 #if DEBUG
@@ -35,6 +33,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
                 , UseMonitor = false
 #endif
                 )]
+            // ReSharper disable once UnusedParameter.Global
             TimerInfo timer,
             FunctionContext functionContext)
         {
