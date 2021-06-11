@@ -25,8 +25,8 @@ namespace sfa.Tl.Marketing.Communication.Functions
                 .ConfigureAppConfiguration(c =>
                     {
                         c.AddCommandLine(args)
-                            .AddJsonFile("local.settings.json", optional: false, reloadOnChange: false)
-                            .AddJsonFile("local.settings.development.json", optional: false, reloadOnChange: false)
+                            .AddJsonFile("local.settings.json", optional: true, reloadOnChange: false)
+                            .AddJsonFile("local.settings.development.json", optional: true, reloadOnChange: false)
                             .AddEnvironmentVariables();
                     }
                 )
