@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
@@ -9,7 +8,6 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
-using sfa.Tl.Marketing.Communication.Functions.Timers;
 
 namespace sfa.Tl.Marketing.Communication.Functions
 {
@@ -27,9 +25,15 @@ namespace sfa.Tl.Marketing.Communication.Functions
         }
 
         [Function("CourseDirectoryScheduledImport")]
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Parameter required by runtime but not referenced")]
         public async Task ImportCourseDirectoryData(
-            [TimerTrigger("%CourseDirectoryImportTrigger%")]
+            [TimerTrigger("%CourseDirectoryImportTrigger%"
+#if DEBUG
+                //Fixes problem with functions startup from VS2019
+                // - see https://github.com/Azure/azure-functions-dotnet-worker/issues/471
+                , UseMonitor = false
+#endif
+                )]
+            // ReSharper disable once UnusedParameter.Global
             TimerInfo timer,
             FunctionContext functionContext)
         {

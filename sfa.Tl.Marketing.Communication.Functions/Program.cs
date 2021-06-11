@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -23,10 +24,10 @@ namespace sfa.Tl.Marketing.Communication.Functions
                 .ConfigureFunctionsWorkerDefaults()
                 .ConfigureAppConfiguration(c =>
                     {
-                        c.AddCommandLine(args);
-                        c.AddJsonFile("local.settings.json", optional: true, reloadOnChange: false);
-                        c.AddJsonFile("local.settings.development.json", optional: true, reloadOnChange: false);
-                        c.AddEnvironmentVariables();
+                        c.AddCommandLine(args)
+                            .AddJsonFile("local.settings.json", optional: true, reloadOnChange: false)
+                            .AddJsonFile("local.settings.development.json", optional: true, reloadOnChange: false)
+                            .AddEnvironmentVariables();
                     }
                 )
                 .ConfigureServices((hostContext, services) =>
