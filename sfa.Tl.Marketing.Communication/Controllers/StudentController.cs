@@ -17,7 +17,7 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         private readonly IProviderSearchEngine _providerSearchEngine;
 
         public StudentController(
-            IProviderDataService providerDataService, 
+            IProviderDataService providerDataService,
             IProviderSearchEngine providerSearchEngine)
         {
             _providerSearchEngine = providerSearchEngine ?? throw new ArgumentNullException(nameof(providerSearchEngine));
@@ -61,22 +61,10 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View(searchResults);
         }
 
-        [Route("/students/subjects/design-surveying-planning", Name = "DesignSurveyingPlanning")]
-        public IActionResult DesignSurveyingPlanning()
+        [Route("/students/subjects/accounting", Name = "Accounting")]
+        public IActionResult Accounting()
         {
-            return View("Subjects/DesignSurveyingPlanning");
-        }
-
-        [Route("/students/subjects/digital-production-design-development", Name = "DigitalProductionDesignDevelopment")]
-        public IActionResult DigitalProductionDesignDevelopment()
-        {
-            return View("Subjects/DigitalProductionDesignDevelopment");
-        }
-
-        [Route("/students/subjects/education", Name = "Education")]
-        public IActionResult Education()
-        {
-            return View("Subjects/Education");
+            return View("Subjects/Accounting");
         }
 
         [Route("/students/subjects/building-services-engineering", Name = "BuildingServicesEngineering")]
@@ -85,16 +73,52 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View("Subjects/BuildingServicesEngineering");
         }
 
+        [Route("/students/subjects/design-development-engineering", Name = "DesignDevelopmentEngineering")]
+        public IActionResult DesignDevelopmentEngineering()
+        {
+            return View("Subjects/DesignDevelopmentEngineering");
+        }
+
+        [Route("/students/subjects/design-surveying-planning", Name = "DesignSurveyingPlanning")]
+        public IActionResult DesignSurveyingPlanning()
+        {
+            return View("Subjects/DesignSurveyingPlanning");
+        }
+
         [Route("/students/subjects/digital-business-services", Name = "DigitalBusinessServices")]
         public IActionResult DigitalBusinessServices()
         {
             return View("Subjects/DigitalBusinessServices");
         }
 
+        [Route("/students/subjects/digital-production-design-development", Name = "DigitalProductionDesignDevelopment")]
+        public IActionResult DigitalProductionDesignDevelopment()
+        {
+            return View("Subjects/DigitalProductionDesignDevelopment");
+        }
+
         [Route("/students/subjects/digital-support-services", Name = "DigitalSupportServices")]
         public IActionResult DigitalSupportServices()
         {
             return View("Subjects/DigitalSupportServices");
+        }
+
+        [Route("/students/subjects/education", Name = "Education")]
+        public IActionResult Education()
+        {
+            return View("Subjects/Education");
+        }
+
+        [Route("/students/subjects/engineering-manufacturing-processing-control", Name = "EngineeringManufacturingProcessingControl")]
+        public IActionResult EngineeringManufacturingProcessingControl()
+        {
+            return View("Subjects/EngineeringManufacturingProcessingControl");
+        }
+
+        [Route("/students/subjects/finance", Name = "Finance")]
+        public IActionResult Finance()
+        {
+            return View("Subjects/Finance");
         }
 
         [Route("/students/subjects/health", Name = "Health")]
@@ -107,6 +131,18 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         public IActionResult HealthcareScience()
         {
             return View("Subjects/HealthcareScience");
+        }
+
+        [Route("/students/subjects/maintenance-installation-repair", Name = "MaintenanceInstallationRepair")]
+        public IActionResult MaintenanceInstallationRepair()
+        {
+            return View("Subjects/MaintenanceInstallationRepair");
+        }
+
+        [Route("/students/subjects/management-administration", Name = "ManagementAdministration")]
+        public IActionResult ManagementAdministration()
+        {
+            return View("Subjects/ManagementAdministration");
         }
 
         [Route("/students/subjects/onsite-construction", Name = "OnsiteConstruction")]
@@ -138,7 +174,7 @@ namespace sfa.Tl.Marketing.Communication.Controllers
 
             return new RedirectResult(targetUrl, false);
         }
-        
+
         [Route("/student")]
         public IActionResult IndexRedirect()
         {
