@@ -7,6 +7,7 @@
     ViewData["PageID"] = "tl-employer-nextsteps";
 }
 @model EmployerContactViewModel
+@inject ConfigurationOptions SiteConfiguration
 
 <section id="tl-employer-nextsteps--banner" class="tl-content-wide--purple">
     <div class="tl-container">
@@ -98,7 +99,8 @@
                         </p>
                     </div>
                 </div>
-            }            else
+            }
+            else
             {
                 <div class="col-lg-9">
                     <div id="tl-form--sent">
@@ -132,6 +134,12 @@
                 </ul>
 
                 <a href="https://employerindustryplacements.co.uk/" class="tl-button--black tl-margin-top--30" id="tl-employer-cta-support">Get support for T Levels and industry placements</a>
+
+                @* New ESS links work like this: *@
+                <div>
+                    <a href="@SiteConfiguration.EmployerSupportSiteUrl" class="tl-button--black tl-margin-top--30" id="tl-employer-cta-support">Go to the Employer Support site</a>
+                    <a href="@(new Uri(new Uri(SiteConfiguration.EmployerSupportSiteUrl), "requests/new").AbsoluteUri)" class="tl-button--black tl-margin-top--30" id="tl-employer-cta-contact">Employer Support contact form</a>
+                </div>
             </div>
         </div>
     </div>
@@ -139,8 +147,5 @@
 
 
 @section jsfiles{
-    @*<script>
-            checkNextStepsCookie();
-        </script>*@
-}
 
+}

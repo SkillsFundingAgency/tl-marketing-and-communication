@@ -44,6 +44,9 @@
         "employerContactEmailTemplateId": {
             "type": "string"
         },
+        "employerSupportSiteUrl": {
+            "type": "string"
+        },
         "postcodeRetrieverBaseUrl": {
             "type": "string"
         },
@@ -197,8 +200,12 @@
                                 "value": "[reference('app-insights').outputs.InstrumentationKey.value]"
                             },
                             {
-                                "name": "EmployerContactEmailTemplateId",
-                                "value": "[parameters('employerContactEmailTemplateId')]"
+                              "name": "EmployerContactEmailTemplateId",
+                              "value": "[parameters('employerContactEmailTemplateId')]"
+                              },
+                            {
+                              "name": "EmployerSupportSiteUrl",
+                              "value": "[parameters('employerSupportSiteUrl')]"
                             },
                             {
                                 "name": "PostcodeRetrieverBaseUrl",

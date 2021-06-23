@@ -3,6 +3,7 @@
     public class ConfigurationOptions
     {
         public string EmployerContactEmailTemplateId { get; set; }
+        public string EmployerSupportSiteUrl { get; set; }
         public string SupportEmailInboxAddress { get; set; }
         public string PostcodeRetrieverBaseUrl { get; set; }
         public StorageSettings StorageConfiguration { get; set; }

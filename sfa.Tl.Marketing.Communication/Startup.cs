@@ -43,6 +43,7 @@ namespace sfa.Tl.Marketing.Communication
                 CacheExpiryInSeconds = cacheExpiryInSeconds,
                 PostcodeRetrieverBaseUrl = Configuration["PostcodeRetrieverBaseUrl"],
                 EmployerContactEmailTemplateId = Configuration["EmployerContactEmailTemplateId"],
+                EmployerSupportSiteUrl = Configuration["EmployerSupportSiteUrl"],
                 SupportEmailInboxAddress = Configuration["SupportEmailInboxAddress"],
                 StorageConfiguration = new StorageSettings
                 {
