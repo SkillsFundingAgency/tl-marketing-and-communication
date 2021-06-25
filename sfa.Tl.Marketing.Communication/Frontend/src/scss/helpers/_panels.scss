@@ -1,0 +1,15 @@
+$panelvariables:
+/*content colour variables - variable name, background colour, text colour*/
+"orange" $orange,
+"purple" $purple,
+"salmon" $salmon;
+
+
+
+.tl-panel {
+    @each $panelname, $panelbackground in $panelvariables {
+        &--#{$panelname} {
+            @include panel($panelbackground);
+        }
+    }
+}

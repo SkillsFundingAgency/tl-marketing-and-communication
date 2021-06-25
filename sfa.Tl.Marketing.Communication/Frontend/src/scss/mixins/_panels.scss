@@ -1,0 +1,5 @@
+@mixin panel($panelprimary) {
+    border-bottom: 5px $panelprimary solid;
+    background-color: $lightgrey;
+    padding: 30px;
+}

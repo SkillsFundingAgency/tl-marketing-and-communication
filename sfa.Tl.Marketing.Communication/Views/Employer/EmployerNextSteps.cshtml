@@ -36,114 +36,47 @@
 <section class="tl-content-normal--white tl-content-padded">
     <div class="tl-container">
         <div class="row no-gutters">
-            @if (!Model.ContactFormSent)
-            {
-                <div class="col-lg-7">
-                    <div id="tl-form--form">
-                        <h2>Do you want to discuss an industry placement?</h2>
 
-                        <p>Send us a completed form and someone will contact you within 2 working days to discuss industry placements.</p>
-                        <div class="tl-inset--text">
-                            <h5 class="tl-heading--xxsmall">How we use your data</h5>
-                            <span class="tl-body--s">The Department for Education will only use your personal information to contact you about industry placements. If you choose not to proceed with an industry placement, we will delete your data within 30 days.</span>
+            <div class="col-lg-10">
+                <h2>Contact us</h2>
+                <div class="row">
+                    <div class="col-lg-6 d-flex align-items-stretch">
+                        <div class="tl-panel--purple tl-margin-top--40">
+                            <h3>Online</h3>
+                            <p>Need more information, or want to speak to someone about offering an industry placement?</p>
+                            <p class="tl-margin-bottom--40"><a href="@(new Uri(new Uri(SiteConfiguration.EmployerSupportSiteUrl), "requests/new").AbsoluteUri)" class="tl-link-inline-black--purple">Contact us online</a></p>
                         </div>
 
-                        <form id="tl-employer-contact-form" class="tl-form" asp-action="EmployerNextSteps" method="post" novalidate>
-                            <input type="hidden" asp-for="ContactFormSent" value="@Model.ContactFormSent" />
-
-                            <div class="tl-form-group" sfa-validation-for="FullName" sfa-validationerror-class="tl-form-group--error">
-                                <label class="tl-form--label" asp-for="FullName">
-                                    Your full name
-                                </label>
-                                <span class="tl-form-group--error--message" asp-validation-for="FullName"></span>
-                                <input asp-for="FullName" class="tl-form--input" sfa-validation-for="FullName" aria-label="Enter your full name" />
-                            </div>
-
-                            <div class="tl-form-group" sfa-validation-for="OrganisationName" sfa-validationerror-class="tl-form-group--error">
-                                <label class="tl-form--label" asp-for="OrganisationName">
-                                    Name of organisation
-                                </label>
-                                <span class="tl-form-group--error--message" asp-validation-for="OrganisationName"></span>
-                                <input asp-for="OrganisationName" class="tl-form--input" sfa-validation-for="OrganisationName" sfa-validationerror-class="tl-input--error" aria-label="Enter the name of your company" />
-                            </div>
-
-                            <div class="tl-form-group" sfa-validation-for="Phone" sfa-validationerror-class="tl-form-group--error">
-                                <label class="tl-form--label" asp-for="Phone">
-                                    Telephone number
-                                </label>
-                                <span class="tl-form-group--error--message" asp-validation-for="Phone"></span>
-                                <input asp-for="Phone" class="tl-form--input" type="tel" sfa-validation-for="Phone" sfa-validationerror-class="tl-input--error" aria-label="Enter your phone number" />
-                            </div>
-
-                            <div class="tl-form-group" sfa-validation-for="Email" sfa-validationerror-class="tl-form-group--error">
-                                <label class="tl-form--label" asp-for="Email">
-                                    Email address
-                                </label>
-                                <span class="tl-form-group--error--message" asp-validation-for="Email"></span>
-                                <input asp-for="Email" class="tl-form--input" sfa-validation-for="Email" sfa-validationerror-class="tl-input--error" aria-label="Enter your email address" />
-                            </div>
-
-                            <button class="tl-button--purple" type="submit" id="tl-send-employer-contact">Send form</button>
-                        </form>
                     </div>
-                </div>
-                <div class="col-lg-4 offset-lg-1 ">
-                    <div class="tl-box--grey tl-margin-top--40 tl-margin-top--0--medium">
-                        <h4>Alternatively, call the industry placement hotline</h4>
-                        <p class="tl-margin-top--10">
-                            Call:
-                            <span class="tl-bigtext--smaller--purple tl-display--block tl-margin-top--10 tl-padding-bottom--10">
-                                08000 150 600
-                            </span>
-                            (choose option 4)
-                        </p>
+                    <div class="col-lg-6">
+                        <div class="tl-panel--purple tl-margin-top--40">
+                            <h3>Phone</h3>
+                            <p>You can:</p>
+                            <ul class="tl-list--bullet">
+                                <li>Call us on 08000 150 600 (choose option 4)</li>
+                                <li>Text us on 07588 690810 </li>
+                            </ul>
+                            <p><a href="https://www.gov.uk/call-charges" class="tl-link-inline-black--purple">Find out about call charges</a></p>
+
+                        </div>
+
                     </div>
-                </div>
-            }
-            else
-            {
-                <div class="col-lg-9">
-                    <div id="tl-form--sent">
-                        <h2>
-                            Thank you for telling us that you want to talk to someone about industry placements
-                        </h2>
-                        <p>Someone will contact you within 2 working days of submitting the form.</p>
-                        <p>If it’s already been more than 2 working days and you still haven’t heard from anyone, please call us on 08000 150 600 (choose option 4).</p>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-</section>
-
-<section id="tl-employer-nextsteps--register" class="tl-content-normal--grey tl-content-padded tl-hidden--tablet--down">
-    <div class="tl-container">
-        <div class="row no-gutters">
-            <div class="col-md-8">
-                <h2>Need more information?</h2>
-                <p>
-                    The Department for Education has funded an online resource to help you understand T Levels and take on an industry placement student.
-                </p>
-                <p>
-                    You can access:
-                </p>
-                <ul class="tl-list--bullet">
-                    <li>toolkits and guidance</li>
-                    <li>webinars and workshops</li>
-                    <li>direct support from specialists</li>
-                </ul>
-
-                <a href="https://employerindustryplacements.co.uk/" class="tl-button--black tl-margin-top--30" id="tl-employer-cta-support">Get support for T Levels and industry placements</a>
-
-                @* New ESS links work like this: *@
-                <div>
-                    <a href="@SiteConfiguration.EmployerSupportSiteUrl" class="tl-button--black tl-margin-top--30" id="tl-employer-cta-support">Go to the Employer Support site</a>
-                    <a href="@(new Uri(new Uri(SiteConfiguration.EmployerSupportSiteUrl), "requests/new").AbsoluteUri)" class="tl-button--black tl-margin-top--30" id="tl-employer-cta-contact">Employer Support contact form</a>
                 </div>
             </div>
+            <div class="col-lg-7 tl-margin-top--60">
+                <p>On the <a class="tl-link-inline-black--purple" href="@SiteConfiguration.EmployerSupportSiteUrl">Support for employers delivering T Level industry placements service</a>, you’ll find:</p>
+                <ul class="tl-list--bullet">
+                    <li>case studies from businesses</li>
+                    <li>guidance and resources</li>
+                    <li>webinars and workshops</li>
+                </ul>
+                <a href="@SiteConfiguration.EmployerSupportSiteUrl" class="tl-button--black tl-margin-top--30" id="tl-employer-cta-support">Get help with industry placements</a>
+
+            </div>
         </div>
-    </div>
+            </div>
 </section>
+
 
 
 @section jsfiles{
