@@ -38,16 +38,30 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var qualifications = new List<Qualification>
             {
+                new() { Id = 0, Name = "All T Level courses" },
                 new() { Id = 1, Name = "Xyz" },
                 new() { Id = 2, Name = "Mno" },
                 new() { Id = 3, Name = "Abc" }
             };
 
-            _providerDataService.GetQualifications().Returns(qualifications);
+            _providerDataService.GetQualifications()
+                .Returns(qualifications);
 
-            var expected = qualifications.OrderBy(x => x.Name);
+            var expected = new List<Qualification>
+            {
+                qualifications.Single(q => q.Id == 0),
+                qualifications.Single(q => q.Id == 3),
+                qualifications.Single(q => q.Id == 2),
+                qualifications.Single(q => q.Id == 1)
+            };
 
             var actual = _service.GetQualifications().ToList();
+
+            for (int i = 0; i < actual.Count; i++)
+            {
+                actual[i].Id.Should().Be(expected[i].Id);
+                actual[i].Name.Should().Be(expected[i].Name);
+            }
 
             Assert.True(actual.SequenceEqual(expected));
             Assert.False(actual.SequenceEqual(qualifications));

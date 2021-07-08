@@ -31,7 +31,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public IEnumerable<Qualification> GetQualifications()
         {
             var qualifications = _providerDataService.GetQualifications().ToList();
-            return qualifications.OrderBy(q => q.Name);
+            return qualifications.OrderBy(q => q.Id > 0 ? q.Name : "");
         }
 
         public async Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(SearchRequest searchRequest)

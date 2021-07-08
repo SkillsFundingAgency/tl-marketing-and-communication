@@ -59,14 +59,14 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 Math.Abs(p.Longitude - (-2.001)) < 0.001 &&
                 p.DeliveryYears.Count() == 2 &&
                 p.DeliveryYears.Count(dy => dy.Year == 2020) == 1 &&
-                p.DeliveryYears.Single(dy => dy.Year == 2020).Qualifications
-                    .Contains(qualifications.Single(q => q.Id == 1)) &&
-                p.DeliveryYears.Single(dy => dy.Year == 2020).Qualifications
-                    .Contains(qualifications.Single(q => q.Id == 2)) &&
+                p.DeliveryYears.Single(dy => dy.Year == 2020)
+                    .Qualifications.Count(q => q.Id == 1) == 1 &&
+                p.DeliveryYears.Single(dy => dy.Year == 2020)
+                    .Qualifications.Count(q => q.Id == 1) == 1 &&
                 p.DeliveryYears.Count(dy => dy.Year == 2021) == 1 &&
-                p.DeliveryYears.Single(dy => dy.Year == 2021).Qualifications
-                    .Contains(qualifications.Single(q => q.Id == 3)));
-
+                p.DeliveryYears.Single(dy => dy.Year == 2021)
+                    .Qualifications.Count(q => q.Id == 3) == 1);
+            
             results.Should().Contain(p =>
                 p.ProviderName == "Provider 2" &&
                 p.Name == "Location 2" &&
@@ -75,8 +75,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 Math.Abs(p.Longitude - (-1.234)) < 0.001 &&
                 p.DeliveryYears.Count() == 1 &&
                 p.DeliveryYears.Count(dy => dy.Year == 2020) == 1 &&
-                p.DeliveryYears.Single(dy => dy.Year == 2020).Qualifications
-                    .Contains(qualifications.Single(q => q.Id == 1)));
+                p.DeliveryYears.Single(dy => dy.Year == 2020)
+                    .Qualifications.Count(q => q.Id == 1) == 1);
         }
 
         [Fact]
@@ -148,7 +148,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var results = providerDataService.GetProviderLocations(locations, providers.AsQueryable()).ToList();
 
             results.Count.Should().Be(1);
-
+            
             results.Should().Contain(p =>
                 p.ProviderName == "Provider 2" &&
                 p.Name == "Location 2" &&
@@ -157,8 +157,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 Math.Abs(p.Longitude - (-1.234)) < 0.001 &&
                 p.DeliveryYears.Count() == 1 &&
                 p.DeliveryYears.Count(dy => dy.Year == 2020) == 1 &&
-                p.DeliveryYears.Single(dy => dy.Year == 2020).Qualifications
-                    .Contains(qualifications.Single(q => q.Id == 1)));
+                p.DeliveryYears.Single(dy => dy.Year == 2020)
+                    .Qualifications.Count(q => q.Id == 1) == 1);
         }
 
         [Fact]
