@@ -305,3 +305,6 @@ local.settings.development.json
 
 # VsCode cache folder
 .vscode/
+
+# Benchmark.Net folder
+BenchmarkDotNet.Artifacts/
