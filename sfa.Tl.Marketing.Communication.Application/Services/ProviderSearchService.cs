@@ -2,7 +2,6 @@
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -31,14 +30,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public IEnumerable<Qualification> GetQualifications()
         {
             var qualifications = _providerDataService.GetQualifications().ToList();
-            return qualifications.OrderBy(q => q.Name);
+            return qualifications.OrderBy(q => q.Id > 0 ? q.Name : "");
         }
 
         public async Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(SearchRequest searchRequest)
         {
             _logger.LogInformation($"Search::requested search for {searchRequest.Postcode} with {searchRequest.NumberOfItems} for qualification {searchRequest.QualificationId}");
-
-            var stopwatch = Stopwatch.StartNew();
 
             var providers = _providerDataService.GetProviders();
             
@@ -68,8 +65,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 })
                 .ToList();
 
-            stopwatch.Stop();
-            _logger.LogInformation($"Search::Returning {searchResults.Count} results from {providerLocationsWithDistances.Count} locations in {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks} ticks");
+            _logger.LogInformation($"Search::Returning {searchResults.Count} results for {searchRequest.Postcode} with {searchRequest.NumberOfItems} items and selected qualification {searchRequest.QualificationId}");
 
             return (providerLocationsWithDistances.Count, searchResults);
         }
