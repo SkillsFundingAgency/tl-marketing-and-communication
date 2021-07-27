@@ -120,7 +120,9 @@ namespace sfa.Tl.Marketing.Communication.Benchmarks
             urlHelper.IsLocalUrl(Arg.Any<string>())
                 .Returns(args => ((string)args[0]).StartsWith("/students/"));
 
-            _studentController = new StudentController(providerDataService, providerSearchEngine)
+            var logger = Substitute.For<ILogger<StudentController>>();
+
+            _studentController = new StudentController(providerDataService, providerSearchEngine, logger)
             {
                 Url = urlHelper
             };
