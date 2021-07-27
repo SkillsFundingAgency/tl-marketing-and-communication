@@ -112,5 +112,15 @@ There is a dependency on .NET Core 3.1, so a developer machine will need this in
 (Note - this isn't being used at the moment, because publish fails) `Microsoft.Azure.WebJobs.Script.ExtensionsMetadataGenerator` must be version `1.2.0` to avoid build or runtime errors. Note this could change in a future release.
 
 
+## Benchmarks
+
+To run benchmarks, make sure the project is in release mode, open a terminal or console, 
+navigate to the solution directory (e.g. `cd \dev\esfa\tl-marketing-and-communication\`) 
+then run
+```
+dotnet run --project sfa.Tl.Marketing.Communication.Benchmarks\sfa.Tl.Marketing.Communication.Benchmarks.csproj -c Release
+```
+
+If you see a message that `sfa.Tl.Marketing.Communication.StaticWebAssets.xml"` is not found, try running the command again.
 
 
