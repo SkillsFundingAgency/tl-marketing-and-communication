@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
@@ -22,10 +24,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
 
         public StudentControllerRedirectTests()
         {
-            var allowedUrls = new List<string>
+            var allowedUrls = new Dictionary<string, string>
             {
-                AllowedExternalUri,
-                AllowedExternalProviderUri
+                { WebUtility.UrlDecode(AllowedExternalUri), AllowedExternalUri },
+                { WebUtility.UrlDecode(AllowedExternalProviderUri), AllowedExternalProviderUri }
             };
 
             var providerSearchEngine = Substitute.For<IProviderSearchEngine>();
@@ -68,6 +70,16 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
         {
             var result = _controller.Redirect(new RedirectViewModel { Url = DisallowedExternalUri });
 
+            var redirectResult = result as RedirectResult;
+            redirectResult.Should().NotBeNull();
+            redirectResult?.Url.Should().Be("/students");
+        }
+
+        [Fact]
+        public void Student_Controller_Redirect_Returns_Students_Home_For_Empty_Uri()
+        {
+            var result = _controller.Redirect(new RedirectViewModel { Url = "" });
+            
             var redirectResult = result as RedirectResult;
             redirectResult.Should().NotBeNull();
             redirectResult?.Url.Should().Be("/students");

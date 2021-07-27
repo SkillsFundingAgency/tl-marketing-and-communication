@@ -3,6 +3,7 @@ using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Microsoft.Extensions.Caching.Memory;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
@@ -93,22 +94,25 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return qualifications;
         }
 
-        public IEnumerable<string> GetWebsiteUrls()
+        public IDictionary<string, string> GetWebsiteUrls()
         {
-            var urlList = new List<string>();
+            var urlDictionary = new Dictionary<string, string>();
 
             foreach (var provider in GetAllProviders())
             {
-                foreach (var location in provider.Locations.Where(l => !string.IsNullOrWhiteSpace(l.Website)))
+                foreach (var location in
+                    provider.Locations)
                 {
-                    if (!urlList.Contains(location.Website))
+                    if (!string.IsNullOrEmpty(location.Website))
                     {
-                        urlList.Add(location.Website);
+                        //decode url for key because this will be compared to a decoded url later
+                        var encodedUrl = WebUtility.UrlDecode(location.Website);
+                        urlDictionary[encodedUrl!] = location.Website;
                     }
                 }
             }
 
-            return urlList;
+            return urlDictionary;
         }
 
         private IQueryable<Qualification> GetAllQualifications()

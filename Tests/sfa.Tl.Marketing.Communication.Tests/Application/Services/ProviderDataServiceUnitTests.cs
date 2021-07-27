@@ -169,17 +169,17 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var results = _providerDataService.GetWebsiteUrls();
 
-            results.Count().Should().Be(12);
+            results.Count.Should().Be(12);
         }
 
         [Fact]
         public void GetWebsiteUrls_Returns_Urls_With_No_Duplicates()
         {
-            var results = _providerDataService.GetWebsiteUrls().ToList();
+            var results = _providerDataService.GetWebsiteUrls();
 
-            foreach (var url in results)
+            foreach (var item in results)
             {
-                results.Count(x => x == url).Should().Be(1);
+                results.Keys.Count(x => x == item.Value).Should().Be(1);
             }
         }
 
