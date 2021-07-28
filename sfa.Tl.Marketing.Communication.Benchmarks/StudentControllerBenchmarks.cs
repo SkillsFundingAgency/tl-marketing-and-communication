@@ -40,18 +40,10 @@ namespace sfa.Tl.Marketing.Communication.Benchmarks
 
         public StudentControllerBenchmarks()
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true)
-                .AddJsonFile("appsettings.development.json", true);
+            var configuration = Helpers.BuildConfiguration();
 
-            var configuration = builder.Build();
-            
             var tableStorageConnectionString = configuration.GetValue<string>("TableStorageConnectionString");
-
-            Console.WriteLine($"Current directory: {Directory.GetCurrentDirectory()}");
-            Console.WriteLine($"Connection string: {tableStorageConnectionString}");
-            
+           
             var loggerFactory = new LoggerFactory();
 
             var tableStorageService = Helpers.CreateTableStorageService(tableStorageConnectionString, loggerFactory);
@@ -127,7 +119,7 @@ namespace sfa.Tl.Marketing.Communication.Benchmarks
                 Url = urlHelper
             };
         }
-
+        
         [Benchmark(Description = "Find")]
         public void FindBenchmark() => Find();
 

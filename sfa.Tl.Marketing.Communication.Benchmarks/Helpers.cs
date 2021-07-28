@@ -1,14 +1,34 @@
-﻿using Microsoft.Azure.Cosmos.Table;
+﻿using System;
+using System.IO;
+using Microsoft.Azure.Cosmos.Table;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Entities;
+using IConfiguration = AutoMapper.Configuration.IConfiguration;
 
 namespace sfa.Tl.Marketing.Communication.Benchmarks
 {
     public static class Helpers
     {
+        public static IConfigurationRoot BuildConfiguration()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true)
+                .AddJsonFile("appsettings.Development.json", true);
+
+            var configuration = builder.Build();
+
+            Console.WriteLine($"Current directory: {Directory.GetCurrentDirectory()}");
+            var tableStorageConnectionString = configuration.GetValue<string>("TableStorageConnectionString");
+            Console.WriteLine($"Connection string: {tableStorageConnectionString}");
+
+            return configuration;
+        }
+
         public static ITableStorageService CreateTableStorageService(
             string tableStorageConnectionString,
             ILoggerFactory loggerFactory)

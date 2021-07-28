@@ -16,12 +16,7 @@ namespace sfa.Tl.Marketing.Communication.Benchmarks
 
         public TableStorageServiceBenchmarks()
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true)
-                .AddJsonFile("appsettings.development.json", true);
-
-            var configuration = builder.Build();
+            var configuration = Helpers.BuildConfiguration();
 
             var tableStorageConnectionString = configuration.GetValue<string>("TableStorageConnectionString");
 
