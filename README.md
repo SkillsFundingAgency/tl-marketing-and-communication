@@ -38,8 +38,6 @@ Other API Keys and email addresses are also stored in the site `appSettings.json
 {
   "EmployerContactEmailTemplateId": "<value>"
   "EmployerSupportSiteUrl": "<address>",
-  "GovNotifyApiKey": "<api_key_value>",
-  "SupportEmailInboxAddress": "<your_email>",
   "TableStorageConnectionString": "UseDevelopmentStorage=true;",
   "CacheExpiryInSeconds": time,
   "Logging": {
@@ -52,10 +50,7 @@ Other API Keys and email addresses are also stored in the site `appSettings.json
 }
 ```
 
-- `GovNotifyApiKey` will come from GOV.UK Notify service settings (check with DevOps if you don't have access). 
-- `EmployerContactEmailTemplateId` is the email template id created in GOV.UK Notify for the contact email. A default value is set in `appSettings.json`.
 - `EmployerSupportSiteUrl` needs to be the address of the Zendesk Employer Support site.
-- `SupportEmailInboxAddress` can be a single email address or a semicolon-separated list of email addresses where the contact email should be sent to.
 - `TableStorageConnectionString` defaults to Azure Storage Emulator. If you want to use a cloud table, set the connection string here.
 - `PostcodeRetrieverBaseUrl` is usually `https://postcodes.io/` - this is set in `appSettings.json`.
 
