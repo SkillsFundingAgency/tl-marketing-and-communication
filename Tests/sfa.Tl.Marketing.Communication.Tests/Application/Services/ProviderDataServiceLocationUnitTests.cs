@@ -48,7 +48,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var providerDataService = CreateProviderDataService(providers, qualifications);
 
-            var results = providerDataService.GetProviderLocations(locations, providers.AsQueryable()).ToList();
+            var results = providerDataService.GetProviderLocations().ToList();
 
             results.Count.Should().Be(locations.Count());
             results.Should().Contain(p =>
@@ -63,6 +63,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                     .Qualifications.Count(q => q.Id == 1) == 1 &&
                 p.DeliveryYears.Single(dy => dy.Year == 2020)
                     .Qualifications.Count(q => q.Id == 1) == 1 &&
+                p.DeliveryYears.Single(dy => dy.Year == 2020)
+                    .Qualifications.Count(q => q.Id == 2) == 1 &&
                 p.DeliveryYears.Count(dy => dy.Year == 2021) == 1 &&
                 p.DeliveryYears.Single(dy => dy.Year == 2021)
                     .Qualifications.Count(q => q.Id == 3) == 1);
@@ -80,7 +82,63 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         }
 
         [Fact]
-        public void GetProviderLocations_Returns__Delivery_Years_In_Order()
+        public void GetProviderLocations_Returns_Expected_Results_For_Multiple_Providers_With_Qualifications_Filter()
+        {
+            var qualifications = BuildQualifications();
+
+            var location1 = BuildLocation("Location 1", "CV1 2WT", 52.345, -2.001);
+            location1.DeliveryYears.Add(new DeliveryYearDto
+            {
+                Year = 2020,
+                Qualifications = new List<int> { 1, 2 }
+            });
+            location1.DeliveryYears.Add(new DeliveryYearDto
+            {
+                Year = 2021,
+                Qualifications = new List<int> { 3 }
+            });
+
+            var location2 = BuildLocation("Location 2", "S70 2YW", 50.001, -1.234);
+            location2.DeliveryYears.Add(new DeliveryYearDto
+            {
+                Year = 2020,
+                Qualifications = new List<int> { 1 }
+            });
+
+            var locations = BuildLocations(location1, location2);
+
+            var providers = new List<Provider>
+            {
+                BuildProvider(10000001, "Provider 1", new List<Location> {location1}),
+                BuildProvider(10000002, "Provider 2", new List<Location> {location2})
+            };
+
+            var providerDataService = CreateProviderDataService(providers, qualifications);
+
+            var results = providerDataService.GetProviderLocations(2).ToList();
+
+            results.Count.Should().Be(1);
+            results.Should().Contain(p =>
+                p.ProviderName == "Provider 1" &&
+                p.Name == "Location 1" &&
+                p.Postcode == "CV1 2WT" &&
+                Math.Abs(p.Latitude - 52.345) < 0.001 &&
+                Math.Abs(p.Longitude - (-2.001)) < 0.001 &&
+                p.DeliveryYears.Count() == 2 &&
+                p.DeliveryYears.Count(dy => dy.Year == 2020) == 1 &&
+                p.DeliveryYears.Single(dy => dy.Year == 2020)
+                    .Qualifications.Count(q => q.Id == 1) == 1 &&
+                p.DeliveryYears.Single(dy => dy.Year == 2020)
+                    .Qualifications.Count(q => q.Id == 1) == 1 &&
+                p.DeliveryYears.Single(dy => dy.Year == 2020)
+                    .Qualifications.Count(q => q.Id == 2) == 1 &&
+                p.DeliveryYears.Count(dy => dy.Year == 2021) == 1 &&
+                p.DeliveryYears.Single(dy => dy.Year == 2021)
+                    .Qualifications.Count(q => q.Id == 3) == 1);
+        }
+
+        [Fact]
+        public void GetProviderLocations_Returns_Delivery_Years_In_Order()
         {
             var qualifications = BuildQualifications();
 
@@ -110,7 +168,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var providerDataService = CreateProviderDataService(providers, qualifications);
 
-            var results = providerDataService.GetProviderLocations(locations, providers.AsQueryable()).ToList();
+            var results = providerDataService.GetProviderLocations().ToList();
 
             results.Count.Should().Be(locations.Count());
             var deliveryYears = results.First().DeliveryYears.ToList();
@@ -145,7 +203,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var providerDataService = CreateProviderDataService(providers, qualifications);
 
-            var results = providerDataService.GetProviderLocations(locations, providers.AsQueryable()).ToList();
+            var results = providerDataService.GetProviderLocations().ToList();
 
             results.Count.Should().Be(1);
             
@@ -178,7 +236,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var providerDataService = CreateProviderDataService(providers, qualifications);
 
-            var results = providerDataService.GetProviderLocations(locations, providers.AsQueryable()).ToList();
+            var results = providerDataService.GetProviderLocations().ToList();
 
             results.Count.Should().Be(0);
         }

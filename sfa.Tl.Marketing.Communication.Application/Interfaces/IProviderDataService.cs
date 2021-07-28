@@ -8,7 +8,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces
     {
         IQueryable<Provider> GetProviders();
         IQueryable<Location> GetLocations(IQueryable<Provider> providers, int? qualificationId = null);
-        IQueryable<ProviderLocation> GetProviderLocations(IQueryable<Location> locations, IQueryable<Provider> providers);
         IQueryable<ProviderLocation> GetProviderLocations(int? qualificationId = null);
 
         IEnumerable<Qualification> GetQualifications();

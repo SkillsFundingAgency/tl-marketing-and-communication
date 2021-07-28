@@ -11,4 +11,4 @@ using sfa.Tl.Marketing.Communication.Benchmarks;
 
 BenchmarkRunner.Run<StudentControllerBenchmarks>();
 
-BenchmarkRunner.Run<TableStorageServiceBenchmarks>();
+//BenchmarkRunner.Run<TableStorageServiceBenchmarks>();

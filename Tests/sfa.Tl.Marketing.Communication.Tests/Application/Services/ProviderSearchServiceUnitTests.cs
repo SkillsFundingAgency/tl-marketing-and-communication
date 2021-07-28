@@ -111,7 +111,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             totalCount.Should().Be(0);
             searchResults.Count().Should().Be(0);
 
-            _providerDataService.Received(1).GetProviders();
             _providerDataService.Received(1).GetProviderLocations(Arg.Any<int?>());
             _journeyService.DidNotReceive()
                 .GetDirectionsLink(Arg.Any<string>(), Arg.Any<ProviderLocation>());
@@ -181,10 +180,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 }
             }.AsQueryable();
 
-            _providerDataService.GetProviderLocations(
-                    Arg.Is<IQueryable<Location>>(l => l == locations),
-                    Arg.Is<IQueryable<Provider>>(p => p == providers))
-                .Returns(providerLocations);
             _providerDataService.GetProviderLocations()
                 .Returns(providerLocations);
 
@@ -271,10 +266,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 new()
             }.AsQueryable();
 
-            _providerDataService.GetProviderLocations(
-                    Arg.Is<IQueryable<Location>>(l => l == locations),
-                    Arg.Is<IQueryable<Provider>>(p => p == providers))
-                .Returns(providerLocations);
             _providerDataService.GetProviderLocations(qualificationId)
                 .Returns(providerLocations);
 
@@ -289,15 +280,12 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             totalCount.Should().Be(providerLocations.Count());
             searchResults.Count().Should().Be(numberOfItems);
-            _providerDataService.Received(1).GetProviders();
-            _providerDataService.Received(1).GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), Arg.Is<int>(q => q == searchRequest.QualificationId.Value));
-            _providerDataService.Received(1).GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers));
             _providerDataService.Received(1).GetProviderLocations(qualificationId);
 
-            await _distanceCalculationService.Received(2).CalculateProviderLocationDistanceInMiles(
+            await _distanceCalculationService.Received(1).CalculateProviderLocationDistanceInMiles(
                 Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode),
                 providerLocations);
-            _journeyService.Received(2 * numberOfItems)
+            _journeyService.Received(numberOfItems)
                 .GetDirectionsLink(searchRequest.Postcode, Arg.Any<ProviderLocation>());
         }
 
@@ -338,10 +326,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 new()
             }.AsQueryable();
 
-            _providerDataService.GetProviderLocations(
-                Arg.Is<IQueryable<Location>>(l => l == locations),
-                Arg.Is<IQueryable<Provider>>(p => p == providers))
-                .Returns(providerLocations);
             _providerDataService.GetProviderLocations(searchRequest.QualificationId)
                 .Returns(providerLocations);
 
@@ -355,17 +339,14 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             totalCount.Should().Be(providerLocations.Count());
             searchResults.Count().Should().Be(numberOfItems);
 
-            _providerDataService.Received(1).GetProviders();
-            _providerDataService.Received(1).GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), qualificationId);
-            _providerDataService.Received(1).GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers));
             _providerDataService.Received(1).GetProviderLocations(qualificationId);
 
             await _distanceCalculationService
-                .Received(2)
+                .Received(1)
                 .CalculateProviderLocationDistanceInMiles(
                 Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode),
                 providerLocations);
-            _journeyService.Received(2 * numberOfItems)
+            _journeyService.Received(numberOfItems)
                 .GetDirectionsLink(searchRequest.Postcode, Arg.Any<ProviderLocation>());
         }
     }

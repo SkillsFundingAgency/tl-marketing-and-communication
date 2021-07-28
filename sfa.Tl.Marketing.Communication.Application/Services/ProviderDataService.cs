@@ -40,39 +40,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     .Where(l => l.DeliveryYears.Any(d => d.Qualifications.Contains(qualificationId.Value)))
                 : providers.SelectMany(p => p.Locations);
         }
-
-        public IQueryable<ProviderLocation> GetProviderLocations(IQueryable<Location> locations, IQueryable<Provider> providers)
-        {
-            return locations.Select(l => new
-            {
-                Location = l,
-                Provider = providers.Single(parent => parent.Locations.Contains(l))
-            })
-                .Select(pl => new ProviderLocation
-                {
-                    ProviderName = pl.Provider.Name,
-                    Name = pl.Location.Name,
-                    Latitude = pl.Location.Latitude,
-                    Longitude = pl.Location.Longitude,
-                    Postcode = pl.Location.Postcode,
-                    Town = pl.Location.Town,
-                    Website = pl.Location.Website,
-                    DeliveryYears = pl.Location.DeliveryYears != null
-                        ? pl.Location.DeliveryYears
-                            .Select(d => new DeliveryYear
-                            {
-                                Year = d.Year,
-                                Qualifications = d.Qualifications != null ?
-                                    GetQualifications(d.Qualifications.ToArray())
-                                    : new List<Qualification>()
-                            })
-                            .OrderBy(d => d.Year)
-                            .ToList()
-                        : new List<DeliveryYear>()
-                })
-                .Where(pl => pl.DeliveryYears.Any(y => y.Qualifications.Any()));
-        }
-
+        
         public IQueryable<ProviderLocation> GetProviderLocations(int? qualificationId = null)
         {
             var providerLocations = new List<ProviderLocation>();
@@ -117,29 +85,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             return providerLocations.AsQueryable();
         }
-
-        private IEnumerable<Qualification> GetQualificationsForDeliveryYear(
-            DeliveryYearDto deliveryYear,
-            IDictionary<int, Qualification> qualificationsDictionary)
-        {
-            var list = new List<Qualification>();
-            
-            if (deliveryYear.Qualifications != null)
-            {
-                list.AddRange(
-                    deliveryYear
-                        .Qualifications
-                        .Select(q => new Qualification
-                        {
-                            Id = q,
-                            Name = qualificationsDictionary[q].Name,
-                            Route = qualificationsDictionary[q].Route
-                        }));
-            }
-
-            return list.OrderBy(q => q.Name).ToList();
-        }
-
+        
         public IEnumerable<Qualification> GetQualifications(int[] qualificationIds)
         {
             var qualifications = GetAllQualifications();
@@ -196,6 +142,28 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             }
 
             return qualifications;
+        }
+
+        private IEnumerable<Qualification> GetQualificationsForDeliveryYear(
+            DeliveryYearDto deliveryYear,
+            IDictionary<int, Qualification> qualificationsDictionary)
+        {
+            var list = new List<Qualification>();
+
+            if (deliveryYear.Qualifications != null)
+            {
+                list.AddRange(
+                    deliveryYear
+                        .Qualifications
+                        .Select(q => new Qualification
+                        {
+                            Id = q,
+                            Name = qualificationsDictionary[q].Name,
+                            Route = qualificationsDictionary[q].Route
+                        }));
+            }
+
+            return list.OrderBy(q => q.Name).ToList();
         }
 
         private IQueryable<Provider> GetAllProviders()
