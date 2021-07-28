@@ -102,7 +102,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public async Task Search_Returns_Empty_Providers_And_TotalRecordCount()
         {
-            _providerDataService.GetProviders().Returns(new List<Provider>().AsQueryable());
             _providerDataService.GetProviderLocations(Arg.Any<int?>())
                 .Returns(new List<ProviderLocation>().AsQueryable());
 
@@ -124,8 +123,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .Build()
                 .AsQueryable();
 
-            _providerDataService.GetProviders().Returns(providers);
-
             const int numberOfItems = 1;
             const string postcode = "CV1 2WT";
             var searchRequest = new SearchRequest
@@ -135,16 +132,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 OriginLatitude = "1.5",
                 OriginLongitude = "50"
             };
-
-            var locations = new List<Location>
-            {
-                providers.First().Locations.First()
-            }.AsQueryable();
-
-            _providerDataService.GetLocations(
-                Arg.Is<IQueryable<Provider>>(p => p == providers),
-                Arg.Any<int?>())
-                .Returns(locations);
 
             var deliveryYears = new List<DeliveryYear>
             {
@@ -231,14 +218,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public async Task Search_Returns_ProviderLocations_Filtered_By_Qualification_And_NumberOfItems()
         {
-            var providers = new List<Provider>
-            {
-                new(),
-                new(),
-                new()
-            }.AsQueryable();
-            _providerDataService.GetProviders().Returns(providers);
-
             int? qualificationId = 2232;
             const int numberOfItems = 2;
             const string postcode = "mk669oo";
@@ -250,15 +229,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 OriginLatitude = "1.5",
                 OriginLongitude = "50"
             };
-
-            var locations = new List<Location>
-            {
-                new(),
-                new(),
-                new()
-            }.AsQueryable();
-            _providerDataService.GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), Arg.Is<int>(q => q == searchRequest.QualificationId.Value)).Returns(locations);
-
+            
             var providerLocations = new List<ProviderLocation>
             {
                 new(),
@@ -294,13 +265,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [InlineData(0, 2)]
         public async Task Search_Returns_All_ProviderLocations_When_Qualification_Filter_Is_Null_Or_Zero(int? qualificationId, int numberOfItems)
         {
-            var providers = new List<Provider>
-            {
-                new(),
-                new(),
-                new()
-            }.AsQueryable();
-            _providerDataService.GetProviders().Returns(providers);
             const string postcode = "mk669oo";
 
             var searchRequest = new SearchRequest
@@ -309,15 +273,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 NumberOfItems = numberOfItems,
                 Postcode = postcode
             };
-
-            var locations = new List<Location>
-            {
-                new(),
-                new(),
-                new()
-            }.AsQueryable();
-
-            _providerDataService.GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), qualificationId).Returns(locations);
 
             var providerLocations = new List<ProviderLocation>
             {

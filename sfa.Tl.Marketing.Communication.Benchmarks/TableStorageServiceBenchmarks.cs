@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using BenchmarkDotNet.Attributes;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

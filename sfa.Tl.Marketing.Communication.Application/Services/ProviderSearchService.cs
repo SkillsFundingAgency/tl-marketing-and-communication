@@ -34,7 +34,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 .OrderBy(q => q.Id > 0 ? q.Name : "");
         }
 
-        public async Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(SearchRequest searchRequest)
+        public async Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(
+            SearchRequest searchRequest)
         {
             _logger.LogInformation($"Search::requested search for {searchRequest.Postcode} with {searchRequest.NumberOfItems} for qualification {searchRequest.QualificationId}");
 
@@ -56,8 +57,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 {
                     s.JourneyUrl = _journeyService.GetDirectionsLink(searchRequest.Postcode, s);
                     return s;
-                })
-                .ToList();
+                });
 
             return (providerLocationsWithDistances.Count, searchResults);
         }

@@ -27,19 +27,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
             _cacheExpiryInSeconds = configuration?.CacheExpiryInSeconds ?? 60;
         }
-
-        public IQueryable<Provider> GetProviders()
-        {
-            return GetAllProviders();
-        }
-
-        public IQueryable<Location> GetLocations(IQueryable<Provider> providers, int? qualificationId = null)
-        {
-            return qualificationId > 0
-                ? providers.SelectMany(p => p.Locations)
-                    .Where(l => l.DeliveryYears.Any(d => d.Qualifications.Contains(qualificationId.Value)))
-                : providers.SelectMany(p => p.Locations);
-        }
         
         public IQueryable<ProviderLocation> GetProviderLocations(int? qualificationId = null)
         {

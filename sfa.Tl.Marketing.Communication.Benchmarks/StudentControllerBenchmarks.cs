@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using BenchmarkDotNet.Attributes;
 using Microsoft.AspNetCore.Mvc;
