@@ -22,10 +22,6 @@ namespace sfa.Tl.Marketing.Communication.Benchmarks
 
             var configuration = builder.Build();
 
-            Console.WriteLine($"Current directory: {Directory.GetCurrentDirectory()}");
-            var tableStorageConnectionString = configuration.GetValue<string>("TableStorageConnectionString");
-            Console.WriteLine($"Connection string: {tableStorageConnectionString}");
-
             return configuration;
         }
 
