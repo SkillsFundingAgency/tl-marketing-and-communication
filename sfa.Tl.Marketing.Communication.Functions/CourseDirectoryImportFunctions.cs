@@ -101,7 +101,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
 
         [Function("GetCourseDirectoryJson")]
         public async Task<HttpResponseData> GetCourseDirectoryDetailJson(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
             HttpRequestData request,
             FunctionContext functionContext)
         {
@@ -130,7 +130,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
 
         [Function("GetCourseDirectoryQualificationJson")]
         public async Task<HttpResponseData> GetCourseDirectoryQualificationJson(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
             HttpRequestData request,
             FunctionContext functionContext)
         {
@@ -159,7 +159,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
 
         [Function("GetProviders")]
         public async Task<HttpResponseData> GetProviders(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
             HttpRequestData request,
             FunctionContext functionContext)
         {
@@ -200,7 +200,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
 
         [Function("GetQualifications")]
         public async Task<HttpResponseData> GetQualifications(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
             HttpRequestData request,
             FunctionContext functionContext)
         {
