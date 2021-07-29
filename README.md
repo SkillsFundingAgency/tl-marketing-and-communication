@@ -76,36 +76,21 @@ This data is imported from the NCS Course Directory API using a scheduled functi
 
 Azure functions has been upgraded to work with .NET 5.
 
-Until VS2019 is updated, the functions project cannot be started directly and needs to be run manually. To do this, first install the latest functions tools:
-
-```
-npm i -g azure-functions-core-tools@3 --unsafe-perm true
-```
-
-Navigate to the function project folder, e.g. 
-```
-cd c:\dev\esfa\tl-marketing-and-communication\sfa.Tl.Marketing.Communication.Functions\
-```
-		
-Then run the functions using
-```
-func host start --verbose
-
-```
-
-To debug, attach the debugger manually. See https://github.com/Azure/azure-functions-dotnet-worker/wiki/Debugging.
-
-There is a workaround for launching directly - see https://mattjameschampion.com/2020/12/23/so-you-want-to-run-azure-functions-using-net-5/
-
-Once VS2019 is updated, this will no longer be required.
-
 Known issues with this version of functions can be found at
 https://github.com/Azure/azure-functions-dotnet-worker/wiki/Known-issues#net-core-31-dependency
 
 There is a dependency on .NET Core 3.1, so a developer machine will need this installed and the Azure build pipeline has to install the SDK. If the dependency is removed in future, the .NET Core 3.1 SDK install step can be removed from the pipeline. See also https://github.com/Azure/azure-functions-dotnet-worker/issues/297
 
-(Note - this isn't being used at the moment, because publish fails) `Microsoft.Azure.WebJobs.Script.ExtensionsMetadataGenerator` must be version `1.2.0` to avoid build or runtime errors. Note this could change in a future release.
 
+## Benchmarks
 
+To run benchmarks, make sure the project is in release mode, open a terminal or console, 
+navigate to the solution directory (e.g. `cd \dev\esfa\tl-marketing-and-communication\`) 
+then run
+```
+dotnet run --project sfa.Tl.Marketing.Communication.Benchmarks\sfa.Tl.Marketing.Communication.Benchmarks.csproj -c Release
+```
+
+If you see a message that `sfa.Tl.Marketing.Communication.StaticWebAssets.xml"` is not found, try running the command again.
 
 

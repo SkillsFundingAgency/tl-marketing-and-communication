@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Controllers;
@@ -26,13 +28,18 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
             var providerDataService = Substitute.For<IProviderDataService>();
             providerDataService
                 .GetWebsiteUrls()
-                .Returns(new List<string> { targetUri });
+                .Returns(new Dictionary<string, string>
+                {
+                    { WebUtility.UrlDecode(targetUri), targetUri }
+                });
 
             var urlHelper = Substitute.For<IUrlHelper>();
             urlHelper.IsLocalUrl(Arg.Any<string>())
                 .Returns(args => ((string)args[0]).StartsWith("/students/"));
 
-            var controller = new StudentController(providerDataService, providerSearchEngine)
+            var logger = Substitute.For<ILogger<StudentController>>();
+
+            var controller = new StudentController(providerDataService, providerSearchEngine, logger)
             {
                 Url = urlHelper
             };

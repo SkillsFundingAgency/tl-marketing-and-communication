@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
@@ -210,11 +209,6 @@ namespace sfa.Tl.Marketing.Communication.Functions
             try
             {
                 logger.LogInformation("Course directory GetQualifications function was called.");
-
-                logger.LogInformation($"Running framework {RuntimeInformation.FrameworkDescription}.");
-                logger.LogInformation($"FUNCTIONS_EXTENSION_VERSION = {Environment.GetEnvironmentVariable("FUNCTIONS_EXTENSION_VERSION")}.");
-                logger.LogInformation($"FUNCTIONS_WORKER_RUNTIME = {Environment.GetEnvironmentVariable("FUNCTIONS_WORKER_RUNTIME")}.");
-                logger.LogInformation($"WEBSITE_RUN_FROM_PACKAGE = {Environment.GetEnvironmentVariable("WEBSITE_RUN_FROM_PACKAGE")}.");
 
                 var qualifications =
                     (await _tableStorageService.GetAllQualifications())

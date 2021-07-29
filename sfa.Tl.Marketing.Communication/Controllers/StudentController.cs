@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
@@ -15,13 +14,16 @@ namespace sfa.Tl.Marketing.Communication.Controllers
     {
         private readonly IProviderDataService _providerDataService;
         private readonly IProviderSearchEngine _providerSearchEngine;
+        private readonly ILogger<StudentController> _logger;
 
         public StudentController(
             IProviderDataService providerDataService,
-            IProviderSearchEngine providerSearchEngine)
+            IProviderSearchEngine providerSearchEngine,
+            ILogger<StudentController> logger)
         {
             _providerSearchEngine = providerSearchEngine ?? throw new ArgumentNullException(nameof(providerSearchEngine));
             _providerDataService = providerDataService ?? throw new ArgumentNullException(nameof(providerDataService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         [Route("/students", Name = "Index")]
@@ -57,7 +59,13 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         [Route("/students/find", Name = "Find")]
         public async Task<IActionResult> Find(FindViewModel viewModel)
         {
+            var stopwatch = Stopwatch.StartNew();
+            
             var searchResults = await _providerSearchEngine.Search(viewModel);
+
+            stopwatch.Stop();
+            _logger.LogInformation($"StudentController::Search took {stopwatch.ElapsedMilliseconds}ms ({stopwatch.ElapsedTicks} ticks)");
+
             return View(searchResults);
         }
 
@@ -160,15 +168,14 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         [Route("/students/redirect", Name = "Redirect")]
         public IActionResult Redirect(RedirectViewModel viewModel)
         {
-            var allowedUrls = new HashSet<string>(
-                _providerDataService
-                    .GetWebsiteUrls()
-                    .Select(WebUtility.UrlDecode));
+            var allowedUrls = _providerDataService
+                    .GetWebsiteUrls();
 
             //Need to decode the url for comparison to the allow list,
             //as it has been encoded before being added to web pages
             var decodedUrl = WebUtility.UrlDecode(viewModel.Url);
-            var targetUrl = Url.IsLocalUrl(decodedUrl) || allowedUrls.Contains(decodedUrl)
+            var targetUrl = 
+                Url.IsLocalUrl(decodedUrl) || allowedUrls.ContainsKey(decodedUrl)
                 ? viewModel.Url
                 : "/students";
 

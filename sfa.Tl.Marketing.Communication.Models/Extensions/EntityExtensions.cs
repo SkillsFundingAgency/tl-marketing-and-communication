@@ -59,7 +59,6 @@ namespace sfa.Tl.Marketing.Communication.Models.Extensions
                     }).ToList();
         }
 
-
         public static IList<LocationEntity> ToLocationEntityList(this IEnumerable<Location> locations, string partitionKey)
         {
             return locations?
