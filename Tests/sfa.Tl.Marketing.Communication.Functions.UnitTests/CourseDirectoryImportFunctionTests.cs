@@ -241,7 +241,7 @@ namespace sfa.Tl.Marketing.Communication.Functions.UnitTests
             result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
 
-        public static CourseDirectoryImportFunctions BuildCourseDirectoryImportFunctions(
+        private static CourseDirectoryImportFunctions BuildCourseDirectoryImportFunctions(
             ICourseDirectoryDataService courseDirectoryDataService = null,
             ITableStorageService tableStorageService = null)
         {

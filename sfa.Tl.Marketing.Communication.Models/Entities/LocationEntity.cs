@@ -9,17 +9,17 @@ namespace sfa.Tl.Marketing.Communication.Models.Entities
     public class LocationEntity : TableEntity
     {
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string Name { get; init; }
         [JsonPropertyName("postcode")]
-        public string Postcode { get; set; }
+        public string Postcode { get; init; }
         [JsonPropertyName("town")]
-        public string Town { get; set; }
+        public string Town { get; init; }
         [JsonPropertyName("latitude")]
-        public double Latitude { get; set; }
+        public double Latitude { get; init; }
         [JsonPropertyName("longitude")]
-        public double Longitude { get; set; }
+        public double Longitude { get; init; }
         [JsonPropertyName("website")]
-        public string Website { get; set; }
+        public string Website { get; init; }
 
         //This property is serialized to json WriteEntity/ReadEntity below
         public IList<DeliveryYearEntity> DeliveryYears { get; set; }

@@ -6,9 +6,9 @@ namespace sfa.Tl.Marketing.Communication.Models.Entities
     public class ProviderEntity : TableEntity
     {
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string Name { get; init; }
 
         [JsonPropertyName("ukprn")]
-        public long UkPrn { get; set; }
+        public long UkPrn { get; init; }
     }
 }

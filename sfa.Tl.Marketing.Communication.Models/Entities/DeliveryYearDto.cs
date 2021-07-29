@@ -6,9 +6,9 @@ namespace sfa.Tl.Marketing.Communication.Models.Entities
     public class DeliveryYearEntity
     {
         [JsonPropertyName("year")]
-        public short Year { get; set; }
+        public short Year { get; init; }
 
         [JsonPropertyName("qualification")]
-        public IList<int> Qualifications { get; set; }
+        public IList<int> Qualifications { get; init; }
     }
 }

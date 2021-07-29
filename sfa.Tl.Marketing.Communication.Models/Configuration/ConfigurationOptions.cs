@@ -2,9 +2,9 @@
 {
     public class ConfigurationOptions
     {
-        public string EmployerSupportSiteUrl { get; set; }
-        public string PostcodeRetrieverBaseUrl { get; set; }
-        public StorageSettings StorageConfiguration { get; set; }
-        public int CacheExpiryInSeconds { get; set; }
+        public string EmployerSupportSiteUrl { get; init; }
+        public string PostcodeRetrieverBaseUrl { get; init; }
+        public StorageSettings StorageConfiguration { get; init; }
+        public int CacheExpiryInSeconds { get; init; }
     }
 }
