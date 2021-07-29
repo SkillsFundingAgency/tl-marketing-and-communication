@@ -2,7 +2,6 @@
 using System.Net;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Controllers;
@@ -37,9 +36,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
             urlHelper.IsLocalUrl(Arg.Any<string>())
                 .Returns(args => ((string)args[0]).StartsWith("/students/"));
 
-            var logger = Substitute.For<ILogger<StudentController>>();
-
-            var controller = new StudentController(providerDataService, providerSearchEngine, logger)
+            var controller = new StudentController(providerDataService, providerSearchEngine)
             {
                 Url = urlHelper
             };
