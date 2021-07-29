@@ -24,8 +24,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sfa.Tl.Marketing.Communicat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sfa.Tl.Marketing.Communication.UnitTests", "Tests\sfa.Tl.Marketing.Communication.Tests\sfa.Tl.Marketing.Communication.UnitTests.csproj", "{ACADDEFC-B384-46B3-A194-7054D19CCD51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sfa.Tl.Marketing.Communication.Benchmarks", "sfa.Tl.Marketing.Communication.Benchmarks\sfa.Tl.Marketing.Communication.Benchmarks.csproj", "{776E69EC-9AA6-47D7-B0C1-B01800AED5A2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,10 +58,6 @@ Global
 		{ACADDEFC-B384-46B3-A194-7054D19CCD51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACADDEFC-B384-46B3-A194-7054D19CCD51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACADDEFC-B384-46B3-A194-7054D19CCD51}.Release|Any CPU.Build.0 = Release|Any CPU
-		{776E69EC-9AA6-47D7-B0C1-B01800AED5A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{776E69EC-9AA6-47D7-B0C1-B01800AED5A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{776E69EC-9AA6-47D7-B0C1-B01800AED5A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{776E69EC-9AA6-47D7-B0C1-B01800AED5A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
