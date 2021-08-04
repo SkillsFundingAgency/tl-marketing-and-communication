@@ -69,6 +69,48 @@
       "progType": 31,
       "qualificationLevel": "3",
       "name": "T Level Health and Science - Science"
+    },
+    {
+      "tLevelDefinitionId": "c54bf61a-f3dc-46e2-98f5-4d6e96a293ad",
+      "frameworkCode": 47,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level in Accounting"
+    },
+    {
+      "tLevelDefinitionId": "e33d73f4-2e08-4377-9ffb-72a9fbc54fdb",
+      "frameworkCode": 48,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level in Design and Development for Engineering and Manufacturing"
+    },
+    {
+      "tLevelDefinitionId": "1edb4c4d-b53a-4de0-b9c4-a96285995eb2",
+      "frameworkCode": 50,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level in Engineering, Manufacturing, Processing and Control"
+    },
+    {
+      "tLevelDefinitionId": "8d0bd5f4-4573-4472-b825-4c6d31686bf4",
+      "frameworkCode": 46,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level in Finance"
+    },
+    {
+      "tLevelDefinitionId": "c50d1d8e-a1b9-41d8-884f-6af3a2c19edb",
+      "frameworkCode": 49,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level in Maintenance, Installation and Repair for Engineering and Manufacturing"
+    },
+    {
+      "tLevelDefinitionId": "e2393023-6456-4818-9336-f754a7236205",
+      "frameworkCode": 51,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level in Management and Administration"
     }
   ]
 }

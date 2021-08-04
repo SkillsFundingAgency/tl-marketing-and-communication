@@ -135,19 +135,19 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     : 0;
                 if (qualification == 0)
                 {
-                    _logger.LogWarning("Could not find qualification for course record with tLevelId {tLevelId}.");
+                    _logger.LogWarning($"Could not find qualification for course record with tLevelId {tLevelId}.");
                     continue;
                 }
 
                 if (!courseElement.TryGetProperty("provider", out var providerProperty))
                 {
-                    _logger.LogWarning("Could not find provider property for course record with tLevelId {tLevelId}.");
+                    _logger.LogWarning($"Could not find provider property for course record with tLevelId {tLevelId}.");
                     continue;
                 }
 
                 if (!int.TryParse(providerProperty.SafeGetString("ukprn"), out var ukPrn))
                 {
-                    _logger.LogWarning("Could not find ukprn property for course record with tLevelId {tLevelId}.");
+                    _logger.LogWarning($"Could not find ukprn property for course record with tLevelId {tLevelId}.");
                     continue;
                 }
 
@@ -170,7 +170,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 if (!courseElement.TryGetProperty("locations", out var locationsProperty))
                 {
                     _logger.LogWarning(
-                        "Could not find locations property for course record with tLevelId {tLevelId}.");
+                        $"Could not find locations property for course record with tLevelId {tLevelId}.");
                     continue;
                 }
 
@@ -250,17 +250,16 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             if (!string.IsNullOrWhiteSpace(fullName))
             {
                 var parts = fullName.Split('-');
-                if (parts.Length > 1)
-                {
-                    route = Regex.Replace(parts[0],
-                            "^T Level", "")
+
+                route = parts.Length > 1 
+                    ? Regex.Replace(parts[0],
+                            "^T Level", "", RegexOptions.IgnoreCase)
+                        .ToTitleCase()
+                    : null;
+
+                name = Regex.Replace(parts[^1],
+                            "^T Level in", "", RegexOptions.IgnoreCase)
                         .ToTitleCase();
-                    name = parts[1].ToTitleCase();
-                }
-                else if (parts.Length == 1)
-                {
-                    name = parts[0].ToTitleCase();
-                }
             }
 
             return (route, name);
@@ -273,18 +272,18 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             var providersToInsertOrUpdate = providers.Where(q =>
                 ProviderIsNewOrHasChanges(existingProviders, q)
             ).ToList();
-            
+
             var providersToDelete = existingProviders.Where(q =>
                     providers.All(x => x.UkPrn != q.UkPrn)) //Not in new data, so add it to the delete list
                     .ToList();
-            
+
             var savedProviders = 0;
             if (providersToInsertOrUpdate.Any())
             {
                 savedProviders = await _tableStorageService.SaveProviders(providersToInsertOrUpdate);
                 _logger.LogInformation($"Saved {savedProviders} providers to table storage");
             }
-            
+
             var deletedProviders = 0;
             if (providersToDelete.Any())
             {
