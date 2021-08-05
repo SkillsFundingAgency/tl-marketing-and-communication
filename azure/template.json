@@ -41,22 +41,10 @@
         "keyVaultName": {
             "type": "string"
         },
-        "employerContactEmailTemplateId": {
-            "type": "string"
-        },
         "employerSupportSiteUrl": {
             "type": "string"
         },
         "postcodeRetrieverBaseUrl": {
-            "type": "string"
-        },
-        "supportEmailInboxAddress": {
-            "type": "string"
-        },
-        "googleMapsApiKey": {
-            "type": "securestring"
-        },
-        "govNotifyApiKey": {
             "type": "string"
         },
         "tableStorageConnectionString": {
@@ -200,29 +188,12 @@
                                 "value": "[reference('app-insights').outputs.InstrumentationKey.value]"
                             },
                             {
-                              "name": "EmployerContactEmailTemplateId",
-                              "value": "[parameters('employerContactEmailTemplateId')]"
-                              },
-                            {
                               "name": "EmployerSupportSiteUrl",
                               "value": "[parameters('employerSupportSiteUrl')]"
                             },
                             {
                                 "name": "PostcodeRetrieverBaseUrl",
                                 "value": "[parameters('postcodeRetrieverBaseUrl')]"
-                            },
-
-                            {
-                                "name": "SupportEmailInboxAddress",
-                                "value": "[parameters('supportEmailInboxAddress')]"
-                            },
-                            {
-                                "name": "GoogleMapsApiKey",
-                                "value": "[parameters('googleMapsApiKey')]"
-                            },
-                            {
-                              "name": "GovNotifyApiKey",
-                              "value": "[parameters('govNotifyApiKey')]"
                             },
                             {
                               "name": "TableStorageConnectionString",

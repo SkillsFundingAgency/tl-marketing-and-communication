@@ -18,7 +18,8 @@ namespace sfa.Tl.Marketing.Communication.DataLoad
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true);
+                .AddJsonFile("appsettings.json", true)
+                .AddJsonFile("appsettings.development.json", true);
 
             var configuration = builder.Build();
 

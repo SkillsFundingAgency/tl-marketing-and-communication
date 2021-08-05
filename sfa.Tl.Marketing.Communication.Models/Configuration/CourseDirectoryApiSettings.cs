@@ -2,8 +2,8 @@
 {
     public class CourseDirectoryApiSettings
     {
-        public string ApiKey { get; set; }
-        public string ApiBaseUri { get; set; }
+        public string ApiKey { get; init; }
+        public string ApiBaseUri { get; init; }
     }
 }
 

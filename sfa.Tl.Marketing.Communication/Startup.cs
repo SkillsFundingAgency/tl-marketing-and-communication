@@ -12,8 +12,6 @@ using sfa.Tl.Marketing.Communication.SearchPipeline;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos.Table;
-using Notify.Client;
-using Notify.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
 
 namespace sfa.Tl.Marketing.Communication
@@ -42,9 +40,7 @@ namespace sfa.Tl.Marketing.Communication
             {
                 CacheExpiryInSeconds = cacheExpiryInSeconds,
                 PostcodeRetrieverBaseUrl = Configuration["PostcodeRetrieverBaseUrl"],
-                EmployerContactEmailTemplateId = Configuration["EmployerContactEmailTemplateId"],
                 EmployerSupportSiteUrl = Configuration["EmployerSupportSiteUrl"],
-                SupportEmailInboxAddress = Configuration["SupportEmailInboxAddress"],
                 StorageConfiguration = new StorageSettings
                 {
                     TableStorageConnectionString = Configuration[ConfigurationKeys.TableStorageConnectionStringConfigKey]
@@ -147,7 +143,6 @@ namespace sfa.Tl.Marketing.Communication
         {
             services.AddTransient<IFileReader, FileReader>();
             services.AddSingleton<IProviderDataService, ProviderDataService>();
-            services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IDistanceCalculationService, DistanceCalculationService>();
             services.AddTransient<IJourneyService, JourneyService>();
             services.AddTransient<IProviderSearchService, ProviderSearchService>();
@@ -163,10 +158,6 @@ namespace sfa.Tl.Marketing.Communication
             services.AddTransient(typeof(ICloudTableRepository<>), typeof(GenericCloudTableRepository<>));
 
             services.AddTransient<ITableStorageService, TableStorageService>();
-            
-            var govNotifyApiKey = Configuration["GovNotifyApiKey"];
-            services.AddTransient<IAsyncNotificationClient, NotificationClient>(
-                _ => new NotificationClient(govNotifyApiKey));
         }
     }
 }

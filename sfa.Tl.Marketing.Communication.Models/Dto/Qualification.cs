@@ -2,8 +2,8 @@
 {
     public class Qualification
     {
-        public int Id { get; set; }
-        public string Route { get; set; }
-        public string Name { get; set; }
+        public int Id { get; init; }
+        public string Route { get; init; }
+        public string Name { get; init; }
     }
 }

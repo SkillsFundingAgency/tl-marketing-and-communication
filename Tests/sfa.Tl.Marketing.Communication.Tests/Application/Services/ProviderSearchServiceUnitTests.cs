@@ -102,18 +102,19 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public async Task Search_Returns_Empty_Providers_And_TotalRecordCount()
         {
-            _providerDataService.GetProviders().Returns(new List<Provider>().AsQueryable());
+            _providerDataService.GetProviderLocations(Arg.Any<int?>())
+                .Returns(new List<ProviderLocation>().AsQueryable());
 
             var (totalCount, searchResults) = await _service.Search(new SearchRequest());
 
             totalCount.Should().Be(0);
             searchResults.Count().Should().Be(0);
-            _providerDataService.Received(1).GetProviders();
+
+            _providerDataService.Received(1).GetProviderLocations(Arg.Any<int?>());
             _journeyService.DidNotReceive()
                 .GetDirectionsLink(Arg.Any<string>(), Arg.Any<ProviderLocation>());
         }
-
-
+        
         [Fact]
         public async Task Search_Returns_ProviderLocations_With_Expected_Details()
         {
@@ -121,8 +122,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .Add()
                 .Build()
                 .AsQueryable();
-
-            _providerDataService.GetProviders().Returns(providers);
 
             const int numberOfItems = 1;
             const string postcode = "CV1 2WT";
@@ -133,16 +132,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 OriginLatitude = "1.5",
                 OriginLongitude = "50"
             };
-
-            var locations = new List<Location>
-            {
-                providers.First().Locations.First()
-            }.AsQueryable();
-
-            _providerDataService.GetLocations(
-                Arg.Is<IQueryable<Provider>>(p => p == providers),
-                Arg.Any<int?>())
-                .Returns(locations);
 
             var deliveryYears = new List<DeliveryYear>
             {
@@ -178,9 +167,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 }
             }.AsQueryable();
 
-            _providerDataService.GetProviderLocations(
-                    Arg.Is<IQueryable<Location>>(l => l == locations),
-                    Arg.Is<IQueryable<Provider>>(p => p == providers))
+            _providerDataService.GetProviderLocations()
                 .Returns(providerLocations);
 
             _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
@@ -231,14 +218,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [Fact]
         public async Task Search_Returns_ProviderLocations_Filtered_By_Qualification_And_NumberOfItems()
         {
-            var providers = new List<Provider>
-            {
-                new(),
-                new(),
-                new()
-            }.AsQueryable();
-            _providerDataService.GetProviders().Returns(providers);
-
             int? qualificationId = 2232;
             const int numberOfItems = 2;
             const string postcode = "mk669oo";
@@ -250,15 +229,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 OriginLatitude = "1.5",
                 OriginLongitude = "50"
             };
-
-            var locations = new List<Location>
-            {
-                new(),
-                new(),
-                new()
-            }.AsQueryable();
-            _providerDataService.GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), Arg.Is<int>(q => q == searchRequest.QualificationId.Value)).Returns(locations);
-
+            
             var providerLocations = new List<ProviderLocation>
             {
                 new(),
@@ -266,9 +237,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 new()
             }.AsQueryable();
 
-            _providerDataService.GetProviderLocations(
-                    Arg.Is<IQueryable<Location>>(l => l == locations),
-                    Arg.Is<IQueryable<Provider>>(p => p == providers))
+            _providerDataService.GetProviderLocations(qualificationId)
                 .Returns(providerLocations);
 
             _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
@@ -282,9 +251,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             totalCount.Should().Be(providerLocations.Count());
             searchResults.Count().Should().Be(numberOfItems);
-            _providerDataService.Received(1).GetProviders();
-            _providerDataService.Received(1).GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), Arg.Is<int>(q => q == searchRequest.QualificationId.Value));
-            _providerDataService.Received(1).GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers));
+            _providerDataService.Received(1).GetProviderLocations(qualificationId);
+
             await _distanceCalculationService.Received(1).CalculateProviderLocationDistanceInMiles(
                 Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode),
                 providerLocations);
@@ -297,13 +265,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         [InlineData(0, 2)]
         public async Task Search_Returns_All_ProviderLocations_When_Qualification_Filter_Is_Null_Or_Zero(int? qualificationId, int numberOfItems)
         {
-            var providers = new List<Provider>
-            {
-                new(),
-                new(),
-                new()
-            }.AsQueryable();
-            _providerDataService.GetProviders().Returns(providers);
             const string postcode = "mk669oo";
 
             var searchRequest = new SearchRequest
@@ -313,15 +274,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 Postcode = postcode
             };
 
-            var locations = new List<Location>
-            {
-                new(),
-                new(),
-                new()
-            }.AsQueryable();
-
-            _providerDataService.GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), qualificationId).Returns(locations);
-
             var providerLocations = new List<ProviderLocation>
             {
                 new(),
@@ -329,9 +281,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 new()
             }.AsQueryable();
 
-            _providerDataService.GetProviderLocations(
-                Arg.Is<IQueryable<Location>>(l => l == locations),
-                Arg.Is<IQueryable<Provider>>(p => p == providers))
+            _providerDataService.GetProviderLocations(searchRequest.QualificationId)
                 .Returns(providerLocations);
 
             _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
@@ -343,10 +293,12 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             totalCount.Should().Be(providerLocations.Count());
             searchResults.Count().Should().Be(numberOfItems);
-            _providerDataService.Received(1).GetProviders();
-            _providerDataService.Received(1).GetLocations(Arg.Is<IQueryable<Provider>>(p => p == providers), qualificationId);
-            _providerDataService.Received(1).GetProviderLocations(Arg.Is<IQueryable<Location>>(l => l == locations), Arg.Is<IQueryable<Provider>>(p => p == providers));
-            await _distanceCalculationService.Received(1).CalculateProviderLocationDistanceInMiles(
+
+            _providerDataService.Received(1).GetProviderLocations(qualificationId);
+
+            await _distanceCalculationService
+                .Received(1)
+                .CalculateProviderLocationDistanceInMiles(
                 Arg.Is<PostcodeLocation>(p => p.Postcode == searchRequest.Postcode),
                 providerLocations);
             _journeyService.Received(numberOfItems)
