@@ -29,24 +29,19 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public IEnumerable<Qualification> GetQualifications()
         {
-            var qualifications = _providerDataService.GetQualifications().ToList();
-            return qualifications.OrderBy(q => q.Id > 0 ? q.Name : "");
+            return _providerDataService
+                .GetQualifications()
+                .OrderBy(q => q.Id > 0 ? q.Name : "");
         }
 
-        public async Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(SearchRequest searchRequest)
+        public async Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(
+            SearchRequest searchRequest)
         {
             _logger.LogInformation($"Search::requested search for {searchRequest.Postcode} with {searchRequest.NumberOfItems} for qualification {searchRequest.QualificationId}");
 
-            var providers = _providerDataService.GetProviders();
-            
-            if (!providers.Any())
-            {
-                return (0, new List<ProviderLocation>());
-            }
+            var providerLocations = _providerDataService
+                .GetProviderLocations(searchRequest.QualificationId);
 
-            var locations = _providerDataService.GetLocations(providers, searchRequest.QualificationId);
-            var providerLocations = _providerDataService.GetProviderLocations(locations, providers);
-            
             var providerLocationsWithDistances = await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
                 new PostcodeLocation
                 {
@@ -62,10 +57,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 {
                     s.JourneyUrl = _journeyService.GetDirectionsLink(searchRequest.Postcode, s);
                     return s;
-                })
-                .ToList();
-
-            _logger.LogInformation($"Search::Returning {searchResults.Count} results for {searchRequest.Postcode} with {searchRequest.NumberOfItems} items and selected qualification {searchRequest.QualificationId}");
+                });
 
             return (providerLocationsWithDistances.Count, searchResults);
         }

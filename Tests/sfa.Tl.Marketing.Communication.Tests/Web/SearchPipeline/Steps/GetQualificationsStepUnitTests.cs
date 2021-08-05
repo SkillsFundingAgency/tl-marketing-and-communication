@@ -16,10 +16,22 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
     {
         private readonly IProviderSearchService _providerSearchService;
         private readonly ISearchStep _searchStep;
+        private readonly List<Qualification> _qualifications =
+            new List<Qualification>
+            {
+                new() { Id = 1, Name = "Qualification 1" },
+                new() { Id = 2, Name = "Qualification 2" },
+                new() { Id = 3, Name = "Qualification 3" },
+                new() { Id = 4, Name = "Qualification 4" },
+                new() { Id = 5, Name = "Qualification 5" }
+            };
 
         public GetQualificationsStepUnitTests()
         {
             _providerSearchService = Substitute.For<IProviderSearchService>();
+
+            _providerSearchService.GetQualifications().Returns(_qualifications);
+
             _searchStep = new GetQualificationsStep(_providerSearchService);
         }
 
@@ -36,23 +48,13 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
 
             var context = new SearchContext(viewModel);
 
-            var qualifications = new List<Qualification>
-            {
-                new() { Id = 1, Name = "Qualification 1" },
-                new() { Id = 2, Name = "Qualification 2" },
-                new() { Id = 3, Name = "Qualification 3" },
-                new() { Id = 4, Name = "Qualification 4" },
-                new() { Id = 5, Name = "Qualification 5" }
-            };
-
-            _providerSearchService.GetQualifications().Returns(qualifications);
 
             // Act
             await _searchStep.Execute(context);
 
             // Assert
             _providerSearchService.Received(1).GetQualifications();
-            context.ViewModel.Qualifications.Count().Should().Be(qualifications.Count);
+            context.ViewModel.Qualifications.Count().Should().Be(_qualifications.Count);
             context.ViewModel.Qualifications
                 .Any(q => q.Value == selectedQualificationId.ToString() && q.Selected)
                 .Should().BeTrue();
@@ -83,17 +85,19 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
             qualificationsSelectList[4].Text.Should().Be("Qualification 5");
             qualificationsSelectList[4].Selected.Should().BeFalse();
 
-
-
-
-
             context.ViewModel.SelectedQualificationId.Should().Be(selectedQualificationId);
         }
 
         [Theory]
         [InlineData(null, 0)]
         [InlineData(0, 0)]
-        [InlineData(2112, 2112)]
+        [InlineData(1, 1)]
+        [InlineData(2, 2)]
+        [InlineData(3, 3)]
+        [InlineData(4, 4)]
+        [InlineData(5, 5)]
+        [InlineData(6, 0)] //Reset to 0 if missing id used
+        [InlineData(2112, 0)] //Reset to 0 if missing id used
         public async Task Step_Sets_QualificationId_For_Search(int? qualificationId, int expected)
         {
             // Arrange

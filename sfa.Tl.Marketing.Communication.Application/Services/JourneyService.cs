@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Text;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 
@@ -13,13 +12,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             //See https://developers.google.com/maps/documentation/urls/get-started#forming-the-directions-url
 
-            var uriBuilder = new StringBuilder(BaseUrl);
-            uriBuilder.Append($"origin={WebUtility.UrlEncode(fromPostcode)}");
-            uriBuilder.Append($"&destination={WebUtility.UrlEncode(toLocation.Postcode)}");
             // ReSharper disable once StringLiteralTypo
-            uriBuilder.Append("&travelmode=transit");
-
-            return uriBuilder.ToString();
+            return $"{BaseUrl}origin={WebUtility.UrlEncode(fromPostcode)}&destination={WebUtility.UrlEncode(toLocation.Postcode)}&travelmode=transit";
         }
     }
 }

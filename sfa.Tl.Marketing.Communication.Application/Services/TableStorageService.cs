@@ -74,7 +74,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     .Save(provider.Locations.ToLocationEntityList(provider.UkPrn.ToString()));
             }
 
-            _logger.LogInformation("SaveProviders saved " +
+            _logger.LogInformation("TableStorageService::SaveProviders saved " +
                                    $"{saved} providers, " +
                                    $"and saved {savedLocations} " +
                                    $"and deleted {deletedLocations} locations.");
@@ -83,19 +83,30 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public async Task<IList<Provider>> GetAllProviders()
         {
-            var providerEntities = await _providerRepository.GetAll();
+            var providers =
+                (await _providerRepository.GetAll())
+                .ToProviderList();
 
-            var providers = providerEntities.ToProviderList();
+            var locationEntities = await _locationRepository.GetAll();
 
-            var locationCount = 0;
+            var locationGroups = locationEntities
+                .GroupBy(x => x.PartitionKey)
+                .Select(group => new
+                {
+                    UkPrn = group.Key,
+                    Items = group.ToLocationList()
+                })
+                .ToDictionary(g => g.UkPrn.ToString());
+
             foreach (var provider in providers)
             {
-                var locationEntities = await _locationRepository.GetByPartitionKey(provider.UkPrn.ToString());
-                provider.Locations = locationEntities.ToLocationList();
-                locationCount += locationEntities.Count;
+                if (locationGroups.TryGetValue(provider.UkPrn.ToString(), out var location))
+                {
+                    provider.Locations = location.Items;
+                }
             }
 
-            _logger.LogInformation($"TableStorageService::RetrieveProviders found {providers.Count} providers with {locationCount} locations.");
+            _logger.LogDebug($"TableStorageService::GetAllProviders found {providers.Count} providers with {locationEntities.Count} locations.");
             return providers;
         }
 
@@ -127,7 +138,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             var saved = await _qualificationRepository.Save(qualificationEntities);
 
-            _logger.LogInformation($"SaveQualifications saved {saved} records.");
+            _logger.LogInformation($"TableStorageService::SaveQualifications saved {saved} records.");
             return saved;
         }
 
@@ -137,7 +148,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 (await _qualificationRepository.GetAll())
                 .ToQualificationList();
 
-            _logger.LogInformation($"RetrieveQualifications found {qualifications.Count} records.");
+            _logger.LogDebug($"TableStorageService::GetAllQualifications found {qualifications.Count} records.");
 
             return qualifications;
         }

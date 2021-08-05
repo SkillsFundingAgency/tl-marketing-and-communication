@@ -2,6 +2,6 @@
 {
     public class StorageSettings
     {
-        public string TableStorageConnectionString { get; set; }
+        public string TableStorageConnectionString { get; init; }
     }
 }
