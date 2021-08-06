@@ -3,8 +3,8 @@ namespace sfa.Tl.Marketing.Communication.Models.Dto
 {
     public class PostcodeLocation
     {
-        public string Postcode { get; set; }
-        public double? Longitude { get; set; }
-        public double? Latitude { get; set; }
+        public string Postcode { get; init; }
+        public double? Longitude { get; init; }
+        public double? Latitude { get; init; }
    }
 }

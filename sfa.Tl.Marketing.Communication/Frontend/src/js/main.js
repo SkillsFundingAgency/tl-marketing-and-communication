@@ -104,7 +104,6 @@ function processKeyboardEvents(e) {
 
 $("#tl-find-button").click(function () {
 
-    clearSearchInfo();
     const postcode = $("#Postcode").val().trim();
       
     if (postcode === "") {
@@ -126,42 +125,4 @@ function showPostcodeError(message) {
     $("#tl-results-summary").empty();
     $("#tl-results-summary").append("<h3>0 results</h3><p> Enter a postcode to search for colleges and schools doing T Levels.</p>");
     $("#tl-next").addClass("tl-none");
-}
-
-$("#tl-nav--bar-student--find").click(function () {
-    clearSearchInfo();
-});
-
-function persistSearchInfo() {
-    const qualification = $("#tl-qualifications").children("option:selected").text();
-    const postcode = $("#Postcode").val();
-
-    GOVUK.cookie('postcode', postcode, { days: 1 });
-    GOVUK.cookie('qualification', qualification, { days: 1 });
-}
-
-function loadSearchInfo() {
-
-    const shouldSearch = $("#ShouldSearch").val();
-
-    if (shouldSearch === "False") {
-
-        const postcodev = GOVUK.cookie('postcode');
-        const qualificationv = GOVUK.cookie('qualification');
-        if (postcodev) {
-            $("#Postcode").val(postcodev);
-            $("#Qualification").val(qualificationv);
-            $("#ShouldSearch").val("True");
-        }
-    }
-}
-
-function clearSearchInfo() {
-    GOVUK.cookie('postcode', null);
-    GOVUK.cookie('qualification', null);
-}
-
-function removeSearchStringFromFindUrl() {
-    var studentsFindUrl = window.location.origin + window.location.pathname;
-    window.history.replaceState({}, "students find", studentsFindUrl);
 }

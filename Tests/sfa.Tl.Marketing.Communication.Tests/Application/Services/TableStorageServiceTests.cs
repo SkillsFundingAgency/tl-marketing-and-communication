@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -45,16 +44,11 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .GetAll()
                 .Returns(providerEntities);
             var locationRepository = Substitute.For<ICloudTableRepository<LocationEntity>>();
-            
-            locationRepository
-                .GetByPartitionKey(Arg.Any<string>())
-                .Returns(callInfo =>
-                {
-                    var partitionKey = callInfo.ArgAt<string>(0);
-                    var results = locationEntities.Where(p => p.PartitionKey == partitionKey);
-                    return results.ToList();
-                });
 
+            locationRepository
+                .GetAll()
+                .Returns(locationEntities);
+            
             var service = BuildTableStorageService(locationRepository, providerRepository);
 
             var providers = new ProviderListBuilder()
@@ -94,7 +88,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity>>();
             providerRepository
                 .Save(Arg.Any<IList<ProviderEntity>>())
-                .Returns(args => 
+                .Returns(args =>
                     ((IList<ProviderEntity>)args[0]).Count);
 
             var service = BuildTableStorageService(providerRepository: providerRepository);
@@ -215,9 +209,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             logger ??= Substitute.For<ILogger<TableStorageService>>();
 
             return new TableStorageService(
-                locationRepository, 
-                providerRepository, 
-                qualificationRepository, 
+                locationRepository,
+                providerRepository,
+                qualificationRepository,
                 logger);
         }
     }

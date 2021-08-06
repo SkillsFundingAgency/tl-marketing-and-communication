@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -58,6 +56,7 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         public async Task<IActionResult> Find(FindViewModel viewModel)
         {
             var searchResults = await _providerSearchEngine.Search(viewModel);
+
             return View(searchResults);
         }
 
@@ -160,15 +159,14 @@ namespace sfa.Tl.Marketing.Communication.Controllers
         [Route("/students/redirect", Name = "Redirect")]
         public IActionResult Redirect(RedirectViewModel viewModel)
         {
-            var allowedUrls = new HashSet<string>(
-                _providerDataService
-                    .GetWebsiteUrls()
-                    .Select(WebUtility.UrlDecode));
+            var allowedUrls = _providerDataService
+                    .GetWebsiteUrls();
 
             //Need to decode the url for comparison to the allow list,
             //as it has been encoded before being added to web pages
             var decodedUrl = WebUtility.UrlDecode(viewModel.Url);
-            var targetUrl = Url.IsLocalUrl(decodedUrl) || allowedUrls.Contains(decodedUrl)
+            var targetUrl = 
+                Url.IsLocalUrl(decodedUrl) || allowedUrls.ContainsKey(decodedUrl)
                 ? viewModel.Url
                 : "/students";
 

@@ -5,11 +5,11 @@ namespace sfa.Tl.Marketing.Communication.Models.Dto
     public class Location
     {
         public string Name { get; set; }
-        public string Postcode { get; set; }
-        public string Town { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-        public IList<DeliveryYearDto> DeliveryYears { get; set; }
-        public string Website { get; set; }
+        public string Postcode { get; init; }
+        public string Town { get; init; }
+        public double Latitude { get; init; }
+        public double Longitude { get; init; }
+        public IList<DeliveryYearDto> DeliveryYears { get; init; }
+        public string Website { get; init; }
     }
 }

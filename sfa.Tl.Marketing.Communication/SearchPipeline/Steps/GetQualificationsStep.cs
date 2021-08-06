@@ -18,7 +18,13 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
         {
             context.ViewModel.SelectedQualificationId ??= 0;
 
-            var qualifications = _providerSearchService.GetQualifications();
+            var qualifications = _providerSearchService.GetQualifications().ToList();
+
+            if (qualifications.All(q => q.Id != context.ViewModel.SelectedQualificationId))
+            {
+                context.ViewModel.SelectedQualificationId = 0;
+            }
+            
             context.ViewModel.Qualifications = qualifications
                 .Select(q =>
                     new SelectListItem

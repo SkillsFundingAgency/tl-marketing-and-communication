@@ -10,7 +10,7 @@ namespace sfa.Tl.Marketing.Communication.Models
         public string Postcode { get; set; }
         public string Longitude { get; set; }
         public string Latitude { get; set; }
-        public string Qualification { get; set; }
+        public string Qualification { get; init; }
         public bool ShouldSearch { get; set; }
         public int? NumberOfItemsToShow { get; set; }
         public IEnumerable<ProviderLocationViewModel> ProviderLocations { get; set; } = new List<ProviderLocationViewModel>();

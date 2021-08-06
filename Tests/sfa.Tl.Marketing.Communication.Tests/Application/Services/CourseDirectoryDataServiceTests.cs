@@ -301,11 +301,11 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var (savedCount, deletedCount) = await service
                 .ImportQualificationsFromCourseDirectoryApi();
 
-            savedCount.Should().Be(10);
+            savedCount.Should().Be(16);
             deletedCount.Should().Be(0);
 
             deletedQualifications.Should().HaveCount(0);
-            savedQualifications.Should().HaveCount(10);
+            savedQualifications.Should().HaveCount(16);
 
             var orderedSavedQualifications = savedQualifications.OrderBy(q => q.Id).ToList();
             ValidateQualification(orderedSavedQualifications[0], 36, "Construction", "Design, Surveying and Planning for Construction");
@@ -318,6 +318,12 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             ValidateQualification(orderedSavedQualifications[7], 43, "Health and Science", "Science");
             ValidateQualification(orderedSavedQualifications[8], 44, "Construction", "Onsite Construction");
             ValidateQualification(orderedSavedQualifications[9], 45, "Construction", "Building Services Engineering for Construction");
+            ValidateQualification(orderedSavedQualifications[10], 46, null, "Finance");
+            ValidateQualification(orderedSavedQualifications[11], 47, null, "Accounting");
+            ValidateQualification(orderedSavedQualifications[12], 48, null, "Design and Development for Engineering and Manufacturing");
+            ValidateQualification(orderedSavedQualifications[13], 49, null, "Maintenance, Installation and Repair for Engineering and Manufacturing");
+            ValidateQualification(orderedSavedQualifications[14], 50, null, "Engineering, Manufacturing, Processing and Control");
+            ValidateQualification(orderedSavedQualifications[15], 51, null, "Management and Administration");
         }
 
         [Fact]
@@ -355,21 +361,27 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var (savedCount, deletedCount) = await service
                 .ImportQualificationsFromCourseDirectoryApi();
 
-            savedCount.Should().Be(5);
+            savedCount.Should().Be(11);
             deletedCount.Should().Be(2);
 
-            deletedQualifications.Should().HaveCount(2);
+            deletedQualifications.Should().HaveCount(deletedCount);
             var orderedDeletedQualifications = deletedQualifications.OrderBy(q => q.Id).ToList();
             ValidateQualification(orderedDeletedQualifications[0], 1, "Test", "Qualification 1");
             ValidateQualification(orderedDeletedQualifications[1], 99, "None", "One to delete");
 
-            savedQualifications.Should().HaveCount(5);
+            savedQualifications.Should().HaveCount(savedCount);
             var orderedSavedQualifications = savedQualifications.OrderBy(q => q.Id).ToList();
             ValidateQualification(orderedSavedQualifications[0], 36, "Construction", "Design, Surveying and Planning for Construction");
             ValidateQualification(orderedSavedQualifications[1], 37, "Digital", "Digital Production, Design and Development");
             ValidateQualification(orderedSavedQualifications[2], 40, "Digital", "Digital Support Services");
             ValidateQualification(orderedSavedQualifications[3], 43, "Health and Science", "Science");
             ValidateQualification(orderedSavedQualifications[4], 45, "Construction", "Building Services Engineering for Construction");
+            ValidateQualification(orderedSavedQualifications[5], 46, null, "Finance");
+            ValidateQualification(orderedSavedQualifications[6], 47, null, "Accounting");
+            ValidateQualification(orderedSavedQualifications[7], 48, null, "Design and Development for Engineering and Manufacturing");
+            ValidateQualification(orderedSavedQualifications[8], 49, null, "Maintenance, Installation and Repair for Engineering and Manufacturing");
+            ValidateQualification(orderedSavedQualifications[9], 50, null, "Engineering, Manufacturing, Processing and Control");
+            ValidateQualification(orderedSavedQualifications[10], 51, null, "Management and Administration");
         }
 
         private static CourseDirectoryDataService BuildCourseDirectoryDataService(

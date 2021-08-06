@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
@@ -26,7 +27,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
             var providerDataService = Substitute.For<IProviderDataService>();
             providerDataService
                 .GetWebsiteUrls()
-                .Returns(new List<string> { targetUri });
+                .Returns(new Dictionary<string, string>
+                {
+                    { WebUtility.UrlDecode(targetUri), targetUri }
+                });
 
             var urlHelper = Substitute.For<IUrlHelper>();
             urlHelper.IsLocalUrl(Arg.Any<string>())

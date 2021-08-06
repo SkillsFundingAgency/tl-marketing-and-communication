@@ -6,12 +6,12 @@ namespace sfa.Tl.Marketing.Communication.Models.Entities
     public class QualificationEntity : TableEntity
     {
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [JsonPropertyName("route")]
-        public string Route { get; set; }
+        public string Route { get; init; }
 
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string Name { get; init; }
     }
 }
