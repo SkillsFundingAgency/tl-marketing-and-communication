@@ -29,8 +29,8 @@ namespace sfa.Tl.Marketing.Communication.Models.Extensions
 
             var artsAndPreps = new List<string>
             {
-                "a", "an", "and", "any", "at", "for", "from", "into", 
-                "of", "on", "or", "some", "the", "to",
+                "a", "an", "and", "any", "at", "for", "from", "in", "into", 
+                "of", "on", "or", "some", "the", "to"
             };
 
             result = tokens[0];

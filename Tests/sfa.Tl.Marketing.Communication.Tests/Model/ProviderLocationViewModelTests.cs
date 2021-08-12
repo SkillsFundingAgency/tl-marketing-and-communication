@@ -111,7 +111,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Model
         {
             var viewModel = new ProviderLocationViewModel
             {
-                Website = "https://test.com",
+                Website = "https://test.com"
             };
 
             // ReSharper disable once StringLiteralTypo
@@ -123,7 +123,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Model
         {
             var viewModel = new ProviderLocationViewModel
             {
-                ProviderName = "Test Provider",
+                ProviderName = "Test Provider"
             };
 
             viewModel.RedirectUrlLabel.Should().Be("Visit Test Provider's website");
