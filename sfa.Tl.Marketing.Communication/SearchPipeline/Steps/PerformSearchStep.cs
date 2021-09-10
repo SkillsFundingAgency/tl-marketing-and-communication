@@ -1,22 +1,28 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using sfa.Tl.Marketing.Communication.Extensions;
 
 namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
 {
     public class PerformSearchStep : ISearchStep
     {
+        private readonly IDateTimeService _dateTimeService;
         private readonly IProviderSearchService _providerSearchService;
         private readonly IMapper _mapper;
 
-        public PerformSearchStep(IProviderSearchService providerSearchService, IMapper mapper)
+        public PerformSearchStep(IProviderSearchService providerSearchService,
+            IDateTimeService dateTimeService,
+            IMapper mapper)
         {
-            _providerSearchService = providerSearchService;
-            _mapper = mapper;
+            _providerSearchService = providerSearchService ?? throw new ArgumentNullException(nameof(providerSearchService));
+            _dateTimeService = dateTimeService ?? throw new ArgumentNullException(nameof(dateTimeService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task Execute(ISearchContext context)
@@ -33,6 +39,7 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
             var (totalCount, searchResults) = await _providerSearchService.Search(searchRequest);
 
             var providerViewModels = _mapper.Map<IEnumerable<ProviderLocationViewModel>>(searchResults).ToList();
+            providerViewModels.MergeAvailableDeliveryYears(_dateTimeService.Today);
 
             context.ViewModel.TotalRecordCount = totalCount;
             if (providerViewModels.Count > context.ViewModel.SelectedItemIndex)

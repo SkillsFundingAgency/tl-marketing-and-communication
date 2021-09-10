@@ -12,7 +12,7 @@
     {
         foreach (var deliveryYear in Model.DeliveryYears.Where(dy => dy.Qualifications != null && dy.Qualifications.Any()))
         {
-            @if (deliveryYear.Year <= DateTime.Now.Year)
+            @if (deliveryYear.IsAvailableNow)
             {
                 <h5><strong>Available now:</strong></h5>
             }

@@ -15,7 +15,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline
 
         public SearchPipelineFactoryUnitTests()
         {
-            _factory = new SearchPipelineFactory();
+            var dateTimeService = Substitute.For<IDateTimeService>();
+            _factory = new SearchPipelineFactory(dateTimeService);
         }
 
         [Fact]
