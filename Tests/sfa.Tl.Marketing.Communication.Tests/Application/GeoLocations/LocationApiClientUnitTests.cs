@@ -39,10 +39,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations
 
             var locationApiClient = new LocationApiClient(httpClient, _configurationOptions);
             
-            // Act
             var postcodeData = await locationApiClient.GetGeoLocationDataAsync("CV12WT");
 
-            // Assert
             postcodeData.Should().NotBeNull();
             postcodeData.Postcode.Should().Be("CV1 2WT");
             postcodeData.Latitude.Should().Be(50.001);
@@ -52,7 +50,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations
         [Fact]
         public async Task Then_Terminated_Postcode_Is_Returned_Correctly()
         {
-            // Arrange
             var responseData = new PostcodeLookupResultDto
             {
                 Postcode = "S70 2YW",
@@ -64,11 +61,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations
 
             var locationApiClient = new LocationApiClient(httpClient, _configurationOptions);
             
-            // Act
             var postcodeData = await locationApiClient
                 .GetGeoLocationDataAsync("S702YW");
 
-            // Assert
             postcodeData.Should().NotBeNull();
             postcodeData.Postcode.Should().Be("S70 2YW");
             postcodeData.Latitude.Should().Be(50.001);

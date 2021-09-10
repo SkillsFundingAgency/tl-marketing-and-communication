@@ -13,6 +13,7 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos.Table;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
+using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
 
 namespace sfa.Tl.Marketing.Communication
 {
@@ -149,6 +150,12 @@ namespace sfa.Tl.Marketing.Communication
             services.AddTransient<IProviderSearchService, ProviderSearchService>();
             services.AddTransient<ISearchPipelineFactory, SearchPipelineFactory>();
             services.AddTransient<IProviderSearchEngine, ProviderSearchEngine>();
+
+            services.AddTransient<ISearchStep, GetQualificationsStep>();
+            services.AddTransient<ISearchStep, LoadSearchPageWithNoResultsStep>();
+            services.AddTransient<ISearchStep, ValidatePostcodeStep>();
+            services.AddTransient<ISearchStep, CalculateNumberOfItemsToShowStep>();
+            services.AddTransient<ISearchStep, PerformSearchStep>();
 
             var cloudStorageAccount =
                 CloudStorageAccount.Parse(_siteConfiguration.StorageConfiguration.TableStorageConnectionString);

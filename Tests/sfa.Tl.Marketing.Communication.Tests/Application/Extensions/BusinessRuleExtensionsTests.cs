@@ -67,7 +67,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Extensions
         public IList<ProviderLocationViewModel> BuildProviderLocationViewModelList() =>
             new List<ProviderLocationViewModel>
             {
-                new ProviderLocationViewModel()
+                new()
                 {
                     ProviderName = "Test Provider",
                     Name = "Test Provider",
@@ -79,7 +79,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Extensions
         public IList<DeliveryYearViewModel> BuildDeliveryYearViewModelList() =>
             new List<DeliveryYearViewModel>
             {
-                new DeliveryYearViewModel
+                new()
                 {
                     Year = 2021,
                     Qualifications = new List<QualificationViewModel>
@@ -87,7 +87,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Extensions
                         new() { Id = 1, Name = "Test Qualification 1" }
                     }
                 },
-                new DeliveryYearViewModel
+                new()
                 {
                     Year = 2021,
                     Qualifications = new List<QualificationViewModel>

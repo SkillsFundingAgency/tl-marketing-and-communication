@@ -17,7 +17,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         private readonly IProviderSearchService _providerSearchService;
         private readonly ISearchStep _searchStep;
         private readonly List<Qualification> _qualifications =
-            new List<Qualification>
+            new()
             {
                 new() { Id = 1, Name = "Qualification 1" },
                 new() { Id = 2, Name = "Qualification 2" },
@@ -38,7 +38,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         [Fact]
         public async Task Step_Returns_SelectListItems_For_All_Qualifications_With_A_Selected_Qualification()
         {
-            // Arrange
             int? selectedQualificationId = 3;
 
             var viewModel = new FindViewModel
@@ -48,11 +47,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
 
             var context = new SearchContext(viewModel);
 
-
-            // Act
             await _searchStep.Execute(context);
 
-            // Assert
             _providerSearchService.Received(1).GetQualifications();
             context.ViewModel.Qualifications.Count().Should().Be(_qualifications.Count);
             context.ViewModel.Qualifications
@@ -100,17 +96,14 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         [InlineData(2112, 0)] //Reset to 0 if missing id used
         public async Task Step_Sets_QualificationId_For_Search(int? qualificationId, int expected)
         {
-            // Arrange
             var viewModel = new FindViewModel
             {
                 SelectedQualificationId = qualificationId
             };
             var context = new SearchContext(viewModel);
 
-            // Act
             await _searchStep.Execute(context);
 
-            // Assert
             context.ViewModel.SelectedQualificationId.Should().Be(expected);
         }
     }

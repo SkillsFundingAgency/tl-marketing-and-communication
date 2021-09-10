@@ -8,13 +8,10 @@ namespace sfa.Tl.Marketing.Communication.Models.Dto
     {
         public short Year { get; init; }
 
-        public bool IsAvailableNow { get; set; }
-
-        public IList<Qualification> Qualifications { get; set; }
+        public IList<Qualification> Qualifications { get; init; }
         
         private string DebuggerDisplay()
             => $"{Year} " +
-               $"{(IsAvailableNow ? "(Available now) " : "")}" +
                $"{(Qualifications != null ? Qualifications.Count : "null")} Qualifications";
     }
 }

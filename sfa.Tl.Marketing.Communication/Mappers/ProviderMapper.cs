@@ -9,7 +9,8 @@ namespace sfa.Tl.Marketing.Communication.Mappers
     {
         public ProviderMapper()
         {
-            CreateMap<DeliveryYear, DeliveryYearViewModel>();
+            CreateMap<DeliveryYear, DeliveryYearViewModel>()
+                .ForMember(m => m.IsAvailableNow, config => config.Ignore());
 
             CreateMap<Qualification, QualificationViewModel>();
 
