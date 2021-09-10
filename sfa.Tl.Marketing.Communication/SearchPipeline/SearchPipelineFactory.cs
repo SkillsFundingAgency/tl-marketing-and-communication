@@ -30,7 +30,8 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline
                 _searchSteps.OfType<LoadSearchPageWithNoResultsStep>().Single(),
                 _searchSteps.OfType<ValidatePostcodeStep>().Single(),
                 _searchSteps.OfType<CalculateNumberOfItemsToShowStep>().Single(),
-                _searchSteps.OfType<PerformSearchStep>().Single()
+                _searchSteps.OfType<PerformSearchStep>().Single(),
+                _searchSteps.OfType<MergeAvailableDeliveryYearsStep>().Single()
             };
         }
     }

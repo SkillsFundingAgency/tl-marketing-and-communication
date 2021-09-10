@@ -156,6 +156,7 @@ namespace sfa.Tl.Marketing.Communication
             services.AddTransient<ISearchStep, ValidatePostcodeStep>();
             services.AddTransient<ISearchStep, CalculateNumberOfItemsToShowStep>();
             services.AddTransient<ISearchStep, PerformSearchStep>();
+            services.AddTransient<ISearchStep, MergeAvailableDeliveryYearsStep>();
 
             var cloudStorageAccount =
                 CloudStorageAccount.Parse(_siteConfiguration.StorageConfiguration.TableStorageConnectionString);

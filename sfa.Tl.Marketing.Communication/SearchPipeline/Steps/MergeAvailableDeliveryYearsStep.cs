@@ -1,24 +1,29 @@
 ﻿using System;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using sfa.Tl.Marketing.Communication.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
-using sfa.Tl.Marketing.Communication.Models;
 
-namespace sfa.Tl.Marketing.Communication.Extensions
+namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
 {
-    public static class BusinessRuleExtensions
+    public class MergeAvailableDeliveryYearsStep : ISearchStep
     {
-        public static void MergeAvailableDeliveryYears(
-            this IList<ProviderLocationViewModel> providerLocations,
-            DateTime today)
-        {
-            foreach (var providerLocation in providerLocations)
-            {
-                if (providerLocation.DeliveryYears is null)
-                {
-                    continue;
-                }
+        private readonly IDateTimeService _dateTimeService;
 
+        public MergeAvailableDeliveryYearsStep(IDateTimeService dateTimeService)
+        {
+            _dateTimeService = dateTimeService ?? throw new ArgumentNullException(nameof(dateTimeService));
+        }
+
+        public Task Execute(ISearchContext context)
+        {
+            var today = _dateTimeService.Today;
+
+            foreach (var providerLocation in context.ViewModel.ProviderLocations.Where(p =>
+                p.DeliveryYears is not null))
+            {
                 DeliveryYearViewModel availableNow = null;
                 var availableNowToRemove = new List<DeliveryYearViewModel>();
 
@@ -34,11 +39,11 @@ namespace sfa.Tl.Marketing.Communication.Extensions
                         }
                         else
                         {
-                                availableNow.Qualifications = availableNow.Qualifications
+                            availableNow.Qualifications = availableNow.Qualifications
                                 .Union(deliveryYear.Qualifications)
                                 .OrderBy(q => q.Name)
                                 .ToList();
-                            
+
                             availableNowToRemove.Add(deliveryYear);
                         }
                     }
@@ -48,7 +53,10 @@ namespace sfa.Tl.Marketing.Communication.Extensions
                 {
                     providerLocation.DeliveryYears.Remove(deliveryYear);
                 }
+
             }
+        
+            return Task.CompletedTask;
         }
     }
 }

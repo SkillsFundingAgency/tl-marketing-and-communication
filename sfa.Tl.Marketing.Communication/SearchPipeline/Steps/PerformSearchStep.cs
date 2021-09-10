@@ -6,7 +6,6 @@ using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using sfa.Tl.Marketing.Communication.Extensions;
 
 namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
 {
@@ -39,7 +38,6 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
             var (totalCount, searchResults) = await _providerSearchService.Search(searchRequest);
 
             var providerViewModels = _mapper.Map<IEnumerable<ProviderLocationViewModel>>(searchResults).ToList();
-            providerViewModels.MergeAvailableDeliveryYears(_dateTimeService.Today);
 
             context.ViewModel.TotalRecordCount = totalCount;
             if (providerViewModels.Count > context.ViewModel.SelectedItemIndex)
