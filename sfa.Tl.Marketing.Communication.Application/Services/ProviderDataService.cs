@@ -131,7 +131,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return qualifications;
         }
 
-        private IEnumerable<Qualification> GetQualificationsForDeliveryYear(
+        private IList<Qualification> GetQualificationsForDeliveryYear(
             DeliveryYearDto deliveryYear,
             IDictionary<int, Qualification> qualificationsDictionary)
         {

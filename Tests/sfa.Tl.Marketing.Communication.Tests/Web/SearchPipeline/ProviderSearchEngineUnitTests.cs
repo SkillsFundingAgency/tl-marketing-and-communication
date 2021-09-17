@@ -27,7 +27,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline
         [Fact]
         public async Task Search_Execute_All_SearchSteps()
         {
-            // Arrange
             var viewModel = new FindViewModel();
             var context = new SearchContext(viewModel);
             
@@ -44,10 +43,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline
 
             _searchPipelineFactory.GetSearchSteps(_providerSearchService, _mapper).Returns(steps);
 
-            // Act
             await _providerSearchEngine.Search(viewModel);
 
-            // Assert
             await searchStep1.Received(1).Execute(context);
             await searchStep2.Received(1).Execute(context);
             await searchStep3.Received(1).Execute(context);
@@ -56,7 +53,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline
         [Fact]
         public async Task Search_Will_Not_Execute_SearchSteps_When_SearchContext_Continue_Is_False()
         {
-            // Arrange
             var viewModel = new FindViewModel();
             var context = new SearchContext(viewModel)
             {
@@ -75,10 +71,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline
 
             _searchPipelineFactory.GetSearchSteps(_providerSearchService, _mapper).Returns(steps);
 
-            // Act
             await _providerSearchEngine.Search(viewModel);
 
-            // Assert
             await searchStep1.Received(1).Execute(context);
             await searchStep2.Received(0).Execute(context);
             await searchStep3.Received(0).Execute(context);

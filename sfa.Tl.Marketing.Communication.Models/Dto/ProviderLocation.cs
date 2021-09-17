@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace sfa.Tl.Marketing.Communication.Models.Dto
 {
+    [DebuggerDisplay("{" + nameof(ProviderName) + "}" +
+                     " {" + nameof(Postcode) + ", nq}")]
     public class ProviderLocation
     {
         public string ProviderName { get; init; }

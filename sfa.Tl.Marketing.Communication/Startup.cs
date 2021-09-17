@@ -13,13 +13,14 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos.Table;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
+using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
 
 namespace sfa.Tl.Marketing.Communication
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
-        protected ConfigurationOptions SiteConfiguration;
+        private IConfiguration Configuration { get; }
+        private ConfigurationOptions _siteConfiguration;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
@@ -36,7 +37,7 @@ namespace sfa.Tl.Marketing.Communication
                 cacheExpiryInSeconds = 60;
             }
 
-            SiteConfiguration = new ConfigurationOptions
+            _siteConfiguration = new ConfigurationOptions
             {
                 CacheExpiryInSeconds = cacheExpiryInSeconds,
                 PostcodeRetrieverBaseUrl = Configuration["PostcodeRetrieverBaseUrl"],
@@ -49,7 +50,7 @@ namespace sfa.Tl.Marketing.Communication
 
             services.AddApplicationInsightsTelemetry();
 
-            services.AddSingleton(SiteConfiguration);
+            services.AddSingleton(_siteConfiguration);
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -134,23 +135,31 @@ namespace sfa.Tl.Marketing.Communication
             });
         }
 
-        protected virtual void RegisterHttpClients(IServiceCollection services)
+        private void RegisterHttpClients(IServiceCollection services)
         {
             services.AddHttpClient<ILocationApiClient, LocationApiClient>();
         }
 
-        protected virtual void RegisterServices(IServiceCollection services)
+        private void RegisterServices(IServiceCollection services)
         {
             services.AddTransient<IFileReader, FileReader>();
             services.AddSingleton<IProviderDataService, ProviderDataService>();
+            services.AddTransient<IDateTimeService, DateTimeService>();
             services.AddTransient<IDistanceCalculationService, DistanceCalculationService>();
             services.AddTransient<IJourneyService, JourneyService>();
             services.AddTransient<IProviderSearchService, ProviderSearchService>();
             services.AddTransient<ISearchPipelineFactory, SearchPipelineFactory>();
             services.AddTransient<IProviderSearchEngine, ProviderSearchEngine>();
 
+            services.AddTransient<ISearchStep, GetQualificationsStep>();
+            services.AddTransient<ISearchStep, LoadSearchPageWithNoResultsStep>();
+            services.AddTransient<ISearchStep, ValidatePostcodeStep>();
+            services.AddTransient<ISearchStep, CalculateNumberOfItemsToShowStep>();
+            services.AddTransient<ISearchStep, PerformSearchStep>();
+            services.AddTransient<ISearchStep, MergeAvailableDeliveryYearsStep>();
+
             var cloudStorageAccount =
-                CloudStorageAccount.Parse(SiteConfiguration.StorageConfiguration.TableStorageConnectionString);
+                CloudStorageAccount.Parse(_siteConfiguration.StorageConfiguration.TableStorageConnectionString);
             services.AddSingleton(cloudStorageAccount);
             var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
             services.AddSingleton(cloudTableClient);

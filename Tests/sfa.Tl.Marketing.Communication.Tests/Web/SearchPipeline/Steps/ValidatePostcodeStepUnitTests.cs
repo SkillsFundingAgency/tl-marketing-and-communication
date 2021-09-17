@@ -25,7 +25,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         [Fact]
         public async Task Step_Validate_Empty_Postcode()
         {
-            // Arrange
             var viewModel = new FindViewModel
             {
                 Postcode = string.Empty
@@ -33,10 +32,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
             
             var context = new SearchContext(viewModel);
 
-            // Act
             await _searchStep.Execute(context);
 
-            // Assert
             context.ViewModel.ValidationStyle.Should().Be(AppConstants.ValidationStyle);
             context.ViewModel.PostcodeValidationMessage.Should().Be(AppConstants.PostcodeValidationMessage);
             context.Continue.Should().BeFalse();
@@ -45,7 +42,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         [Fact]
         public async Task Step_Validate_Wrong_Postcode()
         {
-            // Arrange
             const string postcode = "dddfd";
             const double latitude = 50.0123;
             const double longitude = 1.987;
@@ -67,10 +63,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
 
             _providerSearchService.IsSearchPostcodeValid(Arg.Is<string>(p => p == postcode)).Returns((isValid,  postcodeLocation));
 
-            // Act
             await _searchStep.Execute(context);
 
-            // Assert
             context.ViewModel.ValidationStyle.Should().Be(AppConstants.ValidationStyle);
             context.ViewModel.PostcodeValidationMessage.Should().Be(AppConstants.RealPostcodeValidationMessage);
             context.Continue.Should().BeFalse();
@@ -80,7 +74,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         [Fact]
         public async Task Step_Validate_Postcode_And_()
         {
-            // Arrange
             const string postcode = "mk 4 2 8 y u";
             const string expected = "MK42 8YU";
             const double latitude = 50.0123;
@@ -103,10 +96,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
 
             _providerSearchService.IsSearchPostcodeValid(Arg.Is<string>(p => p == postcode)).Returns((isValid, expectedPostcodeLocation));
 
-            // Act
             await _searchStep.Execute(context);
 
-            // Assert
             context.ViewModel.Postcode.Should().Be(expected);
             context.Continue.Should().BeTrue();
             await _providerSearchService.Received(1).IsSearchPostcodeValid(Arg.Is<string>(p => p == postcode));

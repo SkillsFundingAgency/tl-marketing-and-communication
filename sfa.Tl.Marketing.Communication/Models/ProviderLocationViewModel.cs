@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 
 namespace sfa.Tl.Marketing.Communication.Models
 {
+    [DebuggerDisplay("{" + nameof(ProviderName) + "}" +
+                     " {" + nameof(Postcode) + ", nq}")]
     public class ProviderLocationViewModel
     {
         public string ProviderName { get; set; }
@@ -13,10 +16,10 @@ namespace sfa.Tl.Marketing.Communication.Models
         public double Longitude { get; set; }
         public int DistanceInMiles { get; set; }
         public string DistanceString => DistanceInMiles == 1 ? "mile" : "miles";
-        public IEnumerable<DeliveryYearViewModel> DeliveryYears { get; set; }
+        public IList<DeliveryYearViewModel> DeliveryYears { get; set; }
         public string Website { get; set; }
-        public string RedirectUrl => !string.IsNullOrWhiteSpace(Website) 
-            ? $"/students/redirect?url={WebUtility.UrlEncode(Website)}" 
+        public string RedirectUrl => !string.IsNullOrWhiteSpace(Website)
+            ? $"/students/redirect?url={WebUtility.UrlEncode(Website)}"
             : "";
 
         public string RedirectUrlLabel => $"Visit {VenueName}'s website";
@@ -25,7 +28,7 @@ namespace sfa.Tl.Marketing.Communication.Models
                     ? ProviderName
                     : Name;
 
-        public string AddressLabel => !string.IsNullOrEmpty(Town)  
+        public string AddressLabel => !string.IsNullOrEmpty(Town)
             ? $"{Town} | {Postcode}"
             : $"{Postcode}";
 

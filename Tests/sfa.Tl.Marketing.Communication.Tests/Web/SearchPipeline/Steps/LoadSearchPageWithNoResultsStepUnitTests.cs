@@ -19,7 +19,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         [Fact]
         public async Task Step_Load_Find_Page_And_Make_Page_Ready_For_Search()
         {
-            // Arrange
             const bool shouldSearch = false;
             var viewModel = new FindViewModel
             {
@@ -28,10 +27,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
             
             var context = new SearchContext(viewModel);
 
-            // Act
             await _searchStep.Execute(context);
 
-            // Assert
             context.ViewModel.ShouldSearch.Should().BeTrue();
             context.Continue.Should().BeFalse();
         }
