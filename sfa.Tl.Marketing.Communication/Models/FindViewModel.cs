@@ -32,6 +32,6 @@ namespace sfa.Tl.Marketing.Communication.Models
         public string ValidationStyle { get; set; }
         public int? TotalRecordCount { get; set; }
         public int SelectedItemIndex { get; set; }
-        public string SubmitType { get; set; }
+        public SearchSubmitType SubmitType { get; set; }
     }
 } 
