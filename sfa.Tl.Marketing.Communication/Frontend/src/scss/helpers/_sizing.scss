@@ -1,0 +1,16 @@
+$sizingvariables:
+    height, width;
+
+
+.tl {
+    @each $sizingvariable in $sizingvariables {
+
+        @for $i from 1 through 4 {
+            $size: #{100 / $i};
+
+            &-#{$sizingvariable}--#{$size} {
+                #{$sizingvariable}: #{100% / $i};
+            }
+        }
+    }
+}
