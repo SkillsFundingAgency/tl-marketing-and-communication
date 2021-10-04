@@ -46,6 +46,13 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
+
+        [Route("/students/case-studies", Name = "CaseStudies")]
+        public IActionResult CaseStudies()
+        {
+            return View();
+        }
+
         [Route("/students/video-transcript", Name = "StudentVideoTranscript")]
         public IActionResult StudentVideoTranscript()
         {
