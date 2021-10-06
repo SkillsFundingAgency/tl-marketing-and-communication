@@ -1,6 +1,6 @@
 .tl-casestudy {
     &--quote {
-        @include media-min(medium) {
+        @include media-min(small) {
             @include margin(bottom, 60);
         }
     }
