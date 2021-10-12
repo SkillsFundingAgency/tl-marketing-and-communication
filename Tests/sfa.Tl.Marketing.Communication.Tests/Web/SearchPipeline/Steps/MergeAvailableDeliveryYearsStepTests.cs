@@ -63,7 +63,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
 
             providerLocations[0].DeliveryYears.Count.Should().Be(1);
             providerLocations[0].DeliveryYears[0].IsAvailableNow.Should().BeTrue();
-            providerLocations[0].DeliveryYears[0].Qualifications.Count().Should().Be(2);
+            providerLocations[0].DeliveryYears[0].Qualifications.Count.Should().Be(2);
 
             var qualifications = providerLocations[0].DeliveryYears[0].Qualifications.ToList();
             qualifications[0].Id.Should().Be(1);
