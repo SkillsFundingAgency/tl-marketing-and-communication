@@ -23,7 +23,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         public async Task Step_Initialize_NumberOfItems_To_Default_When_SubmitType_Is_Search()
         {
             InitializeViewModel();
-            _context.ViewModel.SubmitType = "search";
+            _context.ViewModel.SubmitType = SearchSubmitType.Search;
 
             await _searchStep.Execute(_context);
 
@@ -71,13 +71,14 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         public async Task Step_Increment_NumberOfItemsToShow_And_Set_SelectedItemIndex_When_User_Click_On_The_ShowMore_Button()
         {
             InitializeViewModel();
-            var currentNumberOfItemsToShow = 10;
-            var totalRecordCount = 20;
-            var qualificationId = 9;
+            const int currentNumberOfItemsToShow = 10;
+            const int totalRecordCount = 20;
+            const int qualificationId = 9;
             _context.ViewModel.TotalRecordCount = totalRecordCount;
             _context.ViewModel.NumberOfItemsToShow = currentNumberOfItemsToShow;
             _context.ViewModel.SearchedQualificationId = qualificationId;
             _context.ViewModel.SelectedQualificationId = qualificationId;
+            _context.ViewModel.SubmitType = SearchSubmitType.Next;
 
             await _searchStep.Execute(_context);
 
@@ -88,15 +89,15 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         [Fact]
         public async Task Step_Does_Not_Increment_NumberOfItemsToShow_And_Set_SelectedItemIndex_When_Remaining_Items_Are_Less_Than_Default()
         {
-            // Arrange
             InitializeViewModel();
-            var currentNumberOfItemsToShow = 10;
-            var totalRecordCount = 13;
-            var qualificationId = 9;
+            const int currentNumberOfItemsToShow = 10;
+            const int totalRecordCount = 13;
+            const int qualificationId = 9;
             _context.ViewModel.TotalRecordCount = totalRecordCount;
             _context.ViewModel.NumberOfItemsToShow = currentNumberOfItemsToShow;
             _context.ViewModel.SearchedQualificationId = qualificationId;
             _context.ViewModel.SelectedQualificationId = qualificationId;
+            _context.ViewModel.SubmitType = SearchSubmitType.Next;
 
             await _searchStep.Execute(_context);
 
@@ -110,7 +111,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
             _context.ViewModel.NumberOfItemsToShow = null;
             _context.ViewModel.SearchedQualificationId = 0;
             _context.ViewModel.SelectedQualificationId = null;
-            _context.ViewModel.SubmitType = string.Empty;
+            _context.ViewModel.SubmitType = SearchSubmitType.Search;
         }
     }
 }

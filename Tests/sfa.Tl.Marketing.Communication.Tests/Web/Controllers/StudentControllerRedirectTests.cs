@@ -6,7 +6,7 @@ using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Controllers;
 using sfa.Tl.Marketing.Communication.Models;
-using sfa.Tl.Marketing.Communication.SearchPipeline;
+using sfa.Tl.Marketing.Communication.UnitTests.Builders;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
@@ -29,8 +29,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
                 { WebUtility.UrlDecode(AllowedExternalProviderUri), AllowedExternalProviderUri }
             };
 
-            var providerSearchEngine = Substitute.For<IProviderSearchEngine>();
-
             var providerDataService = Substitute.For<IProviderDataService>();
             providerDataService.GetWebsiteUrls().Returns(allowedUrls);
 
@@ -38,10 +36,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers
             urlHelper.IsLocalUrl(Arg.Any<string>())
                 .Returns(args => (string)args[0] == LocalUri);
 
-            _controller = new StudentController(providerDataService, providerSearchEngine)
-            {
-                Url = urlHelper
-            };
+            _controller = new StudentControllerBuilder().BuildStudentController(providerDataService, urlHelper: urlHelper);
         }
 
         [Fact]

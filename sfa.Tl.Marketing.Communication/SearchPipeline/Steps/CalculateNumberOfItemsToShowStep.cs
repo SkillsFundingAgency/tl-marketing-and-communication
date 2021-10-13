@@ -1,5 +1,6 @@
 ﻿using sfa.Tl.Marketing.Communication.Constants;
 using System.Threading.Tasks;
+using sfa.Tl.Marketing.Communication.Models;
 
 namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
 {
@@ -7,7 +8,7 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
     {
         public Task Execute(ISearchContext context)
         {
-            if (context.ViewModel.SubmitType == "search")
+            if (context.ViewModel.SubmitType != SearchSubmitType.Next)
             {
                 context.ViewModel.NumberOfItemsToShow = AppConstants.DefaultNumberOfItemsToShow;
                 context.ViewModel.SelectedItemIndex = 0;
