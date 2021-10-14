@@ -46,11 +46,44 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
-        [Route("/students/video-transcript", Name = "StudentVideoTranscript")]
-        public IActionResult StudentVideoTranscript()
+
+        [Route("/students/case-studies", Name = "CaseStudies")]
+        public IActionResult CaseStudies()
         {
             return View();
         }
+
+        [Route("/students/transcripts/home", Name = "StudentHomeTranscript")]
+        public IActionResult StudentHomeTranscript()
+        {
+            return View("Transcripts/StudentHomeTranscript");
+        }
+
+        [Route("/students/transcripts/ambassadors1", Name = "StudentAmbassadorTranscript1")]
+        public IActionResult StudentAmbassadorTranscript1()
+        {
+            return View("Transcripts/StudentAmbassadorTranscript1");
+        }
+
+        [Route("/students/transcripts/ambassadors2", Name = "StudentAmbassadorTranscript2")]
+        public IActionResult StudentAmbassadorTranscript2()
+        {
+            return View("Transcripts/StudentAmbassadorTranscript2");
+        }
+
+
+        [Route("/students/transcripts/ambassadors3", Name = "StudentAmbassadorTranscript3")]
+        public IActionResult StudentAmbassadorTranscript3()
+        {
+            return View("Transcripts/StudentAmbassadorTranscript3");
+        }
+
+        [Route("/students/transcripts/ambassadors4", Name = "StudentAmbassadorTranscript4")]
+        public IActionResult StudentAmbassadorTranscript4()
+        {
+            return View("Transcripts/StudentAmbassadorTranscript4");
+        }
+
 
         [Route("/students/find", Name = "Find")]
         public async Task<IActionResult> Find(FindViewModel viewModel)
@@ -165,8 +198,10 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             //Need to decode the url for comparison to the allow list,
             //as it has been encoded before being added to web pages
             var decodedUrl = WebUtility.UrlDecode(viewModel.Url);
-            var targetUrl = 
-                Url.IsLocalUrl(decodedUrl) || allowedUrls.ContainsKey(decodedUrl)
+            var targetUrl =
+                    decodedUrl is not null 
+                    && (Url.IsLocalUrl(decodedUrl) 
+                        || allowedUrls.ContainsKey(decodedUrl))
                 ? viewModel.Url
                 : "/students";
 

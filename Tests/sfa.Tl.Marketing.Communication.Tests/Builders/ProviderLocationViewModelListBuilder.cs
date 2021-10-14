@@ -12,7 +12,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
 
         public ProviderLocationViewModelListBuilder Add(int numberOfProviderLocations = 1)
         {
+            var deliveryYearViewModelListBuilder = new DeliveryYearViewModelListBuilder();
             var start = _providerLocationViewModels.Count;
+
+
             for (var i = 0; i < numberOfProviderLocations; i++)
             {
                 var nextId = start + i + 1;
@@ -25,7 +28,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
                     Latitude = 52.400997 + i,
                     Longitude = -0.508122 - i,
                     DistanceInMiles = 9 + i,
-                    DeliveryYears = new List<DeliveryYearViewModel>(),
+                    DeliveryYears = deliveryYearViewModelListBuilder.Build(),
                     Website = "https://test.provider.co.uk"
                 });
             }

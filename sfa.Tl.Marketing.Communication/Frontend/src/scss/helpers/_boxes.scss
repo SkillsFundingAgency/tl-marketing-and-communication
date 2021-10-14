@@ -16,3 +16,19 @@ $boxvariables:
         }
     }
 }
+
+
+.tl-box--center {
+    @each $boxname, $boxbackground, $boxtext in $boxvariables {
+        &--#{$boxname} {
+            @include container(0, 0);
+            @include box($boxbackground, $boxtext);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
+}
+
+
+

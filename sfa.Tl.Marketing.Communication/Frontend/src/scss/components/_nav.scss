@@ -218,7 +218,7 @@
         }
     }
 
-    $studentnavvariables: "home", "about", "why", "subjects", "find";
+    $studentnavvariables: "home", "about", "why", "subjects", "find", "casestudies";
 
     @each $page in $studentnavvariables {
         #tl-student-#{$page} {
