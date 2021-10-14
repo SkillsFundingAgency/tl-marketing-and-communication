@@ -4,6 +4,7 @@
     ViewData["MetaDescription"] = "Search for colleges and schools who start delivering T Levels in 2020 and 2021.";   
 
 }
+@using sfa.Tl.Marketing.Communication.Constants
 @model FindViewModel
 
 
@@ -17,14 +18,16 @@
                 <form id="searchForm" class="tl-search--form text-center @Model.ValidationStyle">
                     <span class="tl-validation--message">@Model.PostcodeValidationMessage</span>
                     <input asp-for="Postcode" value="@Model.Postcode" placeholder="Enter your postcode" class="tl-search--form--postcode" aria-label="Enter a postcode to find a T Level near you" />
-                    <input type="hidden" asp-for="NumberOfItemsToShow" value="@Model.NumberOfItemsToShow" />
+
+                    <input type="hidden" asp-for="NumberOfItemsToShow" value="@Model.NumberOfItemsToShow" disabled="@(Model.NumberOfItemsToShow is null or 0 or AppConstants.DefaultNumberOfItemsToShow)" />
                     <input type="hidden" asp-for="ShouldSearch" value="@Model.ShouldSearch" />
-                    <input type="hidden" asp-for="SearchedQualificationId" value="@Model.SearchedQualificationId" />
-                    <input type="hidden" asp-for="TotalRecordCount" value="@Model.TotalRecordCount" />
-                    <input type="hidden" asp-for="SelectedItemIndex" value="@Model.SelectedItemIndex" />
-                    <label for="SelectedQualificationId" class="tl-hidden">Select a course</label>
+                    <input type="hidden" asp-for="SearchedQualificationId" value="@Model.SearchedQualificationId" disabled="@(Model.SearchedQualificationId <= 0)" />
+                    <input type="hidden" asp-for="TotalRecordCount" value="@Model.TotalRecordCount" disabled="@(!Model.TotalRecordCount.HasValue)" />
+                    <input type="hidden" asp-for="SelectedItemIndex" value="@Model.SelectedItemIndex" disabled="@(Model.SelectedItemIndex <= 0)" />
+
+                    <label asp-for="SelectedQualificationId" class="tl-hidden">Select a course</label>
                     @Html.DropDownListFor(q => q.SelectedQualificationId, Model.Qualifications)
-                    <button id="tl-find-button-main" type="submit" class="tl-button--search--orange" name="SubmitType" value="search" aria-label="Search for a T Level">Search</button>
+                    <button id="tl-find-button-main" type="submit" class="tl-button--search--orange" aria-label="Search for a T Level">Search</button>
                 </form>
             </div>
         </div>
@@ -54,9 +57,8 @@
 
                 @if (Model.ShowNext)
                 {
-                    <button id="tl-next" type="submit" form="searchForm" name="SubmitType" value="next" class="tl-button--black">Show 5 more results</button>
+                    <button id="tl-next" type="submit" form="searchForm" name="SubmitType" value="@SearchSubmitType.Next" class="tl-button--black">Show 5 more results</button>
                 }
-
             </div>
         </div>
     </div>
