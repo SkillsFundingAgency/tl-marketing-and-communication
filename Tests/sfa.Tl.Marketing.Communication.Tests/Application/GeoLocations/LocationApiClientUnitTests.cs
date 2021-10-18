@@ -27,7 +27,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations
         [Fact]
         public async Task Then_Postcode_Is_Returned_Correctly()
         {
-            // Arrange
             var responseData = new PostcodeLookupResultDto
             {
                 Postcode = "CV1 2WT",

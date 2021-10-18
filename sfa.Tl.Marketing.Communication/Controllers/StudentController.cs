@@ -46,10 +46,10 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
-        [Route("/students/video-transcript", Name = "StudentVideoTranscript")]
-        public IActionResult StudentVideoTranscript()
+        [Route("/students/transcripts/home", Name = "StudentHomeTranscript")]
+        public IActionResult StudentHomeTranscript()
         {
-            return View();
+            return View("Transcripts/StudentHomeTranscript");
         }
 
         [Route("/students/find", Name = "Find")]
@@ -165,8 +165,10 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             //Need to decode the url for comparison to the allow list,
             //as it has been encoded before being added to web pages
             var decodedUrl = WebUtility.UrlDecode(viewModel.Url);
-            var targetUrl = 
-                Url.IsLocalUrl(decodedUrl) || allowedUrls.ContainsKey(decodedUrl)
+            var targetUrl =
+                    decodedUrl is not null 
+                    && (Url.IsLocalUrl(decodedUrl) 
+                        || allowedUrls.ContainsKey(decodedUrl))
                 ? viewModel.Url
                 : "/students";
 

@@ -77,18 +77,23 @@ $colours: orange $orange, black $black, white $white, purple $purple, salmon $sa
     }
 }
 
-    .tl-lead {
-        @include margin(bottom, 30);
-        @include font(body, 20px, $lh: 27px);
+.tl-lead {
+    @include margin(bottom, 30);
+    @include font(body, 20px, $lh: 27px);
 
-        @include media-max(medium) {
-            @include margin(bottom, 20);
-            @include font(body, 18px, $lh: 26px);
-        }
+    @include media-max(medium) {
+        @include margin(bottom, 20);
+        @include font(body, 18px, $lh: 26px);
     }
+}
 
-    .tl-nobreak {
-        white-space: nowrap;
-    }
+.tl-nobreak {
+    white-space: nowrap;
+}
+
+
+.tl-bold {
+    font-weight: bold;
+}
 
 
