@@ -2,8 +2,12 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
-	<OutputType>Exe</OutputType>
+	  <OutputType>Exe</OutputType>
     <_FunctionsSkipCleanOutput>true</_FunctionsSkipCleanOutput>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <StartDevelopmentStorage>false</StartDevelopmentStorage>
   </PropertyGroup>
 
   <ItemGroup>

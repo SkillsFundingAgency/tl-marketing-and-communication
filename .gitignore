@@ -302,6 +302,7 @@ appsettings.Development.json
 
 # Developer settings in function projects
 local.settings.development.json
+serviceDependencies.local.json
 
 # VsCode cache folder
 .vscode/
