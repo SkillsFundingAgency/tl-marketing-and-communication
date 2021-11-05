@@ -28,4 +28,14 @@
             @include font(body, 18px, $lh: 20px);
         }
     }
+
+    &--contentbox {
+        background: none !important;
+    }
+
+    &--row {
+        @include media-min(small) {
+            @include margin(bottom, -40);
+        }
+    }
 }
