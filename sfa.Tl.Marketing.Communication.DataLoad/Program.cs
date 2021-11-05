@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -10,64 +9,55 @@ using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.DataLoad.Services;
 using sfa.Tl.Marketing.Communication.Models.Entities;
 
-namespace sfa.Tl.Marketing.Communication.DataLoad
+var builder = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", true)
+    .AddJsonFile("appsettings.development.json", true);
+
+var configuration = builder.Build();
+
+var tableStorageConnectionString = configuration.GetValue<string>("TableStorageConnectionString");
+if (!string.IsNullOrEmpty(tableStorageConnectionString))
 {
-    class Program
-    {
-        private static async Task Main()
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true)
-                .AddJsonFile("appsettings.development.json", true);
+    var loggerFactory = new LoggerFactory();
+    var providerDataMigrationService = new ProviderDataMigrationService(
+        new FileReader(),
+        CreateTableStorageService(tableStorageConnectionString, loggerFactory),
+        loggerFactory.CreateLogger<ProviderDataMigrationService>());
 
-            var configuration = builder.Build();
+    var qualificationsSaved = await providerDataMigrationService
+        .WriteQualifications(configuration.GetValue<string>("QualificationJsonInputFilePath"));
+    Console.WriteLine("");
+    Console.WriteLine($"Copied {qualificationsSaved} qualifications to table storage.");
 
-            var tableStorageConnectionString = configuration.GetValue<string>("TableStorageConnectionString");
-            if (!string.IsNullOrEmpty(tableStorageConnectionString))
-            {
-                var loggerFactory = new LoggerFactory();
-                var providerDataMigrationService = new ProviderDataMigrationService(
-                    new FileReader(),
-                    CreateTableStorageService(tableStorageConnectionString, loggerFactory),
-                    loggerFactory.CreateLogger<ProviderDataMigrationService>());
+    var providersSaved = await providerDataMigrationService
+        .WriteProviders(configuration.GetValue<string>("ProviderJsonInputFilePath"));
+    Console.WriteLine($"Copied {providersSaved} providers to table storage.");
+}
 
-                var qualificationsSaved = await providerDataMigrationService
-                    .WriteQualifications(configuration.GetValue<string>("QualificationJsonInputFilePath"));
-                Console.WriteLine("");
-                Console.WriteLine($"Copied {qualificationsSaved} qualifications to table storage.");
+static ITableStorageService CreateTableStorageService(
+    string tableStorageConnectionString,
+    ILoggerFactory loggerFactory)
+{
+    var cloudStorageAccount = CloudStorageAccount.Parse(tableStorageConnectionString);
 
-                var providersSaved = await providerDataMigrationService
-                    .WriteProviders(configuration.GetValue<string>("ProviderJsonInputFilePath"));
-                Console.WriteLine($"Copied {providersSaved} providers to table storage.");
-            }
-        }
-        
-        private static ITableStorageService CreateTableStorageService(
-            string tableStorageConnectionString,
-            ILoggerFactory loggerFactory)
-        {
-            var cloudStorageAccount = CloudStorageAccount.Parse(tableStorageConnectionString);
+    var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
 
-            var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
+    var locationRepository = new GenericCloudTableRepository<LocationEntity>(
+        cloudTableClient,
+        loggerFactory.CreateLogger<GenericCloudTableRepository<LocationEntity>>());
 
-            var locationRepository = new GenericCloudTableRepository<LocationEntity>(
+    var providerRepository = new GenericCloudTableRepository<ProviderEntity>(
+        cloudTableClient,
+        loggerFactory.CreateLogger<GenericCloudTableRepository<ProviderEntity>>());
+
+    var qualificationRepository = new GenericCloudTableRepository<QualificationEntity>(
                 cloudTableClient,
-                loggerFactory.CreateLogger<GenericCloudTableRepository<LocationEntity>>());
+                loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity>>());
 
-            var providerRepository = new GenericCloudTableRepository<ProviderEntity>(
-                cloudTableClient,
-                loggerFactory.CreateLogger<GenericCloudTableRepository<ProviderEntity>>());
-
-            var qualificationRepository = new GenericCloudTableRepository<QualificationEntity>(
-                        cloudTableClient,
-                        loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity>>());
-
-            return new TableStorageService(
-                locationRepository,
-                providerRepository,
-                qualificationRepository,
-                loggerFactory.CreateLogger<TableStorageService>());
-        }
-    }
+    return new TableStorageService(
+        locationRepository,
+        providerRepository,
+        qualificationRepository,
+        loggerFactory.CreateLogger<TableStorageService>());
 }
