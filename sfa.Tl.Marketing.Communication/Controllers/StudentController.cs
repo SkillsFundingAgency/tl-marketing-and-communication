@@ -46,11 +46,50 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View();
         }
 
+
+        [Route("/students/student-stories", Name = "StudentStories")]
+        public IActionResult StudentStories()
+        {
+            return View();
+        }
+
         [Route("/students/transcripts/home", Name = "StudentHomeTranscript")]
         public IActionResult StudentHomeTranscript()
         {
             return View("Transcripts/StudentHomeTranscript");
         }
+
+        [Route("/students/transcripts/ambassadors1", Name = "StudentAmbassadorTranscript1")]
+        public IActionResult StudentAmbassadorTranscript1()
+        {
+            return View("Transcripts/StudentAmbassadorTranscript1");
+        }
+
+        [Route("/students/transcripts/ambassadors2", Name = "StudentAmbassadorTranscript2")]
+        public IActionResult StudentAmbassadorTranscript2()
+        {
+            return View("Transcripts/StudentAmbassadorTranscript2");
+        }
+
+
+        [Route("/students/transcripts/ambassadors3", Name = "StudentAmbassadorTranscript3")]
+        public IActionResult StudentAmbassadorTranscript3()
+        {
+            return View("Transcripts/StudentAmbassadorTranscript3");
+        }
+
+        [Route("/students/transcripts/ambassadors4", Name = "StudentAmbassadorTranscript4")]
+        public IActionResult StudentAmbassadorTranscript4()
+        {
+            return View("Transcripts/StudentAmbassadorTranscript4");
+        }
+
+        [Route("/students/transcripts/ambassadors5", Name = "StudentAmbassadorTranscript5")]
+        public IActionResult StudentAmbassadorTranscript5()
+        {
+            return View("Transcripts/StudentAmbassadorTranscript5");
+        }
+
 
         [Route("/students/find", Name = "Find")]
         public async Task<IActionResult> Find(FindViewModel viewModel)
