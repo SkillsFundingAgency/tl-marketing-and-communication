@@ -1,21 +1,19 @@
 ﻿@{
     ViewData["Title"] = "Find a T Level";
     ViewData["PageID"] = "tl-student-find";
-    ViewData["MetaDescription"] = "Search for colleges and schools who start delivering T Levels in 2020 and 2021.";   
+    ViewData["MetaDescription"] = "Search for colleges and schools who start delivering T Levels in 2020 and 2021.";
 
 }
 @using sfa.Tl.Marketing.Communication.Constants
 @model FindViewModel
 
-
-<section id="tl-search" class="tl-find tl-content-normal--black">
-    <div class="tl-container">
-
-        <div class="row">
-            <div class="col-12">
-                <h1>Find your nearest T Level</h1>
-                <p>Search for colleges and schools who are delivering T Levels</p>
-                <form id="searchForm" class="tl-search--form text-center @Model.ValidationStyle">
+<form id="searchForm" class="tl-search--form text-center @Model.ValidationStyle">
+    <section id="tl-search" class="tl-find tl-content-normal--black">
+        <div class="tl-container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Find your nearest T Level</h1>
+                    <p>Search for colleges and schools who are delivering T Levels</p>
                     <span class="tl-validation--message">@Model.PostcodeValidationMessage</span>
                     <input asp-for="Postcode" value="@Model.Postcode" placeholder="Enter your postcode" class="tl-search--form--postcode" aria-label="Enter a postcode to find a T Level near you" />
 
@@ -28,38 +26,38 @@
                     <label asp-for="SelectedQualificationId" class="tl-hidden">Select a course</label>
                     @Html.DropDownListFor(q => q.SelectedQualificationId, Model.Qualifications)
                     <button id="tl-find-button-main" type="submit" class="tl-button--search--orange" aria-label="Search for a T Level">Search</button>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section id="tl-results" class="tl-content-normal--grey">
-    <div class="tl-container">
-        <div class="row no-gutters">
-            <div class="col-lg-8 col-12">
-                <div id="tl-results-summary" class="tl-results--summary">
-                    @if (!Model.ProviderLocations.Any())
+    <section id="tl-results" class="tl-content-normal--grey">
+        <div class="tl-container">
+            <div class="row no-gutters">
+                <div class="col-lg-8 col-12">
+                    <div id="tl-results-summary" class="tl-results--summary">
+                        @if (!Model.ProviderLocations.Any())
+                        {
+                            <h3>0 results</h3>
+                            <p>Enter a postcode to search for colleges and schools doing T Levels.</p>
+                        }
+                    </div>
+                    <div id="tl-search-results">
+                        @foreach (var providerLocation in Model.ProviderLocations)
+                        {
+                            @await Html.PartialAsync("_ProviderLocation", providerLocation)
+                        }
+                    </div>
+                    @*<div class="tl-results--google tl-none">
+                        <img src="/files/images/poweredbygoogle.png" alt="Powered by Google" class="tl-results--google--image tl-align--right" />
+                        </div>*@
+
+                    @if (Model.ShowNext)
                     {
-                        <h3>0 results</h3>
-                        <p>Enter a postcode to search for colleges and schools doing T Levels.</p>
+                        <button id="tl-next" type="submit" form="searchForm" name="SubmitType" value="@SearchSubmitType.Next" class="tl-button--black">Show 5 more results</button>
                     }
                 </div>
-                <div id="tl-search-results">
-                    @foreach (var providerLocation in Model.ProviderLocations)
-                    {
-                        @await Html.PartialAsync("_ProviderLocation", providerLocation)
-                    }
-                </div>
-                @*<div class="tl-results--google tl-none">
-                    <img src="/files/images/poweredbygoogle.png" alt="Powered by Google" class="tl-results--google--image tl-align--right" />
-                </div>*@
-
-                @if (Model.ShowNext)
-                {
-                    <button id="tl-next" type="submit" form="searchForm" name="SubmitType" value="@SearchSubmitType.Next" class="tl-button--black">Show 5 more results</button>
-                }
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</form>
