@@ -38,4 +38,10 @@
             @include margin(bottom, -40);
         }
     }
+
+    &--transcriptlink {
+        z-index: 1;
+        position: relative;
+    }
+
 }
