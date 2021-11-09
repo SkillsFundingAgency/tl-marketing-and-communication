@@ -33,3 +33,18 @@
         height: 100%;
     }
 }
+
+.tl-video--full {
+    height: 0;
+    padding-bottom: 56.25%;
+
+    iframe {
+        border: 0;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        user-select: none;
+        min-width: 100%;
+    }
+}
