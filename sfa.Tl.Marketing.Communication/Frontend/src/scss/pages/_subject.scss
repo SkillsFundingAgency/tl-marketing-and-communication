@@ -1,22 +1,30 @@
 /*SUBJECT PAGES*/
 
 $subjects: 
-accounting,
-building-services-engineering,
-design-surveying-planning,
-design-development-engineering-manufacturing,
-digital-business-services,
-digital-production-design-development,
-digital-support-services,
-education,
-engineering-manufacturing,
-finance,
-health,
-healthcare-science,
-maintenance-installation-repair,
-management-administration,
-onsite-construction,
-science;
+    accounting,
+    agriculture,
+    animal-care,
+    building-services-engineering,
+    catering,
+    craft-design,
+    design-surveying-planning,
+    design-development-engineering-manufacturing,
+    digital-business-services,
+    digital-production-design-development,
+    digital-support-services,
+    education,
+    engineering-manufacturing,
+    finance,
+    hair-beauty,
+    health,
+    healthcare-science,
+    legal,
+    maintenance-installation-repair,
+    management-administration,
+    media,
+    onsite-construction,
+    science;
+
 
 @each $subject in $subjects {
     #tl-student-subject--#{$subject} {
