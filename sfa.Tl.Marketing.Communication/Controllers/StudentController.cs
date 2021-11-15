@@ -195,6 +195,48 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View("Subjects/Science");
         }
 
+        [Route("/students/subjects/agriculture-land-management-production", Name = "AgricultureLandManagementProduction")]
+        public IActionResult AgricultureLandManagementProduction()
+        {
+            return View("Subjects/AgricultureLandManagementProduction");
+        }
+
+        [Route("/students/subjects/animal-care-management", Name = "AnimalCare")]
+        public IActionResult AnimalCare()
+        {
+            return View("Subjects/AnimalCare");
+        }
+
+        [Route("/students/subjects/catering", Name = "Catering")]
+        public IActionResult Catering()
+        {
+            return View("Subjects/Catering");
+        }
+
+        [Route("/students/subjects/craft-design", Name = "CraftDesign")]
+        public IActionResult CraftDesign()
+        {
+            return View("Subjects/CraftDesign");
+        }
+
+        [Route("/students/subjects/hair-beauty-aesthetics", Name = "HairBeautyAesthetics")]
+        public IActionResult HairBeautyAesthetics()
+        {
+            return View("Subjects/HairBeautyAesthetics");
+        }
+
+        [Route("/students/subjects/media-broadcast-production", Name = "MediaBoradcastProduction")]
+        public IActionResult MediaBoradcastProduction()
+        {
+            return View("Subjects/MediaBoradcastProduction");
+        }
+
+        [Route("/students/subjects/legal-services", Name = "LegalServices")]
+        public IActionResult LegalServices()
+        {
+            return View("Subjects/LegalServices");
+        }
+
         [Route("/students/redirect", Name = "Redirect")]
         public IActionResult Redirect(RedirectViewModel viewModel)
         {
