@@ -34,16 +34,10 @@ steps:
       gulpFile: sfa.Tl.Marketing.Communication/gulpfile.js
 
 - task: UseDotNet@2 
-  displayName: "Install .NET Core 3.1.x SDK"
-  inputs:
-      version: '3.1.x'
-      packageType: sdk
-
-- task: UseDotNet@2 
-  displayName: "Install .NET 5 SDK"
+  displayName: "Install .NET 6 SDK"
   inputs:
       packageType: 'sdk'
-      version: '5.x'
+      version: '6.x'
 
 - task: DotNetCoreCLI@2
   displayName: 'DotNet Restore'

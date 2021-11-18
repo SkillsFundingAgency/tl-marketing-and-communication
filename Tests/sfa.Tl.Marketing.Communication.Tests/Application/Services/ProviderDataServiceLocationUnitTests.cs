@@ -105,8 +105,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 Qualifications = new List<int> { 1 }
             });
 
-            var locations = BuildLocations(location1, location2);
-
             var providers = new List<Provider>
             {
                 BuildProvider(10000001, "Provider 1", new List<Location> {location1}),
@@ -193,8 +191,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 Qualifications = new List<int> { 1 }
             });
 
-            var locations = BuildLocations(location1, location2);
-
             var providers = new List<Provider>
             {
                 BuildProvider(10000001, "Provider 1", new List<Location> {location1}),
@@ -226,7 +222,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var location1 = BuildLocation("Location 1", "CV1 2WT", 52.345, -2.001);
             var location2 = BuildLocation("Location 2", "S70 2YW", 50.001, -1.234);
-            var locations = BuildLocations(location1, location2);
 
             var providers = new List<Provider>
             {

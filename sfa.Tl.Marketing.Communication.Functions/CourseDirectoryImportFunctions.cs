@@ -48,8 +48,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
             }
             catch (Exception e)
             {
-                var errorMessage = $"Error importing data from course directory. Internal Error Message {e}";
-                logger.LogError(errorMessage);
+                logger.LogError("Error importing data from course directory. Internal Error Message {e}", e);
             }
         }
 
@@ -80,8 +79,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
             }
             catch (Exception e)
             {
-                var errorMessage = $"Error importing data from course directory. Internal Error Message {e}";
-                logger.LogError(errorMessage);
+                logger.LogError("Error importing data from course directory. Internal Error Message {e}", e);
 
                 return request.CreateResponse(HttpStatusCode.InternalServerError);
             }
@@ -90,11 +88,11 @@ namespace sfa.Tl.Marketing.Communication.Functions
         private async Task<(int SavedProviders, int DeletedProviders, int SavedQualifications, int DeletedQualifications)> Import(ILogger logger)
         {
             var (savedQualifications, deletedQualifications) = await _courseDirectoryDataService.ImportQualificationsFromCourseDirectoryApi();
-            logger.LogInformation($"Course directory import saved {savedQualifications} and deleted {deletedQualifications} qualifications.");
+            logger.LogInformation("Course directory import saved {savedQualifications} and deleted {deletedQualifications} qualifications.", savedQualifications, deletedQualifications);
 
             var (savedProviders, deletedProviders) =
                 await _courseDirectoryDataService.ImportProvidersFromCourseDirectoryApi();
-            logger.LogInformation($"Course directory import saved {savedProviders} and deleted {deletedProviders} providers.");
+            logger.LogInformation("Course directory import saved {savedProviders} and deleted {deletedProviders} providers.", savedProviders, deletedProviders);
 
             return (savedProviders, deletedProviders, savedQualifications, deletedQualifications);
         }
@@ -121,8 +119,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
             }
             catch (Exception e)
             {
-                var errorMessage = $"Error reading json data from course directory. Internal Error Message {e}";
-                logger.LogError(errorMessage);
+                logger.LogError("Error reading json data from course directory. Internal Error Message {e}", e);
 
                 return request.CreateResponse(HttpStatusCode.InternalServerError);
             }
@@ -150,8 +147,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
             }
             catch (Exception e)
             {
-                var errorMessage = $"Error reading json data from course directory. Internal Error Message {e}";
-                logger.LogError(errorMessage);
+                logger.LogError("Error reading json data from course directory. Internal Error Message {e}", e);
 
                 return request.CreateResponse(HttpStatusCode.InternalServerError);
             }
@@ -174,7 +170,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
                     .OrderBy(p => p.UkPrn)
                     .ToList();
 
-                logger.LogInformation($"Course directory GetProviders returned {providers.Count} records.");
+                logger.LogInformation("Course directory GetProviders returned {providers.Count} records.", providers.Count);
 
                 var response = request.CreateResponse(HttpStatusCode.OK);
                 response.Headers.Add("Content-Type", "application/json");
@@ -191,8 +187,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
             }
             catch (Exception e)
             {
-                var errorMessage = $"Error in GetProviders. Internal Error Message {e}";
-                logger.LogError(errorMessage);
+                logger.LogError("Error in GetProviders. Internal Error Message {e}", e);
 
                 return request.CreateResponse(HttpStatusCode.InternalServerError);
             }
@@ -215,7 +210,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
                     .OrderBy(q => q.Id)
                     .ToList();
 
-                logger.LogInformation($"Course directory GetQualifications returned {qualifications.Count} records.");
+                logger.LogInformation("Course directory GetQualifications returned {qualifications.Count} records.", qualifications.Count);
 
                 var response = request.CreateResponse(HttpStatusCode.OK);
                 response.Headers.Add("Content-Type", "application/json");
@@ -232,8 +227,7 @@ namespace sfa.Tl.Marketing.Communication.Functions
             }
             catch (Exception e)
             {
-                var errorMessage = $"Error in GetQualifications. Internal Error Message {e}";
-                logger.LogError(errorMessage);
+                logger.LogError("Error in GetQualifications. Internal Error Message {e}", e);
 
                 return request.CreateResponse(HttpStatusCode.InternalServerError);
             }

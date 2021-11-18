@@ -38,7 +38,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             var cloudTable = _cloudTableClient.GetTableReference(_tableName);
             if (!cloudTable.Exists())
             {
-                _logger.LogWarning($"GenericCloudTableRepository Delete: table '{_tableName}' not found. Returning 0 results.");
+                _logger.LogWarning("GenericCloudTableRepository Delete: table '{_tableName}' not found. Returning 0 results.", _tableName);
                 return 0;
             }
 
@@ -72,7 +72,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             var cloudTable = _cloudTableClient.GetTableReference(_tableName);
             if (!cloudTable.Exists())
             {
-                _logger.LogWarning($"GenericCloudTableRepository DeleteAll: table '{_tableName}' not found. Returning 0 results.");
+                _logger.LogWarning("GenericCloudTableRepository DeleteAll: table '{_tableName}' not found. Returning 0 results.", _tableName);
                 return 0;
             }
 
@@ -117,7 +117,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             var cloudTable = _cloudTableClient.GetTableReference(_tableName);
             if (!cloudTable.Exists())
             {
-                _logger.LogWarning($"GenericCloudTableRepository DeleteByPartitionKey: table '{_tableName}' not found. Returning 0 results.");
+                _logger.LogWarning("GenericCloudTableRepository DeleteByPartitionKey: table '{_tableName}' not found. Returning 0 results.", _tableName);
                 return 0;
             }
 
@@ -178,7 +178,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             var cloudTable = _cloudTableClient.GetTableReference(_tableName);
             if (!cloudTable.Exists())
             {
-                _logger.LogWarning($"GenericCloudTableRepository GetAll: table '{_tableName}' not found. Returning 0 results.");
+                _logger.LogWarning("GenericCloudTableRepository GetAll: table '{_tableName}' not found. Returning 0 results.", _tableName);
                 return results;
             }
 
@@ -207,7 +207,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Repositories
             var cloudTable = _cloudTableClient.GetTableReference(_tableName);
             if (!cloudTable.Exists())
             {
-                _logger.LogWarning($"GenericCloudTableRepository GetAll: table '{_tableName}' not found. Returning 0 results.");
+                _logger.LogWarning("GenericCloudTableRepository GetAll: table '{_tableName}' not found. Returning 0 results.", _tableName);
                 return results;
             }
 

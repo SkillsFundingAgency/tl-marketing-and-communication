@@ -31,11 +31,11 @@ namespace sfa.Tl.Marketing.Communication.DataLoad.Services
                 return 0;
 
             var removedQualifications = await _tableStorageService.ClearQualifications();
-            _logger.LogInformation($"Removed {removedQualifications} qualifications from table storage");
+            _logger.LogInformation("Removed {removedQualifications} qualifications from table storage", removedQualifications);
 
             var savedQualifications = await _tableStorageService
                 .SaveQualifications(await GetQualificationsData(_fileReader, qualificationsFilePath));
-            _logger.LogInformation($"Saved {savedQualifications} qualifications to table storage");
+            _logger.LogInformation("Saved {savedQualifications} qualifications to table storage", savedQualifications);
 
             return savedQualifications;
         }
@@ -46,11 +46,11 @@ namespace sfa.Tl.Marketing.Communication.DataLoad.Services
                 return 0;
 
             var removedProviders = await _tableStorageService.ClearProviders();
-            _logger.LogInformation($"Removed {removedProviders} providers from table storage");
+            _logger.LogInformation("Removed {removedProviders} providers from table storage", removedProviders);
 
             var savedProviders = await _tableStorageService
                 .SaveProviders(await GetProvidersData(_fileReader, providersFilePath));
-            _logger.LogInformation($"Saved {savedProviders} providers to table storage");
+            _logger.LogInformation("Saved {savedProviders} providers to table storage", savedProviders);
 
             return savedProviders;
         }
