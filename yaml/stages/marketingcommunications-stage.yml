@@ -1,0 +1,61 @@
+parameters:
+- name: environmentTagName
+  type: string
+- name: dependencies
+  type: object
+- name: environmentName
+  type: string
+- name: environmentId
+  type: string
+- name: sharedEnvironmentId
+  type: string
+- name: serviceConnection
+  type: string
+
+stages:
+- stage: Deploy_${{parameters.environmentId}}
+  dependsOn: 
+    - '${{ each dependency in parameters.dependencies }}':
+      - '${{dependency}}'
+  variables:
+    - group: platform-global-matching
+    - group: platform-${{parameters.environmentName}}
+    - group: platform-${{parameters.environmentName}}-matching
+    - name: BaseName
+      value: "s126${{parameters.environmentId}}-matching-${{parameters.environmentName}}"
+    - name: ResourceGroupName
+      value: '$(BaseName)'
+    - name: EnvironmentName
+      value: ${{ parameters.environmentName }}
+    - name: environmentTagName
+      value: ${{parameters.environmentTagName}}
+      
+      
+  displayName: '${{parameters.environmentName}} [${{parameters.environmentId}}] deployment'
+  jobs:  
+  - template: ../jobs/matching-infrastructure-job.yml
+    parameters:
+      BaseName: $(BaseName)
+      serviceConnection: ${{ parameters.serviceConnection }}
+      sharedEnvironmentId: ${{ parameters.sharedEnvironmentId }}
+      environmentName: ${{parameters.environmentName}}
+  
+  - template: ../jobs/matching-publish-dacpac-job.yml
+    parameters:
+      serviceConnection: ${{ parameters.serviceConnection }}
+      sharedEnvironmentId: ${{ parameters.sharedEnvironmentId }}
+
+  - template: ../jobs/matching-generate-configs-job.yml
+    parameters:
+      serviceConnection: ${{ parameters.serviceConnection }}
+      sharedEnvironmentId: ${{ parameters.sharedEnvironmentId }}
+
+  - template: ../jobs/matching-publish-site-job.yml
+    parameters:
+      serviceConnection: ${{ parameters.serviceConnection }}
+      sharedEnvironmentId: ${{ parameters.sharedEnvironmentId }}
+  
+  - template: ../jobs/matching-publish-function-job.yml
+    parameters:
+      serviceConnection: ${{ parameters.serviceConnection }}
+      sharedEnvironmentId: ${{ parameters.sharedEnvironmentId }}
