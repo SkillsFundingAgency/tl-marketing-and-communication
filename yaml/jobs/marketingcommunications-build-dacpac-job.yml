@@ -3,14 +3,14 @@
   - job: 'DACPACBuild'
     pool:
       name: 'Azure Pipelines'
-      vmImage: 'windows-2019'
+      vmImage: 'windows-latest'
     workspace:
       clean: all
     steps:
     - task: VSBuild@1
       displayName: 'Build DACPAC'
       inputs:
-        solution: 'src\Sfa.Tl.Matching.Database\Sfa.Tl.Matching.Database.sqlproj'
+        solution: 'src\Sfa.Tl.Marketing.Communications.Database\Sfa.Tl.Marketing.Communications.Database.sqlproj'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
         msbuildArgs: '/p:PackageLocation="$(build.artifactstagingdirectory)/publish"'

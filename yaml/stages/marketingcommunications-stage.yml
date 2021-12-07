@@ -18,11 +18,11 @@ stages:
     - '${{ each dependency in parameters.dependencies }}':
       - '${{dependency}}'
   variables:
-    - group: platform-global-matching
+    - group: platform-global-marketingcommunications
     - group: platform-${{parameters.environmentName}}
-    - group: platform-${{parameters.environmentName}}-matching
+    - group: platform-${{parameters.environmentName}}-marketingcommunications
     - name: BaseName
-      value: "s126${{parameters.environmentId}}-matching-${{parameters.environmentName}}"
+      value: "s126${{parameters.environmentId}}-marcoms-${{parameters.environmentName}}"
     - name: ResourceGroupName
       value: '$(BaseName)'
     - name: EnvironmentName
@@ -33,29 +33,29 @@ stages:
       
   displayName: '${{parameters.environmentName}} [${{parameters.environmentId}}] deployment'
   jobs:  
-  - template: ../jobs/matching-infrastructure-job.yml
+  - template: ../jobs/marketingcommunications-infrastructure-job.yml
     parameters:
       BaseName: $(BaseName)
       serviceConnection: ${{ parameters.serviceConnection }}
       sharedEnvironmentId: ${{ parameters.sharedEnvironmentId }}
       environmentName: ${{parameters.environmentName}}
   
-  - template: ../jobs/matching-publish-dacpac-job.yml
+  - template: ../jobs/marketingcommunications-publish-dacpac-job.yml
     parameters:
       serviceConnection: ${{ parameters.serviceConnection }}
       sharedEnvironmentId: ${{ parameters.sharedEnvironmentId }}
 
-  - template: ../jobs/matching-generate-configs-job.yml
+  - template: ../jobs/marketingcommunications-generate-configs-job.yml
     parameters:
       serviceConnection: ${{ parameters.serviceConnection }}
       sharedEnvironmentId: ${{ parameters.sharedEnvironmentId }}
 
-  - template: ../jobs/matching-publish-site-job.yml
+  - template: ../jobs/marketingcommunications-publish-site-job.yml
     parameters:
       serviceConnection: ${{ parameters.serviceConnection }}
       sharedEnvironmentId: ${{ parameters.sharedEnvironmentId }}
   
-  - template: ../jobs/matching-publish-function-job.yml
+  - template: ../jobs/marketingcommunications-publish-function-job.yml
     parameters:
       serviceConnection: ${{ parameters.serviceConnection }}
       sharedEnvironmentId: ${{ parameters.sharedEnvironmentId }}

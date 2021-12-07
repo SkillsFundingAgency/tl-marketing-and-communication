@@ -6,13 +6,13 @@ parameters:
 jobs:
 - job: PublishFunction
   variables:
-    WorkerFunctionAppName: $[ dependencies.DeployMatchingInfrastructure.outputs['armOutputs.armOutput.WorkerFunctionAppName'] ]
+    WorkerFunctionAppName: $[ dependencies.DeployMarketingCommunicationsInfrastructure.outputs['armOutputs.armOutput.WorkerFunctionAppName'] ]
 
   pool:
     name: 'Azure Pipelines'
-    vmImage: 'windows-2019'
+    vmImage: 'windows-latest'
   dependsOn: 
-    - DeployMatchingInfrastructure
+    - DeployMarketingCommunicationsInfrastructure
     - GenerateConfigs
   steps:
   - task: DownloadBuildArtifacts@0
@@ -27,5 +27,5 @@ jobs:
       azureSubscription: ${{ parameters.serviceConnection }}
       appType: 'functionApp'
       appName: '$(WorkerFunctionAppName)'
-      package: '$(System.ArtifactsDirectory)/appdrop/Sfa.Tl.Matching.Functions.zip'
+      package: '$(System.ArtifactsDirectory)/appdrop/Sfa.Tl.Marketing.Communications.Functions.zip'
       deploymentMethod: 'auto'

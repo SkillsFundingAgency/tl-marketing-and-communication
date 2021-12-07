@@ -8,7 +8,7 @@ parameters:
   - name: environmentName
     type: string
 jobs:
-  - job: DeployMatchingInfrastructure
+  - job: DeployMarketingCommunicationsInfrastructure
     variables:
       SharedASPName: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.sharedASPName'] ]
       SharedKeyVaultName: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.sharedKeyVaultName'] ]
@@ -32,7 +32,7 @@ jobs:
           subscriptionId: $(subscriptionId)
           resourceGroupName: $(ResourceGroupName)
           location: "West Europe"
-          templateFilePath: "./azure/matching-environmant.json"
+          templateFilePath: "./azure/marketingcommunications-environmant.json"
           armParameterOverrideString:
             '-environmentNameAbbreviation "${{parameters.environmentName}}"
             -resourceNamePrefix "${{parameters.BaseName}}"

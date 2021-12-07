@@ -7,13 +7,13 @@ jobs:
 - job: PublishSite
   variables:
     ConfigStorageAccountName: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.ConfigStorageAccountName'] ]
-    uiAppName: $[ dependencies.DeployMatchingInfrastructure.outputs['armOutputs.armOutput.uiAppName'] ]
+    uiAppName: $[ dependencies.DeployMarketingCommunicationsInfrastructure.outputs['armOutputs.armOutput.uiAppName'] ]
 
   pool:
     name: 'Azure Pipelines'
-    vmImage: 'windows-2019'
+    vmImage: 'windows-latest'
   dependsOn: 
-    - DeployMatchingInfrastructure
+    - DeployMarketingCommunicationsInfrastructure
     - GenerateConfigs
   steps:
   - task: DownloadBuildArtifacts@0
@@ -42,7 +42,7 @@ jobs:
       DeployToSlotFlag: true
       ResourceGroupName: '$(ResourceGroupName)'
       SlotName: 'staging'
-      Package: '$(System.ArtifactsDirectory)/appdrop/Sfa.Tl.Matching.Web.zip'
+      Package: '$(System.ArtifactsDirectory)/appdrop/Sfa.Tl.Marketing.Communications.Web.zip'
       UseWebDeploy: true
       RemoveAdditionalFilesFlag: true
 

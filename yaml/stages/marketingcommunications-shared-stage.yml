@@ -16,11 +16,11 @@ stages:
     - '${{ each dependency in parameters.dependencies }}':
       - '${{dependency}}'
   variables:
-    - group: platform-global-matching
+    - group: platform-global-marketingcommunications
     - group: platform-${{parameters.environmentName}}
-    - group: platform-${{parameters.environmentName}}-matching
+    - group: platform-${{parameters.environmentName}}-marketingcommunications
     - name: SharedBaseName
-      value: "s126${{parameters.sharedEnvironmentId}}-matching"
+      value: "s126${{parameters.sharedEnvironmentId}}-marcoms"
     - name: SharedResourceGroup
       value: '$(SharedBaseName)-shared'
     - name: SharedSQLServerName
@@ -30,7 +30,7 @@ stages:
       
   displayName: '${{parameters.environmentName}} [${{parameters.sharedEnvironmentId}}] Shared' 
   jobs:
-  - template: ../jobs/matching-shared-infrastructure-job.yml
+  - template: ../jobs/marketingcommunications-shared-infrastructure-job.yml
     parameters:
       baseName: $(SharedBaseName)
       serviceConnection: ${{ parameters.serviceConnection }}

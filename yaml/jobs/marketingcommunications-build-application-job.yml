@@ -2,7 +2,7 @@ jobs:
 - job: 'CodeBuild'
   pool:
       name: 'Azure Pipelines'
-      vmImage: 'windows-2019'
+      vmImage: 'windows-latest'
   workspace:
     clean: all
   steps:        
@@ -36,13 +36,13 @@ jobs:
     - task: Npm@1
       displayName: 'npm install'
       inputs:
-        workingDir: src/Sfa.Tl.Matching.Web/
+        workingDir: src/Sfa.Tl.Marketing.Communications.Web/
         verbose: false
     
     - task: Gulp@0
       displayName: gulp
       inputs:
-        gulpFile: src/Sfa.Tl.Matching.Web/gulpfile.js
+        gulpFile: src/Sfa.Tl.Marketing.Communications.Web/gulpfile.js
         targets: default
     
     - task: DotNetCoreCLI@2
@@ -70,28 +70,28 @@ jobs:
       inputs:
         command: publish
         publishWebProjects: true
-        projects: 'src/Sfa.Tl.Matching.Web/Sfa.Tl.Matching.Web.csproj'
+        projects: 'src/Sfa.Tl.Marketing.Communications.Web/Sfa.Tl.Marketing.Communications.Web.csproj'
         arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore --no-build'
     - task: DotNetCoreCLI@2
       displayName: 'Publish Function App'
       inputs:
         command: publish
         publishWebProjects: false
-        projects: 'src/Sfa.Tl.Matching.Functions/Sfa.Tl.Matching.Functions.csproj'
+        projects: 'src/Sfa.Tl.Marketing.Communications.Functions/Sfa.Tl.Marketing.Communications.Functions.csproj'
         arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore --no-build'
     - task: DotNetCoreCLI@2
       displayName: 'Publish Application Integration Tests'
       inputs:
         command: publish
         publishWebProjects: false
-        projects: 'src/Sfa.Tl.Matching.Application.IntegrationTests/Sfa.Tl.Matching.Application.IntegrationTests.csproj'
+        projects: 'src/Sfa.Tl.Marketing.Communications.Application.IntegrationTests/Sfa.Tl.Marketing.Communications.Application.IntegrationTests.csproj'
         arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore --no-build'
     - task: DotNetCoreCLI@2
       displayName: 'Publish Web Integration Tests'
       inputs:
         command: publish
         publishWebProjects: false
-        projects: 'src/Sfa.Tl.Matching.Web.IntegrationTests/Sfa.Tl.Matching.Web.IntegrationTests.csproj'
+        projects: 'src/Sfa.Tl.Marketing.Communications.Web.IntegrationTests/Sfa.Tl.Marketing.Communications.Web.IntegrationTests.csproj'
         arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore --no-build'
     - task: CopyFiles@2
       displayName: 'Copy Files to: $(build.artifactstagingdirectory)'

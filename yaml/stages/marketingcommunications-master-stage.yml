@@ -1,10 +1,10 @@
 stages:
-  - template: matching-build-stage.yml
+  - template: marketingcommunications-build-stage.yml
     parameters:        
       variableGroups:
-        - platform-global-matching 
+        - platform-global-marketingcommunications 
 ######################## DEV ##############################################
-  - template: matching-shared-stage.yml
+  - template: marketingcommunications-shared-stage.yml
     parameters:
       environmentTagName: Dev
       dependencies:
@@ -13,7 +13,7 @@ stages:
       sharedEnvironmentId: d01
       serviceConnection: $(devServiceConnection)
     
-  - template: matching-stage.yml
+  - template: marketingcommunications-stage.yml
     parameters:
       environmentTagName: Dev
       dependencies:
@@ -23,7 +23,7 @@ stages:
       sharedEnvironmentId: d01
       serviceConnection: $(devServiceConnection)
 ######################## TEST ##############################################
-  - template: matching-shared-stage.yml
+  - template: marketingcommunications-shared-stage.yml
     parameters:
       environmentTagName: Test
       dependencies:
@@ -32,7 +32,7 @@ stages:
       sharedEnvironmentId: t01
       serviceConnection: $(testServiceConnection)
     
-  - template: matching-stage.yml
+  - template: marketingcommunications-stage.yml
     parameters:
       environmentTagName: Test
       dependencies:
@@ -43,7 +43,7 @@ stages:
       serviceConnection: $(testServiceConnection)
 
 ######################## Pre Prod ##############################################
-  - template: matching-shared-stage.yml
+  - template: marketingcommunications-shared-stage.yml
     parameters:
       environmentTagName: Pre-Prod
       dependencies:        
@@ -53,7 +53,7 @@ stages:
       sharedEnvironmentId: p02
       serviceConnection: $(prodServiceConnection)
     
-  - template: matching-stage.yml
+  - template: marketingcommunications-stage.yml
     parameters:
       environmentTagName: Pre-Prod
       dependencies:
@@ -64,7 +64,7 @@ stages:
       serviceConnection: $(prodServiceConnection)
 
 # ######################## Prod ##############################################
-  - template: matching-shared-stage.yml
+  - template: marketingcommunications-shared-stage.yml
     parameters:
       environmentTagName: Prod
       dependencies:
@@ -74,7 +74,7 @@ stages:
       sharedEnvironmentId: p01
       serviceConnection: $(prodServiceConnection)
     
-  - template: matching-stage.yml
+  - template: marketingcommunications-stage.yml
     parameters:
       environmentTagName: Prod
       dependencies:

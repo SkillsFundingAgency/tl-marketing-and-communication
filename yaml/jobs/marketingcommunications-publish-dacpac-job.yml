@@ -9,11 +9,11 @@ jobs:
     name: 'Azure Pipelines'
     vmImage: 'windows-2019'
   dependsOn:
-    - DeployMatchingInfrastructure 
+    - DeployMarketingCommunicationsInfrastructure 
 
   variables:
     SharedSQLServerName: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.sharedSQLServerName'] ]
-    DatabaseName: $[ dependencies.DeployMatchingInfrastructure.outputs['armOutputs.armOutput.sqlDatabaseName'] ]
+    DatabaseName: $[ dependencies.DeployMarketingCommunicationsInfrastructure.outputs['armOutputs.armOutput.sqlDatabaseName'] ]
   steps:
     - task: DownloadBuildArtifacts@0
       inputs:
@@ -30,7 +30,7 @@ jobs:
         DatabaseName: '$(DatabaseName)'
         SqlUsername: '$(SQLServerAdminUsername)'
         SqlPassword: '$(SQLServerAdminPassword)'
-        DacpacFile: '$(System.ArtifactsDirectory)/sqldrop/src/Sfa.Tl.Matching.Database/bin/Release/Sfa.Tl.Matching.Database.dacpac'
+        DacpacFile: '$(System.ArtifactsDirectory)/sqldrop/src/Sfa.Tl.Marketing.Communications.Database/bin/Release/Sfa.Tl.Marketing.Communications.Database.dacpac'
         AdditionalArguments: '/p:GenerateSmartDefaults=True'
 
     - pwsh: | 

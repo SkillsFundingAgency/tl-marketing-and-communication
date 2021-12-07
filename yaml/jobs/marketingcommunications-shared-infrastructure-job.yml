@@ -23,7 +23,7 @@ jobs:
                 subscriptionId: $(subscriptionId)
                 resourceGroupName: $(SharedResourceGroup)
                 location: 'West Europe'
-                templateFilePath: './azure/matching-shared.json'
+                templateFilePath: './azure/marketingcommunications-shared.json'
                 armParameterOverrideString: '-environmentNameAbbreviation "${{parameters.baseName}}" 
                   -sqlServerAdminUsername "$(SQLServerAdminUsername)"
                   -sqlServerAdminPassword "$(SQLServerAdminPassword)"
