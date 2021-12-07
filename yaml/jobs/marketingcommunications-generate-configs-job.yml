@@ -17,7 +17,7 @@ jobs:
     name: 'Azure Pipelines'
     vmImage: 'windows-latest'
   dependsOn: 
-    - DeployMatchingInfrastructure
+    - DeployMarketingCommunicationsInfrastructure
     - DeploySQLDatabase
   steps:
     - pwsh: | 
