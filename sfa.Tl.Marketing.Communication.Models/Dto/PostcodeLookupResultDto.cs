@@ -6,6 +6,7 @@ namespace sfa.Tl.Marketing.Communication.Models.Dto
     {
         [JsonPropertyName("postcode")]
         public string Postcode { get; init; }
+
         [JsonPropertyName("longitude")]
         public double Longitude { get; init; }
 

@@ -61,6 +61,18 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Extensions
             result.Should().Be(expectedResult);
         }
 
+        [Theory(DisplayName = "JsonElement.SafeGetDouble with Default Data Tests")]
+        [InlineData("myPositiveDouble", 1, 100.999)]
+        [InlineData("myNegativeDouble", -1, -100.999)]
+        [InlineData("notANumber", 10, 10)]
+        public void JsonElementSafeGetDoubleDefaultDataTests(string propertyName, double defaultValue, double expectedResult)
+        {
+            var prop = _jsonDoc.RootElement.GetProperty("anElement");
+            var result = prop.SafeGetDouble(propertyName, defaultValue);
+
+            result.Should().Be(expectedResult);
+        }
+
         [Theory(DisplayName = "JsonElement.SafeGetString Data Tests")]
         [InlineData("myString", "my value")]
         [InlineData("myInt32", null)]
