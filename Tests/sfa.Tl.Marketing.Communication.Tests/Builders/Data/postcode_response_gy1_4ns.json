@@ -1,0 +1,42 @@
+{
+  "status": 200,
+  "result": {
+    "postcode": "GY1 4NS",
+    "quality": 9,
+    "eastings": null,
+    "northings": null,
+    "country": "Channel Islands",
+    "nhs_ha": "Guernsey Health Authority",
+    "longitude": null,
+    "latitude": null,
+    "european_electoral_region": null,
+    "primary_care_trust": "(pseudo) Channel Islands",
+    "region": null,
+    "lsoa": null,
+    "msoa": null,
+    "incode": "4NS",
+    "outcode": "GY1",
+    "parliamentary_constituency": null,
+    "admin_district": null,
+    "parish": null,
+    "admin_county": null,
+    "admin_ward": null,
+    "ced": null,
+    "ccg": null,
+    "nuts": null,
+    "codes": {
+      "admin_district": "L99999999",
+      "admin_county": "L99999999",
+      "admin_ward": "L99999999",
+      "parish": "L99999999",
+      "parliamentary_constituency": "L99999999",
+      "ccg": "L99999999",
+      "ccg_id": null,
+      "ced": "L99999999",
+      "nuts": null,
+      "lsoa": "L99999999",
+      "msoa": "L99999999",
+      "lau2": "L99999999"
+    }
+  }
+}
