@@ -219,10 +219,10 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View("Subjects/CraftDesign");
         }
 
-        [Route("/students/subjects/hair-beauty-aesthetics", Name = "HairBeautyAesthetics")]
-        public IActionResult HairBeautyAesthetics()
+        [Route("/students/subjects/hairdressing-barbering-beauty-therapy", Name = "HairdressingBarberingBeautyTherapy")]
+        public IActionResult HairdressingBarberingBeautyTherapy()
         {
-            return View("Subjects/HairBeautyAesthetics");
+            return View("Subjects/HairdressingBarberingBeautyTherapy");
         }
 
         [Route("/students/subjects/media-broadcast-production", Name = "MediaBoradcastProduction")]
