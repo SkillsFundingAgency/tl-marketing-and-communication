@@ -1,0 +1,10 @@
+{
+  "status": 200,
+  "result": {
+    "postcode": "S70 2YW",
+    "year_terminated": 2019,
+    "month_terminated": 2,
+    "longitude": -1.482797,
+    "latitude": 53.551618
+  }
+}
