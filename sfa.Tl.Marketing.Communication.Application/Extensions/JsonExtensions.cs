@@ -47,13 +47,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Extensions
                 : default;
         }
 
-        public static double SafeGetDouble(this JsonElement element, string propertyName)
+        public static double SafeGetDouble(this JsonElement element, string propertyName, double defaultValue = default)
         {
             return element.TryGetProperty(propertyName, out var property)
                    && property.ValueKind == JsonValueKind.Number
                    && property.TryGetDouble(out var val)
                 ? val
-                : default;
+                : defaultValue;
         }
 
         public static string SafeGetString(this JsonElement element, string propertyName)

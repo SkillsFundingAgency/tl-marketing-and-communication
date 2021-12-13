@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
+using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.Models.Extensions;
@@ -14,6 +15,9 @@ namespace sfa.Tl.Marketing.Communication.Application.GeoLocations
     {
         private readonly HttpClient _httpClient;
         private readonly Uri _postcodeRetrieverBaseUri;
+
+        public const double DefaultLatitude = 51.477928;
+        public const double DefaultLongitude = 0;
 
         public LocationApiClient(HttpClient httpClient, ConfigurationOptions configurationOptions)
         {
@@ -34,32 +38,33 @@ namespace sfa.Tl.Marketing.Communication.Application.GeoLocations
 
             var responseMessage = await _httpClient.GetAsync(lookupUri);
 
-            if (responseMessage.StatusCode == HttpStatusCode.OK)
-            {
-                var response = await JsonSerializer
-                    .DeserializeAsync<PostcodeLookupResponse>(
-                        await responseMessage.Content.ReadAsStreamAsync());
-                return response?.Result;
-            }
-
-            return await GetTerminatedPostcodeGeoLocationDataAsync(postcode);
+            return responseMessage.StatusCode == HttpStatusCode.OK
+                ? await ReadPostcodeLocationFromResponse(responseMessage)
+                : await GetTerminatedPostcodeGeoLocationDataAsync(postcode);
         }
-
+        
         private async Task<PostcodeLookupResultDto> GetTerminatedPostcodeGeoLocationDataAsync(string postcode)
         {
             var lookupUri = new Uri(_postcodeRetrieverBaseUri, $"terminated_postcodes/{postcode.ToLetterOrDigit()}");
 
             var responseMessage = await _httpClient.GetAsync(lookupUri);
 
-            if (responseMessage.StatusCode == HttpStatusCode.OK)
-            {
-                var response = await JsonSerializer
-                    .DeserializeAsync<PostcodeLookupResponse>(
-                        await responseMessage.Content.ReadAsStreamAsync());
-                return response?.Result;
-            }
+            return responseMessage.StatusCode == HttpStatusCode.OK
+                ? await ReadPostcodeLocationFromResponse(responseMessage)
+                : null;
+        }
 
-            return null;
+        private static async Task<PostcodeLookupResultDto> ReadPostcodeLocationFromResponse(HttpResponseMessage responseMessage)
+        {
+            using var jsonDocument = await JsonDocument.ParseAsync(await responseMessage.Content.ReadAsStreamAsync());
+            var resultElement = jsonDocument.RootElement.GetProperty("result");
+            
+            return new PostcodeLookupResultDto
+            {
+                Postcode = resultElement.SafeGetString("postcode"),
+                Latitude = resultElement.SafeGetDouble("latitude", DefaultLatitude),
+                Longitude = resultElement.SafeGetDouble("longitude")
+            };
         }
     }
 }
