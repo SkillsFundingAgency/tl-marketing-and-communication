@@ -225,10 +225,10 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             return View("Subjects/HairdressingBarberingBeautyTherapy");
         }
 
-        [Route("/students/subjects/media-broadcast-production", Name = "MediaBoradcastProduction")]
-        public IActionResult MediaBoradcastProduction()
+        [Route("/students/subjects/media-broadcast-production", Name = "MediaBroadcastProduction")]
+        public IActionResult MediaBroadcastProduction()
         {
-            return View("Subjects/MediaBoradcastProduction");
+            return View("Subjects/MediaBroadcastProduction");
         }
 
         [Route("/students/subjects/legal-services", Name = "LegalServices")]
