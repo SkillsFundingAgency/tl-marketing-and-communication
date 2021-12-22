@@ -1,28 +1,17 @@
 {
   "providers": [
     {
-      "ukPrn": 10000560,
-      "name": "BASINGSTOKE COLLEGE OF TECHNOLOGY",
+      "ukPrn": 10035123,
+      "name": "BIDDULPH HIGH SCHOOL",
       "locations": [
         {
-          "postcode": "RG21 8TN",
-          "town": "BASINGSTOKE",
-          "website": "https://www.bcot.ac.uk/information/t-levels/",
-          "email": "information@bcot.ac.uk",
-          "telephone": "01256 354141"
-        }
-      ]
-    },
-    {
-      "ukPrn": 10000654,
-      "name": "BERKSHIRE COLLEGE OF AGRICULTURE, THE (BCA)",
-      "locations": [
-        {
-          "postcode": "SL6 6QR",
-          "town": "MAIDENHEAD",
-          "website": "https://www.bca.ac.uk/",
-          "email": "enquiries@bca.ac.uk",
-          "telephone": "01628 824444"
+          "postcode": "ST8 7AR",
+          "latitude": 53.105857,
+          "longitude": -2.171092,
+          "town": "STOKE-ON-TRENT",
+          "website": "https://biddulphhigh.co.uk/",
+          "email": "office@biddulphhigh.co.uk",
+          "telephone": "01782 523977"
         }
       ]
     },
@@ -32,6 +21,8 @@
       "locations": [
         {
           "postcode": "PE21 6JF",
+          "latitude": 52.973254,
+          "longitude": -0.014959,
           "town": "BOSTON",
           "website": "https://www.boston.ac.uk/school-leavers/t-levels/",
           "email": "info@boston.ac.uk",
@@ -45,6 +36,8 @@
       "locations": [
         {
           "postcode": "BR2 8HE",
+          "latitude": 51.38666,
+          "longitude": 0.034796,
           "town": "BROMLEY",
           "website": "https://www.lsec.ac.uk/t-levels",
           "telephone": "020 8295 7000"
@@ -57,62 +50,12 @@
       "locations": [
         {
           "postcode": "LE67 3TN",
+          "latitude": 52.737048,
+          "longitude": -1.372555,
           "town": "COALVILLE",
           "website": "https://stephensoncoll.ac.uk/t-levels.php",
           "email": "services@stephensoncoll.ac.uk",
           "telephone": "01530 836136"
-        }
-      ]
-    },
-    {
-      "ukPrn": 10001004,
-      "name": "BURTON AND SOUTH DERBYSHIRE COLLEGE",
-      "locations": [
-        {
-          "postcode": "DE14 3RL",
-          "town": "BURTON-ON-TRENT",
-          "website": "https://www.bsdc.ac.uk/student-life/t-levels",
-          "email": "enquiries@bsdc.ac.uk",
-          "telephone": "01283 494400"
-        }
-      ]
-    },
-    {
-      "ukPrn": 10002073,
-      "name": "BIG CREATIVE TRAINING LTD",
-      "locations": [
-        {
-          "postcode": "E17 5QJ",
-          "town": "LONDON",
-          "website": "https://bigcreative.education/t-levels/",
-          "email": "recruitment@bigcreative.education",
-          "telephone": "07770 601142"
-        }
-      ]
-    },
-    {
-      "ukPrn": 10014777,
-      "name": "BISHOP THOMAS GRANT CATHOLIC SECONDARY SCHOOL",
-      "locations": [
-        {
-          "postcode": "SW16 2HY",
-          "town": "LONDON",
-          "website": "https://www.btg.ac/T-Level/",
-          "email": "info@btg-secondary.lambeth.sch.uk",
-          "telephone": "020 8769 3294"
-        }
-      ]
-    },
-    {
-      "ukPrn": 10035123,
-      "name": "BIDDULPH HIGH SCHOOL",
-      "locations": [
-        {
-          "postcode": "ST8 7AR",
-          "town": "STOKE-ON-TRENT",
-          "website": "https://biddulphhigh.co.uk/",
-          "email": "office@biddulphhigh.co.uk",
-          "telephone": "01782 523977"
         }
       ]
     },
@@ -122,6 +65,8 @@
       "locations": [
         {
           "postcode": "SW17 0AQ",
+          "latitude": 51.438125,
+          "longitude": -0.180083,
           "town": "LONDON",
           "website": "https://www.burntwoodschool.com/",
           "email": "info@burntwoodschool.com",
@@ -130,39 +75,17 @@
       ]
     },
     {
-      "ukPrn": 10043511,
-      "name": "CAMBRIDGE ACADEMY FOR SCIENCE AND TECHNOLOGY",
+      "ukPrn": 10001004,
+      "name": "BURTON AND SOUTH DERBYSHIRE COLLEGE",
       "locations": [
         {
-          "postcode": "CB2 0SZ",
-          "town": "CAMBRIDGE",
-          "telephone": "01223 724300"
-        }
-      ]
-    },
-    {
-      "ukPrn": 10060347,
-      "name": "BIRCHWOOD COMMUNITY HIGH SCHOOL",
-      "locations": [
-        {
-          "postcode": "WA3 7PT",
-          "town": "WARRINGTON",
-          "website": "https://www.birchwoodhigh.org/our-college/",
-          "email": "info@birchwoodcollege.org",
-          "telephone": "01925 853504"
-        }
-      ]
-    },
-    {
-      "ukPrn": 10064686,
-      "name": "BIRKENHEAD SIXTH FORM COLLEGE",
-      "locations": [
-        {
-          "postcode": "CH43 8SQ",
-          "town": "WIRRAL",
-          "website": "https://www.bsfc.ac.uk/courses/t-levels/science-t-level",
-          "email": "email@bsfc.ac.uk",
-          "telephone": "0151 652 5575"
+          "postcode": "DE14 3RL",
+          "latitude": 52.799693,
+          "longitude": -1.631174,
+          "town": "BURTON-ON-TRENT",
+          "website": "https://www.bsdc.ac.uk/student-life/t-levels",
+          "email": "enquiries@bsdc.ac.uk",
+          "telephone": "01283 494400"
         }
       ]
     },
@@ -172,6 +95,8 @@
       "locations": [
         {
           "postcode": "PL31 2GT",
+          "latitude": 50.476498,
+          "longitude": -4.70616,
           "town": "BODMIN",
           "website": "https://www.callywith.ac.uk/what-to-study/further-education/t-levels",
           "email": "enquiry@callywith.ac.uk",
@@ -180,15 +105,15 @@
       ]
     },
     {
-      "ukPrn": 10082366,
-      "name": "ASHTON SIXTH FORM COLLEGE",
+      "ukPrn": 10001353,
+      "name": "CHELMSFORD COLLEGE",
       "locations": [
         {
-          "postcode": "OL6 9RL",
-          "town": "ASHTON-UNDER-LYNE",
-          "website": "https://www.asfc.ac.uk/courses/t-levels",
-          "email": "contact@asfc.ac.uk",
-          "telephone": "0161 330 2330"
+          "postcode": "CM2 0JQ",
+          "latitude": 51.724995,
+          "longitude": 0.466732,
+          "town": "CHELMSFORD",
+          "website": "https://www.chelmsford.ac.uk/"
         }
       ]
     }
