@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
-	  <OutputType>Exe</OutputType>
+	<OutputType>Exe</OutputType>
     <_FunctionsSkipCleanOutput>true</_FunctionsSkipCleanOutput>
   </PropertyGroup>
 
@@ -19,7 +19,7 @@
 	  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-	  <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.19.0" />
+	  <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.20.0" />
 	  <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
 	  <PackageReference Include="System.Net.NameResolution" Version="4.3.0" />
