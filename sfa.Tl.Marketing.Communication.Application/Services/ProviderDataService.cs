@@ -4,9 +4,6 @@ using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
 using Microsoft.Extensions.Caching.Memory;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
@@ -22,13 +19,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private readonly IMemoryCache _cache;
         private readonly ITableStorageService _tableStorageService;
-
-        private static readonly IDictionary<long, Provider> TempProviderData;
-
-        static ProviderDataService()
-        {
-            TempProviderData = LoadTempProviderData();
-        }
 
         public ProviderDataService(
             ITableStorageService tableStorageService,
@@ -175,6 +165,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     .GetAllProviders()
                     .GetAwaiter()
                     .GetResult()
+                    .MergeTempProviders(_mergeTempProviderData)
                     .AsQueryable();
 
                 _cache.Set(ProviderTableDataCacheKey, providers, GetCacheOptions());
@@ -189,50 +180,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             if (_cacheExpiryInSeconds > 0)
                 options.SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpiryInSeconds));
             return options;
-        }
-
-        private static IDictionary<long, Provider> LoadTempProviderData()
-        {
-            var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
-            var jsonFile = $"{assemblyName}.Data.ProviderData.json";
-
-            return JsonDocument
-                .Parse(jsonFile.ReadManifestResourceStreamAsString())
-                .RootElement
-                .GetProperty("providers")
-                .EnumerateArray()
-                .Select(p =>
-                    new Provider
-                    {
-                        UkPrn = p.GetProperty("ukPrn").GetInt64(),
-                        Name = p.GetProperty("name").GetString(),
-                        Locations = p.GetProperty("locations")
-                            .EnumerateArray()
-                            .Select(l =>
-                                new Location
-                                {
-                                    Postcode = l.GetProperty("postcode").GetString(),
-                                    Name = l.SafeGetString("name"),
-                                    Town = l.SafeGetString("town"),
-                                    Latitude = l.SafeGetDouble("latitude"),
-                                    Longitude = l.SafeGetDouble("longitude"),
-                                    Website = l.SafeGetString("website"),
-                                    DeliveryYears = l.TryGetProperty("deliveryYears", out var deliveryYears)
-                                        ? deliveryYears.EnumerateArray()
-                                            .Select(d =>
-                                                new DeliveryYearDto
-                                                {
-                                                    Year = d.GetProperty("year").GetInt16(),
-                                                    Qualifications = d.GetProperty("qualifications")
-                                                        .EnumerateArray()
-                                                        .Select(q => q.GetInt32())
-                                                        .ToList()
-                                                })
-                                            .ToList()
-                                        : new List<DeliveryYearDto>()
-                                }).ToList()
-                    })
-                .ToDictionary(p => p.UkPrn);
         }
     }
 }
