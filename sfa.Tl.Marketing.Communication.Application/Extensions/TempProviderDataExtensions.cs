@@ -32,11 +32,11 @@ public static class TempProviderDataExtensions
                             new Location
                             {
                                 Postcode = l.GetProperty("postcode").GetString(),
-                                Name = JsonExtensions.SafeGetString(l, "name"),
-                                Town = JsonExtensions.SafeGetString(l, "town"),
-                                Latitude = JsonExtensions.SafeGetDouble(l, "latitude"),
-                                Longitude = JsonExtensions.SafeGetDouble(l, "longitude"),
-                                Website = JsonExtensions.SafeGetString(l, "website"),
+                                Name = l.SafeGetString("name"),
+                                Town = l.SafeGetString("town"),
+                                Latitude = l.SafeGetDouble("latitude"),
+                                Longitude = l.SafeGetDouble("longitude"),
+                                Website = l.SafeGetString("website"),
                                 DeliveryYears = l.TryGetProperty("deliveryYears", out var deliveryYears)
                                     ? deliveryYears.EnumerateArray()
                                         .Select(d =>
@@ -64,15 +64,19 @@ public static class TempProviderDataExtensions
             return providers;
         }
 
-        foreach (var tempProvider in ProviderData)
+        var providerDictionary = providers
+            .ToDictionary(p => p.UkPrn);
+
+        foreach (var (key, tempProvider) in ProviderData)
         {
-            //TODO: Create a dictionary of current providers to improve lookup
-            if (providers.All(p => p.UkPrn != tempProvider.Key))
+            if (!providerDictionary.ContainsKey(key))
             {
-                providers.Add(tempProvider.Value);
+                providerDictionary.Add(key, tempProvider);
             }
         }
 
-        return providers;
+        return providerDictionary
+            .Values
+            .ToList();
     }
 }
