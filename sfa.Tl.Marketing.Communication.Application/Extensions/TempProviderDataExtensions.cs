@@ -14,7 +14,7 @@ public static class TempProviderDataExtensions
     private static IDictionary<long, Provider> LoadTempProviderData()
     {
         var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
-        var jsonFile = $"{assemblyName}.Data.ProviderData.json";
+        var jsonFile = $"{assemblyName}.Assets.ProviderData.json";
 
         return JsonDocument
             .Parse(jsonFile.ReadManifestResourceStreamAsString())

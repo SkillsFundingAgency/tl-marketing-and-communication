@@ -36,7 +36,7 @@ var siteConfiguration = new ConfigurationOptions
             ? cacheExpiryInSeconds 
             : AppConstants.DefaultCacheExpiryInSeconds,
     MergeTempProviderData = bool.TryParse(builder.Configuration["MergeTempProviderData"], 
-        out var mergeTempProviderData) 
+                                out var mergeTempProviderData) 
                             && mergeTempProviderData,
     PostcodeRetrieverBaseUrl = builder.Configuration["PostcodeRetrieverBaseUrl"],
     EmployerSupportSiteUrl = builder.Configuration["EmployerSupportSiteUrl"],

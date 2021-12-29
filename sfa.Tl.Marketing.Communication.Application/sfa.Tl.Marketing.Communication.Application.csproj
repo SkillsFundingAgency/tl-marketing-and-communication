@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Data\ProviderData.json" />
+    <EmbeddedResource Include="Assets\ProviderData.json" />
   </ItemGroup>
 
   <ItemGroup>
