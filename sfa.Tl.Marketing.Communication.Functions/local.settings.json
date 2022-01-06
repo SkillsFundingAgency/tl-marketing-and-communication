@@ -5,8 +5,8 @@
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
     "TableStorageConnectionString": "UseDevelopmentStorage=true;",
     "CourseDirectoryImportTrigger": "0 0 20 * * MON-FRI",
-    "CourseDirectoryApiKey": "",
-    "CourseDirectoryApiBaseUri": ""
+    "CourseDirectoryApiBaseUri": "",
+    "CourseDirectoryApiKey": ""
   },
   "IsEncrypted": false
 }
