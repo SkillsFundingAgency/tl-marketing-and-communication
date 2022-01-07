@@ -854,63 +854,6 @@
           ]
         }
       ]
-    },
-    {
-      "ukPrn": 10000055,
-      "name": "Abingdon and Witney College",
-      "locations": [
-        {
-          "name": "",
-          "postcode": "OX14 1GG",
-          "town": "Vale of Testing",
-          "latitude": 51.680624,
-          "longitude": -1.28696,
-          "deliveryYears": [
-            {
-              "year": 2021,
-              "qualifications": [
-                36,
-                37,
-                38,
-                39,
-                40
-              ]
-            },
-            {
-              "year": 2022,
-              "qualifications": [
-                50,
-                51
-              ]
-            }
-          ],
-          "website": "https://www.abingdon-witney.ac.uk/t-levels/from-temp-data"
-        },
-        {
-          "name": "",
-          "postcode": "OX28 6NE",
-          "town": "Vale of Testing",
-          "latitude": 51.785444,
-          "longitude": -1.487934,
-          "deliveryYears": [
-            {
-              "year": 2021,
-              "qualifications": [
-                36,
-                37
-              ]
-            },
-            {
-              "year": 2022,
-              "qualifications": [
-                46,
-                47
-              ]
-            }
-          ],
-          "website": "https://www.abingdon-witney.ac.uk/t-levels"
-        }
-      ]
     }
   ]
 }
