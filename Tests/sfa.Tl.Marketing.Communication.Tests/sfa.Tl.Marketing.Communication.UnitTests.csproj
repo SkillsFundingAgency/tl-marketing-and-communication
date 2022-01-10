@@ -6,12 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Builders\Data\postcode_response_cv1_2wt.json" />
-    <None Remove="Builders\Data\postcode_response_gy1_4ns.json" />
-    <None Remove="Builders\Data\terminated_postcode_response_s70_2yw.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Builders\Data\terminated_postcode_response_s70_2yw.json" />
     <EmbeddedResource Include="Builders\Data\postcode_response_gy1_4ns.json" />
     <EmbeddedResource Include="Builders\Data\tlevels_multiple_items.json" />
@@ -24,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="6.2.0" />
+    <PackageReference Include="FluentAssertions" Version="6.3.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageReference Include="NSubstitute" Version="4.2.2" />
     <PackageReference Include="xunit" Version="2.4.1" />

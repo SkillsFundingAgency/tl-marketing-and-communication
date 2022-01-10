@@ -25,7 +25,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<int> WriteQualifications(string qualificationsFilePath)
+        public async Task<int> WriteQualificationsToTableStorage(string qualificationsFilePath)
         {
             if (string.IsNullOrEmpty(qualificationsFilePath))
                 return 0;
@@ -40,7 +40,7 @@ namespace sfa.Tl.Marketing.Communication.DataLoad.Services
             return savedQualifications;
         }
 
-        public async Task<int> WriteProviders(string providersFilePath)
+        public async Task<int> WriteProvidersToTableStorage(string providersFilePath)
         {
             if (string.IsNullOrEmpty(providersFilePath))
                 return 0;
