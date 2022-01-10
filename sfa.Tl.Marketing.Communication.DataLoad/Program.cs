@@ -26,12 +26,12 @@ if (!string.IsNullOrEmpty(tableStorageConnectionString))
         loggerFactory.CreateLogger<ProviderDataMigrationService>());
 
     var qualificationsSaved = await providerDataMigrationService
-        .WriteQualifications(configuration.GetValue<string>("QualificationJsonInputFilePath"));
+        .WriteQualificationsToTableStorage(configuration.GetValue<string>("QualificationJsonInputFilePath"));
     Console.WriteLine("");
     Console.WriteLine($"Copied {qualificationsSaved} qualifications to table storage.");
 
     var providersSaved = await providerDataMigrationService
-        .WriteProviders(configuration.GetValue<string>("ProviderJsonInputFilePath"));
+        .WriteProvidersToTableStorage(configuration.GetValue<string>("ProviderJsonInputFilePath"));
     Console.WriteLine($"Copied {providersSaved} providers to table storage.");
 }
 

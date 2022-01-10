@@ -11,6 +11,7 @@ using sfa.Tl.Marketing.Communication.Application.GeoLocations;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
 using sfa.Tl.Marketing.Communication.Application.Services;
+using sfa.Tl.Marketing.Communication.Constants;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
@@ -29,14 +30,14 @@ if (programTypeName != null)
         programTypeName, LogLevel.Trace);
 }
 
-if (!int.TryParse(builder.Configuration["CacheExpiryInSeconds"], out var cacheExpiryInSeconds))
-{
-    cacheExpiryInSeconds = 60;
-}
-
 var siteConfiguration = new ConfigurationOptions
 {
-    CacheExpiryInSeconds = cacheExpiryInSeconds,
+    CacheExpiryInSeconds = int.TryParse(builder.Configuration["CacheExpiryInSeconds"], out var cacheExpiryInSeconds) 
+            ? cacheExpiryInSeconds 
+            : AppConstants.DefaultCacheExpiryInSeconds,
+    MergeTempProviderData = bool.TryParse(builder.Configuration["MergeTempProviderData"], 
+                                out var mergeTempProviderData) 
+                            && mergeTempProviderData,
     PostcodeRetrieverBaseUrl = builder.Configuration["PostcodeRetrieverBaseUrl"],
     EmployerSupportSiteUrl = builder.Configuration["EmployerSupportSiteUrl"],
     StorageConfiguration = new StorageSettings

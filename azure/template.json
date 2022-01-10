@@ -51,7 +51,12 @@
             "type": "string"
         },
         "cacheExpiryInSeconds": {
-            "type": "int"
+          "type": "int",
+          "defaultValue": "60"
+        },
+        "mergeTempProviderData": {
+          "type": "bool",
+          "defaultValue": false
         },
         "courseDirectoryApiKey": {
             "type": "string"
@@ -202,6 +207,10 @@
                             {
                               "name": "CacheExpiryInSeconds",
                               "value": "[parameters('cacheExpiryInSeconds')]"
+                            },
+                            {
+                              "name": "MergeTempProviderData",
+                              "value": "[parameters('mergeTempProviderData')]"
                             }
                         ]
                     },

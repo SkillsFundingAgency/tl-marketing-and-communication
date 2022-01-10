@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Microsoft.Extensions.Caching.Memory;
+using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services
@@ -14,6 +15,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         private const string ProviderTableDataCacheKey = "Provider_Table_Data";
         private const string QualificationTableDataCacheKey = "Qualification_Table_Data";
         private readonly int _cacheExpiryInSeconds;
+        private readonly bool _mergeTempProviderData;
 
         private readonly IMemoryCache _cache;
         private readonly ITableStorageService _tableStorageService;
@@ -26,12 +28,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
             _cacheExpiryInSeconds = configuration?.CacheExpiryInSeconds ?? 60;
+            _mergeTempProviderData = configuration?.MergeTempProviderData ?? false;
         }
-        
+
         public IQueryable<ProviderLocation> GetProviderLocations(int? qualificationId = null)
         {
             var providerLocations = new List<ProviderLocation>();
-            
+
             var qualificationsDictionary = GetAllQualifications()
                 .ToDictionary(q => q.Id);
 
@@ -72,7 +75,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             return providerLocations.AsQueryable();
         }
-        
+
         public IEnumerable<Qualification> GetQualifications(int[] qualificationIds)
         {
             var qualifications = GetAllQualifications();
@@ -131,7 +134,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             return qualifications;
         }
 
-        private IList<Qualification> GetQualificationsForDeliveryYear(
+        private static IList<Qualification> GetQualificationsForDeliveryYear(
             DeliveryYearDto deliveryYear,
             IDictionary<int, Qualification> qualificationsDictionary)
         {
@@ -162,6 +165,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     .GetAllProviders()
                     .GetAwaiter()
                     .GetResult()
+                    .MergeTempProviders(_mergeTempProviderData)
                     .AsQueryable();
 
                 _cache.Set(ProviderTableDataCacheKey, providers, GetCacheOptions());
