@@ -33,7 +33,13 @@ $listgutter: 30px;
 
         @include media-max(medium) {
             flex-direction: column;
+
+            &.nomargin {
+                margin-bottom: 0;
+            }
         }
+
+
 
         li {
             padding: 0 $listgutter;
