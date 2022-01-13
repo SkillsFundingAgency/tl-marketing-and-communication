@@ -35,7 +35,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Extensions
 
             var knownLocation = knownProvider.Locations.First();
             knownLocation.Postcode.Should().Be("ST8 7AR");
-            knownLocation.Town.Should().Be("STOKE-ON-TRENT");
+            knownLocation.Town.Should().Be("Stoke-on-Trent");
             knownLocation.Latitude.Should().Be(53.105857);
             knownLocation.Longitude.Should().Be(-2.171092);
             knownLocation.Website.Should().Be("https://biddulphhigh.co.uk/");
