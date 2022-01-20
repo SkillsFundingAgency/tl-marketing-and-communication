@@ -31,7 +31,8 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             return _providerDataService
                 .GetQualifications()
-                .OrderBy(q => q.Id > 0 ? q.Name : "");
+                .OrderBy(q => q.Id > 0 ? q.Name : "")
+                .Prepend(new Qualification { Id = 0, Name = "All T Level courses" });
         }
 
         public async Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(

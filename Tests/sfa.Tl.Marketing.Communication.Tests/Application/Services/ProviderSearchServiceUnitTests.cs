@@ -34,11 +34,28 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         }
 
         [Fact]
+        public void GetQualifications_Returns_All_Qualifications_From_Data_And_Adds_A_Default_To_Show_All()
+        {
+            var qualifications = new List<Qualification>
+            {
+                new() { Id = 1, Name = "Test Qualification 1" },
+                new() { Id = 2, Name = "Test Qualification 2" }
+            };
+
+            _providerDataService.GetQualifications()
+                .Returns(qualifications);
+
+            var results = _service.GetQualifications().ToList();
+
+            results.Count.Should().Be(3);
+            results.SingleOrDefault(q => q.Id == 0 && q.Name == "All T Level courses").Should().NotBeNull();
+        }
+
+        [Fact]
         public void GetQualifications_Returns_All_Qualifications_OrderBy_Name()
         {
             var qualifications = new List<Qualification>
             {
-                new() { Id = 0, Name = "All T Level courses" },
                 new() { Id = 1, Name = "Xyz" },
                 new() { Id = 2, Name = "Mno" },
                 new() { Id = 3, Name = "Abc" }
@@ -49,7 +66,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var expected = new List<Qualification>
             {
-                qualifications.Single(q => q.Id == 0),
+                new() { Id = 0, Name = "All T Level courses" },
                 qualifications.Single(q => q.Id == 3),
                 qualifications.Single(q => q.Id == 2),
                 qualifications.Single(q => q.Id == 1)
@@ -57,7 +74,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
             var actual = _service.GetQualifications().ToList();
 
-            for (int i = 0; i < actual.Count; i++)
+            for (var i = 0; i < actual.Count; i++)
             {
                 actual[i].Id.Should().Be(expected[i].Id);
                 actual[i].Name.Should().Be(expected[i].Name);

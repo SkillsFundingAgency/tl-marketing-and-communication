@@ -28,14 +28,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         }
  
         [Fact]
-        public void GetQualifications_Returns_All_Qualifications_From_Data_And_Adds_A_Default_To_Show_All()
-        {
-            var results = _providerDataService.GetQualifications().ToList();
-            results.Count.Should().Be(11);
-            results.SingleOrDefault(q => q.Id == 0 && q.Name == "All T Level courses").Should().NotBeNull();
-        }
-
-        [Fact]
         public void GetQualifications_By_Ids_Returns_Qualifications_By_Ids()
         {
             var ids = new[] { 37, 39, 40 };

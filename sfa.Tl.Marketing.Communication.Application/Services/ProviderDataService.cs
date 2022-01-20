@@ -91,9 +91,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public IEnumerable<Qualification> GetQualifications()
         {
-            var qualifications = GetAllQualifications();
-            return qualifications
-                .Append(new Qualification { Id = 0, Name = "All T Level courses" });
+            return GetAllQualifications();
         }
 
         public IDictionary<string, string> GetWebsiteUrls()
