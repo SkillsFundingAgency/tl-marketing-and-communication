@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http.Headers;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Caching;
+using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.GeoLocations;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
@@ -69,7 +71,13 @@ builder.Services.AddAntiforgery(options =>
 });
 
 builder.Services
-    .AddHttpClient<ILocationApiClient, LocationApiClient>();
+    .AddHttpClient<ILocationApiClient, LocationApiClient>(
+        client =>
+        {
+            client.BaseAddress = new Uri(siteConfiguration.PostcodeRetrieverBaseUrl);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        })
+    .AddRetryPolicyHandler<LocationApiClient>();
 
 builder.Services
     .AddTransient<IFileReader, FileReader>()
