@@ -5,7 +5,6 @@ using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline
@@ -22,8 +21,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline
             _providerSearchService = Substitute.For<IProviderSearchService>();
             _searchPipelineFactory = Substitute.For<ISearchPipelineFactory>();
             _mapper = Substitute.For<IMapper>();
-            var logger = Substitute.For<ILogger<ProviderSearchEngine>>();
-            _providerSearchEngine = new ProviderSearchEngine(_providerSearchService, _mapper, _searchPipelineFactory, logger);
+            _providerSearchEngine = new ProviderSearchEngine(_providerSearchService, _mapper, _searchPipelineFactory);
         }
 
         [Fact]
