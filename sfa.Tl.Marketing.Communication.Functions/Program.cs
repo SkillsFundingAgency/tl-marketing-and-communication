@@ -6,6 +6,7 @@ using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
 using sfa.Tl.Marketing.Communication.Application.Services;
@@ -49,7 +50,7 @@ await host.RunAsync();
 static void RegisterHttpClients(IServiceCollection services, CourseDirectoryApiSettings apiConfiguration)
 {
     services.AddHttpClient<ICourseDirectoryDataService, CourseDirectoryDataService>(
-            CourseDirectoryDataService.CourseDirectoryHttpClientName,
+            nameof(CourseDirectoryDataService),
             client =>
             {
                 client.BaseAddress = new Uri(apiConfiguration.ApiBaseUri);
@@ -68,7 +69,8 @@ static void RegisterHttpClients(IServiceCollection services, CourseDirectoryApiS
                 handler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
             }
             return handler;
-        });
+        })
+        .AddRetryPolicyHandler<CourseDirectoryDataService>();
 }
 
 static void RegisterServices(IServiceCollection services, StorageSettings storageConfiguration)

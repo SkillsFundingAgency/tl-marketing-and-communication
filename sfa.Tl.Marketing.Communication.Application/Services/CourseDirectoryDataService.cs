@@ -16,7 +16,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 {
     public class CourseDirectoryDataService : ICourseDirectoryDataService
     {
-        public const string CourseDirectoryHttpClientName = "CourseDirectoryAutoCompressClient";
         public const string CourseDetailEndpoint = "tlevels";
         public const string QualificationsEndpoint = "tleveldefinitions";
 
@@ -36,7 +35,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public async Task<string> GetTLevelDetailJsonFromCourseDirectoryApi()
         {
-            var httpClient = _httpClientFactory.CreateClient(CourseDirectoryHttpClientName);
+            var httpClient = _httpClientFactory.CreateClient(nameof(CourseDirectoryDataService));
 
             _logger.LogInformation($"Call API {httpClient.BaseAddress} endpoint {CourseDetailEndpoint}");
 
@@ -53,7 +52,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public async Task<string> GetTLevelQualificationJsonFromCourseDirectoryApi()
         {
-            var httpClient = _httpClientFactory.CreateClient(CourseDirectoryHttpClientName);
+            var httpClient = _httpClientFactory.CreateClient(nameof(CourseDirectoryDataService));
 
             _logger.LogInformation($"Call API {httpClient.BaseAddress} endpoint {CourseDetailEndpoint}");
 
@@ -72,7 +71,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             _logger.LogInformation("ImportFromCourseDirectoryApi called");
 
-            var httpClient = _httpClientFactory.CreateClient(CourseDirectoryHttpClientName);
+            var httpClient = _httpClientFactory.CreateClient(nameof(CourseDirectoryDataService));
 
             _logger.LogInformation($"Call API {httpClient.BaseAddress} endpoint {CourseDetailEndpoint}");
 
@@ -94,7 +93,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         {
             _logger.LogInformation("ImportFromCourseDirectoryApi called");
 
-            var httpClient = _httpClientFactory.CreateClient(CourseDirectoryHttpClientName);
+            var httpClient = _httpClientFactory.CreateClient(nameof(CourseDirectoryDataService));
 
             _logger.LogInformation($"Call API {httpClient.BaseAddress} endpoint {CourseDetailEndpoint}");
 

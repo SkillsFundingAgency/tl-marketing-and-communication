@@ -23,7 +23,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var responseJson = new CourseDirectoryJsonBuilder().BuildValidTLevelsSingleItemResponse();
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
             httpClientFactory
-                .CreateClient(CourseDirectoryDataService.CourseDirectoryHttpClientName)
+                .CreateClient(nameof(CourseDirectoryDataService))
                 .Returns(new TestHttpClientFactory()
                     .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri,
                         CourseDirectoryDataService.CourseDetailEndpoint,
@@ -45,7 +45,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             var responseJson = new CourseDirectoryJsonBuilder().BuildValidTLevelDefinitionsResponse();
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
             httpClientFactory
-                .CreateClient(CourseDirectoryDataService.CourseDirectoryHttpClientName)
+                .CreateClient(nameof(CourseDirectoryDataService))
                 .Returns(new TestHttpClientFactory()
                     .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri,
                         CourseDirectoryDataService.QualificationsEndpoint,
@@ -66,7 +66,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
             httpClientFactory
-                .CreateClient(CourseDirectoryDataService.CourseDirectoryHttpClientName)
+                .CreateClient(nameof(CourseDirectoryDataService))
                 .Returns(new TestHttpClientFactory()
                     .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri,
                         CourseDirectoryDataService.CourseDetailEndpoint,
@@ -109,7 +109,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
             httpClientFactory
-                .CreateClient(CourseDirectoryDataService.CourseDirectoryHttpClientName)
+                .CreateClient(nameof(CourseDirectoryDataService))
                 .Returns(new TestHttpClientFactory()
                     .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri,
                         CourseDirectoryDataService.CourseDetailEndpoint,
@@ -152,7 +152,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
             httpClientFactory
-                .CreateClient(CourseDirectoryDataService.CourseDirectoryHttpClientName)
+                .CreateClient(nameof(CourseDirectoryDataService))
                 .Returns(new TestHttpClientFactory()
                     .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri,
                         CourseDirectoryDataService.CourseDetailEndpoint,
@@ -196,7 +196,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
             httpClientFactory
-                .CreateClient(CourseDirectoryDataService.CourseDirectoryHttpClientName)
+                .CreateClient(nameof(CourseDirectoryDataService))
                 .Returns(new TestHttpClientFactory()
                     .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri,
                         CourseDirectoryDataService.CourseDetailEndpoint,
@@ -273,7 +273,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
             httpClientFactory
-                .CreateClient(CourseDirectoryDataService.CourseDirectoryHttpClientName)
+                .CreateClient(nameof(CourseDirectoryDataService))
                 .Returns(new TestHttpClientFactory()
                     .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri,
                         CourseDirectoryDataService.QualificationsEndpoint,
@@ -331,7 +331,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         {
             var httpClientFactory = Substitute.For<IHttpClientFactory>();
             httpClientFactory
-                .CreateClient(CourseDirectoryDataService.CourseDirectoryHttpClientName)
+                .CreateClient(nameof(CourseDirectoryDataService))
                 .Returns(new TestHttpClientFactory()
                     .CreateHttpClientWithBaseUri(SettingsBuilder.FindCourseApiBaseUri,
                         CourseDirectoryDataService.QualificationsEndpoint,
