@@ -18,13 +18,16 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
         {
             context.ViewModel.SelectedQualificationId ??= 0;
 
-            var qualifications = _providerSearchService.GetQualifications().ToList();
+            var qualifications = _providerSearchService.GetQualifications();
 
-            if (qualifications.All(q => q.Id != context.ViewModel.SelectedQualificationId))
+            if (context.ViewModel.SelectedQualificationId != 0 &&
+                // ReSharper disable once PossibleMultipleEnumeration
+                qualifications.All(q => q.Id != context.ViewModel.SelectedQualificationId))
             {
                 context.ViewModel.SelectedQualificationId = 0;
             }
-            
+
+            // ReSharper disable once PossibleMultipleEnumeration
             context.ViewModel.Qualifications = qualifications
                 .Select(q =>
                     new SelectListItem
