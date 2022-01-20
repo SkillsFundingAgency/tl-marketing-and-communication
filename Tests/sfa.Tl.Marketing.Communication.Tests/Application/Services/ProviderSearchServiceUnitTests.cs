@@ -103,17 +103,42 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
 
         [Theory]
         [InlineData("mk128jk", true)]
-        [InlineData("mk980kl", false)]
-        public async Task IsSearchPostcodeValid_Validate_A_Postcode(string postcode, bool expected)
+        [InlineData("mk12 8jk", true)]
+        [InlineData("MK12 8JK", true)]
+        [InlineData("MK12  8JK", true)]
+        [InlineData("MK12", true)]
+        [InlineData("L1", true)]
+        public async Task IsSearchPostcodeValid_Validates_Postcode_Via_Service(string postcode, bool expected)
         {
-            _distanceCalculationService.IsPostcodeValid(postcode).Returns((expected, new PostcodeLocation { Postcode = postcode }));
+            _distanceCalculationService
+                .IsPostcodeValid(postcode)
+                .Returns((expected, new PostcodeLocation { Postcode = postcode }));
 
             var (isValid, postcodeLocation) = await _service.IsSearchPostcodeValid(postcode);
 
             isValid.Should().Be(expected);
             postcodeLocation.Should().NotBeNull();
             postcodeLocation.Postcode.Should().Be(postcode);
-            await _distanceCalculationService.Received(1).IsPostcodeValid(postcode);
+
+            await _distanceCalculationService
+                .Received(1)
+                .IsPostcodeValid(postcode);
+        }
+
+        [Theory]
+        [InlineData("L")]
+        [InlineData("OX99 AB999")]
+        [InlineData("2022")]
+        public async Task IsSearchPostcodeValid_Validates_Invalid_Postcode_Via_Regex(string postcode)
+        {
+            var (isValid, postcodeLocation) = await _service.IsSearchPostcodeValid(postcode);
+
+            isValid.Should().BeFalse();
+            postcodeLocation.Should().BeNull();
+
+            await _distanceCalculationService
+                .DidNotReceive()
+                .IsPostcodeValid(postcode);
         }
 
         [Fact]
@@ -131,7 +156,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
             _journeyService.DidNotReceive()
                 .GetDirectionsLink(Arg.Any<string>(), Arg.Any<ProviderLocation>());
         }
-        
+
         [Fact]
         public async Task Search_Returns_ProviderLocations_With_Expected_Details()
         {
@@ -246,7 +271,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 OriginLatitude = "1.5",
                 OriginLongitude = "50"
             };
-            
+
             var providerLocations = new List<ProviderLocation>
             {
                 new(),

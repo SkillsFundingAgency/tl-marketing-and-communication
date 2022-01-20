@@ -3,6 +3,7 @@ using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
@@ -14,6 +15,9 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         private readonly IJourneyService _journeyService;
         private readonly IDistanceCalculationService _distanceCalculationService;
         private readonly ILogger<ProviderSearchService> _logger;
+
+        private const string PostcodeRegexPattern =
+            "^(([A-Z][0-9]{1,2})|(([A-Z][A-HJ-Y][0-9]{1,2})|(([A-Z][0-9][A-Z])|([A-Z][A-HJ-Y][0-9]?[A-Z]))))( *[0-9][A-Z]{2})?$";
 
         public ProviderSearchService(
             IProviderDataService providerDataService,
@@ -137,6 +141,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public async Task<(bool IsValid, PostcodeLocation PostcodeLocation)> IsSearchPostcodeValid(string postcode)
         {
+            if (!Regex.IsMatch(postcode, PostcodeRegexPattern, RegexOptions.IgnoreCase))
+            {
+                _logger.LogInformation("Postcode regex failed for {postcode}", postcode);
+                return (false, null);
+            }
+
             return await _distanceCalculationService.IsPostcodeValid(postcode);
         }
     }
