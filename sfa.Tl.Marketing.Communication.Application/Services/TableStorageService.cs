@@ -106,7 +106,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 }
             }
 
-            _logger.LogDebug($"TableStorageService::GetAllProviders found {providers.Count} providers with {locationEntities.Count} locations.");
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug("TableStorageService::GetAllProviders found {providersCount} providers with {locationEntitiesCount} locations.", 
+                    providers.Count, locationEntities.Count);
+            }
+
             return providers;
         }
 
@@ -148,7 +153,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 (await _qualificationRepository.GetAll())
                 .ToQualificationList();
 
-            _logger.LogDebug($"TableStorageService::GetAllQualifications found {qualifications.Count} records.");
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug("TableStorageService::GetAllQualifications found {qualificationsCount} records.",
+                    qualifications.Count);
+            }
 
             return qualifications;
         }

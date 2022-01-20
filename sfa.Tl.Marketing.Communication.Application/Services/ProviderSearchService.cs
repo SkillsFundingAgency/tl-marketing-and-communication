@@ -37,8 +37,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public async Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(
             SearchRequest searchRequest)
         {
-            _logger.LogInformation("Search::requested search for {postcode} with {numberOfItems} for qualification {qualificationId}",
-                searchRequest.Postcode, searchRequest.NumberOfItems, searchRequest.QualificationId);
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug(
+                    "Search::requested search for {postcode} with {numberOfItems} for qualification {qualificationId}",
+                    searchRequest.Postcode, searchRequest.NumberOfItems, searchRequest.QualificationId);
+            }
 
             var providerLocations = _providerDataService
                 .GetProviderLocations(searchRequest.QualificationId);
