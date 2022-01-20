@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentAssertions;
 using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
@@ -23,11 +22,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
         {
             _providerSearchService = Substitute.For<IProviderSearchService>();
             _mapper = Substitute.For<IMapper>();
-
-            var dateTimeService = Substitute.For<IDateTimeService>();
-            dateTimeService.Today.Returns(DateTime.MaxValue.Date);
-
-            _searchStep = new PerformSearchStep(_providerSearchService, dateTimeService, _mapper);
+            
+            _searchStep = new PerformSearchStep(_providerSearchService, _mapper);
         }
 
         [Fact]

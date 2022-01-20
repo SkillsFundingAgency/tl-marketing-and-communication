@@ -28,10 +28,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline
                 new GetQualificationsStep(providerSearchService),
                 new LoadSearchPageWithNoResultsStep(),
                 new MergeAvailableDeliveryYearsStep(dateTimeService),
-                new PerformSearchStep(providerSearchService, dateTimeService, mapper),
+                new PerformSearchStep(providerSearchService, mapper),
                 new ValidatePostcodeStep(providerSearchService)
             };
-
+            
             _factory = new SearchPipelineFactory(searchSteps);
         }
 

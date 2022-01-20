@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Constants;
 using System.Threading.Tasks;
@@ -8,10 +9,10 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
     public class ValidatePostcodeStep : ISearchStep
     {
         private readonly IProviderSearchService _providerSearchService;
-
+        
         public ValidatePostcodeStep(IProviderSearchService providerSearchService)
         {
-            _providerSearchService = providerSearchService;
+            _providerSearchService = providerSearchService ?? throw new ArgumentNullException(nameof(providerSearchService));
         }
 
         public async Task Execute(ISearchContext context)

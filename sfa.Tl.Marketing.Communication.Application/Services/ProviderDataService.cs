@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Microsoft.Extensions.Caching.Memory;
+using sfa.Tl.Marketing.Communication.Application.Caching;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
@@ -12,8 +13,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 {
     public class ProviderDataService : IProviderDataService
     {
-        private const string ProviderTableDataCacheKey = "Provider_Table_Data";
-        private const string QualificationTableDataCacheKey = "Qualification_Table_Data";
         private readonly int _cacheExpiryInSeconds;
         private readonly bool _mergeTempProviderData;
 
@@ -120,7 +119,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private IQueryable<Qualification> GetAllQualifications()
         {
-            if (!_cache.TryGetValue(QualificationTableDataCacheKey,
+            if (!_cache.TryGetValue(CacheKeys.QualificationTableDataKey,
                 out IQueryable<Qualification> qualifications))
             {
                 qualifications = _tableStorageService
@@ -128,7 +127,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     .GetAwaiter()
                     .GetResult()
                     .AsQueryable();
-                _cache.Set(QualificationTableDataCacheKey, qualifications, GetCacheOptions());
+                _cache.Set(CacheKeys.QualificationTableDataKey, qualifications, CacheUtilities.DefaultMemoryCacheEntryOptions(_cacheExpiryInSeconds));
             }
 
             return qualifications;
@@ -158,7 +157,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         private IQueryable<Provider> GetAllProviders()
         {
-            if (!_cache.TryGetValue(ProviderTableDataCacheKey,
+            if (!_cache.TryGetValue(CacheKeys.ProviderTableDataKey,
                 out IQueryable<Provider> providers))
             {
                 providers = _tableStorageService
@@ -168,18 +167,10 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     .MergeTempProviders(_mergeTempProviderData)
                     .AsQueryable();
 
-                _cache.Set(ProviderTableDataCacheKey, providers, GetCacheOptions());
+                _cache.Set(CacheKeys.ProviderTableDataKey, providers, CacheUtilities.DefaultMemoryCacheEntryOptions(_cacheExpiryInSeconds));
             }
 
             return providers;
-        }
-
-        private MemoryCacheEntryOptions GetCacheOptions()
-        {
-            var options = new MemoryCacheEntryOptions();
-            if (_cacheExpiryInSeconds > 0)
-                options.SetAbsoluteExpiration(TimeSpan.FromSeconds(_cacheExpiryInSeconds));
-            return options;
         }
     }
 }

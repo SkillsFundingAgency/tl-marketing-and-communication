@@ -8,6 +8,9 @@ using sfa.Tl.Marketing.Communication.Models.Dto;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+using sfa.Tl.Marketing.Communication.Models.Configuration;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
@@ -20,7 +23,21 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
         public DistanceCalculationServiceUnitTests()
         {
             _locationApiClient = Substitute.For<ILocationApiClient>();
-            _distanceCalculationService = new DistanceCalculationService(_locationApiClient);
+
+            var dateTimeService = Substitute.For<IDateTimeService>();
+            var logger = Substitute.For<ILogger<DistanceCalculationService>>();
+            var cache = Substitute.For<IMemoryCache>();
+            var configuration = new ConfigurationOptions
+            {
+                PostcodeCacheExpiryInSeconds = 120
+            };
+
+            _distanceCalculationService = new DistanceCalculationService(
+                _locationApiClient, 
+                dateTimeService, 
+                cache, 
+                configuration, 
+                logger);
         }
 
         [Theory]

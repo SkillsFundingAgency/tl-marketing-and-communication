@@ -6,6 +6,7 @@
         public string PostcodeRetrieverBaseUrl { get; init; }
         public StorageSettings StorageConfiguration { get; init; }
         public int CacheExpiryInSeconds { get; init; }
+        public int PostcodeCacheExpiryInSeconds { get; init; }
         public bool MergeTempProviderData { get; init; }
     }
 }

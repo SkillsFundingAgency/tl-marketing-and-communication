@@ -2,7 +2,6 @@
 {
     public static class AppConstants
     {
-        public const int DefaultCacheExpiryInSeconds = 60;
         public const int DefaultNumberOfItemsToShow = 5;
         public const string PostcodeValidationMessage = "You must enter a postcode";
         public const string RealPostcodeValidationMessage = "You must enter a real postcode";

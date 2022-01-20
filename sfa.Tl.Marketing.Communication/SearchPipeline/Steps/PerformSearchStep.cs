@@ -11,16 +11,13 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
 {
     public class PerformSearchStep : ISearchStep
     {
-        private readonly IDateTimeService _dateTimeService;
         private readonly IProviderSearchService _providerSearchService;
         private readonly IMapper _mapper;
 
         public PerformSearchStep(IProviderSearchService providerSearchService,
-            IDateTimeService dateTimeService,
             IMapper mapper)
         {
             _providerSearchService = providerSearchService ?? throw new ArgumentNullException(nameof(providerSearchService));
-            _dateTimeService = dateTimeService ?? throw new ArgumentNullException(nameof(dateTimeService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
