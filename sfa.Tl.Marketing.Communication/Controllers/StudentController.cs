@@ -248,8 +248,8 @@ namespace sfa.Tl.Marketing.Communication.Controllers
             var decodedUrl = WebUtility.UrlDecode(viewModel.Url);
             var targetUrl =
                     decodedUrl is not null 
-                    && (Url.IsLocalUrl(decodedUrl) 
-                        || allowedUrls.ContainsKey(decodedUrl))
+                    && (allowedUrls.ContainsKey(decodedUrl)
+                        || Url.IsLocalUrl(decodedUrl))
                 ? viewModel.Url
                 : "/students";
 
