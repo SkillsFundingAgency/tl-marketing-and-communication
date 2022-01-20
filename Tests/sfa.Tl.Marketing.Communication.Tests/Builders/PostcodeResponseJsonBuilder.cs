@@ -9,8 +9,16 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
             $"{GetType().Namespace}.Data.postcode_response_{postcode.ToLower().Replace(' ', '_')}.json"
                 .ReadManifestResourceStreamAsString();
 
-        public string BuildVTerminatedPostcodeResponse(string postcode) =>
+        public string BuildTerminatedPostcodeResponse(string postcode) =>
             $"{GetType().Namespace}.Data.terminated_postcode_response_{postcode.ToLower().Replace(' ', '_')}.json"
+                .ReadManifestResourceStreamAsString();
+
+        public string BuildOutcodeResponse(string postcode) =>
+            $"{GetType().Namespace}.Data.outcode_response_{postcode.ToLower().Replace(' ', '_')}.json"
+                .ReadManifestResourceStreamAsString();
+
+        public string BuildPostcodeNotFoundResponse() =>
+            $"{GetType().Namespace}.Data.postcode_not_found_response.json"
                 .ReadManifestResourceStreamAsString();
     }
 }

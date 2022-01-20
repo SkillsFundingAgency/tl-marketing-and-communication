@@ -33,9 +33,18 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline
             var context = _searchPipelineFactory.GetSearchContext(viewModel);
             var searchSteps = _searchPipelineFactory.GetSearchSteps(_providerSearchService, _mapper);
 
+            var innerStopwatch = new Stopwatch();
             foreach (var searchStep in searchSteps)
             {
+                innerStopwatch.Restart();
+
                 await searchStep.Execute(context);
+
+                innerStopwatch.Stop();
+                _logger.LogInformation("Search step {step} - {milliseconds}ms, {ticks} ticks", 
+                    searchStep.GetType().Name, 
+                    innerStopwatch.ElapsedMilliseconds,
+                    innerStopwatch.ElapsedTicks);
 
                 if (!context.Continue)
                 {

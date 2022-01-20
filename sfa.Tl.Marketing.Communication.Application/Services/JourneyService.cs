@@ -13,5 +13,12 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             //See https://developers.google.com/maps/documentation/urls/get-started#forming-the-directions-url
             return $"{BaseUrl}origin={WebUtility.UrlEncode(fromPostcode)}&destination={WebUtility.UrlEncode(toLocation.Postcode)}&travelmode=transit";
         }
+
+        public string GetDirectionsLink_2(string fromPostcode, string toPostcode)
+        {
+            //See https://developers.google.com/maps/documentation/urls/get-started#forming-the-directions-url
+
+            return $"{BaseUrl}origin={WebUtility.UrlEncode(fromPostcode)}&destination={WebUtility.UrlEncode(toPostcode)}&travelmode=transit";
+        }
     }
 }
