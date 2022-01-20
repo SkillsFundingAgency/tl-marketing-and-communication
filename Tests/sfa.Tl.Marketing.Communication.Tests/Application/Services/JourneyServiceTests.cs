@@ -16,7 +16,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 "B91 1SB",
                 new ProviderLocationBuilder().Build());
 
-            // ReSharper disable once StringLiteralTypo
             result.Should().Be("https://www.google.com/maps/dir/?api=1&origin=B91+1SB&destination=CV1+2WT&travelmode=transit");
         }
     }

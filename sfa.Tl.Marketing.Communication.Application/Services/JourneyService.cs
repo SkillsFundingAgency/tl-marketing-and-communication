@@ -11,8 +11,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public string GetDirectionsLink(string fromPostcode, ProviderLocation toLocation)
         {
             //See https://developers.google.com/maps/documentation/urls/get-started#forming-the-directions-url
-
-            // ReSharper disable once StringLiteralTypo
             return $"{BaseUrl}origin={WebUtility.UrlEncode(fromPostcode)}&destination={WebUtility.UrlEncode(toLocation.Postcode)}&travelmode=transit";
         }
     }
