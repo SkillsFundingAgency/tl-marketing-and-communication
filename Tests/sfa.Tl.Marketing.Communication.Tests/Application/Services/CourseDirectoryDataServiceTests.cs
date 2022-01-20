@@ -228,6 +228,8 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 .Returns(x => ((IList<Provider>)x[0]).Count);
 
             var logger = Substitute.For<ILogger<CourseDirectoryDataService>>();
+            logger.IsEnabled(LogLevel.Warning).Returns(true);
+
             var service = BuildCourseDirectoryDataService(httpClientFactory, tableStorageService, logger);
 
             var (savedCount, deletedCount) = await service
@@ -257,15 +259,24 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services
                 "Venue name for 10000055 ABINGDON AND WITNEY COLLEGE OX14 1GG changed from 'Old Venue Name' to 'ABINGDON CAMPUS'";
 
             logger.ReceivedCalls()
+                .Where(call => (LogLevel)call.GetArguments()[0] == LogLevel.Warning)
                 .Select(call => call.GetArguments())
                 .Count(callArguments =>
                 {
-                    var logLevel = (LogLevel) callArguments[0];
-                    var logValues = (IReadOnlyList<KeyValuePair<string, object>>) callArguments[2];
+                    if (callArguments.Length <= 2)
+                    {
+                        return false;
+                    }
+
+                    var logLevel = (LogLevel)callArguments[0];
+                    var logValues = (IReadOnlyList<KeyValuePair<string, object>>)callArguments[2];
+
                     return logLevel.Equals(LogLevel.Warning) &&
-                           logValues[^1].Value.Equals(expectedMessage);
+                           logValues != null &&
+                           logValues.ToString()!.Equals(expectedMessage);
                 })
-                .Should().Be(1);
+                .Should()
+                .Be(1);
         }
 
         [Fact]

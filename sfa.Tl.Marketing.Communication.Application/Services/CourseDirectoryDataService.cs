@@ -36,13 +36,19 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public async Task<string> GetTLevelDetailJsonFromCourseDirectoryApi()
         {
             var httpClient = _httpClientFactory.CreateClient(nameof(CourseDirectoryDataService));
+            const string endpoint = CourseDetailEndpoint;
 
-            _logger.LogInformation($"Call API {httpClient.BaseAddress} endpoint {CourseDetailEndpoint}");
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug("{method} calling API {httpClientBaseAddress} endpoint {endpoint}",
+                    nameof(GetTLevelDetailJsonFromCourseDirectoryApi), httpClient.BaseAddress, endpoint);
+            }
 
-            var response = await httpClient.GetAsync(CourseDetailEndpoint);
+            var response = await httpClient.GetAsync(endpoint);
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
+                _logger.LogError("API call to endpoint {endpoint} failed with {statusCode} - {reasonPhrase}",
+                    endpoint, response.StatusCode, response.ReasonPhrase);
             }
 
             response.EnsureSuccessStatusCode();
@@ -53,13 +59,19 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
         public async Task<string> GetTLevelQualificationJsonFromCourseDirectoryApi()
         {
             var httpClient = _httpClientFactory.CreateClient(nameof(CourseDirectoryDataService));
+            const string endpoint = QualificationsEndpoint;
 
-            _logger.LogInformation($"Call API {httpClient.BaseAddress} endpoint {CourseDetailEndpoint}");
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug("{method} calling API {httpClientBaseAddress} endpoint {endpoint}",
+                    nameof(GetTLevelQualificationJsonFromCourseDirectoryApi), httpClient.BaseAddress, endpoint);
+            }
 
-            var response = await httpClient.GetAsync(QualificationsEndpoint);
+            var response = await httpClient.GetAsync(endpoint);
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
+                _logger.LogError("API call to endpoint {endpoint} failed with {statusCode} - {reasonPhrase}",
+                    endpoint, response.StatusCode, response.ReasonPhrase);
             }
 
             response.EnsureSuccessStatusCode();
@@ -69,16 +81,20 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public async Task<(int Saved, int Deleted)> ImportProvidersFromCourseDirectoryApi()
         {
-            _logger.LogInformation("ImportFromCourseDirectoryApi called");
-
             var httpClient = _httpClientFactory.CreateClient(nameof(CourseDirectoryDataService));
+            const string endpoint = CourseDetailEndpoint;
 
-            _logger.LogInformation($"Call API {httpClient.BaseAddress} endpoint {CourseDetailEndpoint}");
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug("{method} calling API {httpClientBaseAddress} endpoint {endpoint}",
+                    nameof(ImportProvidersFromCourseDirectoryApi), httpClient.BaseAddress, endpoint);
+            }
 
-            var response = await httpClient.GetAsync(CourseDetailEndpoint);
+            var response = await httpClient.GetAsync(endpoint);
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
+                _logger.LogError("API call to endpoint {endpoint} failed with {statusCode} - {reasonPhrase}",
+                    endpoint, response.StatusCode, response.ReasonPhrase);
             }
 
             response.EnsureSuccessStatusCode();
@@ -91,16 +107,20 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
         public async Task<(int Saved, int Deleted)> ImportQualificationsFromCourseDirectoryApi()
         {
-            _logger.LogInformation("ImportFromCourseDirectoryApi called");
-
             var httpClient = _httpClientFactory.CreateClient(nameof(CourseDirectoryDataService));
+            const string endpoint = QualificationsEndpoint;
 
-            _logger.LogInformation($"Call API {httpClient.BaseAddress} endpoint {CourseDetailEndpoint}");
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug("{method} calling API {httpClientBaseAddress} endpoint {endpoint}",
+                    nameof(ImportQualificationsFromCourseDirectoryApi), httpClient.BaseAddress, endpoint);
+            }
 
-            var response = await httpClient.GetAsync(QualificationsEndpoint);
+            var response = await httpClient.GetAsync(endpoint);
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                _logger.LogError($"API call failed with {response.StatusCode} - {response.ReasonPhrase}");
+                _logger.LogError("API call to endpoint {endpoint} failed with {statusCode} - {reasonPhrase}",
+                    QualificationsEndpoint, response.StatusCode, response.ReasonPhrase);
             }
 
             response.EnsureSuccessStatusCode();
@@ -125,7 +145,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
                 if (!DateTime.TryParse(courseElement.SafeGetString("startDate"), out var startDate))
                 {
-                    _logger.LogWarning($"Could not read start date for course record with tLevelId {tLevelId}.");
+                    _logger.LogWarning("Could not read start date for course record with tLevelId {tLevelId}.", tLevelId);
                     continue;
                 }
 
@@ -134,19 +154,32 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                     : 0;
                 if (qualification == 0)
                 {
-                    _logger.LogWarning($"Could not find qualification for course record with tLevelId {tLevelId}.");
+                    if (_logger.IsEnabled(LogLevel.Warning))
+                    {
+                        _logger.LogWarning("Could not find qualification for course record with tLevelId {tLevelId}.",
+                            tLevelId);
+                    }
+
                     continue;
                 }
 
                 if (!courseElement.TryGetProperty("provider", out var providerProperty))
                 {
-                    _logger.LogWarning($"Could not find provider property for course record with tLevelId {tLevelId}.");
+                    if (_logger.IsEnabled(LogLevel.Warning))
+                    {
+                        _logger.LogWarning(
+                            "Could not find provider property for course record with tLevelId {tLevelId}.", tLevelId);
+                    }
                     continue;
                 }
 
                 if (!int.TryParse(providerProperty.SafeGetString("ukprn"), out var ukPrn))
                 {
-                    _logger.LogWarning($"Could not find ukprn property for course record with tLevelId {tLevelId}.");
+                    if (_logger.IsEnabled(LogLevel.Warning))
+                    {
+                        _logger.LogWarning(
+                            "Could not find ukprn property for course record with tLevelId {tLevelId}.", tLevelId);
+                    }
                     continue;
                 }
 
@@ -168,8 +201,11 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
                 if (!courseElement.TryGetProperty("locations", out var locationsProperty))
                 {
-                    _logger.LogWarning(
-                        $"Could not find locations property for course record with tLevelId {tLevelId}.");
+                    if (_logger.IsEnabled(LogLevel.Warning))
+                    {
+                        _logger.LogWarning(
+                            "Could not find locations property for course record with tLevelId {tLevelId}.", tLevelId);
+                    }
                     continue;
                 }
 
@@ -250,7 +286,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             {
                 var parts = fullName.Split('-');
 
-                route = parts.Length > 1 
+                route = parts.Length > 1
                     ? Regex.Replace(parts[0],
                             "^T Level", "", RegexOptions.IgnoreCase)
                         .ToTitleCase()
@@ -280,14 +316,15 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             if (providersToInsertOrUpdate.Any())
             {
                 savedProviders = await _tableStorageService.SaveProviders(providersToInsertOrUpdate);
-                _logger.LogInformation($"Saved {savedProviders} providers to table storage");
+                _logger.LogInformation("Saved {savedProviders} providers to table storage", savedProviders);
             }
 
             var deletedProviders = 0;
             if (providersToDelete.Any())
             {
                 deletedProviders = await _tableStorageService.RemoveProviders(providersToDelete);
-                _logger.LogInformation($"Deleted {deletedProviders} providers from table storage");
+                _logger.LogInformation("Deleted {deletedProviders} providers from table storage", savedProviders);
+
             }
 
             return (Saved: savedProviders, Deleted: deletedProviders);
@@ -309,14 +346,14 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             if (qualificationsToInsertOrUpdate.Any())
             {
                 savedQualifications = await _tableStorageService.SaveQualifications(qualificationsToInsertOrUpdate);
-                _logger.LogInformation($"Saved {savedQualifications} qualifications to table storage");
+                _logger.LogInformation("Saved {savedQualifications} qualifications to table storage", savedQualifications);
             }
 
             var deletedQualifications = 0;
             if (qualificationsToDelete.Any())
             {
                 deletedQualifications = await _tableStorageService.RemoveQualifications(qualificationsToDelete);
-                _logger.LogInformation($"Deleted {deletedQualifications} qualifications from table storage");
+                _logger.LogInformation("Deleted {deletedQualifications} qualifications from table storage", deletedQualifications);
             }
 
             return (Saved: savedQualifications, Deleted: deletedQualifications);
@@ -339,45 +376,6 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                 {
                     hasChanges |= LocationIsNewOrHasChanges(provider, location, matchingLocation);
                 }
-
-                //if (matchingLocation != null)
-                //{
-                //    var hasLocationChanges = false;
-
-                //    if (matchingLocation.Name != location.Name)
-                //    {
-                //        hasLocationChanges = true;
-                //        hasChanges = true;
-                //        _logger.LogWarning($"Venue name for {provider.UkPrn} {provider.Name} {location.Postcode} " +
-                //                           $"changed from '{location.Name}' to '{matchingLocation.Name}'");
-                //        //At this point we don't need to keep checking, because we have logged the venue name change
-                //        continue;
-                //    }
-
-                //    hasLocationChanges |= matchingLocation.Town != location.Town;
-                //    hasLocationChanges |= matchingLocation.Website != location.Website;
-
-                //    hasLocationChanges |= Math.Abs(matchingLocation.Latitude - location.Latitude) > .000001;
-                //    hasLocationChanges |= Math.Abs(matchingLocation.Longitude - location.Longitude) > .000001;
-
-                //    hasLocationChanges |= matchingLocation.DeliveryYears.Count != location.DeliveryYears.Count;
-
-                //    foreach (var deliveryYear in matchingLocation.DeliveryYears)
-                //    {
-                //        var matchingDeliveryYear =
-                //            location.DeliveryYears.FirstOrDefault(dy => dy.Year == deliveryYear.Year);
-                //        hasLocationChanges |= matchingDeliveryYear == null;
-
-                //        if (matchingDeliveryYear != null)
-                //        {
-                //            hasLocationChanges |= matchingDeliveryYear.Qualifications.Count !=
-                //                                  deliveryYear.Qualifications.Count;
-
-                //            hasLocationChanges |= (matchingDeliveryYear.Qualifications.Any(qualification =>
-                //                !deliveryYear.Qualifications.Contains(qualification)));
-                //        }
-                //    }
-                //}
             }
 
             return hasChanges;
@@ -389,8 +387,15 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
             {
                 if (matchingLocation.Name != location.Name)
                 {
-                    _logger.LogWarning($"Venue name for {provider.UkPrn} {provider.Name} {location.Postcode} " +
-                                       $"changed from '{location.Name}' to '{matchingLocation.Name}'");
+                    if (_logger.IsEnabled(LogLevel.Warning))
+                    {
+                        _logger.LogWarning(
+                            "Venue name for {provider.UkPrn} {provider.Name} {location.Postcode} " +
+                            "changed from '{location.Name}' to '{matchingLocation.Name}'",
+                            provider.UkPrn, provider.Name, location.Postcode,
+                            location.Name, matchingLocation.Name);
+                    }
+
                     //At this point we don't need to keep checking, because we have logged the venue name change
                     return true;
                 }

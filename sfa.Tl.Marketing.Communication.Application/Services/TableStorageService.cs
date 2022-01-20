@@ -143,7 +143,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
 
             var saved = await _qualificationRepository.Save(qualificationEntities);
 
-            _logger.LogInformation($"TableStorageService::SaveQualifications saved {saved} records.");
+            _logger.LogInformation("TableStorageService::SaveQualifications saved {saved} records.", saved);
             return saved;
         }
 
