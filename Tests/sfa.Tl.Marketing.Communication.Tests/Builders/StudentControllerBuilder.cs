@@ -5,33 +5,32 @@ using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Controllers;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 
-namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
+namespace sfa.Tl.Marketing.Communication.UnitTests.Builders;
+
+public class StudentControllerBuilder
 {
-    public class StudentControllerBuilder
+    public StudentController BuildStudentController(
+        IProviderDataService providerDataService = null,
+        IProviderSearchEngine providerSearchEngine = null,
+        IUrlHelper urlHelper = null)
     {
-        public StudentController BuildStudentController(
-            IProviderDataService providerDataService = null,
-            IProviderSearchEngine providerSearchEngine = null,
-            IUrlHelper urlHelper = null)
+        providerDataService ??= Substitute.For<IProviderDataService>();
+        providerSearchEngine ??= Substitute.For<IProviderSearchEngine>();
+
+        var controller = new StudentController(providerDataService, providerSearchEngine)
         {
-            providerDataService ??= Substitute.For<IProviderDataService>();
-            providerSearchEngine ??= Substitute.For<IProviderSearchEngine>();
-
-            var controller = new StudentController(providerDataService, providerSearchEngine)
+            ControllerContext = new ControllerContext
             {
-                ControllerContext = new ControllerContext
-                {
-                    HttpContext = new DefaultHttpContext()
-                }
-            };
-
-            if (urlHelper is not null)
-            {
-                controller.Url = urlHelper;
+                HttpContext = new DefaultHttpContext()
             }
+        };
 
-            return controller;
+        if (urlHelper is not null)
+        {
+            controller.Url = urlHelper;
         }
 
+        return controller;
     }
+
 }

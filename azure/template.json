@@ -54,6 +54,10 @@
           "type": "int",
           "defaultValue": "60"
         },
+        "postcodeCacheExpiryInSeconds": {
+          "type": "int",
+          "defaultValue": "300"
+        },
         "mergeTempProviderData": {
           "type": "bool",
           "defaultValue": false
@@ -207,6 +211,10 @@
                             {
                               "name": "CacheExpiryInSeconds",
                               "value": "[parameters('cacheExpiryInSeconds')]"
+                            },
+                            {
+                              "name": "PostcodeCacheExpiryInSeconds",
+                              "value": "[parameters('postcodeCacheExpiryInSeconds')]"
                             },
                             {
                               "name": "MergeTempProviderData",

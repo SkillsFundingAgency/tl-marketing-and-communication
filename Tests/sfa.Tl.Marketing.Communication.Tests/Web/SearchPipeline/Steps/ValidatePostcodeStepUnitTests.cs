@@ -9,98 +9,97 @@ using System.Threading.Tasks;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using Xunit;
 
-namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
+namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps;
+
+public class ValidatePostcodeStepUnitTests
 {
-    public class ValidatePostcodeStepUnitTests
+    private readonly IProviderSearchService _providerSearchService;
+    private readonly ISearchStep _searchStep;
+
+    public ValidatePostcodeStepUnitTests()
     {
-        private readonly IProviderSearchService _providerSearchService;
-        private readonly ISearchStep _searchStep;
+        _providerSearchService = Substitute.For<IProviderSearchService>();
+        _searchStep = new ValidatePostcodeStep(_providerSearchService);
+    }
 
-        public ValidatePostcodeStepUnitTests()
+    [Fact]
+    public async Task Step_Validate_Empty_Postcode()
+    {
+        var viewModel = new FindViewModel
         {
-            _providerSearchService = Substitute.For<IProviderSearchService>();
-            _searchStep = new ValidatePostcodeStep(_providerSearchService);
-        }
-
-        [Fact]
-        public async Task Step_Validate_Empty_Postcode()
-        {
-            var viewModel = new FindViewModel
-            {
-                Postcode = string.Empty
-            };
+            Postcode = string.Empty
+        };
             
-            var context = new SearchContext(viewModel);
+        var context = new SearchContext(viewModel);
 
-            await _searchStep.Execute(context);
+        await _searchStep.Execute(context);
 
-            context.ViewModel.ValidationStyle.Should().Be(AppConstants.ValidationStyle);
-            context.ViewModel.PostcodeValidationMessage.Should().Be(AppConstants.PostcodeValidationMessage);
-            context.Continue.Should().BeFalse();
-        }
+        context.ViewModel.ValidationStyle.Should().Be(AppConstants.ValidationStyle);
+        context.ViewModel.PostcodeValidationMessage.Should().Be(AppConstants.PostcodeValidationMessage);
+        context.Continue.Should().BeFalse();
+    }
 
-        [Fact]
-        public async Task Step_Validate_Wrong_Postcode()
+    [Fact]
+    public async Task Step_Validate_Wrong_Postcode()
+    {
+        const string postcode = "dddfd";
+        const double latitude = 50.0123;
+        const double longitude = 1.987;
+        const bool isValid = false;
+
+        var postcodeLocation = new PostcodeLocation
         {
-            const string postcode = "dddfd";
-            const double latitude = 50.0123;
-            const double longitude = 1.987;
-            const bool isValid = false;
+            Postcode = postcode,
+            Latitude = latitude,
+            Longitude = longitude
+        };
 
-            var postcodeLocation = new PostcodeLocation
-            {
-                Postcode = postcode,
-                Latitude = latitude,
-                Longitude = longitude
-            };
-
-            var viewModel = new FindViewModel
-            {
-                Postcode = postcode
-            };
-
-            var context = new SearchContext(viewModel);
-
-            _providerSearchService.IsSearchPostcodeValid(Arg.Is<string>(p => p == postcode)).Returns((isValid,  postcodeLocation));
-
-            await _searchStep.Execute(context);
-
-            context.ViewModel.ValidationStyle.Should().Be(AppConstants.ValidationStyle);
-            context.ViewModel.PostcodeValidationMessage.Should().Be(AppConstants.RealPostcodeValidationMessage);
-            context.Continue.Should().BeFalse();
-            await _providerSearchService.Received(1).IsSearchPostcodeValid(Arg.Is<string>(p => p == postcode));
-        }
-
-        [Fact]
-        public async Task Step_Validate_Postcode_And_()
+        var viewModel = new FindViewModel
         {
-            const string postcode = "mk 4 2 8 y u";
-            const string expected = "MK42 8YU";
-            const double latitude = 50.0123;
-            const double longitude = 1.987;
-            const bool isValid = true;
+            Postcode = postcode
+        };
 
-            var expectedPostcodeLocation = new PostcodeLocation
-            {
-                Postcode = expected,
-                Latitude = latitude,
-                Longitude = longitude
-            };
+        var context = new SearchContext(viewModel);
 
-            var viewModel = new FindViewModel
-            {
-                Postcode = postcode
-            };
+        _providerSearchService.IsSearchPostcodeValid(Arg.Is<string>(p => p == postcode)).Returns((isValid,  postcodeLocation));
+
+        await _searchStep.Execute(context);
+
+        context.ViewModel.ValidationStyle.Should().Be(AppConstants.ValidationStyle);
+        context.ViewModel.PostcodeValidationMessage.Should().Be(AppConstants.RealPostcodeValidationMessage);
+        context.Continue.Should().BeFalse();
+        await _providerSearchService.Received(1).IsSearchPostcodeValid(Arg.Is<string>(p => p == postcode));
+    }
+
+    [Fact]
+    public async Task Step_Validate_Postcode_And_()
+    {
+        const string postcode = "mk 4 2 8 y u";
+        const string expected = "MK42 8YU";
+        const double latitude = 50.0123;
+        const double longitude = 1.987;
+        const bool isValid = true;
+
+        var expectedPostcodeLocation = new PostcodeLocation
+        {
+            Postcode = expected,
+            Latitude = latitude,
+            Longitude = longitude
+        };
+
+        var viewModel = new FindViewModel
+        {
+            Postcode = postcode
+        };
             
-            var context = new SearchContext(viewModel);
+        var context = new SearchContext(viewModel);
 
-            _providerSearchService.IsSearchPostcodeValid(Arg.Is<string>(p => p == postcode)).Returns((isValid, expectedPostcodeLocation));
+        _providerSearchService.IsSearchPostcodeValid(Arg.Is<string>(p => p == postcode)).Returns((isValid, expectedPostcodeLocation));
 
-            await _searchStep.Execute(context);
+        await _searchStep.Execute(context);
 
-            context.ViewModel.Postcode.Should().Be(expected);
-            context.Continue.Should().BeTrue();
-            await _providerSearchService.Received(1).IsSearchPostcodeValid(Arg.Is<string>(p => p == postcode));
-        }
+        context.ViewModel.Postcode.Should().Be(expected);
+        context.Continue.Should().BeTrue();
+        await _providerSearchService.Received(1).IsSearchPostcodeValid(Arg.Is<string>(p => p == postcode));
     }
 }

@@ -1,9 +1,8 @@
 ﻿using sfa.Tl.Marketing.Communication.Models.Dto;
 
-namespace sfa.Tl.Marketing.Communication.Application.Interfaces
+namespace sfa.Tl.Marketing.Communication.Application.Interfaces;
+
+public interface IJourneyService
 {
-    public interface IJourneyService
-    {
-        string GetDirectionsLink(string fromPostcode, ProviderLocation toLocation);
-    }
+    string GetDirectionsLink(string fromPostcode, ProviderLocation toLocation);
 }

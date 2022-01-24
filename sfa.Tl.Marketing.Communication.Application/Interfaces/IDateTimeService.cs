@@ -2,12 +2,11 @@
 
 // ReSharper disable UnusedMember.Global
 
-namespace sfa.Tl.Marketing.Communication.Application.Interfaces
+namespace sfa.Tl.Marketing.Communication.Application.Interfaces;
+
+public interface IDateTimeService
 {
-    public interface IDateTimeService
-    {
-        DateTime Now { get; }
-        DateTime UtcNow { get; }
-        DateTime Today { get; }
-    }
+    DateTime Now { get; }
+    DateTime UtcNow { get; }
+    DateTime Today { get; }
 }

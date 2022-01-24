@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 
-namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
+namespace sfa.Tl.Marketing.Communication.UnitTests.Builders;
+
+public class DeliveryYearBuilder
 {
-    public class DeliveryYearBuilder
+    public DeliveryYear Build() => new()
     {
-        public DeliveryYear Build() => new()
+        Year = 2020,
+        Qualifications = new List<Qualification>
         {
-            Year = 2020,
-            Qualifications = new List<Qualification>
+            new()
             {
-                new()
-                {
-                    Id = 1,
-                    Name = "Test Qualification"
-                }
+                Id = 1,
+                Name = "Test Qualification"
             }
-        };
-    }
+        }
+    };
 }
