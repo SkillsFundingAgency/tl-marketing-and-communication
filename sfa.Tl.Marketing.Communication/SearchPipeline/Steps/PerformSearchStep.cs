@@ -7,43 +7,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
+namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
+
+public class PerformSearchStep : ISearchStep
 {
-    public class PerformSearchStep : ISearchStep
+    private readonly IProviderSearchService _providerSearchService;
+    private readonly IMapper _mapper;
+
+    public PerformSearchStep(IProviderSearchService providerSearchService,
+        IMapper mapper)
     {
-        private readonly IProviderSearchService _providerSearchService;
-        private readonly IMapper _mapper;
+        _providerSearchService = providerSearchService ?? throw new ArgumentNullException(nameof(providerSearchService));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+    }
 
-        public PerformSearchStep(IProviderSearchService providerSearchService,
-            IMapper mapper)
+    public async Task Execute(ISearchContext context)
+    {
+        var searchRequest = new SearchRequest
         {
-            _providerSearchService = providerSearchService ?? throw new ArgumentNullException(nameof(providerSearchService));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            Postcode = context.ViewModel.Postcode,
+            OriginLatitude = context.ViewModel.Latitude,
+            OriginLongitude = context.ViewModel.Longitude,
+            NumberOfItems = context.ViewModel.NumberOfItemsToShow ?? 0,
+            QualificationId = context.ViewModel.SelectedQualificationId
+        };
+
+        var (totalCount, searchResults) = await _providerSearchService.Search(searchRequest);
+
+        var providerViewModels = _mapper.Map<IEnumerable<ProviderLocationViewModel>>(searchResults).ToList();
+
+        context.ViewModel.TotalRecordCount = totalCount;
+        if (providerViewModels.Count > context.ViewModel.SelectedItemIndex)
+        {
+            providerViewModels[context.ViewModel.SelectedItemIndex].HasFocus = true;
         }
 
-        public async Task Execute(ISearchContext context)
-        {
-            var searchRequest = new SearchRequest
-            {
-                Postcode = context.ViewModel.Postcode,
-                OriginLatitude = context.ViewModel.Latitude,
-                OriginLongitude = context.ViewModel.Longitude,
-                NumberOfItems = context.ViewModel.NumberOfItemsToShow ?? 0,
-                QualificationId = context.ViewModel.SelectedQualificationId
-            };
-
-            var (totalCount, searchResults) = await _providerSearchService.Search(searchRequest);
-
-            var providerViewModels = _mapper.Map<IEnumerable<ProviderLocationViewModel>>(searchResults).ToList();
-
-            context.ViewModel.TotalRecordCount = totalCount;
-            if (providerViewModels.Count > context.ViewModel.SelectedItemIndex)
-            {
-                providerViewModels[context.ViewModel.SelectedItemIndex].HasFocus = true;
-            }
-
-            context.ViewModel.ProviderLocations = providerViewModels;
-            context.ViewModel.SearchedQualificationId = context.ViewModel.SelectedQualificationId ?? -1;
-        }
+        context.ViewModel.ProviderLocations = providerViewModels;
+        context.ViewModel.SearchedQualificationId = context.ViewModel.SelectedQualificationId ?? -1;
     }
 }

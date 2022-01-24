@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace sfa.Tl.Marketing.Communication.Models.Dto
+namespace sfa.Tl.Marketing.Communication.Models.Dto;
+
+[DebuggerDisplay("UKPRN {" + nameof(UkPrn) + "}" +
+                 " {" + nameof(Name) + ", nq}")]
+public class Provider
 {
-    [DebuggerDisplay("UKPRN {" + nameof(UkPrn) + "}" +
-                     " {" + nameof(Name) + ", nq}")]
-    public class Provider
-    {
-        public long UkPrn { get; init; }
-        public string Name { get; init; }
-        public IList<Location> Locations { get; set; }
-    }
+    public long UkPrn { get; init; }
+    public string Name { get; init; }
+    public IList<Location> Locations { get; set; }
 }

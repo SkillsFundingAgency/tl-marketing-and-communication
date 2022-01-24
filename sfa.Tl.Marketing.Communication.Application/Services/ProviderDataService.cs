@@ -9,45 +9,45 @@ using sfa.Tl.Marketing.Communication.Application.Caching;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
-namespace sfa.Tl.Marketing.Communication.Application.Services
+namespace sfa.Tl.Marketing.Communication.Application.Services;
+
+public class ProviderDataService : IProviderDataService
 {
-    public class ProviderDataService : IProviderDataService
+    private readonly int _cacheExpiryInSeconds;
+    private readonly bool _mergeTempProviderData;
+
+    private readonly IMemoryCache _cache;
+    private readonly ITableStorageService _tableStorageService;
+
+    public ProviderDataService(
+        ITableStorageService tableStorageService,
+        IMemoryCache cache,
+        ConfigurationOptions configuration)
     {
-        private readonly int _cacheExpiryInSeconds;
-        private readonly bool _mergeTempProviderData;
+        _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
+        _cache = cache ?? throw new ArgumentNullException(nameof(cache));
+        _cacheExpiryInSeconds = configuration?.CacheExpiryInSeconds ?? 60;
+        _mergeTempProviderData = configuration?.MergeTempProviderData ?? false;
+    }
 
-        private readonly IMemoryCache _cache;
-        private readonly ITableStorageService _tableStorageService;
+    public IQueryable<ProviderLocation> GetProviderLocations(int? qualificationId = null)
+    {
+        var providerLocations = new List<ProviderLocation>();
 
-        public ProviderDataService(
-            ITableStorageService tableStorageService,
-            IMemoryCache cache,
-            ConfigurationOptions configuration)
+        var qualificationsDictionary = GetAllQualifications()
+            .ToDictionary(q => q.Id);
+
+        foreach (var provider in GetAllProviders())
         {
-            _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
-            _cache = cache ?? throw new ArgumentNullException(nameof(cache));
-            _cacheExpiryInSeconds = configuration?.CacheExpiryInSeconds ?? 60;
-            _mergeTempProviderData = configuration?.MergeTempProviderData ?? false;
-        }
+            var locations =
+                qualificationId > 0
+                    ? provider.Locations
+                        .Where(l => l.DeliveryYears.Any(d => d.Qualifications.Contains(qualificationId.Value)))
+                        .ToList()
+                    : provider.Locations;
 
-        public IQueryable<ProviderLocation> GetProviderLocations(int? qualificationId = null)
-        {
-            var providerLocations = new List<ProviderLocation>();
-
-            var qualificationsDictionary = GetAllQualifications()
-                .ToDictionary(q => q.Id);
-
-            foreach (var provider in GetAllProviders())
-            {
-                var locations =
-                    qualificationId > 0
-                        ? provider.Locations
-                            .Where(l => l.DeliveryYears.Any(d => d.Qualifications.Contains(qualificationId.Value)))
-                            .ToList()
-                        : provider.Locations;
-
-                var currentProviderLocation =
-                    locations.Select(l => new ProviderLocation
+            var currentProviderLocation =
+                locations.Select(l => new ProviderLocation
                     {
                         ProviderName = provider.Name,
                         Name = l.Name,
@@ -57,118 +57,117 @@ namespace sfa.Tl.Marketing.Communication.Application.Services
                         Town = l.Town,
                         Website = l.Website,
                         DeliveryYears = l.DeliveryYears != null
-                                ? l.DeliveryYears
-                                    .Select(d => new DeliveryYear
-                                    {
-                                        Year = d.Year,
-                                        Qualifications = GetQualificationsForDeliveryYear(d, qualificationsDictionary)
-                                    })
-                                    .OrderBy(d => d.Year)
-                                    .ToList()
-                                : new List<DeliveryYear>()
+                            ? l.DeliveryYears
+                                .Select(d => new DeliveryYear
+                                {
+                                    Year = d.Year,
+                                    Qualifications = GetQualificationsForDeliveryYear(d, qualificationsDictionary)
+                                })
+                                .OrderBy(d => d.Year)
+                                .ToList()
+                            : new List<DeliveryYear>()
                     })
-                        .Where(pl => pl.DeliveryYears.Any(y => y.Qualifications.Any()));
+                    .Where(pl => pl.DeliveryYears.Any(y => y.Qualifications.Any()));
 
-                providerLocations.AddRange(currentProviderLocation);
-            }
-
-            return providerLocations.AsQueryable();
+            providerLocations.AddRange(currentProviderLocation);
         }
 
-        public IEnumerable<Qualification> GetQualifications(int[] qualificationIds)
-        {
-            var qualifications = GetAllQualifications();
-            return qualifications
-                .Where(q => qualificationIds.Contains(q.Id))
-                .OrderBy(q => q.Name);
-        }
+        return providerLocations.AsQueryable();
+    }
 
-        public Qualification GetQualification(int qualificationId)
-        {
-            var qualifications = GetAllQualifications();
-            return qualifications.SingleOrDefault(q => q.Id == qualificationId);
-        }
+    public IEnumerable<Qualification> GetQualifications(int[] qualificationIds)
+    {
+        var qualifications = GetAllQualifications();
+        return qualifications
+            .Where(q => qualificationIds.Contains(q.Id))
+            .OrderBy(q => q.Name);
+    }
 
-        public IEnumerable<Qualification> GetQualifications()
-        {
-            return GetAllQualifications();
-        }
+    public Qualification GetQualification(int qualificationId)
+    {
+        var qualifications = GetAllQualifications();
+        return qualifications.SingleOrDefault(q => q.Id == qualificationId);
+    }
 
-        public IDictionary<string, string> GetWebsiteUrls()
-        {
-            var urlDictionary = new Dictionary<string, string>();
+    public IEnumerable<Qualification> GetQualifications()
+    {
+        return GetAllQualifications();
+    }
 
-            foreach (var provider in GetAllProviders())
+    public IDictionary<string, string> GetWebsiteUrls()
+    {
+        var urlDictionary = new Dictionary<string, string>();
+
+        foreach (var provider in GetAllProviders())
+        {
+            foreach (var location in
+                     provider.Locations)
             {
-                foreach (var location in
-                    provider.Locations)
+                if (!string.IsNullOrEmpty(location.Website))
                 {
-                    if (!string.IsNullOrEmpty(location.Website))
-                    {
-                        //decode url for key because this will be compared to a decoded url later
-                        var encodedUrl = WebUtility.UrlDecode(location.Website);
-                        urlDictionary[encodedUrl!] = location.Website;
-                    }
+                    //decode url for key because this will be compared to a decoded url later
+                    var encodedUrl = WebUtility.UrlDecode(location.Website);
+                    urlDictionary[encodedUrl!] = location.Website;
                 }
             }
-
-            return urlDictionary;
         }
 
-        private IQueryable<Qualification> GetAllQualifications()
-        {
-            if (!_cache.TryGetValue(CacheKeys.QualificationTableDataKey,
+        return urlDictionary;
+    }
+
+    private IQueryable<Qualification> GetAllQualifications()
+    {
+        if (!_cache.TryGetValue(CacheKeys.QualificationTableDataKey,
                 out IQueryable<Qualification> qualifications))
-            {
-                qualifications = _tableStorageService
-                    .GetAllQualifications()
-                    .GetAwaiter()
-                    .GetResult()
-                    .AsQueryable();
-                _cache.Set(CacheKeys.QualificationTableDataKey, qualifications, CacheUtilities.DefaultMemoryCacheEntryOptions(_cacheExpiryInSeconds));
-            }
-
-            return qualifications;
+        {
+            qualifications = _tableStorageService
+                .GetAllQualifications()
+                .GetAwaiter()
+                .GetResult()
+                .AsQueryable();
+            _cache.Set(CacheKeys.QualificationTableDataKey, qualifications, CacheUtilities.DefaultMemoryCacheEntryOptions(_cacheExpiryInSeconds));
         }
 
-        private static IList<Qualification> GetQualificationsForDeliveryYear(
-            DeliveryYearDto deliveryYear,
-            IDictionary<int, Qualification> qualificationsDictionary)
+        return qualifications;
+    }
+
+    private static IList<Qualification> GetQualificationsForDeliveryYear(
+        DeliveryYearDto deliveryYear,
+        IDictionary<int, Qualification> qualificationsDictionary)
+    {
+        var list = new List<Qualification>();
+
+        if (deliveryYear.Qualifications != null)
         {
-            var list = new List<Qualification>();
-
-            if (deliveryYear.Qualifications != null)
-            {
-                list.AddRange(
-                    deliveryYear
-                        .Qualifications
-                        .Select(q => new Qualification
-                        {
-                            Id = q,
-                            Name = qualificationsDictionary[q].Name,
-                            Route = qualificationsDictionary[q].Route
-                        }));
-            }
-
-            return list.OrderBy(q => q.Name).ToList();
+            list.AddRange(
+                deliveryYear
+                    .Qualifications
+                    .Select(q => new Qualification
+                    {
+                        Id = q,
+                        Name = qualificationsDictionary[q].Name,
+                        Route = qualificationsDictionary[q].Route
+                    }));
         }
 
-        private IQueryable<Provider> GetAllProviders()
-        {
-            if (!_cache.TryGetValue(CacheKeys.ProviderTableDataKey,
+        return list.OrderBy(q => q.Name).ToList();
+    }
+
+    private IQueryable<Provider> GetAllProviders()
+    {
+        if (!_cache.TryGetValue(CacheKeys.ProviderTableDataKey,
                 out IQueryable<Provider> providers))
-            {
-                providers = _tableStorageService
-                    .GetAllProviders()
-                    .GetAwaiter()
-                    .GetResult()
-                    .MergeTempProviders(_mergeTempProviderData)
-                    .AsQueryable();
+        {
+            providers = _tableStorageService
+                .GetAllProviders()
+                .GetAwaiter()
+                .GetResult()
+                .MergeTempProviders(_mergeTempProviderData)
+                .AsQueryable();
 
-                _cache.Set(CacheKeys.ProviderTableDataKey, providers, CacheUtilities.DefaultMemoryCacheEntryOptions(_cacheExpiryInSeconds));
-            }
-
-            return providers;
+            _cache.Set(CacheKeys.ProviderTableDataKey, providers, CacheUtilities.DefaultMemoryCacheEntryOptions(_cacheExpiryInSeconds));
         }
+
+        return providers;
     }
 }

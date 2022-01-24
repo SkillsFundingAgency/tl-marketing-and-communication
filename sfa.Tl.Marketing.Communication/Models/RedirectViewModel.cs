@@ -1,7 +1,6 @@
-namespace sfa.Tl.Marketing.Communication.Models
+namespace sfa.Tl.Marketing.Communication.Models;
+
+public class RedirectViewModel
 {
-    public class RedirectViewModel
-    {
-        public string Url { get; init; }
-    }
+    public string Url { get; init; }
 }

@@ -1,7 +1,6 @@
-namespace sfa.Tl.Marketing.Communication.Models
+namespace sfa.Tl.Marketing.Communication.Models;
+
+public class ErrorViewModel
 {
-    public class ErrorViewModel
-    {
-        public string RequestId { get; init; }
-    }
+    public string RequestId { get; init; }
 }

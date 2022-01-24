@@ -2,32 +2,31 @@
 using Microsoft.AspNetCore.Mvc;
 using sfa.Tl.Marketing.Communication.Models;
 
-namespace sfa.Tl.Marketing.Communication.Controllers
+namespace sfa.Tl.Marketing.Communication.Controllers;
+
+public class HelpController : Controller
 {
-    public class HelpController : Controller
+    [Route("cookies", Name = "Cookies")]
+    public IActionResult Cookies()
     {
-        [Route("cookies", Name = "Cookies")]
-        public IActionResult Cookies()
-        {
-            return View();
-        }
+        return View();
+    }
 
-        [Route("cookie-settings", Name = "Cookie settings")]
-        public IActionResult CookieSettings()
-        {
-            return View();
-        }
+    [Route("cookie-settings", Name = "Cookie settings")]
+    public IActionResult CookieSettings()
+    {
+        return View();
+    }
 
-        [Route("accessibility", Name = "Accessibility")]
-        public IActionResult Accessibility()
-        {
-            return View();
-        }
+    [Route("accessibility", Name = "Accessibility")]
+    public IActionResult Accessibility()
+    {
+        return View();
+    }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
