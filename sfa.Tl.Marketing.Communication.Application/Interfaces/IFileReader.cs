@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace sfa.Tl.Marketing.Communication.Application.Interfaces
+namespace sfa.Tl.Marketing.Communication.Application.Interfaces;
+
+public interface IFileReader
 {
-    public interface IFileReader
-    {
-        Task<string> ReadAllTextAsync(string filePath);
-    }
+    Task<string> ReadAllTextAsync(string filePath);
 }

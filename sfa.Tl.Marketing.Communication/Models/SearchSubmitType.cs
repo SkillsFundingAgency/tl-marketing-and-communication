@@ -1,9 +1,8 @@
 ﻿
-namespace sfa.Tl.Marketing.Communication.Models
+namespace sfa.Tl.Marketing.Communication.Models;
+
+public enum SearchSubmitType
 {
-    public enum SearchSubmitType
-    {
-        Search = 0,
-        Next
-    }
+    Search = 0,
+    Next
 }

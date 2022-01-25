@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace sfa.Tl.Marketing.Communication.Application.Interfaces
+namespace sfa.Tl.Marketing.Communication.Application.Interfaces;
+
+public interface IProviderSearchService
 {
-    public interface IProviderSearchService
-    {
-        Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(SearchRequest searchRequest);
-        IEnumerable<Qualification> GetQualifications();
-        Qualification GetQualificationById(int id);
-        Task<(bool IsValid, PostcodeLocation PostcodeLocation)> IsSearchPostcodeValid(string postcode);
-    }
+    Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search(SearchRequest searchRequest);
+    IEnumerable<Qualification> GetQualifications();
+    Qualification GetQualificationById(int id);
+    Task<(bool IsValid, PostcodeLocation PostcodeLocation)> IsSearchPostcodeValid(string postcode);
 }

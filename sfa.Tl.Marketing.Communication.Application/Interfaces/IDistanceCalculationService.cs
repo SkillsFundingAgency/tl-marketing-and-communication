@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace sfa.Tl.Marketing.Communication.Application.Interfaces
-{
-    public interface IDistanceCalculationService
-    {
-        double CalculateDistanceInMiles(double lat1, double lon1, double lat2, double lon2);
+namespace sfa.Tl.Marketing.Communication.Application.Interfaces;
 
-        Task<IList<ProviderLocation>> CalculateProviderLocationDistanceInMiles(PostcodeLocation origin, IQueryable<ProviderLocation> providerLocations);
+public interface IDistanceCalculationService
+{
+    double CalculateDistanceInMiles(double lat1, double lon1, double lat2, double lon2);
+
+    Task<IList<ProviderLocation>> CalculateProviderLocationDistanceInMiles(PostcodeLocation origin, IQueryable<ProviderLocation> providerLocations);
         
-        Task<(bool IsValid, PostcodeLocation PostcodeLocation)> IsPostcodeValid(string postcode);
-    }
+    Task<(bool IsValid, PostcodeLocation PostcodeLocation)> IsPostcodeValid(string postcode);
 }

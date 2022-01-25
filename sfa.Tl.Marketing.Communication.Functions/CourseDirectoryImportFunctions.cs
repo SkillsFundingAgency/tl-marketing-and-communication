@@ -8,229 +8,228 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 
-namespace sfa.Tl.Marketing.Communication.Functions
+namespace sfa.Tl.Marketing.Communication.Functions;
+
+public class CourseDirectoryImportFunctions
 {
-    public class CourseDirectoryImportFunctions
+    private readonly ICourseDirectoryDataService _courseDirectoryDataService;
+    private readonly ITableStorageService _tableStorageService;
+
+    public CourseDirectoryImportFunctions(
+        ICourseDirectoryDataService courseDirectoryDataService,
+        ITableStorageService tableStorageService)
     {
-        private readonly ICourseDirectoryDataService _courseDirectoryDataService;
-        private readonly ITableStorageService _tableStorageService;
+        _courseDirectoryDataService = courseDirectoryDataService ?? throw new ArgumentNullException(nameof(courseDirectoryDataService));
+        _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
+    }
 
-        public CourseDirectoryImportFunctions(
-            ICourseDirectoryDataService courseDirectoryDataService,
-            ITableStorageService tableStorageService)
-        {
-            _courseDirectoryDataService = courseDirectoryDataService ?? throw new ArgumentNullException(nameof(courseDirectoryDataService));
-            _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
-        }
-
-        [Function("CourseDirectoryScheduledImport")]
-        public async Task ImportCourseDirectoryData(
-            [TimerTrigger("%CourseDirectoryImportTrigger%"
+    [Function("CourseDirectoryScheduledImport")]
+    public async Task ImportCourseDirectoryData(
+        [TimerTrigger("%CourseDirectoryImportTrigger%"
 #if DEBUG
-                //Fixes problem with functions startup from VS2019
-                // - see https://github.com/Azure/azure-functions-dotnet-worker/issues/471
-                , UseMonitor = false
+            //Fixes problem with functions startup from VS2019
+            // - see https://github.com/Azure/azure-functions-dotnet-worker/issues/471
+            , UseMonitor = false
 #endif
-                )]
-            // ReSharper disable once UnusedParameter.Global
-            TimerInfo timer,
-            FunctionContext functionContext)
+        )]
+        // ReSharper disable once UnusedParameter.Global
+        TimerInfo timer,
+        FunctionContext functionContext)
+    {
+        var logger = functionContext.GetLogger("TimerFunction");
+
+        try
         {
-            var logger = functionContext.GetLogger("TimerFunction");
+            logger.LogInformation("Course directory scheduled import function was called.");
 
-            try
-            {
-                logger.LogInformation("Course directory scheduled import function was called.");
+            await Import(logger);
 
-                await Import(logger);
-
-                logger.LogInformation("Course directory scheduled import finished.");
-            }
-            catch (Exception e)
-            {
-                logger.LogError("Error importing data from course directory. Internal Error Message {e}", e);
-            }
+            logger.LogInformation("Course directory scheduled import finished.");
         }
-
-        [Function("CourseDirectoryManualImport")]
-        public async Task<HttpResponseData> ManualImport(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
-            HttpRequestData request,
-            FunctionContext functionContext)
+        catch (Exception e)
         {
-            var logger = functionContext.GetLogger("HttpFunction");
-
-            try
-            {
-                logger.LogInformation("Course directory manual import function was called.");
-
-                var (savedProviders, deletedProviders, savedQualifications, deletedQualifications) = await Import(logger);
-
-                logger.LogInformation("Course directory manual import finished.");
-
-                var response = request.CreateResponse(HttpStatusCode.OK);
-                response.Headers.Add("Content-Type", "application/text");
-
-                await response.WriteStringAsync(
-                    $"Inserted or updated {savedProviders} and deleted {deletedProviders} providers.\r\n" +
-                    $"Inserted or updated {savedQualifications} and deleted {deletedQualifications} qualifications.");
-
-                return response;
-            }
-            catch (Exception e)
-            {
-                logger.LogError("Error importing data from course directory. Internal Error Message {e}", e);
-
-                return request.CreateResponse(HttpStatusCode.InternalServerError);
-            }
+            logger.LogError("Error importing data from course directory. Internal Error Message {e}", e);
         }
+    }
 
-        private async Task<(int SavedProviders, int DeletedProviders, int SavedQualifications, int DeletedQualifications)> Import(ILogger logger)
+    [Function("CourseDirectoryManualImport")]
+    public async Task<HttpResponseData> ManualImport(
+        [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
+        HttpRequestData request,
+        FunctionContext functionContext)
+    {
+        var logger = functionContext.GetLogger("HttpFunction");
+
+        try
         {
-            var (savedQualifications, deletedQualifications) = await _courseDirectoryDataService.ImportQualificationsFromCourseDirectoryApi();
-            logger.LogInformation("Course directory import saved {savedQualifications} and deleted {deletedQualifications} qualifications.", savedQualifications, deletedQualifications);
+            logger.LogInformation("Course directory manual import function was called.");
 
-            var (savedProviders, deletedProviders) =
-                await _courseDirectoryDataService.ImportProvidersFromCourseDirectoryApi();
-            logger.LogInformation("Course directory import saved {savedProviders} and deleted {deletedProviders} providers.", savedProviders, deletedProviders);
+            var (savedProviders, deletedProviders, savedQualifications, deletedQualifications) = await Import(logger);
 
-            return (savedProviders, deletedProviders, savedQualifications, deletedQualifications);
+            logger.LogInformation("Course directory manual import finished.");
+
+            var response = request.CreateResponse(HttpStatusCode.OK);
+            response.Headers.Add("Content-Type", "application/text");
+
+            await response.WriteStringAsync(
+                $"Inserted or updated {savedProviders} and deleted {deletedProviders} providers.\r\n" +
+                $"Inserted or updated {savedQualifications} and deleted {deletedQualifications} qualifications.");
+
+            return response;
         }
-
-        [Function("GetCourseDirectoryJson")]
-        public async Task<HttpResponseData> GetCourseDirectoryDetailJson(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
-            HttpRequestData request,
-            FunctionContext functionContext)
+        catch (Exception e)
         {
-            var logger = functionContext.GetLogger("HttpFunction");
+            logger.LogError("Error importing data from course directory. Internal Error Message {e}", e);
 
-            try
-            {
-                logger.LogInformation("Course directory GetCourseDirectoryDetailJson function was called.");
-
-                var json = await _courseDirectoryDataService.GetTLevelDetailJsonFromCourseDirectoryApi();
-
-                var response = request.CreateResponse(HttpStatusCode.OK);
-                response.Headers.Add("Content-Type", "application/json");
-                await response.WriteStringAsync(json);
-
-                return response;
-            }
-            catch (Exception e)
-            {
-                logger.LogError("Error reading json data from course directory. Internal Error Message {e}", e);
-
-                return request.CreateResponse(HttpStatusCode.InternalServerError);
-            }
+            return request.CreateResponse(HttpStatusCode.InternalServerError);
         }
+    }
 
-        [Function("GetCourseDirectoryQualificationJson")]
-        public async Task<HttpResponseData> GetCourseDirectoryQualificationJson(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
-            HttpRequestData request,
-            FunctionContext functionContext)
+    private async Task<(int SavedProviders, int DeletedProviders, int SavedQualifications, int DeletedQualifications)> Import(ILogger logger)
+    {
+        var (savedQualifications, deletedQualifications) = await _courseDirectoryDataService.ImportQualificationsFromCourseDirectoryApi();
+        logger.LogInformation("Course directory import saved {savedQualifications} and deleted {deletedQualifications} qualifications.", savedQualifications, deletedQualifications);
+
+        var (savedProviders, deletedProviders) =
+            await _courseDirectoryDataService.ImportProvidersFromCourseDirectoryApi();
+        logger.LogInformation("Course directory import saved {savedProviders} and deleted {deletedProviders} providers.", savedProviders, deletedProviders);
+
+        return (savedProviders, deletedProviders, savedQualifications, deletedQualifications);
+    }
+
+    [Function("GetCourseDirectoryJson")]
+    public async Task<HttpResponseData> GetCourseDirectoryDetailJson(
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
+        HttpRequestData request,
+        FunctionContext functionContext)
+    {
+        var logger = functionContext.GetLogger("HttpFunction");
+
+        try
         {
-            var logger = functionContext.GetLogger("HttpFunction");
+            logger.LogInformation("Course directory GetCourseDirectoryDetailJson function was called.");
 
-            try
-            {
-                logger.LogInformation("Course directory GetCourseDirectoryQualificationJson function was called.");
+            var json = await _courseDirectoryDataService.GetTLevelDetailJsonFromCourseDirectoryApi();
 
-                var json = await _courseDirectoryDataService.GetTLevelQualificationJsonFromCourseDirectoryApi();
+            var response = request.CreateResponse(HttpStatusCode.OK);
+            response.Headers.Add("Content-Type", "application/json");
+            await response.WriteStringAsync(json);
 
-                var response = request.CreateResponse(HttpStatusCode.OK);
-                response.Headers.Add("Content-Type", "application/json");
-                await response.WriteStringAsync(json);
-
-                return response;
-            }
-            catch (Exception e)
-            {
-                logger.LogError("Error reading json data from course directory. Internal Error Message {e}", e);
-
-                return request.CreateResponse(HttpStatusCode.InternalServerError);
-            }
+            return response;
         }
-
-        [Function("GetProviders")]
-        public async Task<HttpResponseData> GetProviders(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
-            HttpRequestData request,
-            FunctionContext functionContext)
+        catch (Exception e)
         {
-            var logger = functionContext.GetLogger("HttpFunction");
+            logger.LogError("Error reading json data from course directory. Internal Error Message {e}", e);
 
-            try
-            {
-                logger.LogInformation("Course directory GetProviders function was called.");
-
-                var providers =
-                    (await _tableStorageService.GetAllProviders())
-                    .OrderBy(p => p.UkPrn)
-                    .ToList();
-
-                logger.LogInformation("Course directory GetProviders returned {providers.Count} records.", providers.Count);
-
-                var response = request.CreateResponse(HttpStatusCode.OK);
-                response.Headers.Add("Content-Type", "application/json");
-
-                var json = JsonSerializer.Serialize(providers,
-                    new JsonSerializerOptions
-                    {
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                    });
-
-                await response.WriteStringAsync(json);
-
-                return response;
-            }
-            catch (Exception e)
-            {
-                logger.LogError("Error in GetProviders. Internal Error Message {e}", e);
-
-                return request.CreateResponse(HttpStatusCode.InternalServerError);
-            }
+            return request.CreateResponse(HttpStatusCode.InternalServerError);
         }
+    }
 
-        [Function("GetQualifications")]
-        public async Task<HttpResponseData> GetQualifications(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
-            HttpRequestData request,
-            FunctionContext functionContext)
+    [Function("GetCourseDirectoryQualificationJson")]
+    public async Task<HttpResponseData> GetCourseDirectoryQualificationJson(
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
+        HttpRequestData request,
+        FunctionContext functionContext)
+    {
+        var logger = functionContext.GetLogger("HttpFunction");
+
+        try
         {
-            var logger = functionContext.GetLogger("HttpFunction");
+            logger.LogInformation("Course directory GetCourseDirectoryQualificationJson function was called.");
 
-            try
-            {
-                logger.LogInformation("Course directory GetQualifications function was called.");
+            var json = await _courseDirectoryDataService.GetTLevelQualificationJsonFromCourseDirectoryApi();
 
-                var qualifications =
-                    (await _tableStorageService.GetAllQualifications())
-                    .OrderBy(q => q.Id)
-                    .ToList();
+            var response = request.CreateResponse(HttpStatusCode.OK);
+            response.Headers.Add("Content-Type", "application/json");
+            await response.WriteStringAsync(json);
 
-                logger.LogInformation("Course directory GetQualifications returned {qualifications.Count} records.", qualifications.Count);
+            return response;
+        }
+        catch (Exception e)
+        {
+            logger.LogError("Error reading json data from course directory. Internal Error Message {e}", e);
 
-                var response = request.CreateResponse(HttpStatusCode.OK);
-                response.Headers.Add("Content-Type", "application/json");
+            return request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+    }
 
-                var json = JsonSerializer.Serialize(qualifications,
-                    new JsonSerializerOptions
-                    {
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                    });
+    [Function("GetProviders")]
+    public async Task<HttpResponseData> GetProviders(
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
+        HttpRequestData request,
+        FunctionContext functionContext)
+    {
+        var logger = functionContext.GetLogger("HttpFunction");
 
-                await response.WriteStringAsync(json);
+        try
+        {
+            logger.LogInformation("Course directory GetProviders function was called.");
 
-                return response;
-            }
-            catch (Exception e)
-            {
-                logger.LogError("Error in GetQualifications. Internal Error Message {e}", e);
+            var providers =
+                (await _tableStorageService.GetAllProviders())
+                .OrderBy(p => p.UkPrn)
+                .ToList();
 
-                return request.CreateResponse(HttpStatusCode.InternalServerError);
-            }
+            logger.LogInformation("Course directory GetProviders returned {providers.Count} records.", providers.Count);
+
+            var response = request.CreateResponse(HttpStatusCode.OK);
+            response.Headers.Add("Content-Type", "application/json");
+
+            var json = JsonSerializer.Serialize(providers,
+                new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+
+            await response.WriteStringAsync(json);
+
+            return response;
+        }
+        catch (Exception e)
+        {
+            logger.LogError("Error in GetProviders. Internal Error Message {e}", e);
+
+            return request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+    }
+
+    [Function("GetQualifications")]
+    public async Task<HttpResponseData> GetQualifications(
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]
+        HttpRequestData request,
+        FunctionContext functionContext)
+    {
+        var logger = functionContext.GetLogger("HttpFunction");
+
+        try
+        {
+            logger.LogInformation("Course directory GetQualifications function was called.");
+
+            var qualifications =
+                (await _tableStorageService.GetAllQualifications())
+                .OrderBy(q => q.Id)
+                .ToList();
+
+            logger.LogInformation("Course directory GetQualifications returned {qualifications.Count} records.", qualifications.Count);
+
+            var response = request.CreateResponse(HttpStatusCode.OK);
+            response.Headers.Add("Content-Type", "application/json");
+
+            var json = JsonSerializer.Serialize(qualifications,
+                new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+
+            await response.WriteStringAsync(json);
+
+            return response;
+        }
+        catch (Exception e)
+        {
+            logger.LogError("Error in GetQualifications. Internal Error Message {e}", e);
+
+            return request.CreateResponse(HttpStatusCode.InternalServerError);
         }
     }
 }

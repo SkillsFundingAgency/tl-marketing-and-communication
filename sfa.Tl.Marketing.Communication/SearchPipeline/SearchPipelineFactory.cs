@@ -5,34 +5,33 @@ using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace sfa.Tl.Marketing.Communication.SearchPipeline
+namespace sfa.Tl.Marketing.Communication.SearchPipeline;
+
+public class SearchPipelineFactory : ISearchPipelineFactory
 {
-    public class SearchPipelineFactory : ISearchPipelineFactory
+    private readonly IList<ISearchStep> _searchSteps;
+
+    public SearchPipelineFactory(
+        IEnumerable<ISearchStep> searchSteps)
     {
-        private readonly IList<ISearchStep> _searchSteps;
+        _searchSteps = searchSteps.ToList();
+    }
 
-        public SearchPipelineFactory(
-            IEnumerable<ISearchStep> searchSteps)
-        {
-            _searchSteps = searchSteps.ToList();
-        }
+    public ISearchContext GetSearchContext(FindViewModel viewModel)
+    {
+        return new SearchContext(viewModel);
+    }
 
-        public ISearchContext GetSearchContext(FindViewModel viewModel)
+    public IEnumerable<ISearchStep> GetSearchSteps(IProviderSearchService providerSearchService, IMapper mapper)
+    {
+        return new List<ISearchStep>
         {
-            return new SearchContext(viewModel);
-        }
-
-        public IEnumerable<ISearchStep> GetSearchSteps(IProviderSearchService providerSearchService, IMapper mapper)
-        {
-            return new List<ISearchStep>
-            {
-                _searchSteps.OfType<GetQualificationsStep>().Single(),
-                _searchSteps.OfType<LoadSearchPageWithNoResultsStep>().Single(),
-                _searchSteps.OfType<ValidatePostcodeStep>().Single(),
-                _searchSteps.OfType<CalculateNumberOfItemsToShowStep>().Single(),
-                _searchSteps.OfType<PerformSearchStep>().Single(),
-                _searchSteps.OfType<MergeAvailableDeliveryYearsStep>().Single()
-            };
-        }
+            _searchSteps.OfType<GetQualificationsStep>().Single(),
+            _searchSteps.OfType<LoadSearchPageWithNoResultsStep>().Single(),
+            _searchSteps.OfType<ValidatePostcodeStep>().Single(),
+            _searchSteps.OfType<CalculateNumberOfItemsToShowStep>().Single(),
+            _searchSteps.OfType<PerformSearchStep>().Single(),
+            _searchSteps.OfType<MergeAvailableDeliveryYearsStep>().Single()
+        };
     }
 }

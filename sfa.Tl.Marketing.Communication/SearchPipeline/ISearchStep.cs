@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace sfa.Tl.Marketing.Communication.SearchPipeline
+namespace sfa.Tl.Marketing.Communication.SearchPipeline;
+
+public interface ISearchStep
 {
-    public interface ISearchStep
-    {
-        Task Execute(ISearchContext searchContext);
-    }
+    Task Execute(ISearchContext searchContext);
 }

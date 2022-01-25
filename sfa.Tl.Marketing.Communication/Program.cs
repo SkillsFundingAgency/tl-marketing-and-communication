@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http.Headers;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -7,11 +8,12 @@ using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using sfa.Tl.Marketing.Communication.Application.Caching;
+using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.GeoLocations;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
 using sfa.Tl.Marketing.Communication.Application.Services;
-using sfa.Tl.Marketing.Communication.Constants;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
@@ -34,7 +36,10 @@ var siteConfiguration = new ConfigurationOptions
 {
     CacheExpiryInSeconds = int.TryParse(builder.Configuration["CacheExpiryInSeconds"], out var cacheExpiryInSeconds) 
             ? cacheExpiryInSeconds 
-            : AppConstants.DefaultCacheExpiryInSeconds,
+            : CacheUtilities.DefaultCacheExpiryInSeconds,
+    PostcodeCacheExpiryInSeconds = int.TryParse(builder.Configuration["PostcodeCacheExpiryInSeconds"], out var postcodeCacheExpiryInSeconds)
+        ? postcodeCacheExpiryInSeconds
+        : CacheUtilities.DefaultCacheExpiryInSeconds,
     MergeTempProviderData = bool.TryParse(builder.Configuration["MergeTempProviderData"], 
                                 out var mergeTempProviderData) 
                             && mergeTempProviderData,
@@ -66,7 +71,13 @@ builder.Services.AddAntiforgery(options =>
 });
 
 builder.Services
-    .AddHttpClient<ILocationApiClient, LocationApiClient>();
+    .AddHttpClient<ILocationApiClient, LocationApiClient>(
+        client =>
+        {
+            client.BaseAddress = new Uri(siteConfiguration.PostcodeRetrieverBaseUrl);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        })
+    .AddRetryPolicyHandler<LocationApiClient>();
 
 builder.Services
     .AddTransient<IFileReader, FileReader>()

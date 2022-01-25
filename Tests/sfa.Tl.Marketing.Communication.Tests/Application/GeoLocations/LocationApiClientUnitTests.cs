@@ -1,105 +1,156 @@
 ﻿using FluentAssertions;
-using sfa.Tl.Marketing.Communication.Application.GeoLocations;
-using sfa.Tl.Marketing.Communication.Models.Configuration;
-using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using sfa.Tl.Marketing.Communication.Application.GeoLocations;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
+using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.HttpClientHelpers;
 using Xunit;
 
-namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations
+namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations;
+
+public class LocationApiClientUnitTests
 {
-    public class LocationApiClientUnitTests
+    private const string GoodPostcode = "CV1 2WT";
+    private const string InvalidPostcode = "CVX XXX";
+    private const string Outcode = "CV11";
+    private const string TerminatedPostcode = "S70 2YW";
+    private const string NoLatLongPostcode = "GY1 4NS";
+
+    [Fact]
+    public async Task Then_Postcode_Is_Returned_Correctly()
     {
-        private readonly ConfigurationOptions _configurationOptions;
+        var httpClient = IntializeHttpClient(GoodPostcode);
 
-        private const string GoodPostcode = "CV1 2WT";
-        private const string TerminatedPostcode = "S70 2YW";
-        private const string NoLatLongPostcode = "GY1 4NS";
+        var locationApiClient = new LocationApiClient(httpClient);
 
-        public LocationApiClientUnitTests()
-        {
-            _configurationOptions = new ConfigurationOptions
-            {
-                PostcodeRetrieverBaseUrl = "https://example.com/"
-            };
-        }
+        var postcodeData = await locationApiClient.GetGeoLocationDataAsync(GoodPostcode);
 
-        [Fact]
-        public async Task Then_Postcode_Is_Returned_Correctly()
-        {
-            var httpClient = IntializeHttpClient(GoodPostcode);
+        postcodeData.Should().NotBeNull();
+        postcodeData.Postcode.Should().Be(GoodPostcode);
+        postcodeData.Latitude.Should().Be(52.400997);
+        postcodeData.Longitude.Should().Be(-1.508122);
+    }
 
-            var locationApiClient = new LocationApiClient(httpClient, _configurationOptions);
+    [Fact]
+    public async Task Then_Terminated_Postcode_Is_Returned_Correctly()
+    {
+        var httpClient = IntializeTerminatedHttpClient(TerminatedPostcode);
 
-            var postcodeData = await locationApiClient.GetGeoLocationDataAsync(GoodPostcode);
+        var locationApiClient = new LocationApiClient(httpClient);
 
-            postcodeData.Should().NotBeNull();
-            postcodeData.Postcode.Should().Be(GoodPostcode);
-            postcodeData.Latitude.Should().Be(52.400997);
-            postcodeData.Longitude.Should().Be(-1.508122);
-        }
+        var postcodeData = await locationApiClient
+            .GetGeoLocationDataAsync(TerminatedPostcode);
 
-        [Fact]
-        public async Task Then_Terminated_Postcode_Is_Returned_Correctly()
-        {
-            var httpClient = IntializeTerminatedHttpClient(TerminatedPostcode);
+        postcodeData.Should().NotBeNull();
+        postcodeData.Postcode.Should().Be(TerminatedPostcode);
+        postcodeData.Latitude.Should().Be(53.551618);
+        postcodeData.Longitude.Should().Be(-1.482797);
+    }
 
-            var locationApiClient = new LocationApiClient(httpClient, _configurationOptions);
+    [Fact]
+    public async Task Then_Outcode_Is_Returned_Correctly()
+    {
+        var httpClient = IntializeOutcodeHttpClient(Outcode);
 
-            var postcodeData = await locationApiClient
-                .GetGeoLocationDataAsync(TerminatedPostcode);
+        var locationApiClient = new LocationApiClient(httpClient);
 
-            postcodeData.Should().NotBeNull();
-            postcodeData.Postcode.Should().Be(TerminatedPostcode);
-            postcodeData.Latitude.Should().Be(53.551618);
-            postcodeData.Longitude.Should().Be(-1.482797);
-        }
+        var postcodeData = await locationApiClient
+            .GetGeoLocationDataAsync(Outcode);
 
-        [Fact]
-        public async Task Then_Postcode_With_No_Lat_Long_Is_Returned_Correctly()
-        {
-            var httpClient = IntializeHttpClient(NoLatLongPostcode);
+        postcodeData.Should().NotBeNull();
+        postcodeData.Postcode.Should().Be(Outcode);
+        postcodeData.Latitude.Should().Be(52.5198364972316);
+        postcodeData.Longitude.Should().Be(-1.45313659025471);
+    }
 
-            var locationApiClient = new LocationApiClient(httpClient, _configurationOptions);
+    [Fact]
+    public async Task Then_Invalid_Postcode_Returns_Null()
+    {
+        var jsonBuilder = new PostcodeResponseJsonBuilder();
 
-            var postcodeData = await locationApiClient.GetGeoLocationDataAsync(NoLatLongPostcode);
+        var httpClient = new TestHttpClientFactory()
+            .CreateClient(
+                SettingsBuilder.PostcodeRetrieverBaseUri,
+                new List<(string, string, HttpStatusCode)>
+                {
+                    ($"postcodes/{InvalidPostcode}",
+                        jsonBuilder.BuildPostcodeNotFoundResponse(),
+                        HttpStatusCode.NotFound),
+                    ($"terminated_postcodes/{InvalidPostcode}",
+                        jsonBuilder.BuildPostcodeNotFoundResponse(),
+                        HttpStatusCode.NotFound),
+                    ($"outcodes/{InvalidPostcode}",
+                        jsonBuilder.BuildPostcodeNotFoundResponse(),
+                        HttpStatusCode.NotFound)
+                });
 
-            postcodeData.Should().NotBeNull();
-            postcodeData.Postcode.Should().Be(NoLatLongPostcode);
-            postcodeData.Latitude.Should().Be(LocationApiClient.DefaultLatitude);
-            postcodeData.Longitude.Should().Be(LocationApiClient.DefaultLongitude);
-        }
+        var locationApiClient = new LocationApiClient(httpClient);
 
-        private static HttpClient IntializeHttpClient(string requestPostcode)
-        {
-            var json = new PostcodeResponseJsonBuilder().BuildValidPostcodeResponse(requestPostcode);
-            return CreateClient(json, $"https://example.com/terminated_postcodes/{requestPostcode.Replace(" ", "")}");
-        }
+        var postcodeData = await locationApiClient
+            .GetGeoLocationDataAsync(InvalidPostcode);
 
-        private static HttpClient IntializeTerminatedHttpClient(string requestPostcode)
-        {
-            var json = new PostcodeResponseJsonBuilder().BuildVTerminatedPostcodeResponse(requestPostcode);
-            return CreateClient(json, $"https://example.com/terminated_postcodes/{requestPostcode.Replace(" ", "")}");
-        }
+        postcodeData.Should().BeNull();
+    }
 
-        private static HttpClient CreateClient(string json, string uri, string contentType = "application/json")
-        {
-            var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new StringContent(json)
-            };
-            httpResponseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+    [Fact]
+    public async Task Then_Invalid_Outcode_Returns_Null()
+    {
+        var httpClient = new TestHttpClientFactory()
+            .CreateHttpClientWithBaseUri(
+                SettingsBuilder.PostcodeRetrieverBaseUri,
+                $"outcodes/{Outcode}",
+                new PostcodeResponseJsonBuilder().BuildPostcodeNotFoundResponse(),
+                responseCode: HttpStatusCode.NotFound);
 
-            var fakeMessageHandler = new FakeHttpMessageHandler();
-            fakeMessageHandler.AddFakeResponse(new Uri(uri),
-                httpResponseMessage);
+        var locationApiClient = new LocationApiClient(httpClient);
 
-            var httpClient = new HttpClient(fakeMessageHandler);
+        var postcodeData = await locationApiClient
+            .GetGeoLocationDataAsync(Outcode);
 
-            return httpClient;
-        }
+        postcodeData.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task Then_Postcode_With_No_Lat_Long_Is_Returned_Correctly()
+    {
+        var httpClient = IntializeHttpClient(NoLatLongPostcode);
+
+        var locationApiClient = new LocationApiClient(httpClient);
+
+        var postcodeData = await locationApiClient.GetGeoLocationDataAsync(NoLatLongPostcode);
+
+        postcodeData.Should().NotBeNull();
+        postcodeData.Postcode.Should().Be(NoLatLongPostcode);
+        postcodeData.Latitude.Should().Be(LocationApiClient.DefaultLatitude);
+        postcodeData.Longitude.Should().Be(LocationApiClient.DefaultLongitude);
+    }
+
+    private static HttpClient IntializeHttpClient(string requestPostcode)
+    {
+        return new TestHttpClientFactory()
+            .CreateHttpClientWithBaseUri(
+                SettingsBuilder.PostcodeRetrieverBaseUri,
+                $"postcodes/{requestPostcode.Replace(" ", "")}",
+                new PostcodeResponseJsonBuilder().BuildValidPostcodeResponse(requestPostcode));
+    }
+
+    private static HttpClient IntializeTerminatedHttpClient(string requestPostcode)
+    {
+        return new TestHttpClientFactory()
+            .CreateHttpClientWithBaseUri(
+                SettingsBuilder.PostcodeRetrieverBaseUri,
+                $"terminated_postcodes/{requestPostcode.Replace(" ", "")}",
+                new PostcodeResponseJsonBuilder().BuildTerminatedPostcodeResponse(requestPostcode));
+    }
+
+    private static HttpClient IntializeOutcodeHttpClient(string requestPostcode)
+    {
+        return new TestHttpClientFactory()
+            .CreateHttpClientWithBaseUri(
+                SettingsBuilder.PostcodeRetrieverBaseUri,
+                $"outcodes/{requestPostcode.Replace(" ", "")}",
+                new PostcodeResponseJsonBuilder().BuildOutcodeResponse(requestPostcode));
     }
 }

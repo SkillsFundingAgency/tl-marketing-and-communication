@@ -6,57 +6,56 @@ using System.Linq;
 using System.Threading.Tasks;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 
-namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps
+namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
+
+public class MergeAvailableDeliveryYearsStep : ISearchStep
 {
-    public class MergeAvailableDeliveryYearsStep : ISearchStep
+    private readonly IDateTimeService _dateTimeService;
+
+    public MergeAvailableDeliveryYearsStep(IDateTimeService dateTimeService)
     {
-        private readonly IDateTimeService _dateTimeService;
+        _dateTimeService = dateTimeService ?? throw new ArgumentNullException(nameof(dateTimeService));
+    }
 
-        public MergeAvailableDeliveryYearsStep(IDateTimeService dateTimeService)
+    public Task Execute(ISearchContext context)
+    {
+        var today = _dateTimeService.Today;
+
+        foreach (var providerLocation in context.ViewModel.ProviderLocations.Where(p =>
+                     p.DeliveryYears is not null))
         {
-            _dateTimeService = dateTimeService ?? throw new ArgumentNullException(nameof(dateTimeService));
-        }
+            DeliveryYearViewModel availableNow = null;
+            var availableNowToRemove = new List<DeliveryYearViewModel>();
 
-        public Task Execute(ISearchContext context)
-        {
-            var today = _dateTimeService.Today;
-
-            foreach (var providerLocation in context.ViewModel.ProviderLocations.Where(p =>
-                p.DeliveryYears is not null))
+            foreach (var deliveryYear in providerLocation.DeliveryYears)
             {
-                DeliveryYearViewModel availableNow = null;
-                var availableNowToRemove = new List<DeliveryYearViewModel>();
+                deliveryYear.IsAvailableNow = deliveryYear.Year.IsAvailableAtDate(today);
 
-                foreach (var deliveryYear in providerLocation.DeliveryYears)
+                if (deliveryYear.IsAvailableNow)
                 {
-                    deliveryYear.IsAvailableNow = deliveryYear.Year.IsAvailableAtDate(today);
-
-                    if (deliveryYear.IsAvailableNow)
+                    if (availableNow is null)
                     {
-                        if (availableNow is null)
-                        {
-                            availableNow = deliveryYear;
-                        }
-                        else
-                        {
-                            availableNow.Qualifications = availableNow.Qualifications
-                                .Union(deliveryYear.Qualifications)
-                                .OrderBy(q => q.Name)
-                                .ToList();
+                        availableNow = deliveryYear;
+                    }
+                    else
+                    {
+                        availableNow.Qualifications = availableNow.Qualifications
+                            .Union(deliveryYear.Qualifications)
+                            .OrderBy(q => q.Name)
+                            .ToList();
 
-                            availableNowToRemove.Add(deliveryYear);
-                        }
+                        availableNowToRemove.Add(deliveryYear);
                     }
                 }
-
-                foreach (var deliveryYear in availableNowToRemove)
-                {
-                    providerLocation.DeliveryYears.Remove(deliveryYear);
-                }
-
             }
-        
-            return Task.CompletedTask;
+
+            foreach (var deliveryYear in availableNowToRemove)
+            {
+                providerLocation.DeliveryYears.Remove(deliveryYear);
+            }
+
         }
+        
+        return Task.CompletedTask;
     }
 }
