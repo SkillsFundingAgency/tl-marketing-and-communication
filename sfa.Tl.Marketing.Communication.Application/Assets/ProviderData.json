@@ -1,63 +1,6 @@
 {
   "providers": [
     {
-      "ukPrn": 10035123,
-      "name": "BIDDULPH HIGH SCHOOL",
-      "locations": [
-        {
-          "postcode": "ST8 7AR",
-          "town": "Stoke-on-Trent",
-          "latitude": 53.105857,
-          "longitude": -2.171092,
-          "website": "https://biddulphhigh.co.uk/",
-          "deliveryYears": [
-            {
-              "year": 2022,
-              "qualifications": [ 41 ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "ukPrn": 10000948,
-      "name": "BROMLEY COLLEGE OF FURTHER AND HIGHER EDUCATION",
-      "locations": [
-        {
-          "postcode": "BR2 8HE",
-          "town": "Bromley",
-          "latitude": 51.38666,
-          "longitude": 0.034796,
-          "website": "https://www.lsec.ac.uk/t-levels",
-          "deliveryYears": [
-            {
-              "year": 2022,
-              "qualifications": [ 37, 41, 45, 51 ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "ukPrn": 10000952,
-      "name": "BROOKSBY MELTON COLLEGE",
-      "locations": [
-        {
-          "postcode": "LE67 3TN",
-          "town": "Coalville",
-          "latitude": 52.737048,
-          "longitude": -1.372555,
-          "website": "https://stephensoncoll.ac.uk/t-levels.php",
-          "deliveryYears": [
-            {
-              "year": 2022,
-              "qualifications": [ 36, 38, 41, 44 ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "ukPrn": 10042223,
       "name": "BURNTWOOD SCHOOL",
       "locations": [
@@ -134,6 +77,25 @@
       ]
     },
     {
+      "ukPrn": 10007945,
+      "name": "CITY OF PORTSMOUTH COLLEGE",
+      "locations": [
+        {
+          "postcode": "PO3 6PZ",
+          "town": "Portsmouth",
+          "latitude": 50.808561,
+          "longitude": -1.045355,
+          "website": "https://www.portsmouth-college.ac.uk/t-levels/",
+          "deliveryYears": [
+            {
+              "year": 2022,
+              "qualifications": [ 41, 42 ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "ukPrn": 10057006,
       "name": "CREWE ENGINEERING AND DESIGN UTC",
       "locations": [
@@ -184,26 +146,7 @@
           "deliveryYears": [
             {
               "year": 2022,
-              "qualifications": [ 38, 48, 49 ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "ukPrn": 10058995,
-      "name": "DISS HIGH SCHOOL",
-      "locations": [
-        {
-          "postcode": "IP22 4DH",
-          "town": "Diss",
-          "latitude": 52.379946,
-          "longitude": 1.115074,
-          "website": "https://www.disshigh.norfolk.sch.uk/",
-          "deliveryYears": [
-            {
-              "year": 2022,
-              "qualifications": [ 41 ]
+              "qualifications": [ 38, 49 ]
             }
           ]
         }
@@ -280,25 +223,6 @@
             {
               "year": 2022,
               "qualifications": [ 37 ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "ukPrn": 10021076,
-      "name": "HARRIS ACADEMY SOUTH NORWOOD",
-      "locations": [
-        {
-          "postcode": "SE25 6AE",
-          "town": "London",
-          "latitude": 51.40013,
-          "longitude": -0.074717,
-          "website": "https://www.harrissouthnorwood.org.uk/",
-          "deliveryYears": [
-            {
-              "year": 2022,
-              "qualifications": [ 41, 51 ]
             }
           ]
         }
@@ -419,6 +343,25 @@
       ]
     },
     {
+      "ukPrn": 10000948,
+      "name": "LONDON AND SOUTH EAST COLLEGES GROUP",
+      "locations": [
+        {
+          "postcode": "BR2 8HE",
+          "town": "Bromley",
+          "latitude": 51.38666,
+          "longitude": 0.034796,
+          "website": "https://www.lsec.ac.uk/t-levels",
+          "deliveryYears": [
+            {
+              "year": 2022,
+              "qualifications": [ 37, 41, 45, 51 ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "ukPrn": 10053993,
       "name": "MENDIP STUDIO SCHOOL",
       "locations": [
@@ -431,7 +374,7 @@
           "deliveryYears": [
             {
               "year": 2022,
-              "qualifications": [ 41, 43 ]
+              "qualifications": [ 42, 43 ]
             }
           ]
         }
@@ -495,25 +438,6 @@
       ]
     },
     {
-      "ukPrn": 10005158,
-      "name": "PORTSMOUTH COLLEGE",
-      "locations": [
-        {
-          "postcode": "PO3 6PZ",
-          "town": "Portsmouth",
-          "latitude": 50.808561,
-          "longitude": -1.045355,
-          "website": "https://www.portsmouth-college.ac.uk/t-levels/",
-          "deliveryYears": [
-            {
-              "year": 2022,
-              "qualifications": [ 41, 42 ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "ukPrn": 10065941,
       "name": "PRIOR PURSGLOVE AND STOCKTON SIXTH FORM COLLEGE",
       "locations": [
@@ -545,7 +469,7 @@
           "deliveryYears": [
             {
               "year": 2022,
-              "qualifications": [ 36, 44, 49, 51 ]
+              "qualifications": [ 36, 44, 51 ]
             }
           ]
         }
@@ -564,7 +488,7 @@
           "deliveryYears": [
             {
               "year": 2022,
-              "qualifications": [ 36, 37, 38, 40, 41, 42, 43, 44, 45, 48, 49, 50, 51 ]
+              "qualifications": [ 36, 37, 38, 40, 41, 43, 44, 45, 48, 49, 51 ]
             }
           ]
         }
@@ -621,7 +545,7 @@
           "deliveryYears": [
             {
               "year": 2022,
-              "qualifications": [ 37, 41, 43, 44, 47 ]
+              "qualifications": [ 37, 40, 41, 43, 44, 46, 47 ]
             }
           ]
         }
@@ -742,6 +666,25 @@
       ]
     },
     {
+      "ukPrn": 10000952,
+      "name": "THE SMB GROUP",
+      "locations": [
+        {
+          "postcode": "LE67 3TN",
+          "town": "Coalville",
+          "latitude": 52.737048,
+          "longitude": -1.372555,
+          "website": "https://stephensoncoll.ac.uk/t-levels.php",
+          "deliveryYears": [
+            {
+              "year": 2022,
+              "qualifications": [ 36, 38, 41, 44 ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "ukPrn": 10047244,
       "name": "UNIVERSITY TECHNICAL COLLEGE NORFOLK",
       "locations": [
@@ -792,7 +735,7 @@
           "deliveryYears": [
             {
               "year": 2022,
-              "qualifications": [ 37, 41, 43, 51 ]
+              "qualifications": [ 39, 41, 43, 51 ]
             }
           ]
         }
@@ -830,7 +773,7 @@
           "deliveryYears": [
             {
               "year": 2022,
-              "qualifications": [ 37, 38, 43, 48, 49, 51 ]
+              "qualifications": [ 37, 38, 41, 43, 48, 49, 50, 51 ]
             }
           ]
         }
