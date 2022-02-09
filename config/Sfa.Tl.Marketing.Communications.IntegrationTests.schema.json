@@ -1,0 +1,79 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "definitions": {},
+    "id": "http://example.com/example.json",
+    "properties": {
+      "Authentication": {
+        "properties": {
+          "WtRealm": {
+            "minLength": 1,
+            "type": "string",
+            "environmentVariable": "AuthenticationWtRealm"
+          },
+          "MetaDataEndpoint": {
+            "minLength": 1,
+            "type": "string",
+            "environmentVariable": "AuthenticationMetaDataEndpoint"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "WtRealm",
+          "MetaDataEndpoint"
+        ],
+        "type": "object"
+      },
+      "AuthorisedAdminUserEmail": {
+        "type": "string",
+        "environmentVariable": "AuthorisedAdminUserEmail"
+      },
+      "PostcodeRetrieverBaseUrl": {
+        "minLength": 1,
+        "type": "string",
+        "environmentVariable": "PostcodeRetrieverBaseUrl"
+      },
+      "GovNotifyApiKey": {
+        "type": "string",
+        "environmentVariable": "GovNotifyAPIKey"
+      },
+      "SendEmailEnabled": {
+        "type": "boolean",
+        "environmentVariable": "SendEmailEnabled"
+      },
+      "EmailDeliveryStatusToken": {
+        "type": "string",
+        "environmentVariable": "EmailDeliveryStatusToken"
+      },
+      "GoogleMapsApiBaseUrl": {
+        "minLength": 1,
+        "type": "string",
+        "environmentVariable": "GoogleMapsApiBaseUrl"
+      },
+      "GoogleMapsApiKey": {
+        "minLength": 1,
+        "type": "string",
+        "environmentVariable": "GoogleMapsApiKey"
+      },
+      "BlobStorageConnectionString": {
+        "type": "string",
+        "environmentVariable": "BlobStorageConnectionString"
+      },
+      "SqlConnectionString": {
+        "minLength": 1,
+        "type": "string",
+        "environmentVariable": "SqlConnectionString"
+      },
+      "SupportInboxEmail": {
+        "minLength": 1,
+        "type": "string",
+        "environmentVariable": "SupportInboxEmail"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "Authentication",
+      "SqlConnectionString"
+    ],
+    "type": "object"
+  }
+  

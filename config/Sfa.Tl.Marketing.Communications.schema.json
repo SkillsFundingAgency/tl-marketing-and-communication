@@ -1,0 +1,104 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "definitions": {},
+    "id": "http://example.com/example.json",
+    "properties": {
+      "Authentication": {
+        "properties": {
+          "WtRealm": {
+            "minLength": 1,
+            "type": "string",
+            "environmentVariable": "AuthenticationWtRealm"
+          },
+          "MetaDataEndpoint": {
+            "minLength": 1,
+            "type": "string",
+            "environmentVariable": "AuthenticationMetaDataEndpoint"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "WtRealm",
+          "MetaDataEndpoint"
+        ],
+        "type": "object"
+      },
+      "AuthorisedAdminUserEmail": {
+        "type": "string",
+        "environmentVariable": "AuthorisedAdminUserEmail"
+      },
+      "PostcodeRetrieverBaseUrl": {
+        "minLength": 1,
+        "type": "string",
+        "environmentVariable": "PostcodeRetrieverBaseUrl"
+      },
+      "GovNotifyApiKey": {
+        "type": "string",
+        "environmentVariable": "GovNotifyAPIKey"
+      },
+      "EmailDeliveryStatusToken": {
+        "type": "string",
+        "environmentVariable": "EmailDeliveryStatusToken"
+      },
+      "SendEmailEnabled": {
+        "type": "boolean",
+        "environmentVariable": "SendEmailEnabled"
+      },
+      "GoogleMapsApiBaseUrl": {
+        "minLength": 1,
+        "type": "string",
+        "environmentVariable": "GoogleMapsApiBaseUrl"
+      },
+      "GoogleMapsApiKey": {
+        "minLength": 1,
+        "type": "string",
+        "environmentVariable": "GoogleMapsApiKey"
+      },
+      "BankHolidaysJsonUrl": {
+        "minLength": 1,
+        "type": "string",
+        "environmentVariable": "BankHolidaysJsonUrl"
+      },
+      "EmployerFeedbackEmailsEnabled": {
+        "type": "boolean",
+        "environmentVariable": "EmployerFeedbackEmailsEnabled"
+      },
+      "EmployerFeedbackWorkingDayInMonth": {
+        "type": "integer",
+        "environmentVariable": "EmployerFeedbackWorkingDayInMonth"
+      },
+      "ProviderFeedbackEmailsEnabled": {
+        "type": "boolean",
+        "environmentVariable": "ProviderFeedbackEmailsEnabled"
+      },
+      "ProviderFeedbackWorkingDayInMonth": {
+        "type": "integer",
+        "environmentVariable": "ProviderFeedbackWorkingDayInMonth"
+      },
+      "BlobStorageConnectionString": {
+        "type": "string",
+        "environmentVariable": "BlobStorageConnectionString"
+      },
+      "SqlConnectionString": {
+        "minLength": 1,
+        "type": "string",
+        "environmentVariable": "SqlConnectionString"
+      },
+      "SupportInboxEmail": {
+        "minLength": 1,
+        "type": "string",
+        "environmentVariable": "SupportInboxEmail"
+      },
+      "MatchingServiceSupportEmailAddress": {
+        "minLength": 1,
+        "type": "string",
+        "environmentVariable": "MatchingServiceSupportEmailAddress"
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "Authentication",
+      "SqlConnectionString"
+    ],
+    "type": "object"
+  }

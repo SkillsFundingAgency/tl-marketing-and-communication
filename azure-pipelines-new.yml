@@ -12,7 +12,8 @@ resources:
 trigger:
   branches:
     include: 
-    - master   
+    - master 
+    - develop  
     - feature/*
      
 pr: 
