@@ -25,10 +25,6 @@ jobs:
                 location: 'West Europe'
                 templateFilePath: './azure/marketingcommunications-shared.json'
                 armParameterOverrideString: '-environmentNameAbbreviation "${{parameters.baseName}}" 
-                  -sqlServerAdminUsername "$(SQLServerAdminUsername)"
-                  -sqlServerAdminPassword "$(SQLServerAdminPassword)"
-                  -sqlServerActiveDirectoryAdminLogin "$(SQLServerActiveDirectoryAdminLogin)"
-                  -sqlServerActiveDirectoryAdminObjectId "$(SQLServerActiveDirectoryAdminObjectId)"
                   -threatDetectionEmailAddress "$(ThreatDetectionEmailAddress)"
                   -appServicePlanTier "$(AppServicePlanTier)"
                   -appServicePlanSize "$(AppServicePlanSize)"
