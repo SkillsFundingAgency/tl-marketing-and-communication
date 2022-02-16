@@ -13,8 +13,4 @@ stages:
     - '${{ each variableGroup in parameters.variableGroups }}':
       - group: '${{variableGroup}}'
   jobs:
-    # - job:
-    #   steps:
-    #   - pwsh: Write-Host "build Stage" 
   - template: ../jobs/marketingcommunications-build-application-job.yml
-  # - template: ../jobs/marketingcommunications-build-dacpac-job.yml

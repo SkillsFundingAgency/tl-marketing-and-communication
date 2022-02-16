@@ -39,11 +39,6 @@ stages:
       serviceConnection: ${{ parameters.serviceConnection }}
       sharedEnvironmentId: ${{ parameters.sharedEnvironmentId }}
       environmentName: ${{parameters.environmentName}}
-  
-  - template: ../jobs/marketingcommunications-publish-dacpac-job.yml
-    parameters:
-      serviceConnection: ${{ parameters.serviceConnection }}
-      sharedEnvironmentId: ${{ parameters.sharedEnvironmentId }}
 
   - template: ../jobs/marketingcommunications-generate-configs-job.yml
     parameters:
