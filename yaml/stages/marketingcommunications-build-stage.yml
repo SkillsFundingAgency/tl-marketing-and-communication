@@ -17,4 +17,4 @@ stages:
     #   steps:
     #   - pwsh: Write-Host "build Stage" 
   - template: ../jobs/marketingcommunications-build-application-job.yml
-  - template: ../jobs/marketingcommunications-build-dacpac-job.yml
+  # - template: ../jobs/marketingcommunications-build-dacpac-job.yml
