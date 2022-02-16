@@ -35,16 +35,7 @@
         "certificateName": {
             "type": "string"
         },
-        "bankHolidayGeneratorTrigger": {
-            "type": "string"
-        },
-        "employerFeedbackTrigger": {
-            "type": "string"
-        },
-        "providerFeedbackTrigger": {
-            "type": "string"
-        },
-        "providerReferenceTrigger": {
+        "courseDirectoryImportTrigger": {
             "type": "string"
         }
     },
@@ -213,27 +204,15 @@
                                 "value": "Sfa.Tl.Matching"
                             },
                             {
-                                "name": "BankHolidayGeneratorTrigger",
-                                "value": "[parameters('bankHolidayGeneratorTrigger')]"
-                            },
-                            {
-                                "name": "EmployerFeedbackTrigger",
-                                "value": "[parameters('employerFeedbackTrigger')]"
-                            },
-                            {
-                                "name": "ProviderFeedbackTrigger",
-                                "value": "[parameters('providerFeedbackTrigger')]"
-                            },
-                            {
-                                "name": "ProviderReferenceTrigger",
-                                "value": "[parameters('providerReferenceTrigger')]"
+                                "name": "CourseDirectoryImportTrigger",
+                                "value": "[parameters('courseDirectoryImportTrigger')]"
                             },
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                                 "value": "[reference(concat('app-insights','-',parameters('environmentNameAbbreviation'))).outputs.InstrumentationKey.value]"
                             },
                             {
-                                "name": "BlobStorageConnectionString",
+                                "name": "TableStorageConnectionString",
                                 "value": "[reference(concat('storage-account','-',parameters('environmentNameAbbreviation'))).outputs.storageConnectionString.value]"
                             },
                             {
@@ -250,7 +229,7 @@
                             },
                             {
                                 "name": "FUNCTIONS_EXTENSION_VERSION",
-                                "value": "~3"
+                                "value": "~4"
                             }
                         ]
                     }
