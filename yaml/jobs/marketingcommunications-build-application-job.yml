@@ -2,108 +2,83 @@ jobs:
 - job: 'CodeBuild'
   pool:
       name: 'Azure Pipelines'
-      vmImage: 'windows-latest'
+      vmImage: 'ubuntu-18.04'
   workspace:
     clean: all
   steps:        
-    - task: UseDotNet@2
-      displayName: 'Use .NET Core SDK 2.x LTS'
-      inputs:
-        packageType: sdk
-        version: 2.x
-        installationPath: $(Agent.ToolsDirectory)/dotnet
-
     - task: GitVersion@5
       displayName: GitVersion
       inputs:
         runtime: 'core'
         updateAssemblyInfo: true
     
-    - task: UseDotNet@2
-      displayName: 'Use .NET Core SDK $(dotnetVersion)'
+    - task: NodeTool@0 
       inputs:
-        packageType: sdk
-        version: $(dotnetVersion)
-        installationPath: $(Agent.ToolsDirectory)/dotnet
+        versionSpec: '14.x'
 
-    - task: DotNetCoreCLI@2
-      displayName: Restore
-      inputs:
-        command: restore
-        projects: 'src/**/*.csproj'
-        noCache: false
-    
     - task: Npm@1
       displayName: 'npm install'
-      inputs:
-        workingDir: src/Sfa.Tl.Marketing.Communications.Web/
+      inputs: 
+        workingDir: sfa.Tl.Marketing.Communication
         verbose: false
-    
+
     - task: Gulp@0
-      displayName: gulp
+      displayName: 'gulp'
       inputs:
-        gulpFile: src/Sfa.Tl.Marketing.Communications.Web/gulpfile.js
-        targets: default
-    
-    - task: DotNetCoreCLI@2
-      displayName: Build
+        gulpFile: sfa.Tl.Marketing.Communication/gulpfile.js
+
+    - task: UseDotNet@2 
+      displayName: "Install .NET 6 SDK"
       inputs:
-        projects: 'src/**/*.csproj'
-        arguments: '--configuration $(buildConfiguration)  --no-restore'        
-    
+        packageType: 'sdk'
+        version: '6.x'
+
     - task: DotNetCoreCLI@2
-      displayName: Test
+      displayName: 'DotNet Restore'
+      inputs:
+        command: restore
+        projects: '**/*.csproj'
+        noCache: true
+
+    - task: DotNetCoreCLI@2
+      displayName: 'DotNet Build'
+      inputs:
+        command: build
+        projects: '**/*.csproj'
+        arguments: '--configuration $(buildConfiguration)  --no-restore'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'DotNet Test'
       inputs:
         command: test
         projects: '**/*.UnitTests.csproj'
-        arguments: '--configuration $(buildConfiguration)'
-    
+        arguments: '--configuration $(buildConfiguration)  --no-restore'
+
     - task: DotNetCoreCLI@2
-      displayName: Integration Tests
-      inputs:
-        command: test
-        projects: '**/*.Web.IntegrationTests.csproj'
-        arguments: '--configuration $(buildConfiguration)'
-    
-    - task: DotNetCoreCLI@2
-      displayName: 'Publish Website'
+      displayName: 'DotNet Publish'
       inputs:
         command: publish
-        publishWebProjects: true
-        projects: 'src/Sfa.Tl.Marketing.Communications.Web/Sfa.Tl.Marketing.Communications.Web.csproj'
-        arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore --no-build'
+        publishWebProjects: True
+        arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)'
+        zipAfterPublish: True
+
     - task: DotNetCoreCLI@2
       displayName: 'Publish Function App'
       inputs:
         command: publish
         publishWebProjects: false
-        projects: 'src/Sfa.Tl.Marketing.Communications.Functions/Sfa.Tl.Marketing.Communications.Functions.csproj'
-        arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore --no-build'
-    - task: DotNetCoreCLI@2
-      displayName: 'Publish Application Integration Tests'
-      inputs:
-        command: publish
-        publishWebProjects: false
-        projects: 'src/Sfa.Tl.Marketing.Communications.Application.IntegrationTests/Sfa.Tl.Marketing.Communications.Application.IntegrationTests.csproj'
-        arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore --no-build'
-    - task: DotNetCoreCLI@2
-      displayName: 'Publish Web Integration Tests'
-      inputs:
-        command: publish
-        publishWebProjects: false
-        projects: 'src/Sfa.Tl.Marketing.Communications.Web.IntegrationTests/Sfa.Tl.Marketing.Communications.Web.IntegrationTests.csproj'
-        arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore --no-build'
+        projects: 'sfa.Tl.Marketing.Communication.Functions/sfa.Tl.Marketing.Communication.Functions.csproj'
+        arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore'
+
     - task: CopyFiles@2
       displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
       inputs:
-        contents: |
-          azure/** 
-          config/**
-        targetFolder: '$(build.artifactstagingdirectory)/publish'
-        overWrite: true
+        Contents: |
+          azure/**
+        TargetFolder: '$(build.artifactstagingdirectory)'
+        OverWrite: true
+
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact'
       inputs:
-          PathtoPublish: '$(build.artifactstagingdirectory)/publish'
-          ArtifactName: 'appdrop'
-          publishLocation: 'Container'
+        PathtoPublish: '$(build.artifactstagingdirectory)'
