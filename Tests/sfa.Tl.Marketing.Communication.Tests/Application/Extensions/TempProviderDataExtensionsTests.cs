@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using FluentAssertions;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
@@ -21,30 +20,32 @@ public class TempProviderDataExtensionsTests
     }
 
     [Fact]
-    [SuppressMessage("ReSharper", "StringLiteralTypo")]
     public void TempProviderDataExtensions_Loads_First_Known_Provider()
     {
         var knownProvider = TempProviderDataExtensions
             .ProviderData
-            .SingleOrDefault(p => p.Key == 10035123)
+            .SingleOrDefault(p => 
+                p.Key == 10042223)
             .Value;
 
         knownProvider.Should().NotBeNull();
-        knownProvider.Name.Should().Be("BIDDULPH HIGH SCHOOL");
+        // ReSharper disable once StringLiteralTypo
+        knownProvider.Name.Should().Be("BURNTWOOD SCHOOL");
         knownProvider.Locations.Should().NotBeNullOrEmpty();
 
         var knownLocation = knownProvider.Locations.First();
-        knownLocation.Postcode.Should().Be("ST8 7AR");
-        knownLocation.Town.Should().Be("Stoke-on-Trent");
-        knownLocation.Latitude.Should().Be(53.105857);
-        knownLocation.Longitude.Should().Be(-2.171092);
-        knownLocation.Website.Should().Be("https://biddulphhigh.co.uk/");
+        knownLocation.Postcode.Should().Be("SW17 0AQ");
+        knownLocation.Town.Should().Be("London");
+        knownLocation.Latitude.Should().Be(51.438125);
+        knownLocation.Longitude.Should().Be(-0.180083);
+        knownLocation.Website.Should().Be("https://www.burntwoodschool.com/");
+
         knownLocation.DeliveryYears.Should().NotBeNullOrEmpty();
 
         var knownDeliveryYear = knownLocation.DeliveryYears.First();
         knownDeliveryYear.Year.Should().Be(2022);
         knownDeliveryYear.Qualifications.Should().NotBeNullOrEmpty();
-        knownDeliveryYear.Qualifications.First().Should().Be(41);
+        knownDeliveryYear.Qualifications.First().Should().Be(38);
     }
 
     [Fact]
