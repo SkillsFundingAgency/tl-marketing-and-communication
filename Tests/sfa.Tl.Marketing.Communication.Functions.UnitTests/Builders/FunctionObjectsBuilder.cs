@@ -6,53 +6,52 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 
-namespace sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders
+namespace sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders;
+
+public class FunctionObjectsBuilder
 {
-    public class FunctionObjectsBuilder
+    public static FunctionContext BuildFunctionContext(ILogger logger = null)
     {
-        public static FunctionContext BuildFunctionContext(ILogger logger = null)
-        {
-            logger ??= Substitute.For<ILogger>();
-            var loggerFactory = Substitute.For<ILoggerFactory>();
-            loggerFactory.CreateLogger(Arg.Any<string>())
-                .Returns(logger);
+        logger ??= Substitute.For<ILogger>();
+        var loggerFactory = Substitute.For<ILoggerFactory>();
+        loggerFactory.CreateLogger(Arg.Any<string>())
+            .Returns(logger);
 
-            var functionContext = Substitute.For<FunctionContext>();
-            functionContext.InstanceServices.GetService(Arg.Any<Type>())
-                .Returns(loggerFactory);
+        var functionContext = Substitute.For<FunctionContext>();
+        functionContext.InstanceServices.GetService(Arg.Any<Type>())
+            .Returns(loggerFactory);
 
-            return functionContext;
-        }
+        return functionContext;
+    }
 
-        public static HttpRequestData BuildHttpRequestData(
-            HttpMethod method,
-            FunctionContext functionContext = null)
-        {
-            functionContext ??= BuildFunctionContext();
+    public static HttpRequestData BuildHttpRequestData(
+        HttpMethod method,
+        FunctionContext functionContext = null)
+    {
+        functionContext ??= BuildFunctionContext();
 
-            var request = Substitute.For<HttpRequestData>(functionContext);
-            request.Method.Returns(method.ToString());
+        var request = Substitute.For<HttpRequestData>(functionContext);
+        request.Method.Returns(method.ToString());
 
-            var responseData = BuildHttpResponseData(functionContext);
-            request.CreateResponse().Returns(responseData);
+        var responseData = BuildHttpResponseData(functionContext);
+        request.CreateResponse().Returns(responseData);
 
-            return request;
-        }
+        return request;
+    }
 
-        public static HttpResponseData BuildHttpResponseData(
-            FunctionContext functionContext = null)
-        {
-            functionContext ??= BuildFunctionContext();
+    public static HttpResponseData BuildHttpResponseData(
+        FunctionContext functionContext = null)
+    {
+        functionContext ??= BuildFunctionContext();
 
-            var responseData = Substitute.For<HttpResponseData>(functionContext);
+        var responseData = Substitute.For<HttpResponseData>(functionContext);
 
-            var responseHeaders = new HttpHeadersCollection();
-            responseData.Headers.Returns(responseHeaders);
+        var responseHeaders = new HttpHeadersCollection();
+        responseData.Headers.Returns(responseHeaders);
 
-            var responseBody = new MemoryStream();
-            responseData.Body.Returns(responseBody);
+        var responseBody = new MemoryStream();
+        responseData.Body.Returns(responseBody);
 
-            return responseData;
-        }
+        return responseData;
     }
 }

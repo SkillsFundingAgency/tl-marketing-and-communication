@@ -1,0 +1,42 @@
+{
+  "status": 200,
+  "result": {
+    "postcode": "CV1 2WT",
+    "quality": 1,
+    "eastings": 433563,
+    "northings": 278223,
+    "country": "England",
+    "nhs_ha": "West Midlands",
+    "longitude": -1.508122,
+    "latitude": 52.400997,
+    "european_electoral_region": "West Midlands",
+    "primary_care_trust": "Coventry Teaching",
+    "region": "West Midlands",
+    "lsoa": "Coventry 031A",
+    "msoa": "Coventry 031",
+    "incode": "2WT",
+    "outcode": "CV1",
+    "parliamentary_constituency": "Coventry South",
+    "admin_district": "Coventry",
+    "parish": "Coventry, unparished area",
+    "admin_county": null,
+    "admin_ward": "St Michael's",
+    "ced": null,
+    "ccg": "NHS Coventry and Warwickshire",
+    "nuts": "Coventry",
+    "codes": {
+      "admin_district": "E08000026",
+      "admin_county": "E99999999",
+      "admin_ward": "E05001228",
+      "parish": "E43000246",
+      "parliamentary_constituency": "E14000651",
+      "ccg": "E38000251",
+      "ccg_id": "B2M3M",
+      "ced": "E99999999",
+      "nuts": "TLG33",
+      "lsoa": "E01009548",
+      "msoa": "E02001988",
+      "lau2": "E08000026"
+    }
+  }
+}

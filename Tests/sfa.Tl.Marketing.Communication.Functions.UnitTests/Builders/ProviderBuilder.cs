@@ -2,43 +2,42 @@
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 
-namespace sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders
+namespace sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders;
+
+public class ProviderBuilder
 {
-    public class ProviderBuilder
+    public IList<Provider> BuildList() => new List<Provider>
     {
-        public IList<Provider> BuildList() => new List<Provider>
+        new()
         {
-            new()
+            UkPrn = 12345678,
+            Name = "Test Provider 1",
+            Locations = new List<Location>
             {
-                UkPrn = 12345678,
-                Name = "Test Provider 1",
-                Locations = new List<Location>
+                new()
                 {
-                    new()
+                    Postcode = "CV1 2WT",
+                    Town = "Coventry",
+                    Latitude = 52.400997,
+                    Longitude = -1.508122,
+                    DeliveryYears = new List<DeliveryYearDto>
                     {
-                        Postcode = "CV1 2WT",
-                        Town = "Coventry",
-                        Latitude = 52.400997,
-                        Longitude = -1.508122,
-                        DeliveryYears = new List<DeliveryYearDto>
+                        new()
                         {
-                            new()
+                            Year = 2021,
+                            Qualifications = new List<int>
                             {
-                                Year = 2021,
-                                Qualifications = new List<int>
-                                {
-                                    1
-                                }
+                                1
                             }
-                        },
-                        Website = "https://test.provider.co.uk"
-                    }
+                        }
+                    },
+                    Website = "https://test.provider.co.uk"
                 }
             }
-        };
+        }
+    };
 
-        public string BuildJson() =>
-            $"{GetType().Namespace}.Data.ProviderData.json"
-                .ReadManifestResourceStreamAsString();
-    }
+    public string BuildJson() =>
+        $"{GetType().Namespace}.Data.ProviderData.json"
+            .ReadManifestResourceStreamAsString();
 }

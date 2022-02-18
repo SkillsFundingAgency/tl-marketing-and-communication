@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace sfa.Tl.Marketing.Communication.Controllers
+namespace sfa.Tl.Marketing.Communication.Controllers;
+
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    [Route("/", Name = "Landing")]
+    public IActionResult Landing()
     {
-        [Route("/", Name = "Landing")]
-        public IActionResult Landing()
-        {
-            return View();
-        }
+        return View();
     }
 }

@@ -5,32 +5,31 @@ using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps
+namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps;
+
+public class LoadSearchPageWithNoResultsStepUnitTests
 {
-    public class LoadSearchPageWithNoResultsStepUnitTests
+    private readonly ISearchStep _searchStep;
+
+    public LoadSearchPageWithNoResultsStepUnitTests()
     {
-        private readonly ISearchStep _searchStep;
+        _searchStep = new LoadSearchPageWithNoResultsStep();
+    }
 
-        public LoadSearchPageWithNoResultsStepUnitTests()
+    [Fact]
+    public async Task Step_Load_Find_Page_And_Make_Page_Ready_For_Search()
+    {
+        const bool shouldSearch = false;
+        var viewModel = new FindViewModel
         {
-            _searchStep = new LoadSearchPageWithNoResultsStep();
-        }
-
-        [Fact]
-        public async Task Step_Load_Find_Page_And_Make_Page_Ready_For_Search()
-        {
-            const bool shouldSearch = false;
-            var viewModel = new FindViewModel
-            {
-                ShouldSearch = shouldSearch
-            };
+            ShouldSearch = shouldSearch
+        };
             
-            var context = new SearchContext(viewModel);
+        var context = new SearchContext(viewModel);
 
-            await _searchStep.Execute(context);
+        await _searchStep.Execute(context);
 
-            context.ViewModel.ShouldSearch.Should().BeTrue();
-            context.Continue.Should().BeFalse();
-        }
+        context.ViewModel.ShouldSearch.Should().BeTrue();
+        context.Continue.Should().BeFalse();
     }
 }

@@ -1,0 +1,39 @@
+{
+  "status": 200,
+  "result": {
+    "outcode": "CV11",
+    "longitude": -1.45313659025471,
+    "latitude": 52.5198364972316,
+    "northings": 291469,
+    "eastings": 437204,
+    "admin_district": [
+      "Nuneaton and Bedworth",
+      "Hinckley and Bosworth",
+      "Rugby"
+    ],
+    "parish": [
+      "Burton Hastings",
+      "Higham on the Hill",
+      "Wolvey",
+      "Nuneaton and Bedworth, unparished area"
+    ],
+    "admin_county": [
+      "Leicestershire",
+      "Warwickshire"
+    ],
+    "admin_ward": [
+      "Attleborough",
+      "Wem Brook",
+      "Wolvey and Shilton",
+      "St Nicolas",
+      "Weddington",
+      "Bulkington",
+      "Abbey",
+      "Ambien",
+      "Whitestone"
+    ],
+    "country": [
+      "England"
+    ]
+  }
+}

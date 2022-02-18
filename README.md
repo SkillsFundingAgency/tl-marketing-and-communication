@@ -41,10 +41,10 @@ Other API Keys and email addresses are also stored in the site `appSettings.json
 
 ```
 {
-  "EmployerContactEmailTemplateId": "<value>"
   "EmployerSupportSiteUrl": "<address>",
   "TableStorageConnectionString": "UseDevelopmentStorage=true;",
   "CacheExpiryInSeconds": time,
+  "PostcodeCacheExpiryInSeconds": time,
   "Logging": {
     "LogLevel": {
       "Default": "Debug",
@@ -55,10 +55,11 @@ Other API Keys and email addresses are also stored in the site `appSettings.json
 }
 ```
 
+- `CacheExpiryInSeconds` - Default cache time (in seconds) used for caching providers and qualifications.
 - `EmployerSupportSiteUrl` needs to be the address of the Zendesk Employer Support site.
 - `TableStorageConnectionString` defaults to Azure Storage Emulator. If you want to use a cloud table, set the connection string here.
+- `PostcodeCacheExpiryInSeconds` - The time (in seconds) to keep postcodes cached. Used to reduce repeated calls to postcodes.io.
 - `PostcodeRetrieverBaseUrl` is usually `https://postcodes.io/` - this is set in `appSettings.json`.
-
 
 ## Creating provider data in local storage
 
@@ -68,26 +69,28 @@ This data is imported from the NCS Course Directory API using a scheduled functi
 1. The console application *sfa.Tl.Marketing.Communication.DataLoad* can be run to copy data into local storage. 
 2. This can be run on developer machines when Azure Storage Explorer is running.
 3. The program will create tables called `Qualification`, `Provider` and `Location` and copy data from json files.
-4. You need to set the table connection string and paths to sample files in `appsettings.json` with the content below. DO NOT CHECK THIS IN (it is already in .gitignore). The paths below use files that are included in the project.
+4. The table connection string and paths to sample files are set in `appsettings.json` with the default values below,     
+   using files that are included in the project.
+   If you need to override values on your local machine, add a `appsettings.Development.json` file and set the values there.
+>- this should be done outside of Visual Studio, since the file is already referenced in the project with `Copy to Output Directory` set to `Copy if newer`.
 
+```
 {
   "ProviderJsonInputFilePath": "..\\..\\..\\Provider Data\\providers.json",
   "QualificationJsonInputFilePath": "..\\..\\..\\Provider Data\\qualifications.json",
   "TableStorageConnectionString": "UseDevelopmentStorage=true;"
 }
-
+```
 
 ## Azure Functions
 
-Azure functions has been upgraded to work with .NET 5.
-
-Known issues with this version of functions can be found at
-https://github.com/Azure/azure-functions-dotnet-worker/wiki/Known-issues#net-core-31-dependency
-
-There is a dependency on .NET Core 3.1, so a developer machine will need this installed and the Azure build pipeline has to install the SDK. If the dependency is removed in future, the .NET Core 3.1 SDK install step can be removed from the pipeline. See also https://github.com/Azure/azure-functions-dotnet-worker/issues/297
-
+Default development configuration is in file `local.settings.development.json`.
+If you need to override configuration (e.g. to import Course Directory data)  values on your local machine, add a file called `local.settings.development.json` 
+- this should be done outside of Visual Studio, since the file is already referenced in the project with `Copy to Output Directory` set to `Copy if newer`.
 
 ## Benchmarks
+
+> Only applies if a benchmarking project has been added to the solution.
 
 To run benchmarks, make sure the project is in release mode, open a terminal or console, 
 navigate to the solution directory (e.g. `cd \dev\esfa\tl-marketing-and-communication\`) 

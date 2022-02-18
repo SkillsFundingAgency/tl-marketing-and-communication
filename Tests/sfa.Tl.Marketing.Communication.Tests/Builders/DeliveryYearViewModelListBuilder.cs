@@ -1,29 +1,28 @@
 ﻿using System.Collections.Generic;
 using sfa.Tl.Marketing.Communication.Models;
 
-namespace sfa.Tl.Marketing.Communication.UnitTests.Builders
+namespace sfa.Tl.Marketing.Communication.UnitTests.Builders;
+
+public class DeliveryYearViewModelListBuilder
 {
-    public class DeliveryYearViewModelListBuilder
-    {
-        public IList<DeliveryYearViewModel> Build() =>
-            new List<DeliveryYearViewModel>
+    public IList<DeliveryYearViewModel> Build() =>
+        new List<DeliveryYearViewModel>
+        {
+            new()
             {
-                new()
+                Year = 2021,
+                Qualifications = new List<QualificationViewModel>
                 {
-                    Year = 2021,
-                    Qualifications = new List<QualificationViewModel>
-                    {
-                        new() { Id = 1, Name = "Test Qualification 1" }
-                    }
-                },
-                new()
-                {
-                    Year = 2021,
-                    Qualifications = new List<QualificationViewModel>
-                    {
-                        new() { Id = 2, Name = "Test Qualification 2" }
-                    }
+                    new() { Id = 1, Name = "Test Qualification 1" }
                 }
-            };
-    }
+            },
+            new()
+            {
+                Year = 2021,
+                Qualifications = new List<QualificationViewModel>
+                {
+                    new() { Id = 2, Name = "Test Qualification 2" }
+                }
+            }
+        };
 }

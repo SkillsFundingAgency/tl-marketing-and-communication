@@ -33,7 +33,13 @@ $listgutter: 30px;
 
         @include media-max(medium) {
             flex-direction: column;
+
+            &.nomargin {
+                margin-bottom: 0;
+            }
         }
+
+
 
         li {
             padding: 0 $listgutter;
@@ -115,9 +121,17 @@ $listgutter: 30px;
         }
     }
 
-    .tl-footer--planforjobs {
+    .tl-footer--skillsforlife {
         @extend .tl-margin-left--10--medium;
         @extend .tl-margin-top--10--medium;
+        @extend .tl-margin-top--20;
+    }
+
+    .tl-footer--planforjobs {
+        max-width: 110px;
+        max-height: 60px;
+        @extend .tl-margin-left--10--medium;
+        @extend .tl-margin-top--0--medium;
         @extend .tl-margin-top--20;
     }
 }

@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace sfa.Tl.Marketing.Communication.Application.Interfaces
+namespace sfa.Tl.Marketing.Communication.Application.Interfaces;
+
+public interface IProviderDataService
 {
-    public interface IProviderDataService
-    {
-        IQueryable<ProviderLocation> GetProviderLocations(int? qualificationId = null);
+    IQueryable<ProviderLocation> GetProviderLocations(int? qualificationId = null);
 
-        IEnumerable<Qualification> GetQualifications();
-        IEnumerable<Qualification> GetQualifications(int[] qualificationIds);
-        Qualification GetQualification(int qualificationId);
+    IEnumerable<Qualification> GetQualifications();
+    IEnumerable<Qualification> GetQualifications(int[] qualificationIds);
+    Qualification GetQualification(int qualificationId);
 
-        IDictionary<string, string> GetWebsiteUrls();
-    }
+    IDictionary<string, string> GetWebsiteUrls();
 }
