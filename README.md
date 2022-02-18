@@ -41,10 +41,10 @@ Other API Keys and email addresses are also stored in the site `appSettings.json
 
 ```
 {
-  "EmployerContactEmailTemplateId": "<value>"
   "EmployerSupportSiteUrl": "<address>",
   "TableStorageConnectionString": "UseDevelopmentStorage=true;",
   "CacheExpiryInSeconds": time,
+  "PostcodeCacheExpiryInSeconds": time,
   "Logging": {
     "LogLevel": {
       "Default": "Debug",
@@ -55,10 +55,11 @@ Other API Keys and email addresses are also stored in the site `appSettings.json
 }
 ```
 
+- `CacheExpiryInSeconds` - Default cache time (in seconds) used for caching providers and qualifications.
 - `EmployerSupportSiteUrl` needs to be the address of the Zendesk Employer Support site.
 - `TableStorageConnectionString` defaults to Azure Storage Emulator. If you want to use a cloud table, set the connection string here.
+- `PostcodeCacheExpiryInSeconds` - The time (in seconds) to keep postcodes cached. Used to reduce repeated calls to postcodes.io.
 - `PostcodeRetrieverBaseUrl` is usually `https://postcodes.io/` - this is set in `appSettings.json`.
-
 
 ## Creating provider data in local storage
 
