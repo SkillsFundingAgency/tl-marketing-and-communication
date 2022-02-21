@@ -42,9 +42,6 @@ jobs:
             -configurationStorageConnectionString "$(ConfigurationStorageConnectionString)"
             -uiCustomHostName "$(UICustomHostName)"
             -certificateName "$(CertificateName)"
-            -bankHolidayGeneratorTrigger "$(BankHolidayGeneratorTrigger)"
-            -employerFeedbackTrigger "$(EmployerFeedbackTrigger)"
-            -providerFeedbackTrigger "$(ProviderFeedbackTrigger)"
-            -providerReferenceTrigger "$(ProviderReferenceTrigger)"'
+            -courseDirectoryImportTrigger "$(CourseDirectoryImportTrigger)"'
           tags: $(Tags)          
           processOutputs: true
