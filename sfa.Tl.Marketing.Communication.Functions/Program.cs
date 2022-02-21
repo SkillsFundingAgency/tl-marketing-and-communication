@@ -10,7 +10,6 @@ using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
 using sfa.Tl.Marketing.Communication.Application.Services;
-using sfa.Tl.Marketing.Communication.Functions.Extensions;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
 var host = new HostBuilder()
@@ -25,27 +24,20 @@ var host = new HostBuilder()
     )
     .ConfigureServices((hostContext, services) =>
     {
-        var config = hostContext.Configuration;
-        var (apiConfig, storageConfig) =
-        (
-            new CourseDirectoryApiSettings
-            {
-                ApiKey = config.GetConfigurationValue(ConfigurationKeys.CourseDirectoryApiKeyConfigKey),
-                ApiBaseUri = config.GetConfigurationValue(ConfigurationKeys.CourseDirectoryApiBaseUriConfigKey)
-            },
-            new StorageSettings
-            {
-                TableStorageConnectionString = config.GetConfigurationValue(ConfigurationKeys.TableStorageConnectionStringConfigKey)
-            }
-        );
-
-        RegisterHttpClients(services, apiConfig);
-        RegisterServices(services, storageConfig);
+        var config = hostContext.Configuration.LoadConfigurationOptions(
+                Environment.GetEnvironmentVariable(ConfigurationKeys.EnvironmentNameConfigKey),
+                Environment.GetEnvironmentVariable(ConfigurationKeys.ConfigurationStorageConnectionStringConfigKey),
+                Environment.GetEnvironmentVariable(ConfigurationKeys.ServiceNameConfigKey),
+                //NOTE: workaround issues with "Version" in local "Values" with .NET 6
+                Environment.GetEnvironmentVariable(ConfigurationKeys.VersionConfigKey)
+                ?? Environment.GetEnvironmentVariable(ConfigurationKeys.ServiceVersionConfigKey));
+        
+        RegisterHttpClients(services, config.CourseDirectoryApiSettings);
+        RegisterServices(services, config.StorageSettings);
     })
     .Build();
 
 await host.RunAsync();
-
 
 static void RegisterHttpClients(IServiceCollection services, CourseDirectoryApiSettings apiConfiguration)
 {
@@ -53,7 +45,7 @@ static void RegisterHttpClients(IServiceCollection services, CourseDirectoryApiS
             nameof(CourseDirectoryDataService),
             client =>
             {
-                client.BaseAddress = new Uri(apiConfiguration.ApiBaseUri);
+                client.BaseAddress = new Uri(apiConfiguration.BaseUri);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", apiConfiguration.ApiKey);
                 client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));

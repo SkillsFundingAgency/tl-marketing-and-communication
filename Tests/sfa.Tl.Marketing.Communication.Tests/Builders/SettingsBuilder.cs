@@ -19,7 +19,7 @@ internal class SettingsBuilder
         string findCourseApiBaseUri = FindCourseApiBaseAbsoluteUri,
         string findCourseApiKey = FindCourseApiKey) => new()
     {
-        ApiBaseUri = findCourseApiBaseUri,
+        BaseUri = findCourseApiBaseUri,
         ApiKey = findCourseApiKey
     };
 

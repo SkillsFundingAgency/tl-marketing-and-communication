@@ -3,5 +3,5 @@
 public class CourseDirectoryApiSettings
 {
     public string ApiKey { get; init; }
-    public string ApiBaseUri { get; init; }
+    public string BaseUri { get; init; }
 }

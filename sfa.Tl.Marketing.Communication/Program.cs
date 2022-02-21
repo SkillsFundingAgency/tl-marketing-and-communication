@@ -8,13 +8,11 @@ using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using sfa.Tl.Marketing.Communication.Application.Caching;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.GeoLocations;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
 using sfa.Tl.Marketing.Communication.Application.Services;
-using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
 
@@ -32,24 +30,8 @@ if (programTypeName != null)
         programTypeName, LogLevel.Trace);
 }
 
-var siteConfiguration = new ConfigurationOptions
-{
-    CacheExpiryInSeconds = int.TryParse(builder.Configuration["CacheExpiryInSeconds"], out var cacheExpiryInSeconds) 
-            ? cacheExpiryInSeconds 
-            : CacheUtilities.DefaultCacheExpiryInSeconds,
-    PostcodeCacheExpiryInSeconds = int.TryParse(builder.Configuration["PostcodeCacheExpiryInSeconds"], out var postcodeCacheExpiryInSeconds)
-        ? postcodeCacheExpiryInSeconds
-        : CacheUtilities.DefaultCacheExpiryInSeconds,
-    MergeTempProviderData = bool.TryParse(builder.Configuration["MergeTempProviderData"], 
-                                out var mergeTempProviderData) 
-                            && mergeTempProviderData,
-    PostcodeRetrieverBaseUrl = builder.Configuration["PostcodeRetrieverBaseUrl"],
-    EmployerSupportSiteUrl = builder.Configuration["EmployerSupportSiteUrl"],
-    StorageConfiguration = new StorageSettings
-    {
-        TableStorageConnectionString = builder.Configuration[ConfigurationKeys.TableStorageConnectionStringConfigKey]
-    }
-};
+var siteConfiguration = builder.Configuration.LoadConfigurationOptions()
+                        ?? builder.Configuration.LoadConfigurationOptionsFromAppSettings();
 
 builder.Services
     .AddApplicationInsightsTelemetry()
@@ -96,7 +78,7 @@ builder.Services
     .AddTransient<ISearchStep, MergeAvailableDeliveryYearsStep>();
 
 var cloudStorageAccount =
-    CloudStorageAccount.Parse(siteConfiguration.StorageConfiguration.TableStorageConnectionString);
+    CloudStorageAccount.Parse(siteConfiguration.StorageSettings.TableStorageConnectionString);
 var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
 
 builder.Services.AddSingleton(cloudStorageAccount)
