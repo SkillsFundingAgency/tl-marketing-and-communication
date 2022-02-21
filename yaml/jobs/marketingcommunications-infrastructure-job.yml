@@ -32,7 +32,7 @@ jobs:
           subscriptionId: $(subscriptionId)
           resourceGroupName: $(ResourceGroupName)
           location: "West Europe"
-          templateFilePath: "./azure/marketingcommunications-environmant.json"
+          templateFilePath: "./azure/marketingcommunications-environment.json"
           armParameterOverrideString:
             '-environmentNameAbbreviation "${{parameters.environmentName}}"
             -resourceNamePrefix "${{parameters.BaseName}}"
