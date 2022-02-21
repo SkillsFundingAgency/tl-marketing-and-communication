@@ -8,9 +8,6 @@ public static class ConfigurationKeys
     public const string VersionConfigKey = "Version";
     public const string ServiceVersionConfigKey = "ServiceVersion";
 
-    public const string CourseDirectoryApiKeyConfigKey = "CourseDirectoryApiKey";
-    public const string CourseDirectoryApiBaseUriConfigKey = "CourseDirectoryApiBaseUri";
-
     public const string CacheExpiryInSecondsConfigKey = "CacheExpiryInSeconds";
     public const string PostcodeCacheExpiryInSecondsConfigKey = "PostcodeCacheExpiryInSeconds";
     public const string PostcodeRetrieverBaseUrlConfigKey = "PostcodeRetrieverBaseUrl";

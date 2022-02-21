@@ -43,8 +43,7 @@ public class TestHttpClientFactory
         {
             Content = new StreamContent(response)
         };
-
-
+        
         httpResponseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue(responseContentType);
 
         return httpResponseMessage;
