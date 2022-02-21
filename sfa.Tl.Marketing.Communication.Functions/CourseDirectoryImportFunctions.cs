@@ -42,7 +42,12 @@ public class CourseDirectoryImportFunctions
         {
             logger.LogInformation("Course directory scheduled import function was called.");
 
-            await Import(logger);
+            var (savedQualifications, deletedQualifications) = await _courseDirectoryDataService.ImportQualificationsFromCourseDirectoryApi();
+            logger.LogInformation("Course directory import inserted or updated {savedQualifications} and deleted {deletedQualifications} qualifications.", savedQualifications, deletedQualifications);
+
+            var (savedProviders, deletedProviders) =
+                await _courseDirectoryDataService.ImportProvidersFromCourseDirectoryApi();
+            logger.LogInformation("Course directory import inserted or updated {savedProviders} and deleted {deletedProviders} providers.", savedProviders, deletedProviders);
 
             logger.LogInformation("Course directory scheduled import finished.");
         }
@@ -50,51 +55,6 @@ public class CourseDirectoryImportFunctions
         {
             logger.LogError("Error importing data from course directory. Internal Error Message {e}", e);
         }
-    }
-
-    [Function("CourseDirectoryManualImport")]
-    public async Task<HttpResponseData> ManualImport(
-        [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
-        HttpRequestData request,
-        FunctionContext functionContext)
-    {
-        var logger = functionContext.GetLogger("HttpFunction");
-
-        try
-        {
-            logger.LogInformation("Course directory manual import function was called.");
-
-            var (savedProviders, deletedProviders, savedQualifications, deletedQualifications) = await Import(logger);
-
-            logger.LogInformation("Course directory manual import finished.");
-
-            var response = request.CreateResponse(HttpStatusCode.OK);
-            response.Headers.Add("Content-Type", "application/text");
-
-            await response.WriteStringAsync(
-                $"Inserted or updated {savedProviders} and deleted {deletedProviders} providers.\r\n" +
-                $"Inserted or updated {savedQualifications} and deleted {deletedQualifications} qualifications.");
-
-            return response;
-        }
-        catch (Exception e)
-        {
-            logger.LogError("Error importing data from course directory. Internal Error Message {e}", e);
-
-            return request.CreateResponse(HttpStatusCode.InternalServerError);
-        }
-    }
-
-    private async Task<(int SavedProviders, int DeletedProviders, int SavedQualifications, int DeletedQualifications)> Import(ILogger logger)
-    {
-        var (savedQualifications, deletedQualifications) = await _courseDirectoryDataService.ImportQualificationsFromCourseDirectoryApi();
-        logger.LogInformation("Course directory import saved {savedQualifications} and deleted {deletedQualifications} qualifications.", savedQualifications, deletedQualifications);
-
-        var (savedProviders, deletedProviders) =
-            await _courseDirectoryDataService.ImportProvidersFromCourseDirectoryApi();
-        logger.LogInformation("Course directory import saved {savedProviders} and deleted {deletedProviders} providers.", savedProviders, deletedProviders);
-
-        return (savedProviders, deletedProviders, savedQualifications, deletedQualifications);
     }
 
     [Function("GetCourseDirectoryJson")]

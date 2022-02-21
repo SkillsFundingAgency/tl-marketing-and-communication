@@ -5,12 +5,14 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders;
 using sfa.Tl.Marketing.Communication.Functions.UnitTests.Extensions;
+
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.Functions.UnitTests;
@@ -39,7 +41,7 @@ public class CourseDirectoryImportFunctionTests
     }
 
     [Fact]
-    public async Task CourseDirectoryImportFunction_ManualImport_Returns_Expected_Result()
+    public async Task CourseDirectoryImportFunction_Scheduled_Import_Logs_Expected_Messages()
     {
         var service = Substitute.For<ICourseDirectoryDataService>();
         service
@@ -49,35 +51,44 @@ public class CourseDirectoryImportFunctionTests
             .ImportQualificationsFromCourseDirectoryApi()
             .Returns((12, 2));
 
-        var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
-        var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
+        var logger = Substitute.For<ILogger<object>>();
 
+        var functionContext = FunctionObjectsBuilder.BuildFunctionContext(logger);
         var functions = BuildCourseDirectoryImportFunctions(service);
-        var result = await functions.ManualImport(request, functionContext);
+        await functions.ImportCourseDirectoryData(
+            new TimerInfo(),
+            functionContext);
 
-        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        logger.ReceivedCalls().Count().Should().Be(4);
 
-        var body = await result.Body.ReadAsString();
-        body.Should().Be(
-            "Inserted or updated 10 and deleted 4 providers.\r\n" +
-            "Inserted or updated 12 and deleted 2 qualifications.");
+        logger.HasLoggedMessage("Course directory scheduled import function was called.");
+
+        logger.HasLoggedMessage("Course directory import inserted or updated 10 and deleted 4 providers.");
+        logger.HasLoggedMessage("Course directory import inserted or updated 12 and deleted 2 qualifications.");
+
+        logger.HasLoggedMessage("Course directory scheduled import finished.");
     }
 
     [Fact]
-    public async Task CourseDirectoryImportFunction_ManualImport_Exception_Returns_Expected_Result()
+    public async Task CourseDirectoryImportFunction_Scheduled_Import_Exception_Logs_Expected_Messages()
     {
         var service = Substitute.For<ICourseDirectoryDataService>();
         service
             .ImportProvidersFromCourseDirectoryApi()
             .ThrowsForAnyArgs(new InvalidOperationException());
 
-        var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
-        var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
+        var logger = Substitute.For<ILogger<object>>();
 
+        var functionContext = FunctionObjectsBuilder.BuildFunctionContext(logger);
         var functions = BuildCourseDirectoryImportFunctions(service);
-        var result = await functions.ManualImport(request, functionContext);
+        await functions.ImportCourseDirectoryData(
+            new TimerInfo(),
+            functionContext);
 
-        result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        logger.ReceivedCalls().Count().Should().BeGreaterThan(0);
+        logger.HasLoggedMessageLike("Error importing data from course directory. " +
+                                    "Internal Error Message System.InvalidOperationException",
+            LogLevel.Error);
     }
 
     [Fact]
