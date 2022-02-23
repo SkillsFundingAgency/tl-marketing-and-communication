@@ -38,7 +38,7 @@ steps:
 - task: Gulp@0
   displayName: 'gulp'
   inputs:
-      gulpFile: sfa.Tl.Marketing.Communication/gulpfile.js
+      gulpFile: src/sfa.Tl.Marketing.Communication/gulpfile.js
 
 - task: UseDotNet@2 
   displayName: "Install .NET 6 SDK"
