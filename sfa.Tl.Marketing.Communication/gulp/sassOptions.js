@@ -1,8 +1,11 @@
 let sassOptions;
 
 sassOptions = {
-  errLogToConsole: true,
+  errLogToConsole: false,
     outputStyle: 'compressed',
+    onError: function (err) {
+        return notify().write(err);
+    },
   includePaths: [
       'src/scss'
   ]
