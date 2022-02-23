@@ -22,7 +22,7 @@ steps:
 - task: GitVersion@5
   displayName: GitVersion
   inputs:
-    runtime: 'core'
+    versionSpec: '5.x'
     updateAssemblyInfo: true
 
 - task: NodeTool@0 
