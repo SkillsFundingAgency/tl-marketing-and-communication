@@ -16,7 +16,7 @@ variables:
 
 pool:
   name: 'Azure Pipelines'
-  vmImage: 'ubuntu-18.04'
+  vmImage: 'windows-latest'
 
 steps:
 - task: GitVersion@5
