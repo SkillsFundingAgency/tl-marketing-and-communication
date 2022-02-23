@@ -22,12 +22,12 @@ steps:
 - task: GitVersion@5
   displayName: GitVersion
   inputs:
-    runtime: 'core'
+    versionSpec: '5.x'
     updateAssemblyInfo: true
 
 - task: NodeTool@0 
   inputs:
-    versionSpec: '14.x'
+    versionSpec: '16.x'
 
 - task: Npm@1
   displayName: 'npm install'
