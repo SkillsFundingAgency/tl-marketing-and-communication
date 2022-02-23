@@ -19,8 +19,11 @@ pool:
   vmImage: 'ubuntu-18.04'
 
 steps:
-- task: gittools.gitversion.gitversion-task.GitVersion@5
+- task: GitVersion@5
   displayName: GitVersion
+  inputs:
+    runtime: 'core'
+    updateAssemblyInfo: true
 
 - task: NodeTool@0 
   inputs:
