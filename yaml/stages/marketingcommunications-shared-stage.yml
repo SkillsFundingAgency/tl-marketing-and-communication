@@ -20,7 +20,7 @@ stages:
     - group: platform-${{parameters.environmentName}}
     - group: platform-${{parameters.environmentName}}-marcom
     - name: SharedBaseName
-      value: "s126${{parameters.sharedEnvironmentId}}-marcom"
+      value: "s126${{parameters.sharedEnvironmentId}}-mcom"
     - name: SharedResourceGroup
       value: '$(SharedBaseName)-shared'
     - name: SharedSQLServerName

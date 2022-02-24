@@ -22,7 +22,7 @@ stages:
     - group: platform-${{parameters.environmentName}}
     - group: platform-${{parameters.environmentName}}-marcom
     - name: BaseName
-      value: "s126${{parameters.environmentId}}-marcom-${{parameters.environmentName}}"
+      value: "s126${{parameters.environmentId}}-mcom-${{parameters.environmentName}}"
     - name: ResourceGroupName
       value: '$(BaseName)'
     - name: EnvironmentName
