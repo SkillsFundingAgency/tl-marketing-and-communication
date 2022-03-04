@@ -19,6 +19,12 @@ pool:
   vmImage: 'windows-latest'
 
 steps:
+- task: UseDotNet@2 
+  displayName: "Use .NET Core SDK 2.1.x"
+  inputs:
+      packageType: 'sdk'
+      version: '2.1.x'
+
 - task: GitVersion@5
   displayName: GitVersion
   inputs:
