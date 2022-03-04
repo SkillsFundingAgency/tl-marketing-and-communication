@@ -5,7 +5,7 @@
         text-transform: uppercase;
     }
 
-    @elseif $type == circular {
+    @else if $type == circular {
         font-family: 'LL Circular Black', Arial, Helvetica, sans-serif;
     }
 

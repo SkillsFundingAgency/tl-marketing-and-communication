@@ -16,15 +16,18 @@ variables:
 
 pool:
   name: 'Azure Pipelines'
-  vmImage: 'ubuntu-18.04'
+  vmImage: 'windows-latest'
 
 steps:
-- task: gittools.gitversion.gitversion-task.GitVersion@5
+- task: GitVersion@5
   displayName: GitVersion
+  inputs:
+    versionSpec: '5.x'
+    updateAssemblyInfo: true
 
 - task: NodeTool@0 
   inputs:
-    versionSpec: '14.x'
+    versionSpec: '16.x'
 
 - task: Npm@1
   displayName: 'npm install'
