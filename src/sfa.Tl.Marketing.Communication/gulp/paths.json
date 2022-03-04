@@ -11,7 +11,7 @@
   "dist": {
     "default": "wwwroot",
     "CSS": "wwwroot/css",
-    "SCSS": "Frontend/src/scss/",
+    "SCSS": "wwwroot/css",
     "JS": "wwwroot/js",
     "Assets": "wwwroot/files",
     "Bootstrap": "wwwroot/bootstrap",
