@@ -11,6 +11,7 @@ jobs:
       inputs:
           packageType: 'sdk'
           version: '2.1.x'
+
     - task: GitVersion@5
       displayName: GitVersion
       inputs:
@@ -19,7 +20,7 @@ jobs:
     
     - task: NodeTool@0 
       inputs:
-        versionSpec: '14.x'
+        versionSpec: '16.x'
 
     - task: Npm@1
       displayName: 'npm install'
