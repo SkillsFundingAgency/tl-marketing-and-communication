@@ -2,7 +2,7 @@ stages:
   - template: marketingcommunications-build-stage.yml
     parameters:        
       variableGroups:
-        - platform-global-mcom
+        - platform-global-marcom
 ######################## DEV ##############################################
   - template: marketingcommunications-shared-stage.yml
     parameters:
