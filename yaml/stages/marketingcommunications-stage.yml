@@ -18,9 +18,9 @@ stages:
     - '${{ each dependency in parameters.dependencies }}':
       - '${{dependency}}'
   variables:
-    - group: platform-global-marcom
+    - group: platform-global-mcom
     - group: platform-${{parameters.environmentName}}
-    - group: platform-${{parameters.environmentName}}-marcom
+    - group: platform-${{parameters.environmentName}}-mcom
     - name: BaseName
       value: "s126${{parameters.environmentId}}-mcom-${{parameters.environmentName}}"
     - name: ResourceGroupName
