@@ -25,7 +25,7 @@ public class EmployerControllerTests
             .BuildEmployerController(EmployerSiteUrl);
 
         var result = controller.EmployerHome();
-        
+
         var redirectResult = result as RedirectResult;
         redirectResult.Should().NotBeNull();
         redirectResult?.Permanent.Should().BeTrue();
@@ -44,13 +44,5 @@ public class EmployerControllerTests
         redirectResult.Should().NotBeNull();
         redirectResult?.Permanent.Should().BeTrue();
         redirectResult?.Url.Should().Be(EmployerSiteUrl);
-    }
-
-    private void AssertResultIsRedirect(IActionResult result, string target)
-    {
-        var redirectResult = result as RedirectResult;
-        redirectResult.Should().NotBeNull();
-        redirectResult?.Permanent.Should().BeTrue();
-        redirectResult?.Url.Should().Be(target);
     }
 }
