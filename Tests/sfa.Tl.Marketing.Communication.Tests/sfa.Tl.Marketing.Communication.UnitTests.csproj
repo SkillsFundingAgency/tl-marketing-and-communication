@@ -6,11 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Builders\Data\outcode_response_cv11.json" />
-    <None Remove="Builders\Data\postcode_not_found_response.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Builders\Data\postcode_not_found_response.json" />
     <EmbeddedResource Include="Builders\Data\outcode_response_cv11.json" />
     <EmbeddedResource Include="Builders\Data\terminated_postcode_response_s70_2yw.json" />
@@ -25,6 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="4.17.0" />
+    <PackageReference Include="AutoFixture.AutoNSubstitute" Version="4.17.0" />
+    <PackageReference Include="AutoFixture.Idioms" Version="4.17.0" />
     <PackageReference Include="FluentAssertions" Version="6.6.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="NSubstitute" Version="4.3.0" />
