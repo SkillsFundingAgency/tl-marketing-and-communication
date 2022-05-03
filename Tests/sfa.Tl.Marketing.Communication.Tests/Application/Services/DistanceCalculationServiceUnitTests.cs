@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
+using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services;
@@ -38,6 +39,13 @@ public class DistanceCalculationServiceUnitTests
             cache, 
             configuration, 
             logger);
+    }
+
+    [Fact]
+    public void DistanceCalculationService_Constructor_Guards_Against_NullParameters()
+    {
+        typeof(DistanceCalculationService)
+            .ShouldNotAcceptNullConstructorArguments();
     }
 
     [Theory]

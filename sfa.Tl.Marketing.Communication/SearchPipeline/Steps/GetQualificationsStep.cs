@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ public class GetQualificationsStep : ISearchStep
 
     public GetQualificationsStep(IProviderSearchService providerSearchService)
     {
-        _providerSearchService = providerSearchService;
+        _providerSearchService = providerSearchService ?? throw new ArgumentNullException(nameof(providerSearchService));
     }
 
     public Task Execute(ISearchContext context)

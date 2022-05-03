@@ -8,12 +8,20 @@ using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.Models.Entities;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
+using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services;
 
 public class TableStorageServiceTests
 {
+    [Fact]
+    public void TableStorageService_Constructor_Guards_Against_NullParameters()
+    {
+        typeof(TableStorageService)
+            .ShouldNotAcceptNullConstructorArguments();
+    }
+
     [Fact]
     public async Task TableStorageService_ClearProviders_Returns_Expected_Results()
     {

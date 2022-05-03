@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models;
 using System.Threading.Tasks;
@@ -16,9 +17,9 @@ public class ProviderSearchEngine : IProviderSearchEngine
         IMapper mapper, 
         ISearchPipelineFactory searchPipelineFactory)
     {
-        _providerSearchService = providerSearchService;
-        _searchPipelineFactory = searchPipelineFactory;
-        _mapper = mapper;
+        _providerSearchService = providerSearchService ?? throw new ArgumentNullException(nameof(providerSearchService));
+        _searchPipelineFactory = searchPipelineFactory ?? throw new ArgumentNullException(nameof(searchPipelineFactory));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
     public async Task<FindViewModel> Search(FindViewModel viewModel)

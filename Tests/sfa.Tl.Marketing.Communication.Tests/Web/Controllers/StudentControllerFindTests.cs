@@ -2,15 +2,24 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
+using sfa.Tl.Marketing.Communication.Controllers;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
+using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers;
 
 public class StudentControllerFindTests
 {
+    [Fact]
+    public void Student_Controller_Constructor_Guards_Against_NullParameters()
+    {
+        typeof(StudentController)
+            .ShouldNotAcceptNullConstructorArguments();
+    }
+
     [Fact]
     public async Task Student_Controller_Find_Get_Returns_Expected_Value()
     {
@@ -26,7 +35,7 @@ public class StudentControllerFindTests
 
         var viewResult = result as ViewResult;
         viewResult.Should().NotBeNull();
-        viewResult.Model.Should().BeOfType(typeof(FindViewModel));
+        viewResult?.Model.Should().BeOfType(typeof(FindViewModel));
 
         await providerSearchEngine
             .Received(1)

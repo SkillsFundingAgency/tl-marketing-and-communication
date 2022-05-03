@@ -8,6 +8,7 @@ using sfa.Tl.Marketing.Communication.SearchPipeline;
 using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps;
@@ -24,6 +25,13 @@ public class PerformSearchStepUnitTests
         _mapper = Substitute.For<IMapper>();
             
         _searchStep = new PerformSearchStep(_providerSearchService, _mapper);
+    }
+    
+    [Fact]
+    public void Step_Constructor_Guards_Against_NullParameters()
+    {
+        typeof(PerformSearchStep)
+            .ShouldNotAcceptNullConstructorArguments();
     }
 
     [Fact]

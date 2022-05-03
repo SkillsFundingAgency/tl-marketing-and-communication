@@ -3,6 +3,7 @@ using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
 using System.Threading.Tasks;
+using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps;
@@ -14,6 +15,13 @@ public class LoadSearchPageWithNoResultsStepUnitTests
     public LoadSearchPageWithNoResultsStepUnitTests()
     {
         _searchStep = new LoadSearchPageWithNoResultsStep();
+    }
+
+    [Fact]
+    public void Step_Constructor_Guards_Against_NullParameters()
+    {
+        typeof(LoadSearchPageWithNoResultsStep)
+            .ShouldNotAcceptNullConstructorArguments();
     }
 
     [Fact]
