@@ -31,18 +31,4 @@ public class EmployerControllerTests
         redirectResult?.Permanent.Should().BeTrue();
         redirectResult?.Url.Should().Be(EmployerSiteUrl);
     }
-
-    [Fact]
-    public void Employer_Controller_EmployerHomeRedirect_Get_Returns_Redirect_To_Employer_Site()
-    {
-        var controller = new EmployerControllerBuilder()
-            .BuildEmployerController(EmployerSiteUrl);
-
-        var result = controller.EmployerHomeRedirect();
-
-        var redirectResult = result as RedirectResult;
-        redirectResult.Should().NotBeNull();
-        redirectResult?.Permanent.Should().BeTrue();
-        redirectResult?.Url.Should().Be(EmployerSiteUrl);
-    }
 }

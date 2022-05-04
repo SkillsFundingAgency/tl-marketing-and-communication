@@ -13,12 +13,16 @@ public class EmployerController : Controller
         _siteConfiguration = siteConfiguration ?? throw new ArgumentNullException(nameof(siteConfiguration));
     }
 
+    // Path parameter is a catch all so all routes will be redirected
+    // ReSharper disable once RouteTemplates.RouteParameterIsNotPassedToMethod
     [Route("/employers/{**path}", Name = "Employer")]
     public IActionResult EmployerHome()
     {
         return RedirectPermanent(_siteConfiguration.EmployerSupportSiteUrl);
     }
 
+    // Path parameter is a catch all so all routes will be redirected
+    // ReSharper disable once RouteTemplates.RouteParameterIsNotPassedToMethod
     [Route("/employer/{**path}")]
     public IActionResult EmployerHomeRedirect()
     {
