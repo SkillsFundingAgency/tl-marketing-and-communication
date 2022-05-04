@@ -1,15 +1,14 @@
-﻿<nav id="tl-nav" class="tl-nav--student">
+﻿@inject ConfigurationOptions _siteConfiguration
+<nav id="tl-nav" class="tl-nav--student">
         <h1 class="tl-nav--logo"><a href="/" id="tl-nav--bar-logo"><span class="tl-hidden">T Levels - The next level qualification</span></a></h1>
         <a class="tl-nav--hamburger" id="tl-nav--hamburger" aria-expanded="false" tabindex="0" role="button">Menu<i><span class="tl-hidden">Open main navigation</span></i></a>
-
-
         <ul class="tl-nav--bar">
             <li>
                 <a id="tl-nav--bar-student--home" href="/students">Student</a>
             </li>
 
             <li class="tl-nav--bar--li--employer">
-                <a id="tl-nav--bar-employer--home" href="/employers">Employer</a>
+                <a id="tl-nav--bar-employer--home" href="@_siteConfiguration.EmployerSupportSiteUrl">Employer</a>
             </li>
         </ul>
 </nav>
