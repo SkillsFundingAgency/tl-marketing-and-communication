@@ -1,4 +1,5 @@
-﻿<footer id="tl-footer">
+﻿@inject ConfigurationOptions SiteConfiguration
+<footer id="tl-footer">
     <div class="tl-container">
         <div class="row">
             <div class="col-lg-7">
@@ -26,7 +27,7 @@
             </div>
             <div class="col-lg-5 tl-text--right">
                 <h2>I'm an employer</h2>
-                <a href="/employers" class="tl-link-white--purple" id="tl-footer--employer">Take me to the employer section</a>
+                <a href="@SiteConfiguration.EmployerSupportSiteUrl" class="tl-link-white--purple" id="tl-footer--employer">Take me to the employer section</a>
             </div>
         </div>
         <hr class="tl-line-darkgrey--large">
