@@ -15,17 +15,23 @@ public class EmployerController : Controller
 
     // Path parameter is a catch all so all routes will be redirected
     // ReSharper disable once RouteTemplates.RouteParameterIsNotPassedToMethod
-    [Route("/employers/{**path}", Name = "Employer")]
+    [Route("/employers/{**path}", Name = "Employers")]
+    [Route("/employer/{**path}", Name = "Employer")]
     public IActionResult EmployerHome()
     {
         return RedirectPermanent(_siteConfiguration.EmployerSupportSiteUrl);
     }
 
-    // Path parameter is a catch all so all routes will be redirected
-    // ReSharper disable once RouteTemplates.RouteParameterIsNotPassedToMethod
-    [Route("/employer/{**path}")]
-    public IActionResult EmployerHomeRedirect()
+    [Route("/employer/about", Name = "EmployerAbout")]
+    [Route("/employers/about", Name = "EmployersAbout")]
+    public IActionResult EmployerAbout()
     {
-        return RedirectPermanent(_siteConfiguration.EmployerSupportSiteUrl);
+        var targetUrl = _siteConfiguration.EmployerSupportSiteUrl;
+        const string aboutArticleUrlFragment = "categories/4416409666834-About-T-Levels-and-industry-placements";
+        targetUrl = $"{_siteConfiguration.EmployerSupportSiteUrl}" +
+                    $"{(_siteConfiguration.EmployerSupportSiteUrl.EndsWith("/") ? "" : "/")}" +
+                    $"{aboutArticleUrlFragment}";
+
+        return RedirectPermanent(targetUrl);
     }
 }
