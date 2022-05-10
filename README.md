@@ -42,6 +42,7 @@ Other API Keys and email addresses are also stored in the site `appSettings.json
 ```
 {
   "EmployerSupportSiteUrl": "<address>",
+  "EmployerSupportSiteAboutArticle": "<partial path to article>",
   "TableStorageConnectionString": "UseDevelopmentStorage=true;",
   "CacheExpiryInSeconds": time,
   "PostcodeCacheExpiryInSeconds": time,

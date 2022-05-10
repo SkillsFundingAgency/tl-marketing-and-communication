@@ -6,11 +6,12 @@ namespace sfa.Tl.Marketing.Communication.Controllers;
 
 public class EmployerController : Controller
 {
-    private readonly ConfigurationOptions _siteConfiguration;
+    private readonly EmployerSiteSettings _employerSiteSettings;
 
     public EmployerController(ConfigurationOptions siteConfiguration)
     {
-        _siteConfiguration = siteConfiguration ?? throw new ArgumentNullException(nameof(siteConfiguration));
+        if(siteConfiguration is null) throw new ArgumentNullException(nameof(siteConfiguration));
+        _employerSiteSettings = siteConfiguration.EmployerSiteSettings;
     }
 
     // Path parameter is a catch all so all routes will be redirected
@@ -19,18 +20,16 @@ public class EmployerController : Controller
     [Route("/employer/{**path}", Name = "Employer")]
     public IActionResult EmployerHome()
     {
-        return RedirectPermanent(_siteConfiguration.EmployerSupportSiteUrl);
+        return RedirectPermanent(_employerSiteSettings.SiteUrl);
     }
 
     [Route("/employer/about", Name = "EmployerAbout")]
     [Route("/employers/about", Name = "EmployersAbout")]
     public IActionResult EmployerAbout()
     {
-        var targetUrl = _siteConfiguration.EmployerSupportSiteUrl;
-        const string aboutArticleUrlFragment = "categories/4416409666834-About-T-Levels-and-industry-placements";
-        targetUrl = $"{_siteConfiguration.EmployerSupportSiteUrl}" +
-                    $"{(_siteConfiguration.EmployerSupportSiteUrl.EndsWith("/") ? "" : "/")}" +
-                    $"{aboutArticleUrlFragment}";
+        var targetUrl = $"{_employerSiteSettings.SiteUrl}" +
+                        $"{(_employerSiteSettings.SiteUrl.EndsWith("/") ? "" : "/")}" +
+                        $"{_employerSiteSettings.AboutArticle}";
 
         return RedirectPermanent(targetUrl);
     }

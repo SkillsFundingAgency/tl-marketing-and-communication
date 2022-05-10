@@ -34,17 +34,21 @@ if (programTypeName != null)
 
 var siteConfiguration = new ConfigurationOptions
 {
-    CacheExpiryInSeconds = int.TryParse(builder.Configuration["CacheExpiryInSeconds"], out var cacheExpiryInSeconds) 
+    CacheExpiryInSeconds = int.TryParse(builder.Configuration[ConfigurationKeys.CacheExpiryInSecondsConfigKey], out var cacheExpiryInSeconds) 
             ? cacheExpiryInSeconds 
             : CacheUtilities.DefaultCacheExpiryInSeconds,
-    PostcodeCacheExpiryInSeconds = int.TryParse(builder.Configuration["PostcodeCacheExpiryInSeconds"], out var postcodeCacheExpiryInSeconds)
+    PostcodeCacheExpiryInSeconds = int.TryParse(builder.Configuration[ConfigurationKeys.PostcodeCacheExpiryInSecondsConfigKey], out var postcodeCacheExpiryInSeconds)
         ? postcodeCacheExpiryInSeconds
         : CacheUtilities.DefaultCacheExpiryInSeconds,
-    MergeTempProviderData = bool.TryParse(builder.Configuration["MergeTempProviderData"], 
+    MergeTempProviderData = bool.TryParse(builder.Configuration[ConfigurationKeys.MergeTempProviderDataConfigKey], 
                                 out var mergeTempProviderData) 
                             && mergeTempProviderData,
-    PostcodeRetrieverBaseUrl = builder.Configuration["PostcodeRetrieverBaseUrl"],
-    EmployerSupportSiteUrl = builder.Configuration["EmployerSupportSiteUrl"],
+    PostcodeRetrieverBaseUrl = builder.Configuration[ConfigurationKeys.PostcodeRetrieverBaseUrlConfigKey],
+    EmployerSiteSettings = new EmployerSiteSettings
+    {
+        SiteUrl = builder.Configuration[ConfigurationKeys.EmployerSupportSiteUriConfigKey],
+        AboutArticle = builder.Configuration[ConfigurationKeys.EmployerSupportSiteAboutArticleConfigKey]
+    },
     StorageConfiguration = new StorageSettings
     {
         TableStorageConnectionString = builder.Configuration[ConfigurationKeys.TableStorageConnectionStringConfigKey]

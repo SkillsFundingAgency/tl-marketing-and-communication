@@ -10,9 +10,9 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers;
 public class EmployerControllerTests
 {
     private const string EmployerSiteUrl = "https://test.employers.gov.uk/";
+    private const string EmployerSiteAboutArticle = "about-t-levels";
 
-    private const string EmployerSiteAboutPageUrl = 
-        EmployerSiteUrl + "categories/4416409666834-About-T-Levels-and-industry-placements";
+    private const string EmployerSiteAboutPageUrl = EmployerSiteUrl + EmployerSiteAboutArticle;
 
     [Fact]
     public void Employer_Controller_Constructor_Guards_Against_NullParameters()
@@ -39,7 +39,7 @@ public class EmployerControllerTests
     public void Employer_Controller_EmployerAbout_Get_Returns_Redirect_To_Employer_Site()
     {
         var controller = new EmployerControllerBuilder()
-            .BuildEmployerController(EmployerSiteUrl);
+            .BuildEmployerController(EmployerSiteUrl, EmployerSiteAboutArticle);
 
         var result = controller.EmployerAbout();
 

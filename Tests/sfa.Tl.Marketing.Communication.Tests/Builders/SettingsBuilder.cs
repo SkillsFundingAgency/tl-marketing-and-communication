@@ -11,6 +11,8 @@ internal class SettingsBuilder
     private const string FindCourseApiKey = "0f608e5d437f4baabc04a0bc2dabbc1b";
     private const string FindCourseApiBaseAbsoluteUri = "https://test.com/findacourse/api";
     private const string PostcodeRetrieverAbsoluteUri = "https://test.postcodes.com/";
+    private const string EmployerSiteUri = "https://test.employers.gov.uk/";
+    private const string EmployerAboutArticle = "categories/12345-About";
 
     public static readonly Uri FindCourseApiBaseUri = new(FindCourseApiBaseAbsoluteUri);
     public static readonly Uri PostcodeRetrieverBaseUri = new(PostcodeRetrieverAbsoluteUri);
@@ -21,6 +23,14 @@ internal class SettingsBuilder
     {
         ApiBaseUri = findCourseApiBaseUri,
         ApiKey = findCourseApiKey
+    };
+
+    internal EmployerSiteSettings BuildEmployerSiteSettings(
+        string employerSiteUri = EmployerSiteUri,
+        string employerAboutArticle = EmployerAboutArticle) => new()
+    {
+       SiteUrl = employerSiteUri,
+        AboutArticle = employerAboutArticle
     };
 
     internal StorageSettings BuildStorageSettings(
