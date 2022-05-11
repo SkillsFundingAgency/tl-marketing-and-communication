@@ -10,6 +10,10 @@ public static class ConfigurationKeys
 
     public const string EmployerSupportSiteUriConfigKey = "EmployerSupportSiteUrl";
     public const string EmployerSupportSiteAboutArticleConfigKey = "EmployerSupportSiteAboutArticle";
+    public const string AboutArticleConfigKey = "EmployerSupportSiteAboutArticle";
+    public const string SkillsArticleConfigKey = "EmployerSupportSiteSkillsArticle";
+    public const string IndustryPlacementsBenefitsArticleConfigKey = "EmployerSupportSiteIndustryPlacementsBenefitsArticle";
+    public const string TimelineArticleConfigKey = "EmployerSupportSiteTimelineArticle";
 
     public const string MergeTempProviderDataConfigKey = "MergeTempProviderData";
 

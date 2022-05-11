@@ -47,6 +47,15 @@
         "employerSupportSiteAboutArticle": {
             "type": "string"
         },
+        "employerSupportSiteSkillsArticle": {
+            "type": "string"
+        },
+        "employerSupportSiteIndustryPlacementsBenefitsArticle": {
+            "type": "string"
+        },
+        "employerSupportSiteTimelineArticle": {
+            "type": "string"
+        },
         "postcodeRetrieverBaseUrl": {
             "type": "string"
         },
@@ -194,40 +203,52 @@
                         "value": "[resourceGroup().name]"
                     },
                     "appServiceAppSettings": {
-                        "value": [
-                            {
-                                "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-                                "value": "[reference('app-insights').outputs.InstrumentationKey.value]"
-                            },
-                            {
-                                "name": "EmployerSupportSiteUrl",
-                                "value": "[parameters('employerSupportSiteUrl')]"
-                            },
-                            {
-                                "name": "EmployerSupportSiteAboutArticle",
-                                "value": "[parameters('employerSupportSiteAboutArticle')]"
-                            },
-                            {
-                                "name": "PostcodeRetrieverBaseUrl",
-                                "value": "[parameters('postcodeRetrieverBaseUrl')]"
-                            },
-                            {
-                              "name": "TableStorageConnectionString",
-                              "value": "[parameters('tableStorageConnectionString')]"
-                            },
-                            {
-                              "name": "CacheExpiryInSeconds",
-                              "value": "[parameters('cacheExpiryInSeconds')]"
-                            },
-                            {
-                              "name": "PostcodeCacheExpiryInSeconds",
-                              "value": "[parameters('postcodeCacheExpiryInSeconds')]"
-                            },
-                            {
-                              "name": "MergeTempProviderData",
-                              "value": "[parameters('mergeTempProviderData')]"
-                            }
-                        ]
+                      "value": [
+                        {
+                          "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                          "value": "[reference('app-insights').outputs.InstrumentationKey.value]"
+                        },
+                        {
+                          "name": "EmployerSupportSiteUrl",
+                          "value": "[parameters('employerSupportSiteUrl')]"
+                        },
+                        {
+                          "name": "EmployerSupportSiteAboutArticle",
+                          "value": "[parameters('employerSupportSiteAboutArticle')]"
+                        },
+                        {
+                          "name": "EmployerSupportSiteSkillsArticle",
+                          "value": "[parameters('employerSupportSiteSkillsArticle')]"
+                        },
+                        {
+                          "name": "EmployerSupportSiteIndustryPlacementsBenefitsArticle",
+                          "value": "[parameters('employerSupportSiteIndustryPlacementsBenefitsArticle')]"
+                        },
+                        {
+                          "name": "EmployerSupportSiteTimelineArticle",
+                          "value": "[parameters('employerSupportSiteTimelineArticle')]"
+                        },
+                        {
+                          "name": "PostcodeRetrieverBaseUrl",
+                          "value": "[parameters('postcodeRetrieverBaseUrl')]"
+                        },
+                        {
+                          "name": "TableStorageConnectionString",
+                          "value": "[parameters('tableStorageConnectionString')]"
+                        },
+                        {
+                          "name": "CacheExpiryInSeconds",
+                          "value": "[parameters('cacheExpiryInSeconds')]"
+                        },
+                        {
+                          "name": "PostcodeCacheExpiryInSeconds",
+                          "value": "[parameters('postcodeCacheExpiryInSeconds')]"
+                        },
+                        {
+                          "name": "MergeTempProviderData",
+                          "value": "[parameters('mergeTempProviderData')]"
+                        }
+                      ]
                     },
                     "appServiceConnectionStrings": {
                         "value": [

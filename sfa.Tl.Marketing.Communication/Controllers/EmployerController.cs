@@ -16,8 +16,8 @@ public class EmployerController : Controller
 
     // Path parameter is a catch all so all routes will be redirected
     // ReSharper disable once RouteTemplates.RouteParameterIsNotPassedToMethod
-    [Route("/employers/{**path}", Name = "Employers")]
     [Route("/employer/{**path}", Name = "Employer")]
+    [Route("/employers/{**path}", Name = "Employers")]
     public IActionResult EmployerHome()
     {
         return RedirectPermanent(_employerSiteSettings.SiteUrl);
@@ -27,10 +27,37 @@ public class EmployerController : Controller
     [Route("/employers/about", Name = "EmployersAbout")]
     public IActionResult EmployerAbout()
     {
+        return RedirectPermanent(BuildTargetUrl(_employerSiteSettings.AboutArticle));
+    }
+
+    [Route("/employer/skills-available", Name = "EmployerSkills")]
+    [Route("/employers/skills-available", Name = "EmployersSkills")]
+    public IActionResult EmployerSkills()
+    {
+        return RedirectPermanent(BuildTargetUrl(_employerSiteSettings.SkillsArticle));
+    }
+
+    [Route("/employer/business-benefits", Name = "EmployerBenefits")]
+    [Route("/employers/business-benefits", Name = "EmployersBenefits")]
+    public IActionResult EmployerBenefits()
+    {
+        return RedirectPermanent(BuildTargetUrl(_employerSiteSettings.IndustryPlacementsBenefitsArticle));
+    }
+
+    [Route("/employer/what-it-costs", Name = "EmployerCostsOld")]
+    [Route("/employers/what-it-costs", Name = "EmployersCostsOld")]
+    [Route("/employer/how-it-works", Name = "EmployerTimeline")]
+    [Route("/employers/how-it-works", Name = "EmployersTimeline")]
+    public IActionResult EmployerTimeline()
+    {
+        return RedirectPermanent(BuildTargetUrl(_employerSiteSettings.TimelineArticle));
+    }
+
+    private string BuildTargetUrl(string articleFragment)
+    {
         var targetUrl = $"{_employerSiteSettings.SiteUrl}" +
                         $"{(_employerSiteSettings.SiteUrl.EndsWith("/") ? "" : "/")}" +
-                        $"{_employerSiteSettings.AboutArticle}";
-
-        return RedirectPermanent(targetUrl);
+                        $"{articleFragment}";
+        return targetUrl;
     }
 }

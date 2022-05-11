@@ -8,18 +8,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders;
 public class EmployerControllerBuilder
 {
     public EmployerController BuildEmployerController(
-        string employerSupportSiteUrl,
-        string employerSupportSiteAboutArticle = null) =>
-        BuildEmployerController(new ConfigurationOptions
-        {
-            EmployerSiteSettings = new EmployerSiteSettings
-            {
-                SiteUrl = employerSupportSiteUrl,
-                AboutArticle = employerSupportSiteAboutArticle
-            }
-        });
-
-    public EmployerController BuildEmployerController(
         ConfigurationOptions siteConfiguration = null)
     {
         siteConfiguration ??= new ConfigurationOptions();
