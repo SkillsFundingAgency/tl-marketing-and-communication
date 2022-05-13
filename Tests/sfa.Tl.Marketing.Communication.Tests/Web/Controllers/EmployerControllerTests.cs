@@ -21,7 +21,7 @@ public class EmployerControllerTests
     private const string EmployerSiteIndustryPlacementsBenefitsPageUrl = EmployerSiteUrl + EmployerSupportSiteIndustryPlacementsBenefitsArticle;
     private const string EmployerSiteTimelinePageUrl = EmployerSiteUrl + EmployerSupportSiteTimelineArticle;
 
-    private readonly ConfigurationOptions _employerConfigurationOptions = new ConfigurationOptions
+    private readonly ConfigurationOptions _employerConfigurationOptions = new()
     {
         EmployerSiteSettings = new EmployerSiteSettings
         {
