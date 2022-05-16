@@ -31,7 +31,10 @@ public class DistanceCalculationService : IDistanceCalculationService
         _locationApiClient = locationApiClient ?? throw new ArgumentNullException(nameof(locationApiClient));
         _dateTimeService = dateTimeService ?? throw new ArgumentNullException(nameof(dateTimeService));
         _cache = cache ?? throw new ArgumentNullException(nameof(cache));
-        _cacheExpiryInSeconds = configuration?.PostcodeCacheExpiryInSeconds ?? 60;
+       
+        if(configuration == null) throw new ArgumentNullException(nameof(configuration));
+        _cacheExpiryInSeconds = configuration.PostcodeCacheExpiryInSeconds;
+
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 

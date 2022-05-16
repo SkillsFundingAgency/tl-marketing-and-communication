@@ -26,8 +26,10 @@ public class ProviderDataService : IProviderDataService
     {
         _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
         _cache = cache ?? throw new ArgumentNullException(nameof(cache));
-        _cacheExpiryInSeconds = configuration?.CacheExpiryInSeconds ?? 60;
-        _mergeTempProviderData = configuration?.MergeTempProviderData ?? false;
+
+        if(configuration == null) throw new ArgumentNullException(nameof(configuration));
+        _cacheExpiryInSeconds = configuration.CacheExpiryInSeconds;
+        _mergeTempProviderData = configuration.MergeTempProviderData;
     }
 
     public IQueryable<ProviderLocation> GetProviderLocations(int? qualificationId = null)

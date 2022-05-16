@@ -10,6 +10,7 @@ using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
+using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.HttpClientHelpers;
 using Xunit;
 
@@ -17,6 +18,13 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services;
 
 public class CourseDirectoryDataServiceTests
 {
+    [Fact]
+    public void CourseDirectoryDataService_Constructor_Guards_Against_NullParameters()
+    {
+        typeof(CourseDirectoryDataService)
+            .ShouldNotAcceptNullConstructorArguments();
+    }
+
     [Fact]
     public async Task CourseDirectoryDataService_GetTLevelDetailJsonFromCourseDirectoryApi_Returns_Expected_Result()
     {

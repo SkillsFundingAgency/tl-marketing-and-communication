@@ -6,8 +6,9 @@
     ViewData["PageID"] = "tl-landing";
     ViewData["PagePath"] = "landing";
     ViewData["MetaDescription"] = "T Levels are a 2-year qualification designed to give 16 to 19 year olds a head start towards the career they want.";
-
 }
+@inject ConfigurationOptions SiteConfiguration
+
 <section id="tl-landing--banner">
     <div class="tl-container">
         <div class="row no-gutters">
@@ -22,7 +23,7 @@
                 <div class="tl-landing--banner--content">
                     <h2>Your future workforce</h2>
                     <p class="tl-lead">T Levels include a 45-day industry placement that can help you find and develop new talent.</p>
-                    <a href="/employers" id="tl-landing-employer" class="tl-button--purple">I'm an employer</a>
+                    <a href="@SiteConfiguration.EmployerSiteSettings.SiteUrl" id="tl-landing-employer" class="tl-button--purple">I'm an employer</a>
                 </div>
             </div>
         </div>
@@ -39,7 +40,7 @@
             <div class="col-md-4 tl-landing--content--box">
                 <h3 class="tl-heading--smaller--addarrowbig--purple">A 45-day Industry Placement</h3>
                 <p class="tl-body">Each T Level includes an in-depth industry placement that lasts at least 45 days. Students get valuable experience in the workplace; employers get early sight of the new talent in their industry.</p>
-</div>
+            </div>
 
             <div class="col-md-4 tl-landing--content--box">
                 <h3 class="tl-heading--smaller--addarrowbig--orange">80% Classroom, 20% Work</h3>

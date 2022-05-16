@@ -7,6 +7,7 @@ using sfa.Tl.Marketing.Communication.SearchPipeline;
 using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
 using System.Threading.Tasks;
 using sfa.Tl.Marketing.Communication.Models.Dto;
+using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps;
@@ -20,6 +21,13 @@ public class ValidatePostcodeStepUnitTests
     {
         _providerSearchService = Substitute.For<IProviderSearchService>();
         _searchStep = new ValidatePostcodeStep(_providerSearchService);
+    }
+    
+    [Fact]
+    public void Step_Constructor_Guards_Against_NullParameters()
+    {
+        typeof(ValidatePostcodeStep)
+            .ShouldNotAcceptNullConstructorArguments();
     }
 
     [Fact]

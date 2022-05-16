@@ -1,8 +1,8 @@
 ﻿namespace sfa.Tl.Marketing.Communication.Models.Configuration;
 
 public class ConfigurationOptions
-{
-    public string EmployerSupportSiteUrl { get; init; }
+{    
+    public EmployerSiteSettings EmployerSiteSettings { get; init; }
     public string PostcodeRetrieverBaseUrl { get; init; }
     public StorageSettings StorageConfiguration { get; init; }
     public int CacheExpiryInSeconds { get; init; }
