@@ -12,7 +12,6 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers;
 
 public class StudentControllerRedirectDataTests
 {
-
     [Theory]
     [InlineData("/students/something")] //Local uri
     [InlineData("https://www.solihull.ac.uk/")]

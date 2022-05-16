@@ -1,12 +1,20 @@
 ﻿using FluentAssertions;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
+using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services;
 
 public class JourneyServiceTests
 {
+    [Fact]
+    public void JourneyService_Constructor_Guards_Against_NullParameters()
+    {
+        typeof(JourneyService)
+            .ShouldNotAcceptNullConstructorArguments();
+    }
+
     [Fact]
     public void JourneyService_Returns_Correct_Link()
     {

@@ -71,69 +71,7 @@ public class ProviderSearchService : IProviderSearchService
 
         return (providerLocationsWithDistances.Count, searchResults);
     }
-
-    public async Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search_2(
-        SearchRequest searchRequest)
-    {
-        //_logger.LogInformation("Search::requested search for {postcode} with {numberOfItems} for qualification {qualificationId}",
-        //    searchRequest.Postcode, searchRequest.NumberOfItems, searchRequest.QualificationId);
-
-        var providerLocations = _providerDataService
-            .GetProviderLocations(searchRequest.QualificationId);
-
-        var providerLocationsWithDistances = await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
-            new PostcodeLocation
-            {
-                Postcode = searchRequest.Postcode,
-                Latitude = Convert.ToDouble(searchRequest.OriginLatitude),
-                Longitude = Convert.ToDouble(searchRequest.OriginLongitude)
-            }, providerLocations);
-
-        var searchResults = providerLocationsWithDistances
-            .OrderBy(pl => pl.DistanceInMiles)
-            .Take(searchRequest.NumberOfItems)
-            .Select(s =>
-            {
-                s.JourneyUrl = _journeyService.GetDirectionsLink(searchRequest.Postcode, s);
-                return s;
-            });
-
-        return (providerLocationsWithDistances.Count, searchResults);
-    }
-
-    public async Task<(int totalCount, IEnumerable<ProviderLocation> searchResults)> Search_3(
-        SearchRequest searchRequest)
-    {
-        if (_logger.IsEnabled(LogLevel.Information))
-        {
-            _logger.LogInformation(
-                "Search::requested search for {postcode} with {numberOfItems} for qualification {qualificationId}",
-                searchRequest.Postcode, searchRequest.NumberOfItems, searchRequest.QualificationId);
-        }
-
-        var providerLocations = _providerDataService
-            .GetProviderLocations(searchRequest.QualificationId);
-
-        var providerLocationsWithDistances = await _distanceCalculationService.CalculateProviderLocationDistanceInMiles(
-            new PostcodeLocation
-            {
-                Postcode = searchRequest.Postcode,
-                Latitude = Convert.ToDouble(searchRequest.OriginLatitude),
-                Longitude = Convert.ToDouble(searchRequest.OriginLongitude)
-            }, providerLocations);
-
-        var searchResults = providerLocationsWithDistances
-            .OrderBy(pl => pl.DistanceInMiles)
-            .Take(searchRequest.NumberOfItems)
-            .Select(s =>
-            {
-                s.JourneyUrl = _journeyService.GetDirectionsLink(searchRequest.Postcode, s);
-                return s;
-            });
-
-        return (providerLocationsWithDistances.Count, searchResults);
-    }
-
+    
     public Qualification GetQualificationById(int id)
     {
         return _providerDataService.GetQualification(id);

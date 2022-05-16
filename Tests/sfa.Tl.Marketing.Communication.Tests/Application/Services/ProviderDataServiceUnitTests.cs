@@ -6,6 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 using NSubstitute;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
+using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services;
@@ -26,7 +27,14 @@ public class ProviderDataServiceUnitTests
 
         _providerDataService = CreateProviderDataService(tableStorageService);
     }
- 
+
+    [Fact]
+    public void ProviderDataService_Constructor_Guards_Against_NullParameters()
+    {
+        typeof(ProviderDataService)
+            .ShouldNotAcceptNullConstructorArguments();
+    }
+
     [Fact]
     public void GetQualifications_By_Ids_Returns_Qualifications_By_Ids()
     {

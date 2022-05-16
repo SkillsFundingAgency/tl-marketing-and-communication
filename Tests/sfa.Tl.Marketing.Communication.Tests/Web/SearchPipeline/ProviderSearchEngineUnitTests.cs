@@ -5,6 +5,7 @@ using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline;
@@ -22,6 +23,13 @@ public class ProviderSearchEngineUnitTests
         _searchPipelineFactory = Substitute.For<ISearchPipelineFactory>();
         _mapper = Substitute.For<IMapper>();
         _providerSearchEngine = new ProviderSearchEngine(_providerSearchService, _mapper, _searchPipelineFactory);
+    }
+
+    [Fact]
+    public void ProviderSearchEngine_Constructor_Guards_Against_NullParameters()
+    {
+        typeof(ProviderSearchEngine)
+            .ShouldNotAcceptNullConstructorArguments();
     }
 
     [Fact]

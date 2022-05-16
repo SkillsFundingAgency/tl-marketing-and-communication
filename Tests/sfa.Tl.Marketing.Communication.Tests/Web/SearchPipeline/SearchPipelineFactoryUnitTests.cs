@@ -6,6 +6,7 @@ using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
 using System.Linq;
+using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline;
@@ -34,7 +35,13 @@ public class SearchPipelineFactoryUnitTests
             
         _factory = new SearchPipelineFactory(searchSteps);
     }
-
+    [Fact]
+    public void SearchPipelineFactory_Constructor_Guards_Against_NullParameters()
+    {
+        typeof(SearchPipelineFactory)
+            .ShouldNotAcceptNullConstructorArguments();
+    }
+    
     [Fact]
     public void Factory_Validate_Order_Of_SearchPipeline_Steps()
     {

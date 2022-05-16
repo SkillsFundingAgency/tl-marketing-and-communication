@@ -8,6 +8,7 @@ using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps;
@@ -26,6 +27,8 @@ public class GetQualificationsStepUnitTests
             new() { Id = 5, Name = "Qualification 5" }
         };
 
+    
+
     public GetQualificationsStepUnitTests()
     {
         _providerSearchService = Substitute.For<IProviderSearchService>();
@@ -33,6 +36,13 @@ public class GetQualificationsStepUnitTests
         _providerSearchService.GetQualifications().Returns(_qualifications);
 
         _searchStep = new GetQualificationsStep(_providerSearchService);
+    }
+
+    [Fact]
+    public void Step_Constructor_Guards_Against_NullParameters()
+    {
+        typeof(GetQualificationsStep)
+            .ShouldNotAcceptNullConstructorArguments();
     }
 
     [Fact]
