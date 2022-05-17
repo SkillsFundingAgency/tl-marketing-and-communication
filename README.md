@@ -49,11 +49,13 @@ Add a new row to the table with:
 
 ```
 {
-  "EmployerSupportSiteUrl": "<address>",
-  "EmployerSupportSiteAboutArticle": "<partial path to article>",
-  "EmployerSupportSiteIndustryPlacementsBenefitsArticle": "<partial path to article>",
-  "EmployerSupportSiteSkillsArticle": "<partial path to article>",
-  "EmployerSupportSiteTimelineArticle": "<partial path to article>",
+  "EmployerSiteSettings": {
+      "SiteUrl": "<address>",
+      "AboutArticle": "<partial path to article>",
+      "IndustryPlacementsBenefitsArticle": "<partial path to article>",
+      "SkillsArticle": "<partial path to article>",
+      "TimelineArticle": "<partial path to article>"
+  },
   "CourseDirectoryApiSettings": {
     "BaseUri": "<Course Directory API>",
     "ApiKey": "<API Key>"
@@ -70,7 +72,9 @@ Add a new row to the table with:
 ```
 
 - `CacheExpiryInSeconds` - Default cache time (in seconds) used for caching providers and qualifications.
-- `EmployerSupportSiteUrl` needs to be the address of the Zendesk Employer Support site.
+- `EmployerSiteSettings` 
+  - `SiteUrl` needs to be the address of the Zendesk Employer Support site.
+  - Article settings should be the url fragment which will be appended to the site url and point to the articles on Zendesk. 
 - `TableStorageConnectionString` defaults to Azure Storage Emulator. If you want to use a cloud table, set the connection string here.
 - `PostcodeCacheExpiryInSeconds` - the time (in seconds) to keep postcodes cached. Used to reduce repeated calls to postcodes.io.
 - `PostcodeRetrieverBaseUrl` is usually `https://api.postcodes.io/`.

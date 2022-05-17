@@ -83,7 +83,14 @@ public static class ConfigurationExtensions
             PostcodeCacheExpiryInSeconds = int.TryParse(configuration[ConfigurationKeys.PostcodeCacheExpiryInSecondsConfigKey], out var postcodeCacheExpiryInSeconds)
                 ? postcodeCacheExpiryInSeconds
                 : CacheUtilities.DefaultCacheExpiryInSeconds,
-            EmployerSupportSiteUrl = configuration[ConfigurationKeys.EmployerSupportSiteUrlConfigKey],
+            EmployerSiteSettings = new EmployerSiteSettings
+            {
+                SiteUrl = configuration[ConfigurationKeys.EmployerSupportSiteUriConfigKey],
+                AboutArticle = configuration[ConfigurationKeys.EmployerSupportSiteAboutArticleConfigKey],
+                IndustryPlacementsBenefitsArticle = configuration[ConfigurationKeys.EmployerSupportSiteIndustryPlacementsBenefitsArticleConfigKey],
+                SkillsArticle = configuration[ConfigurationKeys.EmployerSupportSiteSkillsArticleConfigKey],
+                TimelineArticle = configuration[ConfigurationKeys.EmployerSupportSiteTimelineArticleConfigKey]
+            },
             PostcodeRetrieverBaseUrl = configuration[ConfigurationKeys.PostcodeRetrieverBaseUrlConfigKey],
             StorageSettings = new StorageSettings
             {
