@@ -5,7 +5,7 @@
   "properties": {
     "EmployerSupportSiteUrl": {
       "type": "string",
-      "environmentVariable": "EmployerSupportSiteUrl"
+      "environmentVariable": "EmployerSettings_SiteUrl"
     },
     "CourseDirectoryApiSettings": {
       "properties": {
@@ -24,6 +24,36 @@
       "required": [
         "BaseUri",
         "ApiKey"
+      ],
+      "type": "object"
+    },
+    "EmployerSiteSettings": {
+      "properties": {
+        "SiteUrl": {
+          "minLength": 1,
+          "type": "string",
+          "environmentVariable": "EmployerSettings_SiteUrl"
+        },
+        "AboutArticle": {
+          "type": "string",
+          "environmentVariable": "EmployerSiteSettings_AboutArticle"
+        },
+        "IndustryPlacementsBenefitsArticle": {
+          "type": "string",
+          "environmentVariable": "EmployerSiteSettings_IndustryPlacementsBenefitsArticle"
+        },
+        "SkillsArticle": {
+          "type": "string",
+          "environmentVariable": "EmployerSiteSettings_SkillsArticle"
+        },
+        "TimelineArticle": {
+          "type": "string",
+          "environmentVariable": "EmployerSiteSettings_TimelineArticle"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "SiteUrl"
       ],
       "type": "object"
     },
