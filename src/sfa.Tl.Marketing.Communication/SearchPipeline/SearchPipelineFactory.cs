@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
@@ -14,6 +15,7 @@ public class SearchPipelineFactory : ISearchPipelineFactory
     public SearchPipelineFactory(
         IEnumerable<ISearchStep> searchSteps)
     {
+        if(searchSteps is null) throw new ArgumentNullException(nameof(searchSteps));
         _searchSteps = searchSteps.ToList();
     }
 

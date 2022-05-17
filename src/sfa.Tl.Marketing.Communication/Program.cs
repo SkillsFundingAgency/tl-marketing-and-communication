@@ -30,8 +30,31 @@ if (programTypeName != null)
         programTypeName, LogLevel.Trace);
 }
 
-var siteConfiguration = builder.Configuration.LoadConfigurationOptions()
-                        ?? builder.Configuration.LoadConfigurationOptionsFromAppSettings();
+var siteConfiguration = new ConfigurationOptions
+{
+    CacheExpiryInSeconds = int.TryParse(builder.Configuration[ConfigurationKeys.CacheExpiryInSecondsConfigKey], out var cacheExpiryInSeconds)
+            ? cacheExpiryInSeconds
+            : CacheUtilities.DefaultCacheExpiryInSeconds,
+    PostcodeCacheExpiryInSeconds = int.TryParse(builder.Configuration[ConfigurationKeys.PostcodeCacheExpiryInSecondsConfigKey], out var postcodeCacheExpiryInSeconds)
+        ? postcodeCacheExpiryInSeconds
+        : CacheUtilities.DefaultCacheExpiryInSeconds,
+    MergeTempProviderData = bool.TryParse(builder.Configuration[ConfigurationKeys.MergeTempProviderDataConfigKey],
+                                out var mergeTempProviderData)
+                            && mergeTempProviderData,
+    PostcodeRetrieverBaseUrl = builder.Configuration[ConfigurationKeys.PostcodeRetrieverBaseUrlConfigKey],
+    EmployerSiteSettings = new EmployerSiteSettings
+    {
+        SiteUrl = builder.Configuration[ConfigurationKeys.EmployerSupportSiteUriConfigKey],
+        AboutArticle = builder.Configuration[ConfigurationKeys.EmployerSupportSiteAboutArticleConfigKey],
+        IndustryPlacementsBenefitsArticle = builder.Configuration[ConfigurationKeys.IndustryPlacementsBenefitsArticleConfigKey],
+        SkillsArticle = builder.Configuration[ConfigurationKeys.SkillsArticleConfigKey],
+        TimelineArticle = builder.Configuration[ConfigurationKeys.TimelineArticleConfigKey]
+    },
+    StorageConfiguration = new StorageSettings
+    {
+        TableStorageConnectionString = builder.Configuration[ConfigurationKeys.TableStorageConnectionStringConfigKey]
+    }
+};
 
 builder.Services
     .AddApplicationInsightsTelemetry()

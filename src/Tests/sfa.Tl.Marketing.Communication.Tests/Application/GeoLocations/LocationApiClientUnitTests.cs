@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using sfa.Tl.Marketing.Communication.Application.GeoLocations;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
+using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.HttpClientHelpers;
 using Xunit;
 
@@ -17,6 +18,13 @@ public class LocationApiClientUnitTests
     private const string Outcode = "CV11";
     private const string TerminatedPostcode = "S70 2YW";
     private const string NoLatLongPostcode = "GY1 4NS";
+
+    [Fact]
+    public void LocationApiClient_Constructor_Guards_Against_NullParameters()
+    {
+        typeof(LocationApiClient)
+            .ShouldNotAcceptNullConstructorArguments();
+    }
 
     [Fact]
     public async Task Then_Postcode_Is_Returned_Correctly()

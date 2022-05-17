@@ -50,6 +50,10 @@ Add a new row to the table with:
 ```
 {
   "EmployerSupportSiteUrl": "<address>",
+  "EmployerSupportSiteAboutArticle": "<partial path to article>",
+  "EmployerSupportSiteIndustryPlacementsBenefitsArticle": "<partial path to article>",
+  "EmployerSupportSiteSkillsArticle": "<partial path to article>",
+  "EmployerSupportSiteTimelineArticle": "<partial path to article>",
   "CourseDirectoryApiSettings": {
     "BaseUri": "<Course Directory API>",
     "ApiKey": "<API Key>"

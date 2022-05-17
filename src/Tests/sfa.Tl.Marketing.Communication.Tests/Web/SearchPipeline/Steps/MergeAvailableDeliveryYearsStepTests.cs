@@ -8,12 +8,20 @@ using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
 using System.Linq;
 using System.Threading.Tasks;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
+using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps;
 
 public class MergeAvailableDeliveryYearsStepTests
 {
+    [Fact]
+    public void Step_Constructor_Guards_Against_NullParameters()
+    {
+        typeof(MergeAvailableDeliveryYearsStep)
+            .ShouldNotAcceptNullConstructorArguments();
+    }
+    
     [Fact]
     public async Task MergeAvailableDeliveryYears_Before_Available_Returns_Expected_Result()
     {
