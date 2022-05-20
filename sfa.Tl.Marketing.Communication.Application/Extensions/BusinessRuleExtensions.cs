@@ -25,6 +25,7 @@ public static class BusinessRuleExtensions
             list.AddRange(
                 p.DeliveryYear
                     .Qualifications
+                    .Where(q => p.QualificationsDictionary.ContainsKey(q))
                     .Select(q => new Qualification
                     {
                         Id = q,
