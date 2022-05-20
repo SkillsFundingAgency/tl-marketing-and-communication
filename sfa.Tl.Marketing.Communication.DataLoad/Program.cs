@@ -7,6 +7,7 @@ using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.DataLoad.Services;
+using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.Models.Entities;
 
 var builder = new ConfigurationBuilder()
@@ -43,17 +44,25 @@ static ITableStorageService CreateTableStorageService(
 
     var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
 
+    var siteConfiguration = new ConfigurationOptions
+    {
+        Environment = "Data Load"
+    };
+
     var locationRepository = new GenericCloudTableRepository<LocationEntity>(
         cloudTableClient,
+        siteConfiguration,
         loggerFactory.CreateLogger<GenericCloudTableRepository<LocationEntity>>());
 
     var providerRepository = new GenericCloudTableRepository<ProviderEntity>(
         cloudTableClient,
+        siteConfiguration,
         loggerFactory.CreateLogger<GenericCloudTableRepository<ProviderEntity>>());
 
     var qualificationRepository = new GenericCloudTableRepository<QualificationEntity>(
-                cloudTableClient,
-                loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity>>());
+        cloudTableClient,
+        siteConfiguration,
+        loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity>>());
 
     return new TableStorageService(
         locationRepository,
