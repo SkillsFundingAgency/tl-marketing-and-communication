@@ -15,7 +15,5 @@ public interface ICloudTableRepository<T>
 
     Task<IList<T>> GetAll();
 
-    Task<IList<T>> GetByPartitionKey(string partitionKey);
-
     Task<int> Save(IList<T> entities);
 }
