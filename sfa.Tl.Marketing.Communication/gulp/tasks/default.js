@@ -5,7 +5,7 @@ var gulp = require('gulp'),
     minify = require('gulp-minify'),
     sass = require('gulp-sass')(require('node-sass')),
     wait = require('gulp-wait'),
-    purify = require('gulp-purify-css');
+    purgecss = require('gulp-purgecss')
 
 const paths = require('../paths.json');
 const sassOptions = require('../sassOptions.js');
@@ -39,10 +39,14 @@ gulp.task('sass', () => {
 });
 
 gulp.task('purifycss', function () {
-    return gulp.src(paths.dist.CSS)
-        .pipe(purify(['/Views/**/*.cshtml', '/wwwroot/**/*.js']))
-        .pipe(gulp.dest(paths.dist.CSS));
+    return gulp.src('wwwroot/css/main.css')
+        .pipe(wait(400))
+        .pipe(purgecss({
+            content: ['Views/**/*.cshtml', 'wwwroot/**/*.js'],
+        }))
+        .pipe(gulp.dest(paths.dist.CSS))
 });
+
 
 gulp.task('sitemap', () => {
     return src(paths.src.Assets + "sitemap.xml")
