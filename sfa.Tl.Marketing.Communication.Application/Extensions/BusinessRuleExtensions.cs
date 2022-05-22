@@ -15,21 +15,21 @@ public static class BusinessRuleExtensions
 
     public static IList<Qualification> GetQualificationsForDeliveryYear(
         this (DeliveryYearDto DeliveryYear,
-              IDictionary<int, Qualification> QualificationsDictionary) 
-              p)
+              IDictionary<int, Qualification> QualificationsDictionary) data)
     {
         var list = new List<Qualification>();
 
-        if (p.DeliveryYear?.Qualifications != null)
+        if (data.DeliveryYear?.Qualifications != null)
         {
             list.AddRange(
-                p.DeliveryYear
+                data.DeliveryYear
                     .Qualifications
+                    .Where(q => data.QualificationsDictionary.ContainsKey(q))
                     .Select(q => new Qualification
                     {
                         Id = q,
-                        Name = p.QualificationsDictionary[q].Name,
-                        Route = p.QualificationsDictionary[q].Route
+                        Name = data.QualificationsDictionary[q].Name,
+                        Route = data.QualificationsDictionary[q].Route
                     }));
         }
 

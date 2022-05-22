@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Builders;
@@ -22,6 +23,19 @@ public class QualificationListBuilder
                 Route = $"Route {nextId}",
                 Name = $"Test Qualification {nextId}"
             });
+        }
+
+        return this;
+    }
+
+    public QualificationListBuilder Remove(int id)
+    {
+        var itemToRemove = _qualifications
+            .SingleOrDefault(q => q.Id == id);
+
+        if(itemToRemove is not null)
+        {
+            _qualifications.Remove(itemToRemove);
         }
 
         return this;

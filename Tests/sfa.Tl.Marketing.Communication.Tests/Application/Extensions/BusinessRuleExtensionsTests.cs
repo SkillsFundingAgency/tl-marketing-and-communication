@@ -81,4 +81,25 @@ public class BusinessRuleExtensionsTests
         result.First().Id.Should().Be(1);
         result.First().Name.Should().Be("Test Qualification 1");
     }
+
+    [Fact]
+    public void GetQualificationsForDeliveryYear_Returns_Expected_Result_With_Missing_Qualification()
+    {
+        var deliveryYear = new DeliveryYearDtoBuilder().Build();
+
+        var qualifications = new QualificationListBuilder()
+            .Add(3)
+            .Remove(1)
+            .Build();
+
+        var qualificationsDictionary = qualifications
+            .ToDictionary(q => q.Id);
+
+        var result =
+            (deliveryYear, qualificationsDictionary)
+            .GetQualificationsForDeliveryYear();
+
+        result.Should().NotBeNull();
+        result.Count.Should().Be(0);
+    }
 }

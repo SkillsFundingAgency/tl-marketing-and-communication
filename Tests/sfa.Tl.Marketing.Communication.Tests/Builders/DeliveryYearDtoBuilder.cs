@@ -10,7 +10,7 @@ public class DeliveryYearDtoBuilder
         Year = 2020,
         Qualifications = new List<int>
         {
-            1,
+            1
         }
     };
 }
