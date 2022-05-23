@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace sfa.Tl.Marketing.Communication.Application.Interfaces;
 
-public interface ICloudTableRepository<T>
+public interface ICloudTableRepository<T, TN>
 {
     Task<int> Delete(IList<T> entities);
 
