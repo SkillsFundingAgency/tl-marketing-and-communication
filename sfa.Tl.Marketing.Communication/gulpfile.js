@@ -10,7 +10,7 @@ gulp.task('default', gulp.series('assets', 'sass', 'js', 'sitemap', 'purifycss',
         done();
     }));
 
-gulp.task('dev', gulp.series('assets', 'dev.sass', 'dev.js', 'sitemap',
+gulp.task('dev', gulp.series('assets', 'dev.sass', 'dev.js', 'sitemap', 'purifycss',
     (done) => {
         done();
     }));
