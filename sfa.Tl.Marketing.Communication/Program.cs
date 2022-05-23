@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos.Table;
+using Azure.Data.Tables;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -107,9 +108,13 @@ var cloudStorageAccount =
     CloudStorageAccount.Parse(siteConfiguration.StorageConfiguration.TableStorageConnectionString);
 var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
 
+var tableServiceClient = new TableServiceClient(
+    siteConfiguration.StorageConfiguration.TableStorageConnectionString);
+
 builder.Services.AddSingleton(cloudStorageAccount)
     .AddSingleton(cloudTableClient)
-    .AddTransient(typeof(ICloudTableRepository<>), typeof(GenericCloudTableRepository<>))
+    .AddSingleton(tableServiceClient)
+    .AddTransient(typeof(ICloudTableRepository<,>), typeof(GenericCloudTableRepository<,>))
     .AddTransient<ITableStorageService, TableStorageService>();
 
 builder.Services.AddMemoryCache();

@@ -74,7 +74,7 @@ public static class EntityExtensions
                         Longitude = location.Longitude,
                         Town = location.Town,
                         Website = location.Website,
-                        DeliveryYears = location.DeliveryYears.Select(
+                        DeliveryYears = location.DeliveryYears?.Select(
                             deliveryYear =>
                                 new DeliveryYearEntity
                                 {
@@ -82,6 +82,7 @@ public static class EntityExtensions
                                     Qualifications = deliveryYear.Qualifications.ToList()
                                 }
                         ).ToList()
+                        ?? new List<DeliveryYearEntity>()
                     }).ToList() ?? new List<LocationEntity>();
     }
 
@@ -98,13 +99,14 @@ public static class EntityExtensions
                         Longitude = location.Longitude,
                         Town = location.Town,
                         Website = location.Website,
-                        DeliveryYears = location.DeliveryYears.Select(
+                        DeliveryYears = location.DeliveryYears?.Select(
                             deliveryYear =>
                                 new DeliveryYearDto
                                 {
                                     Year = deliveryYear.Year,
                                     Qualifications = deliveryYear.Qualifications.ToList()
                                 }).ToList()
+                        ?? new List<DeliveryYearDto>()
                     }).ToList() ?? new List<Location>();
     }
 }

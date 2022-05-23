@@ -1,19 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Azure.Data.Tables;
 using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
+using sfa.Tl.Marketing.Communication.Models.Entities.AzureDataTables;
+using ITableEntity = Microsoft.Azure.Cosmos.Table.ITableEntity;
 
 namespace sfa.Tl.Marketing.Communication.Application.Repositories;
 
-public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
+public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
     where T : ITableEntity, new()
+    where TN : class, Azure.Data.Tables.ITableEntity,
+    IConvertibleEntity<TN, T>,
+    new()
 {
     private readonly CloudTableClient _cloudTableClient;
-    private readonly ILogger<GenericCloudTableRepository<T>> _logger;
+    private readonly TableServiceClient _tableServiceClient;
+    private readonly ILogger<GenericCloudTableRepository<T, TN>> _logger;
 
     private readonly string _environment;
     private readonly string _tableName;
@@ -22,10 +30,12 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
 
     public GenericCloudTableRepository(
         CloudTableClient cloudTableClient,
+        TableServiceClient tableServiceClient,
         ConfigurationOptions siteConfiguration,
-        ILogger<GenericCloudTableRepository<T>> logger)
+        ILogger<GenericCloudTableRepository<T, TN>> logger)
     {
         _cloudTableClient = cloudTableClient ?? throw new ArgumentNullException(nameof(cloudTableClient));
+        _tableServiceClient = tableServiceClient ?? throw new ArgumentNullException(nameof(tableServiceClient));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         if (siteConfiguration is null) throw new ArgumentNullException(nameof(siteConfiguration));
@@ -180,9 +190,10 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
     public async Task<IList<T>> GetAll()
     {
         var results = new List<T>();
-
-        var cloudTable = _cloudTableClient.GetTableReference(_tableName);
-
+        
+        //var cloudTable = _cloudTableClient.GetTableReference(_tableName);
+        TableClient tableClient;
+        //TODO: Consider doing this on program startup - add to TableServiceClient creation
         var requestOptions = new TableRequestOptions
         {
             MaximumExecutionTime = _environment == "LOCAL"
@@ -192,9 +203,12 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
 
         try
         {
-            if (!await cloudTable.ExistsAsync(requestOptions, default(OperationContext)))
+            tableClient = _tableServiceClient.GetTableClient(_tableName);
+            if (tableClient is null)
             {
-                _logger.LogWarning("GenericCloudTableRepository GetAll: table '{_tableName}' not found. Returning 0 results.", _tableName);
+                _logger.LogWarning(
+                    "GenericCloudTableRepository GetAll: table '{_tableName}' not found. Returning 0 results.",
+                    _tableName);
                 return results;
             }
         }
@@ -206,23 +220,46 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
                 //Workaround to avoid displaying exceptions for local dev
                 return results;
             }
+
+            throw;
+        }
+        catch (Exception)
+        {
             throw;
         }
 
-        var tableQuery = new TableQuery<T>();
-        var continuationToken = default(TableContinuationToken);
+        //var tableQuery = new TableQuery<TN>();
+        //var continuationToken = default(TableContinuationToken);
 
-        do
+        //do
+        //{
+        //    var queryResults = await cloudTable.
+        //        .ExecuteQuerySegmentedAsync(
+        //            tableQuery,
+        //            continuationToken);
+
+        //    continuationToken = queryResults.ContinuationToken;
+
+        //    results.AddRange(queryResults.Results);
+        //} while (continuationToken != null);
+
+        var queryResults = tableClient
+            .QueryAsync<TN>();
+
+        var cancellationToken = default(CancellationToken);
+        
+        await foreach (var page in queryResults.AsPages()
+                           //.WithCancellation(cancellationToken)
+                       )
         {
-            var queryResults = await cloudTable
-                .ExecuteQuerySegmentedAsync(
-                    tableQuery,
-                    continuationToken);
-
-            continuationToken = queryResults.ContinuationToken;
-
-            results.AddRange(queryResults.Results);
-        } while (continuationToken != null);
+            //results.AddRange(page.Values);
+            results.AddRange(page.Values.Select(item => item.Convert()));
+            //foreach (var item in page.Values)
+            //{
+            //    results.Add(item.Convert());
+            //}
+            //page.ContinuationToken
+        }
 
         return results;
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Azure.Cosmos.Table;
+using Azure.Data.Tables;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
@@ -9,6 +10,7 @@ using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.DataLoad.Services;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.Models.Entities;
+using AzureDataTables = sfa.Tl.Marketing.Communication.Models.Entities.AzureDataTables;
 
 var builder = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
@@ -44,25 +46,30 @@ static ITableStorageService CreateTableStorageService(
 
     var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
 
+    var tableServiceClient = new TableServiceClient(tableStorageConnectionString);
+
     var siteConfiguration = new ConfigurationOptions
     {
         Environment = "Data Load"
     };
 
-    var locationRepository = new GenericCloudTableRepository<LocationEntity>(
+    var locationRepository = new GenericCloudTableRepository<LocationEntity, AzureDataTables.LocationEntity>(
         cloudTableClient,
+        tableServiceClient,
         siteConfiguration,
-        loggerFactory.CreateLogger<GenericCloudTableRepository<LocationEntity>>());
+        loggerFactory.CreateLogger<GenericCloudTableRepository<LocationEntity, AzureDataTables.LocationEntity>>());
 
-    var providerRepository = new GenericCloudTableRepository<ProviderEntity>(
+    var providerRepository = new GenericCloudTableRepository<ProviderEntity, AzureDataTables.ProviderEntity>(
         cloudTableClient,
+        tableServiceClient,
         siteConfiguration,
-        loggerFactory.CreateLogger<GenericCloudTableRepository<ProviderEntity>>());
+        loggerFactory.CreateLogger<GenericCloudTableRepository<ProviderEntity, AzureDataTables.ProviderEntity>>());
 
-    var qualificationRepository = new GenericCloudTableRepository<QualificationEntity>(
+    var qualificationRepository = new GenericCloudTableRepository<QualificationEntity, AzureDataTables.QualificationEntity>(
         cloudTableClient,
+        tableServiceClient,
         siteConfiguration,
-        loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity>>());
+        loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity, AzureDataTables.QualificationEntity>>());
 
     return new TableStorageService(
         locationRepository,

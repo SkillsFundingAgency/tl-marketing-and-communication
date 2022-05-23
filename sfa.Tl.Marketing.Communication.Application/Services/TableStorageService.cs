@@ -7,20 +7,21 @@ using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.Models.Entities;
 using sfa.Tl.Marketing.Communication.Models.Extensions;
+using AzureDataTables = sfa.Tl.Marketing.Communication.Models.Entities.AzureDataTables;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services;
 
 public class TableStorageService : ITableStorageService
 {
-    private readonly ICloudTableRepository<LocationEntity> _locationRepository;
-    private readonly ICloudTableRepository<ProviderEntity> _providerRepository;
-    private readonly ICloudTableRepository<QualificationEntity> _qualificationRepository;
+    private readonly ICloudTableRepository<LocationEntity, AzureDataTables.LocationEntity> _locationRepository;
+    private readonly ICloudTableRepository<ProviderEntity, AzureDataTables.ProviderEntity> _providerRepository;
+    private readonly ICloudTableRepository<QualificationEntity, AzureDataTables.QualificationEntity> _qualificationRepository;
     private readonly ILogger<TableStorageService> _logger;
 
     public TableStorageService(
-        ICloudTableRepository<LocationEntity> locationRepository,
-        ICloudTableRepository<ProviderEntity> providerRepository,
-        ICloudTableRepository<QualificationEntity> qualificationRepository,
+        ICloudTableRepository<LocationEntity, AzureDataTables.LocationEntity> locationRepository,
+        ICloudTableRepository<ProviderEntity, AzureDataTables.ProviderEntity> providerRepository,
+        ICloudTableRepository<QualificationEntity, AzureDataTables.QualificationEntity> qualificationRepository,
         ILogger<TableStorageService> logger)
     {
         _locationRepository = locationRepository ?? throw new ArgumentNullException(nameof(locationRepository));
