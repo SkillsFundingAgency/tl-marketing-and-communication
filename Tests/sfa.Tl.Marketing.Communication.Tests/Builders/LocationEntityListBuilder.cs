@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using sfa.Tl.Marketing.Communication.Models.Entities;
+using sfa.Tl.Marketing.Communication.Models.Entities.AzureDataTables;
+using sfa.Tl.Marketing.Communication.Models.Extensions;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Builders;
 
@@ -23,14 +24,14 @@ public class LocationEntityListBuilder
                 Latitude = 50.1234 + nextId,
                 Longitude = -0.234 - nextId,
                 Website = $"https://test.provider_{nextId}.co.uk",
-                DeliveryYears = new List<DeliveryYearEntity>
+                DeliveryYears = new List<Models.Entities.DeliveryYearEntity>
                 {
                     new()
                     {
                         Year = (short) (2020 + nextId), 
                         Qualifications = new List<int> {nextId}
                     }
-                },
+                }.SerializeDeliveryYears(),
                 PartitionKey = $"{10000000 + nextId}" //UkPrn
             };
 

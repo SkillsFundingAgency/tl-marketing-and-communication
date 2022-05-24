@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.Models.Entities;
+using AzureDataTables = sfa.Tl.Marketing.Communication.Models.Entities.AzureDataTables;
 
 namespace sfa.Tl.Marketing.Communication.Models.Extensions;
 
@@ -22,7 +24,7 @@ public static class EntityExtensions
                 }).ToList();
     }
 
-    public static IList<Qualification> ToQualificationList(this IEnumerable<QualificationEntity> qualificationEntities)
+    public static IList<Qualification> ToQualificationList(this IEnumerable<AzureDataTables.QualificationEntity> qualificationEntities)
     {
         return qualificationEntities
             .Select(q =>
@@ -46,8 +48,8 @@ public static class EntityExtensions
                     Name = provider.Name
                 }).ToList();
     }
-
-    public static IList<Provider> ToProviderList(this IEnumerable<ProviderEntity> providerEntities)
+    
+    public static IList<Provider> ToProviderList(this IEnumerable<AzureDataTables.ProviderEntity> providerEntities)
     {
         return providerEntities
             .Select(provider =>
@@ -86,7 +88,7 @@ public static class EntityExtensions
                     }).ToList() ?? new List<LocationEntity>();
     }
 
-    public static IList<Location> ToLocationList(this IEnumerable<LocationEntity> locationEntities)
+    public static IList<Location> ToLocationList(this IEnumerable<AzureDataTables.LocationEntity> locationEntities)
     {
         return locationEntities?
             .Select(
@@ -99,7 +101,7 @@ public static class EntityExtensions
                         Longitude = location.Longitude,
                         Town = location.Town,
                         Website = location.Website,
-                        DeliveryYears = location.DeliveryYears?.Select(
+                        DeliveryYears = location.DeliveryYears.DeserializeDeliveryYears()?.Select(
                             deliveryYear =>
                                 new DeliveryYearDto
                                 {
@@ -108,5 +110,20 @@ public static class EntityExtensions
                                 }).ToList()
                         ?? new List<DeliveryYearDto>()
                     }).ToList() ?? new List<Location>();
+    }
+
+    public static IList<DeliveryYearEntity> DeserializeDeliveryYears(this string serializedDeliveryYear)
+    {
+        return !string.IsNullOrEmpty(serializedDeliveryYear)
+            ? JsonSerializer.Deserialize<IList<DeliveryYearEntity>>
+                (serializedDeliveryYear)
+            : new List<DeliveryYearEntity>();
+    }
+
+    public static string SerializeDeliveryYears(this IList<DeliveryYearEntity> deliveryYears)
+    {
+        return deliveryYears is null 
+            ? "[]" 
+            : JsonSerializer.Serialize(deliveryYears);
     }
 }

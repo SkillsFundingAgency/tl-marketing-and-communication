@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Azure.Data.Tables;
 using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
-using sfa.Tl.Marketing.Communication.Models.Entities.AzureDataTables;
-using ITableEntity = Microsoft.Azure.Cosmos.Table.ITableEntity;
 
 namespace sfa.Tl.Marketing.Communication.Application.Repositories;
 
 public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
-    where T : ITableEntity, new()
+    where T : Microsoft.Azure.Cosmos.Table.ITableEntity, new()
     where TN : class, Azure.Data.Tables.ITableEntity,
-    IConvertibleEntity<TN, T>,
     new()
 {
     private readonly CloudTableClient _cloudTableClient;
@@ -187,23 +184,13 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
         }
     }
 
-    public async Task<IList<T>> GetAll()
+    public async Task<IList<TN>> GetAll()
     {
-        var results = new List<T>();
-        
-        //var cloudTable = _cloudTableClient.GetTableReference(_tableName);
-        TableClient tableClient;
-        //TODO: Consider doing this on program startup - add to TableServiceClient creation
-        var requestOptions = new TableRequestOptions
-        {
-            MaximumExecutionTime = _environment == "LOCAL"
-                ? TimeSpan.FromMilliseconds(500)
-                : TimeSpan.FromSeconds(30)
-        };
+        var results = new List<TN>();
 
         try
         {
-            tableClient = _tableServiceClient.GetTableClient(_tableName);
+            var tableClient = _tableServiceClient.GetTableClient(_tableName);
             if (tableClient is null)
             {
                 _logger.LogWarning(
@@ -211,54 +198,30 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
                     _tableName);
                 return results;
             }
-        }
-        catch (StorageException ex)
-        {
-            _logger.LogError(ex, "GenericCloudTableRepository GetAll: failed for table '{_tableName}'.", _tableName);
-            if (_environment == "LOCAL")
+
+            var queryResults = tableClient
+                .QueryAsync<TN>();
+
+            //var cancellationToken = default(CancellationToken);
+
+            await foreach (var page in queryResults.AsPages()
+                           //.WithCancellation(cancellationToken)
+                           )
             {
+                results.AddRange(page.Values);
+            }
+        }
+        catch (AggregateException aex)
+        {
+            if (_environment == "LOCAL"
+                && aex.InnerException is TaskCanceledException)
+            {
+                Debug.WriteLine(aex.InnerException.GetType().Name);
                 //Workaround to avoid displaying exceptions for local dev
                 return results;
             }
 
             throw;
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-
-        //var tableQuery = new TableQuery<TN>();
-        //var continuationToken = default(TableContinuationToken);
-
-        //do
-        //{
-        //    var queryResults = await cloudTable.
-        //        .ExecuteQuerySegmentedAsync(
-        //            tableQuery,
-        //            continuationToken);
-
-        //    continuationToken = queryResults.ContinuationToken;
-
-        //    results.AddRange(queryResults.Results);
-        //} while (continuationToken != null);
-
-        var queryResults = tableClient
-            .QueryAsync<TN>();
-
-        var cancellationToken = default(CancellationToken);
-        
-        await foreach (var page in queryResults.AsPages()
-                           //.WithCancellation(cancellationToken)
-                       )
-        {
-            //results.AddRange(page.Values);
-            results.AddRange(page.Values.Select(item => item.Convert()));
-            //foreach (var item in page.Values)
-            //{
-            //    results.Add(item.Convert());
-            //}
-            //page.ContinuationToken
         }
 
         return results;

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using sfa.Tl.Marketing.Communication.Models.Entities;
+using sfa.Tl.Marketing.Communication.Models.Entities.AzureDataTables;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Builders;
 

@@ -108,8 +108,34 @@ var cloudStorageAccount =
     CloudStorageAccount.Parse(siteConfiguration.StorageConfiguration.TableStorageConnectionString);
 var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
 
+var tableClientOptions = new TableClientOptions
+{
+    Retry =
+    {
+        NetworkTimeout = siteConfiguration.Environment == "LOCAL"
+            ? TimeSpan.FromMilliseconds(500)
+            : TimeSpan.FromSeconds(30)
+    }
+};
+
+if (siteConfiguration.Environment == "LOCAL")
+{
+    tableClientOptions.Retry.NetworkTimeout = TimeSpan.FromMilliseconds(500);
+    tableClientOptions.Retry.MaxRetries = 1;
+}
+
 var tableServiceClient = new TableServiceClient(
-    siteConfiguration.StorageConfiguration.TableStorageConnectionString);
+    siteConfiguration.StorageConfiguration.TableStorageConnectionString,
+    siteConfiguration.Environment == "LOCAL" 
+        ? new TableClientOptions //Options to allow development running without azure emulator
+        {
+            Retry =
+            {
+                NetworkTimeout = TimeSpan.FromMilliseconds(500),
+                MaxRetries = 1
+            }
+        }
+        : default);
 
 builder.Services.AddSingleton(cloudStorageAccount)
     .AddSingleton(cloudTableClient)

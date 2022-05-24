@@ -5,8 +5,7 @@ using Azure.Data.Tables;
 
 namespace sfa.Tl.Marketing.Communication.Models.Entities.AzureDataTables;
 
-public class ProviderEntity : ITableEntity,
-    IConvertibleEntity<ProviderEntity, Entities.ProviderEntity>
+public class ProviderEntity : ITableEntity
 {
     [JsonPropertyName("name")]
     public string Name { get; init; }
@@ -18,17 +17,4 @@ public class ProviderEntity : ITableEntity,
     public string RowKey { get; set; }
     public DateTimeOffset? Timestamp { get; set; }
     public ETag ETag { get; set; }
-
-    public Entities.ProviderEntity Convert()
-    {
-        return new Entities.ProviderEntity
-        {
-            Name = Name,
-            UkPrn = UkPrn,
-            PartitionKey = PartitionKey,
-            RowKey = RowKey,
-            Timestamp = Timestamp ?? default,
-            ETag = ETag.ToString()
-        };
-    }
 }

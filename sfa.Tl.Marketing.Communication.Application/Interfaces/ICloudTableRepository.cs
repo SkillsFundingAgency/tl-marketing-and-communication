@@ -13,7 +13,7 @@ public interface ICloudTableRepository<T, TN>
 
     Task DeleteTable();
 
-    Task<IList<T>> GetAll();
+    Task<IList<TN>> GetAll();
 
     Task<int> Save(IList<T> entities);
 }
