@@ -93,6 +93,8 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
         var continuationToken = default(TableContinuationToken);
         var deleted = 0;
 
+        //TODO: Delete is now
+        //tableClient.DeleteEntity(partitionKey, rowKey);
         do
         {
             var queryResults = await cloudTable
@@ -177,11 +179,12 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
 
     public async Task DeleteTable()
     {
-        var cloudTable = _cloudTableClient.GetTableReference(_tableName);
-        if (cloudTable.Exists())
-        {
-            await cloudTable.DeleteAsync();
-        }
+        var tableClient = _tableServiceClient.GetTableClient(_tableName);
+        var response = await tableClient.DeleteAsync();
+        _logger.LogInformation(response is not null
+                ? "Deleted table {table}."
+                : "Delete did not find table {table}.",
+            _tableName);
     }
 
     public async Task<IList<TN>> GetAll()
