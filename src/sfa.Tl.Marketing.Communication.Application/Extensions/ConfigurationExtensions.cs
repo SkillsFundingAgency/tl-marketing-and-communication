@@ -2,22 +2,12 @@
 using System.Text.Json;
 using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Configuration;
-using sfa.Tl.Marketing.Communication.Application.Caching;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
 namespace sfa.Tl.Marketing.Communication.Application.Extensions;
 
 public static class ConfigurationExtensions
 {
-    public static ConfigurationOptions LoadConfigurationOptions(this IConfiguration configuration)
-    {
-        return configuration.LoadConfigurationOptions(
-            configuration[ConfigurationKeys.EnvironmentNameConfigKey],
-            configuration[ConfigurationKeys.ConfigurationStorageConnectionStringConfigKey],
-            configuration[ConfigurationKeys.ServiceNameConfigKey],
-            configuration[ConfigurationKeys.VersionConfigKey]);
-    }
-
     public static ConfigurationOptions LoadConfigurationOptions(this IConfiguration configuration,
         string environment,
         string storageConnectionString,
@@ -71,34 +61,5 @@ public static class ConfigurationExtensions
                 "Configuration could not be loaded. Please check your configuration files or see the inner exception for details",
                 ex);
         }
-    }
-
-    public static ConfigurationOptions LoadConfigurationOptionsFromAppSettings(this IConfiguration configuration)
-    {
-        return new ConfigurationOptions
-        {
-            CacheExpiryInSeconds = int.TryParse(configuration[ConfigurationKeys.CacheExpiryInSecondsConfigKey], out var cacheExpiryInSeconds)
-                ? cacheExpiryInSeconds
-                : CacheUtilities.DefaultCacheExpiryInSeconds,
-            PostcodeCacheExpiryInSeconds = int.TryParse(configuration[ConfigurationKeys.PostcodeCacheExpiryInSecondsConfigKey], out var postcodeCacheExpiryInSeconds)
-                ? postcodeCacheExpiryInSeconds
-                : CacheUtilities.DefaultCacheExpiryInSeconds,
-            EmployerSiteSettings = new EmployerSiteSettings
-            {
-                SiteUrl = configuration[ConfigurationKeys.EmployerSupportSiteUriConfigKey],
-                AboutArticle = configuration[ConfigurationKeys.EmployerSupportSiteAboutArticleConfigKey],
-                IndustryPlacementsBenefitsArticle = configuration[ConfigurationKeys.EmployerSupportSiteIndustryPlacementsBenefitsArticleConfigKey],
-                SkillsArticle = configuration[ConfigurationKeys.EmployerSupportSiteSkillsArticleConfigKey],
-                TimelineArticle = configuration[ConfigurationKeys.EmployerSupportSiteTimelineArticleConfigKey]
-            },
-            PostcodeRetrieverBaseUrl = configuration[ConfigurationKeys.PostcodeRetrieverBaseUrlConfigKey],
-            StorageSettings = new StorageSettings
-            {
-                TableStorageConnectionString = configuration[ConfigurationKeys.TableStorageConnectionStringConfigKey]
-            },
-            MergeTempProviderData = bool.TryParse(configuration[ConfigurationKeys.MergeTempProviderDataConfigKey],
-                                        out var mergeTempProviderData)
-                                    && mergeTempProviderData,
-        };
     }
 }

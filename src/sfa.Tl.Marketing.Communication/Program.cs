@@ -48,12 +48,12 @@ var siteConfiguration = new ConfigurationOptions
     EmployerSiteSettings = new EmployerSiteSettings
     {
         SiteUrl = builder.Configuration[ConfigurationKeys.EmployerSupportSiteUriConfigKey],
-        AboutArticle = builder.Configuration[ConfigurationKeys.EmployerSupportSiteAboutArticleConfigKey],
+        AboutArticle = builder.Configuration[ConfigurationKeys.AboutArticleConfigKey],
         IndustryPlacementsBenefitsArticle = builder.Configuration[ConfigurationKeys.IndustryPlacementsBenefitsArticleConfigKey],
         SkillsArticle = builder.Configuration[ConfigurationKeys.SkillsArticleConfigKey],
         TimelineArticle = builder.Configuration[ConfigurationKeys.TimelineArticleConfigKey]
     },
-    StorageConfiguration = new StorageSettings
+    StorageSettings = new StorageSettings
     {
         TableStorageConnectionString = builder.Configuration[ConfigurationKeys.TableStorageConnectionStringConfigKey]
     }
