@@ -3,9 +3,9 @@
 var gulp = require('gulp'),
     concat = require('gulp-concat'),
     minify = require('gulp-minify'),
-    sass = require('gulp-sass')(require('node-sass'));
+    sass = require('gulp-sass')(require('node-sass')),
     wait = require('gulp-wait'),
-    watch = require('gulp-watch');
+    purgecss = require('gulp-purgecss')
 
 const paths = require('../paths.json');
 const sassOptions = require('../sassOptions.js');
@@ -32,11 +32,21 @@ gulp.task('js', () => {
 });
 
 gulp.task('sass', () => {
-        return src(paths.src.SCSS)
+    return src(paths.src.SCSS)
             .pipe(wait(200))
             .pipe(sass(sassOptions))
             .pipe(gulp.dest(paths.dist.CSS));
 });
+
+gulp.task('purifycss', function () {
+    return gulp.src('wwwroot/css/main.css')
+        .pipe(wait(400))
+        .pipe(purgecss({
+            content: ['Views/**/*.cshtml', 'wwwroot/**/*.js'],
+        }))
+        .pipe(gulp.dest(paths.dist.CSS))
+});
+
 
 gulp.task('sitemap', () => {
     return src(paths.src.Assets + "sitemap.xml")

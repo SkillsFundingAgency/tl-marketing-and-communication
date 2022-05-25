@@ -63,7 +63,7 @@ public class ProviderDataService : IProviderDataService
                                 .Select(d => new DeliveryYear
                                 {
                                     Year = d.Year,
-                                    Qualifications = GetQualificationsForDeliveryYear(d, qualificationsDictionary)
+                                    Qualifications = (d, qualificationsDictionary).GetQualificationsForDeliveryYear()
                                 })
                                 .OrderBy(d => d.Year)
                                 .ToList()
@@ -131,28 +131,6 @@ public class ProviderDataService : IProviderDataService
         }
 
         return qualifications;
-    }
-
-    private static IList<Qualification> GetQualificationsForDeliveryYear(
-        DeliveryYearDto deliveryYear,
-        IDictionary<int, Qualification> qualificationsDictionary)
-    {
-        var list = new List<Qualification>();
-
-        if (deliveryYear.Qualifications != null)
-        {
-            list.AddRange(
-                deliveryYear
-                    .Qualifications
-                    .Select(q => new Qualification
-                    {
-                        Id = q,
-                        Name = qualificationsDictionary[q].Name,
-                        Route = qualificationsDictionary[q].Route
-                    }));
-        }
-
-        return list.OrderBy(q => q.Name).ToList();
     }
 
     private IQueryable<Provider> GetAllProviders()

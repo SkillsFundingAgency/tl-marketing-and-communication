@@ -34,6 +34,7 @@ if (programTypeName != null)
 
 var siteConfiguration = new ConfigurationOptions
 {
+    Environment = builder.Configuration[ConfigurationKeys.EnvironmentNameConfigKey],
     CacheExpiryInSeconds = int.TryParse(builder.Configuration[ConfigurationKeys.CacheExpiryInSecondsConfigKey], out var cacheExpiryInSeconds)
             ? cacheExpiryInSeconds
             : CacheUtilities.DefaultCacheExpiryInSeconds,
@@ -47,7 +48,7 @@ var siteConfiguration = new ConfigurationOptions
     EmployerSiteSettings = new EmployerSiteSettings
     {
         SiteUrl = builder.Configuration[ConfigurationKeys.EmployerSupportSiteUriConfigKey],
-        AboutArticle = builder.Configuration[ConfigurationKeys.EmployerSupportSiteAboutArticleConfigKey],
+        AboutArticle = builder.Configuration[ConfigurationKeys.AboutArticleConfigKey],
         IndustryPlacementsBenefitsArticle = builder.Configuration[ConfigurationKeys.IndustryPlacementsBenefitsArticleConfigKey],
         SkillsArticle = builder.Configuration[ConfigurationKeys.SkillsArticleConfigKey],
         TimelineArticle = builder.Configuration[ConfigurationKeys.TimelineArticleConfigKey]
