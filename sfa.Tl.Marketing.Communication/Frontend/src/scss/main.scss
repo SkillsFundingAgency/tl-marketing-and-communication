@@ -7,12 +7,6 @@
 @import "components/all";
 @import "pages/all";
 
-$plyr-control-spacing: 20px;
-$plyr-color-main: $orange;
-$plyr-video-control-color-hover: #000000;
-
-@import "../../../node_modules/plyr/src/sass/plyr.scss";
-
 
 html {
     overflow-x: hidden;

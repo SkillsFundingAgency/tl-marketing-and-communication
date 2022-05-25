@@ -5,12 +5,12 @@ var gulp = require('gulp');
 require('./gulp/tasks/default');
 require('./gulp/tasks/dev');
 
-gulp.task('default', gulp.series('assets', 'sass', 'js', 'sitemap',
+gulp.task('default', gulp.series('assets', 'sass', 'js', 'sitemap', 'purifycss',
     (done) => {
         done();
     }));
 
-gulp.task('dev', gulp.series('assets', 'dev.sass', 'dev.js', 'sitemap',
+gulp.task('dev', gulp.series('assets', 'dev.sass', 'dev.js', 'sitemap', 'purifycss',
     (done) => {
         done();
     }));

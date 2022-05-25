@@ -12,23 +12,24 @@ public static class BusinessRuleExtensions
         return deliveryYear < today.Year
                || (deliveryYear == today.Year && today.Month >= 9);
     }
-        
+
     public static IList<Qualification> GetQualificationsForDeliveryYear(
-        this DeliveryYearDto deliveryYear,
-        IDictionary<int, Qualification> qualificationsDictionary)
+        this (DeliveryYearDto DeliveryYear,
+              IDictionary<int, Qualification> QualificationsDictionary) data)
     {
         var list = new List<Qualification>();
 
-        if (deliveryYear.Qualifications != null)
+        if (data.DeliveryYear?.Qualifications != null)
         {
             list.AddRange(
-                deliveryYear
+                data.DeliveryYear
                     .Qualifications
+                    .Where(q => data.QualificationsDictionary.ContainsKey(q))
                     .Select(q => new Qualification
                     {
                         Id = q,
-                        Name = qualificationsDictionary[q].Name,
-                        Route = qualificationsDictionary[q].Route
+                        Name = data.QualificationsDictionary[q].Name,
+                        Route = data.QualificationsDictionary[q].Route
                     }));
         }
 

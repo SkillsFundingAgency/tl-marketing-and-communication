@@ -2,6 +2,8 @@
 
 public static class ConfigurationKeys
 {
+    public const string EnvironmentNameConfigKey = "EnvironmentName";
+
     public const string CacheExpiryInSecondsConfigKey = "CacheExpiryInSeconds";
     public const string PostcodeCacheExpiryInSecondsConfigKey = "PostcodeCacheExpiryInSeconds";
 

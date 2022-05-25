@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using sfa.Tl.Marketing.Communication.Models.Configuration;
 
 namespace sfa.Tl.Marketing.Communication.Application.Repositories;
 
@@ -14,17 +15,22 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
     private readonly CloudTableClient _cloudTableClient;
     private readonly ILogger<GenericCloudTableRepository<T>> _logger;
 
+    private readonly string _environment;
     private readonly string _tableName;
 
     private const int TableBatchSize = 100;
 
     public GenericCloudTableRepository(
         CloudTableClient cloudTableClient,
+        ConfigurationOptions siteConfiguration,
         ILogger<GenericCloudTableRepository<T>> logger)
     {
         _cloudTableClient = cloudTableClient ?? throw new ArgumentNullException(nameof(cloudTableClient));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            
+
+        if (siteConfiguration is null) throw new ArgumentNullException(nameof(siteConfiguration));
+        _environment = siteConfiguration.Environment;
+
         _tableName = typeof(T).Name;
         const string suffix = "Entity";
         if (_tableName.EndsWith(suffix))
@@ -126,7 +132,7 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
                 "PartitionKey",
                 QueryComparisons.Equal,
                 partitionKey));
-                
+
         var continuationToken = default(TableContinuationToken);
         var deleted = 0;
 
@@ -176,47 +182,34 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
         var results = new List<T>();
 
         var cloudTable = _cloudTableClient.GetTableReference(_tableName);
-        if (!cloudTable.Exists())
+
+        var requestOptions = new TableRequestOptions
         {
-            _logger.LogWarning("GenericCloudTableRepository GetAll: table '{_tableName}' not found. Returning 0 results.", _tableName);
-            return results;
+            MaximumExecutionTime = _environment == "LOCAL"
+                ? TimeSpan.FromMilliseconds(500)
+                : TimeSpan.FromSeconds(30)
+        };
+
+        try
+        {
+            if (!await cloudTable.ExistsAsync(requestOptions, default(OperationContext)))
+            {
+                _logger.LogWarning("GenericCloudTableRepository GetAll: table '{_tableName}' not found. Returning 0 results.", _tableName);
+                return results;
+            }
+        }
+        catch (StorageException ex)
+        {
+            _logger.LogError(ex, "GenericCloudTableRepository GetAll: failed for table '{_tableName}'.", _tableName);
+            if (_environment == "LOCAL")
+            {
+                //Workaround to avoid displaying exceptions for local dev
+                return results;
+            }
+            throw;
         }
 
         var tableQuery = new TableQuery<T>();
-        var continuationToken = default(TableContinuationToken);
-
-        do
-        {
-            var queryResults = await cloudTable
-                .ExecuteQuerySegmentedAsync(
-                    tableQuery,
-                    continuationToken);
-
-            continuationToken = queryResults.ContinuationToken;
-
-            results.AddRange(queryResults.Results);
-        } while (continuationToken != null);
-
-        return results;
-    }
-
-    public async Task<IList<T>> GetByPartitionKey(string partitionKey)
-    {
-        var results = new List<T>();
-
-        var cloudTable = _cloudTableClient.GetTableReference(_tableName);
-        if (!cloudTable.Exists())
-        {
-            _logger.LogWarning("GenericCloudTableRepository GetAll: table '{_tableName}' not found. Returning 0 results.", _tableName);
-            return results;
-        }
-
-        var tableQuery = new TableQuery<T>()
-            .Where(TableQuery.GenerateFilterCondition(
-                "PartitionKey",
-                QueryComparisons.Equal,
-                partitionKey));
-
         var continuationToken = default(TableContinuationToken);
 
         do
