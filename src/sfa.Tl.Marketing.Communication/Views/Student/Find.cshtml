@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Find a T Level";
     ViewData["PageID"] = "tl-student-find";
-    ViewData["MetaDescription"] = "Search for colleges and schools who start delivering T Levels in 2020 and 2021.";
+    ViewData["MetaDescription"] = "Search for schools and colleges who start delivering T Levels in 2020 and 2021.";
 
 }
 @using sfa.Tl.Marketing.Communication.Constants
@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-12">
                     <h1>Find your nearest T Level</h1>
-                    <p>Search for colleges and schools who are delivering T Levels</p>
+                    <p>Search for schools and colleges who are delivering T Levels</p>
                     <span class="tl-validation--message">@Model.PostcodeValidationMessage</span>
                     <input asp-for="Postcode" value="@Model.Postcode" placeholder="Enter your postcode" class="tl-search--form--postcode" aria-label="Enter a postcode to find a T Level near you" />
 
@@ -39,7 +39,7 @@
                         @if (!Model.ProviderLocations.Any())
                         {
                             <h3>0 results</h3>
-                            <p>Enter a postcode to search for colleges and schools doing T Levels.</p>
+                            <p>Enter a postcode to search for schools and colleges doing T Levels.</p>
                         }
                     </div>
                     <div id="tl-search-results">
