@@ -5,7 +5,7 @@ namespace sfa.Tl.Marketing.Communication.Application.Interfaces;
 
 public interface ICloudTableRepository<T, TN>
 {
-    Task<int> Delete(IList<T> entities);
+    Task<int> Delete(IList<TN> entities);
 
     Task<int> DeleteAll();
 

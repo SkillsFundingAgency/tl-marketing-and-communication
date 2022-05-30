@@ -49,7 +49,7 @@ public class TableStorageService : ITableStorageService
             await _locationRepository.DeleteByPartitionKey(provider.UkPrn.ToString());
         }
 
-        var providerEntities = providers.ToProviderEntityList();
+        var providerEntities = providers.ToProviderEntityList_NEW();
 
         return await _providerRepository.Delete(providerEntities);
     }
@@ -118,6 +118,7 @@ public class TableStorageService : ITableStorageService
 
     public async Task<int> ClearQualifications()
     {
+        await _qualificationRepository.DeleteTable();
         return await _qualificationRepository.DeleteAll();
     }
 
@@ -128,7 +129,7 @@ public class TableStorageService : ITableStorageService
             return 0;
         }
 
-        var qualificationEntities = qualifications.ToQualificationEntityList();
+        var qualificationEntities = qualifications.ToQualificationEntityList_NEW();
 
         return await _qualificationRepository.Delete(qualificationEntities);
     }

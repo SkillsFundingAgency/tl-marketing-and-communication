@@ -104,16 +104,5 @@ public class EntityExtensionsTests
         var results = deliveryYearString.DeserializeDeliveryYears();
 
         results.Should().BeEquivalentTo(deliveryYearEntities);
-        //qualifications[0].Id.Should().Be(qualificationEntities[0].Id);
-        //qualifications[0].Route.Should().Be(qualificationEntities[0].Route);
-        //qualifications[0].Name.Should().Be(qualificationEntities[0].Name);
-
-        //qualifications[0].Id.Should().Be(1);
-        //qualifications[0].Route.Should().Be("Route 1");
-        //qualifications[0].Name.Should().Be("Test Qualification 1");
-        //qualifications[1].Id.Should().Be(2);
-        //qualifications[1].Route.Should().Be("Route 2");
-        //qualifications[1].Name.Should().Be("Test Qualification 2");
     }
-
 }
