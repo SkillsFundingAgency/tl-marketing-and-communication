@@ -88,7 +88,7 @@ This data is imported from the NCS Course Directory API using a scheduled functi
 
 ## Azure Functions
 
-Default development configuration is in file `local.settings.development.json`.
+Default development configuration is in file `local.settings.json`.
 If you need to override configuration (e.g. to import Course Directory data)  values on your local machine, add a file called `local.settings.development.json` 
 - this should be done outside of Visual Studio, since the file is already referenced in the project with `Copy to Output Directory` set to `Copy if newer`.
 
