@@ -10,7 +10,6 @@ using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
 using sfa.Tl.Marketing.Communication.Application.Services;
-using sfa.Tl.Marketing.Communication.Functions.Extensions;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
 var host = new HostBuilder()
@@ -25,8 +24,10 @@ var host = new HostBuilder()
     )
     .ConfigureServices((hostContext, services) =>
     {
+        var environment = Environment.GetEnvironmentVariable(ConfigurationKeys.EnvironmentNameConfigKey);
+
         var config = hostContext.Configuration.LoadConfigurationOptions(
-                Environment.GetEnvironmentVariable(ConfigurationKeys.EnvironmentNameConfigKey),
+                environment,
                 Environment.GetEnvironmentVariable(ConfigurationKeys.ConfigurationStorageConnectionStringConfigKey),
                 Environment.GetEnvironmentVariable(ConfigurationKeys.ServiceNameConfigKey),
                 //NOTE: workaround issues with "Version" in local "Values" with .NET 6
@@ -35,8 +36,7 @@ var host = new HostBuilder()
         
         var siteConfiguration = new ConfigurationOptions
         {
-            Environment = environment,
-            StorageConfiguration = storageConfig
+            Environment = environment
         };
         services.AddSingleton(siteConfiguration);
         RegisterHttpClients(services, config.CourseDirectoryApiSettings);
