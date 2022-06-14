@@ -28,6 +28,7 @@ var hostBuilder = new HostBuilder()
     {
         var config = hostContext.Configuration;
         var (apiConfiguration, storageConfiguration) =
+        var (apiConfig, storageConfig, environment) =
         (
             new CourseDirectoryApiSettings
             {
@@ -37,8 +38,17 @@ var hostBuilder = new HostBuilder()
             new StorageSettings
             {
                 TableStorageConnectionString = config.GetConfigurationValue(ConfigurationKeys.TableStorageConnectionStringConfigKey)
-            }
+            },
+            config.GetConfigurationValue(ConfigurationKeys.EnvironmentNameConfigKey)
         );
+
+        var siteConfiguration = new ConfigurationOptions
+        {
+            Environment = environment,
+            StorageConfiguration = storageConfig
+        };
+
+        services.AddSingleton(siteConfiguration);
 
         services.AddHttpClient<ICourseDirectoryDataService, CourseDirectoryDataService>(
                 nameof(CourseDirectoryDataService),
