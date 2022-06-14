@@ -27,8 +27,7 @@ var hostBuilder = new HostBuilder()
     .ConfigureServices((hostContext, services) =>
     {
         var config = hostContext.Configuration;
-        var (apiConfiguration, storageConfiguration) =
-        var (apiConfig, storageConfig, environment) =
+        var (apiConfiguration, storageConfiguration, environment) =
         (
             new CourseDirectoryApiSettings
             {
@@ -45,7 +44,7 @@ var hostBuilder = new HostBuilder()
         var siteConfiguration = new ConfigurationOptions
         {
             Environment = environment,
-            StorageConfiguration = storageConfig
+            StorageConfiguration = storageConfiguration
         };
 
         services.AddSingleton(siteConfiguration);
