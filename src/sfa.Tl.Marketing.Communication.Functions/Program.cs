@@ -10,6 +10,7 @@ using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Repositories;
 using sfa.Tl.Marketing.Communication.Application.Services;
+using sfa.Tl.Marketing.Communication.Functions.Extensions;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
 var host = new HostBuilder()
@@ -32,6 +33,12 @@ var host = new HostBuilder()
                 Environment.GetEnvironmentVariable(ConfigurationKeys.VersionConfigKey)
                 ?? Environment.GetEnvironmentVariable(ConfigurationKeys.ServiceVersionConfigKey));
         
+        var siteConfiguration = new ConfigurationOptions
+        {
+            Environment = environment,
+            StorageConfiguration = storageConfig
+        };
+        services.AddSingleton(siteConfiguration);
         RegisterHttpClients(services, config.CourseDirectoryApiSettings);
         RegisterServices(services, config.StorageSettings);
     })
