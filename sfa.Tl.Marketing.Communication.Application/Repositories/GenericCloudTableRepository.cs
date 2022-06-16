@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Azure;
 using Azure.Data.Tables;
 using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Logging;
@@ -50,13 +50,14 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
     {
         var tableClient = _tableServiceClient.GetTableClient(_tableName);
 
-        var deleteEntitiesBatch = new List<TableTransactionAction>();
-
-        // Add the entities for deletion to the batch.
-        foreach (var entityToDelete in entities)
-        {
-            deleteEntitiesBatch.Add(new TableTransactionAction(TableTransactionActionType.Delete, entityToDelete));
-        }
+        var deleteEntitiesBatch = entities
+            .Select(entityToDelete => 
+                new TableTransactionAction(TableTransactionActionType.Delete, entityToDelete))
+            .ToList();
+        //foreach (var entityToDelete in entities)
+        //{
+        //    deleteEntitiesBatch.Add(new TableTransactionAction(TableTransactionActionType.Delete, entityToDelete));
+        //}
 
         // Submit the batch.
         var response = await tableClient.SubmitTransactionAsync(deleteEntitiesBatch).ConfigureAwait(false);
@@ -106,9 +107,9 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
             .QueryAsync<TN>();
 
         //var cancellationToken = default(CancellationToken);
-        
+
         await foreach (var page in queryResults.AsPages()
-                       //.WithCancellation(cancellationToken)
+                      //.WithCancellation(cancellationToken)
                       )
         {
             deleteEntitiesBatch
@@ -229,29 +230,34 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
                 return results;
             }
 
+            //await tableClient.CreateIfNotExistsAsync();
+
             var queryResults = tableClient
                 .QueryAsync<TN>();
 
             //var cancellationToken = default(CancellationToken);
 
             await foreach (var page in queryResults.AsPages()
-                           //.WithCancellation(cancellationToken)
-                           )
+                          //.WithCancellation(cancellationToken)
+                          )
             {
                 results.AddRange(page.Values);
             }
         }
         catch (AggregateException aex)
         {
-            if (_environment == "LOCAL"
-                && aex.InnerException is TaskCanceledException)
+            if (_environment != "LOCAL" || aex.InnerException is not TaskCanceledException)
             {
-                Debug.WriteLine(aex.InnerException.GetType().Name);
-                //Workaround to avoid displaying exceptions for local dev
-                return results;
+                throw;
             }
 
-            throw;
+            //Workaround to avoid displaying exceptions for local dev
+            _logger.LogWarning("GenericCloudTableRepository GetAll: ignoring error '{exceptionTypeName}' for table '{_tableName}' when running in local environment. Returning 0 results.", 
+                aex.InnerException.GetType().Name, _tableName);
+        }
+        catch (RequestFailedException fex)
+        {
+            _logger.LogError(fex, "GenericCloudTableRepository GetAll: error for table '{_tableName}'. Returning 0 results.", _tableName);
         }
 
         return results;
@@ -267,6 +273,9 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
         var cloudTable = _cloudTableClient.GetTableReference(_tableName);
 
         await cloudTable.CreateIfNotExistsAsync();
+
+        //var tableClient = _tableServiceClient.GetTableClient(_tableName);
+        //await tableClient.CreateIfNotExistsAsync();
 
         var inserted = 0;
 
