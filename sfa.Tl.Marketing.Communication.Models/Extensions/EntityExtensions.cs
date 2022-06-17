@@ -63,7 +63,7 @@ public static class EntityExtensions
                     Name = provider.Name
                 }).ToList();
     }
-   
+
     public static IList<AzureDataTables.ProviderEntity> ToProviderEntityList_NEW(this IEnumerable<Provider> providers)
     {
         return providers
@@ -88,7 +88,7 @@ public static class EntityExtensions
                     Locations = new List<Location>()
                 }).ToList();
     }
-    
+
     public static IList<LocationEntity> ToLocationEntityList(this IEnumerable<Location> locations, string partitionKey)
     {
         return locations?
@@ -161,6 +161,16 @@ public static class EntityExtensions
 
     public static IList<DeliveryYearEntity> DeserializeDeliveryYears(this string serializedDeliveryYear)
     {
+        var result = !string.IsNullOrEmpty(serializedDeliveryYear)
+        //return !string.IsNullOrEmpty(serializedDeliveryYear)
+            ? JsonSerializer.Deserialize<IList<DeliveryYearEntity>>
+                (serializedDeliveryYear)
+            : new List<DeliveryYearEntity>();
+        return result;
+    }
+
+    public static IList<DeliveryYearEntity> DeserializeDeliveryYearDtos(this string serializedDeliveryYear)
+    {
         return !string.IsNullOrEmpty(serializedDeliveryYear)
             ? JsonSerializer.Deserialize<IList<DeliveryYearEntity>>
                 (serializedDeliveryYear)
@@ -169,15 +179,38 @@ public static class EntityExtensions
 
     public static string SerializeDeliveryYears(this IList<DeliveryYearEntity> deliveryYears)
     {
-        return deliveryYears is null 
-            ? "[]" 
-            : JsonSerializer.Serialize(deliveryYears);
-    }
-
-    public static string SerializeDeliveryYearDtos(this IList<DeliveryYearDto> deliveryYears)
-    {
         return deliveryYears is null
             ? "[]"
-            : JsonSerializer.Serialize(deliveryYears);
+            : JsonSerializer.Serialize(
+                deliveryYears,
+                new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+    }
+
+    public static string SerializeDeliveryYearDtos(this IList<DeliveryYearDto> deliveryYearDtos)
+    {
+        if (deliveryYearDtos is null)
+            return "[]";
+
+        var deliveryYears = deliveryYearDtos.Select(
+            deliveryYear =>
+                new DeliveryYearEntity
+                {
+                    Year = deliveryYear.Year,
+                    Qualifications = deliveryYear.Qualifications.ToList()
+                })
+            //.ToList()
+            ;
+
+        var serialized =
+            JsonSerializer.Serialize(deliveryYears,
+                new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+
+        return serialized;
     }
 }

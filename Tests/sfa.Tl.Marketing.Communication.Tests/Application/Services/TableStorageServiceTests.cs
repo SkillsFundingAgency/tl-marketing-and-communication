@@ -96,9 +96,9 @@ public class TableStorageServiceTests
 
         var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity, AzureDataTables.ProviderEntity>>();
         providerRepository
-            .Save(Arg.Any<IList<ProviderEntity>>())
+            .Save(Arg.Any<IList<AzureDataTables.ProviderEntity>>())
             .Returns(args =>
-                ((IList<ProviderEntity>)args[0]).Count);
+                ((IList<AzureDataTables.ProviderEntity>)args[0]).Count);
 
         var service = BuildTableStorageService(providerRepository: providerRepository);
 
@@ -181,7 +181,7 @@ public class TableStorageServiceTests
     [Fact]
     public async Task TableStorageService_SaveQualifications_Returns_Expected_Count_Of_Items_Saved()
     {
-        var savedQualificationEntities = new List<QualificationEntity>();
+        var savedQualificationEntities = new List<AzureDataTables.QualificationEntity>();
 
         var qualifications = new QualificationListBuilder()
             .Add(2)
@@ -189,12 +189,12 @@ public class TableStorageServiceTests
 
         var qualificationRepository = Substitute.For<ICloudTableRepository<QualificationEntity, AzureDataTables.QualificationEntity>> ();
         qualificationRepository
-            .Save(Arg.Do<IList<QualificationEntity>>(entities =>
+            .Save(Arg.Do<IList<AzureDataTables.QualificationEntity>>(entities =>
             {
                 savedQualificationEntities.AddRange(entities);
             }))
             .Returns(args =>
-                ((IList<QualificationEntity>)args[0]).Count);
+                ((IList<AzureDataTables.QualificationEntity>)args[0]).Count);
 
         var service = BuildTableStorageService(qualificationRepository: qualificationRepository);
 

@@ -15,5 +15,5 @@ public interface ICloudTableRepository<T, TN>
 
     Task<IList<TN>> GetAll();
 
-    Task<int> Save(IList<T> entities);
+    Task<int> Save(IList<TN> entities);
 }
