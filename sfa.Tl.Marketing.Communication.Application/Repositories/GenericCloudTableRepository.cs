@@ -15,7 +15,6 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
     where T : Microsoft.Azure.Cosmos.Table.ITableEntity, new()
     where TN : class, Azure.Data.Tables.ITableEntity, new()
 {
-    private readonly CloudTableClient _cloudTableClient;
     private readonly TableServiceClient _tableServiceClient;
     private readonly ILogger<GenericCloudTableRepository<T, TN>> _logger;
 
@@ -30,7 +29,7 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
         ConfigurationOptions siteConfiguration,
         ILogger<GenericCloudTableRepository<T, TN>> logger)
     {
-        _cloudTableClient = cloudTableClient ?? throw new ArgumentNullException(nameof(cloudTableClient));
+        //_cloudTableClient = cloudTableClient ?? throw new ArgumentNullException(nameof(cloudTableClient));
         _tableServiceClient = tableServiceClient ?? throw new ArgumentNullException(nameof(tableServiceClient));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
@@ -53,46 +52,11 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
             .Select(entityToDelete =>
                 new TableTransactionAction(TableTransactionActionType.Delete, entityToDelete))
             .ToList();
-        //foreach (var entityToDelete in entities)
-        //{
-        //    deleteEntitiesBatch.Add(new TableTransactionAction(TableTransactionActionType.Delete, entityToDelete));
-        //}
 
         // Submit the batch.
         var response = await tableClient.SubmitTransactionAsync(deleteEntitiesBatch).ConfigureAwait(false);
 
         return response.Value.Count;
-        /*
-        var cloudTable = _cloudTableClient.GetTableReference(_tableName);
-        if (!cloudTable.Exists())
-        {
-            _logger.LogWarning("GenericCloudTableRepository Delete: table '{_tableName}' not found. Returning 0 results.", _tableName);
-            return 0;
-        }
-
-        var deleted = 0;
-        var rowOffset = 0;
-
-        while (rowOffset < entities.Count)
-        {
-            var batchOperation = new TableBatchOperation();
-
-            var batchEntities = entities.Skip(rowOffset).Take(TableBatchSize).ToList();
-
-            batchEntities.ForEach(x =>
-            {
-                x.ETag = "*"; //Add wildcard etag
-                batchOperation.Add(TableOperation.Delete(x));
-            });
-
-            var batchResult = await cloudTable.ExecuteBatchAsync(batchOperation);
-            deleted += batchResult.Count;
-
-            rowOffset += batchEntities.Count;
-        }
-
-        return deleted;
-        */
     }
 
     public async Task<int> DeleteAll()
@@ -121,60 +85,6 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
                         deleted += response.Value.Count;
                     }
                 });
-            //var tableClient = _tableServiceClient.GetTableClient(_tableName);
-
-            //var deleted = 0;
-            //var deleteEntitiesBatch = new List<TableTransactionAction>();
-
-            //var queryResults = tableClient
-            //    .QueryAsync<TN>();
-
-            ////var cancellationToken = default(CancellationToken);
-
-            //await foreach (var page in queryResults.AsPages()
-            //              //.WithCancellation(cancellationToken)
-            //              )
-            //{
-            //    deleteEntitiesBatch
-            //        .AddRange(page.Values
-            //            .Select(x =>
-            //                new TableTransactionAction(TableTransactionActionType.Delete, x)));
-
-            //    var response = await tableClient.SubmitTransactionAsync(deleteEntitiesBatch).ConfigureAwait(false);
-            //    deleted += response.Value.Count;
-            //}
-
-            /*
-            do
-            {
-                var queryResults = await cloudTable
-                    .ExecuteQuerySegmentedAsync(
-                        tableQuery,
-                        continuationToken);
-
-                continuationToken = queryResults.ContinuationToken;
-
-                // Split into chunks of 100 for batching
-                var rowsChunked = queryResults.Select((x, index) => new { Index = index, Value = x })
-                    .Where(x => x.Value != null)
-                    .GroupBy(x => x.Index / TableBatchSize)
-                    .Select(x => x.Select(v => v.Value).ToList())
-                    .ToList();
-
-                // Delete each chunk of 100 in a batch
-                foreach (var rows in rowsChunked)
-                {
-                    var batchOperation = new TableBatchOperation();
-                    rows.ForEach(x => batchOperation.Add(TableOperation.Delete(x)));
-
-                    await cloudTable.ExecuteBatchAsync(batchOperation);
-                }
-
-                deleted += queryResults.Count();
-
-            } while (continuationToken != null);
-
-            */
         }
         catch (RequestFailedException fex)
         {
@@ -210,58 +120,6 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
                         deleted += response.Value.Count;
                     }
                 });
-
-            //var deleteEntitiesBatch = new List<TableTransactionAction>();
-
-
-            //var cloudTable = _cloudTableClient.GetTableReference(_tableName);
-            //if (!cloudTable.Exists())
-            //{
-            //    _logger.LogWarning("GenericCloudTableRepository DeleteByPartitionKey: table '{_tableName}' not found. Returning 0 results.", _tableName);
-            //    return 0;
-            //}
-
-            //var queryResults = tableClient
-            //    .QueryAsync<TN>();
-
-            //var tableQuery = new TableQuery<T>()
-            //    .Where(TableQuery.GenerateFilterCondition(
-            //        "PartitionKey",
-            //        QueryComparisons.Equal,
-            //        partitionKey));
-
-            //var continuationToken = default(TableContinuationToken);
-            //var deleted = 0;
-
-            //do
-            //{
-            //    var queryResults = await cloudTable
-            //        .ExecuteQuerySegmentedAsync(
-            //            tableQuery,
-            //            continuationToken);
-
-            //    //continuationToken = queryResults.ContinuationToken;
-
-            //    // Split into chunks of 100 for batching
-            //    var rowsChunked = queryResults.Select((x, index) => new { Index = index, Value = x })
-            //        .Where(x => x.Value != null)
-            //        .GroupBy(x => x.Index / TableBatchSize)
-            //        .Select(x => x.Select(v => v.Value).ToList())
-            //        .ToList();
-
-            //    // Delete each chunk of 100 in a batch
-            //    foreach (var rows in rowsChunked)
-            //    {
-            //        var batchOperation = new TableBatchOperation();
-            //        rows.ForEach(x => batchOperation.Add(TableOperation.Delete(x)));
-
-            //        await cloudTable.ExecuteBatchAsync(batchOperation);
-            //    }
-
-            //    deleted += queryResults.Count();
-
-            //} while (continuationToken != null);
-
         }
         catch (RequestFailedException fex)
         {
@@ -278,8 +136,6 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
         {
             var response = await _tableServiceClient.DeleteTableAsync(_tableName);
 
-            //var tableClient = _tableServiceClient.GetTableClient(_tableName);
-            //var response = await tableClient.DeleteAsync();
             _logger.LogInformation("Deleted table {table} returned with response {status} {reasonPhrase}.",
                 _tableName, response?.Status, response?.ReasonPhrase);
         }
@@ -305,8 +161,6 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
                     _tableName);
                 return results;
             }
-
-            //await tableClient.CreateIfNotExistsAsync();
 
             var queryResults = tableClient
                 .QueryAsync<TN>();
@@ -350,20 +204,9 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
 
         await tableClient.CreateIfNotExistsAsync();
 
-        var cloudTable = _cloudTableClient.GetTableReference(_tableName);
-
-        //await cloudTable.CreateIfNotExistsAsync();
-
-        //var tableClient = _tableServiceClient.GetTableClient(_tableName);
-
         var inserted = 0;
 
         var rowOffset = 0;
-
-        /*
-addFamilyBatch.AddRange(familyList.Select(f => new TableTransactionAction(TableTransactionActionType.Add, f)));
-Response<IReadOnlyList<Response>> response = await tableClient.SubmitTransactionAsync(addFamilyBatch);         
-        */
 
         var responses =
             await BatchManipulateEntities(tableClient, entities, TableTransactionActionType.UpsertReplace)
@@ -374,23 +217,6 @@ Response<IReadOnlyList<Response>> response = await tableClient.SubmitTransaction
         {
             inserted += response.Value.Count;
         }
-
-        //while (rowOffset < entities.Count)
-        //{
-        //    var batchOperation = new TableBatchOperation();
-
-        //    var batchEntities = entities.Skip(rowOffset).Take(TableBatchSize).ToList();
-
-        //    foreach (var entity in batchEntities)
-        //    {
-        //        batchOperation.InsertOrReplace(entity);
-        //    }
-
-        //    var batchResult = await cloudTable.ExecuteBatchAsync(batchOperation);
-        //    inserted += batchResult.Count;
-
-        //    rowOffset += batchEntities.Count;
-        //}
 
         return inserted;
     }

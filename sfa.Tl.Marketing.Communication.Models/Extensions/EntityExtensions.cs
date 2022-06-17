@@ -9,22 +9,7 @@ namespace sfa.Tl.Marketing.Communication.Models.Extensions;
 
 public static class EntityExtensions
 {
-    public static IList<QualificationEntity> ToQualificationEntityList(
-        this IEnumerable<Qualification> qualifications)
-    {
-        return qualifications
-            .Select(qualification =>
-                new QualificationEntity
-                {
-                    PartitionKey = "qualifications",
-                    RowKey = qualification.Id.ToString(),
-                    Id = qualification.Id,
-                    Route = qualification.Route,
-                    Name = qualification.Name
-                }).ToList();
-    }
-
-    public static IList<AzureDataTables.QualificationEntity> ToQualificationEntityList_NEW(
+    public static IList<AzureDataTables.QualificationEntity> ToQualificationEntityList(
         this IEnumerable<Qualification> qualifications)
     {
         return qualifications
@@ -51,20 +36,7 @@ public static class EntityExtensions
                 }).ToList();
     }
 
-    public static IList<ProviderEntity> ToProviderEntityList(this IEnumerable<Provider> providers)
-    {
-        return providers
-            .Select(provider =>
-                new ProviderEntity
-                {
-                    PartitionKey = "providers",
-                    RowKey = provider.UkPrn.ToString(),
-                    UkPrn = provider.UkPrn,
-                    Name = provider.Name
-                }).ToList();
-    }
-
-    public static IList<AzureDataTables.ProviderEntity> ToProviderEntityList_NEW(this IEnumerable<Provider> providers)
+    public static IList<AzureDataTables.ProviderEntity> ToProviderEntityList(this IEnumerable<Provider> providers)
     {
         return providers
             .Select(provider =>
@@ -88,35 +60,8 @@ public static class EntityExtensions
                     Locations = new List<Location>()
                 }).ToList();
     }
-
-    public static IList<LocationEntity> ToLocationEntityList(this IEnumerable<Location> locations, string partitionKey)
-    {
-        return locations?
-            .Select(
-                location =>
-                    new LocationEntity
-                    {
-                        PartitionKey = partitionKey,
-                        RowKey = location.Postcode,
-                        Name = location.Name,
-                        Postcode = location.Postcode,
-                        Latitude = location.Latitude,
-                        Longitude = location.Longitude,
-                        Town = location.Town,
-                        Website = location.Website,
-                        DeliveryYears = location.DeliveryYears?.Select(
-                            deliveryYear =>
-                                new DeliveryYearEntity
-                                {
-                                    Year = deliveryYear.Year,
-                                    Qualifications = deliveryYear.Qualifications.ToList()
-                                }
-                        ).ToList()
-                        ?? new List<DeliveryYearEntity>()
-                    }).ToList() ?? new List<LocationEntity>();
-    }
-
-    public static IList<AzureDataTables.LocationEntity> ToLocationEntityList_NEW(this IEnumerable<Location> locations, string partitionKey)
+    
+    public static IList<AzureDataTables.LocationEntity> ToLocationEntityList(this IEnumerable<Location> locations, string partitionKey)
     {
         return locations?
             .Select(

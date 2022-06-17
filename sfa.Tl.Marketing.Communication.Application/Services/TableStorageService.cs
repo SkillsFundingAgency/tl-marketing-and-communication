@@ -49,7 +49,7 @@ public class TableStorageService : ITableStorageService
             await _locationRepository.DeleteByPartitionKey(provider.UkPrn.ToString());
         }
 
-        var providerEntities = providers.ToProviderEntityList_NEW();
+        var providerEntities = providers.ToProviderEntityList();
 
         return await _providerRepository.Delete(providerEntities);
     }
@@ -61,7 +61,7 @@ public class TableStorageService : ITableStorageService
             return 0;
         }
 
-        var providerEntities = providers.ToProviderEntityList_NEW();
+        var providerEntities = providers.ToProviderEntityList();
 
         var saved = await _providerRepository.Save(providerEntities);
 
@@ -72,7 +72,7 @@ public class TableStorageService : ITableStorageService
             deletedLocations += await _locationRepository.DeleteByPartitionKey(provider.UkPrn.ToString());
 
             savedLocations += await _locationRepository
-                .Save(provider.Locations.ToLocationEntityList_NEW(provider.UkPrn.ToString()));
+                .Save(provider.Locations.ToLocationEntityList(provider.UkPrn.ToString()));
         }
 
         _logger.LogInformation("TableStorageService::SaveProviders saved " +
@@ -129,7 +129,7 @@ public class TableStorageService : ITableStorageService
             return 0;
         }
 
-        var qualificationEntities = qualifications.ToQualificationEntityList_NEW();
+        var qualificationEntities = qualifications.ToQualificationEntityList();
 
         return await _qualificationRepository.Delete(qualificationEntities);
     }
@@ -141,7 +141,7 @@ public class TableStorageService : ITableStorageService
             return 0;
         }
 
-        var qualificationEntities = qualifications.ToQualificationEntityList_NEW();
+        var qualificationEntities = qualifications.ToQualificationEntityList();
 
         var saved = await _qualificationRepository.Save(qualificationEntities);
 
