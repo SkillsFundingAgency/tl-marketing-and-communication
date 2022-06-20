@@ -4,19 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Azure;
 using Azure.Data.Tables;
-using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
 namespace sfa.Tl.Marketing.Communication.Application.Repositories;
 
-public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
-    where T : Microsoft.Azure.Cosmos.Table.ITableEntity, new()
-    where TN : class, Azure.Data.Tables.ITableEntity, new()
+public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
+    where T : class, ITableEntity, new()
 {
     private readonly TableServiceClient _tableServiceClient;
-    private readonly ILogger<GenericCloudTableRepository<T, TN>> _logger;
+    private readonly ILogger<GenericCloudTableRepository<T>> _logger;
 
     private readonly string _environment;
     private readonly string _tableName;
@@ -24,12 +22,10 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
     private const int TableBatchSize = 100;
 
     public GenericCloudTableRepository(
-        CloudTableClient cloudTableClient,
         TableServiceClient tableServiceClient,
         ConfigurationOptions siteConfiguration,
-        ILogger<GenericCloudTableRepository<T, TN>> logger)
+        ILogger<GenericCloudTableRepository<T>> logger)
     {
-        //_cloudTableClient = cloudTableClient ?? throw new ArgumentNullException(nameof(cloudTableClient));
         _tableServiceClient = tableServiceClient ?? throw new ArgumentNullException(nameof(tableServiceClient));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
@@ -44,7 +40,7 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
         }
     }
 
-    public async Task<int> Delete(IList<TN> entities)
+    public async Task<int> Delete(IList<T> entities)
     {
         var tableClient = _tableServiceClient.GetTableClient(_tableName);
 
@@ -68,7 +64,7 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
             var tableClient = _tableServiceClient.GetTableClient(_tableName);
 
             var entities = tableClient
-                .QueryAsync<TN>(
+                .QueryAsync<T>(
                     select: new List<string> { "PartitionKey", "RowKey" }, maxPerPage: 1000);
 
             await entities.AsPages()
@@ -104,7 +100,7 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
             var tableClient = _tableServiceClient.GetTableClient(_tableName);
 
             var entities = tableClient
-                .QueryAsync<TN>(
+                .QueryAsync<T>(
                     filter: $"PartitionKey eq '{partitionKey}')",
                     select: new List<string> { "PartitionKey", "RowKey" }, maxPerPage: 1000);
 
@@ -147,9 +143,9 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
         }
     }
 
-    public async Task<IList<TN>> GetAll()
+    public async Task<IList<T>> GetAll()
     {
-        var results = new List<TN>();
+        var results = new List<T>();
 
         try
         {
@@ -163,7 +159,7 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
             }
 
             var queryResults = tableClient
-                .QueryAsync<TN>();
+                .QueryAsync<T>();
 
             //var cancellationToken = default(CancellationToken);
 
@@ -193,7 +189,7 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
         return results;
     }
 
-    public async Task<int> Save(IList<TN> entities)
+    public async Task<int> Save(IList<T> entities)
     {
         if (entities == null || !entities.Any())
         {
@@ -205,8 +201,6 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
         await tableClient.CreateIfNotExistsAsync();
 
         var inserted = 0;
-
-        var rowOffset = 0;
 
         var responses =
             await BatchManipulateEntities(tableClient, entities, TableTransactionActionType.UpsertReplace)
@@ -230,7 +224,7 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
             TableClient tableClient,
             IEnumerable<TEntity> entities,
             TableTransactionActionType tableTransactionActionType)
-        where TEntity : class, Azure.Data.Tables.ITableEntity, new()
+        where TEntity : class, ITableEntity, new()
     {
         var groups = entities.GroupBy(x => x.PartitionKey);
         var responses = new List<Response<IReadOnlyList<Response>>>();
@@ -239,7 +233,7 @@ public class GenericCloudTableRepository<T, TN> : ICloudTableRepository<T, TN>
             var items = group.AsEnumerable();
             while (items.Any())
             {
-                var batch = items.Take(100);
+                var batch = items.Take(TableBatchSize);
                 items = items.Skip(100);
 
                 var actions = new List<TableTransactionAction>();

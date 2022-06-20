@@ -3,18 +3,17 @@ using System.Linq;
 using System.Text.Json;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.Models.Entities;
-using AzureDataTables = sfa.Tl.Marketing.Communication.Models.Entities.AzureDataTables;
 
 namespace sfa.Tl.Marketing.Communication.Models.Extensions;
 
 public static class EntityExtensions
 {
-    public static IList<AzureDataTables.QualificationEntity> ToQualificationEntityList(
+    public static IList<QualificationEntity> ToQualificationEntityList(
         this IEnumerable<Qualification> qualifications)
     {
         return qualifications
             .Select(qualification =>
-                new AzureDataTables.QualificationEntity
+                new QualificationEntity
                 {
                     PartitionKey = "qualifications",
                     RowKey = qualification.Id.ToString(),
@@ -24,7 +23,7 @@ public static class EntityExtensions
                 }).ToList();
     }
 
-    public static IList<Qualification> ToQualificationList(this IEnumerable<AzureDataTables.QualificationEntity> qualificationEntities)
+    public static IList<Qualification> ToQualificationList(this IEnumerable<QualificationEntity> qualificationEntities)
     {
         return qualificationEntities
             .Select(q =>
@@ -36,11 +35,11 @@ public static class EntityExtensions
                 }).ToList();
     }
 
-    public static IList<AzureDataTables.ProviderEntity> ToProviderEntityList(this IEnumerable<Provider> providers)
+    public static IList<ProviderEntity> ToProviderEntityList(this IEnumerable<Provider> providers)
     {
         return providers
             .Select(provider =>
-                new AzureDataTables.ProviderEntity
+                new ProviderEntity
                 {
                     PartitionKey = "providers",
                     RowKey = provider.UkPrn.ToString(),
@@ -49,7 +48,7 @@ public static class EntityExtensions
                 }).ToList();
     }
 
-    public static IList<Provider> ToProviderList(this IEnumerable<AzureDataTables.ProviderEntity> providerEntities)
+    public static IList<Provider> ToProviderList(this IEnumerable<ProviderEntity> providerEntities)
     {
         return providerEntities
             .Select(provider =>
@@ -61,12 +60,12 @@ public static class EntityExtensions
                 }).ToList();
     }
     
-    public static IList<AzureDataTables.LocationEntity> ToLocationEntityList(this IEnumerable<Location> locations, string partitionKey)
+    public static IList<LocationEntity> ToLocationEntityList(this IEnumerable<Location> locations, string partitionKey)
     {
         return locations?
             .Select(
                 location =>
-                    new AzureDataTables.LocationEntity
+                    new LocationEntity
                     {
                         PartitionKey = partitionKey,
                         RowKey = location.Postcode,
@@ -77,10 +76,10 @@ public static class EntityExtensions
                         Town = location.Town,
                         Website = location.Website,
                         DeliveryYears = location.DeliveryYears.SerializeDeliveryYearDtos()
-                    }).ToList() ?? new List<AzureDataTables.LocationEntity>();
+                    }).ToList() ?? new List<LocationEntity>();
     }
 
-    public static IList<Location> ToLocationList(this IEnumerable<AzureDataTables.LocationEntity> locationEntities)
+    public static IList<Location> ToLocationList(this IEnumerable<LocationEntity> locationEntities)
     {
         return locationEntities?
             .Select(

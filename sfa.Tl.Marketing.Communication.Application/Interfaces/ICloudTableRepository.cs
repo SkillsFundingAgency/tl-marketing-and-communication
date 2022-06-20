@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 namespace sfa.Tl.Marketing.Communication.Application.Interfaces;
 
-public interface ICloudTableRepository<T, TN>
+public interface ICloudTableRepository<T>
 {
-    Task<int> Delete(IList<TN> entities);
+    Task<int> Delete(IList<T> entities);
 
     Task<int> DeleteAll();
 
@@ -13,7 +13,7 @@ public interface ICloudTableRepository<T, TN>
 
     Task DeleteTable();
 
-    Task<IList<TN>> GetAll();
+    Task<IList<T>> GetAll();
 
-    Task<int> Save(IList<TN> entities);
+    Task<int> Save(IList<T> entities);
 }

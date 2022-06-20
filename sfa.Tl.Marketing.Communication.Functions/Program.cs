@@ -2,7 +2,6 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using Microsoft.Azure.Cosmos.Table;
 using Azure.Data.Tables;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -72,17 +71,12 @@ var hostBuilder = new HostBuilder()
             })
             .AddRetryPolicyHandler<CourseDirectoryDataService>();
 
-        var cloudStorageAccount =
-            CloudStorageAccount.Parse(storageConfiguration.TableStorageConnectionString);
-        services.AddSingleton(cloudStorageAccount);
-        var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
-
         var tableServiceClient = new TableServiceClient(
             storageConfiguration.TableStorageConnectionString);
 
-        services.AddSingleton(cloudTableClient)
+        services
             .AddSingleton(tableServiceClient)
-            .AddTransient(typeof(ICloudTableRepository<,>), typeof(GenericCloudTableRepository<,>))
+            .AddTransient(typeof(ICloudTableRepository<>), typeof(GenericCloudTableRepository<>))
             .AddTransient<ICourseDirectoryDataService, CourseDirectoryDataService>()
             .AddTransient<ITableStorageService, TableStorageService>();
     });

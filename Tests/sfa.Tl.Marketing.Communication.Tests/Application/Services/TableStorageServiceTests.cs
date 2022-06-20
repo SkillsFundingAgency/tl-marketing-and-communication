@@ -10,7 +10,6 @@ using sfa.Tl.Marketing.Communication.Models.Entities;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
 using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using Xunit;
-using AzureDataTables = sfa.Tl.Marketing.Communication.Models.Entities.AzureDataTables;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services;
 
@@ -26,7 +25,7 @@ public class TableStorageServiceTests
     [Fact]
     public async Task TableStorageService_ClearProviders_Returns_Expected_Results()
     {
-        var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity, AzureDataTables.ProviderEntity>>();
+        var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity>>();
         providerRepository
             .DeleteAll()
             .Returns(5);
@@ -48,11 +47,11 @@ public class TableStorageServiceTests
             .Add()
             .Build();
 
-        var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity, AzureDataTables.ProviderEntity>>();
+        var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity>>();
         providerRepository
             .GetAll()
             .Returns(providerEntities);
-        var locationRepository = Substitute.For<ICloudTableRepository<LocationEntity, AzureDataTables.LocationEntity>>();
+        var locationRepository = Substitute.For<ICloudTableRepository<LocationEntity>>();
 
         locationRepository
             .GetAll()
@@ -72,11 +71,11 @@ public class TableStorageServiceTests
     [Fact]
     public async Task TableStorageService_RemoveProviders_Returns_Expected_Results()
     {
-        var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity, AzureDataTables.ProviderEntity>>();
+        var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity>>();
         providerRepository
-            .Delete(Arg.Any<IList<AzureDataTables.ProviderEntity>>())
+            .Delete(Arg.Any<IList<ProviderEntity>>())
             .Returns(args =>
-                ((IList<AzureDataTables.ProviderEntity>)args[0]).Count);
+                ((IList<ProviderEntity>)args[0]).Count);
 
         var service = BuildTableStorageService(providerRepository: providerRepository);
 
@@ -94,11 +93,11 @@ public class TableStorageServiceTests
             .Add(3)
             .Build();
 
-        var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity, AzureDataTables.ProviderEntity>>();
+        var providerRepository = Substitute.For<ICloudTableRepository<ProviderEntity>>();
         providerRepository
-            .Save(Arg.Any<IList<AzureDataTables.ProviderEntity>>())
+            .Save(Arg.Any<IList<ProviderEntity>>())
             .Returns(args =>
-                ((IList<AzureDataTables.ProviderEntity>)args[0]).Count);
+                ((IList<ProviderEntity>)args[0]).Count);
 
         var service = BuildTableStorageService(providerRepository: providerRepository);
 
@@ -110,7 +109,7 @@ public class TableStorageServiceTests
     [Fact]
     public async Task TableStorageService_ClearQualifications_Returns_Expected_Results()
     {
-        var qualificationRepository = Substitute.For<ICloudTableRepository<QualificationEntity, AzureDataTables.QualificationEntity>>();
+        var qualificationRepository = Substitute.For<ICloudTableRepository< QualificationEntity>>();
         qualificationRepository
             .DeleteAll()
             .Returns(5);
@@ -125,7 +124,7 @@ public class TableStorageServiceTests
     [Fact]
     public async Task TableStorageService_GetAllQualifications_Returns_Expected_Results()
     {
-        var qualificationRepository = Substitute.For<ICloudTableRepository<QualificationEntity, AzureDataTables.QualificationEntity>>();
+        var qualificationRepository = Substitute.For<ICloudTableRepository< QualificationEntity>>();
         qualificationRepository
             .GetAll()
             .Returns(new QualificationEntityListBuilder()
@@ -145,11 +144,11 @@ public class TableStorageServiceTests
     [Fact]
     public async Task TableStorageService_RemoveQualifications_Returns_Expected_Results()
     {
-        var qualificationRepository = Substitute.For<ICloudTableRepository<QualificationEntity, AzureDataTables.QualificationEntity>>();
+        var qualificationRepository = Substitute.For<ICloudTableRepository< QualificationEntity>>();
         qualificationRepository
-            .Delete(Arg.Any<IList<AzureDataTables.QualificationEntity>>())
+            .Delete(Arg.Any<IList<QualificationEntity>>())
             .Returns(args =>
-                ((IList<AzureDataTables.QualificationEntity>)args[0]).Count);
+                ((IList<QualificationEntity>)args[0]).Count);
 
         var service = BuildTableStorageService(qualificationRepository: qualificationRepository);
 
@@ -181,20 +180,20 @@ public class TableStorageServiceTests
     [Fact]
     public async Task TableStorageService_SaveQualifications_Returns_Expected_Count_Of_Items_Saved()
     {
-        var savedQualificationEntities = new List<AzureDataTables.QualificationEntity>();
+        var savedQualificationEntities = new List<QualificationEntity>();
 
         var qualifications = new QualificationListBuilder()
             .Add(2)
             .Build();
 
-        var qualificationRepository = Substitute.For<ICloudTableRepository<QualificationEntity, AzureDataTables.QualificationEntity>> ();
+        var qualificationRepository = Substitute.For<ICloudTableRepository< QualificationEntity>>();
         qualificationRepository
-            .Save(Arg.Do<IList<AzureDataTables.QualificationEntity>>(entities =>
+            .Save(Arg.Do<IList<QualificationEntity>>(entities =>
             {
                 savedQualificationEntities.AddRange(entities);
             }))
             .Returns(args =>
-                ((IList<AzureDataTables.QualificationEntity>)args[0]).Count);
+                ((IList<QualificationEntity>)args[0]).Count);
 
         var service = BuildTableStorageService(qualificationRepository: qualificationRepository);
 
@@ -207,14 +206,14 @@ public class TableStorageServiceTests
     }
 
     private static TableStorageService BuildTableStorageService(
-        ICloudTableRepository<LocationEntity, AzureDataTables.LocationEntity> locationRepository = null,
-        ICloudTableRepository<ProviderEntity, AzureDataTables.ProviderEntity> providerRepository = null,
-        ICloudTableRepository<QualificationEntity, AzureDataTables.QualificationEntity> qualificationRepository = null,
+        ICloudTableRepository<LocationEntity> locationRepository = null,
+        ICloudTableRepository<ProviderEntity> providerRepository = null,
+        ICloudTableRepository<QualificationEntity> qualificationRepository = null,
         ILogger<TableStorageService> logger = null)
     {
-        locationRepository ??= Substitute.For<ICloudTableRepository<LocationEntity, AzureDataTables.LocationEntity>>();
-        providerRepository ??= Substitute.For<ICloudTableRepository<ProviderEntity, AzureDataTables.ProviderEntity>>();
-        qualificationRepository ??= Substitute.For<ICloudTableRepository<QualificationEntity, AzureDataTables.QualificationEntity>>();
+        locationRepository ??= Substitute.For<ICloudTableRepository<LocationEntity>>();
+        providerRepository ??= Substitute.For<ICloudTableRepository<ProviderEntity>>();
+        qualificationRepository ??= Substitute.For<ICloudTableRepository<QualificationEntity>>();
         logger ??= Substitute.For<ILogger<TableStorageService>>();
 
         return new TableStorageService(
