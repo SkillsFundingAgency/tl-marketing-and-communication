@@ -42,17 +42,20 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
 
     public async Task<int> Delete(IList<T> entities)
     {
-        var tableClient = _tableServiceClient.GetTableClient(_tableName);
+        try
+        {
+            var tableClient = _tableServiceClient.GetTableClient(_tableName);
 
-        var deleteEntitiesBatch = entities
-            .Select(entityToDelete =>
-                new TableTransactionAction(TableTransactionActionType.Delete, entityToDelete))
-            .ToList();
+            var responses = await BatchManipulateEntities(tableClient, entities, TableTransactionActionType.Delete).ConfigureAwait(false);
 
-        // Submit the batch.
-        var response = await tableClient.SubmitTransactionAsync(deleteEntitiesBatch).ConfigureAwait(false);
-
-        return response.Value.Count;
+            return responses.Sum(response => response.Value.Count);
+        }
+        catch (RequestFailedException fex)
+        {
+            _logger.LogError(fex,
+                "GenericCloudTableRepository DeleteAll: error for table '{_tableName}'. Returning 0 results.", _tableName);
+            return 0;
+        }
     }
 
     public async Task<int> DeleteAll()
@@ -70,16 +73,12 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
             await entities.AsPages()
                 .ForEachAwaitAsync(async page =>
                 {
-                    // Since we don't know how many rows the table has and the results are ordered by PartitonKey+RowKey
+                    // Since we don't know how many rows the table has and the results are ordered by PartitionKey+RowKey
                     // we'll delete each page immediately and not cache the whole table in memory
                     var responses =
                         await BatchManipulateEntities(tableClient, page.Values, TableTransactionActionType.Delete)
                             .ConfigureAwait(false);
-                    var d1 = responses.Count;
-                    foreach (var response in responses)
-                    {
-                        deleted += response.Value.Count;
-                    }
+                    deleted += responses.Sum(response => response.Value.Count);
                 });
         }
         catch (RequestFailedException fex)
@@ -101,26 +100,23 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
 
             var entities = tableClient
                 .QueryAsync<T>(
-                    filter: $"PartitionKey eq '{partitionKey}')",
+                    filter: e => e.PartitionKey == partitionKey,
                     select: new List<string> { "PartitionKey", "RowKey" }, maxPerPage: 1000);
 
             await entities.AsPages()
                 .ForEachAwaitAsync(async page =>
                 {
-                // Since we don't know how many rows the table has and the results are ordered by PartitonKey+RowKey
-                // we'll delete each page immediately and not cache the whole table in memory
+                    // Since we don't know how many rows the table has and the results are ordered by PartitionKey+RowKey
+                    // we'll delete each page immediately and not cache the whole table in memory
                     var responses = await BatchManipulateEntities(tableClient, page.Values, TableTransactionActionType.Delete).ConfigureAwait(false);
-                    var d1 = responses.Count;
-                    foreach (var response in responses)
-                    {
-                        deleted += response.Value.Count;
-                    }
+                    deleted += responses.Sum(response => response.Value.Count);
                 });
         }
         catch (RequestFailedException fex)
         {
             _logger.LogError(fex,
-                "GenericCloudTableRepository GetAll: error for table '{_tableName}'. Returning 0 results.", _tableName);
+                "GenericCloudTableRepository DeleteByPartitionKey: error for table '{_tableName}' partition key '{partitionKey}'. Returning 0 results.",
+                _tableName, partitionKey);
         }
 
         return deleted;
@@ -200,19 +196,11 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
 
         await tableClient.CreateIfNotExistsAsync();
 
-        var inserted = 0;
-
         var responses =
             await BatchManipulateEntities(tableClient, entities, TableTransactionActionType.UpsertReplace)
                 .ConfigureAwait(false);
 
-        var d1 = responses.Count;
-        foreach (var response in responses)
-        {
-            inserted += response.Value.Count;
-        }
-
-        return inserted;
+        return responses.Sum(response => response.Value.Count);
     }
 
     //https://medium.com/medialesson/deleting-all-rows-from-azure-table-storage-as-fast-as-possible-79e03937c331
@@ -231,6 +219,7 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
         foreach (var group in groups)
         {
             var items = group.AsEnumerable();
+            // ReSharper disable PossibleMultipleEnumeration - collection is replaced in loop
             while (items.Any())
             {
                 var batch = items.Take(TableBatchSize);
@@ -241,6 +230,7 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
                 var response = await tableClient.SubmitTransactionAsync(actions).ConfigureAwait(false);
                 responses.Add(response);
             }
+            // ReSharper restore PossibleMultipleEnumeration
         }
         return responses;
     }
