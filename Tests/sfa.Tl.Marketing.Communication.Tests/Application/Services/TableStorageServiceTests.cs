@@ -56,7 +56,7 @@ public class TableStorageServiceTests
         locationRepository
             .GetAll()
             .Returns(locationEntities);
-            
+
         var service = BuildTableStorageService(locationRepository, providerRepository);
 
         var providers = new ProviderListBuilder()
@@ -109,7 +109,7 @@ public class TableStorageServiceTests
     [Fact]
     public async Task TableStorageService_ClearQualifications_Returns_Expected_Results()
     {
-        var qualificationRepository = Substitute.For<ICloudTableRepository<QualificationEntity>>();
+        var qualificationRepository = Substitute.For<ICloudTableRepository< QualificationEntity>>();
         qualificationRepository
             .DeleteAll()
             .Returns(5);
@@ -124,7 +124,7 @@ public class TableStorageServiceTests
     [Fact]
     public async Task TableStorageService_GetAllQualifications_Returns_Expected_Results()
     {
-        var qualificationRepository = Substitute.For<ICloudTableRepository<QualificationEntity>>();
+        var qualificationRepository = Substitute.For<ICloudTableRepository< QualificationEntity>>();
         qualificationRepository
             .GetAll()
             .Returns(new QualificationEntityListBuilder()
@@ -144,7 +144,7 @@ public class TableStorageServiceTests
     [Fact]
     public async Task TableStorageService_RemoveQualifications_Returns_Expected_Results()
     {
-        var qualificationRepository = Substitute.For<ICloudTableRepository<QualificationEntity>>();
+        var qualificationRepository = Substitute.For<ICloudTableRepository< QualificationEntity>>();
         qualificationRepository
             .Delete(Arg.Any<IList<QualificationEntity>>())
             .Returns(args =>
@@ -186,7 +186,7 @@ public class TableStorageServiceTests
             .Add(2)
             .Build();
 
-        var qualificationRepository = Substitute.For<ICloudTableRepository<QualificationEntity>>();
+        var qualificationRepository = Substitute.For<ICloudTableRepository< QualificationEntity>>();
         qualificationRepository
             .Save(Arg.Do<IList<QualificationEntity>>(entities =>
             {
