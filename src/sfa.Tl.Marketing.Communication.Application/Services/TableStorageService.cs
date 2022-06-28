@@ -117,6 +117,7 @@ public class TableStorageService : ITableStorageService
 
     public async Task<int> ClearQualifications()
     {
+        await _qualificationRepository.DeleteTable();
         return await _qualificationRepository.DeleteAll();
     }
 

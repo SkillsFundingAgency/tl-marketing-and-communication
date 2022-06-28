@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Microsoft.Azure.Cosmos.Table;
+using Azure.Data.Tables;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
@@ -40,9 +40,7 @@ static ITableStorageService CreateTableStorageService(
     string tableStorageConnectionString,
     ILoggerFactory loggerFactory)
 {
-    var cloudStorageAccount = CloudStorageAccount.Parse(tableStorageConnectionString);
-
-    var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
+    var tableServiceClient = new TableServiceClient(tableStorageConnectionString);
 
     var siteConfiguration = new ConfigurationOptions
     {
@@ -50,17 +48,17 @@ static ITableStorageService CreateTableStorageService(
     };
 
     var locationRepository = new GenericCloudTableRepository<LocationEntity>(
-        cloudTableClient,
+        tableServiceClient,
         siteConfiguration,
         loggerFactory.CreateLogger<GenericCloudTableRepository<LocationEntity>>());
 
     var providerRepository = new GenericCloudTableRepository<ProviderEntity>(
-        cloudTableClient,
+        tableServiceClient,
         siteConfiguration,
         loggerFactory.CreateLogger<GenericCloudTableRepository<ProviderEntity>>());
 
     var qualificationRepository = new GenericCloudTableRepository<QualificationEntity>(
-        cloudTableClient,
+        tableServiceClient,
         siteConfiguration,
         loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity>>());
 

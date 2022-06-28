@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using sfa.Tl.Marketing.Communication.Models.Entities;
+using sfa.Tl.Marketing.Communication.Models.Extensions;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Builders;
 
@@ -30,7 +31,7 @@ public class LocationEntityListBuilder
                         Year = (short) (2020 + nextId), 
                         Qualifications = new List<int> {nextId}
                     }
-                },
+                }.SerializeDeliveryYears(),
                 PartitionKey = $"{10000000 + nextId}" //UkPrn
             };
 

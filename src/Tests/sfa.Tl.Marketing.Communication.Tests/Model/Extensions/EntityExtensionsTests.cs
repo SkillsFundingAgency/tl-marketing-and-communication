@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using FluentAssertions;
+using sfa.Tl.Marketing.Communication.Models.Entities;
 using sfa.Tl.Marketing.Communication.Models.Extensions;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
 using Xunit;
@@ -10,7 +12,9 @@ public class EntityExtensionsTests
     [Fact]
     public void QualificationList_ToQualificationEntityList_Returns_Expected_Result()
     {
-        var qualifications = new QualificationListBuilder().Add(2).Build();
+        var qualifications = new QualificationListBuilder()
+            .Add(2)
+            .Build();
 
         var qualificationEntities = qualifications.ToQualificationEntityList();
 
@@ -26,13 +30,14 @@ public class EntityExtensionsTests
         qualificationEntities[1].Id.Should().Be(2);
         qualificationEntities[1].Route.Should().Be("Route 2");
         qualificationEntities[1].Name.Should().Be("Test Qualification 2");
-
     }
 
     [Fact]
     public void QualificationEntityList_ToQualificationList_Returns_Expected_Result()
     {
-        var qualificationEntities = new QualificationEntityListBuilder().Add(2).Build();
+        var qualificationEntities = new QualificationEntityListBuilder()
+            .Add(2)
+            .Build();
 
         var qualifications = qualificationEntities.ToQualificationList();
 
@@ -47,5 +52,57 @@ public class EntityExtensionsTests
         qualifications[1].Id.Should().Be(2);
         qualifications[1].Route.Should().Be("Route 2");
         qualifications[1].Name.Should().Be("Test Qualification 2");
+    }
+
+    [Fact]
+    public void DeliveryYearEntityList_Serialize_Null_DeliveryYears_Returns_Expected_Result()
+    {
+        var results = ((IList<DeliveryYearEntity>)null).SerializeDeliveryYears();
+
+        results.Should().Be("[]");
+    }
+
+    [Fact]
+    public void DeliveryYearEntityList_Serialize_Empty_DeliveryYears_Returns_Expected_Result()
+    {
+        var deliveryYearEntities = new List<DeliveryYearEntity>();
+
+        var results = deliveryYearEntities.SerializeDeliveryYears();
+
+        results.Should().Be("[]");
+    }
+
+    [Fact]
+    public void DeliveryYearEntityList_Deserialize_Null_DeliveryYears_Returns_Expected_Result()
+    {
+        var results = ((string)null).DeserializeDeliveryYears();
+
+        results.Should().NotBeNull();
+        results.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void DeliveryYearEntityList_Deserialize_Empty_DeliveryYears_Returns_Expected_Result()
+    {
+        var deliveryYearString = string.Empty;
+
+        var results = deliveryYearString.DeserializeDeliveryYears();
+
+        results.Should().NotBeNull();
+        results.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void DeliveryYearEntityList_Serialize_And_Deserialize_DeliveryYears_Round_Trip_Returns_Expected_Result()
+    {
+        var deliveryYearEntities = new DeliveryYearEntityListBuilder()
+            .Add(2)
+            .Build();
+
+        var deliveryYearString = deliveryYearEntities.SerializeDeliveryYears();
+
+        var results = deliveryYearString.DeserializeDeliveryYears();
+
+        results.Should().BeEquivalentTo(deliveryYearEntities);
     }
 }
