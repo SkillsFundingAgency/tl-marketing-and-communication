@@ -4,7 +4,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Cosmos.Table;
+using Azure.Data.Tables;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -103,12 +103,21 @@ builder.Services
     .AddTransient<ISearchStep, PerformSearchStep>()
     .AddTransient<ISearchStep, MergeAvailableDeliveryYearsStep>();
 
-var cloudStorageAccount =
-    CloudStorageAccount.Parse(siteConfiguration.StorageConfiguration.TableStorageConnectionString);
-var cloudTableClient = cloudStorageAccount.CreateCloudTableClient();
+var tableServiceClient = new TableServiceClient(
+    siteConfiguration.StorageConfiguration.TableStorageConnectionString,
+    siteConfiguration.Environment == "LOCAL" 
+        ? new TableClientOptions //Options to allow development running without azure emulator
+        {
+            Retry =
+            {
+                NetworkTimeout = TimeSpan.FromMilliseconds(500),
+                MaxRetries = 1
+            }
+        }
+        : default);
 
-builder.Services.AddSingleton(cloudStorageAccount)
-    .AddSingleton(cloudTableClient)
+builder.Services
+    .AddSingleton(tableServiceClient)
     .AddTransient(typeof(ICloudTableRepository<>), typeof(GenericCloudTableRepository<>))
     .AddTransient<ITableStorageService, TableStorageService>();
 

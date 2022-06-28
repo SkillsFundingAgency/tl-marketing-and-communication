@@ -127,7 +127,11 @@ public class ProviderDataService : IProviderDataService
                 .GetAwaiter()
                 .GetResult()
                 .AsQueryable();
-            _cache.Set(CacheKeys.QualificationTableDataKey, qualifications, CacheUtilities.DefaultMemoryCacheEntryOptions(_cacheExpiryInSeconds));
+
+            if (qualifications.Any())
+            {
+                _cache.Set(CacheKeys.QualificationTableDataKey, qualifications, CacheUtilities.DefaultMemoryCacheEntryOptions(_cacheExpiryInSeconds));
+            }
         }
 
         return qualifications;
@@ -145,7 +149,11 @@ public class ProviderDataService : IProviderDataService
                 .MergeTempProviders(_mergeTempProviderData)
                 .AsQueryable();
 
-            _cache.Set(CacheKeys.ProviderTableDataKey, providers, CacheUtilities.DefaultMemoryCacheEntryOptions(_cacheExpiryInSeconds));
+            if (providers.Any())
+            {
+                _cache.Set(CacheKeys.ProviderTableDataKey, providers,
+                    CacheUtilities.DefaultMemoryCacheEntryOptions(_cacheExpiryInSeconds));
+            }
         }
 
         return providers;
