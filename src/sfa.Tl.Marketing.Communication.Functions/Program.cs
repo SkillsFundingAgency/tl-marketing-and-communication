@@ -33,20 +33,19 @@ var hostBuilder = new HostBuilder()
                 //NOTE: workaround issues with "Version" in local "Values" with .NET 6
                 Environment.GetEnvironmentVariable(ConfigurationKeys.VersionConfigKey)
                 ?? Environment.GetEnvironmentVariable(ConfigurationKeys.ServiceVersionConfigKey));
-        
+
         var siteConfiguration = new ConfigurationOptions
         {
             Environment = environment
-            StorageConfiguration = storageConfig
         };
         services.AddSingleton(siteConfiguration);
         services.AddHttpClient<ICourseDirectoryDataService, CourseDirectoryDataService>(
                 nameof(CourseDirectoryDataService),
                 client =>
                 {
-                client.BaseAddress = new Uri(apiConfiguration.BaseUri);
+                    client.BaseAddress = new Uri(config.CourseDirectoryApiSettings.BaseUri);
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", apiConfiguration.ApiKey);
+                    client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", config.CourseDirectoryApiSettings.ApiKey);
                     client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
                     client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
                 }
@@ -64,7 +63,7 @@ var hostBuilder = new HostBuilder()
             .AddRetryPolicyHandler<CourseDirectoryDataService>();
 
         var tableServiceClient = new TableServiceClient(
-            storageConfiguration.TableStorageConnectionString);
+            config.StorageSettings.TableStorageConnectionString);
 
         services
             .AddSingleton(tableServiceClient)
