@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
+using sfa.Tl.Marketing.Communication.Comparers;
 
 namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
 
@@ -39,8 +40,9 @@ public class MergeAvailableDeliveryYearsStep : ISearchStep
                     }
                     else
                     {
+                        var qualificationComparer = new QualificationViewModelComparer();
                         availableNow.Qualifications = availableNow.Qualifications
-                            .Union(deliveryYear.Qualifications)
+                            .Union(deliveryYear.Qualifications, qualificationComparer)
                             .OrderBy(q => q.Name)
                             .ToList();
 
@@ -53,9 +55,8 @@ public class MergeAvailableDeliveryYearsStep : ISearchStep
             {
                 providerLocation.DeliveryYears.Remove(deliveryYear);
             }
-
         }
-        
+
         return Task.CompletedTask;
     }
 }

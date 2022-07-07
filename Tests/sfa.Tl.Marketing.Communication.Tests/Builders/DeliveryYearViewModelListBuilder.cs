@@ -10,6 +10,14 @@ public class DeliveryYearViewModelListBuilder
         {
             new()
             {
+                Year = 2020,
+                Qualifications = new List<QualificationViewModel>
+                {
+                    new() { Id = 1, Name = "Test Qualification 1" }
+                }
+            },
+            new()
+            {
                 Year = 2021,
                 Qualifications = new List<QualificationViewModel>
                 {
