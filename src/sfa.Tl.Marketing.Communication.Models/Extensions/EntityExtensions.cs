@@ -106,19 +106,10 @@ public static class EntityExtensions
     public static IList<DeliveryYearEntity> DeserializeDeliveryYears(this string serializedDeliveryYear)
     {
         var result = !string.IsNullOrEmpty(serializedDeliveryYear)
-        //return !string.IsNullOrEmpty(serializedDeliveryYear)
             ? JsonSerializer.Deserialize<IList<DeliveryYearEntity>>
                 (serializedDeliveryYear)
             : new List<DeliveryYearEntity>();
         return result;
-    }
-
-    public static IList<DeliveryYearEntity> DeserializeDeliveryYearDtos(this string serializedDeliveryYear)
-    {
-        return !string.IsNullOrEmpty(serializedDeliveryYear)
-            ? JsonSerializer.Deserialize<IList<DeliveryYearEntity>>
-                (serializedDeliveryYear)
-            : new List<DeliveryYearEntity>();
     }
 
     public static string SerializeDeliveryYears(this IList<DeliveryYearEntity> deliveryYears)
