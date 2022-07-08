@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
@@ -115,7 +116,17 @@ else
     });
 }
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+var assemblies = new[]
+{
+    typeof(Program).Assembly,
+    typeof(Program).Assembly
+        .GetReferencedAssemblies()
+        .Where(a =>
+            a.FullName.Contains("sfa.Tl.Marketing.Communication.Application"))
+        .Select(Assembly.Load).FirstOrDefault()
+};
+
+builder.Services.AddAutoMapper(assemblies);
 
 var app = builder.Build();
 

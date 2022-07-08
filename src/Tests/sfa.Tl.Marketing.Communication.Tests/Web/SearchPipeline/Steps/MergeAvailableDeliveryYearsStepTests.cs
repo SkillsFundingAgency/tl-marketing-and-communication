@@ -26,7 +26,7 @@ public class MergeAvailableDeliveryYearsStepTests
     public async Task MergeAvailableDeliveryYears_Before_Available_Returns_Expected_Result()
     {
         var dateTimeService = Substitute.For<IDateTimeService>();
-        dateTimeService.Today.Returns(DateTime.Parse("2021-08-31"));
+        dateTimeService.Today.Returns(DateTime.Parse("2020-08-31"));
 
         var providerLocations = new ProviderLocationViewModelListBuilder()
             .Add()
@@ -43,9 +43,10 @@ public class MergeAvailableDeliveryYearsStepTests
 
         await searchStep.Execute(context);
             
-        providerLocations[0].DeliveryYears.Count.Should().Be(2);
+        providerLocations[0].DeliveryYears.Count.Should().Be(3);
         providerLocations[0].DeliveryYears[0].IsAvailableNow.Should().BeFalse();
         providerLocations[0].DeliveryYears[1].IsAvailableNow.Should().BeFalse();
+        providerLocations[0].DeliveryYears[2].IsAvailableNow.Should().BeFalse();
     }
 
     [Fact]
