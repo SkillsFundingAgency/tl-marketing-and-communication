@@ -1,0 +1,66 @@
+[
+  {
+    "id": 47,
+    "name": "Accounting"
+  },
+  {
+    "id": 45,
+    "name": "Building Services Engineering for Construction"
+  },
+  {
+    "id": 48,
+    "name": "Design and Development for Engineering and Manufacturing"
+  },
+  {
+    "id": 36,
+    "name": "Design, Surveying and Planning for Construction"
+  },
+  {
+    "id": 39,
+    "name": "Digital Business Services"
+  },
+  {
+    "id": 37,
+    "name": "Digital Production, Design and Development"
+  },
+  {
+    "id": 40,
+    "name": "Digital Support Services"
+  },
+  {
+    "id": 38,
+    "name": "Education and Childcare"
+  },
+  {
+    "id": 50,
+    "name": "Engineering, Manufacturing, Processing and Control"
+  },
+  {
+    "id": 46,
+    "name": "Finance"
+  },
+  {
+    "id": 41,
+    "name": "Health"
+  },
+  {
+    "id": 42,
+    "name": "Healthcare Science"
+  },
+  {
+    "id": 49,
+    "name": "Maintenance, Installation and Repair for Engineering and Manufacturing"
+  },
+  {
+    "id": 51,
+    "name": "Management and Administration"
+  },
+  {
+    "id": 44,
+    "name": "Onsite Construction"
+  },
+  {
+    "id": 43,
+    "name": "Science"
+  }
+]

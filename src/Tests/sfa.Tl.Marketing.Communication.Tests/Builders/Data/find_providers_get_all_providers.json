@@ -1,0 +1,148 @@
+[
+  {
+    "providerName": "ABINGDON AND WITNEY COLLEGE",
+    "postcode": "OX14 1GG",
+    "town": "Abingdon",
+    "email": "enquiries@abingdon-witney.ac.uk",
+    "telephone": "01235 555585",
+    "website": "https://www.abingdon-witney.ac.uk/",
+    "distance": 0,
+    "deliveryYears": [
+      {
+        "year": 2021,
+        "isAvailableNow": true,
+        "qualifications": null,
+        "routes": [
+          {
+            "id": 6,
+            "name": "Digital and IT",
+            "numberOfQualifications": 1,
+            "numberOfQualificationsOffered": 0,
+            "qualifications": [
+              {
+                "id": 37,
+                "name": "Digital Production, Design and Development"
+              }
+            ]
+          },
+          {
+            "id": 7,
+            "name": "Education and Childcare",
+            "numberOfQualifications": 1,
+            "numberOfQualificationsOffered": 0,
+            "qualifications": [
+              {
+                "id": 38,
+                "name": "Education and Childcare"
+              }
+            ]
+          },
+          {
+            "id": 10,
+            "name": "Health and Science",
+            "numberOfQualifications": 1,
+            "numberOfQualificationsOffered": 0,
+            "qualifications": [
+              {
+                "id": 41,
+                "name": "Health"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "year": 2022,
+        "isAvailableNow": false,
+        "qualifications": null,
+        "routes": [
+          {
+            "id": 2,
+            "name": "Business and Administration",
+            "numberOfQualifications": 1,
+            "numberOfQualificationsOffered": 0,
+            "qualifications": [
+              {
+                "id": 51,
+                "name": "Management and Administration"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "providerName": "ABINGDON AND WITNEY COLLEGE",
+    "postcode": "OX28 6NE",
+    "town": "Witney",
+    "email": "enquiries@abingdon-witney.ac.uk",
+    "telephone": "01235 555585",
+    "website": "https://www.abingdon-witney.ac.uk/",
+    "distance": 0,
+    "deliveryYears": [
+      {
+        "year": 2021,
+        "isAvailableNow": true,
+        "qualifications": null,
+        "routes": [
+          {
+            "id": 6,
+            "name": "Digital and IT",
+            "numberOfQualifications": 1,
+            "numberOfQualificationsOffered": 0,
+            "qualifications": [
+              {
+                "id": 37,
+                "name": "Digital Production, Design and Development"
+              }
+            ]
+          },
+          {
+            "id": 7,
+            "name": "Education and Childcare",
+            "numberOfQualifications": 1,
+            "numberOfQualificationsOffered": 0,
+            "qualifications": [
+              {
+                "id": 38,
+                "name": "Education and Childcare"
+              }
+            ]
+          },
+          {
+            "id": 10,
+            "name": "Health and Science",
+            "numberOfQualifications": 1,
+            "numberOfQualificationsOffered": 0,
+            "qualifications": [
+              {
+                "id": 41,
+                "name": "Health"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "year": 2022,
+        "isAvailableNow": false,
+        "qualifications": null,
+        "routes": [
+          {
+            "id": 2,
+            "name": "Business and Administration",
+            "numberOfQualifications": 1,
+            "numberOfQualificationsOffered": 0,
+            "qualifications": [
+              {
+                "id": 51,
+                "name": "Management and Administration"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

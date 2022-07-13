@@ -34,11 +34,18 @@ var hostBuilder = new HostBuilder()
                 Environment.GetEnvironmentVariable(ConfigurationKeys.VersionConfigKey)
                 ?? Environment.GetEnvironmentVariable(ConfigurationKeys.ServiceVersionConfigKey));
 
+        if (config is null)
+        {
+             throw new InvalidOperationException("Configuration could not be loaded. If you are running on a local machine, make sure that Azurite is running.");
+        }
+
         var siteConfiguration = new ConfigurationOptions
         {
-            Environment = environment
+            Environment = environment,
+            FindProviderApiSettings = config.FindProviderApiSettings
         };
         services.AddSingleton(siteConfiguration);
+
         services.AddHttpClient<ICourseDirectoryDataService, CourseDirectoryDataService>(
                 nameof(CourseDirectoryDataService),
                 client =>
@@ -62,6 +69,28 @@ var hostBuilder = new HostBuilder()
             })
             .AddRetryPolicyHandler<CourseDirectoryDataService>();
 
+        services.AddHttpClient<IFindProviderApiDataService, FindProviderApiDataService>(
+                nameof(FindProviderApiDataService),
+                client =>
+                {
+                    client.BaseAddress = new Uri(config.FindProviderApiSettings.BaseUri);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+                    client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
+                }
+            )
+            .ConfigurePrimaryHttpMessageHandler(_ =>
+            {
+                var handler = new HttpClientHandler();
+
+                if (handler.SupportsAutomaticDecompression)
+                {
+                    handler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+                }
+                return handler;
+            })
+            .AddRetryPolicyHandler<FindProviderApiDataService>();
+
         var tableServiceClient = new TableServiceClient(
             config.StorageSettings.TableStorageConnectionString);
 
@@ -69,6 +98,7 @@ var hostBuilder = new HostBuilder()
             .AddSingleton(tableServiceClient)
             .AddTransient(typeof(ICloudTableRepository<>), typeof(GenericCloudTableRepository<>))
             .AddTransient<ICourseDirectoryDataService, CourseDirectoryDataService>()
+            .AddTransient<IFindProviderApiDataService, FindProviderApiDataService>()
             .AddTransient<ITableStorageService, TableStorageService>();
     });
 

@@ -8,6 +8,7 @@ public class ConfigurationOptions
     public StorageSettings StorageSettings { get; init; }
     public int CacheExpiryInSeconds { get; init; }
     public CourseDirectoryApiSettings CourseDirectoryApiSettings { get; init; }
+    public FindProviderApiSettings FindProviderApiSettings { get; init; }
     public int PostcodeCacheExpiryInSeconds { get; init; }
     public bool MergeTempProviderData { get; init; }
 }

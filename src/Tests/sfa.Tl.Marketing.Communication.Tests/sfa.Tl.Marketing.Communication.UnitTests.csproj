@@ -6,17 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Builders\Data\postcode_not_found_response.json" />
+    <EmbeddedResource Include="Builders\Data\find_providers_get_all_providers.json" />
+    <EmbeddedResource Include="Builders\Data\find_providers_get_qualifications.json" />
     <EmbeddedResource Include="Builders\Data\outcode_response_cv11.json" />
-    <EmbeddedResource Include="Builders\Data\terminated_postcode_response_s70_2yw.json" />
+    <EmbeddedResource Include="Builders\Data\postcode_not_found_response.json" />
+    <EmbeddedResource Include="Builders\Data\postcode_response_cv1_2wt.json" />
     <EmbeddedResource Include="Builders\Data\postcode_response_gy1_4ns.json" />
-    <EmbeddedResource Include="Builders\Data\tlevels_multiple_items.json" />
+    <EmbeddedResource Include="Builders\Data\terminated_postcode_response_s70_2yw.json" />
     <EmbeddedResource Include="Builders\Data\tleveldefinitions.json" />
+    <EmbeddedResource Include="Builders\Data\tlevels_multiple_items.json" />
     <EmbeddedResource Include="Builders\Data\test_providers.json" />
     <EmbeddedResource Include="Builders\Data\test_qualifications.json" />
     <EmbeddedResource Include="Builders\Data\tlevels_single_item_with_null_location_town.json" />
     <EmbeddedResource Include="Builders\Data\tlevels_single_item.json" />
-    <EmbeddedResource Include="Builders\Data\postcode_response_cv1_2wt.json" />
   </ItemGroup>
 
   <ItemGroup>
