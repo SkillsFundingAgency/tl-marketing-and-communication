@@ -32,7 +32,7 @@
         "SiteUrl": {
           "minLength": 1,
           "type": "string",
-          "environmentVariable": "EmployerSettings_SiteUrl"
+          "environmentVariable": "EmployerSiteSettings_SiteUrl"
         },
         "AboutArticle": {
           "type": "string",
