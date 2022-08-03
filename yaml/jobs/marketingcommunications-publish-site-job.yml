@@ -12,7 +12,7 @@ jobs:
   pool:
     name: 'Azure Pipelines'
     vmImage: 'windows-latest'
-  dependsOn: 
+  dependsOn:
     - DeployMarketingCommunicationsInfrastructure
     - GenerateConfigs
   steps:
@@ -20,7 +20,7 @@ jobs:
     inputs:
       buildType: 'current'
       downloadType: 'single'
-      artifactName: 'appdrop'
+      artifactName: 'drop'
       downloadPath: '$(System.ArtifactsDirectory)'
 
   # - task: AzureWebApp@1
@@ -33,7 +33,7 @@ jobs:
   #     slotName: 'staging'
   #     package: '$(System.ArtifactsDirectory)/appdrop/Sfa.Tl.Matching.Web.zip'
   #     deploymentMethod: 'auto'
-  
+
   - task: AzureRmWebAppDeployment@3
     displayName: 'Azure App Service Deploy: $(uiAppName)'
     inputs:
@@ -54,7 +54,7 @@ jobs:
       SpecifySlotOrASE: true
       ResourceGroupName: '$(ResourceGroupName)'
       Slot: 'staging'
-  
+
 
   - task: AzureAppServiceManage@0
     displayName: 'Swap Slots: $(uiAppName)'
@@ -63,7 +63,7 @@ jobs:
       WebAppName: '$(uiAppName)'
       ResourceGroupName: '$(ResourceGroupName)'
       SourceSlot: staging
-  
+
   - task: AzureAppServiceManage@0
     displayName: 'Delete swap Slot: $(uiAppName)'
     inputs:

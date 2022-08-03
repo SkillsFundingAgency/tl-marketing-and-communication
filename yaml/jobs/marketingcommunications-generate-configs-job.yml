@@ -12,14 +12,14 @@ jobs:
     ConfigStorageAccountName: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.ConfigStorageAccountName'] ]
     SqlConnectionString: $[ dependencies.DeploySQLDatabase.outputs['SqlVariables.SqlConnectionString'] ]
     BlobStorageConnectionString : $[ dependencies.DeployMatchingInfrastructure.outputs['armOutputs.armOutput.BlobStorageConnectionString'] ]
-    
+
   pool:
     name: 'Azure Pipelines'
     vmImage: 'windows-latest'
-  dependsOn: 
+  dependsOn:
     - DeployMarketingCommunicationsInfrastructure
   steps:
-    - pwsh: | 
+    - pwsh: |
         'Write-Host "ConfigStorageAccountName variable: $(ConfigStorageAccountName)"'
         'Write-Host "SqlConnectionString variable: $(SqlConnectionString)"'
         'Write-Host "BlobStorageConnectionString variable: $(BlobStorageConnectionString)"'
@@ -29,9 +29,9 @@ jobs:
       inputs:
         buildType: 'current'
         downloadType: 'single'
-        artifactName: 'appdrop'
+        artifactName: 'drop'
         downloadPath: '$(System.ArtifactsDirectory)'
-    
+
     - task: GenerateEnvironmentConfiguration@3
       displayName: 'Process schemas in $(System.ArtifactsDirectory)/appdrop/config'
       inputs:

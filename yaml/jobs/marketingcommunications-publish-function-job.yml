@@ -11,7 +11,7 @@ jobs:
   pool:
     name: 'Azure Pipelines'
     vmImage: 'windows-latest'
-  dependsOn: 
+  dependsOn:
     - DeployMarketingCommunicationsInfrastructure
     - GenerateConfigs
   steps:
@@ -19,9 +19,9 @@ jobs:
     inputs:
       buildType: 'current'
       downloadType: 'single'
-      artifactName: 'appdrop'
+      artifactName: 'drop'
       downloadPath: '$(System.ArtifactsDirectory)'
-  
+
   - task: AzureFunctionApp@1
     inputs:
       azureSubscription: ${{ parameters.serviceConnection }}
