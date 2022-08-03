@@ -33,9 +33,9 @@ jobs:
         downloadPath: '$(System.ArtifactsDirectory)'
 
     - task: GenerateEnvironmentConfiguration@3
-      displayName: 'Process schemas in $(System.ArtifactsDirectory)/appdrop/config'
+      displayName: 'Process schemas in $(System.ArtifactsDirectory)/drop/config'
       inputs:
-        SourcePath: '$(System.ArtifactsDirectory)/appdrop/config'
+        SourcePath: '$(System.ArtifactsDirectory)/drop/config'
         ServiceConnectionName: ${{ parameters.serviceConnection}}
         StorageAccountName: '$(ConfigStorageAccountName)'
         TableName: Configuration

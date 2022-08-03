@@ -31,7 +31,7 @@ jobs:
   #     deployToSlotOrASE: true
   #     resourceGroupName: '$(ResourceGroupName)'
   #     slotName: 'staging'
-  #     package: '$(System.ArtifactsDirectory)/appdrop/Sfa.Tl.Matching.Web.zip'
+  #     package: '$(System.ArtifactsDirectory)/drop/Sfa.Tl.Matching.Web.zip'
   #     deploymentMethod: 'auto'
 
   - task: AzureRmWebAppDeployment@3
@@ -42,7 +42,7 @@ jobs:
       DeployToSlotFlag: true
       ResourceGroupName: '$(ResourceGroupName)'
       SlotName: 'staging'
-      Package: '$(System.ArtifactsDirectory)/appdrop/Sfa.Tl.Marketing.Communications.Web.zip'
+      Package: '$(System.ArtifactsDirectory)/drop/Sfa.Tl.Marketing.Communications.Web.zip'
       UseWebDeploy: true
       RemoveAdditionalFilesFlag: true
 
