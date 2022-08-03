@@ -6,7 +6,7 @@ jobs:
   workspace:
     clean: all
   steps:
-    - task: UseDotNet@2 
+    - task: UseDotNet@2
       displayName: "Use .NET Core SDK 2.1.x"
       inputs:
           packageType: 'sdk'
@@ -17,14 +17,14 @@ jobs:
       inputs:
         runtime: 'core'
         updateAssemblyInfo: true
-    
-    - task: NodeTool@0 
+
+    - task: NodeTool@0
       inputs:
         versionSpec: '16.x'
 
     - task: Npm@1
       displayName: 'npm install'
-      inputs: 
+      inputs:
         workingDir: src/sfa.Tl.Marketing.Communication
         verbose: false
 
@@ -33,7 +33,7 @@ jobs:
       inputs:
         gulpFile: src/sfa.Tl.Marketing.Communication/gulpfile.js
 
-    - task: UseDotNet@2 
+    - task: UseDotNet@2
       displayName: "Install .NET 6 SDK"
       inputs:
         packageType: 'sdk'
@@ -82,6 +82,7 @@ jobs:
       inputs:
         Contents: |
           azure/**
+          config/**
         TargetFolder: '$(build.artifactstagingdirectory)'
         OverWrite: true
 
