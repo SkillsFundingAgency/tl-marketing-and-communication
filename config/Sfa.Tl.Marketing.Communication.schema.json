@@ -5,7 +5,7 @@
   "properties": {
     "EmployerSupportSiteUrl": {
       "type": "string",
-      "environmentVariable": "EmployerSettings_SiteUrl"
+      "environmentVariable": "EmployerSiteSettings_SiteUrl"
     },
     "CourseDirectoryApiSettings": {
       "properties": {
