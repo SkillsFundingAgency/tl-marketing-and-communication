@@ -11,7 +11,7 @@ jobs:
   variables:
     ConfigStorageAccountName: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.ConfigStorageAccountName'] ]
     SqlConnectionString: $[ dependencies.DeploySQLDatabase.outputs['SqlVariables.SqlConnectionString'] ]
-    BlobStorageConnectionString : $[ dependencies.DeployMatchingInfrastructure.outputs['armOutputs.armOutput.BlobStorageConnectionString'] ]
+    BlobStorageConnectionString : $[ dependencies.DeployMarketingCommunicationsInfrastructure.outputs['armOutputs.armOutput.BlobStorageConnectionString'] ]
 
   pool:
     name: 'Azure Pipelines'
