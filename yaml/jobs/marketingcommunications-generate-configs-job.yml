@@ -22,7 +22,7 @@ jobs:
     - pwsh: |
         'Write-Host "ConfigStorageAccountName variable: $(ConfigStorageAccountName)"'
         'Write-Host "SqlConnectionString variable: $(SqlConnectionString)"'
-        'Write-Host "BlobStorageConnectionString variable: $(BlobStorageConnectionString)"'
+        'Write-Host "TableStorageConnectionString variable: $(BlobStorageConnectionString)"'
       name: SetVariables
 
     - task: DownloadBuildArtifacts@0
