@@ -145,7 +145,7 @@
                             },
                             {
                                 "name": "ServiceName",
-                                "value": "Sfa.Tl.Matching"
+                                "value": "Sfa.Tl.Marketing.Communications"
                             },
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
@@ -201,7 +201,7 @@
                             },
                             {
                                 "name": "ServiceName",
-                                "value": "Sfa.Tl.Matching"
+                                "value": "Sfa.Tl.Marketing.Communications"
                             },
                             {
                                 "name": "CourseDirectoryImportTrigger",
