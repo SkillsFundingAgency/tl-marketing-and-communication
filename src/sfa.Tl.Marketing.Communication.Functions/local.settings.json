@@ -5,7 +5,7 @@
     "CourseDirectoryImportTrigger": "0 0 20 * * MON-FRI",
     "ConfigurationStorageConnectionString": "UseDevelopmentStorage=true;",
     "EnvironmentName": "LOCAL",
-    "ServiceName": "sfa.Tl.Marketing.Communication",
+    "ServiceName": "Sfa.Tl.Marketing.Communication",
     "ServiceVersion": "1.0" //Use ServiceVersion instead of Version, otherwise startup fails in dev
   },
   "IsEncrypted": false

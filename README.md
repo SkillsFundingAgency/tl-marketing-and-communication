@@ -44,7 +44,7 @@ To set up configuration in local Azure Storage on a developer machine, make sure
 Add a new row to the table with:
 
 - PartitionKey : `LOCAL`
-- RowKey : `sfa.Tl.Marketing.Communication_1.0`
+- RowKey : `Sfa.Tl.Marketing.Communication_1.0`
 - a property `Data` with the value below.
 
 ```
