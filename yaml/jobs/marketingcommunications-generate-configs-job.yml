@@ -11,7 +11,7 @@ jobs:
   variables:
     ConfigStorageAccountName: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.ConfigStorageAccountName'] ]
     SqlConnectionString: $[ dependencies.DeploySQLDatabase.outputs['SqlVariables.SqlConnectionString'] ]
-    BlobStorageConnectionString : $[ dependencies.DeployMarketingCommunicationsInfrastructure.outputs['armOutputs.armOutput.BlobStorageConnectionString'] ]
+    TableStorageConnectionString : $[ dependencies.DeployMarketingCommunicationsInfrastructure.outputs['armOutputs.armOutput.BlobStorageConnectionString'] ]
 
   pool:
     name: 'Azure Pipelines'
@@ -22,7 +22,7 @@ jobs:
     - pwsh: |
         'Write-Host "ConfigStorageAccountName variable: $(ConfigStorageAccountName)"'
         'Write-Host "SqlConnectionString variable: $(SqlConnectionString)"'
-        'Write-Host "TableStorageConnectionString variable: $(BlobStorageConnectionString)"'
+        'Write-Host "TableStorageConnectionString variable: $(TableStorageConnectionString)"'
       name: SetVariables
 
     - task: DownloadBuildArtifacts@0
