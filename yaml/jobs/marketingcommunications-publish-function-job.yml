@@ -27,5 +27,5 @@ jobs:
       azureSubscription: ${{ parameters.serviceConnection }}
       appType: 'functionApp'
       appName: '$(WorkerFunctionAppName)'
-      package: '$(System.ArtifactsDirectory)/drop/sfa.Tl.Marketing.Communications.Functions.zip'
+      package: '$(System.ArtifactsDirectory)/drop/sfa.Tl.Marketing.Communication.Functions.zip'
       deploymentMethod: 'auto'
