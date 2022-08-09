@@ -42,7 +42,7 @@ jobs:
       DeployToSlotFlag: true
       ResourceGroupName: '$(ResourceGroupName)'
       SlotName: 'staging'
-      Package: '$(System.ArtifactsDirectory)/drop/Sfa.Tl.Marketing.Communications.Web.zip'
+      Package: '$(System.ArtifactsDirectory)/drop/sfa.Tl.Marketing.Communications.zip'
       UseWebDeploy: true
       RemoveAdditionalFilesFlag: true
 
