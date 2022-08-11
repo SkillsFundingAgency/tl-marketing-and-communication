@@ -215,10 +215,6 @@
                                 "value": "[reference(concat('app-insights','-',parameters('environmentNameAbbreviation'))).outputs.InstrumentationKey.value]"
                             },
                             {
-                                "name": "TableStorageConnectionString",
-                                "value": "[reference(concat('storage-account','-',parameters('environmentNameAbbreviation'))).outputs.storageConnectionString.value]"
-                            },
-                            {
                                 "name": "AzureWebJobsStorage",
                                 "value": "[reference(concat('storage-account','-',parameters('environmentNameAbbreviation'))).outputs.storageConnectionString.value]"
                             },
