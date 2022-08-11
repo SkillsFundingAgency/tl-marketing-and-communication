@@ -148,7 +148,7 @@
                             },
                             {
                                 "name": "ServiceName",
-                                "value": "Sfa.Tl.Marketing.Communications"
+                                "value": "Sfa.Tl.Marketing.Communication"
                             },
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
