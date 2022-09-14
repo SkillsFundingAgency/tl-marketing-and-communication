@@ -111,55 +111,6 @@
       "progType": 31,
       "qualificationLevel": "3",
       "name": "T Level in Management and Administration"
-    },
-    {
-      "tLevelDefinitionId": "3032435b-6359-4217-a7c1-f19432cdfb3d",
-      "frameworkCode": 52,
-      "progType": 31,
-      "qualificationLevel": "3",
-      "name": "T Level in Legal services"
-    },
-    {
-      "tLevelDefinitionId": "55ce1868-39b4-4fed-b112-7ab86383d187",
-      "frameworkCode": 53,
-      "progType": 31,
-      "qualificationLevel": "3",
-      "name": "T Level in Hair, beauty and aesthetics"
-    },
-    {
-      "tLevelDefinitionId": "6617556e-341a-4f5b-8536-be920814c9f0",
-      "frameworkCode": 54,
-      "progType": 31,
-      "qualificationLevel": "3",
-      "name": "T Level in Craft and design"
-    },
-    {
-      "tLevelDefinitionId": "690cb7d9-cf70-4dbb-837c-9141efbcf7cb",
-      "frameworkCode": 55,
-      "progType": 31,
-      "qualificationLevel": "3",
-      "name": "T Level in Media, broadcast and production"
-    },
-    {
-      "tLevelDefinitionId": "6d3bc626-27e4-4310-9290-2106a2581f32",
-      "frameworkCode": 56,
-      "progType": 31,
-      "qualificationLevel": "3",
-      "name": "T Level in Catering"
-    },
-    {
-      "tLevelDefinitionId": "6b3906bc-34b1-425a-9d36-d2e2051a5958",
-      "frameworkCode": 57,
-      "progType": 31,
-      "qualificationLevel": "3",
-      "name": "T Level in Agriculture, land management and production"
-    },
-    {
-      "tLevelDefinitionId": "32f6bb96-36e4-48bf-8c9b-34a049ab8041",
-      "frameworkCode": 58,
-      "progType": 31,
-      "qualificationLevel": "3",
-      "name": "T Level in Animal care and management"
     }
   ]
 }
