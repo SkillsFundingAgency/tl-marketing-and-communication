@@ -134,8 +134,3 @@ $subjects:
     }
 }
 
-.tl-subjects--video {
-    @include media-max(small) {
-        padding: 0;
-    }
-}

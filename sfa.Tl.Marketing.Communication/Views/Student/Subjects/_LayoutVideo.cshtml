@@ -3,25 +3,28 @@
     ViewData["Title"] = ViewData["SubjectTitle"];
 }
 
-<section id="tl-subject--header" class="tl-content-normal--black">
+<section id="tl-subject--header" class="tl-content-wide--black">
     <div class="tl-container">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 order-2 order-md-1 ">
+                <div class="tl-content--box--transparent">
                 <div class="row">
                     <div class="col-12 tl-margin-top--60 tl-margin-bottom--50">
-                        <a class="tl-link-white--orange" href="/students/subjects">< Back to all subjects</a>
-                    </div>
-                    <div class="col-12 tl-margin-bottom--10">
-                        <h1>@ViewData["SubjectTitle"]</h1>
-                    </div>
-                    <div class="col-12 tl-margin-bottom--20">
-                        <p class="tl-lead">@ViewData["SubjectDescription"]</p>
-                        <p> <a href="@ViewData["SubjectTranscriptID"]" class="tl-link-white--orange tl-margin-left--10 tl-margin-top--10 tl-display--inline-block tl-casestudy--transcriptlink">Video transcript</a></p>
+                        
+                            <a class="tl-link-white--orange" href="/students/subjects">< Back to all subjects</a>
+                        </div>
+                        <div class="col-12 tl-margin-bottom--10">
+                            <h1>@ViewData["SubjectTitle"]</h1>
+                        </div>
+                        <div class="col-12 tl-margin-bottom--20">
+                            <p class="tl-lead">@ViewData["SubjectDescription"]</p>
+                            <p> <a href="@ViewData["SubjectTranscriptID"]" class="tl-link-white--orange tl-margin-left--10 tl-margin-top--10 tl-display--inline-block tl-casestudy--transcriptlink">Video transcript</a></p>
+                        </div>
                     </div>
                 </div>
 
             </div>
-            <div class="col-md-6 tl-subjects--video">
+            <div class="col-md-6 tl-subjects--video order-1">
                 <div class="tl-video--square tl-js--visible">
                     <iframe title="T Levels ambassador video 2" width="560" height="315" src="https://www.youtube-nocookie.com/embed/@ViewData["SubjectVideoID"]?rel=0&modestbranding=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
