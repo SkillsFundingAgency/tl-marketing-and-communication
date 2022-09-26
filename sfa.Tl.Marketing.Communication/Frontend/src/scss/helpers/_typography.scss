@@ -115,7 +115,7 @@ $colours: orange $orange, black $black, white $white, purple $purple, salmon $sa
 
     @each $colour, $colourcode in $colours {
         &--#{$colour} {
-            padding: 20px;
+            padding: 20px 30px;
             position: relative;
 
             &:before {
@@ -124,12 +124,12 @@ $colours: orange $orange, black $black, white $white, purple $purple, salmon $sa
                 mask: image("quoteopen.svg") no-repeat 50% 50%;
                 -webkit-mask-size: contain;
                 mask-size: contain;
-                width: 40px;
-                height: 40px;
+                width: 35px;
+                height: 35px;
                 background-color: $colourcode;
                 position: absolute;
-                left: 0px;
-                top: -30px;
+                left: -10px;
+                top: 0px;
             }
 
             &:after {
@@ -138,12 +138,12 @@ $colours: orange $orange, black $black, white $white, purple $purple, salmon $sa
                 mask: image("quoteclose.svg") no-repeat 50% 50%;
                 -webkit-mask-size: contain;
                 mask-size: contain;
-                width: 40px;
-                height: 40px;
+                width: 35px;
+                height: 35px;
                 background-color: $colourcode;
                 position: absolute;
                 right: 0px;
-                bottom: 0px;
+                bottom: 10px;
             }
         }
     }
