@@ -42,6 +42,7 @@ $colours: orange $orange, black $black, white $white, purple $purple, salmon $sa
     }
 }
 
+
 .tl-bigtext {
     @each $headingname, $headingsize in $headingvariables {
         &--#{$headingname} {
@@ -67,12 +68,24 @@ $colours: orange $orange, black $black, white $white, purple $purple, salmon $sa
         @include font(body, 16px, $lh: 24px);
     }
 
+    @each $colour, $colourcode in $colours {
+        &--#{$colour} {
+            color: $colourcode
+        }
+    }
+
     &--s {
         margin-bottom: 16px;
         @include font(body, 16px, $lh: 24px);
 
         @include media-max(medium) {
             @include font(body, 14px, $lh: 22px);
+        }
+    }
+
+    @each $colour, $colourcode in $colours {
+        &--#{$colour} {
+            color: $colourcode
         }
     }
 }
@@ -95,5 +108,46 @@ $colours: orange $orange, black $black, white $white, purple $purple, salmon $sa
 .tl-bold {
     font-weight: bold;
 }
+
+
+.tl-quote {
+
+
+    @each $colour, $colourcode in $colours {
+        &--#{$colour} {
+            padding: 20px 30px;
+            position: relative;
+
+            &:before {
+                content: '';
+                -webkit-mask: image("quoteopen.svg") no-repeat 50% 50%;
+                mask: image("quoteopen.svg") no-repeat 50% 50%;
+                -webkit-mask-size: contain;
+                mask-size: contain;
+                width: 35px;
+                height: 35px;
+                background-color: $colourcode;
+                position: absolute;
+                left: -10px;
+                top: 0px;
+            }
+
+            &:after {
+                content: '';
+                -webkit-mask: image("quoteclose.svg") no-repeat 50% 50%;
+                mask: image("quoteclose.svg") no-repeat 50% 50%;
+                -webkit-mask-size: contain;
+                mask-size: contain;
+                width: 35px;
+                height: 35px;
+                background-color: $colourcode;
+                position: absolute;
+                right: 0px;
+                bottom: 10px;
+            }
+        }
+    }
+}
+
 
 
