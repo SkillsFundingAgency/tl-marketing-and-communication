@@ -7,7 +7,7 @@ $screenvariables: xsmall, small, medium, large;
 .tl-margin {
     @each $marginvariable in $marginvariables {
 
-        @for $i from 0 through 20 {
+        @for $i from 0 through 30 {
             $width: 5 * $i;
 
             &-#{$marginvariable}--#{$width} {
@@ -18,7 +18,7 @@ $screenvariables: xsmall, small, medium, large;
 
         @each $screenvariable in $screenvariables {
 
-            @for $i from 0 through 20 {
+            @for $i from 0 through 30 {
                 $width: 5 * $i;
 
                 &-#{$marginvariable}--#{$width}--#{$screenvariable} {
@@ -36,7 +36,7 @@ $screenvariables: xsmall, small, medium, large;
 .tl-padding {
     @each $paddingvariable in $marginvariables {
 
-        @for $i from 0 through 20 {
+        @for $i from 0 through 30 {
             $width: 5 * $i;
 
             &-#{$paddingvariable}--#{$width} {
@@ -47,7 +47,7 @@ $screenvariables: xsmall, small, medium, large;
 
         @each $screenvariable in $screenvariables {
 
-            @for $i from 0 through 20 {
+            @for $i from 0 through 30 {
                 $width: 5 * $i;
 
                 &-#{$paddingvariable}--#{$width}--#{$screenvariable} {
