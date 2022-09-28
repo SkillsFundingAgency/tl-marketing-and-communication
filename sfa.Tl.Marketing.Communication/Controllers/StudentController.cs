@@ -90,6 +90,17 @@ public class StudentController : Controller
         return View("Transcripts/StudentAmbassadorTranscript5");
     }
 
+    [Route("/students/transcripts/ambassadors6", Name = "StudentAmbassadorTranscript6")]
+    public IActionResult StudentAmbassadorTranscript6()
+    {
+        return View("Transcripts/StudentAmbassadorTranscript6");
+    }
+
+    [Route("/students/transcripts/ambassadors7", Name = "StudentAmbassadorTranscript7")]
+    public IActionResult StudentAmbassadorTranscript7()
+    {
+        return View("Transcripts/StudentAmbassadorTranscript7");
+    }
 
     [Route("/students/find", Name = "Find")]
     public async Task<IActionResult> Find(FindViewModel viewModel)
