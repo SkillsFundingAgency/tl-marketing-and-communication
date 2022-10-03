@@ -1,7 +1,6 @@
-﻿using System;
-using AutoFixture.Idioms;
+﻿using AutoFixture.Idioms;
 
-namespace sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
+namespace sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
 
 public class ArgumentBehaviorException : IBehaviorExpectation
 {

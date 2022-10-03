@@ -12,15 +12,22 @@ using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders;
 using sfa.Tl.Marketing.Communication.Functions.UnitTests.Extensions;
-
+using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.Functions.UnitTests;
 
-public class CourseDirectoryImportFunctionTests
+public class CourseDirectoryImportFunctionsTests
 {
     [Fact]
-    public async Task CourseDirectoryImportFunction_Scheduled_Import_Calls_CourseDirectoryDataService_Import_Methods()
+    public void CourseDirectoryImportFunctions_Constructor_Guards_Against_NullParameters()
+    {
+        typeof(CourseDirectoryImportFunctions)
+            .ShouldNotAcceptNullConstructorArguments();
+    }
+
+    [Fact]
+    public async Task CourseDirectoryImportFunctions_Scheduled_Import_Calls_CourseDirectoryDataService_Import_Methods()
     {
         var service = Substitute.For<ICourseDirectoryDataService>();
         service
@@ -31,7 +38,7 @@ public class CourseDirectoryImportFunctionTests
             .Returns((12, 0));
 
         var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
-        var functions = BuildCourseDirectoryImportFunctions(service);
+        var functions = CourseDirectoryImportFunctionsBuilder.Build(service);
         await functions.ImportCourseDirectoryData(
             new TimerInfo(),
             functionContext);
@@ -41,7 +48,7 @@ public class CourseDirectoryImportFunctionTests
     }
 
     [Fact]
-    public async Task CourseDirectoryImportFunction_Scheduled_Import_Logs_Expected_Messages()
+    public async Task CourseDirectoryImportFunctions_Scheduled_Import_Logs_Expected_Messages()
     {
         var service = Substitute.For<ICourseDirectoryDataService>();
         service
@@ -54,7 +61,7 @@ public class CourseDirectoryImportFunctionTests
         var logger = Substitute.For<ILogger<object>>();
 
         var functionContext = FunctionObjectsBuilder.BuildFunctionContext(logger);
-        var functions = BuildCourseDirectoryImportFunctions(service);
+        var functions = CourseDirectoryImportFunctionsBuilder.Build(service);
         await functions.ImportCourseDirectoryData(
             new TimerInfo(),
             functionContext);
@@ -70,7 +77,7 @@ public class CourseDirectoryImportFunctionTests
     }
 
     [Fact]
-    public async Task CourseDirectoryImportFunction_Scheduled_Import_Exception_Logs_Expected_Messages()
+    public async Task CourseDirectoryImportFunctions_Scheduled_Import_Exception_Logs_Expected_Messages()
     {
         var service = Substitute.For<ICourseDirectoryDataService>();
         service
@@ -80,7 +87,7 @@ public class CourseDirectoryImportFunctionTests
         var logger = Substitute.For<ILogger<object>>();
 
         var functionContext = FunctionObjectsBuilder.BuildFunctionContext(logger);
-        var functions = BuildCourseDirectoryImportFunctions(service);
+        var functions = CourseDirectoryImportFunctionsBuilder.Build(service);
         await functions.ImportCourseDirectoryData(
             new TimerInfo(),
             functionContext);
@@ -92,7 +99,7 @@ public class CourseDirectoryImportFunctionTests
     }
 
     [Fact]
-    public async Task CourseDirectoryImportFunction_GetCourseDirectoryDetailJson_Returns_Expected_Result()
+    public async Task CourseDirectoryImportFunctions_GetCourseDirectoryDetailJson_Returns_Expected_Result()
     {
         const string expectedJson = "{ \"detail\": \"result\" } ";
 
@@ -104,7 +111,7 @@ public class CourseDirectoryImportFunctionTests
         var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
         var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
-        var functions = BuildCourseDirectoryImportFunctions(service);
+        var functions = CourseDirectoryImportFunctionsBuilder.Build(service);
         var result = await functions.GetCourseDirectoryDetailJson(request, functionContext);
 
         result.Headers.GetValues("Content-Type").Should().NotBeNull();
@@ -115,7 +122,7 @@ public class CourseDirectoryImportFunctionTests
     }
 
     [Fact]
-    public async Task CourseDirectoryImportFunction_GetCourseDirectoryQualificationJson_Returns_Expected_Result()
+    public async Task CourseDirectoryImportFunctions_GetCourseDirectoryQualificationJson_Returns_Expected_Result()
     {
         const string expectedJson = "{ \"qualification\": \"result\" } ";
 
@@ -127,7 +134,7 @@ public class CourseDirectoryImportFunctionTests
         var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
         var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
-        var functions = BuildCourseDirectoryImportFunctions(service);
+        var functions = CourseDirectoryImportFunctionsBuilder.Build(service);
         var result = await functions.GetCourseDirectoryQualificationJson(request, functionContext);
 
         result.Headers.GetValues("Content-Type").Should().NotBeNull();
@@ -138,7 +145,7 @@ public class CourseDirectoryImportFunctionTests
     }
 
     [Fact]
-    public async Task CourseDirectoryImportFunction_GetCourseDirectoryDetailJson_Exception_Returns_Expected_Result()
+    public async Task CourseDirectoryImportFunctions_GetCourseDirectoryDetailJson_Exception_Returns_Expected_Result()
     {
         var service = Substitute.For<ICourseDirectoryDataService>();
         service
@@ -148,14 +155,14 @@ public class CourseDirectoryImportFunctionTests
         var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
         var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
-        var functions = BuildCourseDirectoryImportFunctions(service);
+        var functions = CourseDirectoryImportFunctionsBuilder.Build(service);
         var result = await functions.GetCourseDirectoryDetailJson(request, functionContext);
 
         result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
     }
 
     [Fact]
-    public async Task CourseDirectoryImportFunction_GetCourseDirectoryQualificationJson_Exception_Returns_Expected_Result()
+    public async Task CourseDirectoryImportFunctions_GetCourseDirectoryQualificationJson_Exception_Returns_Expected_Result()
     {
         var service = Substitute.For<ICourseDirectoryDataService>();
         service
@@ -165,14 +172,14 @@ public class CourseDirectoryImportFunctionTests
         var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
         var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
-        var functions = BuildCourseDirectoryImportFunctions(service);
+        var functions = CourseDirectoryImportFunctionsBuilder.Build(service);
         var result = await functions.GetCourseDirectoryQualificationJson(request, functionContext);
 
         result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
     }
 
     [Fact]
-    public async Task CourseDirectoryImportFunction_GetProviders_Returns_Expected_Result()
+    public async Task CourseDirectoryImportFunctions_GetProviders_Returns_Expected_Result()
     {
         var builder = new ProviderBuilder();
         var providers = builder.BuildList();
@@ -184,7 +191,7 @@ public class CourseDirectoryImportFunctionTests
         var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
         var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
-        var functions = BuildCourseDirectoryImportFunctions(tableStorageService: tableStorageService);
+        var functions = CourseDirectoryImportFunctionsBuilder.Build(tableStorageService: tableStorageService);
         var result = await functions.GetProviders(request, functionContext);
 
         result.Headers.GetValues("Content-Type").Should().NotBeNull();
@@ -196,7 +203,7 @@ public class CourseDirectoryImportFunctionTests
     }
 
     [Fact]
-    public async Task CourseDirectoryImportFunction_GetProviders_Exception_Returns_Expected_Result()
+    public async Task CourseDirectoryImportFunctions_GetProviders_Exception_Returns_Expected_Result()
     {
         var tableStorageService = Substitute.For<ITableStorageService>();
         tableStorageService
@@ -206,14 +213,14 @@ public class CourseDirectoryImportFunctionTests
         var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
         var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
-        var functions = BuildCourseDirectoryImportFunctions(tableStorageService: tableStorageService);
+        var functions = CourseDirectoryImportFunctionsBuilder.Build(tableStorageService: tableStorageService);
         var result = await functions.GetProviders(request, functionContext);
 
         result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
     }
 
     [Fact]
-    public async Task CourseDirectoryImportFunction_GetQualifications_Returns_Expected_Result()
+    public async Task CourseDirectoryImportFunctions_GetQualifications_Returns_Expected_Result()
     {
         var builder = new QualificationBuilder();
         var qualifications = builder.BuildList();
@@ -225,7 +232,7 @@ public class CourseDirectoryImportFunctionTests
         var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
         var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
-        var functions = BuildCourseDirectoryImportFunctions(tableStorageService: tableStorageService);
+        var functions = CourseDirectoryImportFunctionsBuilder.Build(tableStorageService: tableStorageService);
         var result = await functions.GetQualifications(request, functionContext);
 
         result.Headers.GetValues("Content-Type").Should().NotBeNull();
@@ -236,7 +243,7 @@ public class CourseDirectoryImportFunctionTests
     }
 
     [Fact]
-    public async Task CourseDirectoryImportFunction_GetQualifications_Exception_Returns_Expected_Result()
+    public async Task CourseDirectoryImportFunctions_GetQualifications_Exception_Returns_Expected_Result()
     {
         var tableStorageService = Substitute.For<ITableStorageService>();
         tableStorageService
@@ -246,19 +253,9 @@ public class CourseDirectoryImportFunctionTests
         var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
         var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Get);
 
-        var functions = BuildCourseDirectoryImportFunctions(tableStorageService: tableStorageService);
+        var functions = CourseDirectoryImportFunctionsBuilder.Build(tableStorageService: tableStorageService);
         var result = await functions.GetQualifications(request, functionContext);
 
         result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
-    }
-
-    private static CourseDirectoryImportFunctions BuildCourseDirectoryImportFunctions(
-        ICourseDirectoryDataService courseDirectoryDataService = null,
-        ITableStorageService tableStorageService = null)
-    {
-        courseDirectoryDataService ??= Substitute.For<ICourseDirectoryDataService>();
-        tableStorageService ??= Substitute.For<ITableStorageService>();
-
-        return new CourseDirectoryImportFunctions(courseDirectoryDataService, tableStorageService);
     }
 }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Net;
 
-namespace sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.HttpClientHelpers;
+namespace sfa.Tl.Marketing.Communication.Tests.Common.HttpClientHelpers;
 
 public class FakeHttpMessageHandler : DelegatingHandler
 {

@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using sfa.Tl.Marketing.Communication.Controllers;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
+using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
-using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers;

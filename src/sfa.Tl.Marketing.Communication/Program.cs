@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Azure.Data.Tables;
+using Azure.Storage.Blobs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -91,10 +92,15 @@ var tableServiceClient = new TableServiceClient(
         }
         : default);
 
+var blobServiceClient = new BlobServiceClient(
+    siteConfiguration.StorageSettings.BlobStorageConnectionString);
+
 builder.Services
     .AddSingleton(tableServiceClient)
+    .AddSingleton(blobServiceClient)
     .AddTransient(typeof(ICloudTableRepository<>), typeof(GenericCloudTableRepository<>))
-    .AddTransient<ITableStorageService, TableStorageService>();
+    .AddTransient<ITableStorageService, TableStorageService>()
+    .AddTransient<IBlobStorageService, BlobStorageService>();
 
 builder.Services.AddMemoryCache();
 

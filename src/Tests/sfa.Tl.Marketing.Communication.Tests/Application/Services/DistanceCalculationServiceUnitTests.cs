@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
-using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
+using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services;

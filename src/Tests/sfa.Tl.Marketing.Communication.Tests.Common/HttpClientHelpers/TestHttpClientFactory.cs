@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Net.Http;
+﻿using System.Net;
 using System.Net.Http.Headers;
 
-namespace sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.HttpClientHelpers;
+namespace sfa.Tl.Marketing.Communication.Tests.Common.HttpClientHelpers;
 
 public class TestHttpClientFactory
 {

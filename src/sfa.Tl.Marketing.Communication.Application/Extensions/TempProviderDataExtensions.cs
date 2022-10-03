@@ -8,6 +8,9 @@ namespace sfa.Tl.Marketing.Communication.Application.Extensions;
 
 public static class TempProviderDataExtensions
 {
+    public const string TempDataBlobContainerName = "provider-data";
+    public const string TempDataFileName = "additional-providers.json";
+
     public static readonly IDictionary<long, Provider> ProviderData
         = LoadTempProviderData();
 
