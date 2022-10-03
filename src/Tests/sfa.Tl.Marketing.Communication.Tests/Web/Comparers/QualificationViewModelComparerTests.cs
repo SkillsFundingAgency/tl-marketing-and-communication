@@ -95,5 +95,4 @@ public class QualificationViewModelComparerTests
 
         comparer.Equals(null, null).Should().BeFalse();
     }
-
 }
