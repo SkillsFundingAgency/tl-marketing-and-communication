@@ -6,8 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Builders\Data\TestMultipartFormData.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="Builders\Data\ProviderData.json" />
     <EmbeddedResource Include="Builders\Data\QualificationData.json" />
+    <EmbeddedResource Include="Builders\Data\TestMultipartFormData.txt" />
   </ItemGroup>
 
   <ItemGroup>

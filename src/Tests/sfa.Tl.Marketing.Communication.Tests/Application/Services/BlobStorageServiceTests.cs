@@ -51,6 +51,7 @@ public class BlobStorageServiceTests
 
         target.Should().NotBeNull();
     }
+
     [Fact]
     public async Task BlobStorageService_ClearProviders_Returns_Expected_Results()
     {
@@ -74,16 +75,6 @@ public class BlobStorageServiceTests
 
         var stream = new MemoryStream();
         await service.Upload(stream, containerName, fileName, contentType);
-
-        await blobClient
-            .Received(1)
-            .UploadAsync(Arg.Any<MemoryStream>(),
-                Arg.Any<BlobHttpHeaders>());
-
-        await blobClient
-            .Received(1)
-            .UploadAsync(stream,
-                Arg.Any<BlobHttpHeaders>());
 
         await blobClient
             .Received(1)
