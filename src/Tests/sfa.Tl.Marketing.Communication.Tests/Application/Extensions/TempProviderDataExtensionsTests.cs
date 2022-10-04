@@ -14,7 +14,7 @@ public class TempProviderDataExtensionsTests
     public void TempProviderDataExtensions_Loads_Data_Successfully()
     {
         TempProviderDataExtensions
-            .ProviderData
+            .TempProviderData
             .Should()
             .NotBeNullOrEmpty();
     }
@@ -23,7 +23,7 @@ public class TempProviderDataExtensionsTests
     public void TempProviderDataExtensions_Loads_First_Known_Provider()
     {
         var knownProvider = TempProviderDataExtensions
-            .ProviderData
+            .TempProviderData
             .SingleOrDefault(p => 
                 p.Key == 10042223)
             .Value;
@@ -63,7 +63,7 @@ public class TempProviderDataExtensionsTests
     public void TempProviderDataExtensions_Merges_Data_Into_Empty_List()
     {
         TempProviderDataExtensions
-            .ProviderData
+            .TempProviderData
             .Should()
             .NotBeNullOrEmpty();
 
@@ -75,7 +75,7 @@ public class TempProviderDataExtensionsTests
         result.Should().NotBeNullOrEmpty();
 
         var expectedCount = TempProviderDataExtensions
-            .ProviderData
+            .TempProviderData
             .Count;
 
         result.Count.Should().Be(expectedCount);
@@ -85,7 +85,7 @@ public class TempProviderDataExtensionsTests
     public void TempProviderDataExtensions_Merges_Data_Into_Existing_List()
     {
         TempProviderDataExtensions
-            .ProviderData
+            .TempProviderData
             .Should()
             .NotBeNullOrEmpty();
 
@@ -94,7 +94,7 @@ public class TempProviderDataExtensionsTests
             .Build();
 
         var tempProvidersCount = TempProviderDataExtensions
-            .ProviderData
+            .TempProviderData
             .Count;
         var originalProvidersCount = providers.Count;
         var expectedCount = tempProvidersCount + originalProvidersCount;

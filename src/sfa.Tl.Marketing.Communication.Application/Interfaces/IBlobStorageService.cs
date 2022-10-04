@@ -10,5 +10,7 @@ public interface IBlobStorageService
         string fileName,
         string contentType);
 
-    //Task Read(Stream stream, string contentType,);
+    Task<Stream> Get(
+        string containerName,
+        string fileName);
 }

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Caching.Memory;
 using sfa.Tl.Marketing.Communication.Application.Caching;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
+using System.Text.Json;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services;
 
@@ -17,13 +18,16 @@ public class ProviderDataService : IProviderDataService
     private readonly bool _mergeTempProviderData;
 
     private readonly IMemoryCache _cache;
+    private readonly IBlobStorageService _blobStorageService;
     private readonly ITableStorageService _tableStorageService;
 
     public ProviderDataService(
+        IBlobStorageService blobStorageService,
         ITableStorageService tableStorageService,
         IMemoryCache cache,
         ConfigurationOptions configuration)
     {
+        _blobStorageService = blobStorageService ?? throw new ArgumentNullException(nameof(blobStorageService));
         _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
         _cache = cache ?? throw new ArgumentNullException(nameof(cache));
 
@@ -142,6 +146,16 @@ public class ProviderDataService : IProviderDataService
         if (!_cache.TryGetValue(CacheKeys.ProviderTableDataKey,
                 out IQueryable<Provider> providers))
         {
+            var blobStream = _blobStorageService.Get(
+                TempProviderDataExtensions.TempDataBlobContainerName,
+                TempProviderDataExtensions.TempDataFileName)
+                .GetAwaiter().GetResult();
+            if (blobStream != null)
+            {
+                var jsonDocument = JsonDocument.Parse(blobStream);
+                var json = jsonDocument.PrettifyJsonDocument();
+            }
+
             providers = _tableStorageService
                 .GetAllProviders()
                 .GetAwaiter()

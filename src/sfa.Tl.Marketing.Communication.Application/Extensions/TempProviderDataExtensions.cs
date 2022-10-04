@@ -11,7 +11,7 @@ public static class TempProviderDataExtensions
     public const string TempDataBlobContainerName = "provider-data";
     public const string TempDataFileName = "additional-providers.json";
 
-    public static readonly IDictionary<long, Provider> ProviderData
+    public static readonly IDictionary<long, Provider> TempProviderData
         = LoadTempProviderData();
 
     private static IDictionary<long, Provider> LoadTempProviderData()
@@ -70,7 +70,7 @@ public static class TempProviderDataExtensions
         var providerDictionary = providers
             .ToDictionary(p => p.UkPrn);
 
-        foreach (var (key, tempProvider) in ProviderData)
+        foreach (var (key, tempProvider) in TempProviderData)
         {
             if (!providerDictionary.ContainsKey(key))
             {
