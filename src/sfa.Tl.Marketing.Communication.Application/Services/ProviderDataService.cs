@@ -8,7 +8,6 @@ using Microsoft.Extensions.Caching.Memory;
 using sfa.Tl.Marketing.Communication.Application.Caching;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
-using System.Text.Json;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services;
 
@@ -150,17 +149,12 @@ public class ProviderDataService : IProviderDataService
                 TempProviderDataExtensions.TempDataBlobContainerName,
                 TempProviderDataExtensions.TempDataFileName)
                 .GetAwaiter().GetResult();
-            if (blobStream != null)
-            {
-                var jsonDocument = JsonDocument.Parse(blobStream);
-                var json = jsonDocument.PrettifyJsonDocument();
-            }
-
+            
             providers = _tableStorageService
                 .GetAllProviders()
                 .GetAwaiter()
                 .GetResult()
-                .MergeTempProviders(_mergeTempProviderData)
+                .MergeTempProviders(blobStream, _mergeTempProviderData)
                 .AsQueryable();
 
             if (providers.Any())
