@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Reflection;
 using System.Text.Json;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 
@@ -85,12 +83,7 @@ public static class TempProviderDataExtensions
             return providers;
         }
 
-        var tempProviderData = LoadTempProviderData(jsonDocument);
-        TempProviderData.Clear();
-        foreach (var (key, tempProvider) in tempProviderData)
-        {
-            TempProviderData.Add(key, tempProvider);
-        }
+        TempProviderData = LoadTempProviderData(jsonDocument);
 
         var providerDictionary = providers
             .ToDictionary(p => p.UkPrn);
