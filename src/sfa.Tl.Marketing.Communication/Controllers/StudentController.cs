@@ -34,8 +34,8 @@ public class StudentController : Controller
         return View();
     }
 
-    [Route("/students/why", Name = "Why")]
-    public IActionResult Why()
+    [Route("/students/parents", Name = "Parents")]
+    public IActionResult Parents()
     {
         return View();
     }
@@ -282,7 +282,14 @@ public class StudentController : Controller
     [Route("/why", Name = "WhyOld")]
     public IActionResult WhyRedirect()
     {
-        return RedirectToAction(nameof(Why));
+        return RedirectToAction(nameof(About));
+    }
+
+
+    [Route("/students/why", Name = "WhyNew")]
+    public IActionResult WhyNewRedirect()
+    {
+        return RedirectToAction(nameof(About));
     }
 
     [Route("/subjects", Name = "SubjectsOld")]
