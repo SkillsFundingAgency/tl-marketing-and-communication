@@ -1,4 +1,4 @@
- $logowidth: 180;
+$logowidth: 180;
 
 
 @include media-max(medium) {
@@ -203,27 +203,27 @@
     @include media-max(medium) {
         margin-bottom: 0 !important;
     }
-    }
-    /* Active states */
+}
+/* Active states */
 
 
 
-    $employernavvariables: "home", "about", "skills", "benefits", "timeline", "nextsteps";
+$employernavvariables: "home", "about", "skills", "benefits", "timeline", "nextsteps";
 
-    @each $page in $employernavvariables {
-        #tl-employer-#{$page} {
-            #tl-nav--bar-employer--#{$page} {
-                @include navactive(employer)
-            }
+@each $page in $employernavvariables {
+    #tl-employer-#{$page} {
+        #tl-nav--bar-employer--#{$page} {
+            @include navactive(employer)
         }
     }
+}
 
-    $studentnavvariables: "home", "about", "why", "subjects", "find", "casestudies";
+$studentnavvariables: "home", "about", "why", "subjects", "find", "casestudies", "parents";
 
-    @each $page in $studentnavvariables {
-        #tl-student-#{$page} {
-            #tl-nav--bar-student--#{$page} {
-                @include navactive(student)
-            }
+@each $page in $studentnavvariables {
+    #tl-student-#{$page} {
+        #tl-nav--bar-student--#{$page} {
+            @include navactive(student)
         }
     }
+}

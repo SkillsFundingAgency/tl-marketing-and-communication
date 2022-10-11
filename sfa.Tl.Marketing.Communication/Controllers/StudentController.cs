@@ -34,8 +34,8 @@ public class StudentController : Controller
         return View();
     }
 
-    [Route("/students/why", Name = "Why")]
-    public IActionResult Why()
+    [Route("/students/parents", Name = "Parents")]
+    public IActionResult Parents()
     {
         return View();
     }
@@ -258,7 +258,7 @@ public class StudentController : Controller
         //as it has been encoded before being added to web pages
         var decodedUrl = WebUtility.UrlDecode(viewModel.Url);
         var targetUrl =
-            decodedUrl is not null 
+            decodedUrl is not null
             && (allowedUrls.ContainsKey(decodedUrl)
                 || Url.IsLocalUrl(decodedUrl))
                 ? viewModel.Url
@@ -282,7 +282,14 @@ public class StudentController : Controller
     [Route("/why", Name = "WhyOld")]
     public IActionResult WhyRedirect()
     {
-        return RedirectToAction(nameof(Why));
+        return RedirectToAction(nameof(About));
+    }
+
+
+    [Route("/students/why", Name = "WhyNew")]
+    public IActionResult WhyNewRedirect()
+    {
+        return RedirectToAction(nameof(About));
     }
 
     [Route("/subjects", Name = "SubjectsOld")]
