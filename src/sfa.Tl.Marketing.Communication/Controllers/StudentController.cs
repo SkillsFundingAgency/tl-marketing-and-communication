@@ -258,7 +258,7 @@ public class StudentController : Controller
         //as it has been encoded before being added to web pages
         var decodedUrl = WebUtility.UrlDecode(viewModel.Url);
         var targetUrl =
-            decodedUrl is not null 
+            decodedUrl is not null
             && (allowedUrls.ContainsKey(decodedUrl)
                 || Url.IsLocalUrl(decodedUrl))
                 ? viewModel.Url
