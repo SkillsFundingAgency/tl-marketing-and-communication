@@ -34,36 +34,52 @@ To fix this, set the version that Visual Studio runs by following the following 
 
 ## Configuration
 
-Website configuration is in `appsettings.json` and the settings for different environments are set by Azure DevOps release/pipeline variables.  
-If you need to override values on your local machine, add a `appsettings.Development.json` file and set `Copy to Output Directory` to `Copy if newer`, then add keys/values there.
+Website configuration is in `appsettings.json` but most settings are read from Azure Storage.
 
-Other API Keys and email addresses are also stored in the site `appSettings.json` file and need to be overridden in `appsettings.Development.json` as shown below.
+Some of the configuration settings are also in `appsettings.json` but will only be used if the Azure Storage Emulator or Azurite is not running. This is done for convenience and so that developers don't always need to run Azure Storage, but it will not work for the Find page.
+
+If you need to override any values on your local machine, add a `appsettings.Development.json` file and set `Copy to Output Directory` to `Copy if newer`, then add keys/values there.
+
+To set up configuration in local Azure Storage on a developer machine, make sure Azure Storage Emulator or Azurite is running then add a table to local storage called `Configuration` if it doesn't already exist.
+Add a new row to the table with:
+
+- PartitionKey : `LOCAL`
+- RowKey : `Sfa.Tl.Marketing.Communication_1.0`
+- a property `Data` with the value below.
 
 ```
 {
-  "EmployerSupportSiteUrl": "<address>",
-  "EmployerSupportSiteAboutArticle": "<partial path to article>",
-  "EmployerSupportSiteIndustryPlacementsBenefitsArticle": "<partial path to article>",
-  "EmployerSupportSiteSkillsArticle": "<partial path to article>",
-  "EmployerSupportSiteTimelineArticle": "<partial path to article>",
-  "TableStorageConnectionString": "UseDevelopmentStorage=true;",
-  "CacheExpiryInSeconds": time,
-  "PostcodeCacheExpiryInSeconds": time,
-  "Logging": {
-    "LogLevel": {
-      "Default": "Debug",
-      "System": "Information",
-      "Microsoft": "Information"
-    }
-  }
+  "EmployerSiteSettings": {
+      "SiteUrl": "<address>",
+      "AboutArticle": "<partial path to article>",
+      "IndustryPlacementsBenefitsArticle": "<partial path to article>",
+      "SkillsArticle": "<partial path to article>",
+      "TimelineArticle": "<partial path to article>"
+  },
+  "CourseDirectoryApiSettings": {
+    "BaseUri": "<Course Directory API>",
+    "ApiKey": "<API Key>"
+  },
+  "PostcodeRetrieverBaseUrl": "https://api.postcodes.io/",
+  "CacheExpiryInSeconds": 60,
+  "MergeTempProviderData": true,
+  "PostcodeCacheExpiryInSeconds": 120,
+  "StorageSettings":  {
+    "TableStorageConnectionString": "UseDevelopmentStorage=true;"
+  },
+"GoogleMapsApiKey": "<google key>"
 }
 ```
 
 - `CacheExpiryInSeconds` - Default cache time (in seconds) used for caching providers and qualifications.
-- `EmployerSupportSiteUrl` needs to be the address of the Zendesk Employer Support site.
+- `EmployerSiteSettings` 
+  - `SiteUrl` needs to be the address of the Zendesk Employer Support site.
+  - Article settings should be the url fragment which will be appended to the site url and point to the articles on Zendesk. 
 - `TableStorageConnectionString` defaults to Azure Storage Emulator. If you want to use a cloud table, set the connection string here.
-- `PostcodeCacheExpiryInSeconds` - The time (in seconds) to keep postcodes cached. Used to reduce repeated calls to postcodes.io.
-- `PostcodeRetrieverBaseUrl` is usually `https://postcodes.io/` - this is set in `appSettings.json`.
+- `PostcodeCacheExpiryInSeconds` - the time (in seconds) to keep postcodes cached. Used to reduce repeated calls to postcodes.io.
+- `PostcodeRetrieverBaseUrl` is usually `https://api.postcodes.io/`.
+- `GoogleMapsApiKey` - Google key. Only required if maps are going to be used.
+
 
 ## Creating provider data in local storage
 
@@ -88,9 +104,10 @@ This data is imported from the NCS Course Directory API using a scheduled functi
 
 ## Azure Functions
 
-Default development configuration is in file `local.settings.json`.
-If you need to override configuration (e.g. to import Course Directory data)  values on your local machine, add a file called `local.settings.development.json` 
-- this should be done outside of Visual Studio, since the file is already referenced in the project with `Copy to Output Directory` set to `Copy if newer`.
+Default development configuration is in file `local.settings.json`. Configuration settings are loaded from Azure Storage in the same way as for the website.
+
+> Note: the service version for loading the configuration table for functions uses `ServiceVersion` instead of 'Version' to avoid errors when running functions on a developer machine.
+
 
 ## Benchmarks
 

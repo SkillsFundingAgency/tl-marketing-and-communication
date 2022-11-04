@@ -1,0 +1,92 @@
+jobs:
+- job: 'CodeBuild'
+  pool:
+      name: 'Azure Pipelines'
+      vmImage: 'windows-latest'
+  workspace:
+    clean: all
+  steps:
+    - task: UseDotNet@2
+      displayName: "Use .NET Core SDK 2.1.x"
+      inputs:
+          packageType: 'sdk'
+          version: '2.1.x'
+
+    - task: GitVersion@5
+      displayName: GitVersion
+      inputs:
+        runtime: 'core'
+        updateAssemblyInfo: true
+
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '16.x'
+
+    - task: Npm@1
+      displayName: 'npm install'
+      inputs:
+        workingDir: src/sfa.Tl.Marketing.Communication
+        verbose: false
+
+    - task: Gulp@0
+      displayName: 'gulp'
+      inputs:
+        gulpFile: src/sfa.Tl.Marketing.Communication/gulpfile.js
+
+    - task: UseDotNet@2
+      displayName: "Install .NET 6 SDK"
+      inputs:
+        packageType: 'sdk'
+        version: '6.x'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'DotNet Restore'
+      inputs:
+        command: restore
+        projects: 'src/**/*.csproj'
+        noCache: true
+
+    - task: DotNetCoreCLI@2
+      displayName: 'DotNet Build'
+      inputs:
+        command: build
+        projects: 'src/**/*.csproj'
+        arguments: '--configuration $(buildConfiguration)  --no-restore'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'DotNet Test'
+      inputs:
+        command: test
+        projects: '**/*.UnitTests.csproj'
+        arguments: '--configuration $(buildConfiguration)  --no-restore'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'DotNet Publish'
+      inputs:
+        command: publish
+        publishWebProjects: True
+        projects: 'src/sfa.Tl.Marketing.Communication/sfa.Tl.Marketing.Communication.csproj'
+        arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)'
+        zipAfterPublish: True
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish Function App'
+      inputs:
+        command: publish
+        publishWebProjects: false
+        projects: 'src/sfa.Tl.Marketing.Communication.Functions/sfa.Tl.Marketing.Communication.Functions.csproj'
+        arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory) --no-restore'
+
+    - task: CopyFiles@2
+      displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+      inputs:
+        Contents: |
+          azure/**
+          config/**
+        TargetFolder: '$(build.artifactstagingdirectory)'
+        OverWrite: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact'
+      inputs:
+        PathtoPublish: '$(build.artifactstagingdirectory)'

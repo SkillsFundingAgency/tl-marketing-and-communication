@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "id": "http://example.com/example.json",
+  "properties": {
+    "EmployerSupportSiteUrl": {
+      "type": "string",
+      "environmentVariable": "EmployerSiteSettings_SiteUrl"
+    },
+    "CourseDirectoryApiSettings": {
+      "properties": {
+        "BaseUri": {
+          "minLength": 1,
+          "type": "string",
+          "environmentVariable": "CourseDirectoryApiSettings_BaseUri"
+        },
+        "ApiKey": {
+          "minLength": 1,
+          "type": "string",
+          "environmentVariable": "CourseDirectoryApiSettings_ApiKey"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "BaseUri",
+        "ApiKey"
+      ],
+      "type": "object"
+    },
+    "EmployerSiteSettings": {
+      "properties": {
+        "SiteUrl": {
+          "minLength": 1,
+          "type": "string",
+          "environmentVariable": "EmployerSiteSettings_SiteUrl"
+        },
+        "AboutArticle": {
+          "type": "string",
+          "environmentVariable": "EmployerSiteSettings_AboutArticle"
+        },
+        "IndustryPlacementsBenefitsArticle": {
+          "type": "string",
+          "environmentVariable": "EmployerSiteSettings_IndustryPlacementsBenefitsArticle"
+        },
+        "SkillsArticle": {
+          "type": "string",
+          "environmentVariable": "EmployerSiteSettings_SkillsArticle"
+        },
+        "TimelineArticle": {
+          "type": "string",
+          "environmentVariable": "EmployerSiteSettings_TimelineArticle"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "SiteUrl"
+      ],
+      "type": "object"
+    },
+    "PostcodeRetrieverBaseUrl": {
+      "minLength": 1,
+      "type": "string",
+      "environmentVariable": "PostcodeRetrieverBaseUrl"
+    },
+    "CacheExpiryInSeconds": {
+      "type": "integer",
+      "environmentVariable": "CacheExpiryInSeconds"
+    },
+    "PostcodeCacheExpiryInSeconds": {
+      "type": "integer",
+      "environmentVariable": "PostcodeCacheExpiryInSeconds"
+    },
+    "MergeTempProviderData": {
+      "type": "boolean",
+      "environmentVariable": "MergeTempProviderData"
+    },
+    "GoogleMapsApiKey": {
+      "type": "string",
+      "environmentVariable": "GoogleMapsApiKey"
+    },
+    "StorageSettings": {
+      "properties": {
+        "TableStorageConnectionString": {
+          "minLength": 1,
+          "type": "string",
+          "environmentVariable": "TableStorageConnectionString"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "TableStorageConnectionString"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "EmployerSupportSiteUrl",
+    "CourseDirectoryApiSettings",
+    "PostcodeRetrieverBaseUrl",
+    "StorageSettings"
+  ],
+  "type": "object"
+}
