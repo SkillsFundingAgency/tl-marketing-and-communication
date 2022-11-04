@@ -1,0 +1,31 @@
+resources:
+  repositories:
+    - repository: self
+      persistCredentials: true
+      clean: true
+
+    - repository: devopsTemplates
+      type: github
+      endpoint: DfE-Digital
+      name: DFE-Digital/operations-devops-pipeline-templates
+
+trigger:
+  branches:
+    include: 
+    - master 
+    - develop  
+    - feature/*
+     
+pr: 
+  - feature/* 
+  - master
+  - develop
+
+pool:
+  name: 'Azure Pipelines'
+  vmImage: 'windows-latest'
+  
+variables:
+  applicationName: marketingcommunications
+stages:
+  - template: ./yaml/stages/marketingcommunications-master-stage.yml

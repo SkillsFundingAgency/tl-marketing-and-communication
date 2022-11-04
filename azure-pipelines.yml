@@ -38,13 +38,13 @@ steps:
 - task: Npm@1
   displayName: 'npm install'
   inputs: 
-    workingDir: sfa.Tl.Marketing.Communication
+    workingDir: src/sfa.Tl.Marketing.Communication
     verbose: false
 
 - task: Gulp@0
   displayName: 'gulp'
   inputs:
-      gulpFile: sfa.Tl.Marketing.Communication/gulpfile.js
+      gulpFile: src/sfa.Tl.Marketing.Communication/gulpfile.js
 
 - task: UseDotNet@2 
   displayName: "Install .NET 6 SDK"
@@ -86,7 +86,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: false
-    projects: 'sfa.Tl.Marketing.Communication.Functions/sfa.Tl.Marketing.Communication.Functions.csproj'
+    projects: 'src/sfa.Tl.Marketing.Communication.Functions/sfa.Tl.Marketing.Communication.Functions.csproj'
     arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore'
 
 - task: CopyFiles@2

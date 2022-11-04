@@ -1,0 +1,85 @@
+stages:
+  - template: marketingcommunications-build-stage.yml
+    parameters:        
+      variableGroups:
+        - platform-global-marcom
+######################## DEV ##############################################
+  - template: marketingcommunications-shared-stage.yml
+    parameters:
+      environmentTagName: Dev
+      dependencies:
+        - build
+      environmentName: dev
+      sharedEnvironmentId: d01
+      serviceConnection: $(devServiceConnection)
+    
+  - template: marketingcommunications-stage.yml
+    parameters:
+      environmentTagName: Dev
+      dependencies:
+        - DeploySharedInfrastructure_d01
+      environmentName: dev
+      environmentId: d01
+      sharedEnvironmentId: d01
+      serviceConnection: $(devServiceConnection)
+######################## TEST ##############################################
+  - template: marketingcommunications-shared-stage.yml
+    parameters:
+      environmentTagName: Test
+      dependencies:
+        - build
+      environmentName: tst
+      sharedEnvironmentId: t01
+      serviceConnection: $(testServiceConnection)
+    
+  - template: marketingcommunications-stage.yml
+    parameters:
+      environmentTagName: Test
+      dependencies:
+        - DeploySharedInfrastructure_t01
+      environmentName: tst
+      environmentId: t01
+      sharedEnvironmentId: t01
+      serviceConnection: $(testServiceConnection)
+
+######################## Pre Prod ##############################################
+  - template: marketingcommunications-shared-stage.yml
+    parameters:
+      environmentTagName: Pre-Prod
+      dependencies:        
+        - DeploySharedInfrastructure_t01
+        - Deploy_t01
+      environmentName: pp
+      sharedEnvironmentId: p02
+      serviceConnection: $(prodServiceConnection)
+    
+  - template: marketingcommunications-stage.yml
+    parameters:
+      environmentTagName: Pre-Prod
+      dependencies:
+        - DeploySharedInfrastructure_p02
+      environmentName: pp
+      environmentId: p02
+      sharedEnvironmentId: p02
+      serviceConnection: $(prodServiceConnection)
+
+# ######################## Prod ##############################################
+  - template: marketingcommunications-shared-stage.yml
+    parameters:
+      environmentTagName: Prod
+      dependencies:
+        - DeploySharedInfrastructure_p02
+        - Deploy_p02
+      environmentName: prd
+      sharedEnvironmentId: p01
+      serviceConnection: $(prodServiceConnection)
+    
+  - template: marketingcommunications-stage.yml
+    parameters:
+      environmentTagName: Prod
+      dependencies:
+        - DeploySharedInfrastructure_p01
+      environmentName: prd
+      environmentId: p01
+      sharedEnvironmentId: p01
+      serviceConnection: $(prodServiceConnection)
