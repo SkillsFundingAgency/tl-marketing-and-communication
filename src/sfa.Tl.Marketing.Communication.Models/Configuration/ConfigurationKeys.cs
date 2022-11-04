@@ -20,5 +20,6 @@ public static class ConfigurationKeys
 
     public static string MergeTempProviderDataConfigKey = "MergeTempProviderData";
 
+    public const string BlobStorageConnectionStringConfigKey = "BlobStorageConnectionString";
     public const string TableStorageConnectionStringConfigKey = "TableStorageConnectionString";
 }

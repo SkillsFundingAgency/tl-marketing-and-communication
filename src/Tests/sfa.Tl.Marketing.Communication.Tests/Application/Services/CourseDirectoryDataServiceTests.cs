@@ -9,9 +9,9 @@ using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Dto;
+using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
+using sfa.Tl.Marketing.Communication.Tests.Common.HttpClientHelpers;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
-using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
-using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.HttpClientHelpers;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services;
@@ -320,11 +320,11 @@ public class CourseDirectoryDataServiceTests
         var (savedCount, deletedCount) = await service
             .ImportQualificationsFromCourseDirectoryApi();
 
-        savedCount.Should().Be(16);
+        savedCount.Should().Be(23);
         deletedCount.Should().Be(0);
 
         deletedQualifications.Should().HaveCount(0);
-        savedQualifications.Should().HaveCount(16);
+        savedQualifications.Should().HaveCount(23);
 
         var orderedSavedQualifications = savedQualifications.OrderBy(q => q.Id).ToList();
         ValidateQualification(orderedSavedQualifications[0], 36, "Construction", "Design, Surveying and Planning for Construction");
@@ -343,6 +343,13 @@ public class CourseDirectoryDataServiceTests
         ValidateQualification(orderedSavedQualifications[13], 49, null, "Maintenance, Installation and Repair for Engineering and Manufacturing");
         ValidateQualification(orderedSavedQualifications[14], 50, null, "Engineering, Manufacturing, Processing and Control");
         ValidateQualification(orderedSavedQualifications[15], 51, null, "Management and Administration");
+        ValidateQualification(orderedSavedQualifications[16], 52, null, "Legal Services");
+        ValidateQualification(orderedSavedQualifications[17], 53, null, "Hair, Beauty and Aesthetics");
+        ValidateQualification(orderedSavedQualifications[18], 54, null, "Craft and Design");
+        ValidateQualification(orderedSavedQualifications[19], 55, null, "Media, Broadcast and Production");
+        ValidateQualification(orderedSavedQualifications[20], 56, null, "Catering");
+        ValidateQualification(orderedSavedQualifications[21], 57, null, "Agriculture, Land Management and Production");
+        ValidateQualification(orderedSavedQualifications[22], 58, null, "Animal Care and Management");
     }
 
     [Fact]
@@ -380,7 +387,7 @@ public class CourseDirectoryDataServiceTests
         var (savedCount, deletedCount) = await service
             .ImportQualificationsFromCourseDirectoryApi();
 
-        savedCount.Should().Be(11);
+        savedCount.Should().Be(18);
         deletedCount.Should().Be(2);
 
         deletedQualifications.Should().HaveCount(deletedCount);
@@ -401,6 +408,13 @@ public class CourseDirectoryDataServiceTests
         ValidateQualification(orderedSavedQualifications[8], 49, null, "Maintenance, Installation and Repair for Engineering and Manufacturing");
         ValidateQualification(orderedSavedQualifications[9], 50, null, "Engineering, Manufacturing, Processing and Control");
         ValidateQualification(orderedSavedQualifications[10], 51, null, "Management and Administration");
+        ValidateQualification(orderedSavedQualifications[11], 52, null, "Legal Services");
+        ValidateQualification(orderedSavedQualifications[12], 53, null, "Hair, Beauty and Aesthetics");
+        ValidateQualification(orderedSavedQualifications[13], 54, null, "Craft and Design");
+        ValidateQualification(orderedSavedQualifications[14], 55, null, "Media, Broadcast and Production");
+        ValidateQualification(orderedSavedQualifications[15], 56, null, "Catering");
+        ValidateQualification(orderedSavedQualifications[16], 57, null, "Agriculture, Land Management and Production");
+        ValidateQualification(orderedSavedQualifications[17], 58, null, "Animal Care and Management");
     }
 
     private static CourseDirectoryDataService BuildCourseDirectoryDataService(

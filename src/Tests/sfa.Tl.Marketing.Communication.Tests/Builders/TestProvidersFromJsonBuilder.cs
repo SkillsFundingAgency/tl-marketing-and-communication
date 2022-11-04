@@ -51,4 +51,13 @@ internal class TestProvidersFromJsonBuilder
                 })
             .ToList();
     }
+
+    public JsonDocument BuildJsonDocument()
+    {
+        var json =
+            $"{GetType().Namespace}.Data.test_providers.json"
+                .ReadManifestResourceStreamAsString();
+
+        return JsonDocument.Parse(json);
+    }
 }

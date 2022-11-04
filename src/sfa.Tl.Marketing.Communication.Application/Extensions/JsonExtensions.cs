@@ -13,7 +13,7 @@ public static class JsonExtensions
             return string.Empty;
         }
 
-        var doc = JsonDocument.Parse(json);
+        var jsonDocument = JsonDocument.Parse(json);
 
         var options = new JsonWriterOptions
         {
@@ -23,7 +23,28 @@ public static class JsonExtensions
         using var stream = new MemoryStream();
         using (var writer = new Utf8JsonWriter(stream, options))
         {
-            doc.WriteTo(writer);
+            jsonDocument.WriteTo(writer);
+        }
+
+        return Encoding.UTF8.GetString(stream.ToArray());
+    }
+
+    public static string PrettifyJsonDocument(this JsonDocument jsonDocument)
+    {
+        if (jsonDocument is null)
+        {
+            return string.Empty;
+        }
+
+        var options = new JsonWriterOptions
+        {
+            Indented = true
+        };
+
+        using var stream = new MemoryStream();
+        using (var writer = new Utf8JsonWriter(stream, options))
+        {
+            jsonDocument.WriteTo(writer);
         }
 
         return Encoding.UTF8.GetString(stream.ToArray());

@@ -1,0 +1,13 @@
+﻿------WebKitFormBoundaryphElSb1aBJGfLyAP
+Content-Disposition: form-data; name=""fileName""
+
+Testfile
+------WebKitFormBoundaryphElSb1aBJGfLyAP
+Content-Disposition: form-data; name=""file""; filename=""Testfile.json""
+Content-Type: application/json
+
+{
+    ""testData"": ""value""
+}
+
+------WebKitFormBoundaryphElSb1aBJGfLyAP--

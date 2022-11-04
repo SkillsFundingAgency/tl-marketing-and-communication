@@ -2,11 +2,8 @@
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using System.Linq;
-using Microsoft.Extensions.Caching.Memory;
-using NSubstitute;
-using sfa.Tl.Marketing.Communication.Models.Configuration;
+using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
-using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services;
@@ -21,11 +18,9 @@ public class ProviderDataServiceUnitTests
             .Build();
         var providers = new TestProvidersFromJsonBuilder()
             .Build();
-        var tableStorageService = Substitute.For<ITableStorageService>();
-        tableStorageService.GetAllProviders().Returns(providers);
-        tableStorageService.GetAllQualifications().Returns(qualifications);
 
-        _providerDataService = CreateProviderDataService(tableStorageService);
+        _providerDataService = ProviderDataServiceBuilder
+            .CreateProviderDataService(providers, qualifications);
     }
 
     [Fact]
@@ -104,18 +99,5 @@ public class ProviderDataServiceUnitTests
         }
     }
 
-    private static IProviderDataService CreateProviderDataService(
-        ITableStorageService tableStorageService = null,
-        IMemoryCache cache = null,
-        ConfigurationOptions configuration = null)
-    {
-        tableStorageService ??= Substitute.For<ITableStorageService>();
-        cache ??= Substitute.For<IMemoryCache>();
-        configuration ??= new ConfigurationOptions
-        {
-            CacheExpiryInSeconds = 1
-        };
 
-        return new ProviderDataService(tableStorageService, cache, configuration);
-    }
 }

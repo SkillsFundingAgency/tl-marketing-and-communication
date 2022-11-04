@@ -34,8 +34,10 @@ internal class SettingsBuilder
     };
 
     internal StorageSettings BuildStorageSettings(
-        string tableStorageConnectionString = "TestConnection") => new()
+        string blobStorageConnectionString = "TestBlobConnection",
+        string tableStorageConnectionString = "TestTableConnection") => new()
     {
+        BlobStorageConnectionString = blobStorageConnectionString,
         TableStorageConnectionString = tableStorageConnectionString
     };
 }

@@ -5,7 +5,7 @@ using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
+using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline;

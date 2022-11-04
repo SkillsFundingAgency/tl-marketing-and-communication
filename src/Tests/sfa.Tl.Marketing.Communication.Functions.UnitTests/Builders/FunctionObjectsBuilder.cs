@@ -26,6 +26,7 @@ public class FunctionObjectsBuilder
 
     public static HttpRequestData BuildHttpRequestData(
         HttpMethod method,
+        Stream body = null,
         FunctionContext functionContext = null)
     {
         functionContext ??= BuildFunctionContext();
@@ -33,12 +34,17 @@ public class FunctionObjectsBuilder
         var request = Substitute.For<HttpRequestData>(functionContext);
         request.Method.Returns(method.ToString());
 
+        if (body != null)
+        {
+            request.Body.Returns(body);
+        }
+
         var responseData = BuildHttpResponseData(functionContext);
         request.CreateResponse().Returns(responseData);
 
         return request;
     }
-
+    
     public static HttpResponseData BuildHttpResponseData(
         FunctionContext functionContext = null)
     {
