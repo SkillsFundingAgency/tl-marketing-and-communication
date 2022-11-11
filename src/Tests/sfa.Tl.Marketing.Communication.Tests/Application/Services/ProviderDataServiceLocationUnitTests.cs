@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using Microsoft.Extensions.Caching.Memory;
-using NSubstitute;
-using sfa.Tl.Marketing.Communication.Application.Interfaces;
-using sfa.Tl.Marketing.Communication.Application.Services;
-using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.Models.Dto;
+using sfa.Tl.Marketing.Communication.UnitTests.Builders;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services;
@@ -46,7 +42,7 @@ public class ProviderDataServiceLocationUnitTests
             BuildProvider(10000002, "Provider 2", new List<Location> {location2})
         };
 
-        var providerDataService = CreateProviderDataService(providers, qualifications);
+        var providerDataService = ProviderDataServiceBuilder.CreateProviderDataService(providers, qualifications);
 
         var results = providerDataService.GetProviderLocations().ToList();
 
@@ -111,7 +107,7 @@ public class ProviderDataServiceLocationUnitTests
             BuildProvider(10000002, "Provider 2", new List<Location> {location2})
         };
 
-        var providerDataService = CreateProviderDataService(providers, qualifications);
+        var providerDataService = ProviderDataServiceBuilder.CreateProviderDataService(providers, qualifications);
 
         var results = providerDataService.GetProviderLocations(2).ToList();
 
@@ -164,7 +160,7 @@ public class ProviderDataServiceLocationUnitTests
             BuildProvider(10000001, "Provider 1", new List<Location> {location1})
         };
 
-        var providerDataService = CreateProviderDataService(providers, qualifications);
+        var providerDataService = ProviderDataServiceBuilder.CreateProviderDataService(providers, qualifications);
 
         var results = providerDataService.GetProviderLocations().ToList();
 
@@ -197,7 +193,7 @@ public class ProviderDataServiceLocationUnitTests
             BuildProvider(10000002, "Provider 2", new List<Location> {location2})
         };
 
-        var providerDataService = CreateProviderDataService(providers, qualifications);
+        var providerDataService = ProviderDataServiceBuilder.CreateProviderDataService(providers, qualifications);
 
         var results = providerDataService.GetProviderLocations().ToList();
 
@@ -229,7 +225,7 @@ public class ProviderDataServiceLocationUnitTests
             BuildProvider(10000002, "Provider 2", new List<Location> {location2})
         };
 
-        var providerDataService = CreateProviderDataService(providers, qualifications);
+        var providerDataService = ProviderDataServiceBuilder.CreateProviderDataService(providers, qualifications);
 
         var results = providerDataService.GetProviderLocations().ToList();
 
@@ -272,30 +268,5 @@ public class ProviderDataServiceLocationUnitTests
             new() { Id = 3, Name = "Abc" }
         };
         return qualifications;
-    }
-
-    private static IProviderDataService CreateProviderDataService(
-        IList<Provider> providers,
-        IList<Qualification> qualifications)
-    {
-        var tableStorageService = Substitute.For<ITableStorageService>();
-        tableStorageService.GetAllProviders().Returns(providers);
-        tableStorageService.GetAllQualifications().Returns(qualifications);
-        return CreateProviderDataService(tableStorageService);
-    }
-
-    private static IProviderDataService CreateProviderDataService(
-        ITableStorageService tableStorageService = null,
-        IMemoryCache cache = null,
-        ConfigurationOptions configuration = null)
-    {
-        tableStorageService ??= Substitute.For<ITableStorageService>();
-        cache ??= Substitute.For<IMemoryCache>();
-        configuration ??= new ConfigurationOptions
-        {
-            CacheExpiryInSeconds = 1
-        };
-
-        return new ProviderDataService(tableStorageService, cache, configuration);
     }
 }

@@ -4,9 +4,9 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using sfa.Tl.Marketing.Communication.Application.GeoLocations;
+using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
+using sfa.Tl.Marketing.Communication.Tests.Common.HttpClientHelpers;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
-using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
-using sfa.Tl.Marketing.Communication.UnitTests.TestHelpers.HttpClientHelpers;
 using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations;

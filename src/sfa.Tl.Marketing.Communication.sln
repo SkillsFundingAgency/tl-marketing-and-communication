@@ -24,6 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sfa.Tl.Marketing.Communicat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sfa.Tl.Marketing.Communication.UnitTests", "Tests\sfa.Tl.Marketing.Communication.Tests\sfa.Tl.Marketing.Communication.UnitTests.csproj", "{ACADDEFC-B384-46B3-A194-7054D19CCD51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sfa.Tl.Marketing.Communication.Tests.Common", "Tests\sfa.Tl.Marketing.Communication.Tests.Common\sfa.Tl.Marketing.Communication.Tests.Common.csproj", "{2F777A85-E6A9-4FC4-BB01-23F27499C65F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{ACADDEFC-B384-46B3-A194-7054D19CCD51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACADDEFC-B384-46B3-A194-7054D19CCD51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACADDEFC-B384-46B3-A194-7054D19CCD51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F777A85-E6A9-4FC4-BB01-23F27499C65F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F777A85-E6A9-4FC4-BB01-23F27499C65F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F777A85-E6A9-4FC4-BB01-23F27499C65F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F777A85-E6A9-4FC4-BB01-23F27499C65F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +71,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{427EEBF6-565F-401C-A55F-F9311E03E56F} = {C128B70E-3F04-4E97-8DD6-A6DFA04E9DC9}
 		{ACADDEFC-B384-46B3-A194-7054D19CCD51} = {C128B70E-3F04-4E97-8DD6-A6DFA04E9DC9}
+		{2F777A85-E6A9-4FC4-BB01-23F27499C65F} = {C128B70E-3F04-4E97-8DD6-A6DFA04E9DC9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {53DC62EF-3875-4150-A4D2-ED8A1F34745E}

@@ -65,6 +65,7 @@ Add a new row to the table with:
   "MergeTempProviderData": true,
   "PostcodeCacheExpiryInSeconds": 120,
   "StorageSettings":  {
+    "BlobStorageConnectionString": "UseDevelopmentStorage=true;",
     "TableStorageConnectionString": "UseDevelopmentStorage=true;"
   },
 "GoogleMapsApiKey": "<google key>"

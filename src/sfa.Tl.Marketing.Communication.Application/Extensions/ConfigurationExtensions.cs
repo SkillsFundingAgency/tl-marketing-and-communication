@@ -106,6 +106,8 @@ public static class ConfigurationExtensions
             },
             StorageSettings = new StorageSettings
             {
+                BlobStorageConnectionString =
+                    configuration[ConfigurationKeys.BlobStorageConnectionStringConfigKey],
                 TableStorageConnectionString =
                     configuration[ConfigurationKeys.TableStorageConnectionStringConfigKey]
             }

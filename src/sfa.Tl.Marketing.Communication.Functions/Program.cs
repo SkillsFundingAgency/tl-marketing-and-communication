@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Azure.Data.Tables;
+using Azure.Storage.Blobs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -65,11 +66,16 @@ var hostBuilder = new HostBuilder()
         var tableServiceClient = new TableServiceClient(
             config.StorageSettings.TableStorageConnectionString);
 
+        var blobServiceClient = new BlobServiceClient(
+            config.StorageSettings.BlobStorageConnectionString);
+
         services
             .AddSingleton(tableServiceClient)
+            .AddSingleton(blobServiceClient)
             .AddTransient(typeof(ICloudTableRepository<>), typeof(GenericCloudTableRepository<>))
             .AddTransient<ICourseDirectoryDataService, CourseDirectoryDataService>()
-            .AddTransient<ITableStorageService, TableStorageService>();
+            .AddTransient<ITableStorageService, TableStorageService>()
+            .AddTransient<IBlobStorageService, BlobStorageService>();
     });
 
 var host = hostBuilder.Build();

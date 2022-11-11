@@ -1,10 +1,10 @@
-﻿using System;
-using AutoFixture;
+﻿using AutoFixture;
 using AutoFixture.AutoNSubstitute;
 using AutoFixture.Idioms;
+
 // ReSharper disable UnusedMember.Global
 
-namespace sfa.Tl.Marketing.Communication.UnitTests.TestHelpers;
+namespace sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
 
 public static class AutoFixtureExtensions
 {
