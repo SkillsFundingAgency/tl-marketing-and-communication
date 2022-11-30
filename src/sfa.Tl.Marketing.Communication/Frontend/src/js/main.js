@@ -126,3 +126,55 @@ function showPostcodeError(message) {
     $("#tl-results-summary").append("<h3>0 results</h3><p> Enter a postcode to search for schools and colleges doing T Levels.</p>");
     $("#tl-next").addClass("tl-none");
 }
+
+// AUTOCOMPLETE
+const $keywordsInput = $('#Postcode');
+
+if ($keywordsInput.length > 0) {
+
+    $keywordsInput.wrap('<div id="autocomplete-container" class="tl-autocomplete-wrap"></div>');
+    const container = document.querySelector('#autocomplete-container');
+    $(container).empty();
+
+    function getSuggestions(query, populateResults) {
+        if ((typeof isFapSearchInProgress !== 'undefined' && isFapSearchInProgress)
+            || /\d/.test(query)) {
+            return;
+        }
+        var results = [];
+        $.ajax({
+            url: "/api/locations",
+            type: "get",
+            dataType: 'json',
+            data: { searchTerm: query }
+        }).done(function (data) {
+            results = data.map(function (r) {
+                return getLocationDisplayName(r);
+            });
+            populateResults(results);
+        });
+    }
+
+    function getLocationDisplayName(item) {
+        if (item.county) return item.name + ', ' + item.county;
+        else if (item.la) return item.name + ', ' + item.la;
+        return item.name;
+    }
+
+    function onConfirm(confirmed) {
+    }
+
+    accessibleAutocomplete({
+        element: container,
+        id: 'Postcode',
+        name: 'Postcode',
+        displayMenu: 'overlay',
+        showNoOptionsFound: false,
+        minLength: 3,
+        source: getSuggestions,
+        placeholder: "Enter postcode or town",
+        onConfirm: onConfirm,
+        confirmOnBlur: false,
+        autoselect: true
+    });
+}
