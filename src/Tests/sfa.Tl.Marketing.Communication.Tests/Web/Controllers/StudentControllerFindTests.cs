@@ -28,7 +28,7 @@ public class StudentControllerFindTests
                 Arg.Any<FindViewModel>())
             .Returns(args => (FindViewModel)args[0]);
 
-        var controller = new StudentControllerBuilder().BuildStudentController(providerSearchEngine: providerSearchEngine);
+        var controller = new StudentControllerBuilder().Build(providerSearchEngine: providerSearchEngine);
 
         var viewModel = new FindViewModel();
         var result = await controller.Find(viewModel);

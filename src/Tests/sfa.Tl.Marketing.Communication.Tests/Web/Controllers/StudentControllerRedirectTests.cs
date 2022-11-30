@@ -36,7 +36,7 @@ public class StudentControllerRedirectTests
         urlHelper.IsLocalUrl(Arg.Any<string>())
             .Returns(args => (string)args[0] == LocalUri);
 
-        _controller = new StudentControllerBuilder().BuildStudentController(providerDataService, urlHelper: urlHelper);
+        _controller = new StudentControllerBuilder().Build(providerDataService, urlHelper: urlHelper);
     }
 
     [Fact]

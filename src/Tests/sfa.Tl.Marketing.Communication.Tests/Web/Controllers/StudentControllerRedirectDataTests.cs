@@ -32,7 +32,7 @@ public class StudentControllerRedirectDataTests
         urlHelper.IsLocalUrl(Arg.Any<string>())
             .Returns(args => ((string)args[0]).StartsWith("/students/"));
 
-        var controller = new StudentControllerBuilder().BuildStudentController(providerDataService, urlHelper: urlHelper);
+        var controller = new StudentControllerBuilder().Build(providerDataService, urlHelper: urlHelper);
 
         var redirectResult = controller.Redirect(
             new RedirectViewModel

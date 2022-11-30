@@ -9,7 +9,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders;
 
 public class StudentControllerBuilder
 {
-    public StudentController BuildStudentController(
+    public StudentController Build(
         IProviderDataService providerDataService = null,
         IProviderSearchEngine providerSearchEngine = null,
         IUrlHelper urlHelper = null)
