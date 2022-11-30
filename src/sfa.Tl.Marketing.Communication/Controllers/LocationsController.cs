@@ -35,11 +35,6 @@ public class LocationsController : ControllerBase
         }
 
         var towns = await _townDataService.Search(searchTerm, AppConstants.TownSearchDefaultMaxResults);
-            //new List<Town>
-            //{
-            //    new() { Name = "Coventry" }, 
-            //    new() { Name = "Oxford" }
-            //};
 
         return Ok(towns);
     }

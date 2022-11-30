@@ -80,7 +80,11 @@ public class TownDataService : ITownDataService
 
     public async Task<IEnumerable<Town>> Search(string searchTerm, int maxResults)
     {
-        throw new NotImplementedException();
+        return new List<Town>
+        {
+            new() { Name = "Coventry" },
+            new() { Name = "Oxford" }
+        };
     }
 
     private async Task<IEnumerable<OnsLocationApiItem>> ReadOnsLocationData()
