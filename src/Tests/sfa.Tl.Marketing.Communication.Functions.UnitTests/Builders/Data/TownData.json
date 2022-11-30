@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "Coventry",
+    "county": "West Midlands",
+    "la": "West Midlands"
+  },
+  {
+    "id": 2,
+    "name": "Oxford",
+    "county": "Oxfordshire",
+    "la": "Oxfordshire"
+  }
+]

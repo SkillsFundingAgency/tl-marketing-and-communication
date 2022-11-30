@@ -7,12 +7,14 @@
 
   <ItemGroup>
     <None Remove="Builders\Data\TestMultipartFormData.txt" />
+    <None Remove="Builders\Data\TownData.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Builders\Data\ProviderData.json" />
     <EmbeddedResource Include="Builders\Data\QualificationData.json" />
     <EmbeddedResource Include="Builders\Data\TestMultipartFormData.txt" />
+    <EmbeddedResource Include="Builders\Data\TownData.json" />
   </ItemGroup>
 
   <ItemGroup>

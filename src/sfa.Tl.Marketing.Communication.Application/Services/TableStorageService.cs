@@ -162,4 +162,9 @@ public class TableStorageService : ITableStorageService
 
         return qualifications;
     }
+
+    public async Task<IList<Town>> GetAllTowns()
+    {
+        return new List<Town>();
+    }
 }

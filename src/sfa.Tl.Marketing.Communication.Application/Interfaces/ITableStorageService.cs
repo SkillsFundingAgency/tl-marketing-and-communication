@@ -15,4 +15,6 @@ public interface ITableStorageService
     Task<int> SaveQualifications(IList<Qualification> qualifications);
     Task<int> RemoveQualifications(IList<Qualification> qualifications);
     Task<IList<Qualification>> GetAllQualifications();
+
+    Task<IList<Town>> GetAllTowns();
 }
