@@ -24,8 +24,8 @@ public class TownDataImportFunctions
         _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
     }
 
-    [Function("TownDataManualImport")]
-    public async Task<HttpResponseData> ManualImport(
+    [Function("ImportTowns")]
+    public async Task<HttpResponseData> ImportTowns(
         [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
         HttpRequestData request,
         FunctionContext functionContext)

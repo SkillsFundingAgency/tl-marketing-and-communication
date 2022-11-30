@@ -1,10 +1,8 @@
 using System;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
@@ -38,7 +36,7 @@ public class TownDataImportFunctionsTests
         var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Post);
 
         var functions = TownDataImportFunctionsBuilder.Build(service);
-        await functions.ManualImport(
+        await functions.ImportTowns(
             request,
             functionContext);
 
@@ -59,7 +57,7 @@ public class TownDataImportFunctionsTests
         var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Post);
 
         var functions = TownDataImportFunctionsBuilder.Build(service);
-        await functions.ManualImport(
+        await functions.ImportTowns(
             request,
             functionContext);
 
@@ -86,7 +84,7 @@ public class TownDataImportFunctionsTests
         var request = FunctionObjectsBuilder.BuildHttpRequestData(HttpMethod.Post);
 
         var functions = TownDataImportFunctionsBuilder.Build(service);
-        await functions.ManualImport(
+        await functions.ImportTowns(
             request,
             functionContext);
 

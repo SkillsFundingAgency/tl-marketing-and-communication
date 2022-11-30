@@ -1,0 +1,226 @@
+{
+  "objectIdFieldName": "FID",
+  "uniqueIdField": {
+    "name": "FID",
+    "isSystemMaintained": true
+  },
+  "globalIdFieldName": "",
+  "fields": [
+    {
+      "name": "placeid",
+      "type": "esriFieldTypeInteger",
+      "alias": "placeid",
+      "sqlType": "sqlTypeInteger",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "place15nm",
+      "type": "esriFieldTypeString",
+      "alias": "place15nm",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "ctry15nm",
+      "type": "esriFieldTypeString",
+      "alias": "ctry15nm",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "cty15nm",
+      "type": "esriFieldTypeString",
+      "alias": "cty15nm",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "ctyltnm",
+      "type": "esriFieldTypeString",
+      "alias": "ctyltnm",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "lad15nm",
+      "type": "esriFieldTypeString",
+      "alias": "lad15nm",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "laddescnm",
+      "type": "esriFieldTypeString",
+      "alias": "laddescnm",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "lat",
+      "type": "esriFieldTypeDouble",
+      "alias": "lat",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "long",
+      "type": "esriFieldTypeDouble",
+      "alias": "long",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "descnm",
+      "type": "esriFieldTypeString",
+      "alias": "descnm",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "placeid": 2,
+        "place15nm": "Abbas and Templecombe",
+        "ctry15nm": "England",
+        "cty15nm": "Somerset",
+        "ctyltnm": "Somerset",
+        "lad15nm": "South Somerset",
+        "laddescnm": "NMD",
+        "lat": 51.002593,
+        "long": -2.411563,
+        "descnm": "PAR"
+      }
+    },
+    {
+      "attributes": {
+        "placeid": 4,
+        "place15nm": "Abberley",
+        "ctry15nm": "England",
+        "cty15nm": "Worcestershire",
+        "ctyltnm": "Worcestershire",
+        "lad15nm": "Malvern Hills",
+        "laddescnm": "NMD",
+        "lat": 52.302702,
+        "long": -2.391708,
+        "descnm": "PAR"
+      }
+    },
+    {
+      "attributes": {
+        "placeid": 302,
+        "place15nm": "Abingdon",
+        "ctry15nm": "England",
+        "cty15nm": "Oxfordshire",
+        "ctyltnm": "Oxfordshire",
+        "lad15nm": "Vale of White Horse",
+        "laddescnm": "NMD",
+        "lat": 51.674302,
+        "long": -1.282302,
+        "descnm": "BUA"
+      }
+    },
+    {
+      "attributes": {
+        "placeid": 303,
+        "place15nm": "Abingdon",
+        "ctry15nm": "England",
+        "cty15nm": "Oxfordshire",
+        "ctyltnm": "Oxfordshire",
+        "lad15nm": "Vale of White Horse",
+        "laddescnm": "NMD",
+        "lat": 51.674302,
+        "long": -1.282302,
+        "descnm": "BUASD"
+      }
+    },
+    {
+      "attributes": {
+        "placeid": 304,
+        "place15nm": "Abingdon",
+        "ctry15nm": "England",
+        "cty15nm": "Inner London",
+        "ctyltnm": "Greater London",
+        "lad15nm": "Kensington and Chelsea",
+        "laddescnm": "LONB",
+        "lat": 51.497681,
+        "long": -0.192782,
+        "descnm": "WD"
+      }
+    },
+    {
+      "attributes": {
+        "placeid": 72832,
+        "place15nm": "West Bromwich",
+        "ctry15nm": "England",
+        "cty15nm": "West Midlands",
+        "ctyltnm": "West Midlands",
+        "lad15nm": "Sandwell",
+        "laddescnm": "MD",
+        "lat": 52.530629,
+        "long": -2.005941,
+        "descnm": "BUASD"
+      }
+    },
+    {
+      "attributes": {
+        "placeid": 72832,
+        "place15nm": "West Bromwich",
+        "ctry15nm": "England",
+        "cty15nm": "West Midlands",
+        "ctyltnm": "West Midlands",
+        "lad15nm": "Walsall",
+        "laddescnm": "MD",
+        "lat": 52.56197,
+        "long": -1.959036,
+        "descnm": "BUASD"
+      }
+    },
+    {
+      "attributes": {
+        "placeid": 72834,
+        "place15nm": "West Bromwich (East)",
+        "ctry15nm": "England",
+        "cty15nm": "West Midlands",
+        "ctyltnm": "West Midlands",
+        "lad15nm": "Sandwell",
+        "laddescnm": "MD",
+        "lat": 52.540693,
+        "long": -1.942085,
+        "descnm": "BUASD"
+      }
+    },
+    {
+      "attributes": {
+        "placeid": 72835,
+        "place15nm": "West Bromwich Central",
+        "ctry15nm": "England",
+        "cty15nm": "West Midlands",
+        "ctyltnm": "West Midlands",
+        "lad15nm": "Sandwell",
+        "laddescnm": "MD",
+        "lat": 52.520416,
+        "long": -1.984158,
+        "descnm": "WD"
+      }
+    }
+  ],
+  "exceededTransferLimit": false
+}
