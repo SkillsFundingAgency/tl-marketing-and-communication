@@ -108,7 +108,7 @@ $("#tl-find-button").click(function () {
       
     if (postcode === "") {
         event.stopPropagation();
-        showPostcodeError("You must enter a postcode");
+        showPostcodeError("You must enter a postcode or town");
         return false;
     } else {
         $(".tl-search--form").removeClass("tl-validation--error");
