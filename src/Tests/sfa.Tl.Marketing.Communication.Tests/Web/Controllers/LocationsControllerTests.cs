@@ -7,6 +7,7 @@ using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
 using Xunit;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Azure;
 using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
@@ -26,7 +27,9 @@ public class LocationsControllerTests
     public async Task Locations_Controller_SearchTowns_Returns_Expected_Value()
     {
         const string searchTerm = "Cov";
-        var towns = new TownListBuilder().Build().ToList();
+        var towns = new TownListBuilder()
+            .CreateKnownList()
+            .Build();
 
         var townDataService = Substitute.For<ITownDataService>();
         townDataService

@@ -79,7 +79,7 @@ public class LocationApiClientUnitTests
         var jsonBuilder = new PostcodeResponseJsonBuilder();
 
         var httpClient = new TestHttpClientFactory()
-            .CreateClient(
+            .CreateHttpClient(
                 SettingsBuilder.PostcodeRetrieverBaseUri,
                 new List<(string, string, HttpStatusCode)>
                 {

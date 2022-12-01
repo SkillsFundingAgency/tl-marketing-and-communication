@@ -16,14 +16,14 @@ namespace sfa.Tl.Marketing.Communication.Application.Services;
 public class TownDataService : ITownDataService
 {
     private readonly HttpClient _httpClient;
-    //private readonly ITownRepository _townRepository;
+    private readonly ITableStorageService _tableStorageService;
     private readonly ILogger<TownDataService> _logger;
 
     //See user guide for details on the fields in this data
     // 2016 - https://geoportal.statistics.gov.uk/datasets/index-of-place-names-in-great-britain-november-2021-user-guide/about
     // 2021 - https://geoportal.statistics.gov.uk/datasets/index-of-place-names-in-great-britain-november-2021-user-guide/about
     public const string OfficeForNationalStatisticsLocationUrl = "https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/IPN_GB_2016/FeatureServer/0/query?where=ctry15nm%20%3D%20'ENGLAND'%20AND%20popcnt%20%3E%3D%20500%20AND%20popcnt%20%3C%3D%2010000000&outFields=placeid,place15nm,ctry15nm,cty15nm,ctyltnm,lad15nm,laddescnm,pcon15nm,lat,long,popcnt,descnm&returnDistinctValues=true&outSR=4326&f=json";
-    
+
     public const int CountyMaxLength = 50;
     public const int LocalAuthorityMaxLength = 50;
     public const int LocationNameMaxLength = 400;
@@ -33,11 +33,11 @@ public class TownDataService : ITownDataService
 
     public TownDataService(
         HttpClient httpClient,
-        //ITownRepository townRepository,
+        ITableStorageService tableStorageService,
         ILogger<TownDataService> logger)
     {
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-        //_townRepository = townRepository ?? throw new ArgumentNullException(nameof(townRepository));
+        _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -73,7 +73,7 @@ public class TownDataService : ITownDataService
             })
             .ToList();
 
-        //await _townRepository.Save(towns);
+        await SaveToTableStorage(towns);
 
         return towns.Count;
     }
@@ -180,5 +180,16 @@ public class TownDataService : ITownDataService
         }
 
         return values.FirstOrDefault();
+    }
+
+    private async Task<int> SaveToTableStorage(IList<Town> towns)
+    {
+        var removedTowns = await _tableStorageService.ClearTowns();
+        _logger.LogInformation("Removed {removedTowns} towns from table storage", removedTowns);
+
+        var savedTowns = await _tableStorageService.SaveTowns(towns);
+        _logger.LogInformation("Saved {savedTowns} towns to table storage", savedTowns);
+
+        return savedTowns;
     }
 }

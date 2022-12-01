@@ -1,23 +1,65 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Builders;
 
 internal class TownListBuilder
 {
-    public IEnumerable<Town> Build() =>
-        new List<Town>
+    private readonly IList<Town> _towns = new List<Town>();
+
+    public IList<Town> Build() =>
+        _towns;
+
+    public TownListBuilder Add(int numberOfTowns = 1)
+    {
+        if (_towns != null)
         {
-            new()
+            var start = _towns.Count;
+            for (var i = 0; i < numberOfTowns; i++)
             {
-                Id = 1,
-                Name = "Coventry",
-                County = "West Midlands",
-                LocalAuthority = "West Midlands",
-                Latitude = 52.41695M,
-                Longitude = -1.50721M
-            },
-            new()
+                var nextId = start + i + 1;
+                _towns.Add(new Town
+                {
+                    Id = nextId,
+                    Name = $"Test Town {nextId}",
+                    County = $"County {nextId}",
+                    LocalAuthority = $"Local Authority {nextId}",
+                    Latitude = decimal.Parse($"50.0{nextId}"),
+                    Longitude = decimal.Parse($"-1.0{nextId}"),
+                });
+            }
+        }
+
+        return this;
+    }
+
+    public TownListBuilder Remove(int id)
+    {
+        var itemToRemove = _towns
+            .SingleOrDefault(q => q.Id == id);
+
+        if (itemToRemove is not null)
+        {
+            _towns.Remove(itemToRemove);
+        }
+
+        return this;
+    }
+
+    public TownListBuilder CreateKnownList()
+    {
+        _towns.Clear();
+        _towns.Add(new()
+        {
+            Id = 1,
+            Name = "Coventry",
+            County = "West Midlands",
+            LocalAuthority = "West Midlands",
+            Latitude = 52.41695M,
+            Longitude = -1.50721M
+        });
+        _towns.Add(new()
             {
                 Id = 2,
                 Name = "Oxford",
@@ -25,6 +67,8 @@ internal class TownListBuilder
                 LocalAuthority = "Oxfordshire",
                 Latitude = 51.740811M,
                 Longitude = -1.217524M
-            }
-        };
+            });
+
+        return this;
+    }
 }

@@ -103,6 +103,39 @@ public static class EntityExtensions
                     }).ToList() ?? new List<Location>();
     }
 
+    public static IList<TownEntity> ToTownEntityList(
+        this IEnumerable<Town> towns)
+    {
+        return towns
+            .Select(town =>
+                new TownEntity
+                {
+
+                    PartitionKey = char.ToUpper(town.Name[0]).ToString(),
+                    RowKey = town.Id.ToString(),
+                    Id = town.Id,
+                    Name = town.Name,
+                    County = town.County,
+                    LocalAuthority = town.LocalAuthority,
+                    Latitude = town.Latitude,
+                    Longitude= town.Longitude
+                }).ToList();
+    }
+
+    public static IList<Town> ToTownList(this IEnumerable<TownEntity> townEntities)
+    {
+        return townEntities
+            .Select(t =>
+                new Town
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    County = t.County,
+                    LocalAuthority = t.LocalAuthority,
+                    Latitude = t.Latitude,
+                    Longitude = t.Longitude
+                }).ToList();
+    }
     public static IList<DeliveryYearEntity> DeserializeDeliveryYears(this string serializedDeliveryYear)
     {
         var result = !string.IsNullOrEmpty(serializedDeliveryYear)
