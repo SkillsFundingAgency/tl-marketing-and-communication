@@ -42,6 +42,10 @@
         }
     }
 
+    .tl-validation--message {
+        color: black;
+    }
+
     &--alt {
         @extend #tl-search;
         background: $orange;
