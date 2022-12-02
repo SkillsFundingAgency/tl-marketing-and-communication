@@ -24,7 +24,10 @@ public class TownEntity : ITableEntity
 
     [JsonPropertyName("lon")]
     public decimal Longitude { get; init; }
-    
+
+    [JsonPropertyName("search")]
+    public string SearchString { get; init; }
+
     public string PartitionKey { get; set; }
     public string RowKey { get; set; }
     public DateTimeOffset? Timestamp { get; set; }

@@ -9,6 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
+using sfa.Tl.Marketing.Communication.Application.Caching;
+using sfa.Tl.Marketing.Communication.Models.Configuration;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services;
 
@@ -98,7 +101,8 @@ public class TownDataServiceTests
             "Oxfordshire",
             "Oxfordshire",
             51.674302M,
-            -1.282302M);
+            -1.282302M,
+            "abingdonoxfordshire");
 
         ValidateTown(receivedTowns
                 .SingleOrDefault(t =>
@@ -108,7 +112,8 @@ public class TownDataServiceTests
             "Inner London",
             "Greater London",
             51.497681M,
-            -0.192782M);
+            -0.192782M,
+            "abingdoninnerlondon");
 
         ValidateTown(receivedTowns
                 .SingleOrDefault(t =>
@@ -118,7 +123,8 @@ public class TownDataServiceTests
             "West Midlands",
             "West Midlands",
             52.530629M,
-            -2.005941M);
+            -2.005941M,
+            "westbromwichwestmidlands");
 
         ValidateTown(receivedTowns
                 .SingleOrDefault(t =>
@@ -128,7 +134,8 @@ public class TownDataServiceTests
             "West Midlands",
             "West Midlands",
             52.540693M,
-            -1.942085M);
+            -1.942085M,
+            "westbromwicheastwestmidlands");
 
         ValidateTown(receivedTowns
                 .SingleOrDefault(t =>
@@ -138,7 +145,8 @@ public class TownDataServiceTests
             "West Midlands",
             "West Midlands",
             52.520416M,
-            -1.984158M);
+            -1.984158M,
+            "westbromwichcentralwestmidlands");
         // ReSharper restore StringLiteralTypo
     }
 
@@ -210,7 +218,9 @@ public class TownDataServiceTests
             //"Vale of White Horse",
             //"NMD",
             51.674302M,
-            -1.282302M);
+            -1.282302M,
+            // ReSharper disable once StringLiteralTypo
+            "abingdonoxfordshire");
     }
 
     [Fact]
@@ -247,10 +257,135 @@ public class TownDataServiceTests
             "West Bromwich",
             "West Midlands",
             "West Midlands",
-            //"Sandwell",
-            //"MD",
             52.530629M,
-            -2.005941M);
+            -2.005941M,
+            // ReSharper disable once StringLiteralTypo
+            "westbromwichwestmidlands");
+    }
+
+    [Fact]
+    public async Task Search_Calls_Repository_And_Returns_Results()
+    {
+        const string searchTerm = "Test";
+        var partitionKey = searchTerm[..3].ToUpper();
+        const int maxResults = 10;
+
+        var towns = new TownListBuilder()
+            .Add(10)
+            .Build()
+            .ToList();
+
+        var tableStorageService = Substitute.For<ITableStorageService>();
+        tableStorageService
+            .GetTownsByPartitionKey(partitionKey)
+            .Returns(towns);
+
+        var service = new TownDataServiceBuilder()
+            .Build(tableStorageService: tableStorageService);
+
+        var result = await service
+            .Search(searchTerm, maxResults);
+
+        result.Should().BeEquivalentTo(towns);
+
+        await tableStorageService
+            .Received(1)
+            .GetTownsByPartitionKey(partitionKey);
+    }
+
+    [Fact]
+    public async Task Search_Returns_No_More_Than_Repository_With_Max_Results()
+    {
+        const string searchTerm = "Test";
+        var partitionKey = searchTerm[..3].ToUpper();
+        const int maxResults = 3;
+
+        var towns = new TownListBuilder()
+            .Add(10)
+            .Build()
+            .ToList();
+
+        var tableStorageService = Substitute.For<ITableStorageService>();
+        tableStorageService
+            .GetTownsByPartitionKey(partitionKey)
+            .Returns(towns);
+
+        var service = new TownDataServiceBuilder()
+            .Build(tableStorageService: tableStorageService);
+
+        var result = await service
+            .Search(searchTerm, maxResults);
+
+        result.Count().Should().Be(maxResults);
+
+        await tableStorageService
+            .Received(1)
+            .GetTownsByPartitionKey(partitionKey);
+    }
+
+    [Fact]
+    public async Task Search_Does_Not_Call_Repository__And_Returns_Cache_Results_When_Partition_Is_Cached()
+    {
+        const string searchTerm = "Test";
+        var partitionKey = searchTerm[..3].ToUpper();
+        const int maxResults = 20;
+
+        var towns = new TownListBuilder()
+            .Add(10)
+            .Build()
+            .ToList();
+
+        var configuration = new ConfigurationOptions
+        {
+            CacheExpiryInSeconds = 30
+        };
+
+        var cache = Substitute.For<IMemoryCache>();
+        var cacheKey = CacheKeys.TownPartitionKey(partitionKey);
+
+        cache.TryGetValue(cacheKey, out Arg.Any<IList<Town>>())
+            .Returns(x =>
+            {
+                x[1] = towns;
+                return true;
+            });
+
+        var tableStorageService = Substitute.For<ITableStorageService>();
+
+        var service = new TownDataServiceBuilder()
+            .Build(tableStorageService: tableStorageService,
+                cache: cache,
+                configuration: configuration);
+
+        var result = await service
+            .Search(searchTerm, maxResults);
+
+        result.Should().BeEquivalentTo(towns);
+
+        await tableStorageService
+            .DidNotReceive()
+            .GetTownsByPartitionKey(Arg.Any<string>());
+    }
+
+    [Fact]
+    public async Task Search_Does_Not_Call_Repository_For_Postcode()
+    {
+        const string searchTerm = "CV1 2WT";
+        const int maxResults = 20;
+
+        var tableStorageService = Substitute.For<ITableStorageService>();
+
+        var service = new TownDataServiceBuilder()
+            .Build(tableStorageService: tableStorageService);
+
+        var result = await service
+            .Search(searchTerm, maxResults);
+
+        result.Should().BeEmpty();
+
+        await tableStorageService
+            .DidNotReceive()
+            .GetTownsByPartitionKey(Arg.Any<string>());
     }
 
     private static void ValidateTown(Town town,
@@ -259,7 +394,8 @@ public class TownDataServiceTests
         string county,
         string localAuthority,
         decimal latitude,
-        decimal longitude)
+        decimal longitude,
+        string searchString)
     {
         town.Should().NotBeNull();
         town.Id.Should().Be(id);
@@ -268,5 +404,6 @@ public class TownDataServiceTests
         town.LocalAuthority.Should().Be(localAuthority);
         town.Latitude.Should().Be(latitude);
         town.Longitude.Should().Be(longitude);
+        town.SearchString.Should().Be(searchString);
     }
 }

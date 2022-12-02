@@ -27,6 +27,8 @@ internal class TownListBuilder
                     LocalAuthority = $"Local Authority {nextId}",
                     Latitude = decimal.Parse($"50.0{nextId}"),
                     Longitude = decimal.Parse($"-1.0{nextId}"),
+                    // ReSharper disable once StringLiteralTypo
+                    SearchString = $"testtown{nextId}county{nextId}"
                 });
             }
         }
@@ -57,17 +59,21 @@ internal class TownListBuilder
             County = "West Midlands",
             LocalAuthority = "West Midlands",
             Latitude = 52.41695M,
-            Longitude = -1.50721M
+            Longitude = -1.50721M,
+            // ReSharper disable once StringLiteralTypo
+            SearchString = "coventrywestmidlands"
         });
         _towns.Add(new()
-            {
-                Id = 2,
-                Name = "Oxford",
-                County = "Oxfordshire",
-                LocalAuthority = "Oxfordshire",
-                Latitude = 51.740811M,
-                Longitude = -1.217524M
-            });
+        {
+            Id = 2,
+            Name = "Oxford",
+            County = "Oxfordshire",
+            LocalAuthority = "Oxfordshire",
+            Latitude = 51.740811M,
+            Longitude = -1.217524M,
+            // ReSharper disable once StringLiteralTypo
+            SearchString = "oxfordoxfordshire"
+        });
 
         return this;
     }

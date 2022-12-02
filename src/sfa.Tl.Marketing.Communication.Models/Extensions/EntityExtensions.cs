@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using sfa.Tl.Marketing.Communication.Models.Dto;
@@ -59,7 +60,7 @@ public static class EntityExtensions
                     Locations = new List<Location>()
                 }).ToList();
     }
-    
+
     public static IList<LocationEntity> ToLocationEntityList(this IEnumerable<Location> locations, string partitionKey)
     {
         return locations?
@@ -110,15 +111,15 @@ public static class EntityExtensions
             .Select(town =>
                 new TownEntity
                 {
-
-                    PartitionKey = char.ToUpper(town.Name[0]).ToString(),
+                    PartitionKey = town.Name[..Math.Min(3, town.Name.Length)].ToUpper(),
                     RowKey = town.Id.ToString(),
                     Id = town.Id,
                     Name = town.Name,
                     County = town.County,
                     LocalAuthority = town.LocalAuthority,
                     Latitude = town.Latitude,
-                    Longitude= town.Longitude
+                    Longitude = town.Longitude,
+                    SearchString = town.SearchString,
                 }).ToList();
     }
 
@@ -133,7 +134,8 @@ public static class EntityExtensions
                     County = t.County,
                     LocalAuthority = t.LocalAuthority,
                     Latitude = t.Latitude,
-                    Longitude = t.Longitude
+                    Longitude = t.Longitude,
+                    SearchString = t.SearchString,
                 }).ToList();
     }
     public static IList<DeliveryYearEntity> DeserializeDeliveryYears(this string serializedDeliveryYear)

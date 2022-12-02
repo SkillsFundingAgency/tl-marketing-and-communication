@@ -24,6 +24,8 @@ public class TownEntityListBuilder
                 LocalAuthority = $"Local Authority {nextId}",
                 Latitude = decimal.Parse($"50.0{nextId}"),
                 Longitude = decimal.Parse($"-1.0{nextId}"),
+                // ReSharper disable once StringLiteralTypo
+                SearchString = $"testtown{nextId}county{nextId}",
                 PartitionKey = "T"
             };
             town.RowKey = town.Id.ToString();

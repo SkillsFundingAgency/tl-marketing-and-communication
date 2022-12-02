@@ -168,13 +168,38 @@ public class TableStorageService : ITableStorageService
 
     public async Task<int> ClearTowns()
     {
-        await _townRepository.DeleteTable();
+        //await _townRepository.DeleteTable();
         return await _townRepository.DeleteAll();
     }
 
     public async Task<IList<Town>> GetAllTowns()
     {
-        return new List<Town>();
+        var towns =
+            (await _townRepository.GetAll())
+            .ToTownList();
+
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug("TableStorageService::GetAllTowns found {townsCount} records.",
+                towns.Count);
+        }
+
+        return towns;
+    }
+
+    public async Task<IList<Town>> GetTownsByPartitionKey(string key)
+    {
+        var towns =
+            (await _townRepository.GetPartition(key))
+            .ToTownList();
+
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug("TableStorageService::GetTownsByPartitionKey found {townsCount} records.",
+                towns.Count);
+        }
+
+        return towns;
     }
 
     public async Task<int> SaveTowns(IList<Town> towns)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
+using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.Models.Entities;
 using sfa.Tl.Marketing.Communication.Models.Extensions;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
@@ -114,7 +115,10 @@ public class EntityExtensionsTests
         townEntities[0].LocalAuthority.Should().Be(towns[0].LocalAuthority);
         townEntities[0].Latitude.Should().Be(towns[0].Latitude);
         townEntities[0].Longitude.Should().Be(towns[0].Longitude);
+        townEntities[0].SearchString.Should().Be(towns[0].SearchString);
 
+        townEntities[0].PartitionKey.Should().Be(towns[0].Name[..3].ToUpper());
+        townEntities[0].RowKey.Should().Be(towns[0].Id.ToString());
 
         townEntities[1].Id.Should().Be(towns[1].Id);
         townEntities[1].Name.Should().Be(towns[1].Name);
@@ -122,6 +126,10 @@ public class EntityExtensionsTests
         townEntities[1].LocalAuthority.Should().Be(towns[1].LocalAuthority);
         townEntities[1].Latitude.Should().Be(towns[1].Latitude);
         townEntities[1].Longitude.Should().Be(towns[1].Longitude);
+        townEntities[1].SearchString.Should().Be(towns[1].SearchString);
+
+        townEntities[1].PartitionKey.Should().Be(towns[1].Name[..3].ToUpper());
+        townEntities[1].RowKey.Should().Be(towns[1].Id.ToString());
     }
 
     [Fact]
@@ -140,6 +148,7 @@ public class EntityExtensionsTests
         towns[0].LocalAuthority.Should().Be(townEntities[0].LocalAuthority);
         towns[0].Latitude.Should().Be(townEntities[0].Latitude);
         towns[0].Longitude.Should().Be(townEntities[0].Longitude);
+        towns[0].SearchString.Should().Be(townEntities[0].SearchString);
 
         towns[1].Id.Should().Be(townEntities[1].Id);
         towns[1].Name.Should().Be(townEntities[1].Name);
@@ -147,5 +156,6 @@ public class EntityExtensionsTests
         towns[1].LocalAuthority.Should().Be(townEntities[1].LocalAuthority);
         towns[1].Latitude.Should().Be(townEntities[1].Latitude);
         towns[1].Longitude.Should().Be(townEntities[1].Longitude);
+        towns[1].SearchString.Should().Be(townEntities[1].SearchString);
     }
 }

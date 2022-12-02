@@ -9,7 +9,7 @@ namespace sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
 public class ValidatePostcodeStep : ISearchStep
 {
     private readonly IProviderSearchService _providerSearchService;
-        
+
     public ValidatePostcodeStep(IProviderSearchService providerSearchService)
     {
         _providerSearchService = providerSearchService ?? throw new ArgumentNullException(nameof(providerSearchService));

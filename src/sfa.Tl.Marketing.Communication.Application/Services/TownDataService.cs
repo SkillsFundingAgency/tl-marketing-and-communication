@@ -1,20 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using sfa.Tl.Marketing.Communication.Application.Caching;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.Models.Enums;
+using sfa.Tl.Marketing.Communication.Models.Extensions;
 
 namespace sfa.Tl.Marketing.Communication.Application.Services;
 
 public class TownDataService : ITownDataService
 {
+    private readonly int _cacheExpiryInSeconds;
+
+    private readonly IMemoryCache _cache;
     private readonly HttpClient _httpClient;
     private readonly ITableStorageService _tableStorageService;
     private readonly ILogger<TownDataService> _logger;
@@ -34,11 +42,17 @@ public class TownDataService : ITownDataService
     public TownDataService(
         HttpClient httpClient,
         ITableStorageService tableStorageService,
+        IMemoryCache cache,
+        ConfigurationOptions configuration,
         ILogger<TownDataService> logger)
     {
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
+        _cache = cache ?? throw new ArgumentNullException(nameof(cache));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+        if (configuration == null) throw new ArgumentNullException(nameof(configuration));
+        _cacheExpiryInSeconds = configuration.CacheExpiryInSeconds;
     }
 
     public async Task<int> ImportTowns()
@@ -69,22 +83,47 @@ public class TownDataService : ITownDataService
                 County = item.CountyName,
                 LocalAuthority = item.LocalAuthorityName,
                 Latitude = item.Latitude,
-                Longitude = item.Longitude
+                Longitude = item.Longitude,
+                SearchString =
+                    $"{item.LocationName}{item.CountyName ?? item.LocalAuthorityName}"
+                        .ToSearchableString()
             })
             .ToList();
 
-        await SaveToTableStorage(towns);
+        var saved = await SaveToTableStorage(towns);
 
         return towns.Count;
     }
 
     public async Task<IEnumerable<Town>> Search(string searchTerm, int maxResults)
     {
-        return new List<Town>
+        if (searchTerm.IsFullOrPartialPostcode())
         {
-            new() { Name = "Coventry" },
-            new() { Name = "Oxford" }
-        };
+            return new List<Town>();
+        }
+
+        var searchString = searchTerm.ToSearchableString();
+        var partitionKey = searchString[..Math.Min(3, searchString.Length)].ToUpper();
+        var cacheKey = CacheKeys.TownPartitionKey(partitionKey);
+
+        var stopwatch = Stopwatch.StartNew();
+
+        if (!_cache.TryGetValue(cacheKey, out IList<Town> towns))
+        {
+            towns = await _tableStorageService.GetTownsByPartitionKey(partitionKey);
+            if (_cacheExpiryInSeconds > 0 && towns.Any())
+            {
+                _cache.Set(cacheKey, towns, CacheUtilities.DefaultMemoryCacheEntryOptions(_cacheExpiryInSeconds));
+            }
+        }
+        stopwatch.Stop();
+        Debug.WriteLine($"Time to get towns {stopwatch.ElapsedMilliseconds}ms {stopwatch.ElapsedTicks}ticks");
+
+        return towns.Where(t =>
+                t.SearchString != null && t.SearchString.StartsWith(searchString))
+            .OrderBy(t => t.Name)
+            .Take(maxResults);
+
     }
 
     private async Task<IEnumerable<OnsLocationApiItem>> ReadOnsLocationData()

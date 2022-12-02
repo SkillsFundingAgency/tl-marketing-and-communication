@@ -80,6 +80,8 @@ var hostBuilder = new HostBuilder()
         var blobServiceClient = new BlobServiceClient(
             config.StorageSettings.BlobStorageConnectionString);
 
+        services.AddMemoryCache();
+
         services
             .AddSingleton(tableServiceClient)
             .AddSingleton(blobServiceClient)
@@ -89,6 +91,7 @@ var hostBuilder = new HostBuilder()
             .AddTransient<ITableStorageService, TableStorageService>()
             .AddTransient<IBlobStorageService, BlobStorageService>();
     });
+
 
 var host = hostBuilder.Build();
 

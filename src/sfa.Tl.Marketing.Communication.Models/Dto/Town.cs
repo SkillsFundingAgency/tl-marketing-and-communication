@@ -17,4 +17,6 @@ public class Town
     public decimal Latitude { get; init; }
     [JsonIgnore]
     public decimal Longitude { get; init; }
+    [JsonIgnore]
+    public string SearchString { get; init; }
 }

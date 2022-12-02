@@ -19,4 +19,5 @@ public interface ITableStorageService
     Task<int> ClearTowns();
     Task<int> SaveTowns(IList<Town> towns);
     Task<IList<Town>> GetAllTowns();
+    Task<IList<Town>> GetTownsByPartitionKey(string key);
 }
