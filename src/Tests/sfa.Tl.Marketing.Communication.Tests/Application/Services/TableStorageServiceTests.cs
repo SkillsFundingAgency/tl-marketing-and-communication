@@ -205,21 +205,39 @@ public class TableStorageServiceTests
         savedQualificationEntities.Count.Should().Be(qualifications.Count);
     }
 
+    [Fact]
+    public async Task TableStorageService_ClearTowns_Returns_Expected_Results()
+    {
+        var townRepository = Substitute.For<ICloudTableRepository<TownEntity>>();
+        townRepository
+            .DeleteAll()
+            .Returns(5);
+
+        var service = BuildTableStorageService(townRepository: townRepository);
+
+        var result = await service.ClearTowns();
+
+        result.Should().Be(5);
+    }
+
     private static TableStorageService BuildTableStorageService(
         ICloudTableRepository<LocationEntity> locationRepository = null,
         ICloudTableRepository<ProviderEntity> providerRepository = null,
         ICloudTableRepository<QualificationEntity> qualificationRepository = null,
+        ICloudTableRepository<TownEntity> townRepository = null,
         ILogger<TableStorageService> logger = null)
     {
         locationRepository ??= Substitute.For<ICloudTableRepository<LocationEntity>>();
         providerRepository ??= Substitute.For<ICloudTableRepository<ProviderEntity>>();
         qualificationRepository ??= Substitute.For<ICloudTableRepository<QualificationEntity>>();
+        townRepository ??= Substitute.For<ICloudTableRepository<TownEntity>>();
         logger ??= Substitute.For<ILogger<TableStorageService>>();
 
         return new TableStorageService(
             locationRepository,
             providerRepository,
             qualificationRepository,
+            townRepository,
             logger);
     }
 }

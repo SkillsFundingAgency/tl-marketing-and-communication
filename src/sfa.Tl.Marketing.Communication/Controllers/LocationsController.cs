@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using sfa.Tl.Marketing.Communication.Constants;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 
 namespace sfa.Tl.Marketing.Communication.Controllers;
@@ -11,14 +13,14 @@ namespace sfa.Tl.Marketing.Communication.Controllers;
 [Route("api/[controller]")]
 public class LocationsController : ControllerBase
 {
-    //private readonly ITownDataService _townDataService;
+    private readonly ITownDataService _townDataService;
     private readonly ILogger<LocationsController> _logger;
 
     public LocationsController(
-        //ITownDataService townDataService,
+        ITownDataService townDataService,
         ILogger<LocationsController> logger)
     {
-        //_townDataService = townDataService ?? throw new ArgumentNullException(nameof(townDataService));
+        _townDataService = townDataService ?? throw new ArgumentNullException(nameof(townDataService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -32,12 +34,7 @@ public class LocationsController : ControllerBase
             _logger.LogDebug($"{nameof(LocationsController)} {nameof(SearchLocations)} called.");
         }
 
-        var towns = //await _townDataService.Search(searchTerm);
-            new List<Town>
-            {
-                new() { Name = "Coventry" }, 
-                new() { Name = "Oxford" }
-            };
+        var towns = await _townDataService.Search(searchTerm, AppConstants.TownSearchDefaultMaxResults);
 
         return Ok(towns);
     }

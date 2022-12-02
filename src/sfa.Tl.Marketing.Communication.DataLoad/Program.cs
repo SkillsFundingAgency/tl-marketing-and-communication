@@ -62,9 +62,15 @@ static ITableStorageService CreateTableStorageService(
         siteConfiguration,
         loggerFactory.CreateLogger<GenericCloudTableRepository<QualificationEntity>>());
 
+    var townRepository = new GenericCloudTableRepository<TownEntity>(
+        tableServiceClient,
+        siteConfiguration,
+        loggerFactory.CreateLogger<GenericCloudTableRepository<TownEntity>>());
+
     return new TableStorageService(
         locationRepository,
         providerRepository,
         qualificationRepository,
+        townRepository,
         loggerFactory.CreateLogger<TableStorageService>());
 }

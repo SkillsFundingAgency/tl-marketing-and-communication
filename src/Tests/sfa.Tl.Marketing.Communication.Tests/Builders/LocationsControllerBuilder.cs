@@ -11,7 +11,7 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders;
 public class LocationsControllerBuilder
 {
     public LocationsController Build(
-        //ITownDataService townDataService = null,
+        ITownDataService townDataService = null,
         IProviderSearchEngine providerSearchEngine = null,
         ILogger<LocationsController> logger = null)
     {
@@ -19,7 +19,7 @@ public class LocationsControllerBuilder
         logger ??= Substitute.For<ILogger<LocationsController>>();
 
         var controller = new LocationsController(
-            //townDataService,
+            townDataService,
             logger)
         {
             ControllerContext = new ControllerContext

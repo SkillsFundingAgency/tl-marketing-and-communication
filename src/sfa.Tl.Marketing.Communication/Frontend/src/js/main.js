@@ -108,7 +108,7 @@ $("#tl-find-button").click(function () {
       
     if (postcode === "") {
         event.stopPropagation();
-        showPostcodeError("You must enter a postcode");
+        showPostcodeError("You must enter a postcode or town");
         return false;
     } else {
         $(".tl-search--form").removeClass("tl-validation--error");
@@ -129,16 +129,16 @@ function showPostcodeError(message) {
 
 // AUTOCOMPLETE
 const $keywordsInput = $('#Postcode');
+var $defaultValue = $('#Postcode').data('default-value');
 
 if ($keywordsInput.length > 0) {
-
     $keywordsInput.wrap('<div id="autocomplete-container" class="tl-autocomplete-wrap"></div>');
     const container = document.querySelector('#autocomplete-container');
     $(container).empty();
 
     function getSuggestions(query, populateResults) {
-        if ((typeof isFapSearchInProgress !== 'undefined' && isFapSearchInProgress)
-            || /\d/.test(query)) {
+        if (/\d/.test(query)) {
+            //ignoring potential postcodes
             return;
         }
         var results = [];
@@ -161,7 +161,7 @@ if ($keywordsInput.length > 0) {
         return item.name;
     }
 
-    function onConfirm(confirmed) {
+    function onConfirm() {        
     }
 
     accessibleAutocomplete({
@@ -174,6 +174,7 @@ if ($keywordsInput.length > 0) {
         source: getSuggestions,
         placeholder: "Enter postcode or town",
         onConfirm: onConfirm,
+        defaultValue: $defaultValue,
         confirmOnBlur: false,
         autoselect: true
     });

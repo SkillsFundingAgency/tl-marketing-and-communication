@@ -15,17 +15,20 @@ public class TableStorageService : ITableStorageService
     private readonly ICloudTableRepository<LocationEntity> _locationRepository;
     private readonly ICloudTableRepository<ProviderEntity> _providerRepository;
     private readonly ICloudTableRepository<QualificationEntity> _qualificationRepository;
+    private readonly ICloudTableRepository<TownEntity> _townRepository;
     private readonly ILogger<TableStorageService> _logger;
 
     public TableStorageService(
         ICloudTableRepository<LocationEntity> locationRepository,
         ICloudTableRepository<ProviderEntity> providerRepository,
         ICloudTableRepository<QualificationEntity> qualificationRepository,
+        ICloudTableRepository<TownEntity> townRepository,
         ILogger<TableStorageService> logger)
     {
         _locationRepository = locationRepository ?? throw new ArgumentNullException(nameof(locationRepository));
         _providerRepository = providerRepository ?? throw new ArgumentNullException(nameof(providerRepository));
         _qualificationRepository = qualificationRepository ?? throw new ArgumentNullException(nameof(qualificationRepository));
+        _townRepository = townRepository ?? throw new ArgumentNullException(nameof(townRepository));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -161,5 +164,31 @@ public class TableStorageService : ITableStorageService
         }
 
         return qualifications;
+    }
+
+    public async Task<int> ClearTowns()
+    {
+        await _townRepository.DeleteTable();
+        return await _townRepository.DeleteAll();
+    }
+
+    public async Task<IList<Town>> GetAllTowns()
+    {
+        return new List<Town>();
+    }
+
+    public async Task<int> SaveTowns(IList<Town> towns)
+    {
+        if (towns == null || !towns.Any())
+        {
+            return 0;
+        }
+
+        var townEntities = towns.ToTownEntityList();
+
+        var saved = await _townRepository.Save(townEntities);
+
+        _logger.LogInformation("TableStorageService::SaveTowns saved {saved} records.", saved);
+        return saved;
     }
 }

@@ -71,6 +71,7 @@ builder.Services
     .AddTransient<IJourneyService, JourneyService>()
     .AddTransient<IProviderSearchService, ProviderSearchService>()
     .AddTransient<ISearchPipelineFactory, SearchPipelineFactory>()
+    .AddTransient<ITownDataService, TownDataService>()
     .AddTransient<IProviderSearchEngine, ProviderSearchEngine>()
     .AddTransient<ISearchStep, GetQualificationsStep>()
     .AddTransient<ISearchStep, LoadSearchPageWithNoResultsStep>()

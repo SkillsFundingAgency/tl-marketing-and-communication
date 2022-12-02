@@ -40,6 +40,7 @@ var hostBuilder = new HostBuilder()
             Environment = environment
         };
         services.AddSingleton(siteConfiguration);
+
         services.AddHttpClient<ICourseDirectoryDataService, CourseDirectoryDataService>(
                 nameof(CourseDirectoryDataService),
                 client =>
@@ -63,6 +64,16 @@ var hostBuilder = new HostBuilder()
             })
             .AddRetryPolicyHandler<CourseDirectoryDataService>();
 
+        services
+            .AddHttpClient<ITownDataService, TownDataService>(
+                (_, client) =>
+                {
+                    client.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
+                }
+            )
+            .AddRetryPolicyHandler<TownDataService>();
+
         var tableServiceClient = new TableServiceClient(
             config.StorageSettings.TableStorageConnectionString);
 
@@ -74,6 +85,7 @@ var hostBuilder = new HostBuilder()
             .AddSingleton(blobServiceClient)
             .AddTransient(typeof(ICloudTableRepository<>), typeof(GenericCloudTableRepository<>))
             .AddTransient<ICourseDirectoryDataService, CourseDirectoryDataService>()
+            .AddTransient<ITownDataService, TownDataService>()
             .AddTransient<ITableStorageService, TableStorageService>()
             .AddTransient<IBlobStorageService, BlobStorageService>();
     });
