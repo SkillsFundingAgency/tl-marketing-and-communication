@@ -100,8 +100,8 @@ public class TownDataServiceTests
             "Abingdon",
             "Oxfordshire",
             "Oxfordshire",
-            51.674302M,
-            -1.282302M,
+            51.674302,
+            -1.282302,
             "abingdonoxfordshire");
 
         ValidateTown(receivedTowns
@@ -111,8 +111,8 @@ public class TownDataServiceTests
             "Abingdon",
             "Inner London",
             "Greater London",
-            51.497681M,
-            -0.192782M,
+            51.497681,
+            -0.192782,
             "abingdoninnerlondon");
 
         ValidateTown(receivedTowns
@@ -122,8 +122,8 @@ public class TownDataServiceTests
             "West Bromwich",
             "West Midlands",
             "West Midlands",
-            52.530629M,
-            -2.005941M,
+            52.530629,
+            -2.005941,
             "westbromwichwestmidlands");
 
         ValidateTown(receivedTowns
@@ -133,8 +133,8 @@ public class TownDataServiceTests
             "West Bromwich (East)",
             "West Midlands",
             "West Midlands",
-            52.540693M,
-            -1.942085M,
+            52.540693,
+            -1.942085,
             "westbromwicheastwestmidlands");
 
         ValidateTown(receivedTowns
@@ -144,8 +144,8 @@ public class TownDataServiceTests
             "West Bromwich Central",
             "West Midlands",
             "West Midlands",
-            52.520416M,
-            -1.984158M,
+            52.520416,
+            -1.984158,
             "westbromwichcentralwestmidlands");
         // ReSharper restore StringLiteralTypo
     }
@@ -217,8 +217,8 @@ public class TownDataServiceTests
             "Oxfordshire",
             //"Vale of White Horse",
             //"NMD",
-            51.674302M,
-            -1.282302M,
+            51.674302,
+            -1.282302,
             // ReSharper disable once StringLiteralTypo
             "abingdonoxfordshire");
     }
@@ -257,10 +257,68 @@ public class TownDataServiceTests
             "West Bromwich",
             "West Midlands",
             "West Midlands",
-            52.530629M,
-            -2.005941M,
+            52.530629,
+            -2.005941,
             // ReSharper disable once StringLiteralTypo
             "westbromwichwestmidlands");
+    }
+
+    [Fact]
+    public async Task IsSearchTermValid_Returns_True_For_Matching_Town()
+    {
+        const string searchTerm = "Test";
+        var partitionKey = searchTerm[..3].ToUpper();
+
+        var towns = new TownListBuilder()
+            .Add(10)
+            .Build()
+            .ToList();
+
+        var tableStorageService = Substitute.For<ITableStorageService>();
+        tableStorageService
+            .GetTownsByPartitionKey(partitionKey)
+            .Returns(towns);
+
+        var service = new TownDataServiceBuilder()
+            .Build(tableStorageService: tableStorageService);
+
+        var result = await service
+            .IsSearchTermValid(searchTerm);
+
+        result.IsValid.Should().BeTrue();
+
+        await tableStorageService
+            .Received(1)
+            .GetTownsByPartitionKey(partitionKey);
+    }
+
+    [Fact]
+    public async Task IsSearchTermValid_Returns_False_For_Non_Matching_Town()
+    {
+        const string searchTerm = "Unknown";
+        var partitionKey = searchTerm[..3].ToUpper();
+
+        var towns = new TownListBuilder()
+            .Add(10)
+            .Build()
+            .ToList();
+
+        var tableStorageService = Substitute.For<ITableStorageService>();
+        tableStorageService
+            .GetTownsByPartitionKey(partitionKey)
+            .Returns(towns);
+
+        var service = new TownDataServiceBuilder()
+            .Build(tableStorageService: tableStorageService);
+
+        var result = await service
+            .IsSearchTermValid(searchTerm);
+
+        result.IsValid.Should().BeFalse();
+
+        await tableStorageService
+            .Received(1)
+            .GetTownsByPartitionKey(partitionKey);
     }
 
     [Fact]
@@ -393,8 +451,8 @@ public class TownDataServiceTests
         string name,
         string county,
         string localAuthority,
-        decimal latitude,
-        decimal longitude,
+        double latitude,
+        double longitude,
         string searchString)
     {
         town.Should().NotBeNull();

@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using Azure;
 using Azure.Data.Tables;
+// ReSharper disable StringLiteralTypo
 
 namespace sfa.Tl.Marketing.Communication.Models.Entities;
 
@@ -13,17 +14,17 @@ public class TownEntity : ITableEntity
     [JsonPropertyName("name")]
     public string Name { get; init; }
 
-    [JsonPropertyName("cty")]
+    [JsonPropertyName("county")]
     public string County { get; init; }
 
-    [JsonPropertyName("la")]
+    [JsonPropertyName("localauthority")]
     public string LocalAuthority { get; init; }
 
-    [JsonPropertyName("lat")]
-    public decimal Latitude { get; init; }
+    [JsonPropertyName("latitude")]
+    public double Latitude { get; init; }
 
-    [JsonPropertyName("lon")]
-    public decimal Longitude { get; init; }
+    [JsonPropertyName("longitude")]
+    public double Longitude { get; init; }
 
     [JsonPropertyName("search")]
     public string SearchString { get; init; }

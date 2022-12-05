@@ -28,7 +28,7 @@ public class FindViewModel
         } 
     }
 
-    public string PostcodeValidationMessage { get; set; }
+    public string ValidationMessage { get; set; }
     public string ValidationStyle { get; set; }
     public int? TotalRecordCount { get; set; }
     public int SelectedItemIndex { get; set; }

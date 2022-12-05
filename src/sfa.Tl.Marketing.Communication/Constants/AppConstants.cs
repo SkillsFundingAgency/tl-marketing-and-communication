@@ -7,5 +7,6 @@ public static class AppConstants
 
     public const string PostcodeValidationMessage = "You must enter a postcode or town";
     public const string RealPostcodeValidationMessage = "You must enter a real postcode";
+    public const string RealPostcodeOrTownValidationMessage = "You must enter a real postcode or town";
     public const string ValidationStyle = "tl-validation--error";
 }

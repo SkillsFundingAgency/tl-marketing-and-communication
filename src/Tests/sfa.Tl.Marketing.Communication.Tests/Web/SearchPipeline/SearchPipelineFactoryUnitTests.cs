@@ -22,6 +22,7 @@ public class SearchPipelineFactoryUnitTests
         var mapper = Substitute.For<IMapper>();
 
         var providerSearchService = Substitute.For<IProviderSearchService>();
+        var townDataService = Substitute.For<ITownDataService>();
 
         var searchSteps = new List<ISearchStep>
         {
@@ -30,11 +31,12 @@ public class SearchPipelineFactoryUnitTests
             new LoadSearchPageWithNoResultsStep(),
             new MergeAvailableDeliveryYearsStep(dateTimeService),
             new PerformSearchStep(providerSearchService, mapper),
-            new ValidatePostcodeStep(providerSearchService)
+            new ValidatePostcodeStep(providerSearchService, townDataService)
         };
             
         _factory = new SearchPipelineFactory(searchSteps);
     }
+
     [Fact]
     public void SearchPipelineFactory_Constructor_Guards_Against_NullParameters()
     {

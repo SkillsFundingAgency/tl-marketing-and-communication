@@ -1,12 +1,17 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using HttpMultipartParser;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
+using sfa.Tl.Marketing.Communication.Application.Services;
 
 namespace sfa.Tl.Marketing.Communication.Functions;
 
@@ -56,7 +61,40 @@ public class TownDataImportFunctions
             return request.CreateResponse(HttpStatusCode.InternalServerError);
         }
     }
-    
+
+    [Function("UploadIndexOfPlaceNames")]
+    public async Task<HttpResponseData> UploadData(
+        [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)]
+        HttpRequestData request,
+        FunctionContext functionContext)
+    {
+        var logger = functionContext.GetLogger("HttpFunction");
+
+        try
+        {
+            var parsedFormBody = MultipartFormDataParser.ParseAsync(request.Body, Encoding.UTF8);
+            var file = parsedFormBody.Result.Files[0];
+
+            using var ms = new MemoryStream();
+            await file.Data.CopyToAsync(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+
+            var count = await _townDataService.ImportTownsFromCsvStream(ms);
+
+            var response = request.CreateResponse(HttpStatusCode.Accepted);
+            response.Headers.Add("Content-Type", "application/json");
+            await response.WriteStringAsync($"\"saved\": {count} }}");
+
+            return response;
+        }
+        catch (Exception e)
+        {
+            logger.LogError("Error reading or processing uploaded data. Internal Error Message {e}", e);
+
+            return request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+    }
+
     [Function("GetTowns")]
     public async Task<HttpResponseData> GetTowns(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)]

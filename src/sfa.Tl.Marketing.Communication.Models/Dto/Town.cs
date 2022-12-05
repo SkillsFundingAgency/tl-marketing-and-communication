@@ -14,9 +14,17 @@ public class Town
     [JsonPropertyName("la")]
     public string LocalAuthority { get; init; }
     [JsonIgnore]
-    public decimal Latitude { get; init; }
+    public double Latitude { get; init; }
     [JsonIgnore]
-    public decimal Longitude { get; init; }
+    public double Longitude { get; init; }
     [JsonIgnore]
     public string SearchString { get; init; }
+
+    [JsonIgnore]
+    public string DisplayName =>
+        !string.IsNullOrEmpty(County) 
+            ? $"{Name}, {County}" 
+            : !string.IsNullOrEmpty(LocalAuthority) 
+                ? $"{Name}, {LocalAuthority}" 
+                : Name;
 }

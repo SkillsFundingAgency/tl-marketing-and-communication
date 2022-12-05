@@ -14,8 +14,8 @@ public class TownBuilder
             Name = "Coventry",
             County = "West Midlands",
             LocalAuthority = "West Midlands",
-            Latitude = 52.41695M,
-            Longitude = -1.50721M
+            Latitude = 52.41695,
+            Longitude = -1.50721
         },
         new()
         {
@@ -23,8 +23,8 @@ public class TownBuilder
             Name = "Oxford",
             County = "Oxfordshire",
             LocalAuthority = "Oxfordshire",
-            Latitude = 51.740811M,
-            Longitude = -1.217524M
+            Latitude = 51.740811,
+            Longitude = -1.217524
         }
     };
 

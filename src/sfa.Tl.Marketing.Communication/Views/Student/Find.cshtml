@@ -14,7 +14,7 @@
                 <div class="col-12">
                     <h1>Find your nearest T Level</h1>
                     <p>Search for schools and colleges who are delivering T Levels</p>
-                    <span class="tl-validation--message">@Model.PostcodeValidationMessage</span>
+                    <span class="tl-validation--message">@Model.ValidationMessage</span>
                     <input asp-for="Postcode" value="@Model.Postcode" placeholder="Enter postcode or town" class="tl-search--form--postcode" aria-label="Enter a postcode or town to find a T Level near you" data-default-value="@Model.Postcode" />
 
                     <input type="hidden" asp-for="NumberOfItemsToShow" value="@Model.NumberOfItemsToShow" disabled="@(Model.NumberOfItemsToShow is null or 0 or AppConstants.DefaultNumberOfItemsToShow)" />

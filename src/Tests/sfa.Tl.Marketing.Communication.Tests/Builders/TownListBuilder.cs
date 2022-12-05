@@ -25,8 +25,8 @@ internal class TownListBuilder
                     Name = $"Test Town {nextId}",
                     County = $"County {nextId}",
                     LocalAuthority = $"Local Authority {nextId}",
-                    Latitude = decimal.Parse($"50.0{nextId}"),
-                    Longitude = decimal.Parse($"-1.0{nextId}"),
+                    Latitude = double.Parse($"50.0{nextId}"),
+                    Longitude = double.Parse($"-1.0{nextId}"),
                     // ReSharper disable once StringLiteralTypo
                     SearchString = $"testtown{nextId}county{nextId}"
                 });
@@ -58,8 +58,8 @@ internal class TownListBuilder
             Name = "Coventry",
             County = "West Midlands",
             LocalAuthority = "West Midlands",
-            Latitude = 52.41695M,
-            Longitude = -1.50721M,
+            Latitude = 52.41695,
+            Longitude = -1.50721,
             // ReSharper disable once StringLiteralTypo
             SearchString = "coventrywestmidlands"
         });
@@ -69,8 +69,8 @@ internal class TownListBuilder
             Name = "Oxford",
             County = "Oxfordshire",
             LocalAuthority = "Oxfordshire",
-            Latitude = 51.740811M,
-            Longitude = -1.217524M,
+            Latitude = 51.740811,
+            Longitude = -1.217524,
             // ReSharper disable once StringLiteralTypo
             SearchString = "oxfordoxfordshire"
         });
