@@ -44,7 +44,7 @@ public class PerformSearchStepUnitTests
 
         var viewModel = new FindViewModel
         {
-            Postcode = postcode,
+            SearchTerm = postcode,
             NumberOfItemsToShow = numberOfItems,
             SelectedQualificationId = qualificationId,
             SelectedItemIndex = selectedItemIndex
@@ -98,7 +98,7 @@ public class PerformSearchStepUnitTests
 
         var viewModel = new FindViewModel
         {
-            Postcode = postcode,
+            SearchTerm = postcode,
             NumberOfItemsToShow = numberOfItems,
             SelectedQualificationId = qualificationId,
             SelectedItemIndex = selectedItemIndex

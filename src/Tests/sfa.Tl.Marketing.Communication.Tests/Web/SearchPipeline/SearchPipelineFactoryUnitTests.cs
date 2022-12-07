@@ -31,7 +31,7 @@ public class SearchPipelineFactoryUnitTests
             new LoadSearchPageWithNoResultsStep(),
             new MergeAvailableDeliveryYearsStep(dateTimeService),
             new PerformSearchStep(providerSearchService, mapper),
-            new ValidatePostcodeStep(providerSearchService, townDataService)
+            new ValidateSearchTermAndLoadLocationStep(providerSearchService, townDataService)
         };
             
         _factory = new SearchPipelineFactory(searchSteps);
@@ -55,7 +55,7 @@ public class SearchPipelineFactoryUnitTests
         steps.Length.Should().Be(6);
         steps[0].GetType().Name.Should().Be(nameof(GetQualificationsStep));
         steps[1].GetType().Name.Should().Be(nameof(LoadSearchPageWithNoResultsStep));
-        steps[2].GetType().Name.Should().Be(nameof(ValidatePostcodeStep));
+        steps[2].GetType().Name.Should().Be(nameof(ValidateSearchTermAndLoadLocationStep));
         steps[3].GetType().Name.Should().Be(nameof(CalculateNumberOfItemsToShowStep));
         steps[4].GetType().Name.Should().Be(nameof(PerformSearchStep));
         steps[5].GetType().Name.Should().Be(nameof(MergeAvailableDeliveryYearsStep));

@@ -67,9 +67,7 @@ public class TownDataService : ITownDataService
 
         var towns = ConvertToTowns(items);
 
-        var saved = await SaveToTableStorage(towns);
-
-        return towns.Count;
+        return await SaveToTableStorage(towns);
     }
 
     public async Task<int> ImportTownsFromCsvStream(Stream stream)

@@ -12,7 +12,6 @@ public class DeliveryYearEntityListBuilder
 
     public DeliveryYearEntityListBuilder Add(int numberOfDeliveryYearEntities = 1)
     {
-        var start = _deliveryYearEntities.Count;
         for (var i = 0; i < numberOfDeliveryYearEntities; i++)
         {
             var deliveryYear = new DeliveryYearEntity

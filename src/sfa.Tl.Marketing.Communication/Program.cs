@@ -75,7 +75,7 @@ builder.Services
     .AddTransient<IProviderSearchEngine, ProviderSearchEngine>()
     .AddTransient<ISearchStep, GetQualificationsStep>()
     .AddTransient<ISearchStep, LoadSearchPageWithNoResultsStep>()
-    .AddTransient<ISearchStep, ValidatePostcodeStep>()
+    .AddTransient<ISearchStep, ValidateSearchTermAndLoadLocationStep>()
     .AddTransient<ISearchStep, CalculateNumberOfItemsToShowStep>()
     .AddTransient<ISearchStep, PerformSearchStep>()
     .AddTransient<ISearchStep, MergeAvailableDeliveryYearsStep>();

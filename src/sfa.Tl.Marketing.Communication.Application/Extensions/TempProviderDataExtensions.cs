@@ -65,8 +65,6 @@ public static class TempProviderDataExtensions
         if (stream != null)
         {
             var jsonDocument = JsonDocument.Parse(stream);
-            var json = jsonDocument.PrettifyJsonDocument();
-
             return MergeTempProviders(providers, jsonDocument, shouldMerge);
         }
 
