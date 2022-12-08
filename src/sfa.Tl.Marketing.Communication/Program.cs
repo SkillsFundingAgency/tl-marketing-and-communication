@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Azure.Data.Tables;
 using Azure.Storage.Blobs;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -36,8 +37,11 @@ var siteConfiguration = builder.Configuration.LoadConfigurationOptions()
                         ?? builder.Configuration.LoadConfigurationOptionsFromAppSettings();
 
 builder.Services
-    .AddApplicationInsightsTelemetry()
-    .AddSingleton(siteConfiguration);
+    .AddSingleton(siteConfiguration)
+    .AddApplicationInsightsTelemetry(new ApplicationInsightsServiceOptions
+    {
+        EnableRequestTrackingTelemetryModule = false
+    });
 
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
