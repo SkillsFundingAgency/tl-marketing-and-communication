@@ -27,9 +27,9 @@
         <div class="row">
             <div class="col-12">
                 <h3 class="tl-heading--small">Find this T Level near you</h3>
-                <form asp-action="Find" method="get" class="tl-search--form">
+                <form asp-action="Find" method="post" class="tl-search--form">
                     <span class="tl-validation--message">You must enter a postcode or town</span>
-                    <label asp-for="SearchTerm" class="tl-hidden">Postcode</label>
+                    <label asp-for="SearchTerm" class="tl-hidden">Postcode or town</label>
                     <input asp-for="SearchTerm" class="tl-search--form--postcode" placeholder="Enter postcode or town" aria-label="Enter a postcode or town to find a T Level near you" />
                     <input type="hidden" asp-for="Qualification" value="@ViewData["SubjectTitle"]" />
                     <input type="hidden" asp-for="SelectedQualificationId" value="@ViewData["SelectedQualificationId"]" />
