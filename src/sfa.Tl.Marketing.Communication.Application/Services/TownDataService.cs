@@ -8,7 +8,6 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using CsvHelper;
-using CsvHelper.Configuration;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Caching;

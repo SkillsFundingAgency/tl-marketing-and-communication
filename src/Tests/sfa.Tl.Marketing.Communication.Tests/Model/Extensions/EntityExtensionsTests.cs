@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.Models.Entities;
 using sfa.Tl.Marketing.Communication.Models.Extensions;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;

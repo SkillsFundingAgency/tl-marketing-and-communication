@@ -9,9 +9,7 @@ using HttpMultipartParser;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
-using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
-using sfa.Tl.Marketing.Communication.Application.Services;
 
 namespace sfa.Tl.Marketing.Communication.Functions;
 

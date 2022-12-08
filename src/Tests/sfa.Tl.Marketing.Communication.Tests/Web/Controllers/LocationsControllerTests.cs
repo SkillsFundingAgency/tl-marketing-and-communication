@@ -7,7 +7,6 @@ using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
 using Xunit;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Azure;
 using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
