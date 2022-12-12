@@ -81,7 +81,7 @@ public class TownDataImportFunctions
 
             var response = request.CreateResponse(HttpStatusCode.Accepted);
             response.Headers.Add("Content-Type", "application/json");
-            await response.WriteStringAsync($"\"saved\": {count} }}");
+            await response.WriteStringAsync($"{{ \"saved\": {count} }}");
 
             return response;
         }
