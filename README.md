@@ -73,6 +73,9 @@ Add a new row to the table with:
 ```
 
 - `CacheExpiryInSeconds` - Default cache time (in seconds) used for caching providers and qualifications.
+- `CourseDirectoryApiSettings` 
+  - `BaseUri` is the Course Directory API Uri - this can be found in the Azure DevOps library settings for the project.
+  - `ApiKey` is the Course Directory API key - this can be found in Azure Key Vault for the project.
 - `EmployerSiteSettings` 
   - `SiteUrl` needs to be the address of the Zendesk Employer Support site.
   - Article settings should be the url fragment which will be appended to the site url and point to the articles on Zendesk. 
@@ -85,35 +88,20 @@ Add a new row to the table with:
 ## Creating provider data in local storage
 
 Data for the student search page is stored in Azure Storage Tables. 
-This data is imported from the NCS Course Directory API using a scheduled function, but in a development environment sample data can be written to local storage as follows:
-
-1. The console application *sfa.Tl.Marketing.Communication.DataLoad* can be run to copy data into local storage. 
-2. This can be run on developer machines when Azure Storage Explorer is running.
-3. The program will create tables called `Qualification`, `Provider` and `Location` and copy data from json files.
-4. The table connection string and paths to sample files are set in `appsettings.json` with the default values below,     
-   using files that are included in the project.
-   If you need to override values on your local machine, add a `appsettings.Development.json` file and set the values there.
->- this should be done outside of Visual Studio, since the file is already referenced in the project with `Copy to Output Directory` set to `Copy if newer`.
-
-```
-{
-  "ProviderJsonInputFilePath": "..\\..\\..\\Provider Data\\providers.json",
-  "QualificationJsonInputFilePath": "..\\..\\..\\Provider Data\\qualifications.json",
-  "TableStorageConnectionString": "UseDevelopmentStorage=true;"
-}
-```
+This data is imported from the NCS Course Directory API using a scheduled function, but in a development environment sample data can be written to local storage as follows.
 
 To load providers and qualifications from the NCS feed:
 
-1. Run the functions project.
+1. Run the functions project. Make sure the NCS Course Directory base uri and 
 2. Using a tool such as Postman, create a POST request with address http://localhost:7071/admin/functions/CourseDirectoryScheduledImport.
 3. Add a header `x-functions-key`.
 4. Set the body to type `json` with an empty body `{}`.
 5. Send the request.
 
 To load town data:
+
 1. Go to https://geoportal.statistics.gov.uk/datasets/ons::index-of-place-names-in-great-britain-july-2016-table/explore?showTable=true and download the file as csv. 
-    The following columns are used, but the rest can be deleted:
+    The following columns are used, but the rest can be deleted to make the file smaller:
            placeid
            place15nm
            cty15nm
@@ -125,9 +113,10 @@ To load town data:
            lat
            long
            popcnt
-2. Using a tool such as Postman, create a POST request with address http://localhost:7071/api/UploadIndexOfPlaceNames.
-3. Set body to form-data and add a key called file then select your csv file to attach it.
-4. Press send to upload the file.
+2. Make sure the functions project is running.
+3. Using a tool such as Postman, create a POST request with address http://localhost:7071/api/UploadIndexOfPlaceNames.
+4. Set body to form-data and add a key called file then select your csv file to attach it.
+5. Press send to upload the file.
 
 
 ## Azure Functions
