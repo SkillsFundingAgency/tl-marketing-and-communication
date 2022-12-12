@@ -103,6 +103,33 @@ This data is imported from the NCS Course Directory API using a scheduled functi
 }
 ```
 
+To load providers and qualifications from the NCS feed:
+
+1. Run the functions project.
+2. Using a tool such as Postman, create a POST request with address http://localhost:7071/admin/functions/CourseDirectoryScheduledImport.
+3. Add a header `x-functions-key`.
+4. Set the body to type `json` with an empty body `{}`.
+5. Send the request.
+
+To load town data:
+1. Go to https://geoportal.statistics.gov.uk/datasets/ons::index-of-place-names-in-great-britain-july-2016-table/explore?showTable=true and download the file as csv. 
+    The following columns are used, but the rest can be deleted:
+           placeid
+           place15nm
+           cty15nm
+           ctry15nm
+           ctyltnm
+           laddescnm
+           lad15nm
+           descnm
+           lat
+           long
+           popcnt
+2. Using a tool such as Postman, create a POST request with address http://localhost:7071/api/UploadIndexOfPlaceNames.
+3. Set body to form-data and add a key called file then select your csv file to attach it.
+4. Press send to upload the file.
+
+
 ## Azure Functions
 
 Default development configuration is in file `local.settings.json`. Configuration settings are loaded from Azure Storage in the same way as for the website.
