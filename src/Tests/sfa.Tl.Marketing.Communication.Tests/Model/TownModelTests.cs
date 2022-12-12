@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using Xunit;
 

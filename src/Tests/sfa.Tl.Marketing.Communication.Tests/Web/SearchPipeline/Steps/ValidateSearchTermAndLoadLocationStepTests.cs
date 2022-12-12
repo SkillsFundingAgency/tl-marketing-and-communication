@@ -14,24 +14,24 @@ using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps;
 
-public class ValidatePostcodeStepUnitTests
+public class ValidateSearchTermAndLoadLocationStepTests
 {
     private readonly IProviderSearchService _providerSearchService;
     private readonly ITownDataService _townDataService;
     private readonly ISearchStep _searchStep;
 
-    public ValidatePostcodeStepUnitTests()
+    public ValidateSearchTermAndLoadLocationStepTests()
     {
         _providerSearchService = Substitute.For<IProviderSearchService>();
         _townDataService = Substitute.For<ITownDataService>();
 
-        _searchStep = new ValidatePostcodeStep(_providerSearchService, _townDataService);
+        _searchStep = new ValidateSearchTermAndLoadLocationStep(_providerSearchService, _townDataService);
     }
 
     [Fact]
     public void Step_Constructor_Guards_Against_NullParameters()
     {
-        typeof(ValidatePostcodeStep)
+        typeof(ValidateSearchTermAndLoadLocationStep)
             .ShouldNotAcceptNullConstructorArguments();
     }
 
@@ -40,7 +40,7 @@ public class ValidatePostcodeStepUnitTests
     {
         var viewModel = new FindViewModel
         {
-            Postcode = string.Empty
+            SearchTerm = string.Empty
         };
 
         var context = new SearchContext(viewModel);
@@ -55,31 +55,22 @@ public class ValidatePostcodeStepUnitTests
     [Fact]
     public async Task Step_Validates_Wrong_Postcode()
     {
-        const string postcode = "CV1 2XX";
-        const double latitude = 50.0123;
-        const double longitude = 1.987;
+        const string postcode = "CV3 9XX";
         const bool isValid = false;
-
-        var postcodeLocation = new PostcodeLocation
-        {
-            Postcode = postcode,
-            Latitude = latitude,
-            Longitude = longitude
-        };
 
         var viewModel = new FindViewModel
         {
-            Postcode = postcode
+            SearchTerm = postcode
         };
 
         var context = new SearchContext(viewModel);
 
-        _providerSearchService.IsSearchPostcodeValid(postcode).Returns((isValid, postcodeLocation));
+        _providerSearchService.IsSearchPostcodeValid(postcode).Returns((isValid, null));
 
         await _searchStep.Execute(context);
 
         context.ViewModel.ValidationStyle.Should().Be(AppConstants.ValidationStyle);
-        context.ViewModel.ValidationMessage.Should().Be(AppConstants.RealPostcodeValidationMessage);
+        context.ViewModel.ValidationMessage.Should().Be(AppConstants.RealPostcodeOrTownValidationMessage);
         context.Continue.Should().BeFalse();
         await _providerSearchService.Received(1).IsSearchPostcodeValid(postcode);
     }
@@ -102,7 +93,7 @@ public class ValidatePostcodeStepUnitTests
 
         var viewModel = new FindViewModel
         {
-            Postcode = postcode
+            SearchTerm = postcode
         };
 
         var context = new SearchContext(viewModel);
@@ -111,7 +102,7 @@ public class ValidatePostcodeStepUnitTests
 
         await _searchStep.Execute(context);
 
-        context.ViewModel.Postcode.Should().Be(expected);
+        context.ViewModel.SearchTerm.Should().Be(expected);
         context.Continue.Should().BeTrue();
         await _providerSearchService.Received(1).IsSearchPostcodeValid(postcode);
     }
@@ -127,7 +118,7 @@ public class ValidatePostcodeStepUnitTests
 
         var viewModel = new FindViewModel
         {
-            Postcode = searchTerm
+            SearchTerm = searchTerm
         };
 
         var context = new SearchContext(viewModel);
@@ -147,7 +138,7 @@ public class ValidatePostcodeStepUnitTests
 
         var viewModel = new FindViewModel
         {
-            Postcode = searchTerm
+            SearchTerm = searchTerm
         };
 
         var context = new SearchContext(viewModel);

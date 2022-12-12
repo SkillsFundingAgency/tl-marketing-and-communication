@@ -123,13 +123,13 @@ function showPostcodeError(message) {
     $("#tl-search-results").empty();
     $("#tl-results-summary").removeClass("tl-none");
     $("#tl-results-summary").empty();
-    $("#tl-results-summary").append("<h3>0 results</h3><p> Enter a postcode to search for schools and colleges doing T Levels.</p>");
+    $("#tl-results-summary").append("<h3>0 results</h3><p> Enter a postcode or town to search for schools and colleges doing T Levels.</p>");
     $("#tl-next").addClass("tl-none");
 }
 
 // AUTOCOMPLETE
-const $keywordsInput = $('#Postcode');
-var $defaultValue = $('#Postcode').data('default-value');
+const $keywordsInput = $('#SearchTerm');
+var $defaultValue = $('#SearchTerm').data('default-value');
 
 if ($keywordsInput.length > 0) {
     $keywordsInput.wrap('<div id="autocomplete-container" class="tl-autocomplete-wrap"></div>');
@@ -166,8 +166,8 @@ if ($keywordsInput.length > 0) {
 
     accessibleAutocomplete({
         element: container,
-        id: 'Postcode',
-        name: 'Postcode',
+        id: 'SearchTerm',
+        name: 'SearchTerm',
         displayMenu: 'overlay',
         showNoOptionsFound: false,
         minLength: 3,

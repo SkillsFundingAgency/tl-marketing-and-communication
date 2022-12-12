@@ -8,7 +8,6 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using CsvHelper;
-using CsvHelper.Configuration;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Application.Caching;
@@ -67,9 +66,7 @@ public class TownDataService : ITownDataService
 
         var towns = ConvertToTowns(items);
 
-        var saved = await SaveToTableStorage(towns);
-
-        return towns.Count;
+        return await SaveToTableStorage(towns);
     }
 
     public async Task<int> ImportTownsFromCsvStream(Stream stream)
@@ -173,7 +170,7 @@ public class TownDataService : ITownDataService
         return items;
     }
 
-    private List<Town> ConvertToTowns(IEnumerable<OnsLocationApiItem> items)
+    private static List<Town> ConvertToTowns(IEnumerable<OnsLocationApiItem> items)
     {
         var towns = items
             .Where(item => !string.IsNullOrEmpty(item.LocationName) &&

@@ -102,11 +102,19 @@ public class StudentController : Controller
         return View("Transcripts/StudentAmbassadorTranscript7");
     }
 
+    [HttpGet]
     [Route("/students/find", Name = "Find")]
+    public async Task<IActionResult> Find()
+    {
+        var searchResults = await _providerSearchEngine.Search(new FindViewModel());
+        return View(searchResults);
+    }
+
+    [HttpPost]
+    [Route("/students/find", Name = "FindPost")]
     public async Task<IActionResult> Find(FindViewModel viewModel)
     {
         var searchResults = await _providerSearchEngine.Search(viewModel);
-
         return View(searchResults);
     }
 

@@ -9,9 +9,7 @@ using HttpMultipartParser;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
-using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
-using sfa.Tl.Marketing.Communication.Application.Services;
 
 namespace sfa.Tl.Marketing.Communication.Functions;
 
@@ -83,7 +81,7 @@ public class TownDataImportFunctions
 
             var response = request.CreateResponse(HttpStatusCode.Accepted);
             response.Headers.Add("Content-Type", "application/json");
-            await response.WriteStringAsync($"\"saved\": {count} }}");
+            await response.WriteStringAsync($"{{ \"saved\": {count} }}");
 
             return response;
         }

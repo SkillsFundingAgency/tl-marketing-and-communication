@@ -30,8 +30,7 @@ public class StudentControllerFindTests
 
         var controller = new StudentControllerBuilder().Build(providerSearchEngine: providerSearchEngine);
 
-        var viewModel = new FindViewModel();
-        var result = await controller.Find(viewModel);
+        var result = await controller.Find();
 
         var viewResult = result as ViewResult;
         viewResult.Should().NotBeNull();
@@ -39,7 +38,29 @@ public class StudentControllerFindTests
 
         await providerSearchEngine
             .Received(1)
-            //.Search(Arg.Is<FindViewModel>(x => x != null));
+            .Search(Arg.Any<FindViewModel>());
+    }
+
+    [Fact]
+    public async Task Student_Controller_Find_Post_Returns_Expected_Value()
+    {
+        var providerSearchEngine = Substitute.For<IProviderSearchEngine>();
+        providerSearchEngine.Search(
+                Arg.Any<FindViewModel>())
+            .Returns(args => (FindViewModel)args[0]);
+
+        var controller = new StudentControllerBuilder().Build(providerSearchEngine: providerSearchEngine);
+
+        var viewModel = new FindViewModel();
+        var result = await controller.Find(viewModel);
+
+        var viewResult = result as ViewResult;
+        viewResult.Should().NotBeNull();
+        viewResult?.Model.Should().BeOfType(typeof(FindViewModel));
+        viewResult?.Model.Should().Be(viewModel);
+
+        await providerSearchEngine
+            .Received(1)
             .Search(viewModel);
     }
 }
