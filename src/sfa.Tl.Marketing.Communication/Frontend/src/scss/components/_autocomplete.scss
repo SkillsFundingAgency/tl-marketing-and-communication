@@ -1,5 +1,6 @@
 .tl-autocomplete-wrap {
     display: inline-block;
+    width: 100%;
 
     @include media-max(small) {
         width: 100%;

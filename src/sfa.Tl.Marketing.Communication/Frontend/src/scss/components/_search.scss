@@ -29,6 +29,8 @@
         background-color: $white;
         cursor: pointer;
         padding: 15px 35px 15px 15px;
+        top: -2px;
+        position: relative;
 
         @include media-between(small, medium) {
             max-width: 300px;
@@ -85,6 +87,13 @@
         input, select {
             text-align: left !important;
         }
+    }
+
+    &--label {
+        font-weight: bold;
+        width: 100%;
+        display: inline-block;
+        margin-bottom: 10px;
     }
 }
 
