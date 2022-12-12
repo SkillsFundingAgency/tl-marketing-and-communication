@@ -170,7 +170,7 @@ public class TownDataService : ITownDataService
         return items;
     }
 
-    private List<Town> ConvertToTowns(IEnumerable<OnsLocationApiItem> items)
+    private static List<Town> ConvertToTowns(IEnumerable<OnsLocationApiItem> items)
     {
         var towns = items
             .Where(item => !string.IsNullOrEmpty(item.LocationName) &&
