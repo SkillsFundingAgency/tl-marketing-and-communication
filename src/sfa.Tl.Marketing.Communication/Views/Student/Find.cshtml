@@ -45,10 +45,10 @@
             <div class="row no-gutters">
                 <div class="col-lg-8 col-12">
                     <div id="tl-results-summary" class="tl-results--summary">
-                        @if (!Model.ProviderLocations.Any())
+                        @if (Model.SearchTerm is not null && !Model.ProviderLocations.Any())
                         {
                             <h3>0 results</h3>
-                            <p>Enter a postcode or town to search for schools and colleges doing T Levels.</p>
+                            <p>There were no results found for your search. Please try a different location or course search.</p>
                         }
                     </div>
                     <div id="tl-search-results">

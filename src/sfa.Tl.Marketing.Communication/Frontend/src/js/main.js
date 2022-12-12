@@ -29,7 +29,7 @@ $('.tl-nav--hamburger').keypress(function (e) {
         $(this).click();
         return false;
     }
-}); 
+});
 
 
 // Subject accordions //
@@ -105,7 +105,7 @@ function processKeyboardEvents(e) {
 $("#tl-find-button").click(function () {
 
     const postcode = $("#Postcode").val().trim();
-      
+
     if (postcode === "") {
         event.stopPropagation();
         showPostcodeError("You must enter a postcode or town");
@@ -123,7 +123,7 @@ function showPostcodeError(message) {
     $("#tl-search-results").empty();
     $("#tl-results-summary").removeClass("tl-none");
     $("#tl-results-summary").empty();
-    $("#tl-results-summary").append("<h3>0 results</h3><p> Enter a postcode or town to search for schools and colleges doing T Levels.</p>");
+    $("#tl-results-summary").append("<h3>0 results</h3><pThere were no results found for your search. Please try a different location or course search.</p>");
     $("#tl-next").addClass("tl-none");
 }
 
@@ -161,7 +161,7 @@ if ($keywordsInput.length > 0) {
         return item.name;
     }
 
-    function onConfirm() {        
+    function onConfirm() {
     }
 
     accessibleAutocomplete({
