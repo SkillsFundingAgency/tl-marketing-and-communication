@@ -15,8 +15,13 @@ public static class DataUploadFunctionsBuilder
         return new DataUploadFunctions(blobStorageService);
     }
     
-    public static Stream BuildFormDataStream() =>
+    public static Stream BuildJsonFormDataStream() =>
         Assembly.GetExecutingAssembly()
             .GetManifestResourceStream(
-                $"{typeof(DataUploadFunctionsBuilder).Namespace}.Data.TestMultipartFormData.txt");
+                $"{typeof(DataUploadFunctionsBuilder).Namespace}.Data.TestMultipartJsonFormData.txt");
+
+    public static Stream BuildCsvFormDataStream() =>
+        Assembly.GetExecutingAssembly()
+            .GetManifestResourceStream(
+                $"{typeof(DataUploadFunctionsBuilder).Namespace}.Data.TestMultipartCsvFormData.txt");
 }
