@@ -83,9 +83,7 @@ public class TownDataService : ITownDataService
 
         var towns = ConvertToTowns(items);
 
-        var saved = await SaveToTableStorage(towns);
-
-        return saved;
+        return await SaveToTableStorage(towns);
     }
 
     public async Task<(bool IsValid, Town Town)> IsSearchTermValid(string searchTerm)

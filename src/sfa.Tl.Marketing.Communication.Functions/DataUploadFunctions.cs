@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Google.Protobuf;
 using HttpMultipartParser;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -34,11 +35,14 @@ public class DataUploadFunctions
         {
             //https://stackoverflow.com/questions/67813786/using-azure-function-net5-and-httprequestdata-how-to-handle-file-upload-form
             //https://github.com/Http-Multipart-Data-Parser/Http-Multipart-Data-Parser
-            //var parser= new StreamingMultipartFormDataParser(request.Body);
-            //var result = await parser.RunAsync();
-
             var parsedFormBody = MultipartFormDataParser.ParseAsync(request.Body, Encoding.UTF8);
             var file = parsedFormBody.Result.Files[0];
+
+            var extension = Path.GetExtension(file.FileName)?.ToLower();
+            if (extension != ".json")
+            {
+                throw new ArgumentException($"Invalid file extension '{extension}'. Only .json files are allowed.");
+            }
 
             using (var ms = new MemoryStream())
             {
@@ -53,6 +57,13 @@ public class DataUploadFunctions
 
             var response = request.CreateResponse(HttpStatusCode.Accepted);
 
+            return response;
+        }
+        catch (ArgumentException aex)
+        {
+            var response = request.CreateResponse(HttpStatusCode.BadRequest);
+            response.Headers.Add("Content-Type", "application/text");
+            await response.WriteStringAsync(aex.Message);
             return response;
         }
         catch (Exception e)

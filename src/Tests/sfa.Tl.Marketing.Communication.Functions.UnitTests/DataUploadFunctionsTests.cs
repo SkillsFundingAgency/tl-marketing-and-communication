@@ -21,12 +21,12 @@ public class DataUploadFunctionsTests
     }
 
     [Fact]
-    public async Task DataUploadFunctions_UploadProviderData_Processes_File()
+    public async Task DataUploadFunctions_UploadProviderData_Processes_Json_File()
     {
         var blobStorageService = Substitute.For<IBlobStorageService>();
         var functions = DataUploadFunctionsBuilder.Build(blobStorageService);
         
-        await using var stream = DataUploadFunctionsBuilder.BuildFormDataStream();
+        await using var stream = DataUploadFunctionsBuilder.BuildJsonFormDataStream();
         
         var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
         var request = FunctionObjectsBuilder
@@ -41,6 +41,34 @@ public class DataUploadFunctionsTests
 
         await blobStorageService
             .Received(1)
+            .Upload(Arg.Any<MemoryStream>(),
+                Arg.Any<string>(),
+                Arg.Any<string>(),
+                Arg.Any<string>());
+    }
+
+
+    [Fact]
+    public async Task DataUploadFunctions_UploadProviderData_Fails_For_Non_Json_File()
+    {
+        var blobStorageService = Substitute.For<IBlobStorageService>();
+        var functions = DataUploadFunctionsBuilder.Build(blobStorageService);
+
+        await using var stream = DataUploadFunctionsBuilder.BuildCsvFormDataStream();
+
+        var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+        var request = FunctionObjectsBuilder
+            .BuildHttpRequestData(HttpMethod.Post, stream);
+
+        var response = await functions.UploadProviderData(
+            request,
+            functionContext);
+
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+        await blobStorageService
+            .DidNotReceive()
             .Upload(Arg.Any<MemoryStream>(),
                 Arg.Any<string>(),
                 Arg.Any<string>(),

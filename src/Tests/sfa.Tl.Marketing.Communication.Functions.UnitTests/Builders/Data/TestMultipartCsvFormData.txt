@@ -1,0 +1,12 @@
+﻿------WebKitFormBoundaryphElSb1aBJGfLyAP
+Content-Disposition: form-data; name=""fileName""
+
+Testfile
+------WebKitFormBoundaryphElSb1aBJGfLyAP
+Content-Disposition: form-data; name=""file""; filename=""Testfile.csv""
+Content-Type: text/csv
+
+col1,col2
+value1,value2
+
+------WebKitFormBoundaryphElSb1aBJGfLyAP--

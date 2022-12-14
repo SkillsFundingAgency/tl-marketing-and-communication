@@ -1,5 +1,7 @@
 using System;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -25,7 +27,7 @@ public class TownDataImportFunctionsTests
     }
 
     [Fact]
-    public async Task TownDataImportFunctions_Scheduled_Import_Calls_CourseDirectoryDataService_Import_Methods()
+    public async Task TownDataImportFunctions_Scheduled_Import_Calls_TownDataService_Import_Methods()
     {
         var service = Substitute.For<ITownDataService>();
         service
@@ -61,13 +63,7 @@ public class TownDataImportFunctionsTests
             request,
             functionContext);
 
-        logger.ReceivedCalls().Count().Should().Be(3);
-
-        logger.HasLoggedMessage("Town data manual import function was called.");
-
-        logger.LogInformation("Town data manual saved 10 towns.");
-
-        logger.HasLoggedMessage("Town data manual import finished.");
+        logger.HasLoggedMessage("Town data import saved 10 towns.");
     }
 
     [Fact]
@@ -116,5 +112,111 @@ public class TownDataImportFunctionsTests
         var json = await result.Body.ReadAsString();
 
         json.PrettifyJsonString().Should().Be(expectedResult);
+    }
+
+    [Fact]
+    public async Task TownDataImportFunctions_UploadData_Fails_For_Json_File()
+    {
+        var blobStorageService = Substitute.For<IBlobStorageService>();
+        var functions = TownDataImportFunctionsBuilder.Build();
+
+        await using var stream = TownDataImportFunctionsBuilder.BuildJsonFormDataStream();
+
+        var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+        var request = FunctionObjectsBuilder
+            .BuildHttpRequestData(HttpMethod.Post, stream);
+
+        var response = await functions.UploadData(
+            request,
+            functionContext);
+
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+        await blobStorageService
+            .DidNotReceive()
+            .Upload(Arg.Any<MemoryStream>(),
+                Arg.Any<string>(),
+                Arg.Any<string>(),
+                Arg.Any<string>());
+    }
+
+    [Fact]
+    public async Task TownDataImportFunctions_UploadData_Succeeds_For_Csv_File()
+    {
+        var service = Substitute.For<ITownDataService>();
+        service
+            .ImportTowns()
+            .Returns(10);
+
+        var functions = TownDataImportFunctionsBuilder.Build(service);
+
+        await using var stream = TownDataImportFunctionsBuilder.BuildTownCsvFormDataStream();
+
+        var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+        var request = FunctionObjectsBuilder
+            .BuildHttpRequestData(HttpMethod.Post, stream);
+
+        var response = await functions.UploadData(
+            request,
+            functionContext);
+
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+
+        await service.Received(1).ImportTownsFromCsvStream(Arg.Any<Stream>());
+    }
+
+    [Fact]
+    public async Task TownDataImportFunctions_UploadData_Logs_Expected_Messages()
+    {
+        var service = Substitute.For<ITownDataService>();
+        service
+            .ImportTownsFromCsvStream(Arg.Any<Stream>())
+            .Returns(10);
+
+        var logger = Substitute.For<ILogger<object>>();
+
+        var functions = TownDataImportFunctionsBuilder.Build(service);
+
+        await using var stream = TownDataImportFunctionsBuilder.BuildTownCsvFormDataStream();
+
+        var functionContext = FunctionObjectsBuilder.BuildFunctionContext(logger);
+        var request = FunctionObjectsBuilder
+            .BuildHttpRequestData(HttpMethod.Post, stream);
+
+        await functions.UploadData(
+            request,
+            functionContext);
+
+        logger.ReceivedCalls().Count().Should().Be(1);
+        logger.HasLoggedMessage("Town data upload saved 10 towns.");
+    }
+
+    [Fact]
+    public async Task TownDataImportFunctions_UploadData_Exception_Logs_Expected_Messages()
+    {
+        var service = Substitute.For<ITownDataService>();
+        service
+            .ImportTownsFromCsvStream(Arg.Any<Stream>())
+            .ThrowsForAnyArgs(new InvalidOperationException());
+
+        var logger = Substitute.For<ILogger<object>>();
+
+        var functions = TownDataImportFunctionsBuilder.Build(service);
+
+        await using var stream = TownDataImportFunctionsBuilder.BuildTownCsvFormDataStream();
+
+        var functionContext = FunctionObjectsBuilder.BuildFunctionContext(logger);
+        var request = FunctionObjectsBuilder
+            .BuildHttpRequestData(HttpMethod.Post, stream);
+
+        await functions.UploadData(
+            request,
+            functionContext);
+
+        logger.HasLoggedMessageLike("Error reading or processing uploaded data. " +
+                                    "Internal Error Message System.InvalidOperationException",
+            LogLevel.Error);
     }
 }
