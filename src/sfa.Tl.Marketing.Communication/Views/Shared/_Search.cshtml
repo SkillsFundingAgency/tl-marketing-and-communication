@@ -9,12 +9,11 @@
                     <label asp-for="SearchTerm" class="tl-hidden">Postcode or town</label>
                     <div class="row no-gutters">
                         <div class="col-md-4 tl-margin-right--10--small">
-                    <input type="hidden" asp-for="ShouldSearch" value="true" />
-                    <input asp-for="SearchTerm" class="tl-search--form--postcode" placeholder="Enter postcode or town" aria-label="Enter a postcode or town to find a T Level near you" />
+                            <input type="hidden" asp-for="ShouldSearch" value="true" />
+                            <input asp-for="SearchTerm" class="tl-search--form--postcode" placeholder="Enter postcode or town" aria-label="Enter a postcode or town to find a T Level near you" />
                         </div>
                         <div class="col-md-3">
                             <button id="tl-find-button" type="submit" class="tl-button--search--black" aria-label="Search for a T Level">Search</button>
-
                         </div>
                     </div>
                 </form>
