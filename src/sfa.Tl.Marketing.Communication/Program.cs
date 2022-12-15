@@ -98,7 +98,17 @@ var tableServiceClient = new TableServiceClient(
         : default);
 
 var blobServiceClient = new BlobServiceClient(
-    siteConfiguration.StorageSettings.BlobStorageConnectionString);
+    siteConfiguration.StorageSettings.BlobStorageConnectionString,
+    builder.Environment.IsDevelopment()
+    ? new BlobClientOptions
+    {
+        Retry =
+        {
+            NetworkTimeout = TimeSpan.FromMilliseconds(500),
+            MaxRetries = 1
+        }
+    }
+    : default);
 
 builder.Services
     .AddSingleton(tableServiceClient)
