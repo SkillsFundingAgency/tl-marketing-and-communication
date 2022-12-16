@@ -8,6 +8,10 @@
         "resourceNamePrefix": {
             "type": "string"
         },
+        "logAnalyticsWorkspaceFQRId": {
+            "type": "string",
+            "defaultValue": ""
+        },
         "sharedASPName": {
             "type": "string"
         },
@@ -40,7 +44,7 @@
         }
     },
     "variables": {
-        "deploymentUrlBase": "https://raw.githubusercontent.com/DFE-Digital/operations-devops-deployment/master/ArmTemplates/",
+        "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/tl-platform-building-blocks/TLD-172/ArmTemplates/",
         "uiAppName": "[concat(parameters('resourceNamePrefix'), '-web')]",
         "appInsightName": "[concat(parameters('resourceNamePrefix'), '-ai')]",
         "workerFunctionAppName": "[concat(parameters('resourceNamePrefix'), '-func-worker')]",
@@ -62,6 +66,9 @@
                 "parameters": {
                     "storageAccountName": {
                         "value": "[variables('storageAccountName')]"
+                    },
+                    "StorageKind": {
+                        "value": "StorageV2"
                     }
                 }
             }
@@ -161,6 +168,30 @@
                     },
                     "certificateThumbprint": {
                         "value": "[reference(concat('ui-app-service-certificate','-',parameters('environmentNameAbbreviation'))).outputs.certificateThumbprint.value]"
+                    },
+                    "settingName": {
+                        "value": "[concat(variables('uiAppName'),'-log')]"
+                    },
+                    "workspaceId": {
+                        "value": "[parameters('logAnalyticsWorkspaceFQRId')]"
+                    },
+                    "appServiceHTTPLogsSetting": {
+                        "value": true
+                    },
+                    "appServiceConsoleLogsSetting": {
+                        "value": true
+                    },
+                    "appServiceAppLogsSetting": {
+                        "value": true
+                    },
+                    "appServiceAuditLogsSetting": {
+                        "value": true
+                    },
+                    "appServicePlatformLogsSetting": {
+                        "value": true
+                    },
+                    "allMetricsSetting": {
+                        "value": false
                     }
                 }
             },
@@ -231,6 +262,18 @@
                                 "value": "~4"
                             }
                         ]
+                    },
+                    "settingName": {
+                        "value": "[concat(variables('workerFunctionAppName'),'-log')]"
+                    },
+                    "workspaceId": {
+                        "value": "[parameters('logAnalyticsWorkspaceFQRId')]"
+                    },
+                    "funcServiceAppLogs": {
+                        "value": true
+                    },
+                    "allMetricsSetting": {
+                        "value": false
                     }
                 }
             }

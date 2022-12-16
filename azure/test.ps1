@@ -102,6 +102,7 @@ $deploymentParameters = @{
     TemplateParameterObject = @{
         environmentNameAbbreviation             = $environmentNameAbbreviation
         resourceNamePrefix                      = ("$($envPrefix)-$($applicationPrefix)-" + $environmentNameAbbreviation)
+        logAnalyticsWorkspaceFQRId              = ($sharedDeployment.Outputs.logAnalyticsWorkspaceFQRId.Value)
         sharedASPName                           = "$($envPrefix)-$($applicationPrefix)-shared-asp"
         sharedEnvResourceGroup                  = $sharedResourceGroupName
         sharedKeyVaultName                      = "$($envPrefix)$($applicationPrefix)sharedkv"
@@ -112,13 +113,31 @@ $deploymentParameters = @{
     }
 }
 
-$envDeployment = New-AzResourceGroupDeployment @deploymentParameters
+$envDeployment = New-AzResourceGroupDeployment @deploymentParameters -ErrorVariable errorOutput
 if ($envDeployment.ProvisioningState -eq "Succeeded") {
     Write-Output "Yippee!!"
 }
 
 <# A section to allow easy cleanup of the environments, the first line is because I've been looking at migration from app insights.
+
+# you have to remove the diagnostic settings separately as they hang around if you don't and mess things up badly
+$subscriptionId = (Get-AzContext).Subscription.Id
+$diagnosticResourceIds = @(
+    "/subscriptions/$($subscriptionId)/resourceGroups/$($sharedResourceGroupName)/providers/Microsoft.KeyVault/vaults/$($envPrefix)$($applicationPrefix)sharedkv",
+    "/subscriptions/$($subscriptionId)/resourceGroups/$($envResourceGroupName)/providers/Microsoft.Web/sites/$($envPrefix)-$($applicationPrefix)-$($environmentNameAbbreviation)-web",
+    "/subscriptions/$($subscriptionId)/resourceGroups/$($envResourceGroupName)/providers/Microsoft.Web/sites/$($envPrefix)-$($applicationPrefix)-$($environmentNameAbbreviation)-web"
+)
+foreach ($diagnosticResourceId in $diagnosticResourceIds) {
+    Write-Host "Finding settings in $($diagnosticResourceId) to remove"
+    foreach ($setting in (Get-AzDiagnosticSetting -ResourceId $diagnosticResourceId -ErrorAction SilentlyContinue)) {
+        Write-Host "Removing $(($setting).Name)"
+        Remove-AzDiagnosticSetting -ResourceId $diagnosticResourceId -Name $setting.Name
+    }   
+}
+
 Remove-AzOperationalInsightsWorkspace -ResourceGroupName $sharedResourceGroupName -Name "$($sharedResourceGroupName)-log" -ForceDelete -Force -ErrorAction SilentlyContinue
+
 Remove-AzResourceGroup -ResourceGroupName $envResourceGroupName -Force -ErrorAction SilentlyContinue
 Remove-AzResourceGroup -ResourceGroupName $sharedResourceGroupName -Force -ErrorAction SilentlyContinue
 #>
+
