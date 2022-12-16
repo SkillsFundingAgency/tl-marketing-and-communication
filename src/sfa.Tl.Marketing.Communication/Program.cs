@@ -110,6 +110,14 @@ var blobServiceClient = new BlobServiceClient(
     }
     : default);
 
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = "_tl_session";
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+    options.Cookie.IsEssential = true;
+});
+
 builder.Services
     .AddSingleton(tableServiceClient)
     .AddSingleton(blobServiceClient)
@@ -182,6 +190,8 @@ app.UseStaticFiles();
 app.UseCookiePolicy();
 
 app.UseRouting();
+
+app.UseSession();
 
 app.UseEndpoints(endpoints =>
 {
