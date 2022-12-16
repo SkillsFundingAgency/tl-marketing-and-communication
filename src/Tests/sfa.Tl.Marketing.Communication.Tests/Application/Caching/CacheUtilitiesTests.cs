@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Linq;
-using FluentAssertions;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Caching;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
-using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Caching;
 

@@ -1,6 +1,4 @@
-﻿using FluentAssertions;
-using sfa.Tl.Marketing.Communication.Models.Extensions;
-using Xunit;
+﻿using sfa.Tl.Marketing.Communication.Models.Extensions;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Model.Extensions;
 

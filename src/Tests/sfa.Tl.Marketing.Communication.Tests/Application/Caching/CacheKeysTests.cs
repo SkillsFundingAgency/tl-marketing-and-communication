@@ -1,7 +1,5 @@
 ﻿using System;
-using FluentAssertions;
 using sfa.Tl.Marketing.Communication.Application.Caching;
-using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Caching;
 

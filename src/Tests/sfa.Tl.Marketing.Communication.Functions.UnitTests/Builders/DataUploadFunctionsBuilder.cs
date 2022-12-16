@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Reflection;
-using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 
 namespace sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders;

@@ -1,15 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.Models.Entities;
 using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
-using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services;
 

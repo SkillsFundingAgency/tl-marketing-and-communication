@@ -1,8 +1,5 @@
 ﻿using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
-using Xunit;
-using FluentAssertions;
-using NSubstitute;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
 using System.Collections.Generic;

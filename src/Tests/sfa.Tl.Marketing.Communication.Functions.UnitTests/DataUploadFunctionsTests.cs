@@ -2,12 +2,9 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using FluentAssertions;
-using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders;
 using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
-using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.Functions.UnitTests;
 

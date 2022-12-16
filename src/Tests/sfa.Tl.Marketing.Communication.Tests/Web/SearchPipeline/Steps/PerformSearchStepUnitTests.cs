@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using FluentAssertions;
-using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.Models.Dto;
@@ -9,7 +7,6 @@ using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
-using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps;
 

@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions;
 using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
-using Xunit;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
 using Microsoft.AspNetCore.Mvc;
-using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 

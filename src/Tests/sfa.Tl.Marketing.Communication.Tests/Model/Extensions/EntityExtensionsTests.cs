@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using FluentAssertions;
 using sfa.Tl.Marketing.Communication.Models.Entities;
 using sfa.Tl.Marketing.Communication.Models.Extensions;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
-using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Model.Extensions;
 

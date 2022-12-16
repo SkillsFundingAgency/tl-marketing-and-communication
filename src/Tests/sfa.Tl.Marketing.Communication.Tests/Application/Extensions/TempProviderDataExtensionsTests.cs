@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
-using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Extensions;
 

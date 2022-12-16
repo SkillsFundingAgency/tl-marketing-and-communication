@@ -1,7 +1,5 @@
 ﻿using System.Text.Json;
-using FluentAssertions;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
-using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Extensions;
 

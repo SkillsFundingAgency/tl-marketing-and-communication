@@ -4,7 +4,6 @@ using System.Net.Http;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
-using NSubstitute;
 
 namespace sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders;
 

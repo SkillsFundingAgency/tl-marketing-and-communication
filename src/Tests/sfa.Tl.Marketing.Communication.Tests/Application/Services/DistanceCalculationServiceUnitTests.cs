@@ -1,6 +1,4 @@
 ﻿using System;
-using FluentAssertions;
-using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.GeoLocations;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
@@ -12,7 +10,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
-using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services;
 
