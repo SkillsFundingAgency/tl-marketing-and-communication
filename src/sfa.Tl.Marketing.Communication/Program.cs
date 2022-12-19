@@ -112,9 +112,9 @@ var blobServiceClient = new BlobServiceClient(
 
 builder.Services.AddSession(options =>
 {
-    options.Cookie.Name = "_tl_session";
+    options.Cookie.Name = "tl_session";
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-    options.IdleTimeout = TimeSpan.FromMinutes(20);
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.IsEssential = true;
 });
 
