@@ -17,4 +17,15 @@ public static class CacheKeys
 
         return $"POSTCODE__{postcode.Replace(" ", "").ToUpper()}";
     }
+
+    public static string TownPartitionKey(string partitionKey)
+    {
+        if (partitionKey is null)
+            throw new ArgumentNullException(nameof(partitionKey));
+
+        if (string.IsNullOrWhiteSpace(partitionKey))
+            throw new ArgumentException("A non-empty partition key is required", nameof(partitionKey));
+
+        return $"TOWNS__{partitionKey.ToUpper()}";
+    }
 }

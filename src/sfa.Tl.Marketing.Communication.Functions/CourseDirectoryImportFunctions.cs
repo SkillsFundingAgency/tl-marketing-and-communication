@@ -26,11 +26,6 @@ public class CourseDirectoryImportFunctions
     [Function("CourseDirectoryScheduledImport")]
     public async Task ImportCourseDirectoryData(
         [TimerTrigger("%CourseDirectoryImportTrigger%"
-#if DEBUG
-            //Fixes problem with functions startup from VS2019
-            // - see https://github.com/Azure/azure-functions-dotnet-worker/issues/471
-            , UseMonitor = false
-#endif
         )]
         // ReSharper disable once UnusedParameter.Global
         TimerInfo timer,

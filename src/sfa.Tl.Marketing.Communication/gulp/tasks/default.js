@@ -19,6 +19,7 @@ gulp.task('js', () => {
     return src([
         'node_modules/jquery/dist/jquery.min.js',
         'node_modules/bootstrap/dist/js/bootstrap.min.js',
+        'node_modules/accessible-autocomplete/dist/accessible-autocomplete.min.js',
         (paths.src.JS)
     ])
         .pipe(concat('all.js'))

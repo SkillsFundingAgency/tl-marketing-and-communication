@@ -7,25 +7,34 @@
 @using sfa.Tl.Marketing.Communication.Constants
 @model FindViewModel
 
-<form id="searchForm" class="tl-search--form text-center @Model.ValidationStyle">
-    <section id="tl-search" class="tl-find tl-content-normal--black">
+<form id="searchForm" method="post" class="tl-search--form text-center @Model.ValidationStyle">
+    <section id="tl-search" class="tl-find tl-content-normal--orange">
         <div class="tl-container">
             <div class="row">
                 <div class="col-12">
                     <h1>Find your nearest T Level</h1>
                     <p>Search for schools and colleges who are delivering T Levels</p>
-                    <span class="tl-validation--message">@Model.PostcodeValidationMessage</span>
-                    <input asp-for="Postcode" value="@Model.Postcode" placeholder="Enter your postcode" class="tl-search--form--postcode" aria-label="Enter a postcode to find a T Level near you" />
 
-                    <input type="hidden" asp-for="NumberOfItemsToShow" value="@Model.NumberOfItemsToShow" disabled="@(Model.NumberOfItemsToShow is null or 0 or AppConstants.DefaultNumberOfItemsToShow)" />
-                    <input type="hidden" asp-for="ShouldSearch" value="@Model.ShouldSearch" />
-                    <input type="hidden" asp-for="SearchedQualificationId" value="@Model.SearchedQualificationId" disabled="@(Model.SearchedQualificationId <= 0)" />
-                    <input type="hidden" asp-for="TotalRecordCount" value="@Model.TotalRecordCount" disabled="@(!Model.TotalRecordCount.HasValue)" />
-                    <input type="hidden" asp-for="SelectedItemIndex" value="@Model.SelectedItemIndex" disabled="@(Model.SelectedItemIndex <= 0)" />
+                    <div class="row">
+                        <div class="col-md-3 col-12">
+                            <label asp-for="SearchTerm" class="tl-find--label">Enter postcode or town</label>
+                            <input asp-for="SearchTerm" value="@Model.SearchTerm" placeholder="Enter postcode or town" class="tl-search--form--postcode" aria-label="Enter a postcode or town to find a T Level near you" data-default-value="@Model.SearchTerm" />
+                            <span class="tl-validation--message tl-margin-top--10">@Model.ValidationMessage</span>
 
-                    <label asp-for="SelectedQualificationId" class="tl-hidden">Select a course</label>
-                    @Html.DropDownListFor(q => q.SelectedQualificationId, Model.Qualifications)
-                    <button id="tl-find-button-main" type="submit" class="tl-button--search--orange" aria-label="Search for a T Level">Search</button>
+                        </div>
+                        <div class="col-md-9 col-12">
+                            <input type="hidden" asp-for="NumberOfItemsToShow" value="@Model.NumberOfItemsToShow" disabled="@(Model.NumberOfItemsToShow is null or 0 or AppConstants.DefaultNumberOfItemsToShow)" />
+                            <input type="hidden" asp-for="ShouldSearch" value="@Model.ShouldSearch" />
+                            <input type="hidden" asp-for="SearchedQualificationId" value="@Model.SearchedQualificationId" disabled="@(Model.SearchedQualificationId <= 0)" />
+                            <input type="hidden" asp-for="TotalRecordCount" value="@Model.TotalRecordCount" disabled="@(!Model.TotalRecordCount.HasValue)" />
+                            <input type="hidden" asp-for="SelectedItemIndex" value="@Model.SelectedItemIndex" disabled="@(Model.SelectedItemIndex <= 0)" />
+
+                            <label asp-for="SelectedQualificationId" class="tl-find--label">Choose a T Level</label>
+                            @Html.DropDownListFor(q => q.SelectedQualificationId, Model.Qualifications)
+                            <button id="tl-find-button-main" type="submit" class="tl-button--search--black" aria-label="Search for a T Level">Search</button>
+                        </div>
+                     </div>
+
                 </div>
             </div>
         </div>
@@ -36,10 +45,10 @@
             <div class="row no-gutters">
                 <div class="col-lg-8 col-12">
                     <div id="tl-results-summary" class="tl-results--summary">
-                        @if (!Model.ProviderLocations.Any())
+                        @if (Model.SearchTerm is not null && !Model.ProviderLocations.Any())
                         {
                             <h3>0 results</h3>
-                            <p>Enter a postcode to search for schools and colleges doing T Levels.</p>
+                            <p>There were no results found for your search. Please try a different location or course search.</p>
                         }
                     </div>
                     <div id="tl-search-results">

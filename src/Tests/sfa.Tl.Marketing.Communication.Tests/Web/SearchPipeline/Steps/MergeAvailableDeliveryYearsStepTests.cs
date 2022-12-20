@@ -1,6 +1,4 @@
 ﻿using System;
-using FluentAssertions;
-using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
@@ -9,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
-using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.SearchPipeline.Steps;
 

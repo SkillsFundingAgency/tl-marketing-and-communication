@@ -15,4 +15,9 @@ public interface ITableStorageService
     Task<int> SaveQualifications(IList<Qualification> qualifications);
     Task<int> RemoveQualifications(IList<Qualification> qualifications);
     Task<IList<Qualification>> GetAllQualifications();
+
+    Task<int> ClearTowns();
+    Task<int> SaveTowns(IList<Town> towns);
+    Task<IList<Town>> GetAllTowns();
+    Task<IList<Town>> GetTownsByPartitionKey(string key);
 }

@@ -4,12 +4,18 @@
         <div class="row">
             <div class="col-12">
                 <h3 class="tl-heading--small">Find a <span class="tl-nobreak">T Level</span> near you</h3>
-                <form asp-action="Find" method="get" class="tl-search--form">
-                    <span class="tl-validation--message">You must enter a postcode</span>
-                    <label asp-for="Postcode" class="tl-hidden">Postcode</label>
-                    <input type="hidden" asp-for="ShouldSearch" value="true" />
-                    <input asp-for="Postcode" class="tl-search--form--postcode" placeholder="Enter your postcode" aria-label="Enter a postcode to find a T Level near you" />
-                    <button id="tl-find-button" type="submit" class="tl-button--search--black" aria-label="Search for a T Level">Search</button>
+                <form asp-action="Find" method="post" class="tl-search--form">
+                    <span class="tl-validation--message">You must enter a postcode or town</span>
+                    <label asp-for="SearchTerm" class="tl-hidden">Postcode or town</label>
+                    <div class="row no-gutters">
+                        <div class="col-md-4 tl-margin-right--10--small">
+                            <input type="hidden" asp-for="ShouldSearch" value="true" />
+                            <input asp-for="SearchTerm" class="tl-search--form--postcode" placeholder="Enter postcode or town" aria-label="Enter a postcode or town to find a T Level near you" />
+                        </div>
+                        <div class="col-md-3">
+                            <button id="tl-find-button" type="submit" class="tl-button--search--black" aria-label="Search for a T Level">Search</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

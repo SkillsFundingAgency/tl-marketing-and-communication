@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Azure.Data.Tables;
 using Azure.Storage.Blobs;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -36,8 +37,11 @@ var siteConfiguration = builder.Configuration.LoadConfigurationOptions()
                         ?? builder.Configuration.LoadConfigurationOptionsFromAppSettings();
 
 builder.Services
-    .AddApplicationInsightsTelemetry()
-    .AddSingleton(siteConfiguration);
+    .AddSingleton(siteConfiguration)
+    .AddApplicationInsightsTelemetry(new ApplicationInsightsServiceOptions
+    {
+        EnableRequestTrackingTelemetryModule = false
+    });
 
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
@@ -71,10 +75,11 @@ builder.Services
     .AddTransient<IJourneyService, JourneyService>()
     .AddTransient<IProviderSearchService, ProviderSearchService>()
     .AddTransient<ISearchPipelineFactory, SearchPipelineFactory>()
+    .AddTransient<ITownDataService, TownDataService>()
     .AddTransient<IProviderSearchEngine, ProviderSearchEngine>()
     .AddTransient<ISearchStep, GetQualificationsStep>()
     .AddTransient<ISearchStep, LoadSearchPageWithNoResultsStep>()
-    .AddTransient<ISearchStep, ValidatePostcodeStep>()
+    .AddTransient<ISearchStep, ValidateSearchTermAndLoadLocationStep>()
     .AddTransient<ISearchStep, CalculateNumberOfItemsToShowStep>()
     .AddTransient<ISearchStep, PerformSearchStep>()
     .AddTransient<ISearchStep, MergeAvailableDeliveryYearsStep>();
@@ -93,7 +98,25 @@ var tableServiceClient = new TableServiceClient(
         : default);
 
 var blobServiceClient = new BlobServiceClient(
-    siteConfiguration.StorageSettings.BlobStorageConnectionString);
+    siteConfiguration.StorageSettings.BlobStorageConnectionString,
+    builder.Environment.IsDevelopment()
+    ? new BlobClientOptions
+    {
+        Retry =
+        {
+            NetworkTimeout = TimeSpan.FromMilliseconds(500),
+            MaxRetries = 1
+        }
+    }
+    : default);
+
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = "tl_session";
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.IsEssential = true;
+});
 
 builder.Services
     .AddSingleton(tableServiceClient)
@@ -167,6 +190,8 @@ app.UseStaticFiles();
 app.UseCookiePolicy();
 
 app.UseRouting();
+
+app.UseSession();
 
 app.UseEndpoints(endpoints =>
 {

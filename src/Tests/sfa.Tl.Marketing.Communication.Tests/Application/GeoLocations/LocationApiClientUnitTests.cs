@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -7,7 +6,6 @@ using sfa.Tl.Marketing.Communication.Application.GeoLocations;
 using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
 using sfa.Tl.Marketing.Communication.Tests.Common.HttpClientHelpers;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
-using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.GeoLocations;
 
@@ -79,7 +77,7 @@ public class LocationApiClientUnitTests
         var jsonBuilder = new PostcodeResponseJsonBuilder();
 
         var httpClient = new TestHttpClientFactory()
-            .CreateClient(
+            .CreateHttpClient(
                 SettingsBuilder.PostcodeRetrieverBaseUri,
                 new List<(string, string, HttpStatusCode)>
                 {

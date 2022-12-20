@@ -1,7 +1,5 @@
-﻿using FluentAssertions;
-using sfa.Tl.Marketing.Communication.Application.Comparers;
+﻿using sfa.Tl.Marketing.Communication.Application.Comparers;
 using sfa.Tl.Marketing.Communication.Models.Dto;
-using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Comparers;
 

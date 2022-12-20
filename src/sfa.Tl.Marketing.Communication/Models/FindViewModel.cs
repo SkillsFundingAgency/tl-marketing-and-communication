@@ -7,7 +7,7 @@ namespace sfa.Tl.Marketing.Communication.Models;
 
 public class FindViewModel
 {
-    public string Postcode { get; set; }
+    public string SearchTerm { get; set; }
     public string Longitude { get; set; }
     public string Latitude { get; set; }
     public string Qualification { get; init; }
@@ -28,7 +28,7 @@ public class FindViewModel
         } 
     }
 
-    public string PostcodeValidationMessage { get; set; }
+    public string ValidationMessage { get; set; }
     public string ValidationStyle { get; set; }
     public int? TotalRecordCount { get; set; }
     public int SelectedItemIndex { get; set; }

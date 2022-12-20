@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using sfa.Tl.Marketing.Communication.Models.Dto;
@@ -59,7 +60,7 @@ public static class EntityExtensions
                     Locations = new List<Location>()
                 }).ToList();
     }
-    
+
     public static IList<LocationEntity> ToLocationEntityList(this IEnumerable<Location> locations, string partitionKey)
     {
         return locations?
@@ -103,6 +104,40 @@ public static class EntityExtensions
                     }).ToList() ?? new List<Location>();
     }
 
+    public static IList<TownEntity> ToTownEntityList(
+        this IEnumerable<Town> towns)
+    {
+        return towns
+            .Select(town =>
+                new TownEntity
+                {
+                    PartitionKey = town.Name[..Math.Min(3, town.Name.Length)].ToUpper(),
+                    RowKey = town.Id.ToString(),
+                    Id = town.Id,
+                    Name = town.Name,
+                    County = town.County,
+                    LocalAuthority = town.LocalAuthority,
+                    Latitude = town.Latitude,
+                    Longitude = town.Longitude,
+                    SearchString = town.SearchString,
+                }).ToList();
+    }
+
+    public static IList<Town> ToTownList(this IEnumerable<TownEntity> townEntities)
+    {
+        return townEntities
+            .Select(t =>
+                new Town
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    County = t.County,
+                    LocalAuthority = t.LocalAuthority,
+                    Latitude = t.Latitude,
+                    Longitude = t.Longitude,
+                    SearchString = t.SearchString,
+                }).ToList();
+    }
     public static IList<DeliveryYearEntity> DeserializeDeliveryYears(this string serializedDeliveryYear)
     {
         var result = !string.IsNullOrEmpty(serializedDeliveryYear)
