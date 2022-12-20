@@ -45,7 +45,7 @@ public class TestHttpClientFactory
         return httpResponseMessage;
     }
 
-    public HttpClient CreateClient(Uri baseUri, IEnumerable<(string relativeUri, string json, HttpStatusCode statusCode)> responses, string contentType = "application/json")
+    public HttpClient CreateHttpClient(Uri baseUri, IEnumerable<(string relativeUri, string json, HttpStatusCode statusCode)> responses, string contentType = "application/json")
     {
         var fakeMessageHandler = new FakeHttpMessageHandler();
 

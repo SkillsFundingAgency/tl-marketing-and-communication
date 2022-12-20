@@ -185,6 +185,53 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
         return results;
     }
 
+    public async Task<IList<T>> GetPartition(string key)
+    {
+        var results = new List<T>();
+
+        try
+        {
+            var tableClient = _tableServiceClient.GetTableClient(_tableName);
+            if (tableClient is null)
+            {
+                _logger.LogWarning(
+                    "GenericCloudTableRepository GetPartition: table '{_tableName}' not found. Returning 0 results.",
+                    _tableName);
+                return results;
+            }
+
+            var queryResults = tableClient
+                .QueryAsync<T>(x => x.PartitionKey == key);
+
+            //var cancellationToken = default(CancellationToken);
+
+            await foreach (var page in queryResults.AsPages()
+                           //.WithCancellation(cancellationToken)
+                          )
+            {
+                results.AddRange(page.Values);
+            }
+        }
+        catch (AggregateException aex)
+        {
+            if (_environment != "LOCAL" || aex.InnerException is not TaskCanceledException)
+            {
+                throw;
+            }
+
+            //Workaround to avoid displaying exceptions for local dev
+            _logger.LogWarning("GenericCloudTableRepository GetPartition: ignoring error '{exceptionTypeName}' for table '{_tableName}' when running in local environment. Returning 0 results.",
+                aex.InnerException.GetType().Name, _tableName);
+        }
+        catch (RequestFailedException fex)
+        {
+            _logger.LogError(fex, "GenericCloudTableRepository GetPartition: error for table '{_tableName}'. Returning 0 results.", _tableName);
+        }
+
+        return results;
+    }
+
+
     public async Task<int> Save(IList<T> entities)
     {
         if (entities == null || !entities.Any())

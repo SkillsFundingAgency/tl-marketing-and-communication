@@ -77,7 +77,10 @@ public class DistanceCalculationService : IDistanceCalculationService
         var key = CacheKeys.PostcodeKey(postcode);
         if (_cache.TryGetValue(key, out PostcodeLocation postcodeLocation))
         {
-            _logger.LogInformation("Cache hit - found postcode {postcode}", postcodeLocation.Postcode);
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug("Cache hit - found postcode {postcode}", postcodeLocation.Postcode);
+            }
         }
         else
         {

@@ -1,6 +1,5 @@
 #tl-search {
-    background: $black;
-    color: $white;
+    background: $orange;
     padding: 60px 0;
 
 
@@ -13,6 +12,7 @@
         padding: 15px;
         border: none;
         @include font(body, 16px, $lh: 20px);
+        margin-right: 10px;
 
 
         @include media-max(small) {
@@ -29,6 +29,8 @@
         background-color: $white;
         cursor: pointer;
         padding: 15px 35px 15px 15px;
+        top: -2px;
+        position: relative;
 
         @include media-between(small, medium) {
             max-width: 300px;
@@ -40,6 +42,10 @@
             width: 100%;
             text-align: center;
         }
+    }
+
+    .tl-validation--message {
+        color: black;
     }
 
     &--alt {
@@ -81,6 +87,13 @@
         input, select {
             text-align: left !important;
         }
+    }
+
+    &--label {
+        font-weight: bold;
+        width: 100%;
+        display: inline-block;
+        margin-bottom: 10px;
     }
 }
 

@@ -3,11 +3,8 @@ using System.IO;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Services;
-using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services;
 

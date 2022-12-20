@@ -29,7 +29,7 @@ $('.tl-nav--hamburger').keypress(function (e) {
         $(this).click();
         return false;
     }
-}); 
+});
 
 
 // Subject accordions //
@@ -105,10 +105,10 @@ function processKeyboardEvents(e) {
 $("#tl-find-button").click(function () {
 
     const postcode = $("#Postcode").val().trim();
-      
+
     if (postcode === "") {
         event.stopPropagation();
-        showPostcodeError("You must enter a postcode");
+        showPostcodeError("You must enter a postcode or town");
         return false;
     } else {
         $(".tl-search--form").removeClass("tl-validation--error");
@@ -123,6 +123,59 @@ function showPostcodeError(message) {
     $("#tl-search-results").empty();
     $("#tl-results-summary").removeClass("tl-none");
     $("#tl-results-summary").empty();
-    $("#tl-results-summary").append("<h3>0 results</h3><p> Enter a postcode to search for schools and colleges doing T Levels.</p>");
+    $("#tl-results-summary").append("<h3>0 results</h3><pThere were no results found for your search. Please try a different location or course search.</p>");
     $("#tl-next").addClass("tl-none");
+}
+
+// AUTOCOMPLETE
+const $keywordsInput = $('#SearchTerm');
+var $defaultValue = $('#SearchTerm').data('default-value');
+
+if ($keywordsInput.length > 0) {
+    $keywordsInput.wrap('<div id="autocomplete-container" class="tl-autocomplete-wrap"></div>');
+    const container = document.querySelector('#autocomplete-container');
+    $(container).empty();
+
+    function getSuggestions(query, populateResults) {
+        if (/\d/.test(query)) {
+            //ignoring potential postcodes
+            return;
+        }
+        var results = [];
+        $.ajax({
+            url: "/api/locations",
+            type: "get",
+            dataType: 'json',
+            data: { searchTerm: query }
+        }).done(function (data) {
+            results = data.map(function (r) {
+                return getLocationDisplayName(r);
+            });
+            populateResults(results);
+        });
+    }
+
+    function getLocationDisplayName(item) {
+        if (item.county) return item.name + ', ' + item.county;
+        else if (item.la) return item.name + ', ' + item.la;
+        return item.name;
+    }
+
+    function onConfirm() {
+    }
+
+    accessibleAutocomplete({
+        element: container,
+        id: 'SearchTerm',
+        name: 'SearchTerm',
+        displayMenu: 'overlay',
+        showNoOptionsFound: false,
+        minLength: 3,
+        source: getSuggestions,
+        placeholder: "Enter postcode or town",
+        onConfirm: onConfirm,
+        defaultValue: $defaultValue,
+        confirmOnBlur: false,
+        autoselect: true
+    });
 }

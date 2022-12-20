@@ -25,7 +25,7 @@ public class PerformSearchStep : ISearchStep
     {
         var searchRequest = new SearchRequest
         {
-            Postcode = context.ViewModel.Postcode,
+            Postcode = context.ViewModel.SearchTerm,
             OriginLatitude = context.ViewModel.Latitude,
             OriginLongitude = context.ViewModel.Longitude,
             NumberOfItems = context.ViewModel.NumberOfItemsToShow ?? 0,

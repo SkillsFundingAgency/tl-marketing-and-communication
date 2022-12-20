@@ -1,7 +1,5 @@
 ﻿using System.Linq;
-using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using NSubstitute;
 
 namespace sfa.Tl.Marketing.Communication.Functions.UnitTests.Extensions;
 

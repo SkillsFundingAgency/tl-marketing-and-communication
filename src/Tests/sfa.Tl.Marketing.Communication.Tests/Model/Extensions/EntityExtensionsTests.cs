@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using FluentAssertions;
 using sfa.Tl.Marketing.Communication.Models.Entities;
 using sfa.Tl.Marketing.Communication.Models.Extensions;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
-using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Model.Extensions;
 
@@ -22,14 +20,6 @@ public class EntityExtensionsTests
         qualificationEntities[0].Id.Should().Be(qualifications[0].Id);
         qualificationEntities[0].Route.Should().Be(qualifications[0].Route);
         qualificationEntities[0].Name.Should().Be(qualifications[0].Name);
-
-        qualificationEntities[0].Id.Should().Be(1);
-        qualificationEntities[0].Route.Should().Be("Route 1");
-        qualificationEntities[0].Name.Should().Be("Test Qualification 1");
-
-        qualificationEntities[1].Id.Should().Be(2);
-        qualificationEntities[1].Route.Should().Be("Route 2");
-        qualificationEntities[1].Name.Should().Be("Test Qualification 2");
     }
 
     [Fact]
@@ -104,5 +94,65 @@ public class EntityExtensionsTests
         var results = deliveryYearString.DeserializeDeliveryYears();
 
         results.Should().BeEquivalentTo(deliveryYearEntities);
+    }
+
+    [Fact]
+    public void TownList_ToTownEntityList_Returns_Expected_Result()
+    {
+        var towns = new TownListBuilder()
+            .Add(2)
+            .Build();
+
+        var townEntities = towns.ToTownEntityList();
+
+        townEntities.Should().HaveCount(2);
+        townEntities[0].Id.Should().Be(towns[0].Id);
+        townEntities[0].Name.Should().Be(towns[0].Name);
+        townEntities[0].County.Should().Be(towns[0].County);
+        townEntities[0].LocalAuthority.Should().Be(towns[0].LocalAuthority);
+        townEntities[0].Latitude.Should().Be(towns[0].Latitude);
+        townEntities[0].Longitude.Should().Be(towns[0].Longitude);
+        townEntities[0].SearchString.Should().Be(towns[0].SearchString);
+
+        townEntities[0].PartitionKey.Should().Be(towns[0].Name[..3].ToUpper());
+        townEntities[0].RowKey.Should().Be(towns[0].Id.ToString());
+
+        townEntities[1].Id.Should().Be(towns[1].Id);
+        townEntities[1].Name.Should().Be(towns[1].Name);
+        townEntities[1].County.Should().Be(towns[1].County);
+        townEntities[1].LocalAuthority.Should().Be(towns[1].LocalAuthority);
+        townEntities[1].Latitude.Should().Be(towns[1].Latitude);
+        townEntities[1].Longitude.Should().Be(towns[1].Longitude);
+        townEntities[1].SearchString.Should().Be(towns[1].SearchString);
+
+        townEntities[1].PartitionKey.Should().Be(towns[1].Name[..3].ToUpper());
+        townEntities[1].RowKey.Should().Be(towns[1].Id.ToString());
+    }
+
+    [Fact]
+    public void TownEntityList_ToTownList_Returns_Expected_Result()
+    {
+        var townEntities = new TownEntityListBuilder()
+            .Add(2)
+            .Build();
+
+        var towns = townEntities.ToTownList();
+
+        towns.Should().HaveCount(2);
+        towns[0].Id.Should().Be(townEntities[0].Id);
+        towns[0].Name.Should().Be(townEntities[0].Name);
+        towns[0].County.Should().Be(townEntities[0].County);
+        towns[0].LocalAuthority.Should().Be(townEntities[0].LocalAuthority);
+        towns[0].Latitude.Should().Be(townEntities[0].Latitude);
+        towns[0].Longitude.Should().Be(townEntities[0].Longitude);
+        towns[0].SearchString.Should().Be(townEntities[0].SearchString);
+
+        towns[1].Id.Should().Be(townEntities[1].Id);
+        towns[1].Name.Should().Be(townEntities[1].Name);
+        towns[1].County.Should().Be(townEntities[1].County);
+        towns[1].LocalAuthority.Should().Be(townEntities[1].LocalAuthority);
+        towns[1].Latitude.Should().Be(townEntities[1].Latitude);
+        towns[1].Longitude.Should().Be(townEntities[1].Longitude);
+        towns[1].SearchString.Should().Be(townEntities[1].SearchString);
     }
 }

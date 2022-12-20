@@ -1,15 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.Models.Entities;
 using sfa.Tl.Marketing.Communication.Tests.Common.Extensions;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
-using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Application.Services;
 
@@ -205,21 +202,127 @@ public class TableStorageServiceTests
         savedQualificationEntities.Count.Should().Be(qualifications.Count);
     }
 
+    [Fact]
+    public async Task TableStorageService_ClearTowns_Returns_Expected_Results()
+    {
+        var townRepository = Substitute.For<ICloudTableRepository<TownEntity>>();
+        townRepository
+            .DeleteAll()
+            .Returns(5);
+
+        var service = BuildTableStorageService(townRepository: townRepository);
+
+        var result = await service.ClearTowns();
+
+        result.Should().Be(5);
+    }
+
+    [Fact]
+    public async Task TableStorageService_GetAllTowns_Returns_Expected_Results()
+    {
+        var townRepository = Substitute.For<ICloudTableRepository<TownEntity>>();
+        townRepository
+            .GetAll()
+            .Returns(new TownEntityListBuilder()
+                .Add()
+                .Build());
+
+        var service = BuildTableStorageService(townRepository: townRepository);
+
+        var towns = new TownListBuilder()
+            .Add()
+            .Build();
+        var result = await service.GetAllTowns();
+
+        result.Should().BeEquivalentTo(towns);
+    }
+
+    [Fact]
+    public async Task TableStorageService_GetTownsByPartitionKey_Returns_Expected_Results()
+    {
+        const string partitionKey = "COV";
+
+        var townRepository = Substitute.For<ICloudTableRepository<TownEntity>>();
+        townRepository
+            .GetPartition(partitionKey)
+            .Returns(new TownEntityListBuilder()
+                .Add()
+                .Build());
+
+        var service = BuildTableStorageService(townRepository: townRepository);
+
+        var towns = new TownListBuilder()
+            .Add()
+            .Build();
+        var result = await service.GetTownsByPartitionKey(partitionKey);
+
+        result.Should().BeEquivalentTo(towns);
+    }
+
+    [Fact]
+    public async Task TableStorageService_SaveTowns_With_Null_Towns_List_Returns_Zero()
+    {
+        var service = BuildTableStorageService();
+
+        var result = await service.SaveTowns(null);
+        result.Should().Be(0);
+    }
+
+    [Fact]
+    public async Task TableStorageService_SaveTowns_With_Empty_Towns_List_Returns_Zero()
+    {
+        var service = BuildTableStorageService();
+
+        var result = await service.SaveTowns(new List<Town>());
+        result.Should().Be(0);
+    }
+
+    [Fact]
+    public async Task TableStorageService_SaveTowns_Returns_Expected_Count_Of_Items_Saved()
+    {
+        var savedTownEntities = new List<TownEntity>();
+
+        var towns = new TownListBuilder()
+            .Add(2)
+            .Build();
+
+        var townRepository = Substitute.For<ICloudTableRepository<TownEntity>>();
+        townRepository
+            .Save(Arg.Do<IList<TownEntity>>(entities =>
+            {
+                savedTownEntities.AddRange(entities);
+            }))
+            .Returns(args =>
+                ((IList<TownEntity>)args[0]).Count);
+
+        var service = BuildTableStorageService(townRepository: townRepository);
+
+        var result = await service.SaveTowns(towns);
+
+        result.Should().Be(towns.Count);
+        result.Should().Be(2);
+
+        savedTownEntities.Count.Should().Be(towns.Count);
+    }
+
     private static TableStorageService BuildTableStorageService(
         ICloudTableRepository<LocationEntity> locationRepository = null,
         ICloudTableRepository<ProviderEntity> providerRepository = null,
         ICloudTableRepository<QualificationEntity> qualificationRepository = null,
+        ICloudTableRepository<TownEntity> townRepository = null,
         ILogger<TableStorageService> logger = null)
     {
         locationRepository ??= Substitute.For<ICloudTableRepository<LocationEntity>>();
         providerRepository ??= Substitute.For<ICloudTableRepository<ProviderEntity>>();
         qualificationRepository ??= Substitute.For<ICloudTableRepository<QualificationEntity>>();
+        townRepository ??= Substitute.For<ICloudTableRepository<TownEntity>>();
         logger ??= Substitute.For<ILogger<TableStorageService>>();
 
         return new TableStorageService(
             locationRepository,
             providerRepository,
             qualificationRepository,
+            townRepository,
             logger);
     }
 }

@@ -1,5 +1,4 @@
-﻿using NSubstitute;
-using sfa.Tl.Marketing.Communication.Application.Interfaces;
+﻿using sfa.Tl.Marketing.Communication.Application.Interfaces;
 
 namespace sfa.Tl.Marketing.Communication.Functions.UnitTests.Builders;
 

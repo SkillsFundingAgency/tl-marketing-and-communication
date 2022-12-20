@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Net;
-using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using NSubstitute;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Controllers;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
-using Xunit;
 
 namespace sfa.Tl.Marketing.Communication.UnitTests.Web.Controllers;
 
@@ -36,7 +33,7 @@ public class StudentControllerRedirectTests
         urlHelper.IsLocalUrl(Arg.Any<string>())
             .Returns(args => (string)args[0] == LocalUri);
 
-        _controller = new StudentControllerBuilder().BuildStudentController(providerDataService, urlHelper: urlHelper);
+        _controller = new StudentControllerBuilder().Build(providerDataService, urlHelper: urlHelper);
     }
 
     [Fact]
