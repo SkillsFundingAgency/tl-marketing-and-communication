@@ -1,6 +1,4 @@
 $ErrorActionPreference = "Stop"
-# make sure we're on the right subscription to start with
-Set-AzContext -Tenant "9c7d9dd3-840c-4b3f-818e-552865082e16" -Subscription "s126-tlevelservice-development" 
 
 $location = "westeurope"
 $applicationPrefix = "mcom"
@@ -40,7 +38,7 @@ $sharedDeploymentParameters = @{
     ResourceGroupName       = $sharedResourceGroupName
     Mode                    = "Complete"
     Force                   = $true
-    TemplateFile            = "$($templateFilePrefix)-shared.json"
+    TemplateFile            = "$($PSScriptRoot)/$($templateFilePrefix)-shared.json"
     TemplateParameterObject = @{
         environmentNameAbbreviation             = "$($envPrefix)-$($applicationPrefix)"
         threatDetectionEmailAddress             = "noreply@example.com"
@@ -98,7 +96,7 @@ $deploymentParameters = @{
     Name                    = "test-{0:yyyyMMdd-HHmmss}" -f (Get-Date)
     ResourceGroupName       = $envResourceGroupName
     Mode                    = "Incremental"
-    TemplateFile            = "$($templateFilePrefix)-environment.json"
+    TemplateFile            = "$($PSScriptRoot)/$($templateFilePrefix)-environment.json"
     TemplateParameterObject = @{
         environmentNameAbbreviation             = $environmentNameAbbreviation
         resourceNamePrefix                      = ("$($envPrefix)-$($applicationPrefix)-" + $environmentNameAbbreviation)
@@ -125,7 +123,7 @@ $subscriptionId = (Get-AzContext).Subscription.Id
 $diagnosticResourceIds = @(
     "/subscriptions/$($subscriptionId)/resourceGroups/$($sharedResourceGroupName)/providers/Microsoft.KeyVault/vaults/$($envPrefix)$($applicationPrefix)sharedkv",
     "/subscriptions/$($subscriptionId)/resourceGroups/$($envResourceGroupName)/providers/Microsoft.Web/sites/$($envPrefix)-$($applicationPrefix)-$($environmentNameAbbreviation)-web",
-    "/subscriptions/$($subscriptionId)/resourceGroups/$($envResourceGroupName)/providers/Microsoft.Web/sites/$($envPrefix)-$($applicationPrefix)-$($environmentNameAbbreviation)-web"
+    "/subscriptions/$($subscriptionId)/resourceGroups/$($envResourceGroupName)/providers/Microsoft.Web/sites/$($envPrefix)-$($applicationPrefix)-$($environmentNameAbbreviation)-func-worker"
 )
 foreach ($diagnosticResourceId in $diagnosticResourceIds) {
     Write-Host "Finding settings in $($diagnosticResourceId) to remove"
