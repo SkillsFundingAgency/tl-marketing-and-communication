@@ -1,5 +1,12 @@
 $ErrorActionPreference = "Stop"
 
+if ((Get-AzContext).Subscription.Name -ne 's126-tlevelservice-development') {
+    throw 'Azure Context references incorrect subscription'
+}
+
+$scriptRoot = $PSScriptRoot
+if (($PSScriptRoot).Length -eq 0) { $scriptRoot = $PWD.Path}
+
 $location = "westeurope"
 $applicationPrefix = "mcom"
 $envPrefix = "s126d99"
@@ -38,7 +45,7 @@ $sharedDeploymentParameters = @{
     ResourceGroupName       = $sharedResourceGroupName
     Mode                    = "Complete"
     Force                   = $true
-    TemplateFile            = "$($PSScriptRoot)/$($templateFilePrefix)-shared.json"
+    TemplateFile            = "$($scriptRoot)/$($templateFilePrefix)-shared.json"
     TemplateParameterObject = @{
         environmentNameAbbreviation             = "$($envPrefix)-$($applicationPrefix)"
         threatDetectionEmailAddress             = "noreply@example.com"
@@ -96,11 +103,11 @@ $deploymentParameters = @{
     Name                    = "test-{0:yyyyMMdd-HHmmss}" -f (Get-Date)
     ResourceGroupName       = $envResourceGroupName
     Mode                    = "Incremental"
-    TemplateFile            = "$($PSScriptRoot)/$($templateFilePrefix)-environment.json"
+    TemplateFile            = "$($scriptRoot)/$($templateFilePrefix)-environment.json"
     TemplateParameterObject = @{
         environmentNameAbbreviation             = $environmentNameAbbreviation
         resourceNamePrefix                      = ("$($envPrefix)-$($applicationPrefix)-" + $environmentNameAbbreviation)
-        logAnalyticsWorkspaceFQRId              = ($sharedDeployment.Outputs.logAnalyticsWorkspaceFQRId.Value)
+        #logAnalyticsWorkspaceFQRId              = ($sharedDeployment.Outputs.logAnalyticsWorkspaceFQRId.Value)
         sharedASPName                           = "$($envPrefix)-$($applicationPrefix)-shared-asp"
         sharedEnvResourceGroup                  = $sharedResourceGroupName
         sharedKeyVaultName                      = "$($envPrefix)$($applicationPrefix)sharedkv"
