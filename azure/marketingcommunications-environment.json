@@ -163,6 +163,10 @@
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                                 "value": "[reference(concat('app-insights','-',parameters('environmentNameAbbreviation'))).outputs.InstrumentationKey.value]"
+                            },
+                            {
+                                "name": "APPINSIGHTS_CONNECTIONSTRING",
+                                "value": "[reference(concat('app-insights','-',parameters('environmentNameAbbreviation'))).outputs.ConnectionString.value]"
                             }
                         ]
                     },
@@ -247,6 +251,10 @@
                             {
                                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                                 "value": "[reference(concat('app-insights','-',parameters('environmentNameAbbreviation'))).outputs.InstrumentationKey.value]"
+                            },
+                            {
+                                "name": "APPINSIGHTS_CONNECTIONSTRING",
+                                "value": "[reference(concat('app-insights','-',parameters('environmentNameAbbreviation'))).outputs.ConnectionString.value]"
                             },
                             {
                                 "name": "AzureWebJobsStorage",
