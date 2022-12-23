@@ -1,3 +1,7 @@
+parameters:
+  - name: devEnvId
+    type: string
+
 stages:
   - template: marketingcommunications-build-stage.yml
     parameters:        
@@ -10,17 +14,17 @@ stages:
       dependencies:
         - build
       environmentName: dev
-      sharedEnvironmentId: d01
+      sharedEnvironmentId: ${{parameters.devEnvId}}
       serviceConnection: $(devServiceConnection)
     
   - template: marketingcommunications-stage.yml
     parameters:
       environmentTagName: Dev
       dependencies:
-        - DeploySharedInfrastructure_d01
+        - DeploySharedInfrastructure_${{parameters.devEnvId}}
       environmentName: dev
-      environmentId: d01
-      sharedEnvironmentId: d01
+      environmentId: ${{parameters.devEnvId}}
+      sharedEnvironmentId: ${{parameters.devEnvId}}
       serviceConnection: $(devServiceConnection)
 ######################## TEST ##############################################
   - template: marketingcommunications-shared-stage.yml
