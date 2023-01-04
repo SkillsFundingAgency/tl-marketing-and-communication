@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Azure.Data.Tables;
 using Azure.Storage.Blobs;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -18,6 +19,7 @@ using sfa.Tl.Marketing.Communication.Application.Repositories;
 using sfa.Tl.Marketing.Communication.Application.Services;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
 using sfa.Tl.Marketing.Communication.SearchPipeline.Steps;
+using sfa.Tl.Marketing.Communication.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -109,6 +111,8 @@ var blobServiceClient = new BlobServiceClient(
         }
     }
     : default);
+
+builder.Services.AddWebDataProtection(siteConfiguration);
 
 builder.Services.AddSession(options =>
 {
