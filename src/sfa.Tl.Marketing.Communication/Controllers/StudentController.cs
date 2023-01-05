@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using sfa.Tl.Marketing.Communication.Application.Caching;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
@@ -105,27 +102,12 @@ public class StudentController : Controller
         return View("Transcripts/StudentAmbassadorTranscript7");
     }
 
-    [HttpGet]
     [Route("/students/find", Name = "Find")]
-    public async Task<IActionResult> Find()
+    public async Task<IActionResult> Find(FindViewModel viewModel)
     {
-        var viewModel = HttpContext.Session.TryGetValue(SessionKeys.FindViewModelKey, out var bytes) 
-            ? JsonSerializer.Deserialize<FindViewModel>(Encoding.UTF8.GetString(bytes)) 
-            : new FindViewModel();
-
         var searchResults = await _providerSearchEngine.Search(viewModel);
-        return View(searchResults);
-    }
 
-    [HttpPost]
-    [Route("/students/find", Name = "FindPost")]
-    public IActionResult Find(FindViewModel viewModel)
-    {
-        HttpContext.Session.Set(SessionKeys.FindViewModelKey,
-            Encoding.UTF8.GetBytes(
-                JsonSerializer.Serialize(viewModel)));
-        
-        return RedirectToRoute("Find");
+        return View(searchResults);
     }
 
     [Route("/students/subjects/accounting", Name = "Accounting")]

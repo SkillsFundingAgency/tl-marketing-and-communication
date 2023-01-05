@@ -227,15 +227,15 @@ public class TownDataService : ITownDataService
                 CountyName = x.attributeElement.SafeGetString("cty15nm", CountyMaxLength),
                 LocalAuthorityName = x.attributeElement.SafeGetString("ctyltnm", LocalAuthorityMaxLength),
                 LocalAuthorityDistrictDescription = x.attributeElement.SafeGetString("laddescnm"),
-                //LocalAuthorityDistrict =
-                //    Enum.TryParse<LocalAuthorityDistrict>(x.attributeElement.SafeGetString("laddescnm"), out var localAuthorityDistrict)
-                //        ? localAuthorityDistrict : default,
+                LocalAuthorityDistrict =
+                    Enum.TryParse<LocalAuthorityDistrict>(x.attributeElement.SafeGetString("laddescnm"), out var localAuthorityDistrict)
+                        ? localAuthorityDistrict : default,
                 LocationAuthorityDistrict = x.attributeElement.SafeGetString("lad15nm"),
                 PlaceNameDescription = x.attributeElement.SafeGetString("descnm"),
-                //PlaceName =
-                //    Enum.TryParse<PlaceNameDescription>(
-                //        x.attributeElement.SafeGetString("descnm"), out var placeName)
-                //    ? placeName : default,
+                PlaceName =
+                    Enum.TryParse<PlaceNameDescription>(
+                        x.attributeElement.SafeGetString("descnm"), out var placeName)
+                    ? placeName : default,
                 Latitude = x.attributeElement.SafeGetDouble("lat"),
                 Longitude = x.attributeElement.SafeGetDouble("long")
                 //ReSharper restore StringLiteralTypo
