@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Azure.Data.Tables;
 using Azure.Storage.Blobs;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
-using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -114,14 +113,6 @@ var blobServiceClient = new BlobServiceClient(
 
 builder.Services.AddWebDataProtection(siteConfiguration);
 
-builder.Services.AddSession(options =>
-{
-    options.Cookie.Name = "tl_session";
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.IsEssential = true;
-});
-
 builder.Services
     .AddSingleton(tableServiceClient)
     .AddSingleton(blobServiceClient)
@@ -194,8 +185,6 @@ app.UseStaticFiles();
 app.UseCookiePolicy();
 
 app.UseRouting();
-
-app.UseSession();
 
 app.UseEndpoints(endpoints =>
 {

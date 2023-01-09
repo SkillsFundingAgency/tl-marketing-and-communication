@@ -7,7 +7,7 @@
 @using sfa.Tl.Marketing.Communication.Constants
 @model FindViewModel
 
-<form id="searchForm" method="post" class="tl-search--form text-center @Model.ValidationStyle">
+<form id="searchForm" method="get" class="tl-search--form text-center @Model.ValidationStyle">
     <section id="tl-search" class="tl-find tl-content-normal--orange">
         <div class="tl-container">
             <div class="row">
@@ -22,7 +22,7 @@
                             <span class="tl-validation--message tl-margin-top--10">@Model.ValidationMessage</span>
 
                         </div>
-                        <div class="col-md-9 col-12">
+                        <div class="col-md-9 col-12 align-self-end">
                             <input type="hidden" asp-for="NumberOfItemsToShow" value="@Model.NumberOfItemsToShow" disabled="@(Model.NumberOfItemsToShow is null or 0 or AppConstants.DefaultNumberOfItemsToShow)" />
                             <input type="hidden" asp-for="ShouldSearch" value="@Model.ShouldSearch" />
                             <input type="hidden" asp-for="SearchedQualificationId" value="@Model.SearchedQualificationId" disabled="@(Model.SearchedQualificationId <= 0)" />
@@ -31,7 +31,7 @@
 
                             <label asp-for="SelectedQualificationId" class="tl-find--label">Choose a T Level</label>
                             @Html.DropDownListFor(q => q.SelectedQualificationId, Model.Qualifications)
-                            <button id="tl-find-button-main" type="submit" class="tl-button--search--black" aria-label="Search for a T Level">Search</button>
+                            <button id="tl-find-button-main" type="submit" class="tl-button--search--black tl-margin-bottom--0" aria-label="Search for a T Level">Search</button>
                         </div>
                      </div>
 

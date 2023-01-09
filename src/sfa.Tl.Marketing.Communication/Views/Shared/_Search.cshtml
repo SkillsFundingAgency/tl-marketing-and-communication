@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-12">
                 <h3 class="tl-heading--small">Find a <span class="tl-nobreak">T Level</span> near you</h3>
-                <form asp-action="Find" method="post" class="tl-search--form">
+                <form asp-action="Find" method="get" class="tl-search--form">
                     <span class="tl-validation--message">You must enter a postcode or town</span>
                     <label asp-for="SearchTerm" class="tl-hidden">Postcode or town</label>
                     <div class="row no-gutters">
