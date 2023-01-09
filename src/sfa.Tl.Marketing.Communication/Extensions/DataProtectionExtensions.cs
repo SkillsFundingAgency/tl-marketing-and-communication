@@ -16,7 +16,8 @@ public static class DataProtectionExtensions
         this IServiceCollection services,
         ConfigurationOptions configuration)
     {
-        if (!string.IsNullOrEmpty(configuration.StorageSettings.BlobStorageConnectionString))
+        if (!string.IsNullOrEmpty(configuration.StorageSettings.BlobStorageConnectionString)
+            && configuration.Environment != "LOCAL")
         {
             services.AddDataProtection()
                 .PersistKeysToAzureBlobStorage(
