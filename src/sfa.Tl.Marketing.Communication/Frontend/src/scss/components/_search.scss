@@ -46,6 +46,13 @@
 
     .tl-validation--message {
         color: black;
+        overflow: visible;
+        height: 0px;
+
+        @include media-max(small) {
+            overflow: auto;
+            height: auto;
+        }
     }
 
     &--alt {
