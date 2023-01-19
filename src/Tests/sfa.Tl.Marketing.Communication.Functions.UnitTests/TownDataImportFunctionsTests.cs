@@ -114,7 +114,6 @@ public class TownDataImportFunctionsTests
     [Fact]
     public async Task TownDataImportFunctions_UploadData_Fails_For_Json_File()
     {
-        var blobStorageService = Substitute.For<IBlobStorageService>();
         var functions = TownDataImportFunctionsBuilder.Build();
 
         await using var stream = TownDataImportFunctionsBuilder.BuildJsonFormDataStream();
@@ -129,13 +128,6 @@ public class TownDataImportFunctionsTests
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
-        await blobStorageService
-            .DidNotReceive()
-            .Upload(Arg.Any<MemoryStream>(),
-                Arg.Any<string>(),
-                Arg.Any<string>(),
-                Arg.Any<string>());
     }
 
     [Fact]

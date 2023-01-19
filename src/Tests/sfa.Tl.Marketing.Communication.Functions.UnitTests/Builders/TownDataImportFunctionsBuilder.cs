@@ -19,10 +19,10 @@ public static class TownDataImportFunctionsBuilder
     public static Stream BuildTownCsvFormDataStream() =>
         Assembly.GetExecutingAssembly()
             .GetManifestResourceStream(
-                $"{typeof(DataUploadFunctionsBuilder).Namespace}.Data.TestMultipartCsvFormData.txt");
+                $"{typeof(TownDataImportFunctionsBuilder).Namespace}.Data.TestMultipartCsvFormData.txt");
 
     public static Stream BuildJsonFormDataStream() =>
         Assembly.GetExecutingAssembly()
             .GetManifestResourceStream(
-                $"{typeof(DataUploadFunctionsBuilder).Namespace}.Data.TestMultipartJsonFormData.txt");
+                $"{typeof(TownDataImportFunctionsBuilder).Namespace}.Data.TestMultipartJsonFormData.txt");
 }

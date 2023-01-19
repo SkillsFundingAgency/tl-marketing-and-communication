@@ -9,5 +9,4 @@ public class ConfigurationOptions
     public int CacheExpiryInSeconds { get; init; }
     public CourseDirectoryApiSettings CourseDirectoryApiSettings { get; init; }
     public int PostcodeCacheExpiryInSeconds { get; init; }
-    public bool MergeTempProviderData { get; init; }
 }
