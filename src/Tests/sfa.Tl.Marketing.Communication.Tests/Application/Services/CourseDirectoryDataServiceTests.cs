@@ -326,7 +326,7 @@ public class CourseDirectoryDataServiceTests
         var orderedSavedQualifications = savedQualifications.OrderBy(q => q.Id).ToList();
         ValidateQualification(orderedSavedQualifications[0], 36, "Construction", "Design, Surveying and Planning for Construction");
         ValidateQualification(orderedSavedQualifications[1], 37, "Digital", "Digital Production, Design and Development");
-        ValidateQualification(orderedSavedQualifications[2], 38, "Education", "Education and Childcare");
+        ValidateQualification(orderedSavedQualifications[2], 38, "Education", "Education and Early Years");
         ValidateQualification(orderedSavedQualifications[3], 39, "Digital", "Digital Business Services");
         ValidateQualification(orderedSavedQualifications[4], 40, "Digital", "Digital Support Services");
         ValidateQualification(orderedSavedQualifications[5], 41, "Health and Science", "Health");
