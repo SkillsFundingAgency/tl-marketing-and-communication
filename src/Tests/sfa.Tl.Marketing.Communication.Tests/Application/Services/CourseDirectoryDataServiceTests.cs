@@ -341,7 +341,7 @@ public class CourseDirectoryDataServiceTests
         ValidateQualification(orderedSavedQualifications[14], 50, null, "Engineering, Manufacturing, Processing and Control");
         ValidateQualification(orderedSavedQualifications[15], 51, null, "Management and Administration");
         ValidateQualification(orderedSavedQualifications[16], 52, null, "Legal Services");
-        ValidateQualification(orderedSavedQualifications[17], 53, null, "Hair, Beauty and Aesthetics");
+        ValidateQualification(orderedSavedQualifications[17], 53, null, "Hairdressing, Barbering and Beauty Therapy");
         ValidateQualification(orderedSavedQualifications[18], 54, null, "Craft and Design");
         ValidateQualification(orderedSavedQualifications[19], 55, null, "Media, Broadcast and Production");
         ValidateQualification(orderedSavedQualifications[20], 56, null, "Catering");
@@ -406,7 +406,7 @@ public class CourseDirectoryDataServiceTests
         ValidateQualification(orderedSavedQualifications[9], 50, null, "Engineering, Manufacturing, Processing and Control");
         ValidateQualification(orderedSavedQualifications[10], 51, null, "Management and Administration");
         ValidateQualification(orderedSavedQualifications[11], 52, null, "Legal Services");
-        ValidateQualification(orderedSavedQualifications[12], 53, null, "Hair, Beauty and Aesthetics");
+        ValidateQualification(orderedSavedQualifications[12], 53, null, "Hairdressing, Barbering and Beauty Therapy");
         ValidateQualification(orderedSavedQualifications[13], 54, null, "Craft and Design");
         ValidateQualification(orderedSavedQualifications[14], 55, null, "Media, Broadcast and Production");
         ValidateQualification(orderedSavedQualifications[15], 56, null, "Catering");

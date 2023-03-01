@@ -1,32 +1,11 @@
 {
   "tLevelDefinitions": [
     {
-      "tLevelDefinitionId": "1d1fcdec-6f23-4a0a-973a-aafc04608aee",
-      "frameworkCode": 45,
-      "progType": 31,
-      "qualificationLevel": "3",
-      "name": "T Level Construction - Building services engineering for construction"
-    },
-    {
       "tLevelDefinitionId": "fc9fefe1-ee86-4df9-9d09-c275ccbf5940",
       "frameworkCode": 36,
       "progType": 31,
       "qualificationLevel": "3",
       "name": "T Level Construction - Design, Surveying and Planning for Construction"
-    },
-    {
-      "tLevelDefinitionId": "4c96995d-1193-44c8-a618-85b37890e8ce",
-      "frameworkCode": 44,
-      "progType": 31,
-      "qualificationLevel": "3",
-      "name": "T Level Construction - Onsite construction"
-    },
-    {
-      "tLevelDefinitionId": "3eef6d40-ecf1-44f0-a487-d87bfceba2cb",
-      "frameworkCode": 39,
-      "progType": 31,
-      "qualificationLevel": "3",
-      "name": "T Level Digital - Digital Business Services"
     },
     {
       "tLevelDefinitionId": "9555d14f-f73b-495c-91c3-4703691c6347",
@@ -36,18 +15,25 @@
       "name": "T Level Digital - Digital Production, Design and Development"
     },
     {
+      "tLevelDefinitionId": "c1bc1361-cda3-42a3-9120-a08cdb78dba0",
+      "frameworkCode": 38,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level Education - Education and Childcare"
+    },
+    {
+      "tLevelDefinitionId": "3eef6d40-ecf1-44f0-a487-d87bfceba2cb",
+      "frameworkCode": 39,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level Digital - Digital Business Services"
+    },
+    {
       "tLevelDefinitionId": "8ef596aa-966e-4b74-a352-871a9db63a77",
       "frameworkCode": 40,
       "progType": 31,
       "qualificationLevel": "3",
       "name": "T Level Digital - Digital Support Services"
-    },
-    {
-      "tLevelDefinitionId": "c1bc1361-cda3-42a3-9120-a08cdb78dba0",
-      "frameworkCode": 38,
-      "progType": 31,
-      "qualificationLevel": "3",
-      "name": "T Level Education - Education and Early Years"
     },
     {
       "tLevelDefinitionId": "37832d20-eb95-48f2-817c-7e6984f73645",
@@ -71,6 +57,27 @@
       "name": "T Level Health and Science - Science"
     },
     {
+      "tLevelDefinitionId": "4c96995d-1193-44c8-a618-85b37890e8ce",
+      "frameworkCode": 44,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level Construction - Onsite construction"
+    },
+    {
+      "tLevelDefinitionId": "1d1fcdec-6f23-4a0a-973a-aafc04608aee",
+      "frameworkCode": 45,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level Construction - Building services engineering for construction"
+    },
+    {
+      "tLevelDefinitionId": "8d0bd5f4-4573-4472-b825-4c6d31686bf4",
+      "frameworkCode": 46,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level in Finance"
+    },
+    {
       "tLevelDefinitionId": "c54bf61a-f3dc-46e2-98f5-4d6e96a293ad",
       "frameworkCode": 47,
       "progType": 31,
@@ -85,20 +92,6 @@
       "name": "T Level in Design and Development for Engineering and Manufacturing"
     },
     {
-      "tLevelDefinitionId": "1edb4c4d-b53a-4de0-b9c4-a96285995eb2",
-      "frameworkCode": 50,
-      "progType": 31,
-      "qualificationLevel": "3",
-      "name": "T Level in Engineering, Manufacturing, Processing and Control"
-    },
-    {
-      "tLevelDefinitionId": "8d0bd5f4-4573-4472-b825-4c6d31686bf4",
-      "frameworkCode": 46,
-      "progType": 31,
-      "qualificationLevel": "3",
-      "name": "T Level in Finance"
-    },
-    {
       "tLevelDefinitionId": "c50d1d8e-a1b9-41d8-884f-6af3a2c19edb",
       "frameworkCode": 49,
       "progType": 31,
@@ -106,11 +99,67 @@
       "name": "T Level in Maintenance, Installation and Repair for Engineering and Manufacturing"
     },
     {
+      "tLevelDefinitionId": "1edb4c4d-b53a-4de0-b9c4-a96285995eb2",
+      "frameworkCode": 50,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level in Engineering, Manufacturing, Processing and Control"
+    },
+    {
       "tLevelDefinitionId": "e2393023-6456-4818-9336-f754a7236205",
       "frameworkCode": 51,
       "progType": 31,
       "qualificationLevel": "3",
       "name": "T Level in Management and Administration"
+    },
+    {
+      "tLevelDefinitionId": "5a783ebd-b7f5-46f0-8d21-71bbf3273efa",
+      "frameworkCode": 52,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level in Legal Services"
+    },
+    {
+      "tLevelDefinitionId": "04a21a57-6789-429f-b434-d7e222d3ccc7",
+      "frameworkCode": 53,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level in Hairdressing, Barbering and Beauty Therapy"
+    },
+    {
+      "tLevelDefinitionId": "b142ce79-bb94-43b6-8475-546438c50e77",
+      "frameworkCode": 54,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level in Craft and Design"
+    },
+    {
+      "tLevelDefinitionId": "19ea5653-aa47-4542-be6d-10046b7bae43",
+      "frameworkCode": 55,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level in Media, Broadcast and Production"
+    },
+    {
+      "tLevelDefinitionId": "e654dfa3-2a58-4d28-a5b0-39427e5a1ad6",
+      "frameworkCode": 56,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level in Catering"
+    },
+    {
+      "tLevelDefinitionId": "70e878d7-e4b1-43fc-8c1c-61dbce7c76fa",
+      "frameworkCode": 57,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level in Agriculture, Land Management and Production"
+    },
+    {
+      "tLevelDefinitionId": "b5b08214-be70-4b22-b430-22032501f1df",
+      "frameworkCode": 58,
+      "progType": 31,
+      "qualificationLevel": "3",
+      "name": "T Level in Animal Care and Management"
     }
   ]
 }
