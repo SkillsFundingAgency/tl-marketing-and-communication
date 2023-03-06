@@ -7,7 +7,6 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using sfa.Tl.Marketing.Communication.Application.Comparers;
 using sfa.Tl.Marketing.Communication.Application.Extensions;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models.Dto;
@@ -129,8 +128,24 @@ public class CourseDirectoryDataService : ICourseDirectoryDataService
         var jsonDoc = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
         var qualifications = ProcessTLevelQualificationsDocument(jsonDoc);
 
-        //Workaround to make sure new qualifications are saved, even if they don't come from Course Directory
-        qualifications = AppendKnownQualifications(qualifications);
+        //Workaround for rename of Education and Childcare
+        // - this can be removed once Course Directory is updated
+        var educationQualification = qualifications
+            .SingleOrDefault(q => 
+                q.Id == 38 && q.Name == "Education and Childcare");
+        if (educationQualification != null)
+        {
+            var idx = qualifications.IndexOf(educationQualification);
+            qualifications.RemoveAt(idx);
+            qualifications.Insert(idx, 
+                new Qualification
+                {
+                    Id = educationQualification.Id, 
+                    Route = educationQualification.Route,
+                    Name = "Education and Early Years"
+                });
+        }
+        //End of workaround
 
         return await UpdateQualificationsInTableStorage(qualifications);
     }
@@ -280,28 +295,6 @@ public class CourseDirectoryDataService : ICourseDirectoryDataService
                     Name = name
                 };
             }).ToList();
-    }
-
-    private static IList<Qualification> AppendKnownQualifications(IList<Qualification> qualifications)
-    {
-        var additionalQualifications = new List<Qualification>()
-        {
-            new() {Id = 51, Name = "Management and Administration"},
-            new() {Id = 52, Name = "Legal services"},
-            new() {Id = 53, Name = "Hair, beauty and aesthetics"},
-            new() {Id = 54, Name = "Craft and design"},
-            new() {Id = 55, Name = "Media, broadcast and production"},
-            new() {Id = 56, Name = "Catering"},
-            new() {Id = 57, Name = "Agriculture, land management and production"},
-            new() {Id = 58, Name = "Animal care and management"}
-        }
-            .Select(q => new Qualification { Id = q.Id, Name = q.Name.ToTitleCase()});
-
-        return
-            qualifications
-                .Union(additionalQualifications, new QualificationComparer())
-                .OrderBy(q => q.Id)
-                .ToList();
     }
 
     private static (string Route, string Name) ExtractQualificationRouteAndName(string fullName)
