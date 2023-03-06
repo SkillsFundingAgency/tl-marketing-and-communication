@@ -60,7 +60,7 @@ public class ProviderDataServiceUnitTests
         results[2].Name.Should().Be("Digital Business Services");
         results[3].Name.Should().Be("Digital Production, Design and Development");
         results[4].Name.Should().Be("Digital Support Services");
-        results[5].Name.Should().Be("Education and Childcare");
+        results[5].Name.Should().Be("Education and Early Years");
         results[6].Name.Should().Be("Health");
         results[7].Name.Should().Be("Healthcare Science");
         results[8].Name.Should().Be("Onsite Construction");
