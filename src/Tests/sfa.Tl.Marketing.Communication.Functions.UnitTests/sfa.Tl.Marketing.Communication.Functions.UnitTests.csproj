@@ -8,12 +8,14 @@
   <ItemGroup>
     <None Remove="Builders\Data\TestMultipartCsvFormData.txt" />
     <None Remove="Builders\Data\TestMultipartJsonFormData.txt" />
+    <None Remove="Builders\Data\TestMultipartZipFormData.txt" />
     <None Remove="Builders\Data\TownData.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Builders\Data\ProviderData.json" />
     <EmbeddedResource Include="Builders\Data\QualificationData.json" />
+    <EmbeddedResource Include="Builders\Data\TestMultipartZipFormData.txt" />
     <EmbeddedResource Include="Builders\Data\TestMultipartJsonFormData.txt" />
     <EmbeddedResource Include="Builders\Data\TestMultipartCsvFormData.txt" />
     <EmbeddedResource Include="Builders\Data\TownData.json" />

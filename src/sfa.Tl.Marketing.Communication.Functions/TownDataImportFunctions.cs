@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -15,7 +16,7 @@ namespace sfa.Tl.Marketing.Communication.Functions;
 
 public class TownDataImportFunctions
 {
-    private readonly ITownDataService _townDataService; 
+    private readonly ITownDataService _townDataService;
     private readonly ITableStorageService _tableStorageService;
 
     public TownDataImportFunctions
@@ -70,25 +71,40 @@ public class TownDataImportFunctions
             var parsedFormBody = MultipartFormDataParser.ParseAsync(request.Body, Encoding.UTF8);
             var file = parsedFormBody.Result.Files[0];
 
-            var extension = Path.GetExtension(file.FileName)?.ToLower();
-            if (extension != ".csv")
-            {
-                throw new ArgumentException($"Invalid file extension '{extension}'. Only .csv files are allowed.");
-            }
-
             using var ms = new MemoryStream();
             await file.Data.CopyToAsync(ms);
             ms.Seek(0, SeekOrigin.Begin);
 
-            var count = await _townDataService.ImportTownsFromCsvStream(ms);
+            int count;
+            var extension = Path.GetExtension(file.FileName)?.ToLower();
+            if (extension == ".csv")
+            {
+                count = await _townDataService.ImportTowns(ms);
+            }
+            else if (extension == ".zip")
+            {
+                using var zipArchive = new ZipArchive(ms, ZipArchiveMode.Read);
+                var entry = zipArchive.Entries.FirstOrDefault(e => e.Name.EndsWith(".csv"));
+                if (entry is null)
+                {
+                    throw new ArgumentException($"A zip file containing a csv file is required.");
+                }
+
+                await using var entryStream = entry.Open();
+                count = await _townDataService.ImportTowns(entryStream);
+            }
+            else
+            {
+                throw new ArgumentException($"Invalid file extension '{extension}'. Only .csv or .zip files are allowed.");
+            }
 
             logger.LogInformation("Town data upload saved {resultsCount} towns.", count);
-
             var response = request.CreateResponse(HttpStatusCode.Accepted);
             response.Headers.Add("Content-Type", "application/json");
             await response.WriteStringAsync($"{{ \"saved\": {count} }}");
 
             return response;
+
         }
         catch (ArgumentException aex)
         {

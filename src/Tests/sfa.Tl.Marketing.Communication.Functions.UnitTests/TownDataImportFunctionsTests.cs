@@ -153,7 +153,33 @@ public class TownDataImportFunctionsTests
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
 
-        await service.Received(1).ImportTownsFromCsvStream(Arg.Any<Stream>());
+        await service.Received(1).ImportTowns(Arg.Any<Stream>());
+    }
+
+    [Fact]
+    public async Task TownDataImportFunctions_UploadData_Succeeds_For_Zip_File()
+    {
+        var service = Substitute.For<ITownDataService>();
+        service
+            .ImportTowns()
+            .Returns(10);
+
+        var functions = TownDataImportFunctionsBuilder.Build(service);
+        
+        await using var stream = TownDataImportFunctionsBuilder.BuildZippedTownCsvFormDataStream();
+
+        var functionContext = FunctionObjectsBuilder.BuildFunctionContext();
+        var request = FunctionObjectsBuilder
+            .BuildHttpRequestData(HttpMethod.Post, stream);
+
+        var response = await functions.UploadData(
+            request,
+            functionContext);
+
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+
+        await service.Received(1).ImportTowns(Arg.Any<Stream>());
     }
 
     [Fact]
@@ -161,7 +187,7 @@ public class TownDataImportFunctionsTests
     {
         var service = Substitute.For<ITownDataService>();
         service
-            .ImportTownsFromCsvStream(Arg.Any<Stream>())
+            .ImportTowns(Arg.Any<Stream>())
             .Returns(10);
 
         var logger = Substitute.For<ILogger<object>>();
@@ -187,7 +213,7 @@ public class TownDataImportFunctionsTests
     {
         var service = Substitute.For<ITownDataService>();
         service
-            .ImportTownsFromCsvStream(Arg.Any<Stream>())
+            .ImportTowns(Arg.Any<Stream>())
             .ThrowsForAnyArgs(new InvalidOperationException());
 
         var logger = Substitute.For<ILogger<object>>();

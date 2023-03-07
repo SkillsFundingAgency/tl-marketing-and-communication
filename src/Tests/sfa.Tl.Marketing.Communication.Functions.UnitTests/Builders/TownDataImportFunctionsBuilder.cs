@@ -25,4 +25,9 @@ public static class TownDataImportFunctionsBuilder
         Assembly.GetExecutingAssembly()
             .GetManifestResourceStream(
                 $"{typeof(TownDataImportFunctionsBuilder).Namespace}.Data.TestMultipartJsonFormData.txt");
+
+    public static Stream BuildZippedTownCsvFormDataStream() =>
+        Assembly.GetExecutingAssembly()
+            .GetManifestResourceStream(
+                $"{typeof(TownDataImportFunctionsBuilder).Namespace}.Data.TestMultipartZipFormData.txt");
 }
