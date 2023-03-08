@@ -6,10 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Builders\Data\IndexOfPlaceNames.csv" />
     <None Remove="Builders\Data\nationalstatisticslocationsresponse.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Builders\Data\IndexOfPlaceNames.csv" />
     <EmbeddedResource Include="Builders\Data\nationalstatisticslocationsresponse.json" />
     <EmbeddedResource Include="Builders\Data\postcode_not_found_response.json" />
     <EmbeddedResource Include="Builders\Data\outcode_response_cv11.json" />

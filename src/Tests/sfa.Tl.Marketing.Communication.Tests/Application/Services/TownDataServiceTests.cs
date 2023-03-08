@@ -176,6 +176,271 @@ public class TownDataServiceTests
     }
 
     [Fact]
+    public async Task ImportTowns_From_Csv_Stream_Creates_Expected_Number_Of_Towns()
+    {
+        IList<Town> receivedTowns = null;
+
+        var tableStorageService = Substitute.For<ITableStorageService>();
+        await tableStorageService
+            .SaveTowns(Arg.Do<IList<Town>>(
+                x => receivedTowns = x?.ToList()));
+
+        var stream = new IndexOfPlaceNamesCsvBuilder().BuildIndexOfPlaceNamesCsvAsStream();
+
+        var service = new TownDataServiceBuilder()
+            .Build(tableStorageService: tableStorageService);
+
+        await service.ImportTowns(stream);
+
+        receivedTowns.Should().NotBeNull();
+        receivedTowns.Count.Should().Be(6);
+    }
+
+    [Fact]
+    public async Task ImportTowns_From_Csv_Stream_Creates_Expected_Towns()
+    {
+        IList<Town> receivedTowns = null;
+
+        var tableStorageService = Substitute.For<ITableStorageService>();
+        await tableStorageService
+            .SaveTowns(Arg.Do<IList<Town>>(
+                x => receivedTowns = x?.ToList()));
+
+        var stream = new IndexOfPlaceNamesCsvBuilder().BuildIndexOfPlaceNamesCsvAsStream();
+
+        var service = new TownDataServiceBuilder()
+            .Build(tableStorageService: tableStorageService);
+        
+        await service.ImportTowns(stream);
+
+        receivedTowns.Should().NotBeNull();
+        receivedTowns.Count.Should().Be(6);
+
+        // ReSharper disable StringLiteralTypo
+        ValidateTown(receivedTowns
+                .SingleOrDefault(t =>
+                    t.Id == 302),
+            302,
+            "Abingdon",
+            "Oxfordshire",
+            "Oxfordshire",
+            51.674302,
+            -1.282302,
+            "abingdonoxfordshire");
+
+        ValidateTown(receivedTowns
+                .SingleOrDefault(t =>
+                    t.Id == 304),
+            304,
+            "Abingdon",
+            "Inner London",
+            "Greater London",
+            51.497681,
+            -0.192782,
+            "abingdoninnerlondon");
+
+        ValidateTown(receivedTowns
+                .SingleOrDefault(t =>
+                    t.Id == 10214),
+            10214,
+            "Bude",
+            null,
+            "Cornwall",
+            50.825207,
+            -4.538982,
+            "budecornwall");
+
+        ValidateTown(receivedTowns
+                .SingleOrDefault(t =>
+                    t.Id == 72832),
+            72832,
+            "West Bromwich",
+            "West Midlands",
+            "West Midlands",
+            52.530629,
+            -2.005941,
+            "westbromwichwestmidlands");
+
+        ValidateTown(receivedTowns
+                .SingleOrDefault(t =>
+                    t.Id == 72834),
+            72834,
+            "West Bromwich (East)",
+            "West Midlands",
+            "West Midlands",
+            52.540693,
+            -1.942085,
+            "westbromwicheastwestmidlands");
+
+        ValidateTown(receivedTowns
+                .SingleOrDefault(t =>
+                    t.Id == 72835),
+            72835,
+            "West Bromwich Central",
+            "West Midlands",
+            "West Midlands",
+            52.520416,
+            -1.984158,
+            "westbromwichcentralwestmidlands");
+        // ReSharper restore StringLiteralTypo
+    }
+
+    [Fact]
+    public async Task ImportTowns_From_Csv_Stream_Creates_Expected_Town_With_Null_County()
+    {
+        IList<Town> receivedTowns = null;
+
+        var tableStorageService = Substitute.For<ITableStorageService>();
+        await tableStorageService
+            .SaveTowns(Arg.Do<IList<Town>>(
+                x => receivedTowns = x?.ToList()));
+
+        var stream = new IndexOfPlaceNamesCsvBuilder().BuildIndexOfPlaceNamesCsvAsStream();
+
+        var service = new TownDataServiceBuilder()
+            .Build(tableStorageService: tableStorageService);
+
+        await service.ImportTowns(stream);
+
+        receivedTowns.Should().NotBeNullOrEmpty();
+
+        // ReSharper disable StringLiteralTypo
+        ValidateTown(receivedTowns
+                .SingleOrDefault(t =>
+                    t.Id == 10214),
+            10214,
+            "Bude",
+            null,
+            "Cornwall",
+            50.825207,
+            -4.538982,
+            "budecornwall");
+        // ReSharper restore StringLiteralTypo
+    }
+
+    [Fact]
+    public async Task ImportTowns_From_Csv_Stream_From_Csv_Stream_Filters_Out_Civil_Parishes()
+    {
+        IList<Town> receivedTowns = null;
+
+        var tableStorageService = Substitute.For<ITableStorageService>();
+        await tableStorageService
+            .SaveTowns(Arg.Do<IList<Town>>(
+                x => receivedTowns = x?.ToList()));
+
+        var stream = new IndexOfPlaceNamesCsvBuilder().BuildIndexOfPlaceNamesCsvAsStream();
+
+        var service = new TownDataServiceBuilder()
+            .Build(tableStorageService: tableStorageService);
+
+        await service.ImportTowns(stream);
+
+        // ReSharper disable StringLiteralTypo
+        receivedTowns.Should().NotContain(t =>
+                t.Name == "Abbas and Templecombe" ||
+                t.Name == "Abberley");
+        // ReSharper restore StringLiteralTypo
+    }
+
+    [Fact]
+    public async Task ImportTowns_From_Csv_Stream_From_Csv_Stream_Filters_Out_Non_English_Towns()
+    {
+        IList<Town> receivedTowns = null;
+
+        var tableStorageService = Substitute.For<ITableStorageService>();
+        await tableStorageService
+            .SaveTowns(Arg.Do<IList<Town>>(
+                x => receivedTowns = x?.ToList()));
+
+        var stream = new IndexOfPlaceNamesCsvBuilder().BuildIndexOfPlaceNamesCsvAsStream();
+
+        var service = new TownDataServiceBuilder()
+            .Build(tableStorageService: tableStorageService);
+
+        await service.ImportTowns(stream);
+
+        // ReSharper disable once StringLiteralTypo
+        receivedTowns.Should().NotContain(t => t.Name == "Aberdovey");
+    }
+
+    [Fact]
+    public async Task ImportTowns_From_Csv_Stream_Deduplicates_Abingdon_Correctly()
+    {
+        IList<Town> receivedTowns = null;
+
+        var tableStorageService = Substitute.For<ITableStorageService>();
+        await tableStorageService
+            .SaveTowns(Arg.Do<IList<Town>>(
+                x => receivedTowns = x?.ToList()));
+
+        var stream = new IndexOfPlaceNamesCsvBuilder().BuildIndexOfPlaceNamesCsvAsStream();
+
+        var service = new TownDataServiceBuilder()
+            .Build(tableStorageService: tableStorageService);
+
+        await service.ImportTowns(stream);
+
+        receivedTowns.Should().NotBeNull();
+
+        var abingdonInstances
+            = receivedTowns.Where(t => t.Name == "Abingdon");
+        var abingdonInOxfordshire = receivedTowns
+            .Where(t => t.Name == "Abingdon" && t.County == "Oxfordshire")
+            .ToList();
+
+        abingdonInstances.Count().Should().Be(2);
+        abingdonInOxfordshire.Count.Should().Be(1);
+        
+        // ReSharper disable StringLiteralTypo
+        ValidateTown(abingdonInOxfordshire.Single(),
+            302,
+            "Abingdon",
+            "Oxfordshire",
+            "Oxfordshire",
+            51.674302,
+            -1.282302,
+            "abingdonoxfordshire");
+        // ReSharper restore StringLiteralTypo
+    }
+
+    [Fact]
+    public async Task ImportTowns_From_Csv_Stream_Deduplicates_WestBromwich_Correctly()
+    {
+        IList<Town> receivedTowns = null;
+
+        var tableStorageService = Substitute.For<ITableStorageService>();
+        await tableStorageService
+            .SaveTowns(Arg.Do<IList<Town>>(
+                x => receivedTowns = x?.ToList()));
+
+        var stream = new IndexOfPlaceNamesCsvBuilder().BuildIndexOfPlaceNamesCsvAsStream();
+
+        var service = new TownDataServiceBuilder()
+            .Build(tableStorageService: tableStorageService);
+
+        await service.ImportTowns(stream);
+
+        receivedTowns.Should().NotBeNull();
+
+        var westBromwich = receivedTowns
+            .Where(t => t.Name == "West Bromwich")
+            .ToList();
+
+        westBromwich.Count.Should().Be(1);
+        
+        // ReSharper disable StringLiteralTypo
+        ValidateTown(westBromwich.Single(),
+            72832,
+            "West Bromwich",
+            "West Midlands",
+            "West Midlands",
+            52.530629,
+            -2.005941,
+            "westbromwichwestmidlands");
+        // ReSharper restore StringLiteralTypo
+    }
+
+    [Fact]
     public async Task ImportTowns_Deduplicates_Abingdon_Correctly()
     {
         var responses = new Dictionary<string, string>
