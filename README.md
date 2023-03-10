@@ -62,7 +62,6 @@ Add a new row to the table with:
   },
   "PostcodeRetrieverBaseUrl": "https://api.postcodes.io/",
   "CacheExpiryInSeconds": 60,
-  "MergeTempProviderData": true,
   "PostcodeCacheExpiryInSeconds": 120,
   "StorageSettings":  {
     "BlobStorageConnectionString": "UseDevelopmentStorage=true;",

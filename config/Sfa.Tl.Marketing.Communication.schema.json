@@ -70,10 +70,6 @@
       "type": "integer",
       "environmentVariable": "PostcodeCacheExpiryInSeconds"
     },
-    "MergeTempProviderData": {
-      "type": "boolean",
-      "environmentVariable": "MergeTempProviderData"
-    },
     "GoogleMapsApiKey": {
       "type": "string",
       "environmentVariable": "GoogleMapsApiKey"

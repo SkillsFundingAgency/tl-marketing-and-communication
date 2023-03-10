@@ -10,12 +10,10 @@ namespace sfa.Tl.Marketing.Communication.UnitTests.Builders;
 public class ProviderDataServiceBuilder
 {
     public static IProviderDataService CreateProviderDataService(
-        IBlobStorageService blobStorageService = null,
         ITableStorageService tableStorageService = null,
         IMemoryCache cache = null,
         ConfigurationOptions configuration = null)
     {
-        blobStorageService ??= Substitute.For<IBlobStorageService>();
         tableStorageService ??= Substitute.For<ITableStorageService>();
         cache ??= Substitute.For<IMemoryCache>();
         configuration ??= new ConfigurationOptions
@@ -23,7 +21,7 @@ public class ProviderDataServiceBuilder
             CacheExpiryInSeconds = 1
         };
 
-        return new ProviderDataService(blobStorageService, tableStorageService, cache, configuration);
+        return new ProviderDataService(tableStorageService, cache, configuration);
     }
 
     public static IProviderDataService CreateProviderDataService(
@@ -33,6 +31,6 @@ public class ProviderDataServiceBuilder
         var tableStorageService = Substitute.For<ITableStorageService>();
         tableStorageService.GetAllProviders().Returns(providers);
         tableStorageService.GetAllQualifications().Returns(qualifications);
-        return CreateProviderDataService(tableStorageService: tableStorageService);
+        return CreateProviderDataService(tableStorageService);
     }
 }

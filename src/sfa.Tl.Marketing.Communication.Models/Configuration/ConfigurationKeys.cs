@@ -18,8 +18,6 @@ public static class ConfigurationKeys
     public const string SkillsArticleConfigKey = "EmployerSiteSettings_SkillsArticle";
     public const string TimelineArticleConfigKey = "EmployerSiteSettings_TimelineArticle";
 
-    public static string MergeTempProviderDataConfigKey = "MergeTempProviderData";
-
     public const string BlobStorageConnectionStringConfigKey = "BlobStorageConnectionString";
     public const string TableStorageConnectionStringConfigKey = "TableStorageConnectionString";
 }

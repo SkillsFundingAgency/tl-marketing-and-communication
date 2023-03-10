@@ -9,7 +9,7 @@ public interface ITownDataService
 {
     Task<int> ImportTowns();
 
-    Task<int> ImportTownsFromCsvStream(Stream stream);
+    Task<int> ImportTowns(Stream stream);
     
     Task<(bool IsValid, Town Town)> IsSearchTermValid(string searchTerm);
 

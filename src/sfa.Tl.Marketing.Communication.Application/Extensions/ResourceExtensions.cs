@@ -6,6 +6,13 @@ namespace sfa.Tl.Marketing.Communication.Application.Extensions;
 
 public static class ResourceExtensions
 {
+    public static Stream ReadManifestResourceStream(this string resourcePath)
+    {
+        return Assembly
+            .GetCallingAssembly()
+            .GetManifestResourceStream(resourcePath);
+    }
+
     public static string ReadManifestResourceStreamAsString(this string resourcePath)
     {
         using var stream = Assembly

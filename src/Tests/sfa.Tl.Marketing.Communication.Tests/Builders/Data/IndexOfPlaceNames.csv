@@ -1,0 +1,24 @@
+﻿placeid,place15cd,place15nm,popcnt,descnm,ctyltnm,ctry15nm,cty15cd,cty15nm,lad15cd,lad15nm,laddescnm,lat,long
+1,IPN0000001,Aaron's Hill,0,LOC,Surrey,England,E10000030,Surrey,E07000216,Waverley,NMD,51.182914,-0.630976
+2,IPN0000002,Abbas and Templecombe,1560,PAR,Somerset,England,E10000027,Somerset,E07000189,South Somerset,NMD,51.002593,-2.411563
+3,IPN0000003,Abbas Combe,0,LOC,Somerset,England,E10000027,Somerset,E07000189,South Somerset,NMD,51.00283,-2.41825
+4,IPN0000004,Abberley,836,PAR,Worcestershire,England,E10000034,Worcestershire,E07000235,Malvern Hills,NMD,52.302702,-2.391708
+51,IPN0000051,Abbeyhill,0,LOC,City of Edinburgh,Scotland,,,S12000036,City of Edinburgh,CA,55.957385,-3.169705
+190,IPN0000212,Aberdovey,725,BUA,Gwynedd,Wales,,,W06000002,Gwynedd,UA,52.545867,-4.05052
+302,IPN0000331,Abingdon,38676,BUA,Oxfordshire,England,E10000025,Oxfordshire,E07000180,Vale of White Horse,NMD,51.674302,-1.282302
+303,IPN0000332,Abingdon,38262,BUASD,Oxfordshire,England,E10000025,Oxfordshire,E07000180,Vale of White Horse,NMD,51.674302,-1.282302
+304,IPN0000333,Abingdon,9643,WD,Greater London,England,E13000001,Inner London,E09000020,Kensington and Chelsea,LONB,51.497681,-0.192782
+10214,IPN0010735,Bude,5091,BUASD,Cornwall,England,,,E06000052,Cornwall,UA,50.825207,-4.538982
+10215,IPN0010736,Bude,0,LOC,Cornwall,England,,,E06000052,Cornwall,UA,50.827695,-4.546573
+10216,IPN0010737,Bude,8014,WD,Cornwall,England,,,E06000052,Cornwall,UA,50.829771,-4.54785
+10213,IPN0010734,Bude,7011,BUA,Cornwall,England,,,E06000052,Cornwall,UA,50.825207,-4.538982
+72830,IPN0076386,"Brompton, West",0,LOC,Greater London,England,E13000001,Inner London,E09000013,Hammersmith and Fulham,LONB,51.48254,-0.194043
+72830,IPN0076386,West Brompton,0,LOC,Greater London,England,E13000001,Inner London,E09000013,Hammersmith and Fulham,LONB,51.48254,-0.194043
+72831,IPN0076387,West Brompton,0,LOC,Greater London,England,E13000001,Inner London,E09000020,Kensington and Chelsea,LONB,51.487282,-0.189592
+72832,IPN0076388,West Bromwich,72945,BUASD,West Midlands,England,E11000005,West Midlands,E08000028,Sandwell,MD,52.530629,-2.005941
+72832,IPN0076389,West Bromwich,72945,BUASD,West Midlands,England,E11000005,West Midlands,E08000030,Walsall,MD,52.56197,-1.959036
+72833,IPN0076390,"Bromwich, West",0,LOC,West Midlands,England,E11000005,West Midlands,E08000028,Sandwell,MD,52.533154,-1.97917
+72833,IPN0076390,West Bromwich,0,LOC,West Midlands,England,E11000005,West Midlands,E08000028,Sandwell,MD,52.533154,-1.97917
+72834,IPN0076391,West Bromwich (East),18985,BUASD,West Midlands,England,E11000005,West Midlands,E08000028,Sandwell,MD,52.540693,-1.942085
+72835,IPN0076392,West Bromwich Central,13290,WD,West Midlands,England,E11000005,West Midlands,E08000028,Sandwell,MD,52.520416,-1.984158
+238,IPN0000263,Aberlady,1514,PAR,East Lothian,Scotland,,,S12000010,East Lothian,CA,55.998331,-2.849386

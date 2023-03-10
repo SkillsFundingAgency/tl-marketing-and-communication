@@ -14,25 +14,20 @@ namespace sfa.Tl.Marketing.Communication.Application.Services;
 public class ProviderDataService : IProviderDataService
 {
     private readonly int _cacheExpiryInSeconds;
-    private readonly bool _mergeTempProviderData;
 
     private readonly IMemoryCache _cache;
-    private readonly IBlobStorageService _blobStorageService;
     private readonly ITableStorageService _tableStorageService;
 
     public ProviderDataService(
-        IBlobStorageService blobStorageService,
         ITableStorageService tableStorageService,
         IMemoryCache cache,
         ConfigurationOptions configuration)
     {
-        _blobStorageService = blobStorageService ?? throw new ArgumentNullException(nameof(blobStorageService));
         _tableStorageService = tableStorageService ?? throw new ArgumentNullException(nameof(tableStorageService));
         _cache = cache ?? throw new ArgumentNullException(nameof(cache));
 
         if(configuration == null) throw new ArgumentNullException(nameof(configuration));
         _cacheExpiryInSeconds = configuration.CacheExpiryInSeconds;
-        _mergeTempProviderData = configuration.MergeTempProviderData;
     }
 
     public IQueryable<ProviderLocation> GetProviderLocations(int? qualificationId = null)
@@ -145,16 +140,10 @@ public class ProviderDataService : IProviderDataService
         if (!_cache.TryGetValue(CacheKeys.ProviderTableDataKey,
                 out IQueryable<Provider> providers))
         {
-            var blobStream = _blobStorageService.Get(
-                TempProviderDataExtensions.TempDataBlobContainerName,
-                TempProviderDataExtensions.TempDataFileName)
-                .GetAwaiter().GetResult();
-            
             providers = _tableStorageService
                 .GetAllProviders()
                 .GetAwaiter()
                 .GetResult()
-                .MergeTempProviders(blobStream, _mergeTempProviderData)
                 .AsQueryable();
 
             if (providers.Any())
