@@ -88,8 +88,7 @@ var hostBuilder = new HostBuilder()
             .AddTransient(typeof(ICloudTableRepository<>), typeof(GenericCloudTableRepository<>))
             .AddTransient<ICourseDirectoryDataService, CourseDirectoryDataService>()
             .AddTransient<ITownDataService, TownDataService>()
-            .AddTransient<ITableStorageService, TableStorageService>()
-            .AddTransient<IBlobStorageService, BlobStorageService>();
+            .AddTransient<ITableStorageService, TableStorageService>();
     });
 
 

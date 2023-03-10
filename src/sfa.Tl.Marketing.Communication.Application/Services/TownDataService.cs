@@ -69,7 +69,7 @@ public class TownDataService : ITownDataService
         return await SaveToTableStorage(towns);
     }
 
-    public async Task<int> ImportTownsFromCsvStream(Stream stream)
+    public async Task<int> ImportTowns(Stream stream)
     {
         using var reader = new StreamReader(stream);
         using var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);

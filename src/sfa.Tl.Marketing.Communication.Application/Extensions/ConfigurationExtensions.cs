@@ -90,10 +90,6 @@ public static class ConfigurationExtensions
                     out var postcodeCacheExpiryInSeconds)
                     ? postcodeCacheExpiryInSeconds
                     : CacheUtilities.DefaultCacheExpiryInSeconds,
-            MergeTempProviderData = bool.TryParse(
-                                        configuration[ConfigurationKeys.MergeTempProviderDataConfigKey],
-                                        out var mergeTempProviderData)
-                                    && mergeTempProviderData,
             PostcodeRetrieverBaseUrl = configuration[ConfigurationKeys.PostcodeRetrieverBaseUrlConfigKey],
             EmployerSiteSettings = new EmployerSiteSettings
             {

@@ -117,8 +117,7 @@ builder.Services
     .AddSingleton(tableServiceClient)
     .AddSingleton(blobServiceClient)
     .AddTransient(typeof(ICloudTableRepository<>), typeof(GenericCloudTableRepository<>))
-    .AddTransient<ITableStorageService, TableStorageService>()
-    .AddTransient<IBlobStorageService, BlobStorageService>();
+    .AddTransient<ITableStorageService, TableStorageService>();
 
 builder.Services.AddMemoryCache();
 
