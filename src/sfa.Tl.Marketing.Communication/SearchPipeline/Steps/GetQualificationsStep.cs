@@ -30,6 +30,7 @@ public class GetQualificationsStep : ISearchStep
 
         // ReSharper disable once PossibleMultipleEnumeration
         context.ViewModel.Qualifications = qualifications
+            .Where(q => q.Id != 56) //Exclude catering
             .Select(q =>
                 new SelectListItem
                 {
