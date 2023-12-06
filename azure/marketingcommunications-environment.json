@@ -45,8 +45,7 @@
         "appInsightName": "[concat(parameters('resourceNamePrefix'), '-ai')]",
         "workerFunctionAppName": "[concat(parameters('resourceNamePrefix'), '-func-worker')]",
         // "sqlDatabaseName": "[concat(parameters('resourceNamePrefix'), '-sqldb')]",
-        "storageAccountName": "[replace(concat(parameters('resourceNamePrefix'), 'str'), '-', '')]",
-        "logAnalyticsName": "[concat(parameters('resourceNamePrefix'), '-la')]"
+        "storageAccountName": "[replace(concat(parameters('resourceNamePrefix'), 'str'), '-', '')]"
         // "errorLink": "[concat('https://', variables('uiAppName'), '.scm.azurewebsites.net/detectors?type=tools&name=eventviewer')]"
     },
     "resources": [
@@ -83,29 +82,6 @@
                     },
                     "attachedService": {
                         "value": "[variables('uiAppName')]"
-                    },
-                    "workspaceResourceId": {
-                        "value": "[reference(concat('log-analytics-workspace','-',parameters('environmentNameAbbreviation'))).outputs.fullyQualifiedResourceId.value]"
-                    }
-                }
-            }
-        },
-        {
-            "apiVersion": "2017-05-10",
-            "name": "[concat('log-analytics-workspace','-', parameters('environmentNameAbbreviation'))]",
-            "type": "Microsoft.Resources/deployments",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('deploymentUrlBase'),'log-analytics-workspace.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "logAnalyticsWorkspaceName": {
-                        "value": "[variables('logAnalyticsName')]"
-                    },
-                    "logAnalyticsWorkspaceSku": {
-                        "value": "PerGB2018"
                     }
                 }
             }
@@ -306,9 +282,9 @@
         //             },
         //             "serverName": {
         //                 "value": "[parameters('sharedSQLServerName')]"
-        //         }
-        //     }
-        // }
+            //         }
+            //     }
+            // }
         // }
     ],
     "outputs": {
