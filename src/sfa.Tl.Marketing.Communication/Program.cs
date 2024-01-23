@@ -39,10 +39,7 @@ var siteConfiguration = builder.Configuration.LoadConfigurationOptions()
 
 builder.Services
     .AddSingleton(siteConfiguration)
-    .AddApplicationInsightsTelemetry(new ApplicationInsightsServiceOptions
-    {
-        EnableRequestTrackingTelemetryModule = false
-    });
+    .AddApplicationInsightsTelemetry();
 
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
