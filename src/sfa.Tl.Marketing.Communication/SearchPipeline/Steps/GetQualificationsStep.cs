@@ -28,9 +28,14 @@ public class GetQualificationsStep : ISearchStep
             context.ViewModel.SelectedQualificationId = 0;
         }
 
+        const int HairdressingBarberingAndBeautyTherapyId = 53;
+        const int CateringId = 56;
+
+        var excludedQualifications = new int[] { HairdressingBarberingAndBeautyTherapyId, CateringId };
+
         // ReSharper disable once PossibleMultipleEnumeration
         context.ViewModel.Qualifications = qualifications
-            .Where(q => q.Id != 56) //Exclude catering
+            .Where(q => !excludedQualifications.Contains(q.Id))
             .Select(q =>
                 new SelectListItem
                 {
