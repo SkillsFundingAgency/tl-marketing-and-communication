@@ -230,12 +230,6 @@ public class StudentController : Controller
         return View("Subjects/CraftDesign");
     }
 
-    [Route("/students/subjects/hairdressing-barbering-beauty-therapy", Name = "HairdressingBarberingBeautyTherapy")]
-    public IActionResult HairdressingBarberingBeautyTherapy()
-    {
-        return View("Subjects/HairdressingBarberingBeautyTherapy");
-    }
-
     [Route("/students/subjects/media-broadcast-production", Name = "MediaBroadcastProduction")]
     public IActionResult MediaBroadcastProduction()
     {
