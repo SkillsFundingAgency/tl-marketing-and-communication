@@ -242,6 +242,12 @@ public class StudentController : Controller
         return View("Subjects/LegalServices");
     }
 
+    [Route("/students/subjects/marketing", Name = "Marketing")]
+    public IActionResult Marketing()
+    {
+        return View("Subjects/Marketing");
+    }
+
     [Route("/students/redirect", Name = "Redirect")]
     public IActionResult Redirect(RedirectViewModel viewModel)
     {

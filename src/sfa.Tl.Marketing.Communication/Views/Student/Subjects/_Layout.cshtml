@@ -13,7 +13,7 @@
                 <h1>@ViewData["SubjectTitle"]</h1>
             </div>
             <div class="col-md-8 tl-margin-bottom--100">
-                <p class="tl-lead">@ViewData["SubjectDescription"]</p>
+                <p class="tl-lead">@Html.Raw(@ViewData["SubjectDescription"])</p>
             </div>
         </div>
     </div>
