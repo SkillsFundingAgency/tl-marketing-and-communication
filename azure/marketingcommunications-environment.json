@@ -40,7 +40,7 @@
         }
     },
     "variables": {
-        "deploymentUrlBase": "https://raw.githubusercontent.com/DFE-Digital/operations-devops-deployment/master/ArmTemplates/",
+        "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/tl-platform-building-blocks/master/ArmTemplates/",
         "uiAppName": "[concat(parameters('resourceNamePrefix'), '-web')]",
         "appInsightName": "[concat(parameters('resourceNamePrefix'), '-ai')]",
         "workerFunctionAppName": "[concat(parameters('resourceNamePrefix'), '-func-worker')]",
@@ -63,6 +63,12 @@
                 "parameters": {
                     "storageAccountName": {
                         "value": "[variables('storageAccountName')]"
+                    },
+                    "storageKind": {
+                        "value": "StorageV2"
+                    },
+                    "allowBlobPublicAccess": {
+                        "value": true
                     }
                 }
             }
@@ -84,7 +90,7 @@
                     "attachedService": {
                         "value": "[variables('uiAppName')]"
                     },
-                    "workspaceResourceId": {
+                    "logAnalyticsWorkspaceId": {
                         "value": "[reference(concat('log-analytics-workspace','-',parameters('environmentNameAbbreviation'))).outputs.fullyQualifiedResourceId.value]"
                     }
                 }
@@ -212,6 +218,9 @@
                     "appServicePlanResourceGroup": {
                         "value": "[parameters('sharedEnvResourceGroup')]"
                     },
+                    "systemAssignedIdentity": {
+                        "value": "None"
+                    },
                     "functionAppAppSettings": {
                         "value": [
                             {
@@ -257,7 +266,7 @@
                         ]
                     }
                 }
-            }
+                }
         }
         // // {
         // //     "apiVersion": "2017-05-10",
@@ -306,9 +315,9 @@
         //             },
         //             "serverName": {
         //                 "value": "[parameters('sharedSQLServerName')]"
-            //         }
-            //     }
-            // }
+        //         }
+        //     }
+        // }
         // }
     ],
     "outputs": {
