@@ -242,6 +242,12 @@
                 "parameters": {
                     "storageAccountName": {
                         "value": "[variables('configStorageAccountName')]"
+                    },
+                    "storageKind": {
+                        "value": "StorageV2"
+                    },
+                    "allowBlobPublicAccess": {
+                        "value": true
                     }
                 }
             }
