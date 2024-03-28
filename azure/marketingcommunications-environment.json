@@ -68,7 +68,7 @@
                         "value": "StorageV2"
                     },
                     "allowBlobPublicAccess": {
-                        "value": "true"
+                        "value": true
                     }
                 }
             }
