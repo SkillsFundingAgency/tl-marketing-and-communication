@@ -221,6 +221,10 @@
                     "systemAssignedIdentity": {
                         "value": "None"
                     },
+                    "ftpsState": {
+                        "type": "string",
+                        "defaultValue": "FtpsOnly"
+                    },
                     "functionAppAppSettings": {
                         "value": [
                             {
@@ -266,7 +270,7 @@
                         ]
                     }
                 }
-            }
+                }
         }
         // // {
         // //     "apiVersion": "2017-05-10",
