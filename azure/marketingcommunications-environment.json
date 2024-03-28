@@ -162,6 +162,9 @@
                     "appServicePlanResourceGroup": {
                         "value": "[parameters('sharedEnvResourceGroup')]"
                     },
+                    "ftpsState": {
+                        "value": "FtpsOnly"
+                    },
                     "appServiceAppSettings": {
                         "value": [
                             {
@@ -222,8 +225,7 @@
                         "value": "None"
                     },
                     "ftpsState": {
-                        "type": "string",
-                        "defaultValue": "FtpsOnly"
+                        "value": "AllAllowed"
                     },
                     "functionAppAppSettings": {
                         "value": [
