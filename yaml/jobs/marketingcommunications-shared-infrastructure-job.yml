@@ -25,7 +25,6 @@ jobs:
                 location: 'West Europe'
                 templateFilePath: './azure/marketingcommunications-shared.json'
                 armParameterOverrideString: '-environmentNameAbbreviation "${{parameters.baseName}}" 
-                  -threatDetectionEmailAddress "$(ThreatDetectionEmailAddress)"
                   -appServicePlanTier "$(AppServicePlanTier)"
                   -appServicePlanSize "$(AppServicePlanSize)"
                   -appServicePlanInstances "$(AppServicePlanInstances)"
