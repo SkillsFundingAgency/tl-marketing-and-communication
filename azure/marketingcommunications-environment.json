@@ -17,6 +17,15 @@
         "sharedKeyVaultName": {
             "type": "string"
         },
+        // "sharedSQLServerName": {
+        //     "type": "string"
+        // },
+        // "sqlDatabaseSkuName": {
+        //     "type": "string"
+        // },
+        // "sqlDatabaseTier": {
+        //     "type": "string"
+        // },
         "configurationStorageConnectionString": {
             "type": "securestring"
         },
@@ -35,8 +44,10 @@
         "uiAppName": "[concat(parameters('resourceNamePrefix'), '-web')]",
         "appInsightName": "[concat(parameters('resourceNamePrefix'), '-ai')]",
         "workerFunctionAppName": "[concat(parameters('resourceNamePrefix'), '-func-worker')]",
+        // "sqlDatabaseName": "[concat(parameters('resourceNamePrefix'), '-sqldb')]",
         "storageAccountName": "[replace(concat(parameters('resourceNamePrefix'), 'str'), '-', '')]",
         "logAnalyticsName": "[concat(parameters('resourceNamePrefix'), '-la')]"
+        // "errorLink": "[concat('https://', variables('uiAppName'), '.scm.azurewebsites.net/detectors?type=tools&name=eventviewer')]"
     },
     "resources": [
         {
@@ -255,10 +266,65 @@
                         ]
                     }
                 }
-            }
+                }
         }
+        // // {
+        // //     "apiVersion": "2017-05-10",
+        // //     "name": "[concat('sql-database','-', parameters('environmentNameAbbreviation'))]",
+        // //     "resourceGroup": "[parameters('sharedEnvResourceGroup')]",
+        // //     "type": "Microsoft.Resources/deployments",
+        // //     "properties": {
+        // //         "mode": "Incremental",
+        // //         "templateLink": {
+        // //             "uri": "[concat(variables('deploymentUrlBase'),'sql-database.json')]",
+        // //             "contentVersion": "1.0.0.0"
+        // //         },
+        // //         "parameters": {
+        // //             "databaseName": {
+        // //                 "value": "[variables('sqlDatabaseName')]"
+        // //             },
+        // //             "sqlServerName": {
+        // //                 "value": "[parameters('sharedSQLServerName')]"
+        // //             },
+        // //             "databaseSkuName": {
+        // //                 "value": "[parameters('sqlDatabaseSkuName')]"
+        // //             },
+        // //             "databaseTier": {
+        // //                 "value": "[parameters('sqlDatabaseTier')]"
+        // //             }
+        // //         }
+        // //     }
+        // // },
+        // {
+        //     "apiVersion": "2017-05-10",
+        //     "name": "[concat('sql-server-firewall-rules','-', parameters('environmentNameAbbreviation'))]",
+        //     "resourceGroup": "[parameters('sharedEnvResourceGroup')]",
+        //     "type": "Microsoft.Resources/deployments",
+        //     "properties": {
+        //         "mode": "Incremental",
+        //         "templateLink": {
+        //             "uri": "[concat(variables('deploymentUrlBase'),'sql-server-firewall-rules.json')]",
+        //             "contentVersion": "1.0.0.0"
+        //         },
+        //         "parameters": {
+        //             "firewallRuleNamePrefix": {
+        //                 "value": "AZURE_IP-"
+        //             },
+        //             "ipAddresses": {
+        //                 "value": "[union(reference(concat('ui-app-service','-',parameters('environmentNameAbbreviation'))).outputs.possibleOutboundIpAddresses.value, reference(concat('function-app','-',parameters('environmentNameAbbreviation'))).outputs.possibleOutboundIpAddresses.value)]"
+        //             },
+        //             "serverName": {
+        //                 "value": "[parameters('sharedSQLServerName')]"
+        //         }
+        //     }
+        // }
+        // }
     ],
     "outputs": {
+        // "sqlDatabaseName": {
+        //     "type": "string",
+        //     "value": "[variables('sqlDatabaseName')]"
+        // },
         "uiAppName": {
             "type": "string",
             "value": "[variables('uiAppName')]"
