@@ -5,21 +5,6 @@
         "environmentNameAbbreviation": {
             "type": "string"
         },
-        // "sqlServerAdminUsername": {
-        //     "type": "string"
-        // },
-        // "sqlServerAdminPassword": {
-        //     "type": "securestring"
-        // },
-        // "sqlServerActiveDirectoryAdminLogin": {
-        //     "type": "string"
-        // },
-        // "sqlServerActiveDirectoryAdminObjectId": {
-        //     "type": "string"
-        // },
-        "threatDetectionEmailAddress": {
-            "type": "string"
-        },
         "appServicePlanTier": {
             "type": "string",
             "allowedValues": [
@@ -53,7 +38,6 @@
     "variables": {
         "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/tl-platform-building-blocks/master/ArmTemplates/",
         "resourceNamePrefix": "[toLower(parameters('environmentNameAbbreviation'))]",
-        // "sqlServerName": "[concat(variables('resourceNamePrefix'), '-shared-sql')]",
         "sharedStorageAccountName": "[replace(concat(variables('resourceNamePrefix'), 'sharedstr'), '-', '')]",
         "appServicePlanName": "[concat(variables('resourceNamePrefix'), '-shared-asp')]",
         "configStorageAccountName": "[replace(concat(variables('resourceNamePrefix'), 'configstr'), '-', '')]",
@@ -168,44 +152,6 @@
                 }
             }
         },
-        // {
-        //     "apiVersion": "2017-05-10",
-        //     "name": "[concat('sql-server','-', parameters('environmentNameAbbreviation'))]",
-        //     "type": "Microsoft.Resources/deployments",
-        //     "properties": {
-        //         "mode": "Incremental",
-        //         "templateLink": {
-        //             "uri": "[concat(variables('deploymentUrlBase'),'sql-server.json')]",
-        //             "contentVersion": "1.0.0.0"
-        //         },
-        //         "parameters": {
-        //             "sqlServerName": {
-        //                 "value": "[variables('sqlServerName')]"
-        //             },
-        //             "sqlServerAdminUserName": {
-        //                 "value": "[parameters('sqlServerAdminUsername')]"
-        //             },
-        //             "sqlServerAdminPassword": {
-        //                 "value": "[parameters('sqlServerAdminPassword')]"
-        //             },
-        //             "sqlServerActiveDirectoryAdminLogin": {
-        //                 "value": "[parameters('sqlServerActiveDirectoryAdminLogin')]"
-        //             },
-        //             "sqlServerActiveDirectoryAdminObjectId": {
-        //                 "value": "[parameters('sqlServerActiveDirectoryAdminObjectId')]"
-        //             },
-        //             "threatDetectionEmailAddress": {
-        //                 "value": "[parameters('threatDetectionEmailAddress')]"
-        //             },
-        //             "sqlStorageAccountName": {
-        //                 "value": "[variables('sharedStorageAccountName')]"
-        //             }
-        //         }
-        //     },
-        //     "dependsOn": [
-        //         "[concat('shared-storage-account','-', parameters('environmentNameAbbreviation'))]"
-        //     ]
-        // },
         {
             "apiVersion": "2017-05-10",
             "name": "[concat('app-service-plan','-', parameters('environmentNameAbbreviation'))]",
@@ -294,10 +240,6 @@
             "type": "string",
             "value": "[variables('keyVaultName')]"
         },
-        // "sharedSQLServerName": {
-        //     "type": "string",
-        //     "value": "[variables('sqlServerName')]"
-        // },
         "sharedStorageConnectionString": {
             "type": "string",
             "value": "[reference(concat('shared-storage-account','-', parameters('environmentNameAbbreviation'))).outputs.storageConnectionStringKey2.value]"
