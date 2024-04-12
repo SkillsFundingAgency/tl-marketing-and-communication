@@ -54,3 +54,5 @@ stages:
     parameters:
       serviceConnection: ${{ parameters.serviceConnection }}
       sharedEnvironmentId: ${{ parameters.sharedEnvironmentId }}
+
+  - template: ../jobs/marketingcommunications-post-deployment-job.yml
