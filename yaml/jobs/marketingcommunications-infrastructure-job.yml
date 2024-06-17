@@ -47,6 +47,7 @@ jobs:
             -configStorageAccountName "$(ConfigStorageAccountName)"
             -uiCustomHostName "$(UICustomHostName)"
             -certificateName "$(CertificateName)"
-            -courseDirectoryImportTrigger "$(CourseDirectoryImportTrigger)"'
+            -courseDirectoryImportTrigger "$(CourseDirectoryImportTrigger)"
+            -ipSecurityRestrictions $(ipSecurityRestrictions)'
           tags: $(Tags)          
           processOutputs: true

@@ -11,6 +11,8 @@ parameters:
   type: string
 - name: serviceConnection
   type: string
+- name: variableTemplates
+  type: object
 
 stages:
 - stage: Deploy_${{parameters.environmentId}}
@@ -29,7 +31,8 @@ stages:
       value: ${{ parameters.environmentName }}
     - name: environmentTagName
       value: ${{parameters.environmentTagName}}
-      
+    - '${{ each variableTemplate in parameters.variableTemplates }}':
+      - template: '${{variableTemplate}}'      
       
   displayName: '${{parameters.environmentName}} [${{parameters.environmentId}}] deployment'
   jobs:  
