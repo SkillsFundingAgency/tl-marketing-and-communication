@@ -31,6 +31,9 @@
         },
         "courseDirectoryImportTrigger": {
             "type": "string"
+        },
+        "ipSecurityRestrictions": {
+            "type": "array"
         }
     },
     "variables": {
@@ -190,6 +193,12 @@
                     },
                     "certificateThumbprint": {
                         "value": "[reference(concat('ui-app-service-certificate','-',parameters('environmentNameAbbreviation'))).outputs.certificateThumbprint.value]"
+                    },
+                    "ipSecurityRestrictions": {
+                        "value": "[parameters('ipSecurityRestrictions')]"
+                    },
+                    "ipSecurityRestrictionsDefaultAction": {
+                        "value": "Deny"
                     }
                 }
             },
