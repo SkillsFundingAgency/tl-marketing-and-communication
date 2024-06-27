@@ -18,6 +18,7 @@ jobs:
       SharedSQLServerName: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.sharedSQLServerName'] ]
       ConfigurationStorageConnectionString: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.configStorageConnectionString'] ]
       SharedResourceGroup: $[stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.SharedVariables.SharedResourceGroup']]
+      ConfigStorageAccountName: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.ConfigStorageAccountName'] ]
       
     steps:
       - checkout: self
@@ -43,8 +44,10 @@ jobs:
             -sharedEnvResourceGroup "$(SharedResourceGroup)"
             -sharedKeyVaultName "$(SharedKeyVaultName)"
             -configurationStorageConnectionString "$(ConfigurationStorageConnectionString)"
+            -configStorageAccountName "$(ConfigStorageAccountName)"
             -uiCustomHostName "$(UICustomHostName)"
             -certificateName "$(CertificateName)"
-            -courseDirectoryImportTrigger "$(CourseDirectoryImportTrigger)"'
+            -courseDirectoryImportTrigger "$(CourseDirectoryImportTrigger)"
+            -ipSecurityRestrictions $(ipSecurityRestrictions)'
           tags: $(Tags)          
           processOutputs: true

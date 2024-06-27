@@ -22,6 +22,8 @@ stages:
       environmentId: d01
       sharedEnvironmentId: d01
       serviceConnection: $(devServiceConnection)
+      variableTemplates: 
+        - ./Automation/variables/vars-non-prd.yml@devopsTemplates      
 ######################## TEST ##############################################
   - template: marketingcommunications-shared-stage.yml
     parameters:
@@ -41,7 +43,8 @@ stages:
       environmentId: t01
       sharedEnvironmentId: t01
       serviceConnection: $(testServiceConnection)
-
+      variableTemplates: 
+        - ./Automation/variables/vars-non-prd.yml@devopsTemplates
 ######################## Pre Prod ##############################################
   - template: marketingcommunications-shared-stage.yml
     parameters:
@@ -62,7 +65,8 @@ stages:
       environmentId: p02
       sharedEnvironmentId: p02
       serviceConnection: $(prodServiceConnection)
-
+      variableTemplates: 
+        - ./Automation/variables/vars-non-prd.yml@devopsTemplates
 # ######################## Prod ##############################################
   - template: marketingcommunications-shared-stage.yml
     parameters:
@@ -83,3 +87,5 @@ stages:
       environmentId: p01
       sharedEnvironmentId: p01
       serviceConnection: $(prodServiceConnection)
+      variableTemplates: 
+        - ./Automation/variables/vars-prd.yml@devopsTemplates
