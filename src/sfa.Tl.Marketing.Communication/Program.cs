@@ -148,6 +148,11 @@ var assemblies = new[]
 
 builder.Services.AddAutoMapper(assemblies);
 
+builder.Services
+    .AddHealthChecks()
+    .AddAzureBlobStorage()
+    .AddAzureTable();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -185,6 +190,7 @@ app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
+    endpoints.MapHealthChecks("/health");
 });
 
 app.Run();
