@@ -141,7 +141,7 @@
             }
         },
         {
-            "apiVersion": "2017-05-10",
+            "apiVersion": "2022-09-01",
             "name": "[concat('ui-app-service','-', parameters('environmentNameAbbreviation'))]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -185,6 +185,10 @@
                             {
                                 "name": "WEBSITE_SWAP_WARMUP_PING_STATUSES",
                                 "value": "200"
+                            },
+                            {
+                                "name": "WEBSITE_SWAP_WARMUP_PING_PATH",
+                                "value": "/health"
                             }
                         ]
                     },
@@ -199,6 +203,9 @@
                     },
                     "ipSecurityRestrictionsDefaultAction": {
                         "value": "Deny"
+                    },
+                    "healthCheckPath": {
+                        "value": "/health"
                     }
                 }
             },
@@ -273,13 +280,20 @@
                             },
                             {
                                 "name": "WEBSITE_SWAP_WARMUP_PING_PATH",
-                                "value": "api/GetProviders"
+                                "value": "/api/healthcheck"
                             },
                             {
                                 "name": "WEBSITE_SWAP_WARMUP_PING_STATUSES",
-                                "value": "401"
+                                "value": "200"
+                            },
+                            {
+                                "name": "FUNCTIONS_WORKER_RUNTIME",
+                                "value": "dotnet-isolated"
                             }
                         ]
+                    },
+                    "healthCheckPath": {
+                        "value": "/api/healthcheck"
                     }
                 }
             }
