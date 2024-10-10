@@ -89,6 +89,11 @@ var hostBuilder = new HostBuilder()
             .AddTransient<ICourseDirectoryDataService, CourseDirectoryDataService>()
             .AddTransient<ITownDataService, TownDataService>()
             .AddTransient<ITableStorageService, TableStorageService>();
+
+        services
+            .AddHealthChecks()
+            .AddAzureBlobStorage()
+            .AddAzureTable();
     });
 
 
