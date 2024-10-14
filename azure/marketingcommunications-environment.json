@@ -189,6 +189,10 @@
                             {
                                 "name": "WEBSITE_SWAP_WARMUP_PING_PATH",
                                 "value": "/health"
+                            },
+                            {
+                                "name": "WEBSITE_ADD_SITENAME_BINDINGS_IN_APPHOST_CONFIG",
+                                "value": "1"
                             }
                         ]
                     },
@@ -289,6 +293,10 @@
                             {
                                 "name": "FUNCTIONS_WORKER_RUNTIME",
                                 "value": "dotnet-isolated"
+                            },
+                            {
+                                "name": "WEBSITE_ADD_SITENAME_BINDINGS_IN_APPHOST_CONFIG",
+                                "value": "1"
                             }
                         ]
                     },
