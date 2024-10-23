@@ -141,7 +141,7 @@
             }
         },
         {
-            "apiVersion": "2017-05-10",
+            "apiVersion": "2022-09-01",
             "name": "[concat('ui-app-service','-', parameters('environmentNameAbbreviation'))]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -187,6 +187,10 @@
                                 "value": "200"
                             },
                             {
+                                "name": "WEBSITE_SWAP_WARMUP_PING_PATH",
+                                "value": "/health"
+                            },
+                            {
                                 "name": "WEBSITE_ADD_SITENAME_BINDINGS_IN_APPHOST_CONFIG",
                                 "value": "1"
                             }
@@ -203,6 +207,9 @@
                     },
                     "ipSecurityRestrictionsDefaultAction": {
                         "value": "Deny"
+                    },
+                    "healthCheckPath": {
+                        "value": "/health"
                     }
                 }
             },
@@ -277,11 +284,11 @@
                             },
                             {
                                 "name": "WEBSITE_SWAP_WARMUP_PING_PATH",
-                                "value": "api/GetProviders"
+                                "value": "/api/healthcheck"
                             },
                             {
                                 "name": "WEBSITE_SWAP_WARMUP_PING_STATUSES",
-                                "value": "401"
+                                "value": "200"
                             },
                             {
                                 "name": "FUNCTIONS_WORKER_RUNTIME",
@@ -292,6 +299,9 @@
                                 "value": "1"
                             }
                         ]
+                    },
+                    "healthCheckPath": {
+                        "value": "/api/healthcheck"
                     }
                 }
             }
