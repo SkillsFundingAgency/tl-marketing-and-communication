@@ -65,10 +65,11 @@ jobs:
       SourceSlot: staging
 
   - task: AzureAppServiceManage@0
-    displayName: 'Delete swap Slot: $(uiAppName)'
+    displayName: 'Stop swap Slot: $(uiAppName)'
     inputs:
       azureSubscription: ${{ parameters.serviceConnection }}
-      Action: 'Delete Slot'
+      Action: 'Stop Azure App Service'
       WebAppName: '$(uiAppName)'
+      SpecifySlotOrASE: true
       ResourceGroupName: '$(ResourceGroupName)'
       Slot: 'staging'
