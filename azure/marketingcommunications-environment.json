@@ -37,7 +37,7 @@
         }
     },
     "variables": {
-        "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/tl-platform-building-blocks/master/ArmTemplates/",
+        "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/tl-platform-building-blocks/feature/TLD-560-disable-basic-auth/ArmTemplates/",
         "uiAppName": "[concat(parameters('resourceNamePrefix'), '-web')]",
         "appInsightName": "[concat(parameters('resourceNamePrefix'), '-ai')]",
         "workerFunctionAppName": "[concat(parameters('resourceNamePrefix'), '-func-worker')]",
