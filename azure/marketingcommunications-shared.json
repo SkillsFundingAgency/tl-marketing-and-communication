@@ -205,7 +205,7 @@
             }
         },
         {
-            "apiVersion": "2017-05-10",
+            "apiVersion": "2023-07-01",
             "name": "[concat('key-vault','-', parameters('environmentNameAbbreviation'))]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -219,9 +219,6 @@
                         "value": "[variables('keyVaultName')]"
                     },
                     "enabledForTemplateDeployment": {
-                        "value": true
-                    },
-                    "enableSoftDelete": {
                         "value": true
                     },
                     "keyVaultAccessPolicies": {
