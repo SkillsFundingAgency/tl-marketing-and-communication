@@ -1,11 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using sfa.Tl.Marketing.Communication.Application.Interfaces;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.SearchPipeline;
+using System;
+using System.Diagnostics;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace sfa.Tl.Marketing.Communication.Controllers;
 
@@ -192,12 +192,6 @@ public class StudentController : Controller
     public IActionResult ManagementAdministration()
     {
         return View("Subjects/ManagementAdministration");
-    }
-
-    [Route("/students/subjects/onsite-construction", Name = "OnsiteConstruction")]
-    public IActionResult OnsiteConstruction()
-    {
-        return View("Subjects/OnsiteConstruction");
     }
 
     [Route("/students/subjects/science", Name = "Science")]
