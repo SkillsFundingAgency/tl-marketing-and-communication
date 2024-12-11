@@ -30,8 +30,9 @@ public class GetQualificationsStep : ISearchStep
 
         const int HairdressingBarberingAndBeautyTherapyId = 53;
         const int CateringId = 56;
+        const int OnSiteContruction = 44;
 
-        var excludedQualifications = new int[] { HairdressingBarberingAndBeautyTherapyId, CateringId };
+        var excludedQualifications = new int[] { HairdressingBarberingAndBeautyTherapyId, CateringId, OnSiteContruction };
 
         // ReSharper disable once PossibleMultipleEnumeration
         context.ViewModel.Qualifications = qualifications
