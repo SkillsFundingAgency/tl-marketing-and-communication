@@ -22,14 +22,6 @@ jobs:
       
     steps:
       - checkout: self
-      - pwsh: |
-          'Write-Host "SharedResourceGroup variable: $(SharedResourceGroup)"'
-          'Write-Host "SharedASPName variable: $(SharedASPName)"'
-          'Write-Host "SharedKeyVaultName variable: $(SharedKeyVaultName)"'
-          'Write-Host "SharedSQLServerName variable: $(SharedSQLServerName)"'
-          'Write-Host "ConfigurationStorageConnectionString variable: $(ConfigurationStorageConnectionString)"'
-        displayName: 'Show Variables'
-
       - template: ./Infrastructure/steps/deploy-template.yml@devopsTemplates
         parameters:
           serviceConnection: ${{ parameters.serviceConnection }}
