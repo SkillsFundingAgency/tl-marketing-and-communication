@@ -20,13 +20,6 @@ jobs:
   dependsOn:
     - DeployMarketingCommunicationsInfrastructure
   steps:
-    - pwsh: |
-        'Write-Host "ConfigStorageAccountName variable: $(ConfigStorageAccountName)"'
-        'Write-Host "SqlConnectionString variable: $(SqlConnectionString)"'
-        'Write-Host "TableStorageConnectionString variable: $(TableStorageConnectionString)"'
-        'Write-Host "BlobStorageConnectionString variable: $(BlobStorageConnectionString)"'
-      name: SetVariables
-
     - task: DownloadBuildArtifacts@0
       inputs:
         buildType: 'current'
