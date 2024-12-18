@@ -34,7 +34,7 @@ jobs:
   #     package: '$(System.ArtifactsDirectory)/drop/Sfa.Tl.Marketing.Communications.Web.zip'
   #     deploymentMethod: 'auto'
 
-  - task: AzureRmWebAppDeployment@3
+  - task: AzureRmWebAppDeployment@4
     displayName: 'Azure App Service Deploy: $(uiAppName)'
     inputs:
       azureSubscription: ${{ parameters.serviceConnection }}
