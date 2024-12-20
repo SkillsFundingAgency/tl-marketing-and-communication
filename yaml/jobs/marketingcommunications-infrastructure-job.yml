@@ -7,6 +7,7 @@ parameters:
     type: string
   - name: environmentName
     type: string
+
 jobs:
   - job: DeployMarketingCommunicationsInfrastructure
     pool:
@@ -17,7 +18,7 @@ jobs:
       SharedKeyVaultName: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.sharedKeyVaultName'] ]
       SharedSQLServerName: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.sharedSQLServerName'] ]
       ConfigurationStorageConnectionString: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.configStorageConnectionString'] ]
-      SharedResourceGroup: $[stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.SharedVariables.SharedResourceGroup']]
+      SharedResourceGroup: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.SharedVariables.SharedResourceGroup'] ]
       ConfigStorageAccountName: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.ConfigStorageAccountName'] ]
       
     steps:
@@ -43,3 +44,14 @@ jobs:
             -ipSecurityRestrictions $(ipSecurityRestrictions)'
           tags: $(Tags)          
           processOutputs: true
+
+      - task: AzurePowerShell@5
+        displayName: 'Set Certificate Lifetime Action Type'
+        inputs:
+          azureSubscription: ${{ parameters.serviceConnection }}
+          ScriptType: InlineScript
+          Inline: |
+            $policy = New-AzKeyVaultCertificatePolicy -VaultName $(SharedKeyVaultName) -CertificateName $(CertificateName) -RenewAtNumberOfDaysBeforeExpiry 30
+            Set-AzKeyVaultCertificatePolicy -VaultName $(SharedKeyVaultName) -CertificateName $(CertificateName) -Policy $policy
+          azurePowerShellVersion: LatestVersion
+          pwsh: true
