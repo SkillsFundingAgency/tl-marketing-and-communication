@@ -23,7 +23,7 @@ stages:
       sharedEnvironmentId: d01
       serviceConnection: $(devServiceConnection)
       variableTemplates: 
-        - ./Automation/variables/vars-non-prd.yml@devopsTemplates      
+        - ./Automation/variables/vars-non-prd.yml@devopsTemplates   
 ######################## TEST ##############################################
   - template: marketingcommunications-shared-stage.yml
     parameters:
