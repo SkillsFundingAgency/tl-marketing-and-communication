@@ -7,6 +7,8 @@ parameters:
     type: string
   - name: environmentName
     type: string
+  - name: globalSignServiceAccountPassword
+    type: string
 jobs:
 
   - deployment: DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}
@@ -17,13 +19,14 @@ jobs:
         deploy:
           steps:
             - checkout: self
+            - checkout: devopsTools
             - template: ./Infrastructure/steps/deploy-template.yml@devopsTemplates
               parameters:
                 serviceConnection: ${{ parameters.serviceConnection }}
                 subscriptionId: $(subscriptionId)
                 resourceGroupName: $(SharedResourceGroup)
                 location: 'West Europe'
-                templateFilePath: './azure/marketingcommunications-shared.json'
+                templateFilePath: './tl-marketing-and-communication/azure/marketingcommunications-shared.json'
                 armParameterOverrideString: '-environmentNameAbbreviation "${{parameters.baseName}}" 
                   -appServicePlanTier "$(AppServicePlanTier)"
                   -appServicePlanSize "$(AppServicePlanSize)"
@@ -49,3 +52,15 @@ jobs:
                   }
                 azurePowerShellVersion: LatestVersion
                 pwsh: true
+
+            - task: AzurePowerShell@5
+              displayName: 'Set Certificate Issuer and Contacts'
+              inputs:
+                azureSubscription: ${{ parameters.serviceConnection }}
+                ScriptType: 'FilePath'
+                ScriptPath: './operations-devops-tools/Powershell/SetKeyVaultConfig/SetKeyVaultConfig.ps1'
+                ScriptArguments: '-SharedKeyVaultName "$(armOutputs.armoutput.sharedKeyVaultName)" -GlobalSignServiceAccountId $(GlobalSignServiceAccountId) -KvContactEmailAddress $(KvContactEmailAddress) -CaAdminFirstName $(CaAdminFirstName) -CaAdminLastName $(CaAdminLastName) -CaAdminEmailAddress $(CaAdminEmailAddress)'
+                FailOnStandardError: true
+                azurePowerShellVersion: LatestVersion
+              env: 
+                globalSignServiceAccountPassword: $(GlobalSignServiceAccountPassword)

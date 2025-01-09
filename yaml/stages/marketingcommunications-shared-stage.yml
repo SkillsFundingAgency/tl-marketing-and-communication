@@ -17,6 +17,7 @@ stages:
       - '${{dependency}}'
   variables:
     - group: platform-global-marcom
+    - group: platform-global
     - group: platform-${{parameters.environmentName}}
     - group: platform-${{parameters.environmentName}}-marcom
     - name: SharedBaseName
@@ -36,3 +37,4 @@ stages:
       serviceConnection: ${{ parameters.serviceConnection }}
       sharedEnvironmentId: ${{ parameters.sharedEnvironmentId }}
       environmentName: ${{parameters.environmentName}}
+      globalSignServiceAccountPassword: $($GlobalSignServiceAccountPassword)
