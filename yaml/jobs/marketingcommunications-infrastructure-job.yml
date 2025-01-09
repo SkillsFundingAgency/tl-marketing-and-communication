@@ -43,3 +43,14 @@ jobs:
             -ipSecurityRestrictions $(ipSecurityRestrictions)'
           tags: $(Tags)          
           processOutputs: true
+
+      - task: AzurePowerShell@5
+        displayName: 'Set Certificate Policy'
+        inputs:
+          azureSubscription: ${{ parameters.serviceConnection }}
+          ScriptType: InlineScript
+          Inline: | 
+            Set-AzKeyVaultCertificatePolicy -VaultName $(SharedKeyVaultName) -Name $(CertificateName) -RenewAtNumberOfDaysBeforeExpiry 30
+          azurePowerShellVersion: LatestVersion
+
+

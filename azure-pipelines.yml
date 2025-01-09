@@ -9,6 +9,11 @@ resources:
       endpoint: DfE-Digital
       name: DFE-Digital/operations-devops-pipeline-templates
 
+    - repository: devopsTools
+      type: github
+      endpoint: DfE-Digital
+      name: DFE-Digital/operations-devops-tools
+
 trigger:
   branches:
     include: 
