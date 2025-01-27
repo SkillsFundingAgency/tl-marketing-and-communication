@@ -22,6 +22,7 @@ stages:
       environmentId: d01
       sharedEnvironmentId: d01
       serviceConnection: $(devServiceConnection)
+      applicationName: mcom
       variableTemplates: 
         - ./Automation/variables/vars-non-prd.yml@devopsTemplates   
 ######################## TEST ##############################################
@@ -43,6 +44,7 @@ stages:
       environmentId: t01
       sharedEnvironmentId: t01
       serviceConnection: $(testServiceConnection)
+      applicationName: mcom
       variableTemplates: 
         - ./Automation/variables/vars-non-prd.yml@devopsTemplates
 ######################## Pre Prod ##############################################
@@ -65,6 +67,7 @@ stages:
       environmentId: p02
       sharedEnvironmentId: p02
       serviceConnection: $(prodServiceConnection)
+      applicationName: mcom
       variableTemplates: 
         - ./Automation/variables/vars-non-prd.yml@devopsTemplates
 # ######################## Prod ##############################################
@@ -87,5 +90,6 @@ stages:
       environmentId: p01
       sharedEnvironmentId: p01
       serviceConnection: $(prodServiceConnection)
+      applicationName: mcom
       variableTemplates: 
         - ./Automation/variables/vars-prd.yml@devopsTemplates
