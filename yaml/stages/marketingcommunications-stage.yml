@@ -13,6 +13,8 @@ parameters:
   type: string
 - name: variableTemplates
   type: object
+- name: applicationName
+  type: string
 
 stages:
 - stage: Deploy_${{parameters.environmentId}}
@@ -32,7 +34,11 @@ stages:
     - name: environmentTagName
       value: ${{parameters.environmentTagName}}
     - '${{ each variableTemplate in parameters.variableTemplates }}':
-      - template: '${{variableTemplate}}'      
+      - template: '${{variableTemplate}}'
+    - name: SharedBaseName
+      value: "s126${{parameters.sharedEnvironmentId}}-${{parameters.applicationName}}"
+    - name: SharedResourceGroup
+      value: '$(SharedBaseName)-shared'   
       
   displayName: '${{parameters.environmentName}} [${{parameters.environmentId}}] deployment'
   jobs:  
@@ -47,6 +53,10 @@ stages:
     parameters:
       serviceConnection: ${{ parameters.serviceConnection }}
       sharedEnvironmentId: ${{ parameters.sharedEnvironmentId }}
+      environmentName: ${{parameters.environmentName}}
+      ConfigurationSecrets:
+        CourseDirectoryApiSettings_ApiKey: $(CourseDirectoryApiSettings_ApiKey)
+
 
   - template: ../jobs/marketingcommunications-publish-site-job.yml
     parameters:
