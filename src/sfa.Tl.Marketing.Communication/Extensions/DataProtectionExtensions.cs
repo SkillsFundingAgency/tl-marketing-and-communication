@@ -1,47 +1,48 @@
-﻿using Azure.Storage.Blobs;
-using Azure.Storage.Sas;
+﻿using Azure.Identity;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using sfa.Tl.Marketing.Communication.Models.Configuration;
 
-namespace sfa.Tl.Marketing.Communication.Extensions;
-
-public static class DataProtectionExtensions
+namespace sfa.Tl.Marketing.Communication.Extensions
 {
-    private const string ContainerName = "dataprotection";
-    private const string BlobName = "keys";
-
-    public static IServiceCollection AddWebDataProtection(
-        this IServiceCollection services,
-        ConfigurationOptions configuration)
+    public static class DataProtectionExtensions
     {
-        if (!string.IsNullOrEmpty(configuration.StorageSettings.BlobStorageConnectionString)
-            && configuration.Environment != "LOCAL")
+        private const string ContainerName = "dataprotection";
+        private const string BlobName = "keys";
+
+        public static IServiceCollection AddWebDataProtection(
+            this IServiceCollection services,
+            ConfigurationOptions siteConfiguration)
         {
-            services.AddDataProtection()
-                .PersistKeysToAzureBlobStorage(
-                    GetDataProtectionBlobTokenUri(configuration));
+            if (!string.IsNullOrEmpty(siteConfiguration.StorageSettings.StorageAccountName)
+                && siteConfiguration.Environment != "LOCAL")
+            {
+                services.AddDataProtection()
+                    .PersistKeysToAzureBlobStorage(
+                        GetDataProtectionBlobUri(siteConfiguration));
+            }
+
+            return services;
         }
 
-        return services;
-    }
-
-    private static Uri GetDataProtectionBlobTokenUri(ConfigurationOptions configuration)
-    {
-        var blobServiceClient = new BlobServiceClient(configuration.StorageSettings.BlobStorageConnectionString);
-        var blobContainerClient = blobServiceClient
-            .GetBlobContainerClient(ContainerName);
-        blobContainerClient.CreateIfNotExists();
-
-        var blobClient = blobContainerClient
-            .GetBlobClient(BlobName);
-
-        return blobClient
-            .GenerateSasUri(
-                BlobSasPermissions.Read |
-                BlobSasPermissions.Write |
-                BlobSasPermissions.Create,
-                DateTime.UtcNow.AddYears(1));
+        private static Uri GetDataProtectionBlobUri(ConfigurationOptions siteConfiguration)
+        {
+            var blobServiceClient = new BlobServiceClient(
+                new Uri($"https://{siteConfiguration.StorageSettings.StorageAccountName}.blob.core.windows.net"),
+                new DefaultAzureCredential());
+            var blobContainerClient = blobServiceClient.GetBlobContainerClient(ContainerName);
+            try
+            {
+                blobContainerClient.CreateIfNotExists();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Error ensuring container exists.", ex);
+            }
+            var blobClient = blobContainerClient.GetBlobClient(BlobName);
+            return blobClient.Uri;
+        }
     }
 }
