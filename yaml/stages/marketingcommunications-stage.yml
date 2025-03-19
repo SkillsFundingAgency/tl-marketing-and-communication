@@ -25,6 +25,7 @@ stages:
     - group: platform-global-marcom
     - group: platform-${{parameters.environmentName}}
     - group: platform-${{parameters.environmentName}}-marcom
+    - group: platform-${{parameters.environmentName}}-marcom-kv
     - name: BaseName
       value: "s126${{parameters.environmentId}}-mcom-${{parameters.environmentName}}"
     - name: ResourceGroupName
@@ -55,7 +56,8 @@ stages:
       sharedEnvironmentId: ${{ parameters.sharedEnvironmentId }}
       environmentName: ${{parameters.environmentName}}
       ConfigurationSecrets:
-        CourseDirectoryApiSettings_ApiKey: $(CourseDirectoryApiSettings_ApiKey)
+        CourseDirectoryApiSettings_ApiKey: $(CourseDirectoryApiSettings-ApiKey)
+        GoogleMapsApiKey: $(GoogleMapsApiKey)
 
 
   - template: ../jobs/marketingcommunications-publish-site-job.yml
