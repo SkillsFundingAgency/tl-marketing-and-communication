@@ -18,6 +18,7 @@ jobs:
     SqlConnectionString: $[ dependencies.DeploySQLDatabase.outputs['SqlVariables.SqlConnectionString'] ]
     BlobStorageConnectionString : $[ dependencies.DeployMarketingCommunicationsInfrastructure.outputs['armOutputs.armOutput.StorageConnectionString'] ]
     TableStorageConnectionString : $[ dependencies.DeployMarketingCommunicationsInfrastructure.outputs['armOutputs.armOutput.StorageConnectionString'] ]
+    SharedKeyVaultName: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.sharedKeyVaultName'] ]
 
   pool:
     name: 'Azure Pipelines'
