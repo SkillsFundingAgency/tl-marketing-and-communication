@@ -212,12 +212,6 @@ public class StudentController : Controller
         return View("Subjects/AnimalCare");
     }
 
-    [Route("/students/subjects/catering", Name = "Catering")]
-    public IActionResult Catering()
-    {
-        return View("Subjects/Catering");
-    }
-
     [Route("/students/subjects/craft-design", Name = "CraftDesign")]
     public IActionResult CraftDesign()
     {

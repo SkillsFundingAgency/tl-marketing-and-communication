@@ -143,9 +143,6 @@
                     "storageKind": {
                         "value": "StorageV2"
                     },
-                    "allowBlobPublicAccess": {
-                        "value": true
-                    },
                     "minimumTlsVersion": {
                         "value": "TLS1_2"
                     }
@@ -194,9 +191,6 @@
                     },
                     "storageKind": {
                         "value": "StorageV2"
-                    },
-                    "allowBlobPublicAccess": {
-                        "value": true
                     },
                     "minimumTlsVersion": {
                         "value": "TLS1_2"
