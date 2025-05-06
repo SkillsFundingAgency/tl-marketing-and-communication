@@ -39,6 +39,18 @@ jobs:
             - pwsh: Write-Host "##vso[task.setvariable variable=SharedResourceGroup;isOutput=true]$(SharedResourceGroup)"
               name: SharedVariables
 
+#            - task: AzureCLI@2
+#              displayName: 'Migrate Key Vault to RBAC'
+#              inputs:
+#                azureSubscription: ${{ parameters.serviceConnection }}
+#                scriptType: bash
+#                scriptLocation: inlineScript
+#                inlineScript: |
+#                  az keyvault update \
+#                    --name "$(armOutputs.armoutput.sharedKeyVaultName)" \
+#                    --resource-group "$(SharedResourceGroup)" \
+#                    --enable-rbac-authorization true
+
             - task: AzurePowerShell@5
               displayName: 'Create Configuration Table'
               inputs:

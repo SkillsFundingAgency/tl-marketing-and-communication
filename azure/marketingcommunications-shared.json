@@ -36,94 +36,12 @@
         }
     },
     "variables": {
-        "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/tl-platform-building-blocks/master/ArmTemplates/",
+        "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/tl-platform-building-blocks/feature/TLD-602-add-KV-role-assignment-template/ArmTemplates/",
         "resourceNamePrefix": "[toLower(parameters('environmentNameAbbreviation'))]",
         "sharedStorageAccountName": "[replace(concat(variables('resourceNamePrefix'), 'sharedstr'), '-', '')]",
         "appServicePlanName": "[concat(variables('resourceNamePrefix'), '-shared-asp')]",
         "configStorageAccountName": "[replace(concat(variables('resourceNamePrefix'), 'configstr'), '-', '')]",
-        "keyVaultName": "[replace(concat(variables('resourceNamePrefix'), 'sharedkv'), '-', '')]",
-        "keyVaultAccessPolicies": [
-            {
-                "objectId": "[parameters('azureWebsitesRPObjectId')]",
-                "tenantId": "[subscription().tenantId]",
-                "permissions": {
-                    "secrets": [
-                        "Get"
-                    ]
-                }
-            }
-        ],
-        "readWriteAccessPolicies": {
-            "copy": [
-                {
-                    "name": "readWriteAccessPolicies",
-                    "count": "[length(parameters('keyVaultReadWriteObjectIds'))]",
-                    "input": {
-                        "objectId": "[parameters('keyVaultReadWriteObjectIds')[copyIndex('readWriteAccessPolicies')]]",
-                        "tenantId": "[subscription().tenantId]",
-                        "permissions": {
-                            "secrets": [
-                                "Get",
-                                "List",
-                                "Set"
-                            ]
-                        }
-                    }
-                }
-            ]
-        },
-        "fullAccessPolicies": {
-            "copy": [
-                {
-                    "name": "fullAccessPolicies",
-                    "count": "[length(parameters('keyVaultFullAccessObjectIds'))]",
-                    "input": {
-                        "objectId": "[parameters('keyVaultFullAccessObjectIds')[copyIndex('fullAccessPolicies')]]",
-                        "tenantId": "[subscription().tenantId]",
-                        "permissions": {
-                            "keys": [
-                                "Get",
-                                "List",
-                                "Update",
-                                "Create",
-                                "Import",
-                                "Delete",
-                                "Recover",
-                                "Backup",
-                                "Restore"
-                            ],
-                            "secrets": [
-                                "Get",
-                                "List",
-                                "Set",
-                                "Delete",
-                                "Recover",
-                                "Backup",
-                                "Restore"
-                            ],
-                            "certificates": [
-                                "Get",
-                                "List",
-                                "Update",
-                                "Create",
-                                "Import",
-                                "Delete",
-                                "Recover",
-                                "Backup",
-                                "Restore",
-                                "ManageContacts",
-                                "ManageIssuers",
-                                "GetIssuers",
-                                "ListIssuers",
-                                "SetIssuers",
-                                "DeleteIssuers"
-                            ]
-                        }
-                    }
-                }
-            ]
-        }
-
+        "keyVaultName": "[replace(concat(variables('resourceNamePrefix'), 'sharedkv'), '-', '')]"
     },
     "resources": [
         {
@@ -214,9 +132,6 @@
                     },
                     "enabledForTemplateDeployment": {
                         "value": true
-                    },
-                    "keyVaultAccessPolicies": {
-                        "value": "[concat(variables('keyVaultAccessPolicies'), variables('readWriteAccessPolicies').readWriteAccessPolicies, variables('fullAccessPolicies').fullAccessPolicies)]"
                     }
                 }
             }
