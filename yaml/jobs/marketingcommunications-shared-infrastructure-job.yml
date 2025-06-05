@@ -18,6 +18,10 @@ jobs:
       runOnce:
         deploy:
           steps:
+            - script: |
+                echo "Pipeline run initiated by - $(Build.RequestedFor)"       
+              displayName: 'Show Initiating User'
+
             - checkout: self
             - checkout: devopsTools
             - template: ./Infrastructure/steps/deploy-template.yml@devopsTemplates

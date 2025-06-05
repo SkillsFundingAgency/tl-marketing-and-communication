@@ -21,6 +21,10 @@ jobs:
       ConfigStorageAccountName: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.ConfigStorageAccountName'] ]
       
     steps:
+      - script: |
+          echo "Pipeline run initiated by - $(Build.RequestedFor)"       
+        displayName: 'Show Initiating User'
+
       - checkout: self
       - template: ./Infrastructure/steps/deploy-template.yml@devopsTemplates
         parameters:

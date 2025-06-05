@@ -8,6 +8,10 @@ jobs:
   workspace:
     clean: all
   steps:
+    - script: |
+        echo "Pipeline run initiated by - $(Build.RequestedFor)"
+      displayName: 'Show Initiating User'
+
     - task: UseDotNet@2
       displayName: "Use .NET Core SDK 2.1.x"
       inputs:
