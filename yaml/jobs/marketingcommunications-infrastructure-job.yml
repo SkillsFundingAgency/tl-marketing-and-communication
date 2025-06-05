@@ -11,7 +11,7 @@ jobs:
   - job: DeployMarketingCommunicationsInfrastructure
     pool:
       name: 'Azure Pipelines'
-      vmImage: 'windows-2019'
+      vmImage: 'windows-latest'
     variables:
       SharedASPName: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.sharedASPName'] ]
       SharedKeyVaultName: $[ stageDependencies.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.outputs['DeploySharedInfrastructure_${{parameters.sharedEnvironmentId}}.armOutputs.armOutput.sharedKeyVaultName'] ]
