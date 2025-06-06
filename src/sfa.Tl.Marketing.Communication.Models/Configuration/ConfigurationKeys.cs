@@ -12,11 +12,11 @@ public static class ConfigurationKeys
     public const string PostcodeCacheExpiryInSecondsConfigKey = "PostcodeCacheExpiryInSeconds";
     public const string PostcodeRetrieverBaseUrlConfigKey = "PostcodeRetrieverBaseUrl";
 
-    public const string EmployerSupportSiteUriConfigKey = "EmployerSiteSettings_SiteUrl";
-    public const string AboutArticleConfigKey = "EmployerSiteSettings_AboutArticle";
-    public const string IndustryPlacementsBenefitsArticleConfigKey = "EmployerSiteSettings_IndustryPlacementsBenefitsArticle";
-    public const string SkillsArticleConfigKey = "EmployerSiteSettings_SkillsArticle";
-    public const string TimelineArticleConfigKey = "EmployerSiteSettings_TimelineArticle";
+    public const string EmployerSupportSiteUriConfigKey = "EmployerSiteSettingsSiteUrl";
+    public const string AboutArticleConfigKey = "EmployerSiteSettingsAboutArticle";
+    public const string IndustryPlacementsBenefitsArticleConfigKey = "EmployerSiteSettingsIndustryPlacementsBenefitsArticle";
+    public const string SkillsArticleConfigKey = "EmployerSiteSettingsSkillsArticle";
+    public const string TimelineArticleConfigKey = "EmployerSiteSettingsTimelineArticle";
 
     public const string BlobStorageConnectionStringConfigKey = "BlobStorageConnectionString";
     public const string TableStorageConnectionStringConfigKey = "TableStorageConnectionString";
