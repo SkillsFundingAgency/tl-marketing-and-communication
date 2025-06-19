@@ -28,30 +28,20 @@ jobs:
                 location: 'West Europe'
                 templateFilePath: './tl-marketing-and-communication/azure/marketingcommunications-shared.json'
                 armParameterOverrideString: '-environmentNameAbbreviation "${{parameters.baseName}}" 
+                  -environmentName "${{parameters.environmentName}}"
                   -appServicePlanTier "$(AppServicePlanTier)"
                   -appServicePlanSize "$(AppServicePlanSize)"
                   -appServicePlanInstances "$(AppServicePlanInstances)"
                   -azureWebsitesRPObjectId "$(AzureWebsitesRPObjectId)"
                   -keyVaultReadWriteObjectIds "$(KeyVaultReadWriteObjectIds)"
-                  -keyVaultFullAccessObjectIds "$(keyVaultFullAccessObjectIds)"'
+                  -keyVaultFullAccessObjectIds "$(keyVaultFullAccessObjectIds)"
+                  -AzureAppServiceObjectID "$(AzureAppServiceObjectID)"
+                  -EntraGroupDeliveryTeamUsr "$(EntraGroupDeliveryTeamUsr)"
+                  -EntraGroupManagersUsr "$(EntraGroupManagersUsr)"'
                 tags: $(Tags)                
                 processOutputs: true
             - pwsh: Write-Host "##vso[task.setvariable variable=SharedResourceGroup;isOutput=true]$(SharedResourceGroup)"
               name: SharedVariables
-
-            - task: AzurePowerShell@5
-              displayName: 'Create Configuration Table'
-              inputs:
-                azureSubscription: ${{ parameters.serviceConnection }}
-                ScriptType: InlineScript
-                Inline: |
-                  $account = Get-AzStorageAccount -ResourceGroupName $(SharedResourceGroup) -Name $(armOutputs.armoutput.configStorageAccountName)
-                  $table = Get-AzStorageTable -Context $account.Context -Name Configuration -ErrorAction SilentlyContinue
-                  if (!$table) {
-                      New-AzStorageTable -Context $account.Context -Name Configuration
-                  }
-                azurePowerShellVersion: LatestVersion
-                pwsh: true
 
             - task: AzurePowerShell@5
               displayName: 'Set Certificate Issuer and Contacts'

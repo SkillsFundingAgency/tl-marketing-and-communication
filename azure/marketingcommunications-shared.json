@@ -33,10 +33,22 @@
         },
         "keyVaultFullAccessObjectIds": {
             "type": "array"
+        },
+        "environmentName": {
+            "type": "string"
+        },
+        "AzureAppServiceObjectID": {
+            "type": "string"
+        },
+        "EntraGroupManagersUsr": {
+            "type": "string"
+        },
+        "EntraGroupDeliveryTeamUsr": {
+            "type": "string"
         }
     },
     "variables": {
-        "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/tl-platform-building-blocks/master/ArmTemplates/",
+        "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/tl-platform-building-blocks/feature/TLD-602-add-KV-role-assignment-template/ArmTemplates/",
         "resourceNamePrefix": "[toLower(parameters('environmentNameAbbreviation'))]",
         "sharedStorageAccountName": "[replace(concat(variables('resourceNamePrefix'), 'sharedstr'), '-', '')]",
         "appServicePlanName": "[concat(variables('resourceNamePrefix'), '-shared-asp')]",
@@ -122,8 +134,15 @@
                     }
                 }
             ]
-        }
-
+        },
+        "isDevEnvironment": "[equals(toLower(parameters('environmentName')), 'dev')]",
+        "isTestEnvironment": "[equals(toLower(parameters('environmentName')), 'tst')]",
+        "isPreProdEnvironment": "[equals(toLower(parameters('environmentName')), 'pp')]",
+        "isProdEnvironment": "[equals(toLower(parameters('environmentName')), 'prd')]",
+        "keyVaultAdminGroups": [
+            "[parameters('EntraGroupManagersUsr')]",
+            "[parameters('EntraGroupDeliveryTeamUsr')]"
+        ]
     },
     "resources": [
         {
@@ -202,6 +221,31 @@
             "apiVersion": "2023-07-01",
             "name": "[concat('key-vault','-', parameters('environmentNameAbbreviation'))]",
             "type": "Microsoft.Resources/deployments",
+            "condition": "[variables('isDevEnvironment')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'keyvault.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "keyVaultName": {
+                        "value": "[variables('keyVaultName')]"
+                    },
+                    "enabledForTemplateDeployment": {
+                        "value": true
+                    },
+                    "enableRbacAuthorization": {
+                        "value": true
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2023-07-01",
+            "name": "[concat('key-vault','-', parameters('environmentNameAbbreviation'))]",
+            "type": "Microsoft.Resources/deployments",
+            "condition": "[or(variables('isTestEnvironment'), variables('isPreProdEnvironment'), variables('isProdEnvironment'))]",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -219,6 +263,83 @@
                         "value": "[concat(variables('keyVaultAccessPolicies'), variables('readWriteAccessPolicies').readWriteAccessPolicies, variables('fullAccessPolicies').fullAccessPolicies)]"
                     }
                 }
+            }
+        },
+        {
+            "apiVersion": "2025-04-01",
+            "name": "[concat('app-service-object-role-assignment-key-vault','-', parameters('environmentNameAbbreviation'))]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'/role-assignments/role-assignment-key-vault.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "principalId": {
+                        "value": "[parameters('AzureAppServiceObjectID')]"
+                    },
+                    "assignmentType": {
+                        "value": "Key Vault Certificate User"
+                    },
+                    "resourceName": {
+                        "value": "[variables('keyVaultName')]"
+                    },
+                    "principalType": {
+                        "value": "ServicePrincipal"
+                    }
+                }
+            }
+        },
+        // Key Vault Administrator for Entra groups in dev and test
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2022-04-01",
+            "name": "[guid(variables('keyVaultName'), variables('keyVaultAdminGroups')[copyIndex()], 'admin')]",
+            "copy": {
+                "name": "keyVaultAdminRoleAssignments",
+                "count": "[length(variables('keyVaultAdminGroups'))]"
+            },
+            "condition": "[or(variables('isDevEnvironment'), variables('isTestEnvironment'))]",
+            "properties": {
+                "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '00482a5a-887f-4fb3-b363-3b7fe8e74483')]",
+                "principalId": "[variables('keyVaultAdminGroups')[copyIndex()]]",
+                "principalType": "Group",
+                "scope": "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
+            }
+        },
+        // Key Vault Certificates Officer for Entra groups in preprod/prod
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2022-04-01",
+            "name": "[guid(variables('keyVaultName'), variables('keyVaultAdminGroups')[copyIndex()], 'certs')]",
+            "copy": {
+                "name": "keyVaultCertOfficerRoleAssignments",
+                "count": "[length(variables('keyVaultAdminGroups'))]"
+            },
+            "condition": "[or(variables('isPreProdEnvironment'), variables('isProdEnvironment'))]",
+            "properties": {
+                "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'a4417e6f-fecd-4de8-b567-7b0420556985')]",
+                "principalId": "[variables('keyVaultAdminGroups')[copyIndex()]]",
+                "principalType": "Group",
+                "scope": "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
+            }
+        },
+        // Key Vault Secrets Officer for Entra groups in preprod/prod
+        {
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2022-04-01",
+            "name": "[guid(variables('keyVaultName'), variables('keyVaultAdminGroups')[copyIndex()], 'secrets')]",
+            "copy": {
+                "name": "keyVaultSecretsOfficerRoleAssignments",
+                "count": "[length(variables('keyVaultAdminGroups'))]"
+            },
+            "condition": "[or(variables('isPreProdEnvironment'), variables('isProdEnvironment'))]",
+            "properties": {
+                "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b86a8fe4-44ce-4948-aee5-eccb2c155cd7')]",
+                "principalId": "[variables('keyVaultAdminGroups')[copyIndex()]]",
+                "principalType": "Group",
+                "scope": "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]"
             }
         }
     ],
