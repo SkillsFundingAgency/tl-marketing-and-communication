@@ -33,10 +33,13 @@
         },
         "keyVaultFullAccessObjectIds": {
             "type": "array"
+        },
+        "environmentName": {
+            "type": "string"
         }
     },
     "variables": {
-        "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/tl-platform-building-blocks/master/ArmTemplates/",
+        "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/tl-platform-building-blocks/feature/TLD-602-add-KV-role-assignment-template/ArmTemplates/",
         "resourceNamePrefix": "[toLower(parameters('environmentNameAbbreviation'))]",
         "sharedStorageAccountName": "[replace(concat(variables('resourceNamePrefix'), 'sharedstr'), '-', '')]",
         "appServicePlanName": "[concat(variables('resourceNamePrefix'), '-shared-asp')]",
@@ -122,8 +125,9 @@
                     }
                 }
             ]
-        }
-
+        },
+        "isDevEnvironment": "[equals(toLower(parameters('environmentName')), 'dev')]",
+        "isTestPpProdEnvironment": "[or(equals(toLower(parameters('environmentName')), 'tst'), equals(toLower(parameters('environmentName')), 'pp'), equals(toLower(parameters('environmentName')), 'prd'))]"
     },
     "resources": [
         {
@@ -202,6 +206,31 @@
             "apiVersion": "2023-07-01",
             "name": "[concat('key-vault','-', parameters('environmentNameAbbreviation'))]",
             "type": "Microsoft.Resources/deployments",
+            "condition": "[variables('isDevEnvironment')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'keyvault.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "keyVaultName": {
+                        "value": "[variables('keyVaultName')]"
+                    },
+                    "enabledForTemplateDeployment": {
+                        "value": true
+                    },
+                    "enableRbacAuthorization": {
+                        "value": true
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2023-07-01",
+            "name": "[concat('key-vault','-', parameters('environmentNameAbbreviation'))]",
+            "type": "Microsoft.Resources/deployments",
+            "condition": "[variables('isTestPpProdEnvironment')]",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
