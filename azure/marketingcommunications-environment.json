@@ -37,7 +37,7 @@
         }
     },
     "variables": {
-        "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/tl-platform-building-blocks/master/ArmTemplates/",
+        "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/tl-platform-building-blocks/feature/TLD-602-add-KV-role-assignment-template/ArmTemplates/",
         "uiAppName": "[concat(parameters('resourceNamePrefix'), '-web')]",
         "appInsightName": "[concat(parameters('resourceNamePrefix'), '-ai')]",
         "workerFunctionAppName": "[concat(parameters('resourceNamePrefix'), '-func-worker')]",
@@ -107,6 +107,33 @@
                     },
                     "logAnalyticsWorkspaceSku": {
                         "value": "PerGB2018"
+                    }
+                }
+            }
+        },
+        {
+            "apiVersion": "2025-04-01",
+            "name": "[concat('ui-app-service-role-assignment-key-vault','-', parameters('environmentNameAbbreviation'))]",
+            "resourceGroup": "[parameters('sharedEnvResourceGroup')]",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'/role-assignments/role-assignment-key-vault.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "principalId": {
+                        "value": "[reference(concat('ui-app-service','-',parameters('environmentNameAbbreviation'))).outputs.managedServiceIdentityId.value]"
+                    },
+                    "assignmentType": {
+                        "value": "Key Vault Administrator"
+                    },
+                    "resourceName": {
+                        "value": "[parameters('sharedKeyVaultName')]"
+                    },
+                    "principalType": {
+                        "value": "ServicePrincipal"
                     }
                 }
             }
