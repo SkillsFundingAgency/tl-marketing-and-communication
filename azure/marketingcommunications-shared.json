@@ -144,7 +144,7 @@
                         "value": "StorageV2"
                     },
                     "minimumTlsVersion": {
-                        "value": "TLS1_3"
+                        "value": "TLS1_2"
                     }
                 }
             }
