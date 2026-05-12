@@ -176,12 +176,6 @@ public class StudentController : Controller
         return View("Subjects/Health");
     }
 
-    [Route("/students/subjects/healthcare-science", Name = "HealthcareScience")]
-    public IActionResult HealthcareScience()
-    {
-        return View("Subjects/HealthcareScience");
-    }
-
     [Route("/students/subjects/maintenance-installation-repair", Name = "MaintenanceInstallationRepair")]
     public IActionResult MaintenanceInstallationRepair()
     {
