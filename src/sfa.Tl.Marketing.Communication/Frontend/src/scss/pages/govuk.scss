@@ -45,7 +45,6 @@
     position: relative;
     margin-bottom: -10px;
     padding-top: 10px;
-    border-bottom: 10px solid #1d70b8;
 }
 
     .govuk-header__container:after {
@@ -242,9 +241,7 @@
 
 @media (min-width: 48.0625em) {
     .govuk-header__logo {
-        width: 33.33%;
-        padding-right: 15px;
-        float: left;
+        width: 100.00%;
         vertical-align: top;
     }
 }
