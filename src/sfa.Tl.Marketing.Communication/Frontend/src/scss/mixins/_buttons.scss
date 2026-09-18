@@ -50,6 +50,8 @@
     }
 
     &:hover, &:focus {
+        outline: 2px solid;
+
         &:after {
             margin-left: 10px;
             width: 20px;
