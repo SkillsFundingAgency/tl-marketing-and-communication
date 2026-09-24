@@ -28,6 +28,12 @@
         a {
             @include margin(top, 20);
         }
+
+        #tl-student-home-findoutmore {
+            &:focus {
+                outline: 2px solid $white;
+            }
+        }
     }
 
     &--student {
@@ -42,4 +48,5 @@
             @extend #tl-banner;
         }
     }
+
 }
