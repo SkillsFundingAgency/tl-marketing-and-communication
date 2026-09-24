@@ -94,6 +94,8 @@ $listgutter: 30px;
                         transition: 0.2s ease-in-out;
                     }
                 }
+
+                outline: 2px solid white;
             }
         }
 
@@ -121,9 +123,14 @@ $listgutter: 30px;
         }
     }
 
-    .tl-footer--skillsforlife {
+    .tl-footer--skillsforlife-link {
         @extend .tl-margin-left--10--medium;
         @extend .tl-margin-top--10--medium;
         @extend .tl-margin-top--20;
+
+        &:focus {
+            outline: 2px solid $white;
+            outline-offset: 2px;
+        }
     }
 }
