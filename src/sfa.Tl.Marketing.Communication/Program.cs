@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Azure.Data.Tables;
 using Azure.Storage.Blobs;
+using Mapster;
+using MapsterMapper;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -136,19 +138,10 @@ else
     });
 }
 
-var assemblies = new[]
-{
-    typeof(Program).Assembly,
-    typeof(Program).Assembly
-        .GetReferencedAssemblies()
-        .Where(a =>
-            a.FullName.Contains("sfa.Tl.Marketing.Communication.Application"))
-        .Select(Assembly.Load).FirstOrDefault()
-};
-
-builder.Services.AddAutoMapper(
-    config => config.LicenseKey = builder.Configuration["AutoMapper:LicenseKey"],
-    assemblies);
+var mapsterConfig = new TypeAdapterConfig();
+mapsterConfig.Scan(typeof(Program).Assembly);
+builder.Services.AddSingleton(mapsterConfig);
+builder.Services.AddScoped<IMapper, ServiceMapper>();
 
 builder.Services
     .AddHealthChecks()
