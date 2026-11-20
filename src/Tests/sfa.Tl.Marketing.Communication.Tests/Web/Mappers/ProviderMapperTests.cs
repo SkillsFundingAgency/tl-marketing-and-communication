@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
-using Microsoft.Extensions.Logging.Abstractions;
+using Mapster;
+using MapsterMapper;
+using sfa.Tl.Marketing.Communication.Models.Dto;
 using sfa.Tl.Marketing.Communication.Mappers;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
@@ -13,22 +14,76 @@ public class ProviderMapperTests
     [Fact]
     public void ProviderMapper_Implements_All_Properties()
     {
-        var config = new MapperConfiguration(c => c.AddMaps(typeof(ProviderMapper).Assembly), NullLoggerFactory.Instance);
+        var config = CreateConfig();
 
-        config.AssertConfigurationIsValid();
+        var compile = () => config.Compile();
+
+        compile.Should().NotThrow();
     }
+
+    [Fact]
+    public void ProviderLocation_With_Null_DeliveryYears_Is_Mapped_To_Empty_List()
+    {
+        var providerLocation = new ProviderLocation { DeliveryYears = null };
+
+        var viewModel = CreateMapper().Map<ProviderLocationViewModel>(providerLocation);
+
+        viewModel.DeliveryYears.Should().NotBeNull();
+        viewModel.DeliveryYears.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void DeliveryYear_With_Null_Qualifications_Is_Mapped_To_Empty_List()
+    {
+        var deliveryYear = new DeliveryYear { Year = 2020, Qualifications = null };
+
+        var viewModel = CreateMapper().Map<DeliveryYearViewModel>(deliveryYear);
+
+        viewModel.Qualifications.Should().NotBeNull();
+        viewModel.Qualifications.Should().BeEmpty();
+    }
+
+    [Theory]
+    [InlineData(2.5, 3)]
+    [InlineData(3.5, 4)]
+    [InlineData(2.4, 2)]
+    [InlineData(2.6, 3)]
+    public void ProviderLocation_DistanceInMiles_Is_Rounded_Away_From_Zero(double distance, int expected)
+    {
+        var providerLocation = new ProviderLocation { DistanceInMiles = distance };
+
+        var viewModel = CreateMapper().Map<ProviderLocationViewModel>(providerLocation);
+
+        viewModel.DistanceInMiles.Should().Be(expected);
+    }
+
+    [Fact]
+    public void Ignored_Members_Are_Not_Mapped()
+    {
+        var mapper = CreateMapper();
+
+        var providerLocationViewModel = mapper.Map<ProviderLocationViewModel>(new ProviderLocationBuilder().Build());
+        var deliveryYearViewModel = mapper.Map<DeliveryYearViewModel>(new DeliveryYearBuilder().Build());
+
+        providerLocationViewModel.HasFocus.Should().BeFalse();
+        deliveryYearViewModel.IsAvailableNow.Should().BeFalse();
+    }
+
+    private static TypeAdapterConfig CreateConfig()
+    {
+        var config = new TypeAdapterConfig();
+        new ProviderMapper().Register(config);
+        return config;
+    }
+
+    private static IMapper CreateMapper() => new Mapper(CreateConfig());
 
     [Fact]
     public void ProviderLocation_Is_Mapped_To_ProviderLocationViewModel_Correctly()
     {
         var providerLocation = new ProviderLocationBuilder().Build();
 
-        var config = new MapperConfiguration(c =>
-        {
-            c.AddProfile<ProviderMapper>();
-        }, NullLoggerFactory.Instance);
-
-        IMapper mapper = new Mapper(config);
+        var mapper = CreateMapper();
 
         var viewModel = mapper.Map<ProviderLocationViewModel>(providerLocation);
 
@@ -51,12 +106,7 @@ public class ProviderMapperTests
             .Add(2)
             .Build();
 
-        var config = new MapperConfiguration(c =>
-        {
-            c.AddProfile<ProviderMapper>();
-        }, NullLoggerFactory.Instance);
-
-        IMapper mapper = new Mapper(config);
+        var mapper = CreateMapper();
 
         var viewModelList = mapper.Map<IEnumerable<ProviderLocationViewModel>>(providerLocationList).ToList();
 
@@ -108,12 +158,7 @@ public class ProviderMapperTests
             .Build()
             .First();
 
-        var config = new MapperConfiguration(c =>
-        {
-            c.AddProfile<ProviderMapper>();
-        }, NullLoggerFactory.Instance);
-
-        IMapper mapper = new Mapper(config);
+        var mapper = CreateMapper();
 
         var viewModel = mapper.Map<QualificationViewModel>(qualification);
 
@@ -127,12 +172,7 @@ public class ProviderMapperTests
     {
         var deliveryYear = new DeliveryYearBuilder().Build();
 
-        var config = new MapperConfiguration(c =>
-        {
-            c.AddProfile<ProviderMapper>();
-        }, NullLoggerFactory.Instance);
-
-        IMapper mapper = new Mapper(config);
+        var mapper = CreateMapper();
 
         var viewModel = mapper.Map<DeliveryYearViewModel>(deliveryYear);
 
