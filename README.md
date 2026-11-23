@@ -7,6 +7,7 @@ T Level Marketing and Communications website.
 
 ## Requirements 
 
+1. .NET 10 SDK and Azure Functions Core Tools v4 (for local Functions development)
 1. node - https://nodejs.org/en/
 2. npm - https://www.npmjs.com/package/npm
 3. Gulp - https://gulpjs.com/

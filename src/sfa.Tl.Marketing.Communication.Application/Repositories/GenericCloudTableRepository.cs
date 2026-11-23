@@ -70,16 +70,14 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
                 .QueryAsync<T>(
                     select: new List<string> { "PartitionKey", "RowKey" }, maxPerPage: 1000);
 
-            await entities.AsPages()
-                .ForEachAwaitAsync(async page =>
-                {
-                    // Since we don't know how many rows the table has and the results are ordered by PartitionKey+RowKey
-                    // we'll delete each page immediately and not cache the whole table in memory
-                    var responses =
-                        await BatchManipulateEntities(tableClient, page.Values, TableTransactionActionType.Delete)
-                            .ConfigureAwait(false);
-                    deleted += responses.Sum(response => response.Value.Count);
-                });
+            await foreach (var page in entities.AsPages().ConfigureAwait(false))
+            {
+                // Delete each page immediately instead of caching the whole table in memory.
+                var responses =
+                    await BatchManipulateEntities(tableClient, page.Values, TableTransactionActionType.Delete)
+                        .ConfigureAwait(false);
+                deleted += responses.Sum(response => response.Value.Count);
+            }
         }
         catch (RequestFailedException fex)
         {
@@ -103,14 +101,12 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
                     filter: e => e.PartitionKey == partitionKey,
                     select: new List<string> { "PartitionKey", "RowKey" }, maxPerPage: 1000);
 
-            await entities.AsPages()
-                .ForEachAwaitAsync(async page =>
-                {
-                    // Since we don't know how many rows the table has and the results are ordered by PartitionKey+RowKey
-                    // we'll delete each page immediately and not cache the whole table in memory
-                    var responses = await BatchManipulateEntities(tableClient, page.Values, TableTransactionActionType.Delete).ConfigureAwait(false);
-                    deleted += responses.Sum(response => response.Value.Count);
-                });
+            await foreach (var page in entities.AsPages().ConfigureAwait(false))
+            {
+                // Delete each page immediately instead of caching the whole table in memory.
+                var responses = await BatchManipulateEntities(tableClient, page.Values, TableTransactionActionType.Delete).ConfigureAwait(false);
+                deleted += responses.Sum(response => response.Value.Count);
+            }
         }
         catch (RequestFailedException fex)
         {
@@ -206,7 +202,7 @@ public class GenericCloudTableRepository<T> : ICloudTableRepository<T>
             //var cancellationToken = default(CancellationToken);
 
             await foreach (var page in queryResults.AsPages()
-                           //.WithCancellation(cancellationToken)
+                          //.WithCancellation(cancellationToken)
                           )
             {
                 results.AddRange(page.Values);

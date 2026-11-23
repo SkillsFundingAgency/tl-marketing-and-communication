@@ -228,6 +228,9 @@
                     "functionAppName": {
                         "value": "[variables('workerFunctionAppName')]"
                     },
+                    "netFrameworkVersion":{
+                        "value": "v10.0"
+                    },
                     "appServicePlanName": {
                         "value": "[parameters('sharedASPName')]"
                     },

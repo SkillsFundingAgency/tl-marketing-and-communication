@@ -9,10 +9,10 @@ jobs:
     clean: all
   steps:
     - task: UseDotNet@2
-      displayName: "Use .NET Core SDK 2.1.x"
+      displayName: "Install .NET 10 SDK"
       inputs:
           packageType: 'sdk'
-          version: '2.1.x'
+          version: '10.x'
 
     - task: NodeTool@0
       inputs:
@@ -29,12 +29,6 @@ jobs:
       inputs:
         gulpFile: src/sfa.Tl.Marketing.Communication/gulpfile.js
 
-    - task: UseDotNet@2
-      displayName: "Install .NET 6 SDK"
-      inputs:
-        packageType: 'sdk'
-        version: '6.x'
-
     - task: gitversion/setup@3.1.1
       displayName: Install GitVersion
       inputs:
@@ -48,7 +42,7 @@ jobs:
     - task: Cache@2
       displayName: Cache
       inputs:
-        key: 'nuget | "$(Agent.OS)" | src\Sfa.Tl.Marketing.Communication\package-lock.json'
+        key: 'nuget | "$(Agent.OS)" | src/Directory.Packages.props | **/*.csproj'
         restoreKeys: |
           nuget | "$(Agent.OS)"
           nuget

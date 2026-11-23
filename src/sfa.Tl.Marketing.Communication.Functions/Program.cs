@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Azure.Data.Tables;
 using Azure.Storage.Blobs;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,6 +26,8 @@ var hostBuilder = new HostBuilder()
     )
     .ConfigureServices((hostContext, services) =>
     {
+        services.AddApplicationInsightsTelemetryWorkerService();
+        services.ConfigureFunctionsApplicationInsights();
         var environment = Environment.GetEnvironmentVariable(ConfigurationKeys.EnvironmentNameConfigKey);
 
         var config = hostContext.Configuration.LoadConfigurationOptions(

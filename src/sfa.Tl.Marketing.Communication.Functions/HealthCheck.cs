@@ -1,8 +1,9 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System;
+using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace sfa.Tl.Marketing.Communication.Functions;
@@ -17,19 +18,23 @@ public class HealthCheck
     }
 
     [Function("HealthCheck")]
-    public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req)
+    public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequestData req)
     {
+        HttpResponseData response = req.CreateResponse();
+        response.Headers.Add("Content-Type", "application/json");
         try
         {
             HealthReport report = await _healthCheck.CheckHealthAsync();
-
-            return report.Status == HealthStatus.Healthy
-                ? new OkObjectResult(report)
-                : new ObjectResult(report) { StatusCode = StatusCodes.Status500InternalServerError };
+            response.StatusCode = report.Status == HealthStatus.Healthy
+                ? HttpStatusCode.OK
+                : HttpStatusCode.InternalServerError;
+            await response.WriteStringAsync(JsonSerializer.Serialize(report));
         }
         catch (Exception ex)
         {
-            return new ObjectResult(ex.Message) { StatusCode = StatusCodes.Status500InternalServerError };
+            response.StatusCode = HttpStatusCode.InternalServerError;
+            await response.WriteStringAsync(JsonSerializer.Serialize(ex.Message));
         }
+        return response;
     }
 }

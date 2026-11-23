@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Microsoft.Extensions.Logging.Abstractions;
 using sfa.Tl.Marketing.Communication.Mappers;
 using sfa.Tl.Marketing.Communication.Models;
 using sfa.Tl.Marketing.Communication.UnitTests.Builders;
@@ -12,7 +13,7 @@ public class ProviderMapperTests
     [Fact]
     public void ProviderMapper_Implements_All_Properties()
     {
-        var config = new MapperConfiguration(c => c.AddMaps(typeof(ProviderMapper).Assembly));
+        var config = new MapperConfiguration(c => c.AddMaps(typeof(ProviderMapper).Assembly), NullLoggerFactory.Instance);
 
         config.AssertConfigurationIsValid();
     }
@@ -25,7 +26,7 @@ public class ProviderMapperTests
         var config = new MapperConfiguration(c =>
         {
             c.AddProfile<ProviderMapper>();
-        });
+        }, NullLoggerFactory.Instance);
 
         IMapper mapper = new Mapper(config);
 
@@ -53,7 +54,7 @@ public class ProviderMapperTests
         var config = new MapperConfiguration(c =>
         {
             c.AddProfile<ProviderMapper>();
-        });
+        }, NullLoggerFactory.Instance);
 
         IMapper mapper = new Mapper(config);
 
@@ -110,7 +111,7 @@ public class ProviderMapperTests
         var config = new MapperConfiguration(c =>
         {
             c.AddProfile<ProviderMapper>();
-        });
+        }, NullLoggerFactory.Instance);
 
         IMapper mapper = new Mapper(config);
 
@@ -129,7 +130,7 @@ public class ProviderMapperTests
         var config = new MapperConfiguration(c =>
         {
             c.AddProfile<ProviderMapper>();
-        });
+        }, NullLoggerFactory.Instance);
 
         IMapper mapper = new Mapper(config);
 
