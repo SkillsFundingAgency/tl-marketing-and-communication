@@ -228,6 +228,9 @@
                     "functionAppName": {
                         "value": "[variables('workerFunctionAppName')]"
                     },
+                    "netFrameworkVersion":{
+                        "value": "v10.0"
+                    },
                     "appServicePlanName": {
                         "value": "[parameters('sharedASPName')]"
                     },
@@ -298,6 +301,7 @@
                                 "name": "WEBSITE_ADD_SITENAME_BINDINGS_IN_APPHOST_CONFIG",
                                 "value": "1"
                             }
+                            
                         ]
                     }
                 }

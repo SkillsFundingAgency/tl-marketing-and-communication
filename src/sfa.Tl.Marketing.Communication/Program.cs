@@ -146,7 +146,9 @@ var assemblies = new[]
         .Select(Assembly.Load).FirstOrDefault()
 };
 
-builder.Services.AddAutoMapper(assemblies);
+builder.Services.AddAutoMapper(
+    config => config.LicenseKey = builder.Configuration["AutoMapper:LicenseKey"],
+    assemblies);
 
 builder.Services
     .AddHealthChecks()
@@ -187,10 +189,7 @@ app.UseCookiePolicy();
 
 app.UseRouting();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-    endpoints.MapHealthChecks("/health");
-});
+app.MapControllers();
+app.MapHealthChecks("/health");
 
 app.Run();
